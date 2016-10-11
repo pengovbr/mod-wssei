@@ -1,0 +1,1819 @@
+<!-- AREA DE ALERTAS -->
+<div id="iealerta" class="alert alert-warning alert-dismissible fade in" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    <strong>Atenção!</strong><br> Foi identificada uma versão mais atual para o seu navegador. Para melhor utilização do sistema, por favor atualize seu navegador.
+</div>
+<!-- FIM AREA ALERTAS -->
+
+    <h2>Relação de Itens para o Sistema (h2)</h2> <!-- Titúlo principal do Sistema, usar em aberturas de novas sessões. -->
+    <h3>Exemplo de Subtítulo (h3)</h3> <!-- Subtitúlo do Sistema, usar em itens secundários da sessão. -->
+    <p><strong>Parágrafo</strong> Exemplo de texto padrão para disposição de informações gerais sobre a página do sistema. A mesma tag (p) pode ser utilizada dentro das divs (caixa-centro) para disposição de informações relacionadas a caixa. </p>
+
+    <!-- Menu Interno -->
+    <div id="menu-interno"></div>
+
+    <h2>Menu Central</h2>
+
+    <nav class="navbar navbar-default menu-interno sombra-2">
+      <div class="container-fluid">
+        <div class="navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Item de Menu 2</a></li>
+            <li >
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Item Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Link 01</a></li>
+                <li><a href="#">Link 02</a></li>
+                <li><a href="#">Link 03</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <h2>Rastro (BreadCrumb)</h2>
+    <div class="col-md-12 padding-0">
+        <div class="rastro">
+            <a href="">Home</a><i class="fa fa-angle-right"></i>
+            <a href="">Pagina Anterior</a><i class="fa fa-angle-right"></i>
+            <a href="" class="active">Página Ativa</a>
+        </div>
+    </div>
+
+    <div class="caixa-centro sp-10">
+        <div class="col-md-12 pln">
+            <h2 class="col-md-6 pull-left">Formulários e Campos</h2>
+        </div>
+        <p class="col-md-12">Consulta de documentação completa do framework em: <a href="http://getbootstrap.com/" target="blank">http://getbootstrap.com/</a></p>
+        <div class="separador"></div>
+            <div class="row">
+                <form role="form" data-toggle="validator">
+
+                    <!-- todos os elementos que estivem na mesma linha devem estar dentro de uma row -->
+                    <div class="row">
+                        <!-- Input padrão -->
+                        <div class="form-group col-md-6 col-xs-12">
+                            <label for="Input:">Input:</label>
+                            <input type="text" class="form-control" id="inputName" placeholder="Input placeholder" data-minlength="6" maxlength="30" data-error="Por favor, preencha este campo" required >
+                            <div class="help-block with-errors"></div>
+                        </div>
+
+                        <!-- Select Dropbox -->
+                        <div class="form-group col-md-6 col-xs-12">
+                            <label for="Select Dropbox:">Select Dropbox:</label>
+                            <select class="form-control">
+                              <option>Selecione</option>
+                              <option>Selecione</option>
+                              <option>Selecione</option>
+                              <option>Selecione</option>
+                              <option>Selecione</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <!-- fim elementos na mesma linha -->
+
+                    <!-- Multiplo select -->
+                    <div class="row">
+
+                        <div class="form-group col-md-6 col-xs-12">
+                            <label for="Select Dropbox:">Multiple Select:</label>
+                            <div class="legenda">Com a tecla "Ctrl" pressionada clique nos itens desejados:</div>
+                            <select multiple class="form-control">
+                              <option>Exemplo 1</option>
+                              <option>Exemplo 2</option>
+                              <option>Exemplo 3</option>
+                              <option>Exemplo 4</option>
+                              <option>Exemplo 5</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6 col-xs-12">
+                              <label for="Select Dropbox:">Multiple Select Groups:</label><br>
+
+                                <select multiple="multiple" placeholder="Selecione" class="SlectBox form-control">
+                                  <option selected value="opcao1">Opção 1</option>
+                                  <option value="opcao2">Opção 2</option>
+                                  <option disabled="disabled" value="opcao3">Opção 3</option>
+                                  <optgroup label="Aluno">
+                                    <option value="aluno1">Aluno 1</option>
+                                    <option value="aluno2">Aluno 2</option>
+                                    <option value="aluno3">Aluno 3</option>
+                                    <option disabled="disabled" value="aluno4">Aluno 4</option>
+                                  </optgroup>
+                                  <optgroup label="Universitário">
+                                    <option value="universitario1">Universitário 1</option>
+                                    <option value="universitario2">Universitário 2</option>
+                                    <option selected value="universitario3">Universitário 3</option>
+                                    <option value="universitario4">Universitário 4</option>
+                                  </optgroup>
+                                </select>
+                        </div>
+
+                    </div>
+                    <!-- fim multiselect -->
+
+
+                    <!-- Text Area -->
+                    <div class="row">
+                        <div class="form-group col-md-12 col-xs-12">
+                            <label for="Text Area:">Text Area (WYSIWYG Editor):</label>
+                            <!-- <div class="summernote">summernote 1</div> -->
+                            <textarea name="summernote" class="summernote" cols="30" rows="10"></textarea><br>
+                            <label for="Text Area:">Text Area:</label>
+                            <textarea class="form-control" rows="5"></textarea>
+                            <span class="caracteres">Caracteres (2.000)</span>
+                        </div>
+                    </div>
+
+                    <!-- exemplo 2 elementos em uma linha -->
+                    <div class="row">
+                        <!-- Input padrão Obrigatório -->
+                        <div class="form-group col-md-6 col-xs-12">
+                            <label for="Input Obrigatório:">Input Obrigatório:</label>
+                            <input type="text" class="form-control" id="inputName" placeholder="Campo obrigatório" data-minlength="6" maxlength="30" data-error="Por favor, preencha este campo" required >
+                            <div class="help-block with-errors"></div>
+                        </div>
+
+                        <!-- Input padrão Desabilitado -->
+                        <div class="form-group col-md-6 col-xs-12">
+                            <label for="Input Desabilitado:">Input Desabilitado:</label>
+                            <input class="form-control" id="" placeholder="Input Desabilitado" disabled>
+                        </div>
+                    </div>
+                    <!-- fim exemplo 2 elementos em uma linha -->
+
+                    <!-- exemplo 1 elemento em uma linha -->
+                    <div class="row">
+                        <!-- Input Senha -->
+                        <div class="form-group col-md-6 col-xs-12 has-feedback">
+                            <label for="Senha:">Senha:</label>
+                            <input type="password" class="form-control" id="" placeholder="Digite sua senha">
+                            <i class="fa fa-lock form-control-feedback"></i>
+                        </div>
+                    </div>
+                    <!-- fim exemplo 1 elemento em uma linha -->
+
+                    <!-- exemplo separador -->
+                    <div class="separador"></div>
+                    <!-- fim exemplo separador -->
+
+
+                    <!-- exemplo 3 elementos em uma linha -->
+                    <div class="row">
+                        <!-- Input data -->
+                        <div class="form-group col-md-4 col-xs-6">
+                            <label for="Data:">Data:</label>
+                            <div class="input-group date">
+                                <input class="form-control data" id="" placeholder="00/00/0000">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                                  </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4 col-xs-6">
+                            <label for="Input:">Hora:</label>
+                            <div class="input-group time">
+                                <input class="form-control hora" id="" placeholder="00:00:00">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button"><i class="fa fa-clock-o"></i></button>
+                                  </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4 col-xs-6">
+                            <label for="Input:">Data e Hora:</label>
+                            <div class="input-group date-time">
+                                <input class="form-control data-hora" id="" placeholder="00/00/0000 00:00:00">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button"><i class="fa fa-calendar-o"></i></button>
+                                  </span>
+                              </div>
+                        </div>
+                    </div>
+                    <!-- fim exemplo 3 elementos em uma linha -->
+
+
+                    <div class="row">
+
+                        <div class="form-group col-md-3 col-xs-6">
+                            <label for="Edital">Data de início da vigência</label>
+                            <div class="input-group date" id="datetime-min">
+                                  <input type="text" class="form-control data" placeholder="Selecione.">
+                                 <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                                  </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-3 col-xs-6">
+                            <label for="Edital">Data final da vigência</label>
+                            <div class="input-group date" id="datetime-max">
+                                  <input type="text" class="form-control data" placeholder="Selecione.">
+                                 <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                                  </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-5 col-xs-12">
+                            <label for="Campo Menor:">Campo Menor:</label>
+                            <input class="form-control width-20" id="" placeholder="">
+                        </div>
+
+                    </div>
+
+
+                    <!-- exemplo 3 elementos em uma linha -->
+                    <div class="row">
+                        <div class="form-group col-md-4 col-xs-6">
+                            <label for="Input:">Telefone:</label>
+                            <input class="form-control telefone" id="" placeholder="(00) 0000-00000">
+                        </div>
+
+                        <div class="form-group col-md-4 col-xs-6">
+                            <label for="Input:">CEP:</label>
+                            <input class="form-control cep" id="" placeholder="00000-000">
+                        </div>
+
+                        <div class="form-group col-md-4 col-xs-6">
+                            <label for="Input:">CPF:</label>
+                            <input class="form-control cpf" id="" placeholder="000.000.000-00">
+                        </div>
+                    </div>
+                    <!-- fim exemplo 3 elementos em uma linha -->
+
+                    <div class="row">
+                        <div class="form-group col-md-4 col-xs-6">
+                            <label for="Input:">CNPJ:</label>
+                            <input class="form-control cnpj" id="" placeholder="00.000.000/0000-00">
+                        </div>
+                    </div>
+
+                    <div class="separador"></div>
+
+                    <!-- exemplo radio button vertical -->
+                    <div class="row">
+                    <!-- Radio Botão -->
+                        <div class="form-group col-md-12 col-xs-12">
+                            <label for="Input Desabilitado:">Radio Button:</label>
+                            <div class="radio">
+                              <label>
+                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                Opção de Seleção 1
+                              </label>
+                            </div>
+                            <div class="radio">
+                              <label>
+                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                Opção de Seleção 2
+                              </label>
+                            </div>
+                            <div class="radio disabled">
+                              <label>
+                                <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled>
+                                Opção desabilitada
+                              </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fim exemplo radio button vertical -->
+
+                    <!-- exemplo radio button horizontal -->
+                    <div class="row">
+                        <div class="form-group col-md-12 col-xs-12">
+                            <label class="radio-inline">
+                              <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Opção de seleção em linha 1
+                            </label>
+                            <label class="radio-inline">
+                              <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> Opção de seleção em linha 2
+                            </label>
+                            <label class="radio-inline">
+                              <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> Opção de seleção em linha 3
+                            </label>
+                        </div>
+                    </div>
+                    <!-- fim exemplo radio button horizontal -->
+
+                    <div class="separador"></div>
+
+                    <!-- exemplo checkbox vertical -->
+                    <div class="row">
+                        <!-- CheckBox -->
+                        <div class="form-group col-md-12 col-xs-12">
+                            <label for="Input Desabilitado:">Checkbox:</label>
+                            <div class="checkbox">
+                              <label>
+                                <input type="checkbox" value="">
+                                Opção de Seleção
+                              </label>
+                            </div>
+                            <br>
+                            <div class="checkbox disabled">
+                              <label>
+                                <input type="checkbox" value="" disabled>
+                                Opção desabilitada
+                              </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fim exemplo checkbox vertical -->
+
+                    <!-- exemplo checkbox horizontal -->
+                    <div class="row">
+                        <!-- CheckBox -->
+                        <div class="form-group col-md-12 col-xs-12">
+                            <label class="checkbox-inline">
+                              <input type="checkbox" id="inlineCheckbox1" value="option1"> Opção de seleção em linha 1
+                            </label>
+                            <label class="checkbox-inline">
+                              <input type="checkbox" id="inlineCheckbox2" value="option2"> Opção de seleção em linha 2
+                            </label>
+                            <label class="checkbox-inline">
+                              <input type="checkbox" id="inlineCheckbox3" value="option3"> Opção de seleção em linha 3
+                            </label>
+                        </div>
+                    </div>
+                    <!-- fim exemplo checkbox horizontal -->
+
+                    <div class="separador"></div>
+
+                <!-- exemplo linha de botoes de acao -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-success pull-right"><i class="fa fa-floppy-o"></i> Salvar</button>
+                        <button type="button" class="btn btn-danger pull-right"><i class="fa fa-times-circle"></i> Cancelar</button>
+                        <button type="button" class="btn btn-default pull-right"><i class="fa fa-eraser"></i> Limpar</button>
+                    </div>
+                </div>
+                <!-- fim exemplo linha de botoes de acao -->
+            </form>
+        </div>
+    </div> <!-- Final caixa centro -->
+
+    <!-- Labels -->
+    <div class="caixa-centro">
+        <div class="col-md-12">
+            <h2 class="col-md-12">Labels</h2>
+        </div>
+        <div class="col-md-12 sp-20">
+            <p class="col-md-2">Label <span class="label label-default">Default</span></p>
+            <p class="col-md-2">Label <span class="label label-primary">Primary</span></p>
+            <p class="col-md-2">Label <span class="label label-success">Success</span></p>
+            <p class="col-md-2">Label <span class="label label-info">Info</span></p>
+            <p class="col-md-2">Label <span class="label label-warning">Warning</span></p>
+            <p class="col-md-2">Label <span class="label label-danger">Danger</span></p>
+        </div>
+    </div> <!-- Final caixa centro -->
+
+    <!-- ACORDEOM -->
+    <div class="caixa-centro">
+        <div class="col-md-12">
+                <h2 class="col-md-12">Acordeom</h2>
+            </div>
+        <div class="col-md-12">
+            <div class="row">
+                <a class="btn btn-primary" data-toggle="collapse" href="#col22" aria-expanded="false" aria-controls="col22">
+                  Simular acordeom
+                </a>
+                <div class="collapse" id="col22">
+                  <div class="well">
+                    Conteúdo
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- Final caixa centro -->
+
+    <!-- ABAS -->
+
+    <h2 class="col-md-12">Abas</h2>
+    <div class="row">
+        <ul class="nav nav-tabs" role="tablist" id="abas">
+              <li role="presentation" class="active"><a href="#aba1">Aba Ativa</a></li>
+              <li role="presentation"><a href="#aba2">Aba 2</a></li>
+              <li role="presentation"><a href="#aba3">Aba 3</a></li>
+        </ul>
+    </div>
+
+    <div class="caixa-centro">
+        <div class="row">
+            <div class="col-md-12 sp-20 tab-content">
+                <div role="tabpanel" class="tab-pane fade active in" id="aba1">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquos mel miseram principio fonte o dicturam. Satisfacit gravissimis uterque, occultarum mundus mala praetore progrediens ibidem respirare imbutus, praetermissum optari dubio derepta desideraturam aegritudo quales. Rem facile nosmet quoddam. Geometria fruentem parta. Sic, voluptatibus torquate rationem, quidem triario impendere dulce, recordatione, faciunt defuturum sensuum, coniuncta, facile consequentium suavitate feci dicitis detrimenti, consequuntur tuentur vitiis geometrica succumbere hostem illas splendido, efficiantur omnium consentientis philosophorum, vexetur persequeretur, magnam parentes discere rutilius studium constringendos male.</p>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="aba2">
+                    <p>Lorem ipsum dolor 2.</p>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="aba3">
+                    <p>Lorem ipsum dolor 3</p>
+                </div>
+            </div>
+        </div>
+    </div> <!-- Final caixa centro -->
+
+
+    <!-- PASSOS -->
+
+    <!--
+        Passos por Números;
+        Ao passor o mouse pelos passos (passos-numero) será mostrado abaixo qual o título, descrição e hint do passo. Quando selecionado, o conteúdo é exibido na div posterior (passos).
+
+        Os icones check, erro e bloqueado podem ser utilizados para representar a situação atual do passo.
+     -->
+
+    <h2>Passos</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="passos-numeros br sombra">
+                <ul role="tablist" id="myTab">
+                    <li class="check active" role="presentation" data-toggle="tooltip" data-placement="top" title="Descrição do passo selecionado">
+                        <span class="check"><i class="fa fa-check"></i></span>
+                        <a href="#passo1">1</a>
+                    </li>
+                    <li class="check " role="presentation" data-toggle="tooltip" data-placement="top" title="Descrição do passo selecionado">
+                        <span class="check"><i class="fa fa-check"></i></span>
+                        <a href="#passo2">2</a>
+                    </li>
+                    <li class="" role="presentation" data-toggle="tooltip" data-placement="top" title="Descrição do passo selecionado">
+                        <a href="#passo3">3</a>
+                    </li>
+                    <li class="" role="presentation" data-toggle="tooltip" data-placement="top" title="Descrição do passo selecionado">
+                        <a href="#passo4">4</a>
+                    </li>
+                    <li class="" role="presentation" data-toggle="tooltip" data-placement="top" title="Descrição do passo selecionado">
+                        <a href="#passo5">5</a>
+                    </li>
+                    <li class="erro" role="presentation" data-toggle="tooltip" data-placement="top" title="Descrição do passo selecionado">
+                        <span class="erro"><i class="fa fa-exclamation-triangle"></i></span>
+                        <a href="#passo6">6</a>
+                    </li>
+                    <li class="" role="presentation" data-toggle="tooltip" data-placement="top" title="Descrição do passo selecionado">
+                        <a href="#passo7">7</a>
+                    </li>
+                    <li class="bloqueado" role="presentation" data-toggle="tooltip" data-placement="top" title="">
+                        <span class="bloqueado"><i class="fa fa-lock"></i></span>
+                        <a href="">8</a>
+                    </li>
+                    <li class="bloqueado" role="presentation" data-toggle="tooltip" data-placement="top" title="">
+                        <span class="bloqueado"><i class="fa fa-lock"></i></span>
+                        <a href="">9</a>
+                    </li>
+                    <li class="bloqueado" role="presentation" data-toggle="tooltip" data-placement="top" title="">
+                        <span class="bloqueado"><i class="fa fa-lock"></i></span>
+                        <a href="">10</a>
+                    </li>
+                    <li class="bloqueado last" role="presentation" data-toggle="tooltip" data-placement="top" title="">
+                        <span class="bloqueado"><i class="fa fa-lock"></i></span>
+                        <a href="">99</a>
+                    </li>
+                </ul>
+
+                <div class="passos">
+                    <div class="passo1">
+                        <h1>Passo 1</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquos mel miseram principio fonte o dicturam.</p>
+                    </div>
+                    <div class="passo2">
+                        <h1>Passo 2</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquos mel miseram principio fonte o dicturam.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="caixa-centro">
+        <div class="row">
+            <div class="col-md-12 sp-20 tab-content">
+                <div role="tabpanel" class="tab-pane fade active in" id="passo1">
+                    <p>Passo 1 <br>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquos mel miseram principio fonte o dicturam. Satisfacit gravissimis uterque, occultarum mundus mala praetore progrediens ibidem respirare imbutus, praetermissum optari dubio derepta desideraturam aegritudo quales. Rem facile nosmet quoddam. Geometria fruentem parta. Sic, voluptatibus torquate rationem, quidem triario impendere dulce, recordatione, faciunt defuturum sensuum, coniuncta, facile consequentium suavitate feci dicitis detrimenti, consequuntur tuentur vitiis geometrica succumbere hostem illas splendido, efficiantur omnium consentientis philosophorum, vexetur persequeretur, magnam parentes discere rutilius studium constringendos male.</p>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="passo2">
+                    <p>Passo 2 <br>Lorem ipsum dolor 2.</p>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="passo3">
+                    <p>Passo 3 <br>Lorem ipsum dolor 3</p>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="passo42">
+                    <p>Passo 4 <br>Lorem ipsum dolor 4.</p>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="passo5">
+                    <p>Passo 5 <br>Lorem ipsum dolor 5</p>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="passo6">
+                    <p>Passo 6 <br>Lorem ipsum dolor 6.</p>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="passo7">
+                    <p>Passo 7 <br>Lorem ipsum dolor 7</p>
+                </div>
+            </div>
+        </div>
+    </div> <!-- Final caixa centro -->
+
+    <!-- TABELAS -->
+
+    <div class="caixa-centro">
+        <div class="col-md-12 pln">
+            <h2 class="col-md-12">Tabelas</h2>
+        </div>
+        <div class="col-md-12 pln">
+            <h3 class="col-md-12">Datatables</h3>
+        </div>
+
+        <div class="side20 table-responsive">
+            <div class="col-md-12">
+
+                <!-- datatables -->
+                <table id="data-table" class="display" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Posição</th>
+                            <th>Local</th>
+                            <th>Idade</th>
+                            <th>Início</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tfoot>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Posição</th>
+                            <th>Local</th>
+                            <th>Idade</th>
+                            <th>Início</th>
+                            <th>Ações</th>
+                        </tr>
+                    </tfoot>
+
+                    <tbody>
+                        <tr>
+                            <td>Tiger Nixon</td>
+                            <td>System Architect</td>
+                            <td>Edinburgh</td>
+                            <td>61</td>
+                            <td>2011/04/25</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Garrett Winters</td>
+                            <td>Accountant</td>
+                            <td>Tokyo</td>
+                            <td>63</td>
+                            <td>2011/07/25</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ashton Cox</td>
+                            <td>Junior Technical Author</td>
+                            <td>San Francisco</td>
+                            <td>66</td>
+                            <td>2009/01/12</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Cedric Kelly</td>
+                            <td>Senior Javascript Developer</td>
+                            <td>Edinburgh</td>
+                            <td>22</td>
+                            <td>2012/03/29</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Airi Satou</td>
+                            <td>Accountant</td>
+                            <td>Tokyo</td>
+                            <td>33</td>
+                            <td>2008/11/28</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Brielle Williamson</td>
+                            <td>Integration Specialist</td>
+                            <td>New York</td>
+                            <td>61</td>
+                            <td>2012/12/02</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Herrod Chandler</td>
+                            <td>Sales Assistant</td>
+                            <td>San Francisco</td>
+                            <td>59</td>
+                            <td>2012/08/06</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Rhona Davidson</td>
+                            <td>Integration Specialist</td>
+                            <td>Tokyo</td>
+                            <td>55</td>
+                            <td>2010/10/14</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Colleen Hurst</td>
+                            <td>Javascript Developer</td>
+                            <td>San Francisco</td>
+                            <td>39</td>
+                            <td>2009/09/15</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sonya Frost</td>
+                            <td>Software Engineer</td>
+                            <td>Edinburgh</td>
+                            <td>23</td>
+                            <td>2008/12/13</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Jena Gaines</td>
+                            <td>Office Manager</td>
+                            <td>London</td>
+                            <td>30</td>
+                            <td>2008/12/19</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Quinn Flynn</td>
+                            <td>Support Lead</td>
+                            <td>Edinburgh</td>
+                            <td>22</td>
+                            <td>2013/03/03</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Charde Marshall</td>
+                            <td>Regional Director</td>
+                            <td>San Francisco</td>
+                            <td>36</td>
+                            <td>2008/10/16</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Haley Kennedy</td>
+                            <td>Senior Marketing Designer</td>
+                            <td>London</td>
+                            <td>43</td>
+                            <td>2012/12/18</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tatyana Fitzpatrick</td>
+                            <td>Regional Director</td>
+                            <td>London</td>
+                            <td>19</td>
+                            <td>2010/03/17</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Michael Silva</td>
+                            <td>Marketing Designer</td>
+                            <td>London</td>
+                            <td>66</td>
+                            <td>2012/11/27</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Paul Byrd</td>
+                            <td>Chief Financial Officer (CFO)</td>
+                            <td>New York</td>
+                            <td>64</td>
+                            <td>2010/06/09</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gloria Little</td>
+                            <td>Systems Administrator</td>
+                            <td>New York</td>
+                            <td>59</td>
+                            <td>2009/04/10</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Bradley Greer</td>
+                            <td>Software Engineer</td>
+                            <td>London</td>
+                            <td>41</td>
+                            <td>2012/10/13</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Dai Rios</td>
+                            <td>Personnel Lead</td>
+                            <td>Edinburgh</td>
+                            <td>35</td>
+                            <td>2012/09/26</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Jenette Caldwell</td>
+                            <td>Development Lead</td>
+                            <td>New York</td>
+                            <td>30</td>
+                            <td>2011/09/03</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Yuri Berry</td>
+                            <td>Chief Marketing Officer (CMO)</td>
+                            <td>New York</td>
+                            <td>40</td>
+                            <td>2009/06/25</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Caesar Vance</td>
+                            <td>Pre-Sales Support</td>
+                            <td>New York</td>
+                            <td>21</td>
+                            <td>2011/12/12</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Doris Wilder</td>
+                            <td>Sales Assistant</td>
+                            <td>Sidney</td>
+                            <td>23</td>
+                            <td>2010/09/20</td>
+                               <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Angelica Ramos</td>
+                            <td>Chief Executive Officer (CEO)</td>
+                            <td>London</td>
+                            <td>47</td>
+                            <td>2009/10/09</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gavin Joyce</td>
+                            <td>Developer</td>
+                            <td>Edinburgh</td>
+                            <td>42</td>
+                            <td>2010/12/22</td>
+                               <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Jennifer Chang</td>
+                            <td>Regional Director</td>
+                            <td>Singapore</td>
+                            <td>28</td>
+                            <td>2010/11/14</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Brenden Wagner</td>
+                            <td>Software Engineer</td>
+                            <td>San Francisco</td>
+                            <td>28</td>
+                            <td>2011/06/07</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Fiona Green</td>
+                            <td>Chief Operating Officer (COO)</td>
+                            <td>San Francisco</td>
+                            <td>48</td>
+                            <td>2010/03/11</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Shou Itou</td>
+                            <td>Regional Marketing</td>
+                            <td>Tokyo</td>
+                            <td>20</td>
+                            <td>2011/08/14</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Michelle House</td>
+                            <td>Integration Specialist</td>
+                            <td>Sidney</td>
+                            <td>37</td>
+                            <td>2011/06/02</td>
+                           <td>
+                               <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Suki Burks</td>
+                            <td>Developer</td>
+                            <td>London</td>
+                            <td>53</td>
+                            <td>2009/10/22</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Prescott Bartlett</td>
+                            <td>Technical Author</td>
+                            <td>London</td>
+                            <td>27</td>
+                            <td>2011/05/07</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gavin Cortez</td>
+                            <td>Team Leader</td>
+                            <td>San Francisco</td>
+                            <td>22</td>
+                            <td>2008/10/26</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Martena Mccray</td>
+                            <td>Post-Sales support</td>
+                            <td>Edinburgh</td>
+                            <td>46</td>
+                            <td>2011/03/09</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Unity Butler</td>
+                            <td>Marketing Designer</td>
+                            <td>San Francisco</td>
+                            <td>47</td>
+                            <td>2009/12/09</td>
+                           <td>
+                               <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Howard Hatfield</td>
+                            <td>Office Manager</td>
+                            <td>San Francisco</td>
+                            <td>51</td>
+                            <td>2008/12/16</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Hope Fuentes</td>
+                            <td>Secretary</td>
+                            <td>San Francisco</td>
+                            <td>41</td>
+                            <td>2010/02/12</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Vivian Harrell</td>
+                            <td>Financial Controller</td>
+                            <td>San Francisco</td>
+                            <td>62</td>
+                            <td>2009/02/14</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Timothy Mooney</td>
+                            <td>Office Manager</td>
+                            <td>London</td>
+                            <td>37</td>
+                            <td>2008/12/11</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Jackson Bradshaw</td>
+                            <td>Director</td>
+                            <td>New York</td>
+                            <td>65</td>
+                            <td>2008/09/26</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Olivia Liang</td>
+                            <td>Support Engineer</td>
+                            <td>Singapore</td>
+                            <td>64</td>
+                            <td>2011/02/03</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Bruno Nash</td>
+                            <td>Software Engineer</td>
+                            <td>London</td>
+                            <td>38</td>
+                            <td>2011/05/03</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sakura Yamamoto</td>
+                            <td>Support Engineer</td>
+                            <td>Tokyo</td>
+                            <td>37</td>
+                            <td>2009/08/19</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Thor Walton</td>
+                            <td>Developer</td>
+                            <td>New York</td>
+                            <td>61</td>
+                            <td>2013/08/11</td>
+                           <td>
+                               <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Finn Camacho</td>
+                            <td>Support Engineer</td>
+                            <td>San Francisco</td>
+                            <td>47</td>
+                            <td>2009/07/07</td>
+                           <td>
+                               <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Serge Baldwin</td>
+                            <td>Data Coordinator</td>
+                            <td>Singapore</td>
+                            <td>64</td>
+                            <td>2012/04/09</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Zenaida Frank</td>
+                            <td>Software Engineer</td>
+                            <td>New York</td>
+                            <td>63</td>
+                            <td>2010/01/04</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Zorita Serrano</td>
+                            <td>Software Engineer</td>
+                            <td>San Francisco</td>
+                            <td>56</td>
+                            <td>2012/06/01</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Jennifer Acosta</td>
+                            <td>Junior Javascript Developer</td>
+                            <td>Edinburgh</td>
+                            <td>43</td>
+                            <td>2013/02/01</td>
+                           <td>
+                               <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Cara Stevens</td>
+                            <td>Sales Assistant</td>
+                            <td>New York</td>
+                            <td>46</td>
+                            <td>2011/12/06</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Hermione Butler</td>
+                            <td>Regional Director</td>
+                            <td>London</td>
+                            <td>47</td>
+                            <td>2011/03/21</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Lael Greer</td>
+                            <td>Systems Administrator</td>
+                            <td>London</td>
+                            <td>21</td>
+                            <td>2009/02/27</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Jonas Alexander</td>
+                            <td>Developer</td>
+                            <td>San Francisco</td>
+                            <td>30</td>
+                            <td>2010/07/14</td>
+                           <td>
+                               <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Shad Decker</td>
+                            <td>Regional Director</td>
+                            <td>Edinburgh</td>
+                            <td>51</td>
+                            <td>2008/11/13</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Michael Bruce</td>
+                            <td>Javascript Developer</td>
+                            <td>Singapore</td>
+                            <td>29</td>
+                            <td>2011/06/27</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Donna Snider</td>
+                            <td>Customer Support</td>
+                            <td>New York</td>
+                            <td>27</td>
+                            <td>2011/01/25</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- fim datatables -->
+                <br>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Tabela</h3>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="alerta bg-warning text-center">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        Aviso de linha de ação obrigatória.
+                    </div>
+                </div>
+                <div class="form-inline col-md-3 col-xs-12 sp-10">
+                    <label for="Select Dropbox:">Exibir:</label>
+                    <select class="form-control">
+                        <option>5</option>
+                        <option>15</option>
+                        <option>25</option>
+                        <option>50</option>
+                        <option>100</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <table class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th><div class="checkbox"><label> <input type="checkbox" value=""></label></div></th>
+                          <th>ID <i class="fa fa-sort"></i></th>
+                          <th>Origem <i class="fa fa-sort"></i></th>
+                          <th>Assunto <i class="fa fa-sort"></i></th>
+                          <th>Ações <i class="fa fa-sort"></i></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                            <th scope="row"><div class="checkbox"><label> <input type="checkbox" value=""></label></div></th>
+                            <td><strong>123/2015</strong></td>
+                            <td><strong>CGDIRES</strong></td>
+                            <td><strong>Lorem ipsum dolor sit amet, consectetur</strong></td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-inativo" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-inativo" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row"><div class="checkbox"><label> <input type="checkbox" value=""></label></div></th>
+                            <td><strong>123/2015</strong></td>
+                            <td><strong>CGDIRES</strong></td>
+                            <td><strong>Lorem ipsum dolor sit amet, consectetur</strong></td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-inativo" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-inativo" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row"><div class="checkbox"><label> <input type="checkbox" value=""></label></div></th>
+                            <td><strong>123/2015</strong></td>
+                            <td><strong>CGDIRES</strong></td>
+                            <td><strong>Lorem ipsum dolor sit amet, consectetur</strong></td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-inativo" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-inativo" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="bg-warning">
+                            <th scope="row"><div class="checkbox"><label> <input type="checkbox" value=""></label></div></th>
+                            <td>123/2015</td>
+                            <td>CGDIRES</td>
+                            <td>Lorem ipsum dolor sit amet, consectetur</td>
+                            <td>
+                                <div class="tableAcoes">
+                                    <a href=""><i class="fa fa-flag text-warning" data-toggle="tooltip" data-placement="top" title="Alerta"></i></a>
+                                    <a href=""><i class="fa fa-pencil text-primary" data-toggle="tooltip" data-placement="top" title="Editar"></i></a>
+                                    <a href=""><i class="fa fa-envelope-o text-inativo" data-toggle="tooltip" data-placement="top" title="Email"></i></a>
+                                    <a href=""><i class="fa fa-calendar text-inativo" data-toggle="tooltip" data-placement="top" title="Calendário"></i></a>
+                                    <a href=""><i class="fa fa-paperclip text-inativo" data-toggle="tooltip" data-placement="top" title="Anexo"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>	<!-- row -->
+
+                <div class="row">
+                    <nav class="text-center">
+                      <ul class="pagination">
+                        <li class="disabled">
+                          <a href="#" aria-label="First">
+                            <span aria-hidden="true"><i class="fa fa-angle-double-left"></i></span>
+                          </a>
+                        </li>
+                        <li class="disabled">
+                          <a href="#" aria-label="Previous">
+                            <span aria-hidden="true"><i class="fa fa-angle-left"></i></span>
+                          </a>
+                        </li>
+                        <li class="active"><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li>
+                          <a href="#" aria-label="Next">
+                            <span aria-hidden="true"><i class="fa fa-angle-right"></i></span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" aria-label="Next">
+                            <span aria-hidden="true"><i class="fa fa-angle-double-right"></i></span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div> <!-- Final caixa centro -->
+
+    <!-- Icones -->
+    <div class="caixa-centro">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Ícones</h2>
+            </div>
+        </div>
+        <div class="row">
+            <p class="col-md-12">Biblioteca completa de ícones em: <a href="http://fontawesome.io/icons/" target="blank">http://fontawesome.io/icons/</a></p>
+            <p class="col-md-12">Alguns exemplos de ícones utilizados:</p>
+        </div>
+
+        <div class="separador"></div>
+
+        <div class="row">
+            <div class="col-md-12" style="font-size:1.2em;">
+                <div class="col-md-2 sp-10"><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="Editar"></i> Editar</div>
+                <div class="col-md-2 sp-10"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="Visualizar"></i> Visualizar</div>
+                <div class="col-md-2 sp-10"><i class="fa fa-check" data-toggle="tooltip" data-placement="top" title="Confirmado"></i> Confirmado</div>
+                <div class="col-md-2 sp-10"><i class="fa fa-times-circle" data-toggle="tooltip" data-placement="top" title="Apagar"></i> Apagar</div>
+                <div class="col-md-2 sp-10"><i class="fa fa-floppy-o" data-toggle="tooltip" data-placement="top" title="Salvar"></i> Salvar</div>
+                <div class="col-md-2 sp-10"><i class="fa fa-flag" data-toggle="tooltip" data-placement="top" title="Alerta"></i> Alerta</div>
+                <div class="col-md-2 sp-10"><i class="fa fa-envelope-o" data-toggle="tooltip" data-placement="top" title="Email"></i> Email</div>
+                <div class="col-md-2 sp-10"><i class="fa fa-paperclip" data-toggle="tooltip" data-placement="top" title="Anexo"></i> Anexo</div>
+                <div class="col-md-2 sp-10"><i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="Calendário"></i> Calendário</div>
+                <div class="col-md-2 sp-10"><i class="fa fa-download" data-toggle="tooltip" data-placement="top" title="Download"></i> Download</div>
+                <div class="col-md-2 sp-10"><i class="fa fa-eraser" data-toggle="tooltip" data-placement="top" title="Limpar"></i> Limpar</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Cores</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="font-size:1.2em;">
+                <div class="col-md-2 sp-10"><i class="fa fa-eyedropper text-primary" data-toggle="tooltip" data-placement="top" title="Ativo"></i> Ativo</div>
+                <div class="col-md-2 sp-10"><i class="fa fa-eyedropper text-success" data-toggle="tooltip" data-placement="top" title="Sucesso"></i> Sucesso</div>
+                <div class="col-md-2 sp-10"><i class="fa fa-eyedropper text-info" data-toggle="tooltip" data-placement="top" title="Info"></i> Info</div>
+                <div class="col-md-2 sp-10"><i class="fa fa-eyedropper text-warning" data-toggle="tooltip" data-placement="top" title="Atenção"></i> Atenção</div>
+                <div class="col-md-2 sp-10"><i class="fa fa-eyedropper text-danger" data-toggle="tooltip" data-placement="top" title="Erro"></i> Erro</div>
+                <div class="col-md-2 sp-10"><i class="fa fa-eyedropper text-inativo" data-toggle="tooltip" data-placement="top" title="Inativo"></i> Inativo</div>
+            </div>
+        </div>
+    </div> <!-- Final caixa centro -->
+
+    <div class="caixa-centro">
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <h2>Loading</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#processing-modal">
+                     Simular Carregamento
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <button type="button" id="botao-carregando" data-loading-text="Carregando..." class="btn btn-primary" autocomplete="off">
+                      Botão - Carregando
+                </button>
+            </div>
+        </div>
+    </div> <!-- Final caixa centro -->
+
+    <!-- Barra de Progresso -->
+    <div class="caixa-centro">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Barra de Progresso</h2>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                60%
+              </div>
+            </div>
+
+            <div class="progress">
+              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                100%
+              </div>
+            </div>
+
+            <div class="progress">
+              <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;">
+                20%
+              </div>
+            </div>
+        </div>
+    </div> <!-- Final caixa centro -->
+
+    <!-- Alertas -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Alertas e Mensagens</h2>
+        </div>
+    </div>
+
+    <div class="alert alert-primary alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <strong>Mensagem do Sistema</strong>
+      <p>Usado Para mensagens do sistema.</p>
+    </div>
+
+    <div class="alert alert-success alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <strong>Alerta Sucesso!</strong> Best check yo self, you're not looking too good.
+    </div>
+
+    <div class="alert alert-info alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <strong>Alerta Informação!</strong> Best check yo self, you're not looking too good.
+    </div>
+
+    <div class="alert alert-warning alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <strong>Alerta Atenção!</strong> Best check yo self, you're not looking too good.
+    </div>
+
+    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <strong>Alerta Erro!</strong> Best check yo self, you're not looking too good.
+    </div>
+    <!-- Botões -->
+
+    <div class="caixa-centro">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Botões toggle</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" data-toggle="toggle">
+                        Botão toggle
+                    </label>
+                </div>
+                <br>
+                <div class="checkbox disabled">
+                    <label>
+                        <input type="checkbox" disabled data-toggle="toggle">
+                        Botão toggle desabilitado
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Botões -->
+
+    <div class="caixa-centro">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Botões</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary "><i class="fa fa-arrow-left"></i>  Anterior</button>
+                <button type="button" class="btn btn-primary pull-right">Próximo  <i class="fa fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div class="separador sp-10"></div>
+        <div class="row">
+            <div class="col-md-12 sp-10">
+                <label for="Input:">Selecione arquivo para upload:</label>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="file"><i class="fa fa-folder-open"></i> Selecionar Arquivo</button>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Nenhum Arquivo Selecionado.">
+                </div><!-- /input-group -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 sp-10">
+                <!-- Standard button -->
+                <button type="button" class="btn btn-default">Padrão</button>
+
+                <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                <button type="button" class="btn btn-primary">Primário</button>
+
+                <!-- Indicates a successful or positive action -->
+                <button type="button" class="btn btn-success">Sucesso</button>
+
+                <!-- Contextual button for informational alert messages -->
+                <button type="button" class="btn btn-info">Informativo</button>
+
+                <!-- Indicates caution should be taken with this action -->
+                <button type="button" class="btn btn-warning">Alerta</button>
+
+                <!-- Indicates a dangerous or potentially negative action -->
+                <button type="button" class="btn btn-danger">Erro</button>
+
+                <!-- Deemphasize a button by making it look like a link while maintaining button behavior -->
+                <button type="button" class="btn btn-link">Link</button>
+            </div>
+
+        </div>
+    </div> <!-- Final caixa centro -->

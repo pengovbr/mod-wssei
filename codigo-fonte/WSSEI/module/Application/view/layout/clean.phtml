@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SEI</title>
+
+    <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300"  type="text/css">
+        <link rel="stylesheet" href="<?php echo $this->basepath("/assets/vendor/font-awesome/css/font-awesome.css")?>">
+
+        <link rel="stylesheet" href="<?php echo $this->basepath("/assets/application/css/application.css")?>">  <!-- Override -->
+    <!-- CSS -->
+
+</head>
+
+<body>
+
+<!-- barra do governo -->
+<div id="barra-brasil">
+    <a href="http://brasil.gov.br" class="barraGoverno">Portal do Governo Brasileiro</a>
+</div>
+
+
+<div class="cabeca"><!-- Topo com a Header maior -->
+    <div class="col-md-12">
+        <div class="logo"> </div>
+        <p></p>
+        <div class="faq pull-right">
+            <a href="<?php echo $this->url("faq")?>">
+                <p>Tire suas dúvidas</p>
+                <i class="fa fa-question-circle"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="espaco-topo"></div>
+
+<div class="conteudo container">
+    <?php echo $this->content;?>
+</div>
+
+<?php echo $this->partial("partial/rodape-clean.phtml")?>

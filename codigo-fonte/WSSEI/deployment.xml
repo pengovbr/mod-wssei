@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<package xmlns="http://www.zend.com/server/deployment-descriptor/1.0" version="2.0">
+    <type>application</type>
+    <name>nomedoagrupador-nomedosoftware</name>
+    <version>
+        <release>1.0</release>
+    </version>
+    <icon>logo.png</icon>
+    <appdir>fontes</appdir>
+    <docroot>fontes/public</docroot>
+    <scriptsdir>scripts</scriptsdir>
+</package>

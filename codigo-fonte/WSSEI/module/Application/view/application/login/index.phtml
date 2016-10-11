@@ -1,0 +1,60 @@
+<h2>Acesso</h2>
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        <p><strong>Parágrafo</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquos mel miseram principio fonte o dicturam. Satisfacit gravissimis uterque, occultarum mundus mala praetore progrediens ibidem respirare imbutus, praetermissum optari dubio derepta desideraturam aegritudo quales. Rem facile nosmet quoddam. Geometria fruentem parta. Sic, voluptatibus torquate rationem, quidem triario impendere dulce, recordatione, faciunt defuturum sensuum, coniuncta, facile consequentium suavitate feci dicitis detrimenti..</p>
+        <div class="row">
+            <button type="button" class="btn  btn-default"><i class="fa fa fa-download"></i> Download do Edital 01</button>
+            <button type="button" class="btn  btn-default"><i class="fa fa fa-download"></i> Download do Edital 02</button>
+        </div>
+    </div>
+
+
+    <div class="caixa-login col-md-5 col-xs-12 sombra-2 col-md-offset-1 ">
+
+        <form action="">
+            <div class="col-md-12 col-xs-12 padding-0 sp-10 ">
+                <!-- Input CPF -->
+                <div class="row">
+                    <div class="form-group col-md-12 col-xs-12 has-feedback">
+                        <label for="CPF:">CPF:</label>
+                        <input type="name" class="form-control cpf" id="" placeholder="Digite seu CPF">
+                        <i class="fa fa-user form-control-feedback"></i>
+                    </div>
+                </div>
+                <!-- Input Senha -->
+                <div class="row">
+                    <div class="form-group col-md-12 col-xs-12 has-feedback">
+                        <label for="Senha:">Senha:</label>
+                        <input type="password" class="form-control" id="" placeholder="Digite sua senha">
+                        <i class="fa fa-lock form-control-feedback"></i>
+                    </div>
+                </div>
+                <!-- Captcha -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="#" method="POST" class="recaptcha">
+                            <div class="g-recaptcha" data-sitekey="6LcvNwETAAAAAJs9bVrXK-ExCDJs2tO-s76HBm88"></div>
+                            <br/>
+                            <div class="col-md-12">
+                                <a href="#"><button type="button" class="btn btn-primary btn-block"><i class="fa fa-check"></i> Entrar</button></a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="separador sp-20"></div>
+
+            <div class="row">
+                <div class="col-md-6 col-xs-6">
+                    <button type="button" class="btn btn-link"><i class="fa fa-key"></i> recuperar senha</button>
+                </div>
+                <div class="col-md-6 col-xs-6 ">
+                    <a href="<?php echo $this->url("primeiro-acesso");?>" class="btn btn-block btn-success pull-right">
+                       <i class="fa fa-pencil-square-o"></i> Solicitar Acesso
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

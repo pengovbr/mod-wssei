@@ -1,0 +1,51 @@
+{
+    "name" : "mec/wssei",
+    "description" : "WebServices SEI! ",
+    "type": "ws",
+    "keywords": [],
+    "license": "proprietary",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://composer.mec.gov.br"
+        }, {
+            "packagist": false
+        }
+    ],
+    "config": {
+        "secure-http": false
+    },
+    "require" : {
+        "php" : "~5.3",
+        "mec/corporativo-basezf" : "1.0.5",
+        "mec/corporativo-cdnzf" : "1.0.4",
+        "mec/corporativo-commonsphp": "2.1.0",
+        "mec/corporativo-hive" : "3.1.4",
+        "doctrine/doctrine-orm-module" : ">=0.8.0",
+        "doctrine/orm" : "2.4.8",
+        "doctrine/cache" : "1.5.4",
+        "zendframework/zendframework" : ">=2.3.0",
+        "leaseweb/doctrine-pdo-dblib": "^1.0@dev"
+    },
+    "require-dev" : {
+        "sebastian/phpcpd": "2.*",
+        "phpunit/phpunit": "3.*",
+        "phploc/phploc": "2.*",
+        "theseer/phpdox":">=0.7.0",
+        "phplint/phplint": ">=0.0.1",
+        "mayflower/php-codebrowser": "1.*",
+        "phpmd/phpmd": "1.*",
+        "pdepend/pdepend": "1.*",
+        "squizlabs/php_codesniffer": "*",
+        "wimg/php-compatibility": ">=5.5",
+        "simplyadmire/composer-plugins" : ">=1.0.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-0": {
+            "Application\\": "module/Application/src/",
+            "ApplicationTest\\": "module/Application/tests/"
+        }
+    }
+}

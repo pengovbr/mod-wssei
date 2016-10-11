@@ -1,0 +1,15 @@
+-----------------------------------------------------------------
+MEC - Gerencia de Configuração 
+
+cgd-es@mec.gov.br
+
+Documentação de pastas de projeto
+-----------------------------------------------------------------
+
+
+PASTA: trunk/documentacao/02-Especificacao/Manutencao
+DESCRIÇÃO: 
+
+		Pasta com documentos relativos a manutenção pontual de sistemas sem documentação.
+		Nesta pasta, como podem haver mais de uma funcionalidade alterada por OS, é necessária a organização
+		por pastas. Dentro das pastas podem conter os documentos de manutenção e outros documentos necessários para execução da manutenção.

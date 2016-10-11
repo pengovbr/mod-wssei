@@ -1,0 +1,34 @@
+-----------------------------------------------------------------
+MEC - Gerencia de Configuração 
+
+cgd@mec.gov.br
+
+Documentação de pastas de projeto
+-----------------------------------------------------------------
+
+
+
+PASTA: trunk/documentacao/01-Especificacao
+DESCRIÇÃO: 
+
+		Pasta com os documentos de especificação do sistema. As definições de arquitetura, 
+	banco de dados, casos de uso e modelos são guardados nesta pasta.
+
+PASTA: trunk/documentacao/02-Teste
+DESCRIÇÃO: 
+
+		Pasta com os documentos relativos ao processo de teste do sistema do repositório. 
+		Nele são guardados os planos de execução, casos de teste, evidencias e massa de testes.
+
+PASTA: 03-Implantacao
+DESCRIÇÃO:
+		
+		Nesta são armazenadas as informações sobre a configuração e mudança do(s) ambiente(s) do sistema.
+
+		
+		
+PS: Documentos Gerenciais - 
+
+		Nesta pasta está em repositório separado cgd-projetos. Neste repositório estão todos os documentos relativos às atividades de gerenciamento do projeto 
+	que desenvolve ou mantém o sistema. Contendo Atas de reunião, cronogramas, Planos de projeto, Termo de Abertura, entre outros.
+

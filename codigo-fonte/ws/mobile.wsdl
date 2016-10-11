@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions name="MobileWS"
+             xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+             xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" 
+             xmlns:tns="urn:SeiEdoc" 
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+             xmlns="http://schemas.xmlsoap.org/wsdl/" 
+             targetNamespace="urn:SeiMobile">
+
+<message name="assinarDocumentoRequest">
+    <part name="idDocumento" type="xsd:integer" />
+    <part name="orgao" type="xsd:integer" />
+    <part name="cargo" type="xsd:string" />
+    <part name="idAssinatura" type="xsd:integer" />
+    <part name="usuario" type="xsd:string" />
+    <part name="senha" type="xsd:string" />
+</message>
+
+<message name="assinarDocumentoResponse">
+    <part name="retorno" type="xsd:boolean" />
+</message>
+
+<portType name="SeiMobilePortType">
+  <operation name="assinarDocumento">
+     <documentation>Assina documento interno no SEI</documentation>
+     <input message="tns:assinarDocumentoRequest" />
+     <output message="tns:assinarDocumentoResponse" />
+  </operation>
+
+</portType>
+
+
+<binding name="SeiMobileBinding" type="tns:SeiMobilePortType">
+  <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />    
+  <operation name="assinarDocumento">
+    <soap:operation soapAction="SeiMobileAction" />
+    <input> <soap:body namespace="urn:SeiMobile" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" /> </input>
+    <output> <soap:body namespace="urn:SeiMobile" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" /> </output>
+  </operation>
+</binding>
+
+<service name="SeiMobileService">
+  <port name="SeiMobilePortService" binding="tns:SeiMobileBinding">
+    <soap:address location="[servidor]/ws/MobileWS.php"/>
+  </port>
+</service>
+
+</definitions>

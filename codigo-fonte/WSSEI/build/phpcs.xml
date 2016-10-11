@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Custom Standard">
+    <exclude-pattern>*/test/*</exclude-pattern>
+    <exclude-pattern>*/tests/*</exclude-pattern>
+    <rule ref="PSR2"/>
+    <rule ref="PHPCompatibility"/>
+</ruleset>
