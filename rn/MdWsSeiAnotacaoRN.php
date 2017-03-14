@@ -42,7 +42,7 @@ class MdWsSeiAnotacaoRN extends InfraRN {
         try{
             $anotacaoRN = new AnotacaoRN();
             if(!$anotacaoDTO->getDblIdProtocolo()){
-                throw new InfraException('Protocolo não informado.');
+                throw new InfraException('Protocolo nï¿½o informado.');
             }
             $anotacaoConsulta = new AnotacaoDTO();
             $anotacaoConsulta->setDblIdProtocolo($anotacaoDTO->getDblIdProtocolo());
@@ -57,12 +57,28 @@ class MdWsSeiAnotacaoRN extends InfraRN {
             }
             return array (
                 "sucesso" => true,
-                "mensagem" => 'Anotação cadastrada com sucesso!'
+                "mensagem" => 'AnotaÃ§Ã£o cadastrada com sucesso!'
             );
         }catch (Exception $e){
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
             return array (
                 "sucesso" => false,
-                "mensagem" => $e->getMessage(),
+                "mensagem" => $mensagem,
                 "exception" => $e
             );
         }

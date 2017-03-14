@@ -14,7 +14,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
     protected function removerSobrestamentoProcessoControlado(ProcedimentoDTO $procedimentoDTOParam){
         try{
             if(!$procedimentoDTOParam->getDblIdProcedimento()){
-                throw new InfraException('Procedimento não informado.');
+                throw new InfraException('Procedimento nï¿½o informado.');
             }
             $seiRN = new SeiRN();
             $entradaRemoverSobrestamentoProcessoAPI = new EntradaRemoverSobrestamentoProcessoAPI();
@@ -27,10 +27,26 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                 'mensagem' => 'Sobrestar cancelado com sucesso.'
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }
@@ -73,10 +89,26 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                 'total' => $mdWsSeiProtocoloDTOConsulta->getNumTotalRegistros()
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }
@@ -101,7 +133,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
             }
 
             if(!$mdWsSeiProtocoloDTOConsulta->isSetNumIdUnidadeAtividade()){
-                throw new InfraException('É obrigatório informar a unidade.');
+                throw new InfraException('ï¿½ obrigatï¿½rio informar a unidade.');
             }
             $mdWsSeiProtocoloDTO->setNumIdUnidadeAtividade($mdWsSeiProtocoloDTOConsulta->getNumIdUnidadeAtividade());
 
@@ -151,10 +183,26 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                 'total' => $mdWsSeiProtocoloDTO->getNumTotalRegistros()
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
 
@@ -309,13 +357,29 @@ class MdWsSeiProcedimentoRN extends InfraRN {
 
             return array(
                 'sucesso' => true,
-                'mensagem' => 'Ciência processo realizado com sucesso!'
+                'mensagem' => 'CiÃªncia processo realizado com sucesso!'
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }
@@ -323,7 +387,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
     /**
      * Metodo que conclui o procedimento/processo
      * @param EntradaConcluirProcessoAPI $entradaConcluirProcessoAPI
-     * @info ele recebe o número do ProtocoloProcedimentoFormatadoPesquisa da tabela protocolo
+     * @info ele recebe o nï¿½mero do ProtocoloProcedimentoFormatadoPesquisa da tabela protocolo
      * @return array
      */
     protected function concluirProcessoControlado(EntradaConcluirProcessoAPI $entradaConcluirProcessoAPI){
@@ -337,13 +401,29 @@ class MdWsSeiProcedimentoRN extends InfraRN {
 
             return array(
                 'sucesso' => true,
-                'mensagem' => 'Processo concluído com sucesso!'
+                'mensagem' => 'Processo concluÃ­do com sucesso!'
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }
@@ -352,7 +432,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
      * Metodo que atribui o processo a uma pessoa
      * @param EntradaAtribuirProcessoAPI $entradaAtribuirProcessoAPI
      * @info Os parametros IdUsuario, ProtocoloProcedimento e SinReabrir sao obrigatorios. O parametro ProtocoloProcedimento
-     * recebe o número do ProtocoloProcedimentoFormatadoPesquisa da tabela protocolo
+     * recebe o nï¿½mero do ProtocoloProcedimentoFormatadoPesquisa da tabela protocolo
      * @return array
      */
     protected function atribuirProcessoControlado(EntradaAtribuirProcessoAPI $entradaAtribuirProcessoAPI){
@@ -361,7 +441,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                 throw new InfraException('E obrigatorio informar o protocolo do processo!');
             }
             if(!$entradaAtribuirProcessoAPI->getIdUsuario()){
-                throw new InfraException('E obrigatorio informar o usuário do processo!');
+                throw new InfraException('E obrigatorio informar o usuï¿½rio do processo!');
             }
 
             $objSeiRN = new SeiRN();
@@ -369,13 +449,29 @@ class MdWsSeiProcedimentoRN extends InfraRN {
 
             return array(
                 'sucesso' => true,
-                'mensagem' => 'Processo atribuído com sucesso!'
+                'mensagem' => 'Processo atribuÃ­do com sucesso!'
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => 'Nao foi possível atribuir o processo!',
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }
@@ -434,10 +530,26 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                 'mensagem' => 'Processo enviado com sucesso!'
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => 'Nao foi possível enviar o processo!',
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }

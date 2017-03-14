@@ -32,10 +32,26 @@ class MdWsSeiUnidadeRN extends InfraRN {
                 'data' => $result
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }

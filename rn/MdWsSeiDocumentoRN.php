@@ -19,7 +19,7 @@ class MdWsSeiDocumentoRN extends InfraRN {
      * @param $idUsuario
      * @return array
      */
-    public function apiAssinarDocumentos(array $arrIdDocumento, $idOrgao, $strCargoFuncao, $siglaUsuario, $senhaUsuario, $idUsuario){
+    public function apiAssinarDocumentos($arrIdDocumento, $idOrgao, $strCargoFuncao, $siglaUsuario, $senhaUsuario, $idUsuario){
         $arrDocumentoDTO = array();
         foreach($arrIdDocumento as $dblIdDocumento){
             $documentoDTO = new DocumentoDTO();
@@ -62,7 +62,7 @@ class MdWsSeiDocumentoRN extends InfraRN {
     }
 
     /**
-     * Realizar Assinatura Eletrônica
+     * Realizar Assinatura Eletr?nica
      * @param AssinaturaDTO $assinaturaDTO
      * @return array
      */
@@ -77,10 +77,26 @@ class MdWsSeiDocumentoRN extends InfraRN {
                 'mensagem' => 'Documento em bloco assinado com sucesso.'
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }
@@ -93,7 +109,7 @@ class MdWsSeiDocumentoRN extends InfraRN {
     protected function darCienciaControlado(DocumentoDTO $documentoDTO){
         try{
             $documentoRN = new DocumentoRN();
-            if(!$documentoDTO->getDblIdDocumento()){
+            if(!$documentoDTO->isSetDblIdDocumento()){
                 throw new InfraException('O documento não foi informado.');
             }
             $documentoRN->darCiencia($documentoDTO);
@@ -102,10 +118,26 @@ class MdWsSeiDocumentoRN extends InfraRN {
                 'mensagem' => 'Ciência documento realizado com sucesso.'
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }
@@ -146,10 +178,26 @@ class MdWsSeiDocumentoRN extends InfraRN {
             $anexo = $resultAnexo[0];
             SeiINT::download($anexo);
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }
@@ -201,10 +249,26 @@ class MdWsSeiDocumentoRN extends InfraRN {
                 'data' => $result
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }
@@ -241,10 +305,26 @@ class MdWsSeiDocumentoRN extends InfraRN {
                 'data' => $result
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }

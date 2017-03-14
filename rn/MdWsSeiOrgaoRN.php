@@ -10,7 +10,7 @@ class MdWsSeiOrgaoRN extends InfraRN {
     /**
      * Retorna todos os orgaos ativos cadastrados
      * @param OrgaoDTO $orgaoDTO
-     * @info para páginacao e necessário informar dentro do DTO os parametros abaixo:
+     * @info para pï¿½ginacao e necessï¿½rio informar dentro do DTO os parametros abaixo:
      *  - setNumMaxRegistrosRetorno
      *  - setNumPaginaAtual
      * @return array
@@ -48,10 +48,26 @@ class MdWsSeiOrgaoRN extends InfraRN {
                 'total' => $orgaoDTO->getNumTotalRegistros()
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }

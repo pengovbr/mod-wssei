@@ -10,7 +10,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
     }
 
     /**
-     * Método que retorna o serviço SOAP do SIP
+     * Metodo que retorna o servico SOAP do SIP
      * @return SoapClient
      * @throws InfraException
      */
@@ -19,7 +19,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
         try{
             if (!InfraUtil::isBolUrlValida($strWSDL)){
                 if(!@file_get_contents($strWSDL)) {
-                    throw new InfraException('Arquivo WSDL '.$strWSDL.' n?o encontrado.');
+                    throw new InfraException('Arquivo WSDL '.$strWSDL.' nao encontrado.');
                 }
             }
         }catch(Exception $e){
@@ -27,7 +27,13 @@ class MdWsSeiUsuarioRN extends InfraRN {
         }
 
         try{
-            $objSipWS = new SoapClient($strWSDL, array('encoding'=>'ISO-8859-1'));
+            $objSipWS = new SoapClient(
+                $strWSDL,
+                array(
+                    'encoding' => 'ISO-8859-1',
+                    'exceptions' => true
+                )
+            );
             return $objSipWS;
         }catch(Exception $e){
             throw new InfraException('Erro acessando o Sistema de Permissões.');
@@ -35,7 +41,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
     }
 
     /**
-     * Método que descriptografa o token
+     * M?todo que descriptografa o token
      * @param $token
      * @return string
      */
@@ -54,7 +60,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
     }
 
     /**
-     * Método que criptografa o token
+     * M?todo que criptografa o token
      * @param $sigla
      * @param $senha
      * @return string
@@ -77,7 +83,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
     }
 
     /**
-     * Go horse para autenticar usuário... Não ha como instanciar o SessaoSEI por metodos convencionais.
+     * Go horse para autenticar usuario... Nao ha como instanciar o SessaoSEI por metodos convencionais.
      * @param stdClass $loginData
      */
     private function setaVariaveisAutenticacao(stdClass $loginData){
@@ -90,7 +96,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
     }
 
     /**
-     * Método que autentica o usuário pelo token
+     * Metodo que autentica o usuario pelo token
      * @param $token
      * @return bool
      * @throws InfraException
@@ -100,7 +106,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
 
             $tokenData = $this->tokenDecode($token);
             if(!$tokenData){
-                throw new InfraException('Token inválido!');
+                throw new InfraException('Token inv?lido!');
             }
 
             $usuarioDTO = new UsuarioDTO();
@@ -114,16 +120,32 @@ class MdWsSeiUsuarioRN extends InfraRN {
 
             return $result;
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }
 
     /**
-     * MÈtodo de autenticação de usuários usando SIP
+     * Metodo de autenticacao de usuarios usando SIP
      * @param UsuarioDTO
      *      @param $sigla
      *      @param $senha
@@ -145,7 +167,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 $usuarioDTO->setNumIdOrgao($orgaoCarregdo->getNumIdOrgao());
             }
             $objSipWs = $this->retornaServicoSip();
-            $ret = $objSipWs->autenticar(
+            $ret = $objSipWs->autenticarCompleto(
                 $usuarioDTO->getNumIdOrgao(),
                 null,
                 $usuarioDTO->getStrSigla(),
@@ -153,6 +175,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaSistema'),
                 ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema')
             );
+
             if(!$ret){
                 throw new InfraException('Usuário ou senha inválido!');
             }
@@ -162,17 +185,33 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 'token' => $this->tokenEncode($usuarioDTO->getStrSigla(), $usuarioDTO->getStrSenha())
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
 
     }
 
     /**
-     * Retorna a lista de usuários por unidade
+     * Retorna a lista de usuarios por unidade
      * @param UsuarioDTO
      *      @param $idUsuario
      */
@@ -186,11 +225,27 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 'sucesso' => true,
                 'data' => $result
             );
-        }catch(Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => 'Erro no serviço de listagem de usuários.',
-                'exception' => $e
+        }catch (Exception $e){
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }

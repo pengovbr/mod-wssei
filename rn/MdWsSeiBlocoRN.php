@@ -69,13 +69,29 @@ class MdWsSeiBlocoRN extends InfraRN {
             return array(
                 'sucesso' => true,
                 'data' => $result,
-                'total' => !$result ? 0 : $blocoDTOConsulta->getNumTotalRegistros()
+                'total' => $blocoDTOConsulta->getNumTotalRegistros()
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }
@@ -88,7 +104,7 @@ class MdWsSeiBlocoRN extends InfraRN {
     protected function listarDocumentosBlocoConectado(BlocoDTO $blocoDTOConsulta){
         try{
             if(!$blocoDTOConsulta->getNumIdBloco()){
-                throw new InfraException('Bloco nao informado.');
+                throw new InfraException('Bloco não informado.');
             }
             $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
             $relBlocoProtocoloDTOConsulta = new RelBlocoProtocoloDTO();
@@ -181,10 +197,26 @@ class MdWsSeiBlocoRN extends InfraRN {
                 'total' => $relBlocoProtocoloDTOConsulta->getNumTotalRegistros()
             );
         }catch (Exception $e){
-            return array(
-                'sucesso' => false,
-                'mensagem' => $e->getMessage(),
-                'exception' => $e
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
             );
         }
     }
@@ -215,15 +247,16 @@ class MdWsSeiBlocoRN extends InfraRN {
      * @return array
      */
     protected function cadastrarAnotacaoBlocoControlado(RelBlocoProtocoloDTO $relBlocoProtocoloDTOParam){
-        try{
-            if(!$relBlocoProtocoloDTOParam->isSetNumIdBloco()){
+
+        try {
+            if (!$relBlocoProtocoloDTOParam->isSetNumIdBloco()) {
                 throw new InfraException('O bloco deve ser informado.');
             }
-            if(!$relBlocoProtocoloDTOParam->isSetNumIdBloco()){
+            if (!$relBlocoProtocoloDTOParam->isSetNumIdBloco()) {
                 throw new InfraException('O protocolo deve ser informado.');
             }
-            if(!$relBlocoProtocoloDTOParam->isSetStrAnotacao()){
-                throw new InfraException('A anotacao deve ser informada.');
+            if (!$relBlocoProtocoloDTOParam->isSetStrAnotacao()) {
+                throw new InfraException('A anotação deve ser informada.');
             }
             $relBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
             $relBlocoProtocoloDTO->setNumIdBloco($relBlocoProtocoloDTOParam->getNumIdBloco());
@@ -231,8 +264,8 @@ class MdWsSeiBlocoRN extends InfraRN {
             $relBlocoProtocoloDTO->retTodos();
             $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
             $relBlocoProtocoloDTO = $relBlocoProtocoloRN->consultarRN1290($relBlocoProtocoloDTO);
-            if(!$relBlocoProtocoloDTO){
-                throw new InfraException('Documento nao encontrado no bloco informado.');
+            if (!$relBlocoProtocoloDTO) {
+                throw new InfraException('Documento não encontrado no bloco informado.');
             }
             $relBlocoProtocoloDTO->setStrAnotacao($relBlocoProtocoloDTOParam->getStrAnotacao());
             $relBlocoProtocoloRN->alterarRN1288($relBlocoProtocoloDTO);
@@ -242,9 +275,25 @@ class MdWsSeiBlocoRN extends InfraRN {
                 'mensagem' => 'Anotação realizada com sucesso.'
             );
         }catch (Exception $e){
+            $message = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
             return array(
                 'sucesso' => false,
-                'mensagem' => $e->getMessage(),
+                'mensagem' => $message,
                 'exception' => $e
             );
         }
