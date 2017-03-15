@@ -8,13 +8,51 @@ class MdWsSeiProcedimentoRN extends InfraRN {
     }
 
     /**
+     * Metodo de sobrestamento de processo
+     * @param EntradaSobrestarProcessoAPI $entradaSobrestarProcessoAPI
+     * @return array
+     */
+    protected function sobrestamentoProcessoControlado(EntradaSobrestarProcessoAPI $entradaSobrestarProcessoAPI){
+        try{
+            $seiRN = new SeiRN();
+            $seiRN->sobrestarProcesso($entradaSobrestarProcessoAPI);
+            return array(
+                'sucesso' => true,
+                'mensage' => 'Processo sobrestado com sucesso'
+            );
+        }catch (Exception $e){
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
+            );
+        }
+    }
+
+    /**
      * @param $protocolo
      * @return array
      */
     protected function removerSobrestamentoProcessoControlado(ProcedimentoDTO $procedimentoDTOParam){
         try{
             if(!$procedimentoDTOParam->getDblIdProcedimento()){
-                throw new InfraException('Procedimento nï¿½o informado.');
+                throw new InfraException('Procedimento n?o informado.');
             }
             $seiRN = new SeiRN();
             $entradaRemoverSobrestamentoProcessoAPI = new EntradaRemoverSobrestamentoProcessoAPI();
@@ -133,7 +171,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
             }
 
             if(!$mdWsSeiProtocoloDTOConsulta->isSetNumIdUnidadeAtividade()){
-                throw new InfraException('ï¿½ obrigatï¿½rio informar a unidade.');
+                throw new InfraException('Unidade não informada.');
             }
             $mdWsSeiProtocoloDTO->setNumIdUnidadeAtividade($mdWsSeiProtocoloDTOConsulta->getNumIdUnidadeAtividade());
 
@@ -339,6 +377,71 @@ class MdWsSeiProcedimentoRN extends InfraRN {
         return ['retornoProgramado' => $retProgramado, 'expirado' => $expirado];
     }
 
+    /**
+     * Metodo que retorna as ciencias nos processos
+     * @param ProtocoloDTO $protocoloDTOParam
+     * @return array
+     */
+    protected function listarCienciaProcessoConectado(ProtocoloDTO $protocoloDTOParam){
+        try{
+            if(!$protocoloDTOParam->isSetDblIdProtocolo()){
+                throw new InfraException('Protocolo não informado.');
+            }
+
+            $result = array();
+            $mdWsSeiProcessoRN = new MdWsSeiProcessoRN();
+            $atividadeDTOConsulta = new AtividadeDTO();
+            $atividadeDTOConsulta->setDblIdProtocolo($protocoloDTOParam->getDblIdProtocolo());
+            $atividadeDTOConsulta->setNumIdTarefa(TarefaRN::$TI_PROCESSO_CIENCIA);
+            $atividadeDTOConsulta->retDthAbertura();
+            $atividadeDTOConsulta->retStrSiglaUnidade();
+            $atividadeDTOConsulta->retStrNomeTarefa();
+            $atividadeDTOConsulta->retStrSiglaUsuarioOrigem();
+            $atividadeDTOConsulta->retNumIdAtividade();
+            $atividadeRN = new AtividadeRN();
+            $ret = $atividadeRN->listarRN0036($atividadeDTOConsulta);
+            /** @var AtividadeDTO $atividadeDTO */
+            foreach($ret as $atividadeDTO){
+                $mdWsSeiProcessoDTO = new MdWsSeiProcessoDTO();
+                $mdWsSeiProcessoDTO->setStrTemplate($atividadeDTO->getStrNomeTarefa());
+                $mdWsSeiProcessoDTO->setNumIdAtividade($atividadeDTO->getNumIdAtividade());
+                $result[] = array(
+                    'data' => $atividadeDTO->getDthAbertura(),
+                    'unidade' => $atividadeDTO->getStrSiglaUnidade(),
+                    'nome' => $atividadeDTO->getStrSiglaUsuarioOrigem(),
+                    'descricao' => $mdWsSeiProcessoRN->traduzirTemplate($mdWsSeiProcessoDTO)
+                );
+            }
+            return array(
+                'sucesso' => true,
+                'data' => $result
+            );
+        }catch (Exception $e){
+            $mensagem = $e->getMessage();
+            if($e instanceof InfraException){
+                if(!$e->getStrDescricao()){
+                    /** @var InfraValidacaoDTO $validacaoDTO */
+                    if(count($e->getArrObjInfraValidacao()) == 1){
+                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
+                    }else{
+                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                            $mensagem[] = $validacaoDTO->getStrDescricao();
+                        }
+                    }
+                }else{
+                    $mensagem = $e->getStrDescricao();
+                }
+
+            }
+
+            return array (
+                "sucesso" => false,
+                "mensagem" => $mensagem,
+                "exception" => $e
+            );
+        }
+    }
+
 
     /**
      * Metodo que da ciencia ao processo/procedimento
@@ -357,7 +460,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
 
             return array(
                 'sucesso' => true,
-                'mensagem' => 'CiÃªncia processo realizado com sucesso!'
+                'mensagem' => 'Ciência processo realizado com sucesso!'
             );
         }catch (Exception $e){
             $mensagem = $e->getMessage();
@@ -387,7 +490,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
     /**
      * Metodo que conclui o procedimento/processo
      * @param EntradaConcluirProcessoAPI $entradaConcluirProcessoAPI
-     * @info ele recebe o nï¿½mero do ProtocoloProcedimentoFormatadoPesquisa da tabela protocolo
+     * @info ele recebe o n?mero do ProtocoloProcedimentoFormatadoPesquisa da tabela protocolo
      * @return array
      */
     protected function concluirProcessoControlado(EntradaConcluirProcessoAPI $entradaConcluirProcessoAPI){
@@ -401,7 +504,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
 
             return array(
                 'sucesso' => true,
-                'mensagem' => 'Processo concluÃ­do com sucesso!'
+                'mensagem' => 'Processo concluído com sucesso!'
             );
         }catch (Exception $e){
             $mensagem = $e->getMessage();
@@ -432,7 +535,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
      * Metodo que atribui o processo a uma pessoa
      * @param EntradaAtribuirProcessoAPI $entradaAtribuirProcessoAPI
      * @info Os parametros IdUsuario, ProtocoloProcedimento e SinReabrir sao obrigatorios. O parametro ProtocoloProcedimento
-     * recebe o nï¿½mero do ProtocoloProcedimentoFormatadoPesquisa da tabela protocolo
+     * recebe o n?mero do ProtocoloProcedimentoFormatadoPesquisa da tabela protocolo
      * @return array
      */
     protected function atribuirProcessoControlado(EntradaAtribuirProcessoAPI $entradaAtribuirProcessoAPI){
@@ -441,7 +544,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                 throw new InfraException('E obrigatorio informar o protocolo do processo!');
             }
             if(!$entradaAtribuirProcessoAPI->getIdUsuario()){
-                throw new InfraException('E obrigatorio informar o usuï¿½rio do processo!');
+                throw new InfraException('E obrigatorio informar o usu?rio do processo!');
             }
 
             $objSeiRN = new SeiRN();
@@ -449,7 +552,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
 
             return array(
                 'sucesso' => true,
-                'mensagem' => 'Processo atribuÃ­do com sucesso!'
+                'mensagem' => 'Processo atribuído com sucesso!'
             );
         }catch (Exception $e){
             $mensagem = $e->getMessage();

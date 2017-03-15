@@ -101,6 +101,13 @@ class TesteProcedimento {
         var_dump($rn->removerSobrestamentoProcesso($dto));
     }
 
+    public function listarCienciaProcessoConectado(){
+        $rn = new MdWsSeiProcedimentoRN();
+        $dto = new ProtocoloDTO();
+        $dto->setDblIdProtocolo(15);
+        var_dump($rn->listarCienciaProcesso($dto));
+    }
+
     //o-----
 
     public function concluirProcessoControlado(){

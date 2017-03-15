@@ -6,8 +6,10 @@
 require_once dirname(__FILE__).'/../../SEI.php';
 require_once dirname(__FILE__).'/vendor/autoload.php';
 
+ini_set('xdebug.var_display_max_depth', 100);
+ini_set('xdebug.var_display_max_children', 100);
+ini_set('xdebug.var_display_max_data', 2048);
 //echo '<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>';
-mb_internal_encoding('utf-8');
 
 
 function response_to_utf8($item){
@@ -184,6 +186,32 @@ $app->group('/api/v1',function(){
             $dto = new ProcedimentoDTO();
             $dto->setDblIdProcedimento($request->getParam('procedimento'));
             return $response->withJSON(response_to_utf8($rn->removerSobrestamentoProcesso($dto)));
+        });
+        $this->get('/listar/ciencia/{protocolo}', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+            $dto = new ProtocoloDTO();
+            $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
+            return $response->withJSON(response_to_utf8($rn->listarCienciaProcesso($dto)));
+        });
+        $this->post('/sobrestar/processo', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+            $dto = new EntradaSobrestarProcessoAPI();
+            if($request->getParam('protocoloFormatado')){
+                $dto->setProtocoloProcedimento($request->getParam('protocoloFormatado'));
+            }
+            if($request->getParam('protocolo')){
+                $dto->setIdProcedimento($request->getParam('protocolo'));
+            }
+            if($request->getParam('protocoloVinculado')){
+                $dto->setIdProcedimentoVinculado($request->getParam('protocoloVinculado'));
+            }
+            if($request->getParam('protocoloFormatadoVinculado')){
+                $dto->setProtocoloProcedimentoVinculado($request->getParam('protocoloFormatadoVinculado'));
+            }
+            $dto->setMotivo($request->getParam('motivo'));
+            return $response->withJSON(response_to_utf8($rn->sobrestamentoProcesso($dto)));
         });
 
     })->add( new TokenValidationMiddleware());
