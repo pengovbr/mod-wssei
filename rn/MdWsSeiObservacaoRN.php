@@ -36,32 +36,9 @@ class MdWsSeiObservacaoRN extends InfraRN {
             $observacaoRN = new ObservacaoRN();
             $observacaoRN->cadastrarRN0222($observacaoDTO);
 
-            return array(
-                'sucesso' => true,
-                'mensagem' => 'Observação cadastrada com sucesso!'
-            );
+            return MdWsSeiRest::formataRetornoSucessoREST('Observação cadastrada com sucesso!');
         }catch (Exception $e){
-            $mensagem = $e->getMessage();
-            if($e instanceof InfraException){
-                if(!$e->getStrDescricao()){
-                    /** @var InfraValidacaoDTO $validacaoDTO */
-                    if(count($e->getArrObjInfraValidacao()) == 1){
-                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
-                    }else{
-                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
-                            $mensagem[] = $validacaoDTO->getStrDescricao();
-                        }
-                    }
-                }else{
-                    $mensagem = $e->getStrDescricao();
-                }
-
-            }
-            return array (
-                "sucesso" => false,
-                "mensagem" => $mensagem,
-                "exception" => $e
-            );
+            return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
 }

@@ -72,32 +72,9 @@ class MdWsSeiDocumentoRN extends InfraRN {
             $assinaturaDTO->setNumIdContextoUsuario(null);
             $documentoRN = new DocumentoRN();
             $documentoRN->assinarInterno($assinaturaDTO);
-            return array(
-                'sucesso' => true,
-                'mensagem' => 'Documento em bloco assinado com sucesso.'
-            );
+            return MdWsSeiRest::formataRetornoSucessoREST('Documento em bloco assinado com sucesso.');
         }catch (Exception $e){
-            $mensagem = $e->getMessage();
-            if($e instanceof InfraException){
-                if(!$e->getStrDescricao()){
-                    /** @var InfraValidacaoDTO $validacaoDTO */
-                    if(count($e->getArrObjInfraValidacao()) == 1){
-                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
-                    }else{
-                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
-                            $mensagem[] = $validacaoDTO->getStrDescricao();
-                        }
-                    }
-                }else{
-                    $mensagem = $e->getStrDescricao();
-                }
-
-            }
-            return array (
-                "sucesso" => false,
-                "mensagem" => $mensagem,
-                "exception" => $e
-            );
+            return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
 
@@ -113,32 +90,9 @@ class MdWsSeiDocumentoRN extends InfraRN {
                 throw new InfraException('O documento não foi informado.');
             }
             $documentoRN->darCiencia($documentoDTO);
-            return array(
-                'sucesso' => true,
-                'mensagem' => 'Ciência documento realizado com sucesso.'
-            );
+            return MdWsSeiRest::formataRetornoSucessoREST('Ciência documento realizado com sucesso.');
         }catch (Exception $e){
-            $mensagem = $e->getMessage();
-            if($e instanceof InfraException){
-                if(!$e->getStrDescricao()){
-                    /** @var InfraValidacaoDTO $validacaoDTO */
-                    if(count($e->getArrObjInfraValidacao()) == 1){
-                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
-                    }else{
-                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
-                            $mensagem[] = $validacaoDTO->getStrDescricao();
-                        }
-                    }
-                }else{
-                    $mensagem = $e->getStrDescricao();
-                }
-
-            }
-            return array (
-                "sucesso" => false,
-                "mensagem" => $mensagem,
-                "exception" => $e
-            );
+            return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
 
@@ -178,27 +132,7 @@ class MdWsSeiDocumentoRN extends InfraRN {
             $anexo = $resultAnexo[0];
             SeiINT::download($anexo);
         }catch (Exception $e){
-            $mensagem = $e->getMessage();
-            if($e instanceof InfraException){
-                if(!$e->getStrDescricao()){
-                    /** @var InfraValidacaoDTO $validacaoDTO */
-                    if(count($e->getArrObjInfraValidacao()) == 1){
-                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
-                    }else{
-                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
-                            $mensagem[] = $validacaoDTO->getStrDescricao();
-                        }
-                    }
-                }else{
-                    $mensagem = $e->getStrDescricao();
-                }
-
-            }
-            return array (
-                "sucesso" => false,
-                "mensagem" => $mensagem,
-                "exception" => $e
-            );
+            return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
 
@@ -244,32 +178,9 @@ class MdWsSeiDocumentoRN extends InfraRN {
                 );
             }
 
-            return array(
-                'sucesso' => true,
-                'data' => $result
-            );
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         }catch (Exception $e){
-            $mensagem = $e->getMessage();
-            if($e instanceof InfraException){
-                if(!$e->getStrDescricao()){
-                    /** @var InfraValidacaoDTO $validacaoDTO */
-                    if(count($e->getArrObjInfraValidacao()) == 1){
-                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
-                    }else{
-                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
-                            $mensagem[] = $validacaoDTO->getStrDescricao();
-                        }
-                    }
-                }else{
-                    $mensagem = $e->getStrDescricao();
-                }
-
-            }
-            return array (
-                "sucesso" => false,
-                "mensagem" => $mensagem,
-                "exception" => $e
-            );
+            return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
 
@@ -300,32 +211,9 @@ class MdWsSeiDocumentoRN extends InfraRN {
                 );
             }
 
-            return array(
-                'sucesso' => true,
-                'data' => $result
-            );
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         }catch (Exception $e){
-            $mensagem = $e->getMessage();
-            if($e instanceof InfraException){
-                if(!$e->getStrDescricao()){
-                    /** @var InfraValidacaoDTO $validacaoDTO */
-                    if(count($e->getArrObjInfraValidacao()) == 1){
-                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
-                    }else{
-                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
-                            $mensagem[] = $validacaoDTO->getStrDescricao();
-                        }
-                    }
-                }else{
-                    $mensagem = $e->getStrDescricao();
-                }
-
-            }
-            return array (
-                "sucesso" => false,
-                "mensagem" => $mensagem,
-                "exception" => $e
-            );
+            return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
 

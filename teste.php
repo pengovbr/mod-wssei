@@ -6,6 +6,13 @@ ini_set('xdebug.var_display_max_depth', 100);
 ini_set('xdebug.var_display_max_children', 100);
 ini_set('xdebug.var_display_max_data', 2048);
 
+$b = new MdWsSeiUsuarioRN();
+$token = $b->tokenEncode('teste', 'teste');
+echo 'Token: ';
+echo $token;
+echo '<BR>';
+$b->autenticarToken($token);
+
 
 class TesteBloco {
 
@@ -94,6 +101,13 @@ class TesteDocumento {
 
 class TesteProcedimento {
 
+    public function listarUnidadesProcessoConectado(){
+        $rn = new MdWsSeiProcedimentoRN();
+        $dto = new ProtocoloDTO();
+        $dto->setDblIdProtocolo(15);
+        var_dump($rn->listarUnidadesProcesso($dto));
+    }
+
     public function removerSobrestamentoProcessoControlado(){
         $rn = new MdWsSeiProcedimentoRN();
         $dto = new ProcedimentoDTO();
@@ -106,6 +120,13 @@ class TesteProcedimento {
         $dto = new ProtocoloDTO();
         $dto->setDblIdProtocolo(15);
         var_dump($rn->listarCienciaProcesso($dto));
+    }
+
+    public function listarSobrestamentoProcessoConectado(){
+        $rn = new MdWsSeiProcedimentoRN();
+        $dto = new AtividadeDTO();
+        $dto->setDblIdProtocolo(15);
+        var_dump($rn->listarSobrestamentoProcesso($dto));
     }
 
     //o-----

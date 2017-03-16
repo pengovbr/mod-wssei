@@ -55,32 +55,9 @@ class MdWsSeiAnotacaoRN extends InfraRN {
             }else{
                 $anotacaoRN->cadastrar($anotacaoDTO);
             }
-            return array (
-                "sucesso" => true,
-                "mensagem" => 'Anotação cadastrada com sucesso!'
-            );
+            return MdWsSeiRest::formataRetornoSucessoREST('Anotação cadastrada com sucesso!');
         }catch (Exception $e){
-            $mensagem = $e->getMessage();
-            if($e instanceof InfraException){
-                if(!$e->getStrDescricao()){
-                    /** @var InfraValidacaoDTO $validacaoDTO */
-                    if(count($e->getArrObjInfraValidacao()) == 1){
-                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
-                    }else{
-                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
-                            $mensagem[] = $validacaoDTO->getStrDescricao();
-                        }
-                    }
-                }else{
-                    $mensagem = $e->getStrDescricao();
-                }
-
-            }
-            return array (
-                "sucesso" => false,
-                "mensagem" => $mensagem,
-                "exception" => $e
-            );
+            return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
 

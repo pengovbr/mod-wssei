@@ -86,10 +86,10 @@ class MdWsSeiUsuarioRN extends InfraRN {
      * Go horse para autenticar usuario... Nao ha como instanciar o SessaoSEI por metodos convencionais.
      * @param stdClass $loginData
      */
-    private function setaVariaveisAutenticacao(stdClass $loginData){
-        $_GET['id_login'] = $loginData->id_login;
-        $_GET['id_sistema'] = $loginData->id_sistema;
-        $_GET['id_usuario'] = $loginData->id_usuario;
+    private function setaVariaveisAutenticacao(array $loginData){
+        $_GET['id_login'] = $loginData['id_login'];
+        $_GET['id_sistema'] = $loginData['id_sistema'];
+        $_GET['id_usuario'] = $loginData['id_usuario'];
         $_GET['hash_agente'] = SessaoSEI::gerarHashAgente();
         $_GET['infra_sip'] = true;
         $_GET['id_contexto'] = '';
@@ -116,31 +116,11 @@ class MdWsSeiUsuarioRN extends InfraRN {
             if(!$result['sucesso']){
                 return $result;
             }
-            $this->setaVariaveisAutenticacao($result['data']);
+            $this->setaVariaveisAutenticacao($result['data']['loginData']);
 
             return $result;
         }catch (Exception $e){
-            $mensagem = $e->getMessage();
-            if($e instanceof InfraException){
-                if(!$e->getStrDescricao()){
-                    /** @var InfraValidacaoDTO $validacaoDTO */
-                    if(count($e->getArrObjInfraValidacao()) == 1){
-                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
-                    }else{
-                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
-                            $mensagem[] = $validacaoDTO->getStrDescricao();
-                        }
-                    }
-                }else{
-                    $mensagem = $e->getStrDescricao();
-                }
-
-            }
-            return array (
-                "sucesso" => false,
-                "mensagem" => $mensagem,
-                "exception" => $e
-            );
+            return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
 
@@ -179,33 +159,12 @@ class MdWsSeiUsuarioRN extends InfraRN {
             if(!$ret){
                 throw new InfraException('Usuário ou senha inválido!');
             }
-            return array(
-                'sucesso' => true,
-                'data' => $ret,
-                'token' => $this->tokenEncode($usuarioDTO->getStrSigla(), $usuarioDTO->getStrSenha())
-            );
-        }catch (Exception $e){
-            $mensagem = $e->getMessage();
-            if($e instanceof InfraException){
-                if(!$e->getStrDescricao()){
-                    /** @var InfraValidacaoDTO $validacaoDTO */
-                    if(count($e->getArrObjInfraValidacao()) == 1){
-                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
-                    }else{
-                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
-                            $mensagem[] = $validacaoDTO->getStrDescricao();
-                        }
-                    }
-                }else{
-                    $mensagem = $e->getStrDescricao();
-                }
 
-            }
-            return array (
-                "sucesso" => false,
-                "mensagem" => $mensagem,
-                "exception" => $e
-            );
+
+            $token = $this->tokenEncode($usuarioDTO->getStrSigla(), $usuarioDTO->getStrSenha());
+            return MdWsSeiRest::formataRetornoSucessoREST(null, array('loginData'=> $ret, 'token' => $token));
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
         }
 
     }
@@ -221,32 +180,10 @@ class MdWsSeiUsuarioRN extends InfraRN {
             $objEntradaListarUsuariosAPI->setIdUsuario($usuarioDTO->getNumIdUsuario());
             $objSeiRN = new SeiRN();
             $result = $objSeiRN->listarUsuarios($objEntradaListarUsuariosAPI);
-            return array(
-                'sucesso' => true,
-                'data' => $result
-            );
-        }catch (Exception $e){
-            $mensagem = $e->getMessage();
-            if($e instanceof InfraException){
-                if(!$e->getStrDescricao()){
-                    /** @var InfraValidacaoDTO $validacaoDTO */
-                    if(count($e->getArrObjInfraValidacao()) == 1){
-                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
-                    }else{
-                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
-                            $mensagem[] = $validacaoDTO->getStrDescricao();
-                        }
-                    }
-                }else{
-                    $mensagem = $e->getStrDescricao();
-                }
 
-            }
-            return array (
-                "sucesso" => false,
-                "mensagem" => $mensagem,
-                "exception" => $e
-            );
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
 
