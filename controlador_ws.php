@@ -159,6 +159,23 @@ $app->group('/api/v1',function(){
                 $request->getParam('usuario')
             ));
         });
+        $this->get('/listar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiDocumentoRN();
+            $dto = new DocumentoDTO();
+            if($request->getParam('procedimento')){
+                $dto->setDblIdProcedimento($request->getParam('procedimento'));
+            }
+            if($request->getParam('limit')){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(is_null($request->getParam('start'))){
+                $dto->setNumPaginaAtual(0);
+            }else{
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            return $response->withJSON($rn->listarDocumentosProcesso($dto));
+        });
 
     })->add( new TokenValidationMiddleware());
 
@@ -242,6 +259,28 @@ $app->group('/api/v1',function(){
                 $dto->setNumPaginaAtual($request->getParam('start'));
             }
             return $response->withJSON($rn->listarProcessos($dto));
+        });
+
+    })->add( new TokenValidationMiddleware());
+
+    /**
+     * Grupo de controlador de atividade
+     */
+    $this->group('/atividade', function(){
+        $this->get('/listar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiAtividadeRN();
+            $dto = new AtividadeDTO();
+            if($request->getParam('procedimento')){
+                $dto->setDblIdProtocolo($request->getParam('procedimento'));
+            }
+            if($request->getParam('limit')){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start'))){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            return $response->withJSON($rn->listarAtividadesProcesso($dto));
         });
 
     })->add( new TokenValidationMiddleware());

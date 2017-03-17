@@ -14,6 +14,22 @@ echo '<BR>';
 $b->autenticarToken($token);
 
 
+
+
+class TesteAtividade {
+
+    public function listarAtividadesProcessoConectado(){
+        $rn = new MdWsSeiAtividadeRN();
+        $dto = new AtividadeDTO();
+        $dto->setDblIdProtocolo(1);
+        $dto->setNumMaxRegistrosRetorno(10);
+        $dto->setNumPaginaAtual(0);
+
+        var_dump($rn->listarAtividades($dto));
+    }
+
+}
+
 class TesteBloco {
 
     public function listarBlocoUnidadeConectado(){
@@ -129,6 +145,18 @@ class TesteProcedimento {
         var_dump($rn->listarSobrestamentoProcesso($dto));
     }
 
+    public function listarProcessosConectado(){
+        $rn = new MdWsSeiProcedimentoRN();
+        $dto = new MdWsSeiProtocoloDTO();
+        $dto->setNumIdUsuarioAtribuicaoAtividade('100000001');
+        $dto->setNumIdUnidadeAtividade('110000001');
+        $dto->setStrSinTipoBusca(MdWsSeiProtocoloDTO::SIN_TIPO_BUSCA_M);
+        $dto->setNumPaginaAtual(0);
+        $dto->setNumMaxRegistrosRetorno(10);
+
+        var_dump($rn->listarProcessos($dto));
+    }
+
     //o-----
 
     public function concluirProcessoControlado(){
@@ -155,18 +183,6 @@ class TesteProcedimento {
         $dto->setNumMaxRegistrosRetorno(10);
 
         var_dump($rn->listarProcedimentoAcompanhamento($dto));
-    }
-
-    public function listarProcessosConectado(){
-        $rn = new MdWsSeiProcedimentoRN();
-        $dto = new MdWsSeiProtocoloDTO();
-        $dto->setNumIdUsuarioAtribuicaoAtividade('100000001');
-        $dto->setNumIdUnidadeAtividade('110000001');
-        $dto->setStrSinTipoBusca(MdWsSeiProtocoloDTO::SIN_TIPO_BUSCA_M);
-        $dto->setNumPaginaAtual(0);
-        $dto->setNumMaxRegistrosRetorno(10);
-
-        var_dump($rn->listarProcessos($dto));
     }
 }
 
