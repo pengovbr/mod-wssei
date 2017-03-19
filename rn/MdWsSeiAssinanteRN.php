@@ -10,28 +10,41 @@ class MdWsSeiAssinanteRN extends InfraRN {
     /**
      * Retorna todas as funcoes/cargos cadastrados
      * @param AssinanteDTO $assinanteDTO
-     * @info Para retornar a consulta paginada e necessario passar dentro do DTO os parametros:
-     *      - setNumMaxRegistrosRetorno - maximo de registros por pagina (limit)
-     *      - setNumPaginaAtual - pagina atual (offset)
      * @return array
      */
-    protected function listarAssinanteConectado(AssinanteDTO $assinanteDTO){
+    protected function listarAssinanteConectado(AssinanteDTO $assinanteDTOParam){
         try{
             $result = array();
-            $assinanteDTO->retNumIdAssinante();
-            $assinanteDTO->retStrCargoFuncao();
-            $assinanteDTO->setOrdStrCargoFuncao(InfraDTO::$TIPO_ORDENACAO_ASC);
+            $assinanteDTOConsulta = new AssinanteDTO();
+            if(!$assinanteDTOParam->isSetNumIdUnidade()){
+                $assinanteDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            }else{
+                $assinanteDTOConsulta->setNumIdUnidade($assinanteDTOParam->getNumIdUnidade());
+            }
+            if($assinanteDTOParam->getNumMaxRegistrosRetorno()){
+                $assinanteDTOConsulta->setNumMaxRegistrosRetorno($assinanteDTOParam->getNumMaxRegistrosRetorno());
+            }else{
+                $assinanteDTOConsulta->setNumMaxRegistrosRetorno(10);
+            }
+            if(!is_null($assinanteDTOParam->getNumPaginaAtual())){
+                $assinanteDTOConsulta->setNumPaginaAtual($assinanteDTOParam->getNumPaginaAtual());
+            }else{
+                $assinanteDTOConsulta->setNumPaginaAtual(0);
+            }
+            $assinanteDTOConsulta->retNumIdAssinante();
+            $assinanteDTOConsulta->retStrCargoFuncao();
+            $assinanteDTOConsulta->setOrdStrCargoFuncao(InfraDTO::$TIPO_ORDENACAO_ASC);
             $assinanteRN = new AssinanteRN();
-            $ret = $assinanteRN->pesquisar($assinanteDTO);
-            /** @var AssinanteDTO $assinDTO */
-            foreach($ret as $assinDTO){
+            $ret = $assinanteRN->pesquisar($assinanteDTOConsulta);
+            /** @var AssinanteDTO $assinanteDTO */
+            foreach($ret as $assinanteDTO){
                 $result[] = array(
-                    'id' => $assinDTO->getNumIdAssinante(),
-                    'nome' => $assinDTO->getStrCargoFuncao(),
+                    'id' => $assinanteDTO->getNumIdAssinante(),
+                    'nome' => $assinanteDTO->getStrCargoFuncao(),
                 );
             }
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $assinanteDTO->getNumTotalRegistros());
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $assinanteDTOConsulta->getNumTotalRegistros());
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }

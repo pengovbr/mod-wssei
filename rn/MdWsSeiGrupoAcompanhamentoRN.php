@@ -9,35 +9,41 @@ class MdWsSeiGrupoAcompanhamentoRN extends InfraRN {
 
     /**
      * Retorna todos os grupos de acompanhamento
-     * @param OrgaoDTO $orgaoDTO
-     * @info para paginacao e necessario informar dentro do DTO os parametros abaixo:
-     *  - setNumMaxRegistrosRetorno
-     *  - setNumPaginaAtual
+     * @param GrupoAcompanhamentoDTO $grupoAcompanhamentoDTOParam
      * @return array
      */
-    protected function listarGrupoAcompanhamentoConectado(GrupoAcompanhamentoDTO $grupoAcompanhamentoDTO){
+    protected function listarGrupoAcompanhamentoConectado(GrupoAcompanhamentoDTO $grupoAcompanhamentoDTOParam){
         try{
             $result = array();
+            $grupoAcompanhamentoDTOConsulta = new GrupoAcompanhamentoDTO();
             $grupoAcompanhamentoRN = new GrupoAcompanhamentoRN();
-            if(!$grupoAcompanhamentoDTO->isRetNumIdGrupoAcompanhamento()){
-                $grupoAcompanhamentoDTO->retNumIdGrupoAcompanhamento();
+            $grupoAcompanhamentoDTOConsulta->retNumIdGrupoAcompanhamento();
+            $grupoAcompanhamentoDTOConsulta->retStrNome();
+            if(!$grupoAcompanhamentoDTOParam->isSetNumIdUnidade()){
+                $grupoAcompanhamentoDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            }else{
+                $grupoAcompanhamentoDTOConsulta->setNumIdUnidade($grupoAcompanhamentoDTOParam->getNumIdUnidade());
             }
-            if(!$grupoAcompanhamentoDTO->isRetStrNome()){
-                $grupoAcompanhamentoDTO->retStrNome();
+            if($grupoAcompanhamentoDTOParam->getNumMaxRegistrosRetorno()){
+                $grupoAcompanhamentoDTOConsulta->setNumMaxRegistrosRetorno($grupoAcompanhamentoDTOParam->getNumMaxRegistrosRetorno());
+            }else{
+                $grupoAcompanhamentoDTOConsulta->setNumMaxRegistrosRetorno(10);
             }
-            if(!$grupoAcompanhamentoDTO->isSetNumIdUnidade()){
-                $grupoAcompanhamentoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            if(!is_null($grupoAcompanhamentoDTOParam->getNumPaginaAtual())){
+                $grupoAcompanhamentoDTOConsulta->setNumPaginaAtual($grupoAcompanhamentoDTOParam->getNumPaginaAtual());
+            }else{
+                $grupoAcompanhamentoDTOConsulta->setNumPaginaAtual(0);
             }
-            $ret = $grupoAcompanhamentoRN->listar($grupoAcompanhamentoDTO);
-            /** @var GrupoAcompanhamentoDTO $grupDTO */
-            foreach($ret as $grupDTO){
+            $ret = $grupoAcompanhamentoRN->listar($grupoAcompanhamentoDTOConsulta);
+            /** @var GrupoAcompanhamentoDTO $grupoAcompanhamentoDTO */
+            foreach($ret as $grupoAcompanhamentoDTO){
                 $result[] = array(
-                    'id' => $grupDTO->getNumIdGrupoAcompanhamento(),
-                    'nome' => $grupDTO->getStrNome()
+                    'id' => $grupoAcompanhamentoDTO->getNumIdGrupoAcompanhamento(),
+                    'nome' => $grupoAcompanhamentoDTO->getStrNome()
                 );
             }
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $grupoAcompanhamentoDTO->getNumTotalRegistros());
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $grupoAcompanhamentoDTOConsulta->getNumTotalRegistros());
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }

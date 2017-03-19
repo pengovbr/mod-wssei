@@ -8,7 +8,7 @@ class MdWsSeiProtocoloDTO extends ProtocoloDTO{
         parent::montar();
 
         $this->adicionarAtributoTabelaRelacionada(InfraDTO::$PREFIXO_NUM,
-            'idGrupoAcompanhamentoProcedimento',
+            'IdGrupoAcompanhamentoProcedimento',
             'id_grupo_acompanhamento',
             'acompanhamento');
 

@@ -157,6 +157,24 @@ class TesteProcedimento {
         var_dump($rn->listarProcessos($dto));
     }
 
+    public function pesquisarProcedimentoConectado(){
+        $rn = new MdWsSeiProcedimentoRN();
+        $dto = new MdWsSeiProtocoloDTO();
+        $dto->setNumIdGrupoAcompanhamentoProcedimento(1);
+        $dto->setStrProtocoloFormatadoPesquisa('000001');
+        $dto->setNumPaginaAtual(0);
+        $dto->setNumMaxRegistrosRetorno(10);
+
+        var_dump($rn->pesquisarProcedimento($dto));
+    }
+
+    public function darCienciaControlado(){
+        $rn = new MdWsSeiProcedimentoRN();
+        $dto = new ProcedimentoDTO();
+        $dto->setDblIdProcedimento(1);
+        var_dump($rn->darCiencia($dto));
+    }
+
     //o-----
 
     public function concluirProcessoControlado(){

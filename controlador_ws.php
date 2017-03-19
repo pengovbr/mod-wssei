@@ -159,12 +159,12 @@ $app->group('/api/v1',function(){
                 $request->getParam('usuario')
             ));
         });
-        $this->get('/listar', function($request, $response, $args){
+        $this->get('/listar/{procedimento}', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();
             $dto = new DocumentoDTO();
-            if($request->getParam('procedimento')){
-                $dto->setDblIdProcedimento($request->getParam('procedimento'));
+            if($request->getAttribute('route')->getArgument('procedimento')){
+                $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
             }
             if($request->getParam('limit')){
                 $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
@@ -216,6 +216,15 @@ $app->group('/api/v1',function(){
             $dto->setMotivo($request->getParam('motivo'));
             return $response->withJSON($rn->sobrestamentoProcesso($dto));
         });
+        $this->post('/{procedimento}/ciencia', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+            $dto = new ProcedimentoDTO();
+            if($request->getAttribute('route')->getArgument('procedimento')){
+                $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
+            }
+            return $response->withJSON($rn->darCiencia($dto));
+        });
         $this->get('/listar/sobrestamento/{protocolo}', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
@@ -261,6 +270,25 @@ $app->group('/api/v1',function(){
             return $response->withJSON($rn->listarProcessos($dto));
         });
 
+        $this->get('/pesquisar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+            $dto = new MdWsSeiProtocoloDTO();
+            if($request->getParam('grupo')){
+                $dto->setNumIdGrupoAcompanhamentoProcedimento($request->getParam('grupo'));
+            }
+            if($request->getParam('protocoloPesquisa')){
+                $dto->setStrProtocoloFormatadoPesquisa($request->getParam('protocoloPesquisa'));
+            }
+            if($request->getParam('limit')){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start'))){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            return $response->withJSON($rn->pesquisarProcedimento($dto));
+        });
+
     })->add( new TokenValidationMiddleware());
 
     /**
@@ -281,6 +309,63 @@ $app->group('/api/v1',function(){
                 $dto->setNumPaginaAtual($request->getParam('start'));
             }
             return $response->withJSON($rn->listarAtividadesProcesso($dto));
+        });
+
+    })->add( new TokenValidationMiddleware());
+
+    /**
+     * Grupo de controlador de Assinante
+     */
+    $this->group('/assinante', function(){
+        $this->get('/listar/{unidade}', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiAssinanteRN();
+            $dto = new AssinanteDTO();
+            if($request->getAttribute('route')->getArgument('unidade')){
+                $dto->setNumIdUnidade($request->getAttribute('route')->getArgument('unidade'));
+            }
+            if($request->getParam('limit')){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start'))){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            return $response->withJSON($rn->listarAssinante($dto));
+        });
+
+    })->add( new TokenValidationMiddleware());
+
+    /**
+     * Grupo de controlador de Grupo de Acompanhamento
+     */
+    $this->group('/grupoacompanhamento', function(){
+        $this->get('/listar/{unidade}', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiGrupoAcompanhamentoRN();
+            $dto = new GrupoAcompanhamentoDTO();
+            if($request->getAttribute('route')->getArgument('unidade')){
+                $dto->setNumIdUnidade($request->getAttribute('route')->getArgument('unidade'));
+            }
+            if($request->getParam('limit')){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start'))){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            return $response->withJSON($rn->listarGrupoAcompanhamento($dto));
+        });
+
+    })->add( new TokenValidationMiddleware());
+
+    /**
+     * Grupo de controlador de Observação
+     */
+    $this->group('/observacao', function(){
+        $this->post('/', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiObservacaoRN();
+            $dto = $rn->encapsulaObservacao($request->getParams());
+            return $response->withJSON($rn->criarObservacao($dto));
         });
 
     })->add( new TokenValidationMiddleware());

@@ -121,6 +121,11 @@ class MdWsSeiProcedimentoRN extends InfraRN {
         }
     }
 
+    /**
+     * Método que retorna os procedimentos com acompanhamento
+     * @param MdWsSeiProtocoloDTO $mdWsSeiProtocoloDTOConsulta
+     * @return array
+     */
     protected function listarProcedimentoAcompanhamentoConectado(MdWsSeiProtocoloDTO $mdWsSeiProtocoloDTOConsulta) {
         try{
             $usuarioAtribuicaoAtividade = null;
@@ -151,6 +156,58 @@ class MdWsSeiProcedimentoRN extends InfraRN {
             $mdWsSeiProtocoloDTOConsulta->retStrSinCienciaProcedimento();
             $mdWsSeiProtocoloDTOConsulta->setOrdDthGeracaoAcompanhamento(InfraDTO::$TIPO_ORDENACAO_ASC);
             $mdWsSeiProtocoloDTOConsulta->retStrNomeTipoProcedimentoProcedimento();
+            $ret = $protocoloRN->listarRN0668($mdWsSeiProtocoloDTOConsulta);
+            $result = $this->montaRetornoListagemProcessos($ret, $usuarioAtribuicaoAtividade);
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $mdWsSeiProtocoloDTOConsulta->getNumTotalRegistros());
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
+     * Método que retorna os procedimentos com acompanhamento com filtro opcional de grupo de acompanhamento e protocolo
+     * formatado
+     * @param MdWsSeiProtocoloDTO $mdWsSeiProtocoloDTOParam
+     * @return array
+     */
+    protected function pesquisarProcedimentoConectado(MdWsSeiProtocoloDTO $mdWsSeiProtocoloDTOParam) {
+        try{
+            $usuarioAtribuicaoAtividade = null;
+            $mdWsSeiProtocoloDTOConsulta = new MdWsSeiProtocoloDTO();
+            $mdWsSeiProtocoloDTOConsulta->retDblIdProtocolo();
+            $mdWsSeiProtocoloDTOConsulta->retTodos();
+            $mdWsSeiProtocoloDTOConsulta->retStrNomeTipoProcedimentoProcedimento();
+            $mdWsSeiProtocoloDTOConsulta->retStrSiglaUnidadeGeradora();
+            $mdWsSeiProtocoloDTOConsulta->retStrSinCienciaProcedimento();
+
+            if($mdWsSeiProtocoloDTOParam->isSetNumIdGrupoAcompanhamentoProcedimento()){
+                $mdWsSeiProtocoloDTOConsulta->setNumIdGrupoAcompanhamentoProcedimento(
+                    $mdWsSeiProtocoloDTOParam->isSetNumIdGrupoAcompanhamentoProcedimento()
+                );
+            }
+            if($mdWsSeiProtocoloDTOParam->isSetStrProtocoloFormatadoPesquisa()){
+                $strProtocoloFormatado = InfraUtil::retirarFormatacao(
+                        $mdWsSeiProtocoloDTOParam->getStrProtocoloFormatadoPesquisa(), false
+                    );
+                $mdWsSeiProtocoloDTOConsulta->setStrProtocoloFormatadoPesquisa(
+                    '%'.$strProtocoloFormatado.'%',
+                    InfraDTO::$OPER_LIKE
+                );
+            }
+
+            if(is_null($mdWsSeiProtocoloDTOParam->getNumPaginaAtual())){
+                $mdWsSeiProtocoloDTOConsulta->setNumPaginaAtual(0);
+            }else{
+                $mdWsSeiProtocoloDTOConsulta->setNumPaginaAtual($mdWsSeiProtocoloDTOParam->getNumPaginaAtual());
+            }
+
+            if(!$mdWsSeiProtocoloDTOParam->isSetNumMaxRegistrosRetorno()){
+                $mdWsSeiProtocoloDTOConsulta->setNumMaxRegistrosRetorno(10);
+            }else{
+                $mdWsSeiProtocoloDTOConsulta->setNumMaxRegistrosRetorno($mdWsSeiProtocoloDTOParam->getNumMaxRegistrosRetorno());
+            }
+            $protocoloRN = new ProtocoloRN();
             $ret = $protocoloRN->listarRN0668($mdWsSeiProtocoloDTOConsulta);
             $result = $this->montaRetornoListagemProcessos($ret, $usuarioAtribuicaoAtividade);
 
@@ -439,14 +496,14 @@ class MdWsSeiProcedimentoRN extends InfraRN {
      * @info E obrigatorio informar o id do procedimento
      * @return array
      */
-    protected function darCienciaControlado(ProcedimentoDTO $procedimentoDTO){
+    protected function darCienciaControlado(ProcedimentoDTO $procedimentoDTOParam){
         try{
-            if(!$procedimentoDTO->isSetDblIdProcedimento()){
+            if(!$procedimentoDTOParam->isSetDblIdProcedimento()){
                 throw new InfraException('E obrigatorio informar o procedimento!');
             }
 
             $procedimentoRN = new ProcedimentoRN();
-            $procedimentoRN->darCiencia($procedimentoDTO);
+            $procedimentoRN->darCiencia($procedimentoDTOParam);
 
             return MdWsSeiRest::formataRetornoSucessoREST('Ciência processo realizado com sucesso!');
         }catch (Exception $e){
