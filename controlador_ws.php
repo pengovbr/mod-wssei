@@ -63,6 +63,40 @@ $app->group('/api/v1',function(){
     });
 
     /**
+     * Grupo de controlador de Usuário
+     */
+    $this->group('/usuario', function(){
+        $this->post('/alterar/unidade', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiUsuarioRN();
+            return $response->withJSON($rn->alterarUnidadeAtual($request->getParam('unidade')));
+        });
+
+    })->add( new TokenValidationMiddleware());
+
+    /**
+     * Grupo de controlador de Unidades
+     */
+    $this->group('/unidade', function(){
+        $this->get('/pesquisar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiUnidadeRN();
+            $dto = new UnidadeDTO();
+            if($request->getParam('limit')){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start'))){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            if($request->getParam('filter')){
+                $dto->setStrSigla($request->getParam('filter'));
+            }
+            return $response->withJSON($rn->pesquisarUnidade($dto));
+        });
+
+    })->add( new TokenValidationMiddleware());
+
+    /**
      * Grupo de controlador de anotacao
      */
     $this->group('/anotacao', function(){
@@ -176,6 +210,15 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->listarDocumentosProcesso($dto));
         });
+        $this->get('/baixar/anexo/{protocolo}', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiDocumentoRN();
+            $dto = new ProtocoloDTO();
+            if($request->getAttribute('route')->getArgument('protocolo')){
+                $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
+            }
+            return $response->withJSON($rn->downloadAnexo($dto));
+        });
 
     })->add( new TokenValidationMiddleware());
 
@@ -287,6 +330,48 @@ $app->group('/api/v1',function(){
                 $dto->setNumPaginaAtual($request->getParam('start'));
             }
             return $response->withJSON($rn->pesquisarProcedimento($dto));
+        });
+
+        /**
+         * Método que envia o processo
+         * Parametros={
+         *      {"name"="numeroProcesso", "dataType"="integer", "required"=true, "description"="Número do processo visível para o usuário, ex: 12.1.000000077-4"},
+         *      {"name"="unidadesDestino", "dataType"="integer", "required"=true, "description"="Identificar do usuário que receberá a atribuição."},
+         *      {"name"="sinManterAbertoUnidade", "dataType"="integer", "required"=true, "description"="S/N - sinalizador indica se o processo deve ser mantido aberto na unidade de origem"},
+         *      {"name"="sinRemoverAnotacao", "dataType"="integer", "required"=true, "description"="S/N - sinalizador indicando se deve ser removida anotação do processo"},
+         *      {"name"="sinEnviarEmailNotificacao", "dataType"="integer", "required"=true, "description"="S/N - sinalizador indicando se deve ser enviado email de aviso para as unidades destinatárias"},
+         *      {"name"="dataRetornoProgramado", "dataType"="integer", "required"=true, "description"="Data para definição de Retorno Programado (passar nulo se não for desejado)"},
+         *      {"name"="diasRetornoProgramado", "dataType"="integer", "required"=true, "description"="Número de dias para o Retorno Programado (valor padrão nulo)"},
+         *      {"name"="sinDiasUteisRetornoProgramado", "dataType"="integer", "required"=true, "description"="S/N - sinalizador indica se o valor passado no parâmetro"},
+         *      {"name"="sinReabrir", "dataType"="integer", "required"=false, "description"="S/N - sinalizador indica se deseja reabrir o processo na unidade atual"}
+         *  }
+         */
+        $this->post('/enviar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+            $dto = $rn->encapsulaEnviarProcessoEntradaEnviarProcessoAPI($request->getParams());
+            return $response->withJSON($rn->enviarProcesso($dto));
+        });
+        $this->post('/concluir', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+            $dto = new EntradaConcluirProcessoAPI();
+            if($request->getParam('numeroProcesso')){
+                $dto->setProtocoloProcedimento($request->getParam('numeroProcesso'));
+            }
+            return $response->withJSON($rn->concluirProcesso($dto));
+        });
+        $this->post('/acompanhar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiAcompanhamentoRN();
+            $dto = $rn->encapsulaAcompanhamento($request->getParams());
+            return $response->withJSON($rn->cadastrarAcompanhamento($dto));
+        });
+        $this->post('/agendar/retorno/programado', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiRetornoProgramadoRN();
+            $dto = $rn->encapsulaRetornoProgramado($request->getParams());
+            return $response->withJSON($rn->agendarRetornoProgramado($dto));
         });
 
     })->add( new TokenValidationMiddleware());

@@ -5,6 +5,7 @@ require_once __DIR__.'/../../SEI.php';
 ini_set('xdebug.var_display_max_depth', 100);
 ini_set('xdebug.var_display_max_children', 100);
 ini_set('xdebug.var_display_max_data', 2048);
+echo '<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>';
 
 $b = new MdWsSeiUsuarioRN();
 $token = $b->tokenEncode('teste', 'teste');
@@ -112,6 +113,13 @@ class TesteDocumento {
         var_dump($rn->apiAssinarDocumento(22, 0, 'Fiscal de Contrato - Administrativo', 'teste', 'teste', 100000001));
     }
 
+    public function downloadAnexoConectado(){
+        $rn = new MdWsSeiDocumentoRN();
+        $dto = new ProtocoloDTO();
+        $dto->setDblIdProtocolo(32);
+        var_dump($rn->downloadAnexo($dto));
+    }
+
 }
 
 
@@ -175,14 +183,30 @@ class TesteProcedimento {
         var_dump($rn->darCiencia($dto));
     }
 
-    //o-----
+
+    public function enviarProcessoControlado(){
+        $rn = new MdWsSeiProcedimentoRN();
+        $dto = $rn->encapsulaEnviarProcessoEntradaEnviarProcessoAPI(
+            array(
+                'numeroProcesso' => '99990.000009/2017-29',
+                'unidadesDestino' => '110000002,110000003',
+                'sinManterAbertoUnidade' => 'S',
+                'sinRemoverAnotacao' => 'S',
+                'dataRetornoProgramado' => '21/03/2017'
+            )
+        );
+        var_dump($rn->enviarProcesso($dto));
+    }
 
     public function concluirProcessoControlado(){
         $api = new EntradaConcluirProcessoAPI();
-        $api->setProtocoloProcedimento('99990000001201762');
+        $api->setProtocoloProcedimento('99990.000009/2017-29');
         $rn = new MdWsSeiProcedimentoRN();
         var_dump($rn->concluirProcesso($api));
     }
+
+    //o----- antigos
+
 
     public function atribuirProcessoControlado(){
         $api = new EntradaAtribuirProcessoAPI();
@@ -204,34 +228,6 @@ class TesteProcedimento {
     }
 }
 
-
-
-
-
-
-
-
-
-
-//o-----
-class TesteUnidade {
-
-    public function listarUnidadesConectado(){
-        $mdUnidade = new MdWsSeiUnidadeRN();
-        var_dump($mdUnidade->listarUnidades());
-    }
-}
-class TesteOrgao {
-
-    public function listarOrgaoConectado(){
-        $orgaoDTO = new OrgaoDTO();
-        $orgaoDTO->setNumMaxRegistrosRetorno(10);
-        $orgaoDTO->setNumPaginaAtual(0);
-        $mdUnidade = new MdWsSeiOrgaoRN();
-        var_dump($mdUnidade->listarOrgao($orgaoDTO));
-    }
-}
-
 class TesteGrupoAcompanhamento {
 
     public function listarGrupoAcompanhamentoConectado(){
@@ -241,6 +237,30 @@ class TesteGrupoAcompanhamento {
         $dto->setNumIdUnidade('110000001');
         $rn = new MdWsSeiGrupoAcompanhamentoRN();
         var_dump($rn->listarGrupoAcompanhamento($dto));
+    }
+
+    public function cadastrarAcompanhamentoControlado(){
+        $rn = new MdWsSeiAcompanhamentoRN();
+        $dto = $rn->encapsulaAcompanhamento(
+            array(
+                'protocolo' => 25,
+                'unidade' => 110000001,
+                'grupo' => 1,
+                'usuario' => 100000001,
+                'observacao' => 'acompanhar!',
+            )
+        );
+        var_dump($rn->cadastrarAcompanhamento($dto));
+    }
+}
+
+class TesteUnidade {
+
+    public function pesquisarUnidadeConectado(){
+        $rn = new MdWsSeiUnidadeRN();
+        $dto = new UnidadeDTO();
+        $dto->setStrSigla('teste');
+        var_dump($rn->pesquisarUnidade());
     }
 }
 
@@ -259,6 +279,20 @@ class TesteRetornoProgramado {
     }
 }
 
+
+
+
+//o-----
+class TesteOrgao {
+
+    public function listarOrgaoConectado(){
+        $orgaoDTO = new OrgaoDTO();
+        $orgaoDTO->setNumMaxRegistrosRetorno(10);
+        $orgaoDTO->setNumPaginaAtual(0);
+        $mdUnidade = new MdWsSeiOrgaoRN();
+        var_dump($mdUnidade->listarOrgao($orgaoDTO));
+    }
+}
 
 class TesteObservacao {
 

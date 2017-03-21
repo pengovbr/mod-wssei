@@ -219,23 +219,24 @@ class MdWsSeiDocumentoRN extends InfraRN {
         }
     }
 
-    protected function downloadAnexoConectado(ProtocoloDTO $protocoloDTO){
+    protected function downloadAnexoConectado(ProtocoloDTO $protocoloDTOParam){
         try{
-            if(!$protocoloDTO->isSetDblIdProtocolo() || !$protocoloDTO->getDblIdProtocolo()){
+            if(!$protocoloDTOParam->isSetDblIdProtocolo() || !$protocoloDTOParam->getDblIdProtocolo()){
                 throw new InfraException('O protocolo deve ser informado!');
             }
-            $documentoDTO = new DocumentoDTO();
-            $documentoDTO->setDblIdProtocoloProtocolo($protocoloDTO->getDblIdProtocolo());
-            $documentoDTO->retStrConteudo();
-            $documentoDTO->retStrConteudoAssinatura();
+            $documentoDTOConsulta = new DocumentoDTO();
+            $documentoDTOConsulta->setDblIdProtocoloProtocolo($protocoloDTOParam->getDblIdProtocolo());
+            $documentoDTOConsulta->retStrConteudo();
+            $documentoDTOConsulta->retStrConteudoAssinatura();
             $documentoBD = new DocumentoRN();
-            $resultDocumento = $documentoBD->listarRN0008($documentoDTO);
+            $resultDocumento = $documentoBD->listarRN0008($documentoDTOConsulta);
 
             if(!empty($resultDocumento)){
-                $documento = $resultDocumento[0];
-                if ($documento->getStrConteudo()) {
-                    $html = $documento->getStrConteudo() . $documento->getStrConteudoAssinatura();
-                    return ["html" => $html];
+                /** @var DocumentoDTO $documentoDTO */
+                $documentoDTO = $resultDocumento[0];
+                if ($documentoDTO->getStrConteudo()) {
+                    $html = $documentoDTO->getStrConteudo() . $documentoDTO->getStrConteudoAssinatura();
+                    return MdWsSeiRest::formataRetornoSucessoREST(null, array('html' => $html));
                 }
             }
 
@@ -245,7 +246,7 @@ class MdWsSeiDocumentoRN extends InfraRN {
             $anexoDTO->retDthInclusao();
             $anexoDTO->retStrNome();
             $anexoDTO->retStrHash();
-            $anexoDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+            $anexoDTO->setDblIdProtocolo($protocoloDTOParam->getDblIdProtocolo());
             $anexoDTO->setStrSinAtivo('S');
             $anexoRN = new AnexoRN();
             $resultAnexo = $anexoRN->listarRN0218($anexoDTO);
@@ -254,6 +255,7 @@ class MdWsSeiDocumentoRN extends InfraRN {
             }
             $anexo = $resultAnexo[0];
             SeiINT::download($anexo);
+            exit;
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }

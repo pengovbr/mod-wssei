@@ -204,4 +204,18 @@ class MdWsSeiUsuarioRN extends InfraRN {
         return base64_encode($senha);
     }
 
+    /**
+     * Altera a unidade atual do Usuário
+     * @param $idUnidade
+     */
+    public function alterarUnidadeAtual($idUnidade){
+        try{
+            $_POST['selInfraUnidades'] = $idUnidade;
+            SessaoSEI::getInstance()->trocarUnidadeAtual();
+            return MdWsSeiRest::formataRetornoSucessoREST('Unidade alterada com sucesso!');
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }

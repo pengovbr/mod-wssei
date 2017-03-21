@@ -8,15 +8,31 @@ class MdWsSeiUnidadeRN extends InfraRN {
     }
 
     /**
-     * Retorna todas as unidades cadastradas
+     * Pesquisa as unidades pela sigla
      */
-    protected function listarUnidadesConectado(){
+    protected function pesquisarUnidadeConectado(UnidadeDTO $unidadeDTOParam){
         try{
             $unidadeRN = new UnidadeRN();
             $unidadeDTO = new UnidadeDTO();
+            if($unidadeDTOParam->getNumMaxRegistrosRetorno()){
+                $unidadeDTO->setNumMaxRegistrosRetorno($unidadeDTOParam->getNumMaxRegistrosRetorno());
+            }else{
+                $unidadeDTO->setNumMaxRegistrosRetorno(10);
+            }
+            if(!is_null($unidadeDTOParam->getNumPaginaAtual())){
+                $unidadeDTO->setNumPaginaAtual($unidadeDTOParam->getNumPaginaAtual());
+            }else{
+                $unidadeDTO->setNumPaginaAtual(0);
+            }
+            if($unidadeDTOParam->isSetStrSigla()){
+                $filter = '%'.$unidadeDTOParam->getStrSigla().'%';
+                $unidadeDTO->setStrSigla($filter, InfraDTO::$OPER_LIKE, true);
+            }
+            $unidadeDTO->setStrSinAtivo('S');
             $unidadeDTO->retNumIdUnidade();
             $unidadeDTO->retStrSigla();
             $unidadeDTO->retStrDescricao();
+            $unidadeDTO->setOrdStrSigla(InfraDTO::$TIPO_ORDENACAO_ASC);
             $ret = $unidadeRN->listarRN0127($unidadeDTO);
             $result = array();
             /** @var UnidadeDTO $unDTO */
@@ -28,7 +44,7 @@ class MdWsSeiUnidadeRN extends InfraRN {
                 );
             }
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $unidadeDTO->getNumTotalRegistros());
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }

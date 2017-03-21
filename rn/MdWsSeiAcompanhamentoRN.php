@@ -15,6 +15,8 @@ class MdWsSeiAcompanhamentoRN extends InfraRN {
         }
         if (isset($post['unidade'])){
             $acompanhamentoDTO->setNumIdUnidade($post['unidade']);
+        }else{
+            $acompanhamentoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
         }
 
         if (isset($post['grupo'])){
@@ -22,10 +24,15 @@ class MdWsSeiAcompanhamentoRN extends InfraRN {
         }
         if (isset($post['usuario'])){
             $acompanhamentoDTO->setNumIdUsuarioGerador($post['usuario']);
+        }else{
+            $acompanhamentoDTO->setNumIdUsuarioGerador(SessaoSEI::getInstance()->getNumIdUsuario());
         }
-            if (isset($post['observacao'])){
+        if (isset($post['observacao'])){
             $acompanhamentoDTO->setStrObservacao($post['observacao']);
         }
+        $acompanhamentoDTO->setDthGeracao(InfraData::getStrDataHoraAtual());
+        $acompanhamentoDTO->setNumTipoVisualizacao(AtividadeRN::$TV_VISUALIZADO);
+        $acompanhamentoDTO->setNumIdAcompanhamento(null);
 
         return $acompanhamentoDTO;
 
@@ -34,20 +41,7 @@ class MdWsSeiAcompanhamentoRN extends InfraRN {
     protected function cadastrarAcompanhamentoControlado(AcompanhamentoDTO $acompanhamentoDTO){
         try{
             $acompanhamentoRN = new AcompanhamentoRN();
-            $acompanhamentoDTO->setDthGeracao(InfraData::getStrDataHoraAtual());
-            $pesquisaDTO = new AcompanhamentoDTO();
-            $pesquisaDTO->setOrdNumIdAcompanhamento(InfraDTO::$TIPO_ORDENACAO_DESC);
-            $pesquisaDTO->setNumMaxRegistrosRetorno(1);
-            $pesquisaDTO->retNumIdAcompanhamento();
-            $result = $acompanhamentoRN->listar($pesquisaDTO);
-            $numIdAcompanhamento = 1;
-            if(!empty($result)){
-                $pesquisaDTO = end($result);
-                $numIdAcompanhamento = $pesquisaDTO->getNumIdAcompanhamento()+1;
-            }
-            $acompanhamentoDTO->setNumIdAcompanhamento($numIdAcompanhamento);
             $acompanhamentoRN->cadastrar($acompanhamentoDTO);
-
             return MdWsSeiRest::formataRetornoSucessoREST('Acompanhamento realizado com sucesso!');
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);

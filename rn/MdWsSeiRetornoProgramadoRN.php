@@ -13,6 +13,8 @@ class MdWsSeiRetornoProgramadoRN extends InfraRN {
         $retornoProgramadoDTO->setDthAlteracao(null);
         if (isset($post['usuario'])) {
             $retornoProgramadoDTO->setNumIdUsuario($post['usuario']);
+        }else{
+            $retornoProgramadoDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
         }
 
         if (isset($post['atividadeEnvio'])) {

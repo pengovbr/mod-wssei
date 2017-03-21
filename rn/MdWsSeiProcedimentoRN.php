@@ -514,7 +514,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
     /**
      * Metodo que conclui o procedimento/processo
      * @param EntradaConcluirProcessoAPI $entradaConcluirProcessoAPI
-     * @info ele recebe o n?mero do ProtocoloProcedimentoFormatadoPesquisa da tabela protocolo
+     * @info ele recebe o número do ProtocoloProcedimentoFormatadoPesquisa da tabela protocolo
      * @return array
      */
     protected function concluirProcessoControlado(EntradaConcluirProcessoAPI $entradaConcluirProcessoAPI){
@@ -567,8 +567,8 @@ class MdWsSeiProcedimentoRN extends InfraRN {
         if(isset($post['numeroProcesso'])){
             $entradaEnviarProcessoAPI->setProtocoloProcedimento($post['numeroProcesso']);
         }
-        if(isset($post['unidadeDestino'])){
-            $entradaEnviarProcessoAPI->setUnidadesDestino($post['unidadeDestino']);
+        if(isset($post['unidadesDestino'])){
+            $entradaEnviarProcessoAPI->setUnidadesDestino(explode(',', $post['unidadesDestino']));
         }
         if(isset($post['sinManterAbertoUnidade'])){
             $entradaEnviarProcessoAPI->setSinManterAbertoUnidade($post['sinManterAbertoUnidade']);
@@ -578,6 +578,8 @@ class MdWsSeiProcedimentoRN extends InfraRN {
         }
         if(isset($post['sinEnviarEmailNotificacao'])){
             $entradaEnviarProcessoAPI->setSinEnviarEmailNotificacao($post['sinEnviarEmailNotificacao']);
+        }else{
+            $entradaEnviarProcessoAPI->setSinEnviarEmailNotificacao('N');
         }
         if(isset($post['dataRetornoProgramado'])){
             $entradaEnviarProcessoAPI->setDataRetornoProgramado($post['dataRetornoProgramado']);
