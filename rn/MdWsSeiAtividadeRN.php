@@ -69,6 +69,46 @@ class MdWsSeiAtividadeRN extends InfraRN {
         }
     }
 
+    /**
+     * Método que encapsula os dados para o cadastramento do andamento do processo
+     * @param array $post
+     * @return AtualizarAndamentoDTO
+     */
+    public function encapsulaLancarAndamentoProcesso(array $data){
+        $entradaLancarAndamentoAPI = new EntradaLancarAndamentoAPI();
+        $entradaLancarAndamentoAPI->setIdTarefa(TarefaRN::$TI_ATUALIZACAO_ANDAMENTO);
+        if($data['protocolo']){
+            $entradaLancarAndamentoAPI->setIdProcedimento($data['protocolo']);
+        }
+
+        if($data['descricao']){
+            $atributoAndamentoAPI = new AtributoAndamentoAPI();
+            $atributoAndamentoAPI->setNome('DESCRICAO');
+            $atributoAndamentoAPI->setValor($data['descricao']);
+            $atributoAndamentoAPI->setIdOrigem(null);
+            $entradaLancarAndamentoAPI->setAtributos(array($atributoAndamentoAPI));
+        }
+
+        return $entradaLancarAndamentoAPI;
+    }
+
+    /**
+     * Método que cadastra o andamento manual de um processo
+     * @param EntradaLancarAndamentoAPI $entradaLancarAndamentoAPIParam
+     * @info usar o método auxiliar encapsulaLancarAndamentoProcesso para faciliar
+     * @return array
+     */
+    protected function lancarAndamentoProcessoControlado(EntradaLancarAndamentoAPI $entradaLancarAndamentoAPIParam){
+        try{
+            $seiRN = new SeiRN();
+            $seiRN->lancarAndamento($entradaLancarAndamentoAPIParam);
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Observação cadastrada com sucesso!');
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 
 
 }

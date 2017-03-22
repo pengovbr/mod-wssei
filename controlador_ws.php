@@ -6,9 +6,9 @@
 require_once dirname(__FILE__).'/../../SEI.php';
 require_once dirname(__FILE__).'/vendor/autoload.php';
 
-//ini_set('xdebug.var_display_max_depth', 100);
-//ini_set('xdebug.var_display_max_children', 100);
-//ini_set('xdebug.var_display_max_data', 2048);
+ini_set('xdebug.var_display_max_depth', 100);
+ini_set('xdebug.var_display_max_children', 100);
+ini_set('xdebug.var_display_max_data', 2048);
 //echo '<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>';
 
 
@@ -331,6 +331,24 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->pesquisarProcedimento($dto));
         });
+        $this->get('/listar/meus/acompanhamentos', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+            $dto = new MdWsSeiProtocoloDTO();
+            if($request->getParam('grupo')){
+                $dto->setNumIdGrupoAcompanhamentoProcedimento($request->getParam('grupo'));
+            }
+            if($request->getParam('usuario')){
+                $dto->setNumIdUsuarioGeradorAcompanhamento($request->getParam('usuario'));
+            }
+            if($request->getParam('limit')){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start'))){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            return $response->withJSON($rn->listarProcedimentoAcompanhamento($dto));
+        });
 
         /**
          * Método que envia o processo
@@ -394,6 +412,13 @@ $app->group('/api/v1',function(){
                 $dto->setNumPaginaAtual($request->getParam('start'));
             }
             return $response->withJSON($rn->listarAtividadesProcesso($dto));
+        });
+        $this->post('/lancar/andamento/processo', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiAtividadeRN();
+            $dto = $rn->encapsulaLancarAndamentoProcesso($request->getParams());
+
+            return $response->withJSON($rn->lancarAndamentoProcesso($dto));
         });
 
     })->add( new TokenValidationMiddleware());

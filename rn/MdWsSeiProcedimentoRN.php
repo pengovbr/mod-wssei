@@ -126,36 +126,41 @@ class MdWsSeiProcedimentoRN extends InfraRN {
      * @param MdWsSeiProtocoloDTO $mdWsSeiProtocoloDTOConsulta
      * @return array
      */
-    protected function listarProcedimentoAcompanhamentoConectado(MdWsSeiProtocoloDTO $mdWsSeiProtocoloDTOConsulta) {
+    protected function listarProcedimentoAcompanhamentoConectado(MdWsSeiProtocoloDTO $mdWsSeiProtocoloDTOParam) {
         try{
             $usuarioAtribuicaoAtividade = null;
-            $mdWsSeiProtocoloDTO = new MdWsSeiProtocoloDTO();
-            if($mdWsSeiProtocoloDTOConsulta->isSetNumIdUsuarioAtribuicaoAtividade()){
-                $mdWsSeiProtocoloDTO->setNumIdUsuarioAtribuicaoAtividade($mdWsSeiProtocoloDTOConsulta->getNumIdUsuarioAtribuicaoAtividade());
-                $usuarioAtribuicaoAtividade = $mdWsSeiProtocoloDTOConsulta->getNumIdUsuarioAtribuicaoAtividade();
-            }
-            if(!$mdWsSeiProtocoloDTOConsulta->isSetNumIdUsuarioGeradorAcompanhamento()){
-                $mdWsSeiProtocoloDTO->setNumIdUsuarioGeradorAcompanhamento(SessaoSEI::getInstance()->getNumIdUsuario());
-            }else{
-                $mdWsSeiProtocoloDTO->setNumIdUsuarioGeradorAcompanhamento($mdWsSeiProtocoloDTOConsulta->getNumIdUsuarioGeradorAcompanhamento());
+            $mdWsSeiProtocoloDTOConsulta = new MdWsSeiProtocoloDTO();
+            if($mdWsSeiProtocoloDTOParam->isSetNumIdGrupoAcompanhamentoProcedimento()){
+                $mdWsSeiProtocoloDTOConsulta->setNumIdGrupoAcompanhamentoProcedimento($mdWsSeiProtocoloDTOParam->getNumIdGrupoAcompanhamentoProcedimento());
             }
 
-            if(is_null($mdWsSeiProtocoloDTOConsulta->getNumPaginaAtual())){
-                $mdWsSeiProtocoloDTO->setNumPaginaAtual(0);
+            if(!$mdWsSeiProtocoloDTOParam->isSetNumIdUsuarioGeradorAcompanhamento()){
+                $mdWsSeiProtocoloDTOConsulta->setNumIdUsuarioGeradorAcompanhamento(SessaoSEI::getInstance()->getNumIdUsuario());
             }else{
-                $mdWsSeiProtocoloDTO->setNumPaginaAtual($mdWsSeiProtocoloDTOConsulta->getNumPaginaAtual());
+                $mdWsSeiProtocoloDTOConsulta->setNumIdUsuarioGeradorAcompanhamento($mdWsSeiProtocoloDTOParam->getNumIdUsuarioGeradorAcompanhamento());
             }
 
-            if(!$mdWsSeiProtocoloDTOConsulta->isSetNumMaxRegistrosRetorno()){
-                $mdWsSeiProtocoloDTO->setNumMaxRegistrosRetorno(10);
+            if(is_null($mdWsSeiProtocoloDTOParam->getNumPaginaAtual())){
+                $mdWsSeiProtocoloDTOConsulta->setNumPaginaAtual(0);
             }else{
-                $mdWsSeiProtocoloDTO->setNumMaxRegistrosRetorno($mdWsSeiProtocoloDTOConsulta->getNumMaxRegistrosRetorno());
+                $mdWsSeiProtocoloDTOConsulta->setNumPaginaAtual($mdWsSeiProtocoloDTOParam->getNumPaginaAtual());
             }
+
+            if(!$mdWsSeiProtocoloDTOParam->isSetNumMaxRegistrosRetorno()){
+                $mdWsSeiProtocoloDTOConsulta->setNumMaxRegistrosRetorno(10);
+            }else{
+                $mdWsSeiProtocoloDTOConsulta->setNumMaxRegistrosRetorno($mdWsSeiProtocoloDTOParam->getNumMaxRegistrosRetorno());
+            }
+
             $protocoloRN = new ProtocoloRN();
             $mdWsSeiProtocoloDTOConsulta->retTodos();
+            $mdWsSeiProtocoloDTOConsulta->retDblIdProtocolo();
+            $mdWsSeiProtocoloDTOConsulta->retStrNomeTipoProcedimentoProcedimento();
+            $mdWsSeiProtocoloDTOConsulta->retStrSiglaUnidadeGeradora();
             $mdWsSeiProtocoloDTOConsulta->retStrSinCienciaProcedimento();
             $mdWsSeiProtocoloDTOConsulta->setOrdDthGeracaoAcompanhamento(InfraDTO::$TIPO_ORDENACAO_ASC);
             $mdWsSeiProtocoloDTOConsulta->retStrNomeTipoProcedimentoProcedimento();
+
             $ret = $protocoloRN->listarRN0668($mdWsSeiProtocoloDTOConsulta);
             $result = $this->montaRetornoListagemProcessos($ret, $usuarioAtribuicaoAtividade);
 

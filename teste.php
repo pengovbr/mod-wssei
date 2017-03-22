@@ -28,6 +28,14 @@ class TesteAtividade {
 
         var_dump($rn->listarAtividades($dto));
     }
+    public function lancarAndamentoProcessoControlado(){
+        $rn = new MdWsSeiAtividadeRN();
+        $dto = $rn->encapsulaLancarAndamentoProcesso(array(
+            'protocolo' => 30,
+            'descricao' => 'La vamos nós!'
+        ));
+        var_dump($rn->lancarAndamentoProcesso($dto));
+    }
 
 }
 
@@ -205,17 +213,6 @@ class TesteProcedimento {
         var_dump($rn->concluirProcesso($api));
     }
 
-    //o----- antigos
-
-
-    public function atribuirProcessoControlado(){
-        $api = new EntradaAtribuirProcessoAPI();
-        $api->setProtocoloProcedimento('99990000001201762');
-        $api->setIdUsuario('100000001');
-        $rn = new MdWsSeiProcedimentoRN();
-        var_dump($rn->atribuirProcesso($api));
-    }
-
     public function listarProcedimentoAcompanhamentoConectado(){
         $dto = new MdWsSeiProtocoloDTO();
         $rn = new MdWsSeiProcedimentoRN();
@@ -225,6 +222,17 @@ class TesteProcedimento {
         $dto->setNumMaxRegistrosRetorno(10);
 
         var_dump($rn->listarProcedimentoAcompanhamento($dto));
+    }
+
+    //o----- antigos
+
+
+    public function atribuirProcessoControlado(){
+        $api = new EntradaAtribuirProcessoAPI();
+        $api->setProtocoloProcedimento('99990000001201762');
+        $api->setIdUsuario('100000001');
+        $rn = new MdWsSeiProcedimentoRN();
+        var_dump($rn->atribuirProcesso($api));
     }
 }
 
