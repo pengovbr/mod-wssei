@@ -159,9 +159,10 @@ class MdWsSeiUsuarioRN extends InfraRN {
             if(!$ret){
                 throw new InfraException('Usuário ou senha inválido!');
             }
-
-
+            $this->setaVariaveisAutenticacao(get_object_vars($ret));
+            $ret->id_unidade_atual = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
             $token = $this->tokenEncode($usuarioDTO->getStrSigla(), $usuarioDTO->getStrSenha());
+
             return MdWsSeiRest::formataRetornoSucessoREST(null, array('loginData'=> $ret, 'token' => $token));
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
