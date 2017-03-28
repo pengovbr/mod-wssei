@@ -222,32 +222,9 @@ class MdWsSeiBlocoRN extends InfraRN {
             $relBlocoProtocoloDTO->setStrAnotacao($relBlocoProtocoloDTOParam->getStrAnotacao());
             $relBlocoProtocoloRN->alterarRN1288($relBlocoProtocoloDTO);
 
-            return array(
-                'sucesso' => true,
-                'mensagem' => 'Anotação realizada com sucesso.'
-            );
+            return MdWsSeiRest::formataRetornoSucessoREST('Anotação realizada com sucesso.');
         }catch (Exception $e){
-            $message = $e->getMessage();
-            if($e instanceof InfraException){
-                if(!$e->getStrDescricao()){
-                    /** @var InfraValidacaoDTO $validacaoDTO */
-                    if(count($e->getArrObjInfraValidacao()) == 1){
-                        $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
-                    }else{
-                        foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
-                            $mensagem[] = $validacaoDTO->getStrDescricao();
-                        }
-                    }
-                }else{
-                    $mensagem = $e->getStrDescricao();
-                }
-
-            }
-            return array(
-                'sucesso' => false,
-                'mensagem' => $message,
-                'exception' => $e
-            );
+            return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
 
