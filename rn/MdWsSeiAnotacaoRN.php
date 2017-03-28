@@ -42,7 +42,7 @@ class MdWsSeiAnotacaoRN extends InfraRN {
         try{
             $anotacaoRN = new AnotacaoRN();
             if(!$anotacaoDTO->getDblIdProtocolo()){
-                throw new InfraException('Protocolo nï¿½o informado.');
+                throw new InfraException('Protocolo não informado.');
             }
             $anotacaoConsulta = new AnotacaoDTO();
             $anotacaoConsulta->setDblIdProtocolo($anotacaoDTO->getDblIdProtocolo());
@@ -55,7 +55,7 @@ class MdWsSeiAnotacaoRN extends InfraRN {
             }else{
                 $anotacaoRN->cadastrar($anotacaoDTO);
             }
-            return MdWsSeiRest::formataRetornoSucessoREST('AnotaÃ§Ã£o cadastrada com sucesso!');
+            return MdWsSeiRest::formataRetornoSucessoREST('Anotação cadastrada com sucesso!');
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
