@@ -33,8 +33,6 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                 $result['unidades'] = $relProtocoloProtocoloDTOConsulta->getNumTotalRegistros();
             }
 
-            var_dump(MdWsSeiRest::formataRetornoSucessoREST(null, $result));exit;
-
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
