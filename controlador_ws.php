@@ -71,6 +71,15 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiUsuarioRN();
             return $response->withJSON($rn->alterarUnidadeAtual($request->getParam('unidade')));
         });
+        $this->get('/listar', function($request, $response, $args){
+            $dto = new UnidadeDTO();
+            if($request->getParam('unidade')){
+                $dto->setNumIdUnidade($request->getParam('unidade'));
+            }
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiUsuarioRN();
+            return $response->withJSON($rn->listarUsuarios($dto));
+        });
 
     })->add( new TokenValidationMiddleware());
 

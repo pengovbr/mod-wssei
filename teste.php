@@ -335,6 +335,13 @@ class TesteAnotacao {
 
 class TesteUsuario {
 
+    public function listarUsuariosConectado(){
+        $rn = new MdWsSeiUsuarioRN();
+        $dto = new UnidadeDTO();
+        //$dto->setNumIdUnidade(110000001);
+        var_dump($rn->listarUsuarios($dto));
+    }
+
     public function autenticarWSDL(){
         $login = 'teste';
         $senha = 'teste';

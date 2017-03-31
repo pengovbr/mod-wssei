@@ -220,17 +220,24 @@ class MdWsSeiUsuarioRN extends InfraRN {
 
     /**
      * Retorna a lista de usuarios por unidade
-     * @param UsuarioDTO
-     *      @param $idUsuario
+     * @param UnidadeDTO $unidadeDTOParam
+     * @return array
      */
-    protected function listarUsuariosConectado(UsuarioDTO $usuarioDTO){
+    protected function listarUsuariosConectado(UnidadeDTO $unidadeDTOParam){
         try{
-            $objEntradaListarUsuariosAPI = new EntradaListarUsuariosAPI();
-            $objEntradaListarUsuariosAPI->setIdUsuario($usuarioDTO->getNumIdUsuario());
-            $objSeiRN = new SeiRN();
-            $result = $objSeiRN->listarUsuarios($objEntradaListarUsuariosAPI);
-
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+            $idUnidade = null;
+            if($unidadeDTOParam->isSetNumIdUnidade()){
+                $idUnidade = $unidadeDTOParam->getNumIdUnidade();
+            }
+            $objSipWs = $this->retornaServicoSip();
+            $ret = $objSipWs->carregarUsuarios(
+                SessaoSEI::getInstance()->getNumIdSistema(),
+                $idUnidade,
+                false,
+                false
+            );
+            var_dump($ret);exit;
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $ret);
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
