@@ -166,11 +166,18 @@ class MdWsSeiUsuarioRN extends InfraRN {
             $unidadeDTOConsulta = new UnidadeDTO();
             $unidadeDTOConsulta->setNumMaxRegistrosRetorno(99999);//pedido da MBA
             $arrUnidades = $unidadeRN->pesquisarUnidade($unidadeDTOConsulta);
+            $arrPerfis = array();
+            $retPerfis = $this->listarPerfisUsuario($ret->id_sistema, $ret->id_usuario);
+            if($retPerfis && $retPerfis['data']){
+                $arrPerfis = $retPerfis['data'];
+            }
+
 
             return MdWsSeiRest::formataRetornoSucessoREST(
                 null,
                 array(
                     'loginData'=> $ret,
+                    'perfis' => $arrPerfis,
                     'unidades' => $arrUnidades['data'],
                     'token' => $token
                 )
@@ -179,6 +186,36 @@ class MdWsSeiUsuarioRN extends InfraRN {
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
 
+    }
+
+    /**
+     * Método que retorna os perfis do usuário
+     * @param $idSistema
+     * @param $idUsuario
+     * @return array
+     */
+    private function listarPerfisUsuario($idSistema, $idUsuario){
+        try{
+            $arrPerfis = array();
+            $objSipWs = $this->retornaServicoSip();
+            $ret = $objSipWs->carregarPerfis(
+                $idSistema,
+                $idUsuario
+            );
+            $arrPerfis = array();
+            foreach ($ret as $perfil) {
+                $arrPerfis[] = array(
+                    'idPerfil' => $perfil[0],
+                    'nome' => $perfil[1],
+                    'stAtivo' => $perfil[3]
+                );
+            }
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $arrPerfis);
+
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
     }
 
     /**
