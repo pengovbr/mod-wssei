@@ -442,6 +442,19 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->listarAssinante($dto));
         });
+        
+        $this->get('/orgao', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiOrgaoRN();
+            $dto = new OrgaoDTO();
+            if($request->getParam('limit')){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start'))){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            return $response->withJSON($rn->listarOrgao($dto));
+        });
 
     })->add( new TokenValidationMiddleware());
 
