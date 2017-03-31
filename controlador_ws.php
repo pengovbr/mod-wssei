@@ -185,7 +185,6 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiDocumentoRN();
             return $response->withJSON($rn->apiAssinarDocumento(
                 $request->getParam('documento'),
-                $request->getParam('documento'),
                 $request->getParam('orgao'),
                 $request->getParam('cargo'),
                 $request->getParam('login'),
