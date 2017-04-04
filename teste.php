@@ -14,9 +14,6 @@ echo $token;
 echo '<BR>';
 $b->autenticarToken($token);
 
-
-
-
 class TesteAtividade {
 
     public function listarAtividadesProcessoConectado(){
@@ -32,7 +29,7 @@ class TesteAtividade {
         $rn = new MdWsSeiAtividadeRN();
         $dto = $rn->encapsulaLancarAndamentoProcesso(array(
             'protocolo' => 30,
-            'descricao' => 'La vamos nós!'
+            'descricao' => 'La vamos nÃ³s!'
         ));
         var_dump($rn->lancarAndamentoProcesso($dto));
     }
