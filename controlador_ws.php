@@ -399,6 +399,19 @@ $app->group('/api/v1',function(){
             $dto = $rn->encapsulaRetornoProgramado($request->getParams());
             return $response->withJSON($rn->agendarRetornoProgramado($dto));
         });
+        $this->post('/atribuir', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $api = new EntradaAtribuirProcessoAPI();
+            
+            if($request->getParam('numeroProcesso')) {
+                $api->setProtocoloProcedimento($request->getParam('numeroProcesso'));
+            }
+            if($request->getParam('usuario')) {
+                $api->setIdUsuario($request->getParam('usuario'));
+            }
+            $rn = new MdWsSeiProcedimentoRN();
+            return $response->withJSON($rn->atribuirProcesso($api));
+        });
 
     })->add( new TokenValidationMiddleware());
 
