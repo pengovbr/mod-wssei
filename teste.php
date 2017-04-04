@@ -1,5 +1,7 @@
 <?
-
+if($_REQUEST['key'] != 'lalilulelo'){
+    return false;
+}
 require_once __DIR__.'/../../SEI.php';
 
 ini_set('xdebug.var_display_max_depth', 100);
