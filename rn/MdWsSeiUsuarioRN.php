@@ -236,7 +236,6 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 false,
                 false
             );
-            var_dump($ret);exit;
             return MdWsSeiRest::formataRetornoSucessoREST(null, $ret);
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
