@@ -234,10 +234,28 @@ class MdWsSeiDocumentoRN extends InfraRN {
             if(!empty($resultDocumento)){
                 /** @var DocumentoDTO $documentoDTO */
                 $documentoDTO = $resultDocumento[0];
-                if ($documentoDTO->getStrConteudo()) {
-                    $html = $documentoDTO->getStrConteudo() . $documentoDTO->getStrConteudoAssinatura();
-                    return MdWsSeiRest::formataRetornoSucessoREST(null, array('html' => $html));
-                }
+                $editorDTOConsulta = new EditorDTO();
+                $editorDTOConsulta->setDblIdDocumento($documentoDTO->getDblIdDocumento());
+                $editorDTOConsulta->setNumIdBaseConhecimento(null);
+                $editorDTOConsulta->setStrSinCabecalho('S');
+                $editorDTOConsulta->setStrSinRodape('S');
+                $editorDTOConsulta->setStrSinIdentificacaoVersao('S');
+                $editorDTOConsulta->setStrSinProcessarLinks('S');
+                $editorRN = new EditorRN();
+                $html = $editorRN->consultarHtmlVersao($editorDTOConsulta);
+
+                $auditoriaProtocoloDTO = new AuditoriaProtocoloDTO();
+                $auditoriaProtocoloDTO->setStrRecurso('documento_visualizar');
+                $auditoriaProtocoloDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+                $auditoriaProtocoloDTO->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
+                $auditoriaProtocoloDTO->setNumIdAnexo(null);
+                $auditoriaProtocoloDTO->setDtaAuditoria(InfraData::getStrDataAtual());
+                $auditoriaProtocoloDTO->setNumVersao($editorDTOConsulta->getNumVersao());
+
+                $auditoriaProtocoloRN = new AuditoriaProtocoloRN();
+                $auditoriaProtocoloRN->auditarVisualizacao($auditoriaProtocoloDTO);
+
+                return MdWsSeiRest::formataRetornoSucessoREST(null, array('html' => $html));
             }
 
             $anexoDTO = new AnexoDTO();
