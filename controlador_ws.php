@@ -6,11 +6,6 @@
 require_once dirname(__FILE__).'/../../SEI.php';
 require_once dirname(__FILE__).'/vendor/autoload.php';
 
-ini_set('xdebug.var_display_max_depth', 100);
-ini_set('xdebug.var_display_max_children', 100);
-ini_set('xdebug.var_display_max_data', 2048);
-//echo '<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>';
-
 
 class TokenValidationMiddleware{
     public function __invoke($request, $response, $next)
