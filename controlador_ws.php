@@ -116,14 +116,13 @@ $app->group('/api/v1',function(){
      * Grupo de controlador de bloco
      */
     $this->group('/bloco', function(){
-        $this->get('/listar/bloco/{unidade}', function($request, $response, $args){
+        $this->get('/listar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
-            $dto = new UnidadeDTO();
-            $dto->setNumIdUnidade($request->getAttribute('route')->getArgument('unidade'));
+            $dto = new BlocoDTO();
             $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
             $dto->setNumPaginaAtual($request->getParam('start'));
-            return $response->withJSON($rn->listarBlocoUnidade($dto));
+            return $response->withJSON($rn->listarBloco($dto));
         });
         $this->get('/listar/{bloco}/documentos', function($request, $response, $args){
             /** @var $request Slim\Http\Request */

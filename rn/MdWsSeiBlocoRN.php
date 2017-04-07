@@ -9,51 +9,52 @@ class MdWsSeiBlocoRN extends InfraRN {
 
     /**
      * Consultar Blocos
-     * @param UnidadeDTO $unidadeDTO
+     * @param BlocoDTO $blocoDTO
      * @return array
      */
-    protected function listarBlocoUnidadeConectado(UnidadeDTO $unidadeDTO){
+    protected function listarBlocoConectado(BlocoDTO $blocoDTO){
         try{
             $result = array();
+            $blocoRN = new BlocoRN();
             $blocoDTOConsulta = new BlocoDTO();
-            if(!$unidadeDTO->getNumMaxRegistrosRetorno()){
+            if(!$blocoDTO->getNumMaxRegistrosRetorno()){
                 $blocoDTOConsulta->setNumMaxRegistrosRetorno(10);
             }else{
-                $blocoDTOConsulta->setNumMaxRegistrosRetorno($unidadeDTO->getNumMaxRegistrosRetorno());
+                $blocoDTOConsulta->setNumMaxRegistrosRetorno($blocoDTO->getNumMaxRegistrosRetorno());
             }
-            if(is_null($unidadeDTO->getNumPaginaAtual())){
+            if(is_null($blocoDTO->getNumPaginaAtual())){
                 $blocoDTOConsulta->setNumPaginaAtual(0);
             }else{
-                $blocoDTOConsulta->setNumPaginaAtual($unidadeDTO->getNumPaginaAtual());
-            }
-            if(!$unidadeDTO->isSetNumIdUnidade()){
-                $blocoDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-            }else{
-                $blocoDTOConsulta->setNumIdUnidade($unidadeDTO->getNumIdUnidade());
+                $blocoDTOConsulta->setNumPaginaAtual($blocoDTO->getNumPaginaAtual());
             }
 
-            $blocoRN = new BlocoRN();
-            $blocoDTOConsulta->setNumIdUnidadeRelBlocoUnidade($unidadeDTO->getNumIdUnidade());
-            $blocoDTOConsulta->setNumIdUnidade($unidadeDTO->getNumIdUnidade());
-            $blocoDTOConsulta->adicionarCriterio(
-                array('StaTipo', 'StaEstado'),
-                array(InfraDTO::$OPER_IGUAL, InfraDTO::$OPER_IN),
-                array('A', array('D', 'C', 'R', 'A')),
-                InfraDTO::$OPER_LOGICO_AND
-            );
+            $blocoDTOConsulta->setStrStaEstado(BlocoRN::$TE_CONCLUIDO,InfraDTO::$OPER_DIFERENTE);
+            $blocoDTOConsulta->setStrStaTipo(BlocoRN::$TB_ASSINATURA);
             $blocoDTOConsulta->retNumIdBloco();
             $blocoDTOConsulta->retNumIdUnidade();
-            $blocoDTOConsulta->retStrSiglaUnidade();
-            $blocoDTOConsulta->retStrStaEstado();
             $blocoDTOConsulta->retStrDescricao();
+            $blocoDTOConsulta->retStrStaTipo();
+            $blocoDTOConsulta->retStrStaEstado();
+            $blocoDTOConsulta->retStrStaEstadoDescricao();
+            $blocoDTOConsulta->retStrTipoDescricao();
+            $blocoDTOConsulta->retStrSiglaUnidade();
+            $blocoDTOConsulta->retStrDescricaoUnidade();
+            $blocoDTOConsulta->retStrSinVazio();
+            $blocoDTOConsulta->retArrObjRelBlocoUnidadeDTO();
             $blocoDTOConsulta->setOrdNumIdBloco(InfraDTO::$TIPO_ORDENACAO_DESC);
-            $ret = $blocoRN->listarRN1277($blocoDTOConsulta);
+
+            $ret = $blocoRN->pesquisar($blocoDTOConsulta);
+
             /** @var BlocoDTO $blocoDTO */
             foreach($ret as $blocoDTO){
-                $arrUnidades[] = array(
-                    'idUnidade' => $blocoDTO->getNumIdUnidade(),
-                    'unidade' => $blocoDTO->getStrSiglaUnidade()
-                );
+                $arrUnidades = array();
+                /** @var RelBlocoUnidadeDTO $relBlocoUnidadeDTO */
+                foreach($blocoDTO->getArrObjRelBlocoUnidadeDTO() as $relBlocoUnidadeDTO){
+                    $arrUnidades[] = array(
+                        'idUnidade' => $relBlocoUnidadeDTO->getNumIdUnidade(),
+                        'unidade' => $relBlocoUnidadeDTO->getStrSiglaUnidade()
+                    );
+                }
                 $result[] = array(
                     'id' => $blocoDTO->getNumIdBloco(),
                     'atributos' => array(
