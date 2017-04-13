@@ -23,6 +23,7 @@ class MdWsSeiProcessoRN extends InfraRN {
             $atividadeDTO = new AtividadeDTO();
             $atividadeDTO->setNumIdAtividade($mdWsSeiProcessoDTO->getNumIdAtividade());
             $atividadeDTO->retDblIdProtocolo();
+            $atividadeDTO->retStrNomeTarefa();
             $atividadeRN = new AtividadeRN();
             $atividadeDTO = $atividadeRN->consultarRN0033($atividadeDTO);
             $protocoloDTO = new ProtocoloDTO();
@@ -49,6 +50,19 @@ class MdWsSeiProcessoRN extends InfraRN {
                     $strTemplate = str_replace('@HIPOTESE_LEGAL@', '', $strTemplate);
                 }
             }
+            //O Core do SEI faz esta limpeza...
+            $strTemplate = str_replace(
+                array(
+                    '@NIVEL_ACESSO@',
+                    '@GRAU_SIGILO@',
+                    '@TIPO_CONFERENCIA@',
+                    '@DATA_AUTUACAO@',
+                    '@HIPOTESE_LEGAL@',
+                    '@VISUALIZACAO@'
+                ),
+                '',
+                $strTemplate
+            );
         }
 
         return $strTemplate;

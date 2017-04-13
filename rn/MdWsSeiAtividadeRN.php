@@ -20,7 +20,7 @@ class MdWsSeiAtividadeRN extends InfraRN {
             if(!$atividadeDTOParam->isSetDblIdProtocolo()){
                 throw new InfraException('O procedimento deve ser informado!');
             }
-            $atividadeDTOConsulta->setDblIdProtocolo($atividadeDTOParam->isSetDblIdProtocolo());
+            $atividadeDTOConsulta->setDblIdProtocolo($atividadeDTOParam->getDblIdProtocolo());
             if(is_null($atividadeDTOParam->getNumPaginaAtual())){
                 $atividadeDTOConsulta->setNumPaginaAtual(0);
             }else{
@@ -29,7 +29,7 @@ class MdWsSeiAtividadeRN extends InfraRN {
             if($atividadeDTOParam->getNumMaxRegistrosRetorno()){
                 $atividadeDTOConsulta->setNumMaxRegistrosRetorno($atividadeDTOParam->getNumMaxRegistrosRetorno());
             }else{
-                $atividadeDTOConsulta->setNumMaxRegistrosRetorno(0);
+                $atividadeDTOConsulta->setNumMaxRegistrosRetorno(10);
             }
             $atividadeDTOConsulta->retDblIdProtocolo();
             $atividadeDTOConsulta->retDthAbertura();
