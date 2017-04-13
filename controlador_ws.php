@@ -6,11 +6,6 @@
 require_once dirname(__FILE__).'/../../SEI.php';
 require_once dirname(__FILE__).'/vendor/autoload.php';
 
-ini_set('xdebug.var_display_max_depth', 100);
-ini_set('xdebug.var_display_max_children', 100);
-ini_set('xdebug.var_display_max_data', 2048);
-//echo '<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>';
-
 
 class TokenValidationMiddleware{
     public function __invoke($request, $response, $next)
@@ -121,14 +116,13 @@ $app->group('/api/v1',function(){
      * Grupo de controlador de bloco
      */
     $this->group('/bloco', function(){
-        $this->get('/listar/bloco/{unidade}', function($request, $response, $args){
+        $this->get('/listar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
-            $dto = new UnidadeDTO();
-            $dto->setNumIdUnidade($request->getAttribute('route')->getArgument('unidade'));
+            $dto = new BlocoDTO();
             $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
             $dto->setNumPaginaAtual($request->getParam('start'));
-            return $response->withJSON($rn->listarBlocoUnidade($dto));
+            return $response->withJSON($rn->listarBloco($dto));
         });
         $this->get('/listar/{bloco}/documentos', function($request, $response, $args){
             /** @var $request Slim\Http\Request */

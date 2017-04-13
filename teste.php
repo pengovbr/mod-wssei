@@ -40,11 +40,10 @@ class TesteAtividade {
 
 class TesteBloco {
 
-    public function listarBlocoUnidadeConectado(){
+    public function listarBlocoConectado(){
         $rn = new MdWsSeiBlocoRN();
-        $dto = new UnidadeDTO();
-        $dto->setNumIdUnidade(110000001);
-        var_dump($rn->listarBlocoUnidade($dto));
+        $dto = new BlocoDTO();
+        var_dump($rn->listarBloco($dto));
     }
 
     public function listarDocumentosBlocoConectado(){
