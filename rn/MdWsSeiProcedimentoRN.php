@@ -426,24 +426,26 @@ class MdWsSeiProcedimentoRN extends InfraRN {
         return $result;
     }
 
-    private function checaRetornoProgramado($atividade){
+    private function checaRetornoProgramado($atividade=null){
         $retProgramado = 'N';
         $expirado = 'N';
 
-        if ($atividade instanceof AtividadeDTO) {
-            $retornoProgramadoRN = new RetornoProgramadoRN();
-            $retornoProgramadoDTO = new RetornoProgramadoDTO();
-            $retornoProgramadoDTO->adicionarCriterio(
-                array('IdAtividadeEnvio', 'IdAtividadeRetorno'),
-                array(InfraDTO::$OPER_IGUAL, InfraDTO::$OPER_IGUAL),
-                array($atividade->getNumIdAtividade(), null)
-            );
-            $retornoProgramadoDTO = $retornoProgramadoRN->consultar($retornoProgramadoDTO);
-
-            if ($retornoProgramadoDTO) {
-                echo 556;
-                $expirado = ($retornoProgramadoDTO->getDtaProgramada() < new Datetime());
-                $retProgramado = 'S';
+        if(isset($atividade) && !empty($atividade)) {
+            if ($atividade instanceof AtividadeDTO) {
+                $retornoProgramadoRN = new RetornoProgramadoRN();
+                $retornoProgramadoDTO = new RetornoProgramadoDTO();
+                $retornoProgramadoDTO->adicionarCriterio(
+                    array('IdAtividadeEnvio', 'IdAtividadeRetorno'),
+                    array(InfraDTO::$OPER_IGUAL, InfraDTO::$OPER_IGUAL),
+                    array($atividade->getNumIdAtividade(), null)
+                );
+                $retornoProgramadoDTO = $retornoProgramadoRN->consultar($retornoProgramadoDTO);
+    
+                if ($retornoProgramadoDTO) {
+                    echo 556;
+                    $expirado = ($retornoProgramadoDTO->getDtaProgramada() < new Datetime());
+                    $retProgramado = 'S';
+                }
             }
         }
 
