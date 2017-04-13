@@ -314,7 +314,13 @@ class MdWsSeiProcedimentoRN extends InfraRN {
             $atividadeRN = new AtividadeRN();
             $atividadeDTOConsulta = new AtividadeDTO();
             $atividadeDTOConsulta->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
-            $atividadeDTOConsulta->retTodos(true);
+            $atividadeDTOConsulta->retDblIdProtocolo();
+            $atividadeDTOConsulta->retNumIdTarefa();
+            $atividadeDTOConsulta->retNumTipoVisualizacao();
+            $atividadeDTOConsulta->retStrNomeUsuarioAtribuicao();
+            $atividadeDTOConsulta->retNumIdUsuarioVisualizacao();
+            $atividadeDTOConsulta->retNumIdAtividade();
+
             $atividadeDTOConsulta->setOrdNumIdAtividade(InfraDTO::$TIPO_ORDENACAO_DESC);
             $arrAtividades = $atividadeRN->listarRN0036($atividadeDTOConsulta);
             if($arrAtividades){
@@ -426,27 +432,23 @@ class MdWsSeiProcedimentoRN extends InfraRN {
         return $result;
     }
 
-    private function checaRetornoProgramado($atividade=null){
+    private function checaRetornoProgramado(AtividadeDTO $atividadeDTO){
         $retProgramado = 'N';
         $expirado = 'N';
+        $retornoProgramadoRN = new RetornoProgramadoRN();
+        $retornoProgramadoDTO = new RetornoProgramadoDTO();
+        $retornoProgramadoDTO->retDtaProgramada();
+        $retornoProgramadoDTO->adicionarCriterio(
+            array('IdAtividadeEnvio', 'IdAtividadeRetorno'),
+            array(InfraDTO::$OPER_IGUAL, InfraDTO::$OPER_IGUAL),
+            array($atividadeDTO->getNumIdAtividade(), null),
+            array(InfraDTO::$OPER_LOGICO_AND)
+        );
+        $retornoProgramadoDTO = $retornoProgramadoRN->consultar($retornoProgramadoDTO);
 
-        if(isset($atividade) && !empty($atividade)) {
-            if ($atividade instanceof AtividadeDTO) {
-                $retornoProgramadoRN = new RetornoProgramadoRN();
-                $retornoProgramadoDTO = new RetornoProgramadoDTO();
-                $retornoProgramadoDTO->adicionarCriterio(
-                    array('IdAtividadeEnvio', 'IdAtividadeRetorno'),
-                    array(InfraDTO::$OPER_IGUAL, InfraDTO::$OPER_IGUAL),
-                    array($atividade->getNumIdAtividade(), null)
-                );
-                $retornoProgramadoDTO = $retornoProgramadoRN->consultar($retornoProgramadoDTO);
-    
-                if ($retornoProgramadoDTO) {
-                    echo 556;
-                    $expirado = ($retornoProgramadoDTO->getDtaProgramada() < new Datetime());
-                    $retProgramado = 'S';
-                }
-            }
+        if ($retornoProgramadoDTO) {
+            $expirado = ($retornoProgramadoDTO->getDtaProgramada() < new Datetime());
+            $retProgramado = 'S';
         }
 
         return ['retornoProgramado' => $retProgramado, 'expirado' => $expirado];
