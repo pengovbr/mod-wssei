@@ -328,14 +328,16 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                 $atividadeDTO = $arrAtividades[0];
                 $documentoNovo = $atividadeDTO->getNumIdTarefa() == 1 ? 'S' : 'N';
                 $usuarioAtribuido = $atividadeDTO->getStrNomeUsuarioAtribuicao();
-                $dadosRetornoProgramado = $this->checaRetornoProgramado($atividadeDTO);
-                $retornoProgramado = $dadosRetornoProgramado['retornoProgramado'];
-                $retornoAtrasado = $dadosRetornoProgramado['expirado'];
-                $retornoData = $dadosRetornoProgramado['data'];
                 $tipoVisualizacao = $atividadeDTO->getNumTipoVisualizacao() == 0 ? 'S' : 'N';
                 if($atividadeDTO->getNumIdUsuarioVisualizacao() == $usuarioAtribuicaoAtividade){
                     $usuarioVisualizacao = 'S';
                 }
+            }
+            $dadosRetornoProgramado = $this->checaRetornoProgramado($protocoloDTO);
+            if($dadosRetornoProgramado){
+                $retornoProgramado = $dadosRetornoProgramado['retornoProgramado'];
+                $retornoAtrasado = $dadosRetornoProgramado['expirado'];
+                $retornoData = $dadosRetornoProgramado['data'];
             }
             $documentoRN = new DocumentoRN();
             $documentoDTOConsulta = new DocumentoDTO();
@@ -432,26 +434,33 @@ class MdWsSeiProcedimentoRN extends InfraRN {
         return $result;
     }
 
-    private function checaRetornoProgramado(AtividadeDTO $atividadeDTO){
+    private function checaRetornoProgramado(ProtocoloDTO $protocoloDTO){
         $retProgramado = 'N';
         $expirado = 'N';
+        $dataRetorno = null;
         $retornoProgramadoRN = new RetornoProgramadoRN();
-        $retornoProgramadoDTO = new RetornoProgramadoDTO();
-        $retornoProgramadoDTO->retDtaProgramada();
-        $retornoProgramadoDTO->adicionarCriterio(
-            array('IdAtividadeEnvio', 'IdAtividadeRetorno'),
+        $retornoProgramadoDTOConsulta = new MdWsSeiRetornoProgramadoDTO();
+        $retornoProgramadoDTOConsulta->retDtaProgramada();
+        $retornoProgramadoDTOConsulta->retNumIdAtividadeEnvio();
+
+        $retornoProgramadoDTOConsulta->adicionarCriterio(
+            array('IdProtocolo', 'Conclusao'),
             array(InfraDTO::$OPER_IGUAL, InfraDTO::$OPER_IGUAL),
-            array($atividadeDTO->getNumIdAtividade(), null),
+            array($protocoloDTO->getDblIdProtocolo(), null),
             array(InfraDTO::$OPER_LOGICO_AND)
         );
-        $retornoProgramadoDTO = $retornoProgramadoRN->consultar($retornoProgramadoDTO);
+        $retornoProgramadoDTOConsulta->setNumMaxRegistrosRetorno(1);
+        $retornoProgramadoDTOConsulta->setOrdNumIdRetornoProgramado(InfraDTO::$TIPO_ORDENACAO_DESC);
+        $ret = $retornoProgramadoRN->listar($retornoProgramadoDTOConsulta);
 
-        if ($retornoProgramadoDTO) {
+        if ($ret) {
+            $retornoProgramadoDTO = $ret[0];
             $expirado = ($retornoProgramadoDTO->getDtaProgramada() < new Datetime());
             $retProgramado = 'S';
+            $dataRetorno = $retornoProgramadoDTO->getDtaProgramada();
         }
 
-        return ['retornoProgramado' => $retProgramado, 'expirado' => $expirado];
+        return ['retornoProgramado' => $retProgramado, 'expirado' => $expirado, 'data' => $dataRetorno];
     }
 
     /**
