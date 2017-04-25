@@ -437,11 +437,12 @@ class MdWsSeiProcedimentoRN extends InfraRN {
     private function checaRetornoProgramado(ProtocoloDTO $protocoloDTO){
         $retProgramado = 'N';
         $expirado = 'N';
-        $dataRetorno = null;
+        $dadosRetorno = null;
         $retornoProgramadoRN = new RetornoProgramadoRN();
         $retornoProgramadoDTOConsulta = new MdWsSeiRetornoProgramadoDTO();
         $retornoProgramadoDTOConsulta->retDtaProgramada();
         $retornoProgramadoDTOConsulta->retNumIdAtividadeEnvio();
+        $retornoProgramadoDTOConsulta->retStrSiglaUnidadeAtividadeEnvio();
 
         $retornoProgramadoDTOConsulta->adicionarCriterio(
             array('IdProtocolo', 'Conclusao'),
@@ -457,10 +458,14 @@ class MdWsSeiProcedimentoRN extends InfraRN {
             $retornoProgramadoDTO = $ret[0];
             $expirado = ($retornoProgramadoDTO->getDtaProgramada() < new Datetime());
             $retProgramado = 'S';
-            $dataRetorno = $retornoProgramadoDTO->getDtaProgramada();
+            $dadosRetorno = array(
+                'date' => $retornoProgramadoDTO->getDtaProgramada(),
+                'unidade' => $retornoProgramadoDTO->getStrSiglaUnidadeAtividadeEnvio()
+            );
+
         }
 
-        return ['retornoProgramado' => $retProgramado, 'expirado' => $expirado, 'data' => $dataRetorno];
+        return ['retornoProgramado' => $retProgramado, 'expirado' => $expirado, 'data' => $dadosRetorno];
     }
 
     /**
