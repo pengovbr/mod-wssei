@@ -144,6 +144,10 @@ class MdWsSeiDocumentoRN extends InfraRN {
      */
     public function apiAssinarDocumentos($arrIdDocumento, $idOrgao, $strCargoFuncao, $siglaUsuario, $senhaUsuario, $idUsuario){
         $arrDocumentoDTO = array();
+        //força a criação do array no caso de somente um parametro inteiro
+        if(!is_array($arrIdDocumento)) {
+            $arrIdDocumento = array($arrIdDocumento);
+        }
         foreach($arrIdDocumento as $dblIdDocumento){
             $documentoDTO = new DocumentoDTO();
             $documentoDTO->setDblIdDocumento($dblIdDocumento);
