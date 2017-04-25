@@ -122,7 +122,7 @@ class MdWsSeiBlocoRN extends InfraRN {
                         /** @var RelProtocoloProtocoloDTO $relProtocoloProtocoloDTO */
                         foreach($arrProtocoloProtocolo as $relProtocoloProtocoloDTO){
                             $protocoloDTO = new ProtocoloDTO();
-                            $protocoloDTO->setDblIdProtocolo($relProtocoloProtocoloDTO->getDblIdProtocolo1());
+                            $protocoloDTO->setDblIdProtocolo($relBlocoProtocoloDTO->getDblIdProtocolo());
                             $protocoloDTO->retTodos();
                             $protocoloDTO->retStrNomeTipoProcedimentoProcedimento();
                             $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
