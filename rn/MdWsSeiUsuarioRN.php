@@ -162,23 +162,28 @@ class MdWsSeiUsuarioRN extends InfraRN {
             $this->setaVariaveisAutenticacao(get_object_vars($ret));
             $ret->id_unidade_atual = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
             $token = $this->tokenEncode($usuarioDTO->getStrSigla(), $usuarioDTO->getStrSenha());
-            $unidadeRN = new MdWsSeiUnidadeRN();
-            $unidadeDTOConsulta = new UnidadeDTO();
-            $unidadeDTOConsulta->setNumMaxRegistrosRetorno(99999);//pedido da MBA
-            $arrUnidades = $unidadeRN->pesquisarUnidade($unidadeDTOConsulta);
+
+            $arrUnidades = array();
+            foreach(SessaoSEI::getInstance()->getArrUnidades() as $unidade){
+                $arrUnidades[] = array(
+                    'id' => $unidade[0],
+                    'sigla' => $unidade[1],
+                    'descricao' => $unidade[2]
+                );
+            }
+
             $arrPerfis = array();
             $retPerfis = $this->listarPerfisUsuario($ret->id_sistema, $ret->id_usuario);
             if($retPerfis && $retPerfis['data']){
                 $arrPerfis = $retPerfis['data'];
             }
 
-
             return MdWsSeiRest::formataRetornoSucessoREST(
                 null,
                 array(
                     'loginData'=> $ret,
                     'perfis' => $arrPerfis,
-                    'unidades' => $arrUnidades['data'],
+                    'unidades' => $arrUnidades,
                     'token' => $token
                 )
             );
