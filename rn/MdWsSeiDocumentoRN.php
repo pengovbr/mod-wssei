@@ -232,8 +232,10 @@ class MdWsSeiDocumentoRN extends InfraRN {
             }
             $documentoDTOConsulta = new DocumentoDTO();
             $documentoDTOConsulta->setDblIdProtocoloProtocolo($protocoloDTOParam->getDblIdProtocolo());
+            $documentoDTOConsulta->setStrStaDocumento(DocumentoRN::$TD_EDITOR_INTERNO);
             $documentoDTOConsulta->retDblIdDocumento();
             $documentoDTOConsulta->retStrConteudo();
+            $documentoDTOConsulta->retStrStaDocumento();
             $documentoDTOConsulta->retStrConteudoAssinatura();
             $documentoBD = new DocumentoRN();
             $resultDocumento = $documentoBD->listarRN0008($documentoDTOConsulta);

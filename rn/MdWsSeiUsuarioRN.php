@@ -50,7 +50,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
         $fase2 = str_replace($this->getSecret(), '', $fase1);
         $fase3 = base64_decode($fase2);
         $tokenData = explode('||', $fase3);
-        if(count($tokenData) != 2){
+        if(count($tokenData) != 4){
             return null;
         }
         $tokenData[0] = $this->decriptaSenha($tokenData[0]);
@@ -60,13 +60,23 @@ class MdWsSeiUsuarioRN extends InfraRN {
     }
 
     /**
-     * M?todo que criptografa o token
+     * Método que criptografa o token
      * @param $sigla
      * @param $senha
+     * @param null $orgao
+     * @param null $contexto
      * @return string
      */
-    public function tokenEncode($sigla, $senha){
-        $token = base64_encode($this->getSecret().base64_encode($this->encriptaSenha($sigla).'||'.$this->encriptaSenha($senha)));
+    public function tokenEncode($sigla, $senha, $orgao = null, $contexto = null){
+        $token = base64_encode(
+            $this->getSecret()
+            .base64_encode(
+                $this->encriptaSenha($sigla)
+                .'||'.$this->encriptaSenha($senha)
+                .'||'.$orgao
+                .'||'.$contexto
+            )
+        );
 
         return $token;
     }
@@ -106,13 +116,15 @@ class MdWsSeiUsuarioRN extends InfraRN {
 
             $tokenData = $this->tokenDecode($token);
             if(!$tokenData){
-                throw new InfraException('Token inv?lido!');
+                throw new InfraException('Token inválido!');
             }
-
             $usuarioDTO = new UsuarioDTO();
             $usuarioDTO->setStrSigla($tokenData[0]);
             $usuarioDTO->setStrSenha($tokenData[1]);
-            $result = $this->autenticar($usuarioDTO);
+            $contextoDTO = new ContextoDTO();
+            $contextoDTO->setNumIdOrgao($tokenData[2]);
+            $contextoDTO->setNumIdContexto($tokenData[3]);
+            $result = $this->apiAutenticar($usuarioDTO, $contextoDTO);
             if(!$result['sucesso']){
                 return $result;
             }
@@ -131,9 +143,12 @@ class MdWsSeiUsuarioRN extends InfraRN {
      *      @param $senha
      *      @param $IdOrgao
      */
-    protected function autenticarConectado(UsuarioDTO $usuarioDTO){
+    public function apiAutenticar(UsuarioDTO $usuarioDTO, ContextoDTO $contextoDTO){
         try{
-            if(!$usuarioDTO->isSetNumIdOrgao()){
+            $contexto = $contextoDTO->getNumIdContexto();
+            $orgao = $contextoDTO->getNumIdOrgao();
+            $siglaOrgao = null;
+            if(!$orgao){
                 $orgaoRN = new OrgaoRN();
                 $objOrgaoDTO = new OrgaoDTO();
                 $objOrgaoDTO->setBolExclusaoLogica(false);
@@ -144,16 +159,27 @@ class MdWsSeiUsuarioRN extends InfraRN {
                  * Orgao da sessao do sistema
                  */
                 $orgaoCarregdo = $orgaoRN->consultarRN1352($objOrgaoDTO);
-                $usuarioDTO->setNumIdOrgao($orgaoCarregdo->getNumIdOrgao());
+                $orgao = $orgaoCarregdo->getNumIdOrgao();
+                $siglaOrgao = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema');
             }
+            if(!$siglaOrgao){
+                $orgaoRN = new OrgaoRN();
+                $objOrgaoDTO = new OrgaoDTO();
+                $objOrgaoDTO->setBolExclusaoLogica(false);
+                $objOrgaoDTO->retStrSigla();
+                $objOrgaoDTO->setNumIdOrgao($orgao);
+                $objOrgaoDTO = $orgaoRN->consultarRN1352($objOrgaoDTO);
+                $siglaOrgao = $objOrgaoDTO->getStrSigla();
+            }
+
             $objSipWs = $this->retornaServicoSip();
             $ret = $objSipWs->autenticarCompleto(
-                $usuarioDTO->getNumIdOrgao(),
-                null,
+                $orgao,
+                $contexto,
                 $usuarioDTO->getStrSigla(),
                 $this->encriptaSenha($usuarioDTO->getStrSenha()),
                 ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaSistema'),
-                ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema')
+                $siglaOrgao
             );
 
             if(!$ret){
@@ -241,6 +267,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 false,
                 false
             );
+            var_dump($ret);exit;
             return MdWsSeiRest::formataRetornoSucessoREST(null, $ret);
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
