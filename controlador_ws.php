@@ -51,10 +51,36 @@ $app->group('/api/v1',function(){
         /** @var $response Slim\Http\Response */
         $rn = new MdWsSeiUsuarioRN();
         $usuarioDTO = new UsuarioDTO();
+        $contextoDTO = new ContextoDTO();
         $usuarioDTO->setStrSigla($request->getParam('usuario'));
         $usuarioDTO->setStrSenha($request->getParam('senha'));
+        $contextoDTO->setNumIdContexto($request->getParam('contexto'));
+        $contextoDTO->setNumIdOrgao($request->getParam('orgao'));
 
-        return $response->withJSON($rn->autenticar($usuarioDTO));
+        return $response->withJSON($rn->apiAutenticar($usuarioDTO, $contextoDTO));
+    });
+    /**
+     * Grupo de controlador de Órgão <publico>
+     */
+    $this->group('/orgao', function(){
+        $this->get('/listar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiOrgaoRN();
+            $dto = new OrgaoDTO();
+            return $response->withJSON($rn->listarOrgao($dto));
+        });
+    });
+    /**
+     * Grupo de controlador de Contexto <publico>
+     */
+    $this->group('/contexto', function(){
+        $this->get('/listar/{orgao}', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiContextoRN();
+            $dto = new OrgaoDTO();
+            $dto->setNumIdOrgao($request->getAttribute('route')->getArgument('orgao'));
+            return $response->withJSON($rn->listarContexto($dto));
+        });
     });
 
     /**

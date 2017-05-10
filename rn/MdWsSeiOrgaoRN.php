@@ -10,28 +10,22 @@ class MdWsSeiOrgaoRN extends InfraRN {
     /**
      * Retorna todos os orgaos ativos cadastrados
      * @param OrgaoDTO $orgaoDTO
-     * @info para p�ginacao e necess�rio informar dentro do DTO os parametros abaixo:
-     *  - setNumMaxRegistrosRetorno
-     *  - setNumPaginaAtual
      * @return array
      */
-    protected function listarOrgaoConectado(OrgaoDTO $orgaoDTO){
+    protected function listarOrgaoConectado(OrgaoDTO $orgaoDTOParam){
         try{
             $result = array();
-            $orgaoRN = new OrgaoRN();
-            if(!$orgaoDTO->isRetNumIdOrgao()){
-                $orgaoDTO->retNumIdOrgao();
-            }
-            if(!$orgaoDTO->isRetStrSigla()){
-                $orgaoDTO->retStrSigla();
-            }
-            if(!$orgaoDTO->isRetStrDescricao()){
-                $orgaoDTO->retStrDescricao();
-            }
-            if(!$orgaoDTO->isSetStrSinAtivo()){
-                $orgaoDTO->setStrSinAtivo('S');
-            }
-            $ret = $orgaoRN->listarRN1353($orgaoDTO);
+            $orgaoDTO = new OrgaoDTO();
+            $orgaoDTO->retNumIdOrgao();
+            $orgaoDTO->retStrSigla();
+            $orgaoDTO->retStrDescricao();
+            $orgaoDTO->setStrSinAtivo('S');
+
+            //Chamada Direta ao BD devido a ponta ser um serviço público sem autenticação.
+
+            $orgaoBD = new OrgaoBD($this->getObjInfraIBanco());
+            $ret = $orgaoBD->listar($orgaoDTO);
+
             /** @var OrgaoDTO $orgDTO */
             foreach($ret as $orgDTO){
                 $result[] = array(
@@ -41,7 +35,7 @@ class MdWsSeiOrgaoRN extends InfraRN {
                 );
             }
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $orgaoDTO->getNumTotalRegistros());
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
