@@ -134,21 +134,23 @@ class MdWsSeiDocumentoRN extends InfraRN {
 
     /**
      * Metodo simplificado (abstraido) de assinatura de documentos
-     * @param array $arrIdDocumento
-     * @param $idOrgao
-     * @param $strCargoFuncao
-     * @param $siglaUsuario
-     * @param $senhaUsuario
-     * @param $idUsuario
+     * @param string $arrIdDocumento
+     * @param int $idOrgao
+     * @param string $strCargoFuncao
+     * @param string $siglaUsuario
+     * @param string $senhaUsuario
+     * @param int $idUsuario
      * @return array
      */
     public function apiAssinarDocumentos($arrIdDocumento, $idOrgao, $strCargoFuncao, $siglaUsuario, $senhaUsuario, $idUsuario){
-        $arrDocumentoDTO = array();
-        //força a criação do array no caso de somente um parametro inteiro
-        if(!is_array($arrIdDocumento)) {
-            $arrIdDocumento = array($arrIdDocumento);
+        //transforma os dados no array
+        if(strpos($arrIdDocumento, ',') !== false) {
+            $arrDocs = explode(',', $arrIdDocumento);
+        } else {
+            $arrDocs = array($arrIdDocumento);
         }
-        foreach($arrIdDocumento as $dblIdDocumento){
+        
+        foreach($arrDocs as $dblIdDocumento){
             $documentoDTO = new DocumentoDTO();
             $documentoDTO->setDblIdDocumento($dblIdDocumento);
             $arrDocumentoDTO[] = $documentoDTO;
