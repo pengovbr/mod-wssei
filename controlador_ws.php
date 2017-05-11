@@ -48,10 +48,15 @@ $app->options('/{routes:.+}', function ($request, $response, $args) {
 
 $app->add(function ($req, $res, $next) {
     $response = $next($req, $res);
-    return $response
-    ->withHeader('Access-Control-Allow-Origin', '*')
-    ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization, token')
-    ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    
+    //cabeçalhos encontrados na implementação do Mobile
+    $strAllowHeaders = 'X-Requested-With, Content-Type, Accept, Origin, Authorization, ' .
+                       'token, User-Agent, Cookie, Content-Disposition, Content-Length, Transfer-Encoding, Accept-Encoding';  
+    
+    return $response->withHeader('Access-Control-Allow-Origin', 'http://localhost:8100') //Especifico para o IONIC
+                    ->withHeader('Access-Control-Allow-Headers', $strAllowHeaders)
+                    ->withHeader('Access-Control-Allow-Credentials', 'true')
+                    ->withHeader('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
 });
 
 /**
