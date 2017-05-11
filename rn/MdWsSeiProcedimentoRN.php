@@ -311,6 +311,11 @@ class MdWsSeiProcedimentoRN extends InfraRN {
             $retornoProgramado = 'N';
             $retornoAtrasado = 'N';
 
+            $processoBloqueado = $protocoloDTO->getStrStaEstado() == ProtocoloRN::$TE_PROCEDIMENTO_BLOQUEADO ? 'S' : 'N';
+            $processoRemocaoSobrestamento = 'N';
+            $processoDocumentoIncluidoAssinado = 'N';
+            $processoPublicado = 'N';
+
             $atividadeRN = new AtividadeRN();
             $atividadeDTOConsulta = new AtividadeDTO();
             $atividadeDTOConsulta->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
@@ -331,6 +336,15 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                 $tipoVisualizacao = $atividadeDTO->getNumTipoVisualizacao() == 0 ? 'S' : 'N';
                 if($atividadeDTO->getNumIdUsuarioVisualizacao() == $usuarioAtribuicaoAtividade){
                     $usuarioVisualizacao = 'S';
+                }
+                if($tipoVisualizacao  & AtividadeRN::$TV_REMOCAO_SOBRESTAMENTO){
+                    $processoRemocaoSobrestamento = 'S';
+                }
+                if($tipoVisualizacao  & AtividadeRN::$TV_ATENCAO){
+                    $processoDocumentoIncluidoAssinado = 'S';
+                }
+                if($tipoVisualizacao  & AtividadeRN::$TV_PUBLICACAO){
+                    $processoPublicado = 'S';
                 }
             }
             $dadosRetornoProgramado = $this->checaRetornoProgramado($protocoloDTO);
@@ -426,6 +440,10 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                         // foi invertido o processoAcessadoUsuario e processoAcessadoUnidade,
                         // pois em todos os outros metodos e igual e somente neste era diferente...
                         'processoAcessadoUnidade' => $usuarioVisualizacao,
+                        'processoRemocaoSobrestamento' => $processoRemocaoSobrestamento,
+                        'processoBloqueado' => $processoBloqueado,
+                        'processoDocumentoIncluidoAssinado' => $processoDocumentoIncluidoAssinado,
+                        'processoPublicado' => $processoPublicado,
                     )
                 )
             );
