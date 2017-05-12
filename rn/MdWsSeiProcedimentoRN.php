@@ -326,7 +326,9 @@ class MdWsSeiProcedimentoRN extends InfraRN {
             $atividadeDTOConsulta->retNumIdUsuarioVisualizacao();
             $atividadeDTOConsulta->retNumIdAtividade();
 
+            $atividadeDTOConsulta->setNumMaxRegistrosRetorno(1);
             $atividadeDTOConsulta->setOrdNumIdAtividade(InfraDTO::$TIPO_ORDENACAO_DESC);
+
             $arrAtividades = $atividadeRN->listarRN0036($atividadeDTOConsulta);
             if($arrAtividades){
                 /** @var AtividadeDTO $atividadeDTO */
@@ -337,16 +339,34 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                 if($atividadeDTO->getNumIdUsuarioVisualizacao() == $usuarioAtribuicaoAtividade){
                     $usuarioVisualizacao = 'S';
                 }
-                if($tipoVisualizacao  & AtividadeRN::$TV_REMOCAO_SOBRESTAMENTO){
-                    $processoRemocaoSobrestamento = 'S';
-                }
-                if($tipoVisualizacao  & AtividadeRN::$TV_ATENCAO){
-                    $processoDocumentoIncluidoAssinado = 'S';
-                }
-                if($tipoVisualizacao  & AtividadeRN::$TV_PUBLICACAO){
-                    $processoPublicado = 'S';
+            }
+            $pesquisaPendenciaDTO = new PesquisaPendenciaDTO();
+            $pesquisaPendenciaDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+            $pesquisaPendenciaDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $pesquisaPendenciaDTO->setStrStaEstadoProcedimento(array(ProtocoloRN::$TE_NORMAL,ProtocoloRN::$TE_PROCEDIMENTO_BLOQUEADO));
+            $pesquisaPendenciaDTO->setStrSinAnotacoes('S');
+            $pesquisaPendenciaDTO->setStrSinRetornoProgramado('S');
+            $pesquisaPendenciaDTO->setStrSinCredenciais('S');
+            $pesquisaPendenciaDTO->setStrSinSituacoes('S');
+            $pesquisaPendenciaDTO->setStrSinMarcadores('S');
+            $pesquisaPendenciaDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+            $arrProcedimentoDTO = $atividadeRN->listarPendenciasRN0754($pesquisaPendenciaDTO);
+            if($arrProcedimentoDTO){
+                $arrAtividadePendenciaDTO = $arrProcedimentoDTO[0]->getArrObjAtividadeDTO();
+                if($arrAtividadePendenciaDTO){
+                    $atividadePendenciaDTO = $arrAtividadePendenciaDTO[0];
+                    if($atividadePendenciaDTO->getNumTipoVisualizacao()  & AtividadeRN::$TV_REMOCAO_SOBRESTAMENTO){
+                        $processoRemocaoSobrestamento = 'S';
+                    }
+                    if($atividadePendenciaDTO->getNumTipoVisualizacao()  & AtividadeRN::$TV_ATENCAO){
+                        $processoDocumentoIncluidoAssinado = 'S';
+                    }
+                    if($atividadePendenciaDTO->getNumTipoVisualizacao()  & AtividadeRN::$TV_PUBLICACAO){
+                        $processoPublicado = 'S';
+                    }
                 }
             }
+
             $dadosRetornoProgramado = $this->checaRetornoProgramado($protocoloDTO);
             if($dadosRetornoProgramado){
                 $retornoProgramado = $dadosRetornoProgramado['retornoProgramado'];
@@ -376,7 +396,6 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                 $arrPublicacaoDTO = $publiacaoRN->listarRN1045($publicacaoDTO);
                 $documentoPublicado = count($arrPublicacaoDTO) ? 'S' : 'N';
             }
-
             $anotacaoRN = new AnotacaoRN();
             $anotacaoDTOConsulta = new AnotacaoDTO();
             $anotacaoDTOConsulta->setNumMaxRegistrosRetorno(1);
@@ -392,9 +411,12 @@ class MdWsSeiProcedimentoRN extends InfraRN {
             $anotacaoDTOConsulta->setNumIdUnidade($protocoloDTO->getNumIdUnidadeGeradora());
             $arrAnotacao = $anotacaoRN->listar($anotacaoDTOConsulta);
             $possuiAnotacao = count($arrAnotacao) ? 'S' : 'N';
-            $anotacaoDTOConsulta->setStrSinPrioridade('S');
-            $arrAnotacaoPrioridade = $anotacaoRN->listar($anotacaoDTOConsulta);
-            $possuiAnotacaoPrioridade = count($arrAnotacaoPrioridade) ? 'S' : 'N';
+            foreach($arrAnotacao as $anotacaoDTO){
+                if($anotacaoDTO->getStrSinPrioridade() == 'S'){
+                    $possuiAnotacaoPrioridade = 'S';
+                    break;
+                }
+            }
             $resultAnotacao = array();
             /** @var AnotacaoDTO $anotacaoDTO */
             foreach($arrAnotacao as $anotacaoDTO){
@@ -440,6 +462,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                         // foi invertido o processoAcessadoUsuario e processoAcessadoUnidade,
                         // pois em todos os outros metodos e igual e somente neste era diferente...
                         'processoAcessadoUnidade' => $usuarioVisualizacao,
+                        //Novos Status de Processo igual listagem
                         'processoRemocaoSobrestamento' => $processoRemocaoSobrestamento,
                         'processoBloqueado' => $processoBloqueado,
                         'processoDocumentoIncluidoAssinado' => $processoDocumentoIncluidoAssinado,
