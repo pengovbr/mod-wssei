@@ -180,13 +180,17 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 $this->encriptaSenha($usuarioDTO->getStrSenha()),
                 ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaSistema'),
                 $siglaOrgao
-            );
+            ); 
 
             if(!$ret){
                 throw new InfraException('Usuário ou senha inválido!');
             }
             $this->setaVariaveisAutenticacao(get_object_vars($ret));
+            
+            //dados usuário
             $ret->id_unidade_atual = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
+            $ret->sigla = $usuarioDTO->getStrSigla();
+            
             $token = $this->tokenEncode($usuarioDTO->getStrSigla(), $usuarioDTO->getStrSenha());
 
             $arrUnidades = array();
