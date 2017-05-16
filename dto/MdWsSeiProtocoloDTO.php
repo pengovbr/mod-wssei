@@ -1,7 +1,7 @@
 <?
 
 class MdWsSeiProtocoloDTO extends ProtocoloDTO{
-    CONST SIN_TIPO_BUSCA_M = 'M';
+    CONST SIN_TIPO_BUSCA_R = 'R';
     CONST SIN_TIPO_BUSCA_G = 'G';
 
     public function montar(){
@@ -44,6 +44,7 @@ class MdWsSeiProtocoloDTO extends ProtocoloDTO{
             'atividade');
 
         $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'SinTipoBusca');
+        $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'SinApenasMeus');
 
         $this->configurarFK('IdProtocolo', 'procedimento p2', 'p2.id_procedimento', InfraDTO::$TIPO_FK_OBRIGATORIA);
         $this->configurarFK('IdProtocolo', 'acompanhamento', 'id_protocolo');

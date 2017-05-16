@@ -340,9 +340,6 @@ $app->group('/api/v1',function(){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
             $dto = new MdWsSeiProtocoloDTO();
-            if($request->getParam('unidade')){
-                $dto->setNumIdUnidadeAtividade($request->getParam('unidade'));
-            }
             if($request->getParam('limit')){
                 $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
             }
@@ -353,6 +350,11 @@ $app->group('/api/v1',function(){
                 $dto->setStrSinTipoBusca($request->getParam('tipo'));
             }else{
                 $dto->setStrSinTipoBusca(null);
+            }
+            if($request->getParam('apenasMeus')){
+                $dto->setStrSinApenasMeus($request->getParam('apenasMeus'));
+            }else{
+                $dto->setStrSinApenasMeus('N');
             }
             if(!is_null($request->getParam('start'))){
                 $dto->setNumPaginaAtual($request->getParam('start'));

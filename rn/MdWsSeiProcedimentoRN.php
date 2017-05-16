@@ -227,63 +227,50 @@ class MdWsSeiProcedimentoRN extends InfraRN {
      */
     protected function listarProcessosConectado(MdWsSeiProtocoloDTO $mdWsSeiProtocoloDTOParam){
         try{
-            $mdWsSeiProtocoloDTOConsulta = new MdWsSeiProtocoloDTO();
-            $mdWsSeiProtocoloDTOConsulta->setDthConclusaoAtividade(null);
-            $mdWsSeiProtocoloDTOConsulta->retDblIdProtocolo();
-            $mdWsSeiProtocoloDTOConsulta->retTodos();
-            $mdWsSeiProtocoloDTOConsulta->retStrNomeTipoProcedimentoProcedimento();
-            $mdWsSeiProtocoloDTOConsulta->retStrSiglaUnidadeGeradora();
-            $mdWsSeiProtocoloDTOConsulta->retStrSinCienciaProcedimento();
-            $mdWsSeiProtocoloDTOConsulta->setOrdDthAberturaAtividade(InfraDTO::$TIPO_ORDENACAO_DESC);
+            $pesquisaPendenciaDTO = new PesquisaPendenciaDTO();
 
             $usuarioAtribuicaoAtividade = null;
             if($mdWsSeiProtocoloDTOParam->isSetNumIdUsuarioAtribuicaoAtividade()){
                 $usuarioAtribuicaoAtividade = $mdWsSeiProtocoloDTOParam->getNumIdUsuarioAtribuicaoAtividade();
             }
 
-            if(!$mdWsSeiProtocoloDTOParam->isSetNumIdUnidadeAtividade()){
-                $mdWsSeiProtocoloDTOConsulta->setNumIdUnidadeAtividade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-            }else{
-                $mdWsSeiProtocoloDTOConsulta->setNumIdUnidadeAtividade($mdWsSeiProtocoloDTOParam->getNumIdUnidadeAtividade());
-            }
-
             if(!is_null($mdWsSeiProtocoloDTOParam->getNumPaginaAtual())){
-                $mdWsSeiProtocoloDTOConsulta->setNumPaginaAtual($mdWsSeiProtocoloDTOParam->getNumPaginaAtual());
+                $pesquisaPendenciaDTO->setNumPaginaAtual($mdWsSeiProtocoloDTOParam->getNumPaginaAtual());
             }else{
-                $mdWsSeiProtocoloDTOConsulta->setNumPaginaAtual(0);
+                $pesquisaPendenciaDTO->setNumPaginaAtual(0);
             }
 
             if($mdWsSeiProtocoloDTOParam->isSetNumMaxRegistrosRetorno()){
-                $mdWsSeiProtocoloDTOConsulta->setNumMaxRegistrosRetorno($mdWsSeiProtocoloDTOParam->getNumMaxRegistrosRetorno());
+                $pesquisaPendenciaDTO->setNumMaxRegistrosRetorno($mdWsSeiProtocoloDTOParam->getNumMaxRegistrosRetorno());
             }else{
-                $mdWsSeiProtocoloDTOConsulta->setNumMaxRegistrosRetorno(10);
+                $pesquisaPendenciaDTO->setNumMaxRegistrosRetorno(10);
             }
-            if(!$mdWsSeiProtocoloDTOParam->isSetNumIdUsuarioAtribuicaoAtividade()){
-                $mdWsSeiProtocoloDTOParam->setNumIdUsuarioAtribuicaoAtividade(SessaoSEI::getInstance()->getNumIdUsuario());
-            }
-            if($mdWsSeiProtocoloDTOParam->getStrSinTipoBusca() == MdWsSeiProtocoloDTO::SIN_TIPO_BUSCA_M){
-                $mdWsSeiProtocoloDTOConsulta->setNumIdUsuarioAtribuicaoAtividade($mdWsSeiProtocoloDTOParam->getNumIdUsuarioAtribuicaoAtividade());
-            }else if($mdWsSeiProtocoloDTOParam->getStrSinTipoBusca() == MdWsSeiProtocoloDTO::SIN_TIPO_BUSCA_G){
-                $mdWsSeiProtocoloDTOConsulta->adicionarCriterio(
-                   array('StaEstado', 'SinInicialAtividade'),
-                    array(InfraDTO::$OPER_DIFERENTE, InfraDTO::$OPER_IGUAL),
-                    array(1, 'S'),
-                    InfraDTO::$OPER_LOGICO_AND
-                );
-            }else{
-                $mdWsSeiProtocoloDTOConsulta->adicionarCriterio(
-                    array('StaEstado', 'SinInicialAtividade', 'IdTarefaAtividade'),
-                    array(InfraDTO::$OPER_DIFERENTE, InfraDTO::$OPER_IGUAL, InfraDTO::$OPER_DIFERENTE),
-                    array(1, 'N', TarefaRN::$TI_GERACAO_PROCEDIMENTO),
-                    array(InfraDTO::$OPER_LOGICO_AND, InfraDTO::$OPER_LOGICO_AND)
-                );
+            if($mdWsSeiProtocoloDTOParam->getStrSinApenasMeus() == 'S'){
+                $pesquisaPendenciaDTO->setStrStaTipoAtribuicao('M');
             }
 
-            $protocoloRN = new ProtocoloRN();
-            $ret = $protocoloRN->listarRN0668($mdWsSeiProtocoloDTOConsulta);
+            $atividadeRN = new AtividadeRN();
+            $pesquisaPendenciaDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+            $pesquisaPendenciaDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $pesquisaPendenciaDTO->setStrStaEstadoProcedimento(array(ProtocoloRN::$TE_NORMAL,ProtocoloRN::$TE_PROCEDIMENTO_BLOQUEADO));
+            $pesquisaPendenciaDTO->setStrSinAnotacoes('S');
+            $pesquisaPendenciaDTO->setStrSinRetornoProgramado('S');
+            $pesquisaPendenciaDTO->setStrSinCredenciais('S');
+            $pesquisaPendenciaDTO->setStrSinSituacoes('S');
+            $pesquisaPendenciaDTO->setStrSinMarcadores('S');
+
+            if($mdWsSeiProtocoloDTOParam->getStrSinTipoBusca() == MdWsSeiProtocoloDTO::SIN_TIPO_BUSCA_R){
+                $pesquisaPendenciaDTO->setStrSinInicial('N');
+                $ret = $atividadeRN->listarPendenciasRN0754($pesquisaPendenciaDTO);
+            }else if($mdWsSeiProtocoloDTOParam->getStrSinTipoBusca() == MdWsSeiProtocoloDTO::SIN_TIPO_BUSCA_G){
+                $pesquisaPendenciaDTO->setStrSinInicial('S');
+                $ret = $atividadeRN->listarPendenciasRN0754($pesquisaPendenciaDTO);
+            }else{
+                throw new InfraException('O tipo de busca deve ser (R)ecebidos ou (G)erados');
+            }
             $result = $this->montaRetornoListagemProcessos($ret, $usuarioAtribuicaoAtividade);
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $mdWsSeiProtocoloDTOConsulta->getNumTotalRegistros());
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $pesquisaPendenciaDTO->getNumTotalRegistros());
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
@@ -299,8 +286,8 @@ class MdWsSeiProcedimentoRN extends InfraRN {
     private function montaRetornoListagemProcessos(array $ret, $usuarioAtribuicaoAtividade = null){
 
         $result = array();
-        /** @var MdWsSeiProtocoloDTO $protocoloDTO */
-        foreach($ret as $protocoloDTO){
+        $protocoloRN = new ProtocoloRN();
+        foreach($ret as $dto){
             $usuarioAtribuido = null;
             $documentoNovo = 'N';
             $documentoPublicado = 'N';
@@ -310,6 +297,25 @@ class MdWsSeiProcedimentoRN extends InfraRN {
             $tipoVisualizacao = 'N';
             $retornoProgramado = 'N';
             $retornoAtrasado = 'N';
+            $protocoloDTO = new MdWsSeiProtocoloDTO();
+            if($dto instanceof ProcedimentoDTO){
+                $protocoloDTO = new MdWsSeiProtocoloDTO();
+                $protocoloDTO->setDblIdProtocolo($dto->getDblIdProcedimento());
+                $protocoloDTO->retDblIdProtocolo();
+                $protocoloDTO->retNumIdUnidadeGeradora();
+                $protocoloDTO->retStrStaProtocolo();
+                $protocoloDTO->retStrProtocoloFormatado();
+                $protocoloDTO->retStrNomeTipoProcedimentoProcedimento();
+                $protocoloDTO->retStrDescricao();
+                $protocoloDTO->retStrSiglaUnidadeGeradora();
+                $protocoloDTO->retStrStaGrauSigilo();
+                $protocoloDTO->retStrStaNivelAcessoLocal();
+                $protocoloDTO->retStrSinCienciaProcedimento();
+                $protocoloDTO->retStrStaEstado();
+                $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
+            }else{
+                $protocoloDTO = $dto;
+            }
 
             $processoBloqueado = $protocoloDTO->getStrStaEstado() == ProtocoloRN::$TE_PROCEDIMENTO_BLOQUEADO ? 'S' : 'N';
             $processoRemocaoSobrestamento = 'N';
@@ -340,30 +346,35 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                     $usuarioVisualizacao = 'S';
                 }
             }
-            $pesquisaPendenciaDTO = new PesquisaPendenciaDTO();
-            $pesquisaPendenciaDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
-            $pesquisaPendenciaDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-            $pesquisaPendenciaDTO->setStrStaEstadoProcedimento(array(ProtocoloRN::$TE_NORMAL,ProtocoloRN::$TE_PROCEDIMENTO_BLOQUEADO));
-            $pesquisaPendenciaDTO->setStrSinAnotacoes('S');
-            $pesquisaPendenciaDTO->setStrSinRetornoProgramado('S');
-            $pesquisaPendenciaDTO->setStrSinCredenciais('S');
-            $pesquisaPendenciaDTO->setStrSinSituacoes('S');
-            $pesquisaPendenciaDTO->setStrSinMarcadores('S');
-            $pesquisaPendenciaDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
-            $arrProcedimentoDTO = $atividadeRN->listarPendenciasRN0754($pesquisaPendenciaDTO);
-            if($arrProcedimentoDTO){
-                $arrAtividadePendenciaDTO = $arrProcedimentoDTO[0]->getArrObjAtividadeDTO();
-                if($arrAtividadePendenciaDTO){
-                    $atividadePendenciaDTO = $arrAtividadePendenciaDTO[0];
-                    if($atividadePendenciaDTO->getNumTipoVisualizacao()  & AtividadeRN::$TV_REMOCAO_SOBRESTAMENTO){
-                        $processoRemocaoSobrestamento = 'S';
-                    }
-                    if($atividadePendenciaDTO->getNumTipoVisualizacao()  & AtividadeRN::$TV_ATENCAO){
-                        $processoDocumentoIncluidoAssinado = 'S';
-                    }
-                    if($atividadePendenciaDTO->getNumTipoVisualizacao()  & AtividadeRN::$TV_PUBLICACAO){
-                        $processoPublicado = 'S';
-                    }
+            $arrAtividadePendenciaDTO = array();
+            if($dto instanceof ProcedimentoDTO){
+                $arrAtividadePendenciaDTO = $dto->getArrObjAtividadeDTO();
+            }else{
+                $pesquisaPendenciaDTO = new PesquisaPendenciaDTO();
+                $pesquisaPendenciaDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+                $pesquisaPendenciaDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+                $pesquisaPendenciaDTO->setStrStaEstadoProcedimento(array(ProtocoloRN::$TE_NORMAL,ProtocoloRN::$TE_PROCEDIMENTO_BLOQUEADO));
+                $pesquisaPendenciaDTO->setStrSinAnotacoes('S');
+                $pesquisaPendenciaDTO->setStrSinRetornoProgramado('S');
+                $pesquisaPendenciaDTO->setStrSinCredenciais('S');
+                $pesquisaPendenciaDTO->setStrSinSituacoes('S');
+                $pesquisaPendenciaDTO->setStrSinMarcadores('S');
+                $pesquisaPendenciaDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+                $arrProcedimentoDTO = $atividadeRN->listarPendenciasRN0754($pesquisaPendenciaDTO);
+                if($arrProcedimentoDTO){
+                    $arrAtividadePendenciaDTO = $arrProcedimentoDTO[0]->getArrObjAtividadeDTO();
+                }
+            }
+            if($arrAtividadePendenciaDTO){
+                $atividadePendenciaDTO = $arrAtividadePendenciaDTO[0];
+                if($atividadePendenciaDTO->getNumTipoVisualizacao()  & AtividadeRN::$TV_REMOCAO_SOBRESTAMENTO){
+                    $processoRemocaoSobrestamento = 'S';
+                }
+                if($atividadePendenciaDTO->getNumTipoVisualizacao()  & AtividadeRN::$TV_ATENCAO){
+                    $processoDocumentoIncluidoAssinado = 'S';
+                }
+                if($atividadePendenciaDTO->getNumTipoVisualizacao()  & AtividadeRN::$TV_PUBLICACAO){
+                    $processoPublicado = 'S';
                 }
             }
 
