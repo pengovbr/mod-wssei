@@ -153,7 +153,7 @@ class MdWsSeiBlocoRN extends InfraRN {
                     $result[] = array(
                         'id' => $protocoloDTO->getDblIdProtocolo(),
                         'atributos' => array(
-                            'idDocumento' => $protocoloDTO->getDblIdProtocolo(),
+                            'idDocumento' => $relBlocoProtocoloDTO->getDblIdProtocolo(),
                             'mimeType' => ($mimetype)?$mimetype:'html',
                             'data' => $protocoloDTO->getDtaGeracao(),
                             'numero' => $relBlocoProtocoloDTO->getStrProtocoloFormatadoProtocolo(),
