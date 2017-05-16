@@ -116,11 +116,17 @@ class MdWsSeiBlocoRN extends InfraRN {
                     $arrResultAssinatura = array();
                     $protocoloDTO = new ProtocoloDTO();
                     $protocoloDTO->setDblIdProtocolo($relProtocoloProtocoloDTO->getDblIdProtocolo1());
-                    $protocoloDTO->retStrNomeTipoProcedimentoProcedimento();
+                    $protocoloDTO->retStrNomeSerieDocumento();
                     $protocoloDTO->retStrProtocoloFormatado();
                     $protocoloDTO->retDblIdProtocolo();
                     $protocoloDTO->retDtaGeracao();
                     $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
+
+                    $protocoloDTODocumento = new ProtocoloDTO();
+                    $protocoloDTODocumento->retStrNomeSerieDocumento();
+                    $protocoloDTODocumento->setDblIdProtocolo($relBlocoProtocoloDTO->getDblIdProtocolo());
+                    $protocoloDTODocumento = $protocoloRN->consultarRN0186($protocoloDTODocumento);
+
                     $assinaturaDTOConsulta = new AssinaturaDTO();
                     $assinaturaDTOConsulta->setDblIdDocumento($relBlocoProtocoloDTO->getDblIdProtocolo());
                     $assinaturaDTOConsulta->retStrNome();
@@ -152,7 +158,7 @@ class MdWsSeiBlocoRN extends InfraRN {
                             'data' => $protocoloDTO->getDtaGeracao(),
                             'numero' => $relBlocoProtocoloDTO->getStrProtocoloFormatadoProtocolo(),
                             'numeroProcesso' => $protocoloDTO->getStrProtocoloFormatado(),
-                            'tipo' => $protocoloDTO->getStrNomeTipoProcedimentoProcedimento(),
+                            'tipo' => $protocoloDTODocumento->getStrNomeSerieDocumento(),
                             'assinaturas' => $arrResultAssinatura
                         ),
                         'anotacao' => $relBlocoProtocoloDTO->getStrAnotacao()
