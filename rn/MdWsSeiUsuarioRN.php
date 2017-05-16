@@ -97,12 +97,12 @@ class MdWsSeiUsuarioRN extends InfraRN {
      * @param stdClass $loginData
      */
     private function setaVariaveisAutenticacao(array $loginData){
-        $_GET['id_login'] = $loginData['id_login'];
-        $_GET['id_sistema'] = $loginData['id_sistema'];
-        $_GET['id_usuario'] = $loginData['id_usuario'];
+        $_GET['id_login'] = $loginData['IdLogin'];
+        $_GET['id_sistema'] = $loginData['IdSistema'];
+        $_GET['id_usuario'] = $loginData['IdUsuario'];
         $_GET['hash_agente'] = SessaoSEI::gerarHashAgente();
         $_GET['infra_sip'] = true;
-        $_GET['id_contexto'] = '';
+        $_GET['id_contexto'] = $loginData['IdContexto'];;
     }
 
     /**
@@ -188,7 +188,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
             $this->setaVariaveisAutenticacao(get_object_vars($ret));
             
             //dados usuário
-            $ret->id_unidade_atual = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
+            $ret->IdUnidadeAtual = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
             $ret->sigla = $usuarioDTO->getStrSigla();
             
             $token = $this->tokenEncode($usuarioDTO->getStrSigla(), $usuarioDTO->getStrSenha());
@@ -203,7 +203,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
             }
 
             $arrPerfis = array();
-            $retPerfis = $this->listarPerfisUsuario($ret->id_sistema, $ret->id_usuario);
+            $retPerfis = $this->listarPerfisUsuario($ret->IdSistema, $ret->IdUsuario);
             if($retPerfis && $retPerfis['data']){
                 $arrPerfis = $retPerfis['data'];
             }
