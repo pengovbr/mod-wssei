@@ -448,7 +448,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                     ),
                     'anotacoes' => $resultAnotacao,
                     'status' => array(
-                        'documentoSigiloso' => $protocoloDTO->getStrStaGrauSigilo(),
+                        'documentoSigiloso' => !is_null($protocoloDTO->getStrStaGrauSigilo()) || !empty($protocoloDTO->getStrStaGrauSigilo()) ? 'S' : 'N',
                         'documentoRestrito' => $protocoloDTO->getStrStaNivelAcessoLocal() == 1 ? 'S' : 'N',
                         'documentoNovo' => $documentoNovo,
                         'documentoPublicado' => $documentoPublicado,
