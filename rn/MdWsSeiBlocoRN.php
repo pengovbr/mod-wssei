@@ -100,71 +100,63 @@ class MdWsSeiBlocoRN extends InfraRN {
             $relBlocoProtocoloDTOConsulta->setOrdNumIdBloco(InfraDTO::$TIPO_ORDENACAO_DESC);
             $relBlocoProtocoloDTOConsulta->retDblIdProtocolo();
             $relBlocoProtocoloDTOConsulta->retStrAnotacao();
+            $relBlocoProtocoloDTOConsulta->retStrProtocoloFormatadoProtocolo();
             $arrRelProtocolo = $relBlocoProtocoloRN->listarRN1291($relBlocoProtocoloDTOConsulta);
             if($arrRelProtocolo){
                 $anexoRN = new AnexoRN();
                 $assinaturaRN = new AssinaturaRN();
                 $protocoloRN = new ProtocoloRN();
+                $protocoloProtocoloRN = new RelProtocoloProtocoloRN();
                 /** @var RelBlocoProtocoloDTO $relBlocoProtocoloDTO */
                 foreach($arrRelProtocolo as $relBlocoProtocoloDTO){
-                    $relProtocoloProtocoloRN = new RelProtocoloProtocoloRN();
-                    $relProtocoloProtocoloDTOConsulta = new RelProtocoloProtocoloDTO();
-                    $relProtocoloProtocoloDTOConsulta->adicionarCriterio(
-                        array('IdProtocolo1', 'IdProtocolo2'),
-                        array(InfraDTO::$OPER_IGUAL, InfraDTO::$OPER_IGUAL),
-                        array($relBlocoProtocoloDTO->getDblIdProtocolo(), $relBlocoProtocoloDTO->getDblIdProtocolo()),
-                        InfraDTO::$OPER_LOGICO_OR
-                    );
-                    $relProtocoloProtocoloDTOConsulta->retTodos();
-                    $arrProtocoloProtocolo = $relProtocoloProtocoloRN->listarRN0187($relProtocoloProtocoloDTOConsulta);
-                    if($arrProtocoloProtocolo){
-                        $arrResultAssinatura = array();
-                        /** @var RelProtocoloProtocoloDTO $relProtocoloProtocoloDTO */
-                        foreach($arrProtocoloProtocolo as $relProtocoloProtocoloDTO){
-                            $protocoloDTO = new ProtocoloDTO();
-                            $protocoloDTO->setDblIdProtocolo($relBlocoProtocoloDTO->getDblIdProtocolo());
-                            $protocoloDTO->retTodos();
-                            $protocoloDTO->retStrNomeTipoProcedimentoProcedimento();
-                            $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
-                            $assinaturaDTOConsulta = new AssinaturaDTO();
-                            $assinaturaDTOConsulta->setDblIdProcedimentoDocumento($protocoloDTO->getDblIdProtocolo());
-                            $assinaturaDTOConsulta->setDblIdDocumento($protocoloDTO->getDblIdProtocolo());
-                            $assinaturaDTOConsulta->retStrNome();
-                            $assinaturaDTOConsulta->retStrTratamento();
-                            $arrAssinatura = $assinaturaRN->listarRN1323($assinaturaDTOConsulta);
-                            /** @var AssinaturaDTO $assinaturaDTO */
-                            foreach($arrAssinatura as $assinaturaDTO){
-                                $arrResultAssinatura[] = array(
-                                    'nome' => $assinaturaDTO->getStrNome(),
-                                    'cargo' => $assinaturaDTO->getStrTratamento()
-                                );
-                            }
-                            $anexoDTOConsulta = new AnexoDTO();
-                            $anexoDTOConsulta->retTodos();
-                            $anexoDTOConsulta->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
-                            $anexoDTOConsulta->setStrSinAtivo('S');
-                            $anexoDTOConsulta->setNumMaxRegistrosRetorno(1);
-                            $retAnexo = $anexoRN->listarRN0218($anexoDTOConsulta);
-                            $mimetype = null;
-                            if($retAnexo){
-                                $mimetype = $retAnexo[0]->getStrNome();
-                                $mimetype = substr($mimetype, strrpos($mimetype, '.')+1);
-                            }
-                            $result[] = array(
-                                'id' => $protocoloDTO->getDblIdProtocolo(),
-                                'atributos' => array(
-                                    'idDocumento' => $protocoloDTO->getDblIdProtocolo(),
-                                    'mimeType' => ($mimetype)?$mimetype:'html',
-                                    'data' => $protocoloDTO->getDtaGeracao(),
-                                    'numero' => $protocoloDTO->getStrProtocoloFormatado(),
-                                    'numeroProcesso' => $protocoloDTO->getStrProtocoloFormatado(),
-                                    'tipo' => $protocoloDTO->getStrNomeTipoProcedimentoProcedimento(),
-                                    'assinaturas' => $arrResultAssinatura
-                                ),
-                                'anotacao' => $relBlocoProtocoloDTO->getStrAnotacao()
-                            );
-                        }
+                    $relProtocoloProtocoloDTO = new RelProtocoloProtocoloDTO();
+                    $relProtocoloProtocoloDTO->setDblIdProtocolo2($relBlocoProtocoloDTO->getDblIdProtocolo());
+                    $relProtocoloProtocoloDTO->retDblIdProtocolo1();
+                    $relProtocoloProtocoloDTO = $protocoloProtocoloRN->consultarRN0841($relProtocoloProtocoloDTO);
+                    $arrResultAssinatura = array();
+                    $protocoloDTO = new ProtocoloDTO();
+                    $protocoloDTO->setDblIdProtocolo($relProtocoloProtocoloDTO->getDblIdProtocolo1());
+                    $protocoloDTO->retStrNomeTipoProcedimentoProcedimento();
+                    $protocoloDTO->retStrProtocoloFormatado();
+                    $protocoloDTO->retDblIdProtocolo();
+                    $protocoloDTO->retDtaGeracao();
+                    $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
+                    $assinaturaDTOConsulta = new AssinaturaDTO();
+                    $assinaturaDTOConsulta->setDblIdDocumento($relBlocoProtocoloDTO->getDblIdProtocolo());
+                    $assinaturaDTOConsulta->retStrNome();
+                    $assinaturaDTOConsulta->retStrTratamento();
+                    $arrAssinatura = $assinaturaRN->listarRN1323($assinaturaDTOConsulta);
+                    /** @var AssinaturaDTO $assinaturaDTO */
+                    foreach($arrAssinatura as $assinaturaDTO){
+                        $arrResultAssinatura[] = array(
+                            'nome' => $assinaturaDTO->getStrNome(),
+                            'cargo' => $assinaturaDTO->getStrTratamento()
+                        );
                     }
+                    $anexoDTOConsulta = new AnexoDTO();
+                    $anexoDTOConsulta->retTodos();
+                    $anexoDTOConsulta->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+                    $anexoDTOConsulta->setStrSinAtivo('S');
+                    $anexoDTOConsulta->setNumMaxRegistrosRetorno(1);
+                    $retAnexo = $anexoRN->listarRN0218($anexoDTOConsulta);
+                    $mimetype = null;
+                    if($retAnexo){
+                        $mimetype = $retAnexo[0]->getStrNome();
+                        $mimetype = substr($mimetype, strrpos($mimetype, '.')+1);
+                    }
+                    $result[] = array(
+                        'id' => $protocoloDTO->getDblIdProtocolo(),
+                        'atributos' => array(
+                            'idDocumento' => $protocoloDTO->getDblIdProtocolo(),
+                            'mimeType' => ($mimetype)?$mimetype:'html',
+                            'data' => $protocoloDTO->getDtaGeracao(),
+                            'numero' => $relBlocoProtocoloDTO->getStrProtocoloFormatadoProtocolo(),
+                            'numeroProcesso' => $protocoloDTO->getStrProtocoloFormatado(),
+                            'tipo' => $protocoloDTO->getStrNomeTipoProcedimentoProcedimento(),
+                            'assinaturas' => $arrResultAssinatura
+                        ),
+                        'anotacao' => $relBlocoProtocoloDTO->getStrAnotacao()
+                    );
                 }
             }
 
