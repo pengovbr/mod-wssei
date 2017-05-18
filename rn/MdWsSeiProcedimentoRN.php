@@ -310,6 +310,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                 $protocoloDTO->retStrSiglaUnidadeGeradora();
                 $protocoloDTO->retStrStaGrauSigilo();
                 $protocoloDTO->retStrStaNivelAcessoLocal();
+                $protocoloDTO->retStrStaNivelAcessoGlobal();
                 $protocoloDTO->retStrSinCienciaProcedimento();
                 $protocoloDTO->retStrStaEstado();
                 $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
@@ -478,6 +479,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                         'processoBloqueado' => $processoBloqueado,
                         'processoDocumentoIncluidoAssinado' => $processoDocumentoIncluidoAssinado,
                         'processoPublicado' => $processoPublicado,
+                        'nivelAcessoGlobal' => $protocoloDTO->getStrStaNivelAcessoGlobal()
                     )
                 )
             );
