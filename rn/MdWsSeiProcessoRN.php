@@ -38,8 +38,7 @@ class MdWsSeiProcessoRN extends InfraRN {
                     $valor = $atributoAndamentoDTO->getStrValor();
 
                     if (strripos($valor, '¥')) {
-                        $valor = explode('¥', $atributoAndamentoDTO->getStrValor());
-                        $valor = $valor[0];
+                        $valor = str_replace('¥', ' - ', $atributoAndamentoDTO->getStrValor());
                     }
 
                     $strTemplate = str_replace('@' . $atributoAndamentoDTO->getStrNome() . '@', $valor, $strTemplate);
