@@ -377,14 +377,33 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                 if($atividadePendenciaDTO->getNumTipoVisualizacao()  & AtividadeRN::$TV_PUBLICACAO){
                     $processoPublicado = 'S';
                 }
+                $retornoProgramadoDTOConsulta = new RetornoProgramadoDTO();
+                $retornoProgramadoDTOConsulta->retDblIdProtocoloAtividadeEnvio();
+                $retornoProgramadoDTOConsulta->retStrSiglaUnidadeOrigemAtividadeEnvio();
+                $retornoProgramadoDTOConsulta->retStrSiglaUnidadeAtividadeEnvio();
+                $retornoProgramadoDTOConsulta->retDtaProgramada();
+                $retornoProgramadoDTOConsulta->setNumIdUnidadeAtividadeEnvio(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+                $retornoProgramadoDTOConsulta->setDblIdProtocoloAtividadeEnvio(array_unique(InfraArray::converterArrInfraDTO($arrAtividadePendenciaDTO, 'IdProtocolo')), InfraDTO::$OPER_IN);
+                $retornoProgramadoDTOConsulta->setNumIdAtividadeRetorno(null);
+                $objRetornoProgramadoRN = new RetornoProgramadoRN();
+                $arrRetornoProgramadoDTO = $objRetornoProgramadoRN->listar($retornoProgramadoDTOConsulta);
+                if($arrRetornoProgramadoDTO){
+                    $retornoProgramado = 'S';
+                    $strDataAtual = InfraData::getStrDataAtual();
+                    foreach($arrRetornoProgramadoDTO as $retornoProgramadoDTO){
+                        $numPrazo = InfraData::compararDatas($strDataAtual,$retornoProgramadoDTO->getDtaProgramada());
+                        if($numPrazo < 0){
+                            $retornoAtrasado = 'S';
+                            $retornoData = array(
+                                'date' => $retornoProgramadoDTO->getDtaProgramada(),
+                                'unidade' => $retornoProgramadoDTO->getStrSiglaUnidadeOrigemAtividadeEnvio()
+                            );
+
+                        }
+                    }
+                }
             }
 
-            $dadosRetornoProgramado = $this->checaRetornoProgramado($protocoloDTO);
-            if($dadosRetornoProgramado){
-                $retornoProgramado = $dadosRetornoProgramado['retornoProgramado'];
-                $retornoAtrasado = $dadosRetornoProgramado['expirado'];
-                $retornoData = $dadosRetornoProgramado['data'];
-            }
             $documentoRN = new DocumentoRN();
             $documentoDTOConsulta = new DocumentoDTO();
             $documentoDTOConsulta->setDblIdProcedimento($protocoloDTO->getDblIdProtocolo());
@@ -486,40 +505,6 @@ class MdWsSeiProcedimentoRN extends InfraRN {
         }
 
         return $result;
-    }
-
-    private function checaRetornoProgramado(ProtocoloDTO $protocoloDTO){
-        $retProgramado = 'N';
-        $expirado = 'N';
-        $dadosRetorno = null;
-        $retornoProgramadoRN = new RetornoProgramadoRN();
-        $retornoProgramadoDTOConsulta = new MdWsSeiRetornoProgramadoDTO();
-        $retornoProgramadoDTOConsulta->retDtaProgramada();
-        $retornoProgramadoDTOConsulta->retNumIdAtividadeEnvio();
-        $retornoProgramadoDTOConsulta->retStrSiglaUnidadeAtividadeEnvio();
-
-        $retornoProgramadoDTOConsulta->adicionarCriterio(
-            array('IdProtocolo', 'Conclusao'),
-            array(InfraDTO::$OPER_IGUAL, InfraDTO::$OPER_IGUAL),
-            array($protocoloDTO->getDblIdProtocolo(), null),
-            array(InfraDTO::$OPER_LOGICO_AND)
-        );
-        $retornoProgramadoDTOConsulta->setNumMaxRegistrosRetorno(1);
-        $retornoProgramadoDTOConsulta->setOrdNumIdRetornoProgramado(InfraDTO::$TIPO_ORDENACAO_DESC);
-        $ret = $retornoProgramadoRN->listar($retornoProgramadoDTOConsulta);
-
-        if ($ret) {
-            $retornoProgramadoDTO = $ret[0];
-            $expirado = ($retornoProgramadoDTO->getDtaProgramada() < new Datetime());
-            $retProgramado = 'S';
-            $dadosRetorno = array(
-                'date' => $retornoProgramadoDTO->getDtaProgramada(),
-                'unidade' => $retornoProgramadoDTO->getStrSiglaUnidadeAtividadeEnvio()
-            );
-
-        }
-
-        return ['retornoProgramado' => $retProgramado, 'expirado' => $expirado, 'data' => $dadosRetorno];
     }
 
     /**
