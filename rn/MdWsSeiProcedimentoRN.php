@@ -439,7 +439,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
             $anotacaoDTOConsulta->retStrStaAnotacao();
             $anotacaoDTOConsulta->retNumIdAnotacao();
             $anotacaoDTOConsulta->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
-            $anotacaoDTOConsulta->setNumIdUnidade($protocoloDTO->getNumIdUnidadeGeradora());
+            //$anotacaoDTOConsulta->setNumIdUnidade($protocoloDTO->getNumIdUnidadeGeradora());
             $arrAnotacao = $anotacaoRN->listar($anotacaoDTOConsulta);
             $possuiAnotacao = count($arrAnotacao) ? 'S' : 'N';
             foreach($arrAnotacao as $anotacaoDTO){
