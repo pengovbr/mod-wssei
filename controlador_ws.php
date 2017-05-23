@@ -29,7 +29,7 @@ class TokenValidationMiddleware{
         }
         $unidade = $request->getHeader('unidade');
         if($unidade){
-            $rn->alterarUnidadeAtual($unidade);
+            $rn->alterarUnidadeAtual($unidade[0]);
         }
         $response = $next($request, $response);
         return $response;
