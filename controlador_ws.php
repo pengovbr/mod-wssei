@@ -457,6 +457,22 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiProcedimentoRN();
             return $response->withJSON($rn->atribuirProcesso($api));
         });
+        $this->get('/verifica/acesso/{protocolo}', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+            $dto = new ProtocoloDTO();
+            $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
+            return $response->withJSON($rn->verificaAcesso($dto));
+        });
+        $this->post('/identificacao/acesso', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $usuarioDTO = new UsuarioDTO();
+            $usuarioDTO->setStrSenha($request->getParam('senha'));
+            $protocoloDTO = new ProtocoloDTO();
+            $protocoloDTO->setDblIdProtocolo($request->getParam('protocolo'));
+            $rn = new MdWsSeiProcedimentoRN();
+            return $response->withJSON($rn->identificacaoAcesso($usuarioDTO, $protocoloDTO));
+        });
 
     })->add( new TokenValidationMiddleware());
 

@@ -10,11 +10,19 @@ ini_set('xdebug.var_display_max_data', 2048);
 echo '<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>';
 
 $b = new MdWsSeiUsuarioRN();
-$token = $b->tokenEncode('teste', 'teste');
+$token = $b->tokenEncode('teste2', 'teste2');
 echo 'Token: ';
 echo $token;
 echo '<BR>';
 $b->autenticarToken($token);
+
+$arrProcessosVisitados = SessaoSEI::getInstance()->getAtributo('PROCESSOS_VISITADOS_' . SessaoSEI::getInstance()->getStrSiglaUnidadeAtual());
+var_dump($arrProcessosVisitados);
+exit;
+
+require_once dirname(__FILE__).'/vendor/autoload.php';
+
+
 
 class TesteAtividade {
 
@@ -122,7 +130,7 @@ class TesteDocumento {
     public function downloadAnexoConectado(){
         $rn = new MdWsSeiDocumentoRN();
         $dto = new ProtocoloDTO();
-        $dto->setDblIdProtocolo(32);
+        $dto->setDblIdProtocolo(36);
         var_dump($rn->downloadAnexo($dto));
     }
 
