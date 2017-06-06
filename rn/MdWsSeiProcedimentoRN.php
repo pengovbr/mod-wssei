@@ -840,7 +840,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
      * @param ProtocoloDTO $protocoloDTO
      * @return array
      */
-    protected function identificacaoAcessoConectado(UsuarioDTO $usuarioDTO, ProtocoloDTO $protocoloDTO){
+    public function apiIdentificacaoAcesso(UsuarioDTO $usuarioDTO, ProtocoloDTO $protocoloDTO){
         try{
             $objInfraSip = new InfraSip(SessaoSEI::getInstance());
             $objInfraSip->autenticar(SessaoSEI::getInstance()->getNumIdOrgaoUsuario(), null, SessaoSEI::getInstance()->getStrSiglaUsuario(), $usuarioDTO->getStrSenha());

@@ -471,7 +471,8 @@ $app->group('/api/v1',function(){
             $protocoloDTO = new ProtocoloDTO();
             $protocoloDTO->setDblIdProtocolo($request->getParam('protocolo'));
             $rn = new MdWsSeiProcedimentoRN();
-            return $response->withJSON($rn->identificacaoAcesso($usuarioDTO, $protocoloDTO));
+
+            return $response->withJSON($rn->apiIdentificacaoAcesso($usuarioDTO, $protocoloDTO));
         });
 
     })->add( new TokenValidationMiddleware());
