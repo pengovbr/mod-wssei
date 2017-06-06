@@ -496,7 +496,7 @@ class MdWsSeiProcedimentoRN extends InfraRN {
                         'idUnidade' => $protocoloDTO->getNumIdUnidadeGeradora(),
                         'sigla' => $protocoloDTO->getStrSiglaUnidadeGeradora()
                     ),
-                    'dados_abertura' => $arrDadosAbertura,
+                    'dadosAbertura' => $arrDadosAbertura,
                     'anotacoes' => $resultAnotacao,
                     'status' => array(
                         'documentoSigiloso' => $protocoloDTO->getStrStaGrauSigilo(),
