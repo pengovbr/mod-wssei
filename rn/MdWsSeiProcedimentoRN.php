@@ -808,6 +808,9 @@ class MdWsSeiProcedimentoRN extends InfraRN {
             $protocoloDTO->retStrStaNivelAcessoGlobal();
             $protocoloDTO->retDblIdProtocolo();
             $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
+            if(!$protocoloDTO){
+                throw new Exception('Processo não encontrado!');
+            }
             if($protocoloDTO->getStrStaNivelAcessoGlobal() == ProtocoloRN::$NA_SIGILOSO){
                 $objPesquisaProtocoloDTO = new PesquisaProtocoloDTO();
                 $objPesquisaProtocoloDTO->setStrStaTipo(ProtocoloRN::$TPP_PROCEDIMENTOS);
