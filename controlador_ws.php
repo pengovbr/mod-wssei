@@ -6,7 +6,6 @@
 require_once dirname(__FILE__).'/../../SEI.php';
 require_once dirname(__FILE__).'/vendor/autoload.php';
 
-
 class TokenValidationMiddleware{
     public function __invoke($request, $response, $next)
     {
@@ -369,6 +368,24 @@ $app->group('/api/v1',function(){
         $this->get('/pesquisar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
+            $dto = new MdWsSeiPesquisaProtocoloSolrDTO();
+            if($request->getParam('grupo')){
+                $dto->setNumIdGrupoAcompanhamentoProcedimento($request->getParam('grupo'));
+            }
+            if($request->getParam('protocoloPesquisa')){
+                $dto->setStrProtocoloPesquisa(InfraUtil::retirarFormatacao($request->getParam('protocoloPesquisa'),false));
+            }
+            if($request->getParam('limit')){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start'))){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+
+            return $response->withJSON($rn->pesquisarProcessosSolar($dto));
+            exit;
+
+
             $dto = new MdWsSeiProtocoloDTO();
             if($request->getParam('grupo')){
                 $dto->setNumIdGrupoAcompanhamentoProcedimento($request->getParam('grupo'));

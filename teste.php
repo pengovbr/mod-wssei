@@ -10,7 +10,7 @@ ini_set('xdebug.var_display_max_data', 2048);
 echo '<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>';
 
 $b = new MdWsSeiUsuarioRN();
-$token = $b->tokenEncode('teste2', 'teste2');
+$token = $b->tokenEncode('teste', 'teste');
 echo 'Token: ';
 echo $token;
 echo '<BR>';
