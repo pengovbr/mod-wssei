@@ -8,6 +8,7 @@
  */
 class MdWsSeiRest extends SeiIntegracao
 {
+    const NOME_MODULO = "MdWsSeiRest";
 
     /**
      * Converte os dados para UTF8 para ser compativel com json_encode
@@ -92,6 +93,34 @@ class MdWsSeiRest extends SeiIntegracao
     {
     }
 
+    /**
+     * Método que verifica se o módulo esta ativo nas configurações do SEI
+     */
+    public static function moduloAtivo()
+    {
+        global $SEI_MODULOS;
+        $ativo = false;
+        foreach($SEI_MODULOS as $modulo){
+            if($modulo instanceof self){
+                $ativo = true;
+                break;
+            }
+        }
+        return $ativo;
+    }
+
+    /**
+     * Retorna se é compativel com a versão atual do SEI instalado
+     * @param $strVersaoSEI
+     * @return bool
+     */
+    public function verificaCompatibilidade($strVersaoSEI){
+        if (substr($strVersaoSEI, 0, 2) != '3.') {
+            return false;
+        }
+        return true;
+    }
+
     public function getNome()
     {
         return 'Módulo de provisionamento de serviços REST do SEI';
@@ -99,7 +128,7 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function getVersao()
     {
-        return '1.0.0';
+        return '0.2.2';
     }
 
     public function getInstituicao()
@@ -109,7 +138,7 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function inicializar($strVersaoSEI)
     {
-        if (substr($strVersaoSEI, 0, 2) != '3.') {
+        if (!$this->verificaCompatibilidade($strVersaoSEI)) {
             die('Módulo "' . $this->getNome() . '" (' . $this->getVersao() . ') não e compatível com esta versão do SEI (' . $strVersaoSEI . ').');
         }
     }

@@ -6,7 +6,7 @@
 require_once dirname(__FILE__).'/../../SEI.php';
 require_once dirname(__FILE__).'/vendor/autoload.php';
 
-class TokenValidationMiddleware{
+class TokenValidationMiddleware {
     public function __invoke($request, $response, $next)
     {
         /** @var $request Slim\Http\Request */
@@ -30,6 +30,36 @@ class TokenValidationMiddleware{
         if($unidade){
             $rn->alterarUnidadeAtual($unidade[0]);
         }
+        $response = $next($request, $response);
+        return $response;
+    }
+}
+
+class ModuleVerificationMiddleware {
+    public function __invoke($request, $response, $next)
+    {
+        if(!class_exists('MdWsSeiRest', false) || !MdWsSeiRest::moduloAtivo()) {
+            return $response->withJson(
+                array(
+                    "sucesso" => false,
+                    "mensagem" => utf8_encode("Módulo inativo."),
+                    "exception" => null
+                ),
+                401
+            );
+        }
+
+        if(!MdWsSeiRest::verificaCompatibilidade(SEI_VERSAO)){
+            return $response->withJson(
+                array(
+                    "sucesso" => false,
+                    "mensagem" => utf8_encode("Módulo incompatível com a versão ".SEI_VERSAO." do SEI."),
+                    "exception" => null
+                ),
+                401
+            );
+        }
+
         $response = $next($request, $response);
         return $response;
     }
@@ -592,5 +622,5 @@ $app->group('/api/v1',function(){
         });
 
     })->add( new TokenValidationMiddleware());
-});
+})->add( new ModuleVerificationMiddleware());
 $app->run();
