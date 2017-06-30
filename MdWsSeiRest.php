@@ -24,7 +24,7 @@ class MdWsSeiRest extends SeiIntegracao
         }else if(is_bool($item)){
             return $item;
         }else{
-            return utf8_encode(htmlspecialchars($item));
+            return utf8_encode(htmlspecialchars(htmlentities($item)));
         }
         $response = array();
         foreach($itemArr as $key => $val){
