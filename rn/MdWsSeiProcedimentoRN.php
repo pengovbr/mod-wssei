@@ -653,12 +653,20 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     $atividadeDTO = $arrAtividadeDTO[0];
                     if ($strStaNivelAcessoGlobal != ProtocoloRN::$NA_SIGILOSO) {
                         $result['info'] = 'Processo aberto somente na unidade:';
+                        $result['unidades'][] = array(
+                            'id' => $atividadeDTO->getNumIdUnidade(),
+                            'nome' => $atividadeDTO->getStrSiglaUnidade()
+                        );
                         $result['lista'][] = array(
                             'sigla' => $atividadeDTO->getStrSiglaUnidade()
                         );
                     } else {
                         $result['info'] = 'Processo aberto com o usuário:';
                         $atividadeDTO = $arrAtividadeDTO[0];
+                        $result['unidades'][] = array(
+                            'id' => $atividadeDTO->getNumIdUnidade(),
+                            'nome' => $atividadeDTO->getStrSiglaUnidade()
+                        );
                         $result['lista'][] = array(
                             'sigla' => $atividadeDTO->getStrNomeUsuario()
                         );
@@ -667,6 +675,10 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     if ($strStaNivelAcessoGlobal != ProtocoloRN::$NA_SIGILOSO) {
                         $result['info'] = 'Processo aberto nas unidades:';
                         foreach ($arrAtividadeDTO as $atividadeDTO) {
+                            $result['unidades'][] = array(
+                                'id' => $atividadeDTO->getNumIdUnidade(),
+                                'nome' => $atividadeDTO->getStrSiglaUnidade()
+                            );
                             $sigla = $atividadeDTO->getStrSiglaUnidade();
                             if ($atividadeDTO->getNumIdUsuarioAtribuicao() != null) {
                                 $sigla .= ' (atribuído a ' . $atividadeDTO->getStrNomeUsuarioAtribuicao() . ')';
@@ -678,6 +690,10 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     } else {
                         $result['info'] = 'Processo aberto com os usuários:';
                         foreach ($arrAtividadeDTO as $atividadeDTO) {
+                            $result['unidades'][] = array(
+                                'id' => $atividadeDTO->getNumIdUnidade(),
+                                'nome' => $atividadeDTO->getStrSiglaUnidade()
+                            );
                             $sigla = $atividadeDTO->getStrNomeUsuario() . ' na unidade ' . $atividadeDTO->getStrSiglaUnidade();
                             $result['lista'][] = array(
                                 'sigla' => $sigla
