@@ -542,10 +542,14 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 );
             }
             if ($procedimentoDTO && $procedimentoDTO->getStrStaEstadoProtocolo() != ProtocoloRN::$TE_PROCEDIMENTO_ANEXADO) {
+                echo 111;
                 $ret = $this->listarUnidadeAberturaProcedimento($procedimentoDTO);
                 if (!$ret['sucesso']) {
+                    var_dump("Erro...");
+                    var_dump($ret);exit;
                     throw new Exception($ret['mensagem']);
                 }
+                var_dump($ret);exit;
                 $arrDadosAbertura = $ret['data'];
             }
 
