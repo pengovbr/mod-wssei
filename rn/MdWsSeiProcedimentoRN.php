@@ -648,6 +648,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             if (count($arrAtividadeDTO) == 0) {
                 $result['info'] = 'Processo não possui andamentos abertos.';
                 $result['lista'] = array();
+                $result['unidades'] = array();
             } else {
                 if (count($arrAtividadeDTO) == 1) {
                     $atividadeDTO = $arrAtividadeDTO[0];
