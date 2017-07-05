@@ -541,6 +541,11 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     'staAnotacao' => $anotacaoDTO->getStrStaAnotacao()
                 );
             }
+            var_dump($procedimentoDTO);
+            if($procedimentoDTO){
+                var_dump($procedimentoDTO->getStrStaEstadoProtocolo());
+            }
+            exit;
             if ($procedimentoDTO && $procedimentoDTO->getStrStaEstadoProtocolo() != ProtocoloRN::$TE_PROCEDIMENTO_ANEXADO) {
                 $ret = $this->listarUnidadeAberturaProcedimento($procedimentoDTO);
                 if (!$ret['sucesso']) {
