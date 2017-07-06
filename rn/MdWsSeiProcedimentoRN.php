@@ -541,12 +541,11 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     'staAnotacao' => $anotacaoDTO->getStrStaAnotacao()
                 );
             }
-            if ($procedimentoDTO && $procedimentoDTO->getStrStaEstadoProtocolo() != ProtocoloRN::$TE_PROCEDIMENTO_ANEXADO) {
-                $ret = $this->listarUnidadeAberturaProcedimento($procedimentoDTO);
-                if (!$ret['sucesso']) {
-                    throw new Exception($ret['mensagem']);
-                }
-                $arrDadosAbertura = $ret['data'];
+            if ($protocoloDTO->getStrStaEstado() != ProtocoloRN::$TE_PROCEDIMENTO_ANEXADO) {
+                $procedimentoDTOParam = new ProcedimentoDTO();
+                $procedimentoDTOParam->setDblIdProcedimento($protocoloDTO->getDblIdProtocolo());
+                $procedimentoDTOParam->setStrStaNivelAcessoGlobalProtocolo($protocoloDTO->getStrStaNivelAcessoGlobal());
+                $arrDadosAbertura = $this->listarUnidadeAberturaProcedimento($procedimentoDTOParam);
             }
 
             $result[] = array(
@@ -596,118 +595,114 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
     protected function listarUnidadeAberturaProcedimentoConectado(ProcedimentoDTO $procedimentoDTO)
     {
-        try {
-            $result = array();
-            $atividadeRN = new MdWsSeiAtividadeRN();
-            $strStaNivelAcessoGlobal = $procedimentoDTO->getStrStaNivelAcessoGlobalProtocolo();
-            $dblIdProcedimento = $procedimentoDTO->getDblIdProcedimento();
-            $atividadeDTO = new AtividadeDTO();
-            $atividadeDTO->setDistinct(true);
-            $atividadeDTO->retStrSiglaUnidade();
-            $atividadeDTO->retNumIdUnidade();
-            $atividadeDTO->retStrDescricaoUnidade();
+        $result = array();
+        $atividadeRN = new MdWsSeiAtividadeRN();
+        $strStaNivelAcessoGlobal = $procedimentoDTO->getStrStaNivelAcessoGlobalProtocolo();
+        $dblIdProcedimento = $procedimentoDTO->getDblIdProcedimento();
+        $atividadeDTO = new AtividadeDTO();
+        $atividadeDTO->setDistinct(true);
+        $atividadeDTO->retStrSiglaUnidade();
+        $atividadeDTO->retNumIdUnidade();
+        $atividadeDTO->retStrDescricaoUnidade();
 
-            $atividadeDTO->setOrdStrSiglaUnidade(InfraDTO::$TIPO_ORDENACAO_ASC);
+        $atividadeDTO->setOrdStrSiglaUnidade(InfraDTO::$TIPO_ORDENACAO_ASC);
 
-            if ($strStaNivelAcessoGlobal == ProtocoloRN::$NA_SIGILOSO) {
-                $atividadeDTO->retNumIdUsuario();
-                $atividadeDTO->retStrSiglaUsuario();
-                $atividadeDTO->retStrNomeUsuario();
-            } else {
-                $atividadeDTO->retNumIdUsuarioAtribuicao();
-                $atividadeDTO->retStrSiglaUsuarioAtribuicao();
-                $atividadeDTO->retStrNomeUsuarioAtribuicao();
+        if ($strStaNivelAcessoGlobal == ProtocoloRN::$NA_SIGILOSO) {
+            $atividadeDTO->retNumIdUsuario();
+            $atividadeDTO->retStrSiglaUsuario();
+            $atividadeDTO->retStrNomeUsuario();
+        } else {
+            $atividadeDTO->retNumIdUsuarioAtribuicao();
+            $atividadeDTO->retStrSiglaUsuarioAtribuicao();
+            $atividadeDTO->retStrNomeUsuarioAtribuicao();
 
-                //ordena descendente pois no envio de processo que já existe na unidade e está atribuído ficará com mais de um andamento em aberto
-                //desta forma os andamentos com usuário nulo (envios do processo) serão listados depois
-                $atividadeDTO->setOrdStrSiglaUsuarioAtribuicao(InfraDTO::$TIPO_ORDENACAO_DESC);
+            //ordena descendente pois no envio de processo que já existe na unidade e está atribuído ficará com mais de um andamento em aberto
+            //desta forma os andamentos com usuário nulo (envios do processo) serão listados depois
+            $atividadeDTO->setOrdStrSiglaUsuarioAtribuicao(InfraDTO::$TIPO_ORDENACAO_DESC);
 
-            }
-            $atividadeDTO->setDblIdProtocolo($dblIdProcedimento);
-            $atividadeDTO->setDthConclusao(null);
+        }
+        $atividadeDTO->setDblIdProtocolo($dblIdProcedimento);
+        $atividadeDTO->setDthConclusao(null);
 
-            //sigiloso sem credencial nao considera o usuario atual
-            if ($strStaNivelAcessoGlobal == ProtocoloRN::$NA_SIGILOSO) {
+        //sigiloso sem credencial nao considera o usuario atual
+        if ($strStaNivelAcessoGlobal == ProtocoloRN::$NA_SIGILOSO) {
 
-                $acessoDTO = new AcessoDTO();
-                $acessoDTO->setDistinct(true);
-                $acessoDTO->retNumIdUsuario();
-                $acessoDTO->setDblIdProtocolo($dblIdProcedimento);
-                $acessoDTO->setStrStaTipo(AcessoRN::$TA_CREDENCIAL_PROCESSO);
+            $acessoDTO = new AcessoDTO();
+            $acessoDTO->setDistinct(true);
+            $acessoDTO->retNumIdUsuario();
+            $acessoDTO->setDblIdProtocolo($dblIdProcedimento);
+            $acessoDTO->setStrStaTipo(AcessoRN::$TA_CREDENCIAL_PROCESSO);
 
-                $acessoRN = new AcessoRN();
-                $arrAcessoDTO = $acessoRN->listar($acessoDTO);
+            $acessoRN = new AcessoRN();
+            $arrAcessoDTO = $acessoRN->listar($acessoDTO);
 
-                $atividadeDTO->setNumIdUsuario(InfraArray::converterArrInfraDTO($arrAcessoDTO, 'IdUsuario'), InfraDTO::$OPER_IN);
-            }
-            $arrAtividadeDTO = $atividadeRN->listarRN0036($atividadeDTO);
+            $atividadeDTO->setNumIdUsuario(InfraArray::converterArrInfraDTO($arrAcessoDTO, 'IdUsuario'), InfraDTO::$OPER_IN);
+        }
+        $arrAtividadeDTO = $atividadeRN->listarRN0036($atividadeDTO);
 
-            if ($strStaNivelAcessoGlobal != ProtocoloRN::$NA_SIGILOSO) {
-                $arrAtividadeDTO = InfraArray::distinctArrInfraDTO($arrAtividadeDTO, 'SiglaUnidade');
-            }
-            if (count($arrAtividadeDTO) == 0) {
-                $result['info'] = 'Processo não possui andamentos abertos.';
-                $result['lista'] = array();
-                $result['unidades'] = array();
-            } else {
-                if (count($arrAtividadeDTO) == 1) {
+        if ($strStaNivelAcessoGlobal != ProtocoloRN::$NA_SIGILOSO) {
+            $arrAtividadeDTO = InfraArray::distinctArrInfraDTO($arrAtividadeDTO, 'SiglaUnidade');
+        }
+        if (count($arrAtividadeDTO) == 0) {
+            $result['info'] = 'Processo não possui andamentos abertos.';
+            $result['lista'] = array();
+            $result['unidades'] = array();
+        } else {
+            if (count($arrAtividadeDTO) == 1) {
+                $atividadeDTO = $arrAtividadeDTO[0];
+                if ($strStaNivelAcessoGlobal != ProtocoloRN::$NA_SIGILOSO) {
+                    $result['info'] = 'Processo aberto somente na unidade:';
+                    $result['unidades'][] = array(
+                        'id' => $atividadeDTO->getNumIdUnidade(),
+                        'nome' => $atividadeDTO->getStrSiglaUnidade()
+                    );
+                    $result['lista'][] = array(
+                        'sigla' => $atividadeDTO->getStrSiglaUnidade()
+                    );
+                } else {
+                    $result['info'] = 'Processo aberto com o usuário:';
                     $atividadeDTO = $arrAtividadeDTO[0];
-                    if ($strStaNivelAcessoGlobal != ProtocoloRN::$NA_SIGILOSO) {
-                        $result['info'] = 'Processo aberto somente na unidade:';
+                    $result['unidades'][] = array(
+                        'id' => $atividadeDTO->getNumIdUnidade(),
+                        'nome' => $atividadeDTO->getStrSiglaUnidade()
+                    );
+                    $result['lista'][] = array(
+                        'sigla' => $atividadeDTO->getStrNomeUsuario()
+                    );
+                }
+            } else {
+                if ($strStaNivelAcessoGlobal != ProtocoloRN::$NA_SIGILOSO) {
+                    $result['info'] = 'Processo aberto nas unidades:';
+                    foreach ($arrAtividadeDTO as $atividadeDTO) {
                         $result['unidades'][] = array(
                             'id' => $atividadeDTO->getNumIdUnidade(),
                             'nome' => $atividadeDTO->getStrSiglaUnidade()
                         );
+                        $sigla = $atividadeDTO->getStrSiglaUnidade();
+                        if ($atividadeDTO->getNumIdUsuarioAtribuicao() != null) {
+                            $sigla .= ' (atribuído a ' . $atividadeDTO->getStrNomeUsuarioAtribuicao() . ')';
+                        }
                         $result['lista'][] = array(
-                            'sigla' => $atividadeDTO->getStrSiglaUnidade()
-                        );
-                    } else {
-                        $result['info'] = 'Processo aberto com o usuário:';
-                        $atividadeDTO = $arrAtividadeDTO[0];
-                        $result['unidades'][] = array(
-                            'id' => $atividadeDTO->getNumIdUnidade(),
-                            'nome' => $atividadeDTO->getStrSiglaUnidade()
-                        );
-                        $result['lista'][] = array(
-                            'sigla' => $atividadeDTO->getStrNomeUsuario()
+                            'sigla' => $sigla
                         );
                     }
                 } else {
-                    if ($strStaNivelAcessoGlobal != ProtocoloRN::$NA_SIGILOSO) {
-                        $result['info'] = 'Processo aberto nas unidades:';
-                        foreach ($arrAtividadeDTO as $atividadeDTO) {
-                            $result['unidades'][] = array(
-                                'id' => $atividadeDTO->getNumIdUnidade(),
-                                'nome' => $atividadeDTO->getStrSiglaUnidade()
-                            );
-                            $sigla = $atividadeDTO->getStrSiglaUnidade();
-                            if ($atividadeDTO->getNumIdUsuarioAtribuicao() != null) {
-                                $sigla .= ' (atribuído a ' . $atividadeDTO->getStrNomeUsuarioAtribuicao() . ')';
-                            }
-                            $result['lista'][] = array(
-                                'sigla' => $sigla
-                            );
-                        }
-                    } else {
-                        $result['info'] = 'Processo aberto com os usuários:';
-                        foreach ($arrAtividadeDTO as $atividadeDTO) {
-                            $result['unidades'][] = array(
-                                'id' => $atividadeDTO->getNumIdUnidade(),
-                                'nome' => $atividadeDTO->getStrSiglaUnidade()
-                            );
-                            $sigla = $atividadeDTO->getStrNomeUsuario() . ' na unidade ' . $atividadeDTO->getStrSiglaUnidade();
-                            $result['lista'][] = array(
-                                'sigla' => $sigla
-                            );
-                        }
+                    $result['info'] = 'Processo aberto com os usuários:';
+                    foreach ($arrAtividadeDTO as $atividadeDTO) {
+                        $result['unidades'][] = array(
+                            'id' => $atividadeDTO->getNumIdUnidade(),
+                            'nome' => $atividadeDTO->getStrSiglaUnidade()
+                        );
+                        $sigla = $atividadeDTO->getStrNomeUsuario() . ' na unidade ' . $atividadeDTO->getStrSiglaUnidade();
+                        $result['lista'][] = array(
+                            'sigla' => $sigla
+                        );
                     }
                 }
             }
-
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
-        } catch (Exception $e) {
-            return MdWsSeiRest::formataRetornoErroREST($e);
         }
+
+        return $result;
     }
 
     /**

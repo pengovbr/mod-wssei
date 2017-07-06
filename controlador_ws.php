@@ -413,23 +413,6 @@ $app->group('/api/v1',function(){
             }
 
             return $response->withJSON($rn->pesquisarProcessosSolar($dto));
-            exit;
-
-
-            $dto = new MdWsSeiProtocoloDTO();
-            if($request->getParam('grupo')){
-                $dto->setNumIdGrupoAcompanhamentoProcedimento($request->getParam('grupo'));
-            }
-            if($request->getParam('protocoloPesquisa')){
-                $dto->setStrProtocoloFormatadoPesquisa($request->getParam('protocoloPesquisa'));
-            }
-            if($request->getParam('limit')){
-                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
-            }
-            if(!is_null($request->getParam('start'))){
-                $dto->setNumPaginaAtual($request->getParam('start'));
-            }
-            return $response->withJSON($rn->pesquisarProcedimento($dto));
         });
         $this->get('/listar/meus/acompanhamentos', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
