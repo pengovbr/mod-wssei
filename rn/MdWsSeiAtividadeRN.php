@@ -423,6 +423,96 @@ class MdWsSeiAtividadeRN extends AtividadeRN {
         }
     }
 
+    /**
+     * Sobrescrevendo método para colocar paginação
+     * @param ProcedimentoDTO $objProcedimentoDTO
+     * @return mixed
+     * @throws InfraException
+     */
+    protected function listarCredenciaisConectado(ProcedimentoDTO $objProcedimentoDTO) {
+        try{
+            $objInfraException = new InfraException();
+
+            $objProtocoloDTO = new ProtocoloDTO();
+            $objProtocoloDTO->retDblIdProtocolo();
+            $objProtocoloDTO->retStrProtocoloFormatado();
+            $objProtocoloDTO->retStrStaNivelAcessoGlobal();
+            $objProtocoloDTO->setDblIdProtocolo($objProcedimentoDTO->getDblIdProcedimento());
+
+            $objProtocoloRN = new ProtocoloRN();
+            $objProtocoloDTO = $objProtocoloRN->consultarRN0186($objProtocoloDTO);
+
+            $objAcessoDTO = new AcessoDTO();
+            $objAcessoDTO->retNumIdAcesso();
+            $objAcessoDTO->setDblIdProtocolo($objProtocoloDTO->getDblIdProtocolo());
+            $objAcessoDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+            $objAcessoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $objAcessoDTO->setStrStaTipo(AcessoRN::$TA_CREDENCIAL_PROCESSO);
+            $objAcessoDTO->setNumMaxRegistrosRetorno(1);
+
+            $objAcessoRN = new AcessoRN();
+
+            if ($objAcessoRN->consultar($objAcessoDTO) == null){
+                $objInfraException->adicionarValidacao('Usuário atual não possui credencial de acesso ao processo '.$objProtocoloDTO->getStrProtocoloFormatado().' nesta unidade.');
+            }
+
+            if ($objProtocoloDTO->getStrStaNivelAcessoGlobal()!=ProtocoloRN::$NA_SIGILOSO){
+                $objInfraException->adicionarValidacao('Não é possível listar credenciais de acesso para um processo não sigiloso ('.$objProtocoloDTO->getStrProtocoloFormatado().').');
+            }
+
+            $objInfraException->lancarValidacoes();
+
+            $objAtividadeDTO = new AtividadeDTO();
+            $objAtividadeDTO->retNumIdAtividade();
+            $objAtividadeDTO->retStrSiglaUsuario();
+            $objAtividadeDTO->retStrNomeUsuario();
+            $objAtividadeDTO->retStrSiglaUnidade();
+            $objAtividadeDTO->retStrDescricaoUnidade();
+            $objAtividadeDTO->retDthAbertura();
+            $objAtividadeDTO->retNumIdTarefa();
+            $objAtividadeDTO->setNumIdUsuarioOrigem(SessaoSEI::getInstance()->getNumIdUsuario());
+            $objAtividadeDTO->setDblIdProtocolo($objProtocoloDTO->getDblIdProtocolo());
+            $objAtividadeDTO->setNumIdTarefa(array_merge(TarefaRN::getArrTarefasConcessaoCredencial(false), TarefaRN::getArrTarefasCassacaoCredencial(false)), InfraDTO::$OPER_IN);
+
+            // INICIO SOBRESCRITA
+            if($objProcedimentoDTO->isSetNumMaxRegistrosRetorno()){
+                $objAtividadeDTO->setNumMaxRegistrosRetorno($objProcedimentoDTO->getNumMaxRegistrosRetorno());
+            }
+            if(!is_null($objProcedimentoDTO->getNumPaginaAtual())){
+                $objAtividadeDTO->setNumPaginaAtual($objProcedimentoDTO->getNumPaginaAtual());
+            }
+
+            $objAtividadeDTO->setOrdNumIdAtividade(InfraDTO::$TIPO_ORDENACAO_DESC);
+            $arrObjAtividadeDTO = $this->listarRN0036($objAtividadeDTO);
+            $objProcedimentoDTO->setNumTotalRegistros($objAtividadeDTO->getNumTotalRegistros());
+            // FIM SOBRESCRITA
+
+            if (count($arrObjAtividadeDTO)){
+
+                $objAtributoAndamentoDTO = new AtributoAndamentoDTO();
+                $objAtributoAndamentoDTO->retNumIdAtividade();
+                $objAtributoAndamentoDTO->retStrNome();
+                $objAtributoAndamentoDTO->retStrValor();
+                $objAtributoAndamentoDTO->setNumIdAtividade(InfraArray::converterArrInfraDTO($arrObjAtividadeDTO,'IdAtividade'), InfraDTO::$OPER_IN);
+
+                $objAtributoAndamentoRN = new AtributoAndamentoRN();
+                $arrObjAtributoAndamentoDTO = InfraArray::indexarArrInfraDTO($objAtributoAndamentoRN->listarRN1367($objAtributoAndamentoDTO),'IdAtividade',true);
+
+                foreach($arrObjAtividadeDTO as $objAtividadeDTO){
+                    if (isset($arrObjAtributoAndamentoDTO[$objAtividadeDTO->getNumIdAtividade()])){
+                        $objAtividadeDTO->setArrObjAtributoAndamentoDTO($arrObjAtributoAndamentoDTO[$objAtividadeDTO->getNumIdAtividade()]);
+                    }else{
+                        $objAtividadeDTO->setArrObjAtributoAndamentoDTO(array());
+                    }
+                }
+            }
+
+            return $arrObjAtividadeDTO;
+
+        }catch(Exception $e){
+            throw new InfraException('Erro listando credenciais.',$e);
+        }
+    }
 
 
 }

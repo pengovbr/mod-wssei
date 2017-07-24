@@ -36,7 +36,7 @@ class MdWsSeiObservacaoRN extends InfraRN {
             $observacaoRN = new ObservacaoRN();
             $observacaoRN->cadastrarRN0222($observacaoDTO);
 
-            return MdWsSeiRest::formataRetornoSucessoREST('ObservaÃ§Ã£o cadastrada com sucesso!');
+            return MdWsSeiRest::formataRetornoSucessoREST('Observação cadastrada com sucesso!');
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }

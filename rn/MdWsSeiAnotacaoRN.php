@@ -32,6 +32,8 @@ class MdWsSeiAnotacaoRN extends InfraRN {
             $anotacaoDTO->setStrSinPrioridade(
                 ($post['prioridade']) ? 'S' : 'N'
             );
+        }else{
+            $anotacaoDTO->setStrSinPrioridade('N');
         }
         $anotacaoDTO->setStrStaAnotacao('U');
 

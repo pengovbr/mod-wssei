@@ -308,4 +308,56 @@ class MdWsSeiUsuarioRN extends InfraRN {
         }
     }
 
+    /**
+     * Retorna as unidades do usuário
+     * @param UsuarioDTO $usuarioDTO
+     */
+    public function listarUnidadesUsuarioConectado(UsuarioDTO $usuarioDTO){
+        try{
+            $objInfraSip = new InfraSip(SessaoSEI::getInstance());
+            $ret = array_values($objInfraSip->carregarUnidades(SessaoSEI::getInstance()->getNumIdSistema(), $usuarioDTO->getNumIdUsuario()));
+            InfraArray::ordenarArray($ret,InfraSip::$WS_UNIDADE_SIGLA,InfraArray::$TIPO_ORDENACAO_ASC);
+            $result = array();
+            foreach($ret as $uni){
+                //somente unidades ativas, todas as unidades de outros usuários, se for o usuário atual não mostra a unidade atual
+                if ($uni[InfraSip::$WS_UNIDADE_SIN_ATIVO]=='S' && ($usuarioDTO->getNumIdUsuario() != SessaoSEI::getInstance()->getNumIdUsuario() ||$uni[InfraSip::$WS_UNIDADE_ID] != SessaoSEI::getInstance()->getNumIdUnidadeAtual())){
+                    $result[] = array(
+                        'id' => $uni[InfraSip::$WS_UNIDADE_ID],
+                        'sigla' => $uni[InfraSip::$WS_UNIDADE_SIGLA],
+                        'nome' => $uni[InfraSip::$WS_UNIDADE_DESCRICAO]
+                    );
+                }
+            }
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
+     * Pesquisa o usuário pelo nome
+     * @param $palavrachave
+     * @param null $orgao
+     * @return array
+     */
+    public function apiPesquisarUsuario($palavrachave, $orgao = null){
+        try{
+            $result = array();
+            $arrUsuarioDTO = UsuarioINT::autoCompletarUsuarios($orgao,$palavrachave,false,false,true,false);
+            /** @var UsuarioDTO $usuarioDTO */
+            foreach($arrUsuarioDTO as $usuarioDTO){
+                $result[] = array(
+                    'id_contato' => $usuarioDTO->getNumIdContato(),
+                    'id_usuario' => $usuarioDTO->getNumIdUsuario(),
+                    'sigla' => $usuarioDTO->getStrSigla(),
+                    'nome' => $usuarioDTO->getStrNome()
+                );
+            }
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }

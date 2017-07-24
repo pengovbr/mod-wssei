@@ -33,6 +33,23 @@ class MdWsSeiRest extends SeiIntegracao
         return $response;
     }
 
+    public static function dataToIso88591($item){
+        if(is_array($item)){
+            $itemArr = $item;
+        }else if(is_object($item)) {
+            $itemArr = get_object_vars($item);
+        }else if(is_bool($item)){
+            return $item;
+        }else{
+            return mb_convert_encoding($item, 'ISO-8859-1');
+        }
+        $response = array();
+        foreach($itemArr as $key => $val){
+            $response[$key] = MdWsSeiRest::dataToIso88591($val);
+        }
+        return $response;
+    }
+
     /**
      * Formata o retorno da mensagem para o padrão do controlador de serviços REST
      * @param null $mensagem

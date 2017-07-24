@@ -154,6 +154,22 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiUsuarioRN();
             return $response->withJSON($rn->listarUsuarios($dto));
         });
+        $this->get('/pesquisar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiUsuarioRN();
+            return $response->withJSON(
+                $rn->apiPesquisarUsuario(
+                    $request->getParam('palavrachave'),
+                    $request->getParam('orgao'))
+            );
+        });
+        $this->get('/unidades', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $dto = new UsuarioDTO();
+            $dto->setNumIdUsuario($request->getParam('usuario'));
+            $rn = new MdWsSeiUsuarioRN();
+            return $response->withJSON($rn->listarUnidadesUsuario($dto));
+        });
 
     })->add( new TokenValidationMiddleware());
 
@@ -184,8 +200,9 @@ $app->group('/api/v1',function(){
      */
     $this->group('/anotacao', function(){
         $this->post('/', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiAnotacaoRN();
-            $dto = $rn->encapsulaAnotacao($request->getParams());
+            $dto = $rn->encapsulaAnotacao(MdWsSeiRest::dataToIso88591($request->getParams()));
             return $response->withJSON($rn->cadastrarAnotacao($dto));
         });
 
@@ -218,7 +235,7 @@ $app->group('/api/v1',function(){
             $dto = new RelBlocoProtocoloDTO();
             $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
             $dto->setDblIdProtocolo($request->getParam('protocolo'));
-            $dto->setStrAnotacao($request->getParam('anotacao'));
+            $dto->setStrAnotacao(MdWsSeiRest::dataToIso88591($request->getParam('anotacao')));
             return $response->withJSON($rn->cadastrarAnotacaoBloco($dto));
         });
 
@@ -255,7 +272,7 @@ $app->group('/api/v1',function(){
             return $response->withJSON($rn->apiAssinarDocumentos(
                 $request->getParam('arrDocumento'),
                 $request->getParam('orgao'),
-                $request->getParam('cargo'),
+                MdWsSeiRest::dataToIso88591($request->getParam('cargo')),
                 $request->getParam('login'),
                 $request->getParam('senha'),
                 $request->getParam('usuario')
@@ -267,7 +284,7 @@ $app->group('/api/v1',function(){
             return $response->withJSON($rn->apiAssinarDocumento(
                 $request->getParam('documento'),
                 $request->getParam('orgao'),
-                $request->getParam('cargo'),
+                MdWsSeiRest::dataToIso88591($request->getParam('cargo')),
                 $request->getParam('login'),
                 $request->getParam('senha'),
                 $request->getParam('usuario')
@@ -336,7 +353,7 @@ $app->group('/api/v1',function(){
             if($request->getParam('protocoloFormatadoVinculado')){
                 $dto->setProtocoloProcedimentoVinculado($request->getParam('protocoloFormatadoVinculado'));
             }
-            $dto->setMotivo($request->getParam('motivo'));
+            $dto->setMotivo(MdWsSeiRest::dataToIso88591($request->getParam('motivo')));
             return $response->withJSON($rn->sobrestamentoProcesso($dto));
         });
         $this->post('/{procedimento}/ciencia', function($request, $response, $args){
@@ -450,7 +467,7 @@ $app->group('/api/v1',function(){
         $this->post('/enviar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
-            $dto = $rn->encapsulaEnviarProcessoEntradaEnviarProcessoAPI($request->getParams());
+            $dto = $rn->encapsulaEnviarProcessoEntradaEnviarProcessoAPI(MdWsSeiRest::dataToIso88591($request->getParams()));
             return $response->withJSON($rn->enviarProcesso($dto));
         });
         $this->post('/concluir', function($request, $response, $args){
@@ -465,19 +482,19 @@ $app->group('/api/v1',function(){
         $this->post('/acompanhar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiAcompanhamentoRN();
-            $dto = $rn->encapsulaAcompanhamento($request->getParams());
+            $dto = $rn->encapsulaAcompanhamento(MdWsSeiRest::dataToIso88591($request->getParams()));
             return $response->withJSON($rn->cadastrarAcompanhamento($dto));
         });
         $this->post('/agendar/retorno/programado', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiRetornoProgramadoRN();
-            $dto = $rn->encapsulaRetornoProgramado($request->getParams());
+            $dto = $rn->encapsulaRetornoProgramado(MdWsSeiRest::dataToIso88591($request->getParams()));
             return $response->withJSON($rn->agendarRetornoProgramado($dto));
         });
         $this->post('/atribuir', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $api = new EntradaAtribuirProcessoAPI();
-            
+
             if($request->getParam('numeroProcesso')) {
                 $api->setProtocoloProcedimento($request->getParam('numeroProcesso'));
             }
@@ -504,6 +521,38 @@ $app->group('/api/v1',function(){
 
             return $response->withJSON($rn->apiIdentificacaoAcesso($usuarioDTO, $protocoloDTO));
         });
+        $this->post('/{procedimento}/credenciamento/conceder', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiCredenciamentoRN();
+            $dto = new ConcederCredencialDTO();
+            $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
+            $dto->setNumIdUnidade($request->getParam('unidade'));
+            $dto->setNumIdUsuario($request->getParam('usuario'));
+
+            return $response->withJSON($rn->concederCredenciamento($dto));
+        });
+        $this->post('/{procedimento}/credenciamento/cassar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiCredenciamentoRN();
+            $dto = new AtividadeDTO();
+            $dto->setNumIdAtividade($request->getParam('atividade'));
+
+            return $response->withJSON($rn->cassarCredencial($dto));
+        });
+        $this->get('/{procedimento}/credenciamento/listar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiCredenciamentoRN();
+            $dto = new ProcedimentoDTO();
+            if($request->getParam('limit')){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start'))){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
+
+            return $response->withJSON($rn->listarCredenciaisProcesso($dto));
+        });
 
     })->add( new TokenValidationMiddleware());
 
@@ -529,7 +578,7 @@ $app->group('/api/v1',function(){
         $this->post('/lancar/andamento/processo', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiAtividadeRN();
-            $dto = $rn->encapsulaLancarAndamentoProcesso($request->getParams());
+            $dto = $rn->encapsulaLancarAndamentoProcesso(MdWsSeiRest::dataToIso88591($request->getParams()));
 
             return $response->withJSON($rn->lancarAndamentoProcesso($dto));
         });
@@ -555,7 +604,7 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->listarAssinante($dto));
         });
-        
+
         $this->get('/orgao', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiOrgaoRN();
@@ -600,7 +649,7 @@ $app->group('/api/v1',function(){
         $this->post('/', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiObservacaoRN();
-            $dto = $rn->encapsulaObservacao($request->getParams());
+            $dto = $rn->encapsulaObservacao(MdWsSeiRest::dataToIso88591($request->getParams()));
             return $response->withJSON($rn->criarObservacao($dto));
         });
 
