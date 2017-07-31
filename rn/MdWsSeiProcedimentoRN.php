@@ -10,6 +10,21 @@ class MdWsSeiProcedimentoRN extends InfraRN
     }
 
     /**
+     * Consulta o processo pelo protocolo
+     * @param $protocolo
+     * @return array
+     */
+    public function apiConsultarProcessoDigitado($protocolo){
+        try{
+            $result = ProcedimentoINT::pesquisarDigitadoRI1023($protocolo);
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
      * Retorna o total de unidades do processo
      * @param ProtocoloDTO $protocoloDTO
      * @return array
@@ -88,14 +103,20 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
     /**
      * Metodo de sobrestamento de processo
-     * @param EntradaSobrestarProcessoAPI $entradaSobrestarProcessoAPI
+     * @param RelProtocoloProtocoloDTO $relProtocoloProtocoloDTO
      * @return array
      */
-    protected function sobrestamentoProcessoControlado(EntradaSobrestarProcessoAPI $entradaSobrestarProcessoAPI)
+    protected function sobrestamentoProcessoControlado(RelProtocoloProtocoloDTO $relProtocoloProtocoloDTO)
     {
         try {
-            $seiRN = new SeiRN();
-            $seiRN->sobrestarProcesso($entradaSobrestarProcessoAPI);
+            if(!$relProtocoloProtocoloDTO->isSetDblIdProtocolo2()){
+                throw new Exception('Processo não informado!');
+            }
+            if(!$relProtocoloProtocoloDTO->isSetStrMotivo()){
+                throw new Exception('Informe o motivo!');
+            }
+            $procedimentoRN = new ProcedimentoRN();
+            $procedimentoRN->sobrestarRN1014(array($relProtocoloProtocoloDTO));
 
             return MdWsSeiRest::formataRetornoSucessoREST('Processo sobrestado com sucesso');
         } catch (Exception $e) {
@@ -367,6 +388,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $documentoNovo = 'N';
             $documentoPublicado = 'N';
             $possuiAnotacao = 'N';
+            $podeGerenciarCredenciais = 'N';
             $possuiAnotacaoPrioridade = 'N';
             $usuarioVisualizacao = 'N';
             $tipoVisualizacao = 'N';
@@ -548,6 +570,10 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $arrDadosAbertura = $this->listarUnidadeAberturaProcedimento($procedimentoDTOParam);
             }
 
+            if($protocoloDTO->getStrStaNivelAcessoGlobal() == ProtocoloRN::$NA_SIGILOSO){
+                $podeGerenciarCredenciais = SessaoSEI::getInstance()->verificarPermissao('procedimento_credencial_gerenciar') ? 'S' : 'N';
+            }
+
             $result[] = array(
                 'id' => $protocoloDTO->getDblIdProtocolo(),
                 'status' => $protocoloDTO->getStrStaProtocolo(),
@@ -584,7 +610,8 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         'processoBloqueado' => $processoBloqueado,
                         'processoDocumentoIncluidoAssinado' => $processoDocumentoIncluidoAssinado,
                         'processoPublicado' => $processoPublicado,
-                        'nivelAcessoGlobal' => $protocoloDTO->getStrStaNivelAcessoGlobal()
+                        'nivelAcessoGlobal' => $protocoloDTO->getStrStaNivelAcessoGlobal(),
+                        'podeGerenciarCredenciais' => $podeGerenciarCredenciais
                     )
                 )
             );

@@ -109,4 +109,26 @@ class MdWsSeiCredenciamentoRN extends InfraRN {
         }
     }
 
+    /**
+     * Método de reununcia de credencial de acesso
+     * @param ProcedimentoDTO $procedimentoDTO
+     * @return array
+     */
+    protected function renunciarCredencialControlado(ProcedimentoDTO $procedimentoDTO){
+        try{
+            $temPermissao = SessaoSEI::getInstance()->verificarPermissao('procedimento_credencial_renunciar');
+            if(!$temPermissao){
+                throw new Exception("O usuário não tem permissão para renunciar!");
+            }
+            if(!$procedimentoDTO->isSetDblIdProcedimento()){
+                throw new Exception("O processo não foi informado!");
+            }
+            $atividadeRN = new AtividadeRN();
+            $atividadeRN->renunciarCredenciais($procedimentoDTO);
+            return MdWsSeiRest::formataRetornoSucessoREST("Credencial renunciada com sucesso!");
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }

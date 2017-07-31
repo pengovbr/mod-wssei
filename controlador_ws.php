@@ -220,6 +220,13 @@ $app->group('/api/v1',function(){
             $dto->setNumPaginaAtual($request->getParam('start'));
             return $response->withJSON($rn->listarBloco($dto));
         });
+        $this->post('/{bloco}/retornar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            $dto = new BlocoDTO();
+            $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
+            return $response->withJSON($rn->retornar($dto));
+        });
         $this->get('/listar/{bloco}/documentos', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
@@ -337,23 +344,25 @@ $app->group('/api/v1',function(){
             $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
             return $response->withJSON($rn->listarCienciaProcesso($dto));
         });
-        $this->post('/sobrestar/processo', function($request, $response, $args){
+        $this->get('/consultar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
-            $dto = new EntradaSobrestarProcessoAPI();
-            if($request->getParam('protocoloFormatado')){
-                $dto->setProtocoloProcedimento($request->getParam('protocoloFormatado'));
+            return $response->withJSON(
+                $rn->apiConsultarProcessoDigitado(MdWsSeiRest::dataToIso88591($request->getParam('protocoloFormatado')))
+            );
+        });
+        $this->post('/{protocolo}/sobrestar/processo', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+            $dto = new RelProtocoloProtocoloDTO();
+            if($request->getAttribute('route')->getArgument('protocolo')){
+                $dto->setDblIdProtocolo2($request->getAttribute('route')->getArgument('protocolo'));
             }
-            if($request->getParam('protocolo')){
-                $dto->setIdProcedimento($request->getParam('protocolo'));
+            $dto->setDblIdProtocolo1($request->getParam('protocoloDestino'));
+            if($request->getParam('motivo')){
+                $dto->setStrMotivo(MdWsSeiRest::dataToIso88591($request->getParam('motivo')));
             }
-            if($request->getParam('protocoloVinculado')){
-                $dto->setIdProcedimentoVinculado($request->getParam('protocoloVinculado'));
-            }
-            if($request->getParam('protocoloFormatadoVinculado')){
-                $dto->setProtocoloProcedimentoVinculado($request->getParam('protocoloFormatadoVinculado'));
-            }
-            $dto->setMotivo(MdWsSeiRest::dataToIso88591($request->getParam('motivo')));
+
             return $response->withJSON($rn->sobrestamentoProcesso($dto));
         });
         $this->post('/{procedimento}/ciencia', function($request, $response, $args){
@@ -530,6 +539,14 @@ $app->group('/api/v1',function(){
             $dto->setNumIdUsuario($request->getParam('usuario'));
 
             return $response->withJSON($rn->concederCredenciamento($dto));
+        });
+        $this->post('/{procedimento}/credenciamento/renunciar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiCredenciamentoRN();
+            $dto = new ProcedimentoDTO();
+            $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
+
+            return $response->withJSON($rn->renunciarCredencial($dto));
         });
         $this->post('/{procedimento}/credenciamento/cassar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */

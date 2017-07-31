@@ -8,6 +8,25 @@ class MdWsSeiBlocoRN extends InfraRN {
     }
 
     /**
+     * Método que retorna o bloco de assinatura
+     * @param BlocoDTO $blocoDTO
+     * @return array
+     */
+    protected function retornarControlado(BlocoDTO $blocoDTO){
+        try{
+            if(!$blocoDTO->isSetNumIdBloco()){
+                throw new Exception('Bloco não informado!');
+            }
+            $blocoRN = new BlocoRN();
+            $blocoRN->retornar(array($blocoDTO));
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Bloco retornado com sucesso!');
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
      * Consultar Blocos
      * @param BlocoDTO $blocoDTO
      * @return array
