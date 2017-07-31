@@ -190,6 +190,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
             //dados usuário
             $ret->IdUnidadeAtual = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
             $ret->sigla = $usuarioDTO->getStrSigla();
+            $ret->nome = SessaoSEI::getInstance()->getStrNomeUsuario();
             
             $token = $this->tokenEncode($usuarioDTO->getStrSigla(), $usuarioDTO->getStrSenha());
 
