@@ -1173,31 +1173,34 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $registros = $xml->xpath('/response/result/doc');
             $numRegistros = sizeof($registros);
 
+            $result = array();
             for ($i = 0; $i < $numRegistros; $i++) {
                 $arrIdProcessos[] = SolrUtil::obterTag($registros[$i], 'id_proc', 'long');
             }
 
-            $protocoloRN = new ProtocoloRN();
-            $protocoloDTO = new MdWsSeiProtocoloDTO();
-            $protocoloDTO->setDblIdProtocolo($arrIdProcessos, InfraDTO::$OPER_IN);
-            $protocoloDTO->retDblIdProtocolo();
-            $protocoloDTO->retNumIdUnidadeGeradora();
-            $protocoloDTO->retStrStaProtocolo();
-            $protocoloDTO->retStrProtocoloFormatado();
-            $protocoloDTO->retStrNomeTipoProcedimentoProcedimento();
-            $protocoloDTO->retStrDescricao();
-            $protocoloDTO->retStrSiglaUnidadeGeradora();
-            $protocoloDTO->retStrStaGrauSigilo();
-            $protocoloDTO->retStrStaNivelAcessoLocal();
-            $protocoloDTO->retStrStaNivelAcessoGlobal();
-            $protocoloDTO->retStrSinCienciaProcedimento();
-            $protocoloDTO->retStrStaEstado();
-            $arrProtocoloDTO = $protocoloRN->listarRN0668($protocoloDTO);
-            $result = $this->montaRetornoListagemProcessos($arrProtocoloDTO, null);
+            if($arrIdProcessos){
+                $protocoloRN = new ProtocoloRN();
+                $protocoloDTO = new MdWsSeiProtocoloDTO();
+                $protocoloDTO->setDblIdProtocolo($arrIdProcessos, InfraDTO::$OPER_IN);
+                $protocoloDTO->retDblIdProtocolo();
+                $protocoloDTO->retNumIdUnidadeGeradora();
+                $protocoloDTO->retStrStaProtocolo();
+                $protocoloDTO->retStrProtocoloFormatado();
+                $protocoloDTO->retStrNomeTipoProcedimentoProcedimento();
+                $protocoloDTO->retStrDescricao();
+                $protocoloDTO->retStrSiglaUnidadeGeradora();
+                $protocoloDTO->retStrStaGrauSigilo();
+                $protocoloDTO->retStrStaNivelAcessoLocal();
+                $protocoloDTO->retStrStaNivelAcessoGlobal();
+                $protocoloDTO->retStrSinCienciaProcedimento();
+                $protocoloDTO->retStrStaEstado();
+                $arrProtocoloDTO = $protocoloRN->listarRN0668($protocoloDTO);
+                $result = $this->montaRetornoListagemProcessos($arrProtocoloDTO, null);
+            }
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $total);
         } catch (Exception $e) {
-
+            return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
 
