@@ -107,7 +107,7 @@ $app->group('/api/v1',function(){
         $contextoDTO = new ContextoDTO();
         $usuarioDTO->setStrSigla($request->getParam('usuario'));
         $usuarioDTO->setStrSenha($request->getParam('senha'));
-        $contextoDTO->setNumIdContexto($request->getParam('contexto'));
+        $contextoDTO->setNumIdContexto($request->getParam('z'));
         $contextoDTO->setNumIdOrgao($request->getParam('orgao'));
 
         return $response->withJSON($rn->apiAutenticar($usuarioDTO, $contextoDTO));
@@ -330,6 +330,7 @@ $app->group('/api/v1',function(){
      * Grupo de controlador de processos
      */
     $this->group('/processo', function(){
+        //continuar o swagger
         $this->post('/cancelar/sobrestar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
@@ -456,7 +457,22 @@ $app->group('/api/v1',function(){
             if(!is_null($request->getParam('start'))){
                 $dto->setNumPaginaAtual($request->getParam('start'));
             }
-            return $response->withJSON($rn->listarProcedimentoAcompanhamento($dto));
+            return $response->withJSON($rn->listarProcedimentoAcompanhamentoUsuario($dto));
+        });
+        $this->get('/listar/acompanhamentos', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+            $dto = new MdWsSeiProtocoloDTO();
+            if($request->getParam('grupo')){
+                $dto->setNumIdGrupoAcompanhamentoProcedimento($request->getParam('grupo'));
+            }
+            if($request->getParam('limit')){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start'))){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            return $response->withJSON($rn->listarProcedimentoAcompanhamentoUnidade($dto));
         });
 
         /**

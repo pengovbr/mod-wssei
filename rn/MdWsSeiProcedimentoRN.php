@@ -147,11 +147,11 @@ class MdWsSeiProcedimentoRN extends InfraRN
     }
 
     /**
-     * Método que retorna os procedimentos com acompanhamento
+     * Método que retorna os procedimentos com acompanhamento do usuário
      * @param MdWsSeiProtocoloDTO $mdWsSeiProtocoloDTOConsulta
      * @return array
      */
-    protected function listarProcedimentoAcompanhamentoConectado(MdWsSeiProtocoloDTO $mdWsSeiProtocoloDTOParam)
+    protected function listarProcedimentoAcompanhamentoUsuarioConectado(MdWsSeiProtocoloDTO $mdWsSeiProtocoloDTOParam)
     {
         try {
             $usuarioAtribuicaoAtividade = null;
@@ -191,6 +191,43 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $result = $this->montaRetornoListagemProcessos($ret, $usuarioAtribuicaoAtividade);
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $mdWsSeiProtocoloDTOConsulta->getNumTotalRegistros());
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
+     * Método que retorna os procedimentos com acompanhamento da unidade
+     * @param MdWsSeiProtocoloDTO $mdWsSeiProtocoloDTOConsulta
+     * @return array
+     */
+    protected function listarProcedimentoAcompanhamentoUnidadeConectado(MdWsSeiProtocoloDTO $mdWsSeiProtocoloDTOParam)
+    {
+        try {
+            $acompanhamentoRN = new AcompanhamentoRN();
+            $acompanhamentoDTO = new AcompanhamentoDTO();
+            if (is_null($mdWsSeiProtocoloDTOParam->getNumPaginaAtual())) {
+                $acompanhamentoDTO->setNumPaginaAtual(0);
+            } else {
+                $acompanhamentoDTO->setNumPaginaAtual($mdWsSeiProtocoloDTOParam->getNumPaginaAtual());
+            }
+
+            if (!$mdWsSeiProtocoloDTOParam->isSetNumMaxRegistrosRetorno()) {
+                $acompanhamentoDTO->setNumMaxRegistrosRetorno(10);
+            } else {
+                $acompanhamentoDTO->setNumMaxRegistrosRetorno($mdWsSeiProtocoloDTOParam->getNumMaxRegistrosRetorno());
+            }
+            $arrAcompanhamentoDTO = $acompanhamentoRN->listarAcompanhamentosUnidade($acompanhamentoDTO);
+            $totalRegistros = $acompanhamentoDTO->getNumTotalRegistros() ?: 0;
+
+            $ret = array();
+            foreach($arrAcompanhamentoDTO as $acompanhamentoDTO){
+                $ret[] = $acompanhamentoDTO->getObjProcedimentoDTO();;
+            }
+            $result = $this->montaRetornoListagemProcessos($ret, null);
+
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $totalRegistros);
         } catch (Exception $e) {
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
