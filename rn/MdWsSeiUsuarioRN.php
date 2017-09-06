@@ -265,6 +265,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
             if($unidadeDTOParam->isSetNumIdUnidade()){
                 $idUnidade = $unidadeDTOParam->getNumIdUnidade();
             }
+            $result = array();
             $objSipWs = $this->retornaServicoSip();
             $ret = $objSipWs->carregarUsuarios(
                 SessaoSEI::getInstance()->getNumIdSistema(),
@@ -272,7 +273,21 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 false,
                 false
             );
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $ret);
+
+            foreach ($ret as $data){
+                $result[] = array(
+                    'id_usuario' => $data[0],
+                    'id_origem' => $data[1],
+                    'id_orgao' => $data[2],
+                    'sigla' => $data[3],
+                    'nome' => $data[4],
+                    'sin_ativo' => $data[5],
+                    'unidades' => $data[6],
+                    'sin_subunidades' => $data[7],
+                );
+            }
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
