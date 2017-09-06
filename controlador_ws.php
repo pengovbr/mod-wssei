@@ -107,7 +107,7 @@ $app->group('/api/v1',function(){
         $contextoDTO = new ContextoDTO();
         $usuarioDTO->setStrSigla($request->getParam('usuario'));
         $usuarioDTO->setStrSenha($request->getParam('senha'));
-        $contextoDTO->setNumIdContexto($request->getParam('z'));
+        $contextoDTO->setNumIdContexto($request->getParam('contexto'));
         $contextoDTO->setNumIdOrgao($request->getParam('orgao'));
 
         return $response->withJSON($rn->apiAutenticar($usuarioDTO, $contextoDTO));
