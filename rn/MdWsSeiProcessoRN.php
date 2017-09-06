@@ -62,6 +62,8 @@ class MdWsSeiProcessoRN extends InfraRN {
                 '',
                 $strTemplate
             );
+
+            $strTemplate = str_replace('¥', ' - ', $strTemplate);
         }
 
         return $strTemplate;
