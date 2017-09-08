@@ -246,6 +246,20 @@ $app->group('/api/v1',function(){
             return $response->withJSON($rn->cadastrarAnotacaoBloco($dto));
         });
 
+        $this->post('/assinar/{bloco}', function($request, $response, $args){
+            //o- novo pacote 4
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            return $response->withJSON($rn->apiAssinarBloco(
+                $request->getAttribute('route')->getArgument('bloco'),
+                $request->getParam('orgao'),
+                MdWsSeiRest::dataToIso88591($request->getParam('cargo')),
+                $request->getParam('login'),
+                $request->getParam('senha'),
+                $request->getParam('usuario')
+            ));
+        });
+
     })->add( new TokenValidationMiddleware());
 
     /**
@@ -272,18 +286,6 @@ $app->group('/api/v1',function(){
             $dto = new DocumentoDTO();
             $dto->setDblIdDocumento($request->getParam('documento'));
             return $response->withJSON($rn->darCiencia($dto));
-        });
-        $this->post('/assinar/bloco', function($request, $response, $args){
-            /** @var $request Slim\Http\Request */
-            $rn = new MdWsSeiDocumentoRN();
-            return $response->withJSON($rn->apiAssinarDocumentos(
-                $request->getParam('arrDocumento'),
-                $request->getParam('orgao'),
-                MdWsSeiRest::dataToIso88591($request->getParam('cargo')),
-                $request->getParam('login'),
-                $request->getParam('senha'),
-                $request->getParam('usuario')
-            ));
         });
         $this->post('/assinar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */

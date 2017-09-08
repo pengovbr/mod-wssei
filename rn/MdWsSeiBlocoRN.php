@@ -26,6 +26,45 @@ class MdWsSeiBlocoRN extends InfraRN {
         }
     }
 
+
+    /**
+     * Assina todos os documentos do bloco
+     * @param $idOrgao
+     * @param $strCargoFuncao
+     * @param $siglaUsuario
+     * @param $senhaUsuario
+     * @param $idUsuario
+     * @return array
+     */
+    public function apiAssinarBloco($idBloco, $idOrgao, $strCargoFuncao, $siglaUsuario, $senhaUsuario, $idUsuario)
+    {
+        try{
+            $objRelBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
+            $objRelBlocoProtocoloDTO->setNumIdBloco($idBloco);
+            $objRelBlocoProtocoloDTO->setOrdNumSequencia(InfraDTO::$TIPO_ORDENACAO_ASC);
+
+            $objRelBlocoProtocoloRN = new RelBlocoProtocoloRN();
+            $arrIdDocumentos = InfraArray::converterArrInfraDTO($objRelBlocoProtocoloRN->listarProtocolosBloco($objRelBlocoProtocoloDTO),'IdProtocolo');
+            if(!$arrIdDocumentos){
+                return MdWsSeiRest::formataRetornoSucessoREST('Nenhum documento para ser assinado neste bloco.');
+            }
+            $assinaturaDTO = new AssinaturaDTO();
+            $assinaturaDTO->setStrSiglaUsuario($siglaUsuario);
+            $assinaturaDTO->setStrSenhaUsuario($senhaUsuario);
+            $assinaturaDTO->setNumIdUsuario($idUsuario);
+            $assinaturaDTO->setNumIdOrgaoUsuario($idOrgao);
+            $assinaturaDTO->setStrCargoFuncao($strCargoFuncao);
+            $assinaturaDTO->setStrStaFormaAutenticacao(AssinaturaRN::$TA_SENHA);
+            $assinaturaDTO->setNumIdContextoUsuario(null);
+            $assinaturaDTO->setArrObjDocumentoDTO(InfraArray::gerarArrInfraDTO('DocumentoDTO','IdDocumento',$arrIdDocumentos));
+            $documentoRN = new DocumentoRN();
+            $documentoRN->assinarInterno($assinaturaDTO);
+            return MdWsSeiRest::formataRetornoSucessoREST('Documentos em bloco assinados com sucesso.');
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
     /**
      * Consultar Blocos
      * @param BlocoDTO $blocoDTO
@@ -150,12 +189,14 @@ class MdWsSeiBlocoRN extends InfraRN {
                     $assinaturaDTOConsulta->setDblIdDocumento($relBlocoProtocoloDTO->getDblIdProtocolo());
                     $assinaturaDTOConsulta->retStrNome();
                     $assinaturaDTOConsulta->retStrTratamento();
+                    $assinaturaDTOConsulta->retNumIdUsuario();
                     $arrAssinatura = $assinaturaRN->listarRN1323($assinaturaDTOConsulta);
                     /** @var AssinaturaDTO $assinaturaDTO */
                     foreach($arrAssinatura as $assinaturaDTO){
                         $arrResultAssinatura[] = array(
                             'nome' => $assinaturaDTO->getStrNome(),
-                            'cargo' => $assinaturaDTO->getStrTratamento()
+                            'cargo' => $assinaturaDTO->getStrTratamento(),
+                            'idUsuario' => $assinaturaDTO->getNumIdUsuario(),
                         );
                     }
                     $anexoDTOConsulta = new AnexoDTO();
