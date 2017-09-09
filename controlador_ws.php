@@ -150,6 +150,12 @@ $app->group('/api/v1',function(){
             if($request->getParam('unidade')){
                 $dto->setNumIdUnidade($request->getParam('unidade'));
             }
+            if($request->getParam('limit')){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start'))){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiUsuarioRN();
             return $response->withJSON($rn->listarUsuarios($dto));

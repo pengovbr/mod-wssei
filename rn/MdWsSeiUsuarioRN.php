@@ -262,6 +262,14 @@ class MdWsSeiUsuarioRN extends InfraRN {
     protected function listarUsuariosConectado(UnidadeDTO $unidadeDTOParam){
         try{
             $idUnidade = null;
+            $limit = 10;
+            $start = 0;
+            if($unidadeDTOParam->isSetNumMaxRegistrosRetorno()){
+               $limit = $unidadeDTOParam->getNumMaxRegistrosRetorno();
+            }
+            if(!is_null($unidadeDTOParam->getNumPaginaAtual())){
+                $start = $unidadeDTOParam->getNumPaginaAtual();
+            }
             if($unidadeDTOParam->isSetNumIdUnidade()){
                 $idUnidade = $unidadeDTOParam->getNumIdUnidade();
             }
@@ -274,7 +282,10 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 false
             );
 
-            foreach ($ret as $data){
+            //Paginação lógica pois o SIP não retorna os usuários paginados...
+            $total = count($ret);
+            $paginado = array_slice($ret, ($limit*$start), $limit);
+            foreach ($paginado as $data){
                 $result[] = array(
                     'id_usuario' => $data[0],
                     'id_origem' => $data[1],
@@ -287,7 +298,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 );
             }
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $total);
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
