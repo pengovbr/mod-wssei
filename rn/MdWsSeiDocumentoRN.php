@@ -42,6 +42,7 @@ class MdWsSeiDocumentoRN extends InfraRN {
             $documentoDTOConsulta->retStrSiglaUnidadeGeradoraProtocolo();
             $documentoDTOConsulta->retNumIdUnidadeGeradoraProtocolo();
             $documentoDTOConsulta->retStrCrcAssinatura();
+            $documentoDTOConsulta->retStrStaEstadoProtocolo();
             $documentoRN = new DocumentoRN();
             $ret = $documentoRN->listarRN0008($documentoDTOConsulta);
 
@@ -56,6 +57,8 @@ class MdWsSeiDocumentoRN extends InfraRN {
                 $informacao = null;
                 $tamanhoAnexo = null;
                 $ciencia = 'N';
+                $documentoCancelado = $documentoDTO->getStrStaEstadoProtocolo() == ProtocoloRN::$TE_DOCUMENTO_CANCELADO
+                    ? 'S' : 'N';
 
                 $anexoDTOConsulta = new AnexoDTO();
                 $anexoDTOConsulta->retStrNome();
@@ -120,7 +123,8 @@ class MdWsSeiDocumentoRN extends InfraRN {
                             'documentoRestrito' => $documentoDTO->getStrStaNivelAcessoLocalProtocolo() == 1 ? 'S' : 'N',
                             'documentoPublicado' => $documentoPublicado,
                             'documentoAssinado' =>  $documentoDTO->getStrCrcAssinatura() ? 'S' : 'N',
-                            'ciencia' => $ciencia
+                            'ciencia' => $ciencia,
+                            'documentoCancelado' => $documentoCancelado
                         )
                     )
                 );
