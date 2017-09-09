@@ -512,6 +512,14 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->concluirProcesso($dto));
         });
+        $this->post('/reabrir/{procedimento}', function($request, $response, $args){
+            //o- novo pacote 4
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+            $dto = new EntradaReabrirProcessoAPI();
+            $dto->setIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
+            return $response->withJSON($rn->reabrirProcesso($dto));
+        });
         $this->post('/acompanhar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiAcompanhamentoRN();

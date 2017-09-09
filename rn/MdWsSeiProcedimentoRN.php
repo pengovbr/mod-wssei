@@ -860,6 +860,26 @@ class MdWsSeiProcedimentoRN extends InfraRN
     }
 
     /**
+     * Metodo que reabre o procedimento/processo
+     * @param EntradaReabrirProcessoAPI $entradaReabrirProcessoAPI
+     * @return array
+     */
+    protected function reabrirProcessoControlado(EntradaReabrirProcessoAPI $entradaReabrirProcessoAPI)
+    {
+        try {
+            if (!$entradaReabrirProcessoAPI->getIdProcedimento()) {
+                throw new InfraException('E obrigtorio informar o id do procedimento!');
+            }
+            $objSeiRN = new SeiRN();
+            $objSeiRN->reabrirProcesso($entradaReabrirProcessoAPI);
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Processo reaberto com sucesso!');
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
      * Metodo que atribui o processo a uma pessoa
      * @param EntradaAtribuirProcessoAPI $entradaAtribuirProcessoAPI
      * @info Os parametros IdUsuario, ProtocoloProcedimento e SinReabrir sao obrigatorios. O parametro ProtocoloProcedimento
