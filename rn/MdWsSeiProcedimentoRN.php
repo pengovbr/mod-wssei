@@ -610,10 +610,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
             if($protocoloDTO->getStrStaNivelAcessoGlobal() == ProtocoloRN::$NA_SIGILOSO){
                 $podeGerenciarCredenciais = SessaoSEI::getInstance()->verificarPermissao('procedimento_credencial_gerenciar') ? 'S' : 'N';
             }
+            $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
 
             $result[] = array(
                 'id' => $protocoloDTO->getDblIdProtocolo(),
                 'status' => $protocoloDTO->getStrStaProtocolo(),
+                'seiNumMaxDocsPasta' => $objInfraParametro->getValor('SEI_NUM_MAX_DOCS_PASTA'),
                 'atributos' => array(
                     'idProcedimento' => $protocoloDTO->getDblIdProtocolo(),
                     'idProtocolo' => $protocoloDTO->getDblIdProtocolo(),
