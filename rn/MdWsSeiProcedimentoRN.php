@@ -539,12 +539,11 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         $numPrazo = InfraData::compararDatas($strDataAtual, $retornoProgramadoDTO->getDtaProgramada());
                         if ($numPrazo < 0) {
                             $retornoAtrasado = 'S';
-                            $retornoData = array(
-                                'date' => $retornoProgramadoDTO->getDtaProgramada(),
-                                'unidade' => $retornoProgramadoDTO->getStrSiglaUnidadeOrigemAtividadeEnvio()
-                            );
-
                         }
+                        $retornoData = array(
+                            'dataProgramada' => $retornoProgramadoDTO->getDtaProgramada(),
+                            'unidade' => $retornoProgramadoDTO->getStrSiglaUnidadeOrigemAtividadeEnvio()
+                        );
                     }
                 }
             }
