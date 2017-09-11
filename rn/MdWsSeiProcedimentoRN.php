@@ -206,6 +206,11 @@ class MdWsSeiProcedimentoRN extends InfraRN
         try {
             $acompanhamentoRN = new AcompanhamentoRN();
             $acompanhamentoDTO = new AcompanhamentoDTO();
+            if(!$mdWsSeiProtocoloDTOParam->isSetNumIdGrupoAcompanhamentoProcedimento()){
+                throw new Exception('O grupo deve ser informado!');
+            }else{
+                $acompanhamentoDTO->setNumIdGrupoAcompanhamento($mdWsSeiProtocoloDTOParam->getNumIdGrupoAcompanhamentoProcedimento());
+            }
             if (is_null($mdWsSeiProtocoloDTOParam->getNumPaginaAtual())) {
                 $acompanhamentoDTO->setNumPaginaAtual(0);
             } else {
@@ -217,6 +222,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             } else {
                 $acompanhamentoDTO->setNumMaxRegistrosRetorno($mdWsSeiProtocoloDTOParam->getNumMaxRegistrosRetorno());
             }
+
             $arrAcompanhamentoDTO = $acompanhamentoRN->listarAcompanhamentosUnidade($acompanhamentoDTO);
             $totalRegistros = $acompanhamentoDTO->getNumTotalRegistros() ?: 0;
 
@@ -473,6 +479,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $atividadeDTOConsulta->setOrdNumIdAtividade(InfraDTO::$TIPO_ORDENACAO_DESC);
 
             $arrAtividades = $atividadeRN->listarRN0036($atividadeDTOConsulta);
+
             if ($arrAtividades) {
                 /** @var AtividadeDTO $atividadeDTO */
                 $atividadeDTO = $arrAtividades[0];
@@ -484,7 +491,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 }
             }
             $arrAtividadePendenciaDTO = array();
-            if ($dto instanceof ProcedimentoDTO) {
+            if ($dto instanceof ProcedimentoDTO && $dto->isSetArrObjAtividadeDTO()) {
                 $procedimentoDTO = $dto;
                 $arrAtividadePendenciaDTO = $procedimentoDTO->getArrObjAtividadeDTO();
             } else {
@@ -541,7 +548,6 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     }
                 }
             }
-
             $documentoRN = new DocumentoRN();
             $documentoDTOConsulta = new DocumentoDTO();
             $documentoDTOConsulta->setDblIdProcedimento($protocoloDTO->getDblIdProtocolo());
