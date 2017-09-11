@@ -21,7 +21,16 @@ class MdWsSeiOrgaoRN extends InfraRN {
             $orgaoDTO->retStrDescricao();
             $orgaoDTO->setStrSinAtivo('S');
 
-            //Chamada Direta ao BD devido a ponta ser um serviço público sem autenticação.
+            if($orgaoDTOParam->getNumMaxRegistrosRetorno()){
+                $orgaoDTO->setNumMaxRegistrosRetorno($orgaoDTOParam->getNumMaxRegistrosRetorno());
+            }else{
+                $orgaoDTO->setNumMaxRegistrosRetorno(10);
+            }
+            if(!is_null($orgaoDTOParam->getNumPaginaAtual())){
+                $orgaoDTO->setNumPaginaAtual($orgaoDTOParam->getNumPaginaAtual());
+            }else{
+                $orgaoDTO->setNumPaginaAtual(0);
+            }
 
             $orgaoBD = new OrgaoBD($this->getObjInfraIBanco());
             $ret = $orgaoBD->listar($orgaoDTO);
@@ -35,7 +44,7 @@ class MdWsSeiOrgaoRN extends InfraRN {
                 );
             }
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $orgaoDTO->getNumTotalRegistros());
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }

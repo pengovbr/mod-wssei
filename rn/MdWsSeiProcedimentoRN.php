@@ -91,7 +91,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     'sinInicial' => $atividadeDTO->getStrSinInicial(),
                     'dtaPrazo' => $atividadeDTO->getDtaPrazo(),
                     'tipoVisualizacao' => $atividadeDTO->getNumTipoVisualizacao(),
-                    'dthConclusao' => null,
+                    'dthConclusao' => $atividadeDTO->getDthConclusao(),
                 );
             }
 
@@ -132,7 +132,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
     {
         try {
             if (!$procedimentoDTOParam->getDblIdProcedimento()) {
-                throw new InfraException('Procedimento n?o informado.');
+                throw new InfraException('Procedimento não informado.');
             }
             $seiRN = new SeiRN();
             $entradaRemoverSobrestamentoProcessoAPI = new EntradaRemoverSobrestamentoProcessoAPI();
@@ -228,7 +228,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             $ret = array();
             foreach($arrAcompanhamentoDTO as $acompanhamentoDTO){
-                $ret[] = $acompanhamentoDTO->getObjProcedimentoDTO();;
+                $ret[] = $acompanhamentoDTO->getObjProcedimentoDTO();
             }
             $result = $this->montaRetornoListagemProcessos($ret, null);
 
