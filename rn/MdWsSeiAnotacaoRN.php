@@ -13,9 +13,8 @@ class MdWsSeiAnotacaoRN extends InfraRN {
             $anotacaoDTO->setStrDescricao($post['descricao']);
         }
 
-
         if (isset($post['protocolo'])) {
-            $anotacaoDTO->setDblIdProtocolo($post['protocolo']);
+            $anotacaoDTO->setDblIdProtocolo(array($post['protocolo']));
         }
 
         if (isset($post['unidade'])) {
@@ -46,17 +45,8 @@ class MdWsSeiAnotacaoRN extends InfraRN {
             if(!$anotacaoDTO->getDblIdProtocolo()){
                 throw new InfraException('Protocolo não informado.');
             }
-            $anotacaoConsulta = new AnotacaoDTO();
-            $anotacaoConsulta->setDblIdProtocolo($anotacaoDTO->getDblIdProtocolo());
-            $anotacaoConsulta->setNumMaxRegistrosRetorno(1);
-            $anotacaoConsulta->retNumIdAnotacao();
-            $ret = $anotacaoRN->listar($anotacaoConsulta);
-            if($ret){
-                $anotacaoDTO->setNumIdAnotacao($ret[0]->getNumIdAnotacao());
-                $anotacaoRN->alterar($anotacaoDTO);
-            }else{
-                $anotacaoRN->cadastrar($anotacaoDTO);
-            }
+            $anotacaoRN->registrar($anotacaoDTO);
+
             return MdWsSeiRest::formataRetornoSucessoREST('Anotação cadastrada com sucesso!');
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
