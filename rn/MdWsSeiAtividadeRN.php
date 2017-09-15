@@ -16,54 +16,44 @@ class MdWsSeiAtividadeRN extends AtividadeRN {
     protected function listarAtividadesProcessoConectado(AtividadeDTO $atividadeDTOParam){
         try{
             $result = array();
-            $atividadeDTOConsulta = new AtividadeDTO();
+            $procedimentoHistoricoDTO = new ProcedimentoHistoricoDTO();
+            $procedimentoHistoricoDTO->setStrStaHistorico(ProcedimentoRN::$TH_RESUMIDO);
+
             if(!$atividadeDTOParam->isSetDblIdProtocolo()){
                 throw new InfraException('O procedimento deve ser informado!');
             }
-            $atividadeDTOConsulta->setDblIdProtocolo($atividadeDTOParam->getDblIdProtocolo());
+            $procedimentoHistoricoDTO->setDblIdProcedimento($atividadeDTOParam->getDblIdProtocolo());
             if(is_null($atividadeDTOParam->getNumPaginaAtual())){
-                $atividadeDTOConsulta->setNumPaginaAtual(0);
+                $procedimentoHistoricoDTO->setNumPaginaAtual(0);
             }else{
-                $atividadeDTOConsulta->setNumPaginaAtual($atividadeDTOParam->getNumPaginaAtual());
+                $procedimentoHistoricoDTO->setNumPaginaAtual($atividadeDTOParam->getNumPaginaAtual());
             }
             if($atividadeDTOParam->getNumMaxRegistrosRetorno()){
-                $atividadeDTOConsulta->setNumMaxRegistrosRetorno($atividadeDTOParam->getNumMaxRegistrosRetorno());
+                $procedimentoHistoricoDTO->setNumMaxRegistrosRetorno($atividadeDTOParam->getNumMaxRegistrosRetorno());
             }else{
-                $atividadeDTOConsulta->setNumMaxRegistrosRetorno(10);
+                $procedimentoHistoricoDTO->setNumMaxRegistrosRetorno(10);
             }
-            $atividadeDTOConsulta->retDblIdProtocolo();
-            $atividadeDTOConsulta->retDthAbertura();
-            $atividadeDTOConsulta->retNumIdUsuarioOrigem();
-            $atividadeDTOConsulta->retStrNomeTarefa();
-            $atividadeDTOConsulta->retNumIdAtividade();
-            $atividadeDTOConsulta->retStrSiglaUsuarioOrigem();
-            $atividadeDTOConsulta->retStrSiglaUnidade();
-            $atividadeDTOConsulta->setOrdDthAbertura(InfraDTO::$TIPO_ORDENACAO_DESC);
-            $atividadeRN = new AtividadeRN();
-            $ret = $atividadeRN->listarRN0036($atividadeDTOConsulta);
+            $procedimentoRN = new ProcedimentoRN();
+            $ret = $procedimentoRN->consultarHistoricoRN1025($procedimentoHistoricoDTO);
+
             /** @var AtividadeDTO $atividadeDTO */
-            foreach($ret as $atividadeDTO) {
+            foreach($ret->getArrObjAtividadeDTO() as $atividadeDTO) {
                 $dateTime = explode(' ', $atividadeDTO->getDthAbertura());
                 $informacao = null;
-                $mdWsSeiProcessoDTO = new MdWsSeiProcessoDTO();
-                $mdWsSeiProcessoDTO->setStrTemplate($atividadeDTO->getStrNomeTarefa());
-                $mdWsSeiProcessoDTO->setNumIdAtividade($atividadeDTO->getNumIdAtividade());
-                $mdWsSeiProcessoRN = new MdWsSeiProcessoRN();
-
                 $result[] = [
                     "id" => $atividadeDTO->getNumIdAtividade(),
                     "atributos" => [
-                        "idProcesso" => $atividadeDTO->getDblIdProtocolo(),
-                        "usuario" => ($atividadeDTO->getNumIdUsuarioOrigem())? $atividadeDTO->getStrSiglaUsuarioOrigem() : null,
+                        "idProcesso" => $atividadeDTOParam->getDblIdProtocolo(),
+                        "usuario" => ($atividadeDTO->getNumIdUsuarioOrigem()) ? $atividadeDTO->getStrSiglaUsuarioOrigem() : null,
                         "data" => $dateTime[0],
                         "hora" => $dateTime[1],
                         "unidade" => $atividadeDTO->getStrSiglaUnidade(),
-                        "informacao" => $mdWsSeiProcessoRN->traduzirTemplate($mdWsSeiProcessoDTO)
+                        "informacao" => strip_tags($atividadeDTO->getStrNomeTarefa())
                     ]
                 ];
             }
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $atividadeDTOConsulta->getNumTotalRegistros());
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $procedimentoHistoricoDTO->getNumTotalRegistros());
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }

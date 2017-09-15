@@ -253,7 +253,6 @@ $app->group('/api/v1',function(){
         });
 
         $this->post('/assinar/{bloco}', function($request, $response, $args){
-            //o- novo pacote 4
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
             return $response->withJSON($rn->apiAssinarBloco(
@@ -513,7 +512,6 @@ $app->group('/api/v1',function(){
             return $response->withJSON($rn->concluirProcesso($dto));
         });
         $this->post('/reabrir/{procedimento}', function($request, $response, $args){
-            //o- novo pacote 4
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
             $dto = new EntradaReabrirProcessoAPI();
