@@ -518,7 +518,6 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     $resultAnotacao[] = array(
                         'idProtocolo' => $anotacaoDTO->getDblIdProtocolo(),
                         'descricao' => $anotacaoDTO->getStrDescricao(),
-                        'idUnidade' => SessaoSEI::getInstance()->getNumIdUnidadeAtual(),
                         'idUsuario' => $anotacaoDTO->getNumIdUsuario(),
                         'sinPrioridade' => $anotacaoDTO->getStrSinPrioridade(),
                         'staAnotacao' => $anotacaoDTO->getStrStaAnotacao()
