@@ -105,6 +105,16 @@ class MdWsSeiBlocoRN extends InfraRN {
 
             /** @var BlocoDTO $blocoDTO */
             foreach($ret as $blocoDTO){
+                $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
+                $relBlocoProtocoloDTOConsulta = new RelBlocoProtocoloDTO();
+                $relBlocoProtocoloDTOConsulta->setNumMaxRegistrosRetorno(1);
+                $relBlocoProtocoloDTOConsulta->setNumPaginaAtual(0);
+                $relBlocoProtocoloDTOConsulta->setNumIdBloco($blocoDTO->getNumIdBloco());
+                $relBlocoProtocoloDTOConsulta->setOrdNumIdBloco(InfraDTO::$TIPO_ORDENACAO_DESC);
+                $relBlocoProtocoloDTOConsulta->retDblIdProtocolo();
+                $relBlocoProtocoloRN->listarRN1291($relBlocoProtocoloDTOConsulta);
+                $numeroDocumentos = $relBlocoProtocoloDTOConsulta->getNumTotalRegistros();
+
                 $arrUnidades = array();
                 /** @var RelBlocoUnidadeDTO $relBlocoUnidadeDTO */
                 foreach($blocoDTO->getArrObjRelBlocoUnidadeDTO() as $relBlocoUnidadeDTO){
@@ -121,7 +131,8 @@ class MdWsSeiBlocoRN extends InfraRN {
                         'siglaUnidade' => $blocoDTO->getStrSiglaUnidade(),
                         'estado' => $blocoDTO->getStrStaEstado(),
                         'descricao' => $blocoDTO->getStrDescricao(),
-                        'unidades' => $arrUnidades
+                        'unidades' => $arrUnidades,
+                        'numeroDocumentos' => $numeroDocumentos
                     )
                 );
             }
