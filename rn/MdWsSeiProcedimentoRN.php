@@ -439,6 +439,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $retornoAtrasado = 'N';
             $arrDadosAbertura = array();
             $procedimentoDTO = null;
+            $resultAnotacao = array();
             $protocoloDTO = new MdWsSeiProtocoloDTO();
             if ($dto instanceof ProcedimentoDTO) {
                 $protocoloDTO = new MdWsSeiProtocoloDTO();
@@ -512,6 +513,18 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 }
             }
             if ($arrAtividadePendenciaDTO) {
+                $anotacaoDTO = $procedimentoDTO->getObjAnotacaoDTO();
+                if($anotacaoDTO){
+                    $resultAnotacao[] = array(
+                        'idProtocolo' => $anotacaoDTO->getDblIdProtocolo(),
+                        'descricao' => $anotacaoDTO->getStrDescricao(),
+                        'idUnidade' => SessaoSEI::getInstance()->getNumIdUnidadeAtual(),
+                        'idUsuario' => $anotacaoDTO->getNumIdUsuario(),
+                        'sinPrioridade' => $anotacaoDTO->getStrSinPrioridade(),
+                        'staAnotacao' => $anotacaoDTO->getStrStaAnotacao()
+                    );
+                }
+
                 $atividadePendenciaDTO = $arrAtividadePendenciaDTO[0];
                 if ($atividadePendenciaDTO->getNumTipoVisualizacao() & AtividadeRN::$TV_REMOCAO_SOBRESTAMENTO) {
                     $processoRemocaoSobrestamento = 'S';
@@ -593,8 +606,8 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     break;
                 }
             }
-            $resultAnotacao = array();
             /** @var AnotacaoDTO $anotacaoDTO */
+            /**
             foreach ($arrAnotacao as $anotacaoDTO) {
                 $resultAnotacao[] = array(
                     'idAnotacao' => $anotacaoDTO->getNumIdAnotacao(),
@@ -607,6 +620,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     'staAnotacao' => $anotacaoDTO->getStrStaAnotacao()
                 );
             }
+            **/
             if ($protocoloDTO->getStrStaEstado() != ProtocoloRN::$TE_PROCEDIMENTO_ANEXADO) {
                 $procedimentoDTOParam = new ProcedimentoDTO();
                 $procedimentoDTOParam->setDblIdProcedimento($protocoloDTO->getDblIdProtocolo());
