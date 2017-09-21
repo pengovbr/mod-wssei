@@ -28,9 +28,7 @@ class MdWsSeiAnotacaoRN extends InfraRN {
         $anotacaoDTO->setDthAnotacao(InfraData::getStrDataHoraAtual());
 
         if (isset($post['prioridade'])) {
-            $anotacaoDTO->setStrSinPrioridade(
-                ($post['prioridade']) ? 'S' : 'N'
-            );
+            $anotacaoDTO->setStrSinPrioridade($post['prioridade']);
         }else{
             $anotacaoDTO->setStrSinPrioridade('N');
         }
