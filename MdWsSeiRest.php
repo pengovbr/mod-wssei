@@ -316,8 +316,8 @@ class MdWsSeiRest extends SeiIntegracao
 
         $htmlQrCode .= '<ul>';
         $htmlQrCode .= '<li style="list-style:none">';
-        $htmlQrCode .= '<p style="margin: 10px 20px"><b>Escaneie o QRCode abaixo para acessar o SEI no aplicativo:</b></p>';
-        $htmlQrCode .= '<img style="margin: 0% 25%" align="center" src="data:image/png;base64, '
+        $htmlQrCode .= '<p style="margin: 10px 30px 10px 0px"><b>Escaneie o QRCode abaixo para acessar o SEI no aplicativo:</b></p>';
+        $htmlQrCode .= '<img style="margin: 0 60px" align="center" src="data:image/png;base64, '
             . base64_encode($binQrCode) . '" />';
         $htmlQrCode .= '</li>';
         $htmlQrCode .= '</ul>';
