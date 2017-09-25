@@ -269,6 +269,61 @@ class MdWsSeiRest extends SeiIntegracao
     {
         return null;
     }
+
+    public function adicionarElementoMenu()
+    {
+        $nomeArquivo = 'QRCODE_'.self::NOME_MODULO."_".SessaoSEI::getInstance()->getStrSiglaOrgaoSistema();
+        $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
+
+        if(CacheSEI::getInstance()->getAtributo($nomeArquivo)){
+            return $html;
+        }
+
+        $html = $this->montaCorpoHtMLQRCode($nomeArquivo);
+        CacheSEI::getInstance()->setAtributo($nomeArquivo, $html, CacheSEI::getInstance()->getNumTempo());
+
+        return $html;
+    }
+
+    /**
+     * Função que monta o html do QRCode para o menu lateral do SEI
+     * @param $nomeArquivo
+     * @return string
+     */
+    private function montaCorpoHtMLQRCode($nomeArquivo)
+    {
+        $htmlQrCode = '';
+        $caminhoAtual = explode("/sei/web", __DIR__);
+        $conteudoQrCode =  ConfiguracaoSEI::getInstance()->getValor('SEI','URL')
+            .$caminhoAtual[1]
+            .'/controlador_ws.php/api/v1'
+            .'|'
+            .SessaoSEI::getInstance()->getStrSiglaOrgaoSistema();
+        $caminhoFisicoQrCode = DIR_SEI_TEMP.'/'.$nomeArquivo;
+
+        InfraQRCode::gerar($conteudoQrCode, $caminhoFisicoQrCode,'L',2,1);
+
+        $infraException = new InfraException();
+        if (!file_exists($caminhoFisicoQrCode)){
+            $infraException->lancarValidacao('Arquivo do QRCode não encontrado.');
+        }
+        if (filesize($caminhoFisicoQrCode)==0){
+            $infraException->lancarValidacao('Arquivo do QRCode vazio.');
+        }
+        if (($binQrCode = file_get_contents($caminhoFisicoQrCode))===false){
+            $infraException->lancarValidacao('Não foi possível ler o arquivo do QRCode.');
+        }
+
+        $htmlQrCode .= '<ul>';
+        $htmlQrCode .= '<li style="list-style:none">';
+        $htmlQrCode .= '<p style="margin: 10px 20px"><b>Escaneie o QRCode abaixo para acessar o SEI no aplicativo:</b></p>';
+        $htmlQrCode .= '<img style="margin: 0% 25%" align="center" src="data:image/png;base64, '
+            . base64_encode($binQrCode) . '" />';
+        $htmlQrCode .= '</li>';
+        $htmlQrCode .= '</ul>';
+
+        return $htmlQrCode;
+    }
 }
 
 ?>
