@@ -19,7 +19,6 @@ class MdWsSeiProcessoRN extends InfraRN {
             $atributoAndamentoDTOConsulta = new AtributoAndamentoDTO();
             $atributoAndamentoDTOConsulta->retTodos();
             $atributoAndamentoDTOConsulta->setNumIdAtividade($mdWsSeiProcessoDTO->getNumIdAtividade());
-            var_dump($mdWsSeiProcessoDTO->getNumIdAtividade());exit;
             $ret = $atributoAndamentoRN->listarRN1367($atributoAndamentoDTOConsulta);
             $atividadeDTO = new AtividadeDTO();
             $atividadeDTO->setNumIdAtividade($mdWsSeiProcessoDTO->getNumIdAtividade());
@@ -67,7 +66,6 @@ class MdWsSeiProcessoRN extends InfraRN {
 
             $strTemplate = str_replace('¥', ' - ', $strTemplate);
         }
-        var_dump($strTemplate);exit;
 
         return $strTemplate;
     }
