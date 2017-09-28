@@ -274,27 +274,20 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 $idUnidade = $unidadeDTOParam->getNumIdUnidade();
             }
             $result = array();
-            $objSipWs = $this->retornaServicoSip();
-            $ret = $objSipWs->carregarUsuarios(
-                SessaoSEI::getInstance()->getNumIdSistema(),
-                $idUnidade,
-                false,
-                false
-            );
+            $unidadeDTO = new UnidadeDTO();
+            $unidadeDTO->setNumIdUnidade($idUnidade);
+            $usuarioRN = new UsuarioRN();
+            $arrUsuarioDTO = $usuarioRN->listarPorUnidadeRN0812($unidadeDTO);
 
             //Paginação lógica pois o SIP não retorna os usuários paginados...
-            $total = count($ret);
-            $paginado = array_slice($ret, ($limit*$start), $limit);
-            foreach ($paginado as $data){
+            $total = count($arrUsuarioDTO);
+            $paginado = array_slice($arrUsuarioDTO, ($limit*$start), $limit);
+            /** @var UsuarioDTO $usuarioDTO */
+            foreach ($paginado as $usuarioDTO){
                 $result[] = array(
-                    'id_usuario' => $data[0],
-                    'id_origem' => $data[1],
-                    'id_orgao' => $data[2],
-                    'sigla' => $data[3],
-                    'nome' => $data[4],
-                    'sin_ativo' => $data[5],
-                    'unidades' => $data[6],
-                    'sin_subunidades' => $data[7],
+                    'id_usuario' => $usuarioDTO->getNumIdUsuario(),
+                    'sigla' => $usuarioDTO->getStrSigla(),
+                    'nome' => $usuarioDTO->getStrNome(),
                 );
             }
 
