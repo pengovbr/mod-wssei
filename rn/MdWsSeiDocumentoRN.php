@@ -127,7 +127,7 @@ class MdWsSeiDocumentoRN extends InfraRN {
                             'documentoAssinado' =>  $documentoDTO->getStrCrcAssinatura() ? 'S' : 'N',
                             'ciencia' => $ciencia,
                             'documentoCancelado' => $documentoCancelado,
-                            'podeVisualizarDocumento' => $podeVisualizarDocumento
+                            'podeVisualizarDocumento' => $podeVisualizarDocumento ? 'S' : 'N'
                         )
                     )
                 );
