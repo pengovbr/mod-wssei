@@ -285,6 +285,18 @@ $app->group('/api/v1',function(){
             $dto->setDblIdDocumento($request->getAttribute('route')->getArgument('documento'));
             return $response->withJSON($rn->listarAssinaturasDocumento($dto));
         });
+        $this->post('/assinar/bloco', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiDocumentoRN();
+            return $response->withJSON($rn->apiAssinarDocumentos(
+                $request->getParam('arrDocumento'),
+                $request->getParam('orgao'),
+                MdWsSeiRest::dataToIso88591($request->getParam('cargo')),
+                $request->getParam('login'),
+                $request->getParam('senha'),
+                $request->getParam('usuario')
+            ));
+        });
         $this->post('/ciencia', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();
