@@ -103,6 +103,8 @@ class MdWsSeiDocumentoRN extends InfraRN {
                     $ciencia = $relProtocoloProtocoloDTO->getStrSinCiencia();
                 }
 
+                $podeVisualizarDocumento = $this->podeVisualizarDocumento($documentoDTO);
+
                 $result[] = array(
                     'id' => $documentoDTO->getDblIdDocumento(),
                     'atributos' => array(
@@ -124,7 +126,8 @@ class MdWsSeiDocumentoRN extends InfraRN {
                             'documentoPublicado' => $documentoPublicado,
                             'documentoAssinado' =>  $documentoDTO->getStrCrcAssinatura() ? 'S' : 'N',
                             'ciencia' => $ciencia,
-                            'documentoCancelado' => $documentoCancelado
+                            'documentoCancelado' => $documentoCancelado,
+                            'podeVisualizarDocumento' => $podeVisualizarDocumento
                         )
                     )
                 );
@@ -373,4 +376,40 @@ class MdWsSeiDocumentoRN extends InfraRN {
         }
     }
 
+    /**
+     * Verifica se o documento pode ser visualizado
+     * @param DocumentoDTO $documentoDTO
+     * @return bool
+     */
+    protected function podeVisualizarDocumento(DocumentoDTO $documentoDTO)
+    {
+        $bolFlagProtocolo = false;
+        $numCodigoAcesso = 0;
+        $unidadeDTO = new UnidadeDTO();
+        $unidadeDTO->setBolExclusaoLogica(false);
+        $unidadeDTO->retStrSinProtocolo();
+        $unidadeDTO->retStrSinOuvidoria();
+        $unidadeDTO->retStrSinArquivamento();
+        $unidadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+
+        $unidadeRN = new UnidadeRN();
+        $unidadeDTO = $unidadeRN->consultarRN0125($unidadeDTO);
+        $bolFlagProtocolo = ($unidadeDTO->getStrSinProtocolo() == 'S');
+
+        $pesquisaProtocoloDTO = new PesquisaProtocoloDTO();
+        $pesquisaProtocoloDTO->setStrStaTipo(ProtocoloRN::$TPP_PROCEDIMENTOS);
+        $pesquisaProtocoloDTO->setStrStaAcesso(ProtocoloRN::$TAP_TODOS);
+        $pesquisaProtocoloDTO->setDblIdProtocolo($documentoDTO->getDblIdProcedimento());
+
+        $protocoloRN = new ProtocoloRN();
+        $arrProtocoloDTO = InfraArray::indexarArrInfraDTO($protocoloRN->pesquisarRN0967($pesquisaProtocoloDTO),'IdProtocolo');
+        if($arrProtocoloDTO){
+            $numCodigoAcesso = $arrProtocoloDTO[$documentoDTO->getDblIdProcedimento()]->getNumCodigoAcesso();
+            if ($numCodigoAcesso > 0 || $bolFlagProtocolo) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
