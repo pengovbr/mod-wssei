@@ -437,6 +437,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $tipoVisualizacao = 'N';
             $retornoProgramado = 'N';
             $retornoAtrasado = 'N';
+            $processoAberto = false;
+            $acaoReabrirProcesso = SessaoSEI::getInstance()->verificarPermissao('procedimento_reabrir');
+            $processoEmTramitacao = false;
+            $processoSobrestado = false;
+            $processoAnexado = false;
+            $podeReabrirProcesso = false;
             $arrDadosAbertura = array();
             $procedimentoDTO = null;
             $resultAnotacao = array();
@@ -513,17 +519,6 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 }
             }
             if ($arrAtividadePendenciaDTO) {
-                $anotacaoDTO = $procedimentoDTO->getObjAnotacaoDTO();
-                if($anotacaoDTO){
-                    $resultAnotacao[] = array(
-                        'idProtocolo' => $anotacaoDTO->getDblIdProtocolo(),
-                        'descricao' => $anotacaoDTO->getStrDescricao(),
-                        'idUsuario' => $anotacaoDTO->getNumIdUsuario(),
-                        'sinPrioridade' => $anotacaoDTO->getStrSinPrioridade(),
-                        'staAnotacao' => $anotacaoDTO->getStrStaAnotacao()
-                    );
-                }
-
                 $atividadePendenciaDTO = $arrAtividadePendenciaDTO[0];
                 if ($atividadePendenciaDTO->getNumTipoVisualizacao() & AtividadeRN::$TV_REMOCAO_SOBRESTAMENTO) {
                     $processoRemocaoSobrestamento = 'S';
@@ -594,9 +589,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $anotacaoDTOConsulta->retStrStaAnotacao();
             $anotacaoDTOConsulta->retNumIdAnotacao();
             $anotacaoDTOConsulta->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
-            //
             $anotacaoDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-            //$anotacaoDTOConsulta->setNumIdUnidade($protocoloDTO->getNumIdUnidadeGeradora());
             $arrAnotacao = $anotacaoRN->listar($anotacaoDTOConsulta);
             $possuiAnotacao = count($arrAnotacao) ? 'S' : 'N';
             foreach ($arrAnotacao as $anotacaoDTO) {
@@ -606,7 +599,6 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 }
             }
             /** @var AnotacaoDTO $anotacaoDTO */
-            /**
             foreach ($arrAnotacao as $anotacaoDTO) {
                 $resultAnotacao[] = array(
                     'idAnotacao' => $anotacaoDTO->getNumIdAnotacao(),
@@ -619,7 +611,6 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     'staAnotacao' => $anotacaoDTO->getStrStaAnotacao()
                 );
             }
-            **/
             if ($protocoloDTO->getStrStaEstado() != ProtocoloRN::$TE_PROCEDIMENTO_ANEXADO) {
                 $procedimentoDTOParam = new ProcedimentoDTO();
                 $procedimentoDTOParam->setDblIdProcedimento($protocoloDTO->getDblIdProtocolo());
@@ -630,6 +621,41 @@ class MdWsSeiProcedimentoRN extends InfraRN
             if($protocoloDTO->getStrStaNivelAcessoGlobal() == ProtocoloRN::$NA_SIGILOSO){
                 $podeGerenciarCredenciais = SessaoSEI::getInstance()->verificarPermissao('procedimento_credencial_gerenciar') ? 'S' : 'N';
             }
+
+            $pesquisaPendenciaDTO = new PesquisaPendenciaDTO();
+            $pesquisaPendenciaDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+            $pesquisaPendenciaDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+            $pesquisaPendenciaDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $pesquisaPendenciaDTO->setStrSinMontandoArvore('S');
+            $pesquisaPendenciaDTO->setStrSinRetornoProgramado('S');
+
+            $processoEmTramitacao = $processoAberto = count($atividadeRN->listarPendenciasRN0754($pesquisaPendenciaDTO)) == 1;
+            if ($protocoloDTO->getNumIdUnidadeGeradora() == SessaoSEI::getInstance()->getNumIdUnidadeAtual()){
+                $processoEmTramitacao = true;
+            }else{
+                $atividadeDTO = new AtividadeDTO();
+                $atividadeDTO->retNumIdAtividade();
+                $atividadeDTO->setNumIdUnidadeOrigem(SessaoSEI::getInstance()->getNumIdUnidadeAtual(),InfraDTO::$OPER_DIFERENTE);
+                $atividadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+                $atividadeDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+                $atividadeDTO->setNumMaxRegistrosRetorno(1);
+
+                if ($atividadeRN->consultarRN0033($atividadeDTO)!=null){
+                    $processoEmTramitacao = true;
+                }
+            }
+            if ($protocoloDTO->getStrStaEstado() == ProtocoloRN::$TE_PROCEDIMENTO_SOBRESTADO){
+                if ($processoAberto){
+                    $processoAberto = false;
+                }
+                $processoSobrestado = true;
+            }else if($protocoloDTO->getStrStaEstado()==ProtocoloRN::$TE_PROCEDIMENTO_ANEXADO){
+                $processoAnexado = true;
+            }
+            if (!$processoAberto && $acaoReabrirProcesso && $processoEmTramitacao && !$processoSobrestado && !$processoAnexado) {
+                $podeReabrirProcesso = true;
+            }
+
             $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
 
             $result[] = array(
@@ -661,16 +687,18 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         'retornoData' => $retornoData,
                         'retornoAtrasado' => $retornoAtrasado,
                         'processoAcessadoUsuario' => $tipoVisualizacao,
-                        // foi invertido o processoAcessadoUsuario e processoAcessadoUnidade,
-                        // pois em todos os outros metodos e igual e somente neste era diferente...
                         'processoAcessadoUnidade' => $usuarioVisualizacao,
-                        //Novos Status de Processo igual listagem
                         'processoRemocaoSobrestamento' => $processoRemocaoSobrestamento,
                         'processoBloqueado' => $processoBloqueado,
                         'processoDocumentoIncluidoAssinado' => $processoDocumentoIncluidoAssinado,
                         'processoPublicado' => $processoPublicado,
                         'nivelAcessoGlobal' => $protocoloDTO->getStrStaNivelAcessoGlobal(),
-                        'podeGerenciarCredenciais' => $podeGerenciarCredenciais
+                        'podeGerenciarCredenciais' => $podeGerenciarCredenciais,
+                        'processoAberto' => $processoAberto ? 'S' : 'N',
+                        'processoEmTramitacao' => $processoEmTramitacao ? 'S' : 'N',
+                        'processoSobrestado' => $processoSobrestado ? 'S' : 'N',
+                        'processoAnexado' => $processoAnexado ? 'S' : 'N',
+                        'podeReabrirProcesso' => $podeReabrirProcesso ? 'S' : 'N',
                     )
                 )
             );
