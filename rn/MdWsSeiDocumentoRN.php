@@ -34,6 +34,7 @@ class MdWsSeiDocumentoRN extends InfraRN {
             }
             $documentoDTOConsulta->retStrStaNivelAcessoLocalProtocolo();
             $documentoDTOConsulta->retDblIdDocumento();
+            $documentoDTOConsulta->retStrStaProtocoloProtocolo();
             $documentoDTOConsulta->retDblIdProcedimento();
             $documentoDTOConsulta->retStrProtocoloDocumentoFormatado();
             $documentoDTOConsulta->retStrNumero();
@@ -383,33 +384,75 @@ class MdWsSeiDocumentoRN extends InfraRN {
      */
     protected function podeVisualizarDocumento(DocumentoDTO $documentoDTO)
     {
+        $podeVisualizar = false;
+        $strStaProtocoloProtocolo = $documentoDTO->getStrStaProtocoloProtocolo();
         $bolFlagProtocolo = false;
         $numCodigoAcesso = 0;
-        $unidadeDTO = new UnidadeDTO();
-        $unidadeDTO->setBolExclusaoLogica(false);
-        $unidadeDTO->retStrSinProtocolo();
-        $unidadeDTO->retStrSinOuvidoria();
-        $unidadeDTO->retStrSinArquivamento();
-        $unidadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
 
-        $unidadeRN = new UnidadeRN();
-        $unidadeDTO = $unidadeRN->consultarRN0125($unidadeDTO);
-        $bolFlagProtocolo = ($unidadeDTO->getStrSinProtocolo() == 'S');
+        $strNos = '';
+        $strNosAcao = '';
+        $strJsArrPastas = '';
+        $numNo = 0;
+        $numNoAcao = 0;
+        $strOcultarAbrirFechar = '';
+        $strNumPastasAbertas = '';
+        $bolFlagAberto = false;
+        $bolFlagAnexado = false;
+        $bolFlagProtocolo = false;
+        $bolFlagArquivo = false;
+        $bolFlagTramitacao = false;
+        $bolFlagSobrestado = false;
+        $bolFlagBloqueado = false;
+        $bolErro = false;
+        $numCodigoAcesso = 0;
+
+        $objProcedimentoDTO = ProcedimentoINT::montarAcoesArvore($documentoDTO->getDblIdProcedimento(),
+            SessaoSEI::getInstance()->getNumIdUnidadeAtual(),
+            $bolFlagAberto,
+            $bolFlagAnexado,
+            $bolFlagProtocolo,
+            $bolFlagArquivo,
+            $bolFlagTramitacao,
+            $bolFlagSobrestado,
+            $bolFlagBloqueado,
+            $numCodigoAcesso,
+            $numNo, $strNos,
+            $numNoAcao, $strNosAcao,
+            $bolErro);
+
+        $arrRelProtocoloProtocoloDTO = $objProcedimentoDTO->getArrObjRelProtocoloProtocoloDTO();
+        $arrIdRelProtocoloProtocolo = InfraArray::converterArrInfraDTO($arrRelProtocoloProtocoloDTO ,'IdRelProtocoloProtocolo');
+
+        $procedimentoDTOConsulta = new ProcedimentoDTO();
+        $procedimentoDTOConsulta->setDblIdProcedimento($documentoDTO->getDblIdProcedimento());
+        $procedimentoDTOConsulta->setArrObjRelProtocoloProtocoloDTO(InfraArray::gerarArrInfraDTO('RelProtocoloProtocoloDTO','IdRelProtocoloProtocolo',$arrIdRelProtocoloProtocolo));
+        $procedimentoDTOConsulta->setStrSinDocTodos('S');
+        $procedimentoDTOConsulta->setStrSinDocAnexos('S');
+        $procedimentoDTOConsulta->setStrSinConteudoEmail('S');
+        $procedimentoDTOConsulta->setStrSinProcAnexados('S');
+        $procedimentoDTOConsulta->setStrSinDocCircular('S');
+        $procedimentoDTOConsulta->setStrSinArquivamento('S');
+        $procedimentoRN = new ProcedimentoRN();
+        $arrProcedimentoDTO = $procedimentoRN->listarCompleto($procedimentoDTOConsulta);
+        $procedimentoDTO = $arrProcedimentoDTO[0];
+        $arrRelProtocoloProtocoloDTO = $procedimentoDTO->getArrObjRelProtocoloProtocoloDTO();
 
         $pesquisaProtocoloDTO = new PesquisaProtocoloDTO();
-        $pesquisaProtocoloDTO->setStrStaTipo(ProtocoloRN::$TPP_PROCEDIMENTOS);
+        $pesquisaProtocoloDTO->setStrStaTipo(ProtocoloRN::$TPP_TODOS);
         $pesquisaProtocoloDTO->setStrStaAcesso(ProtocoloRN::$TAP_TODOS);
-        $pesquisaProtocoloDTO->setDblIdProtocolo($documentoDTO->getDblIdProcedimento());
-
+        $pesquisaProtocoloDTO->setDblIdProtocolo(InfraArray::converterArrInfraDTO($arrRelProtocoloProtocoloDTO,'IdProtocolo2'));
         $protocoloRN = new ProtocoloRN();
-        $arrProtocoloDTO = InfraArray::indexarArrInfraDTO($protocoloRN->pesquisarRN0967($pesquisaProtocoloDTO),'IdProtocolo');
-        if($arrProtocoloDTO){
-            $numCodigoAcesso = $arrProtocoloDTO[$documentoDTO->getDblIdProcedimento()]->getNumCodigoAcesso();
-            if ($numCodigoAcesso > 0 || $bolFlagProtocolo) {
-                return true;
-            }
+        $arrProtocoloDTO = InfraArray::indexarArrInfraDTO($protocoloRN->pesquisarRN0967($pesquisaProtocoloDTO), 'IdProtocolo');
+        $protocoloDTODocumento = $arrProtocoloDTO[$documentoDTO->getDblIdDocumento()];
+
+        $numCodigoAcesso = $protocoloDTODocumento->getNumCodigoAcesso();
+        if ($numCodigoAcesso > 0 || $bolFlagProtocolo) {
+            $podeVisualizar = true;
+        }
+        if ($documentoDTO->getStrStaEstadoProtocolo() == ProtocoloRN::$TE_DOCUMENTO_CANCELADO) {
+            $podeVisualizar = false;
         }
 
-        return false;
+        return $podeVisualizar;
     }
 }
