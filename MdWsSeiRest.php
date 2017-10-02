@@ -314,15 +314,16 @@ class MdWsSeiRest extends SeiIntegracao
             $infraException->lancarValidacao('Não foi possível ler o arquivo do QRCode.');
         }
 
-        $htmlQrCode .= '<ul>';
-        $htmlQrCode .= '<li style="list-style:none">';
-        $htmlQrCode .= '<img style="margin: 0 53px" align="center" src="data:image/png;base64, '
+        $htmlQrCode .= '<div style="text-align: center;">';
+        $htmlQrCode .= '<div style="height: 12px; background-color: #01A5DA; border-bottom: 4px solid #AFCF2C;"></div>';
+        $htmlQrCode .= '<img style="margin: 20px auto 6px;" align="center" src="data:image/png;base64, '
             . base64_encode($binQrCode) . '" />';
-        $htmlQrCode .= '<p style="margin: 10px 57px 10px 0px; text-align: center; font-weight: bolder !important;">';
+        $htmlQrCode .= '<p>';
+        $htmlQrCode .= '<strong style="font-weight: bolder">';
         $htmlQrCode .= 'Faça a leitura do código acima para acessar o aplicativo do SEI no seu telefone.';
+        $htmlQrCode .= '</strong>';
         $htmlQrCode .= '</p>';
-        $htmlQrCode .= '</li>';
-        $htmlQrCode .= '</ul>';
+        $htmlQrCode .= '</div>';
 
         return $htmlQrCode;
     }
