@@ -439,10 +439,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $retornoAtrasado = 'N';
             $processoAberto = false;
             $acaoReabrirProcesso = SessaoSEI::getInstance()->verificarPermissao('procedimento_reabrir');
+            $acaoRegistrarAnotacao = SessaoSEI::getInstance()->verificarPermissao('anotacao_registrar');
             $processoEmTramitacao = false;
             $processoSobrestado = false;
             $processoAnexado = false;
             $podeReabrirProcesso = false;
+            $podeRegistrarAnotacao = false;
             $arrDadosAbertura = array();
             $procedimentoDTO = null;
             $resultAnotacao = array();
@@ -655,6 +657,9 @@ class MdWsSeiProcedimentoRN extends InfraRN
             if (!$processoAberto && $acaoReabrirProcesso && $processoEmTramitacao && !$processoSobrestado && !$processoAnexado) {
                 $podeReabrirProcesso = true;
             }
+            if ($processoEmTramitacao && $acaoRegistrarAnotacao) {
+                $podeRegistrarAnotacao = true;
+            }
 
             $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
 
@@ -699,6 +704,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         'processoSobrestado' => $processoSobrestado ? 'S' : 'N',
                         'processoAnexado' => $processoAnexado ? 'S' : 'N',
                         'podeReabrirProcesso' => $podeReabrirProcesso ? 'S' : 'N',
+                        'podeRegistrarAnotacao' => $podeRegistrarAnotacao ? 'S' : 'N',
                     )
                 )
             );
