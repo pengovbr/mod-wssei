@@ -145,7 +145,7 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function getVersao()
     {
-        return '0.2.2';
+        return '0.7.2';
     }
 
     public function getInstituicao()
