@@ -75,24 +75,6 @@ $config = array(
 
 $app = new \Slim\App($config);
 
-//Enable CORS
-// $app->options('/{routes:.+}', function ($request, $response, $args) {
-//     return $response;
-// });
-
-// $app->add(function ($req, $res, $next) {
-//     $response = $next($req, $res);
-
-//     //cabeçalhos encontrados na implementação do Mobile
-//     $strAllowHeaders = 'X-Requested-With, Content-Type, Accept, Origin, Authorization, Access-Control-Max-Age, If-Modified-Since' .
-//         'token, User-Agent, Cookie, Content-Disposition, Content-Length, Transfer-Encoding, Accept-Encoding';
-
-//     return $response->withHeader('Access-Control-Allow-Origin', 'http://localhost:8100') //Especifico para o IONIC
-//                     ->withHeader('Access-Control-Allow-Headers', $strAllowHeaders)
-//                     ->withHeader('Access-Control-Allow-Credentials', 'true')
-//                     ->withHeader('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS, HEAD');
-// });
-
 /**
  * Grupo para a versao v1 de servicos REST
  */
@@ -108,9 +90,11 @@ $app->group('/api/v1',function(){
         $usuarioDTO->setStrSigla($request->getParam('usuario'));
         $usuarioDTO->setStrSenha($request->getParam('senha'));
         $contextoDTO->setNumIdContexto($request->getParam('contexto'));
-        $contextoDTO->setNumIdOrgao($request->getParam('orgao'));
+        $orgaoDTO = new OrgaoDTO();
+        $orgaoDTO->setNumIdOrgao($request->getParam('orgao'));
+        $orgaoDTO->setStrSigla($request->getParam('siglaorgao'));
 
-        return $response->withJSON($rn->apiAutenticar($usuarioDTO, $contextoDTO));
+        return $response->withJSON($rn->apiAutenticar($usuarioDTO, $contextoDTO, $orgaoDTO));
     });
     /**
      * Grupo de controlador de Órgão <publico>

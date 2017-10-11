@@ -272,10 +272,10 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function adicionarElementoMenu()
     {
-        $nomeArquivo = 'QRCODE_'.self::NOME_MODULO."_".SessaoSEI::getInstance()->getStrSiglaOrgaoSistema();
+        $nomeArquivo = 'QRCODE_'.self::NOME_MODULO."_".SessaoSEI::getInstance()->getStrSiglaOrgaoUsuario();
         $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
 
-        if(CacheSEI::getInstance()->getAtributo($nomeArquivo)){
+        if($html){
             return $html;
         }
 

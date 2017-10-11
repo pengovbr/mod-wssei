@@ -121,10 +121,11 @@ class MdWsSeiUsuarioRN extends InfraRN {
             $usuarioDTO = new UsuarioDTO();
             $usuarioDTO->setStrSigla($tokenData[0]);
             $usuarioDTO->setStrSenha($tokenData[1]);
+            $orgaoDTO = new OrgaoDTO();
+            $orgaoDTO->setNumIdOrgao($tokenData[2]);
             $contextoDTO = new ContextoDTO();
-            $contextoDTO->setNumIdOrgao($tokenData[2]);
             $contextoDTO->setNumIdContexto($tokenData[3]);
-            $result = $this->apiAutenticar($usuarioDTO, $contextoDTO);
+            $result = $this->apiAutenticar($usuarioDTO, $contextoDTO, $orgaoDTO);
             if(!$result['sucesso']){
                 return $result;
             }
@@ -138,38 +139,40 @@ class MdWsSeiUsuarioRN extends InfraRN {
 
     /**
      * Metodo de autenticacao de usuarios usando SIP
-     * @param UsuarioDTO
-     *      @param $sigla
-     *      @param $senha
-     *      @param $IdOrgao
+     * @param UsuarioDTO $usuarioDTO
+     * @param ContextoDTO $contextoDTO
+     * @param OrgaoDTO $orgaoDTO
+     * @return array
      */
-    public function apiAutenticar(UsuarioDTO $usuarioDTO, ContextoDTO $contextoDTO){
+    public function apiAutenticar(UsuarioDTO $usuarioDTO, ContextoDTO $contextoDTO, OrgaoDTO $orgaoDTO){
         try{
             $contexto = $contextoDTO->getNumIdContexto();
-            $orgao = $contextoDTO->getNumIdOrgao();
-            $siglaOrgao = null;
-            if(!$orgao){
-                $orgaoRN = new OrgaoRN();
-                $objOrgaoDTO = new OrgaoDTO();
-                $objOrgaoDTO->setBolExclusaoLogica(false);
-                $objOrgaoDTO->retNumIdOrgao();
-                $objOrgaoDTO->setStrSigla(ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema'));
-                /**
-                 * @var $orgaoCarregdo OrgaoDTO
-                 * Orgao da sessao do sistema
-                 */
-                $orgaoCarregdo = $orgaoRN->consultarRN1352($objOrgaoDTO);
-                $orgao = $orgaoCarregdo->getNumIdOrgao();
-                $siglaOrgao = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema');
-            }
+            $orgao = $orgaoDTO->getNumIdOrgao();
+            $siglaOrgao = $orgaoDTO->getStrSigla();
             if(!$siglaOrgao){
-                $orgaoRN = new OrgaoRN();
-                $objOrgaoDTO = new OrgaoDTO();
-                $objOrgaoDTO->setBolExclusaoLogica(false);
-                $objOrgaoDTO->retStrSigla();
-                $objOrgaoDTO->setNumIdOrgao($orgao);
-                $objOrgaoDTO = $orgaoRN->consultarRN1352($objOrgaoDTO);
-                $siglaOrgao = $objOrgaoDTO->getStrSigla();
+                if(!$orgao){
+                    $orgaoRN = new OrgaoRN();
+                    $objOrgaoDTO = new OrgaoDTO();
+                    $objOrgaoDTO->setBolExclusaoLogica(false);
+                    $objOrgaoDTO->retNumIdOrgao();
+                    $objOrgaoDTO->setStrSigla(ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema'));
+                    /**
+                     * @var $orgaoCarregdo OrgaoDTO
+                     * Orgao da sessao do sistema
+                     */
+                    $orgaoCarregdo = $orgaoRN->consultarRN1352($objOrgaoDTO);
+                    $orgao = $orgaoCarregdo->getNumIdOrgao();
+                    $siglaOrgao = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema');
+                }
+                if(!$siglaOrgao){
+                    $orgaoRN = new OrgaoRN();
+                    $objOrgaoDTO = new OrgaoDTO();
+                    $objOrgaoDTO->setBolExclusaoLogica(false);
+                    $objOrgaoDTO->retStrSigla();
+                    $objOrgaoDTO->setNumIdOrgao($orgao);
+                    $objOrgaoDTO = $orgaoRN->consultarRN1352($objOrgaoDTO);
+                    $siglaOrgao = $objOrgaoDTO->getStrSigla();
+                }
             }
 
             $objSipWs = $this->retornaServicoSip();
