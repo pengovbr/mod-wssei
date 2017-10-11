@@ -298,7 +298,7 @@ class MdWsSeiRest extends SeiIntegracao
             .$caminhoAtual[1]
             .'/controlador_ws.php/api/v1'
             .'|'
-            .SessaoSEI::getInstance()->getStrSiglaOrgaoSistema();
+            .SessaoSEI::getInstance()->getStrSiglaOrgaoUsuario();
         $caminhoFisicoQrCode = DIR_SEI_TEMP.'/'.$nomeArquivo;
 
         InfraQRCode::gerar($conteudoQrCode, $caminhoFisicoQrCode,'L',2,1);
