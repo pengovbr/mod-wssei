@@ -272,7 +272,12 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function adicionarElementoMenu()
     {
-        $nomeArquivo = 'QRCODE_'.self::NOME_MODULO."_".SessaoSEI::getInstance()->getStrSiglaOrgaoUsuario();
+        $nomeArquivo = 'QRCODE_'
+            .self::NOME_MODULO
+            ."_"
+            .SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
+            ."_"
+            .SessaoSEI::getInstance()->getNumIdContextoUsuario();
         $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
 
         if($html){
@@ -294,11 +299,16 @@ class MdWsSeiRest extends SeiIntegracao
     {
         $htmlQrCode = '';
         $caminhoAtual = explode("/sei/web", __DIR__);
-        $conteudoQrCode =  ConfiguracaoSEI::getInstance()->getValor('SEI','URL')
+        $urlSEI = ConfiguracaoSEI::getInstance()->getValor('SEI','URL')
             .$caminhoAtual[1]
-            .'/controlador_ws.php/api/v1'
-            .'|'
-            .SessaoSEI::getInstance()->getStrSiglaOrgaoUsuario();
+            .'/controlador_ws.php/api/v1';
+        $conteudoQrCode =  'url: '.$urlSEI
+            .';'
+            .'siglaorgao: '.SessaoSEI::getInstance()->getStrSiglaOrgaoUsuario()
+            .';'
+            .'orgao: '.SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
+            .';'
+            .'contexto: '.SessaoSEI::getInstance()->getNumIdContextoUsuario();
         $caminhoFisicoQrCode = DIR_SEI_TEMP.'/'.$nomeArquivo;
 
         InfraQRCode::gerar($conteudoQrCode, $caminhoFisicoQrCode,'L',2,1);
