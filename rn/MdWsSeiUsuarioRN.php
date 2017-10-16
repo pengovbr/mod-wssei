@@ -150,11 +150,16 @@ class MdWsSeiUsuarioRN extends InfraRN {
             $orgao = $orgaoDTO->getNumIdOrgao();
             $siglaOrgao = $orgaoDTO->getStrSigla();
             if(!$siglaOrgao){
-                if(!$orgao){
-                    $orgaoRN = new OrgaoRN();
-                    $objOrgaoDTO = new OrgaoDTO();
-                    $objOrgaoDTO->setBolExclusaoLogica(false);
-                    $objOrgaoDTO->retNumIdOrgao();
+                $orgaoRN = new OrgaoRN();
+                $objOrgaoDTO = new OrgaoDTO();
+                $objOrgaoDTO->setBolExclusaoLogica(false);
+                $objOrgaoDTO->retNumIdOrgao();
+                $objOrgaoDTO->retStrSigla();
+                if(!is_null($orgao)){
+                    $objOrgaoDTO->setNumIdOrgao($orgao);
+                    $objOrgaoDTO = $orgaoRN->consultarRN1352($objOrgaoDTO);
+                    $siglaOrgao = $objOrgaoDTO->getStrSigla();
+                }else{
                     $objOrgaoDTO->setStrSigla(ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema'));
                     /**
                      * @var $orgaoCarregdo OrgaoDTO
@@ -163,15 +168,6 @@ class MdWsSeiUsuarioRN extends InfraRN {
                     $orgaoCarregdo = $orgaoRN->consultarRN1352($objOrgaoDTO);
                     $orgao = $orgaoCarregdo->getNumIdOrgao();
                     $siglaOrgao = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema');
-                }
-                if(!$siglaOrgao){
-                    $orgaoRN = new OrgaoRN();
-                    $objOrgaoDTO = new OrgaoDTO();
-                    $objOrgaoDTO->setBolExclusaoLogica(false);
-                    $objOrgaoDTO->retStrSigla();
-                    $objOrgaoDTO->setNumIdOrgao($orgao);
-                    $objOrgaoDTO = $orgaoRN->consultarRN1352($objOrgaoDTO);
-                    $siglaOrgao = $objOrgaoDTO->getStrSigla();
                 }
             }
 
