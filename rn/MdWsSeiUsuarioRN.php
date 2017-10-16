@@ -122,7 +122,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
             $usuarioDTO->setStrSigla($tokenData[0]);
             $usuarioDTO->setStrSenha($tokenData[1]);
             $orgaoDTO = new OrgaoDTO();
-            $orgaoDTO->setStrSigla($tokenData[2]);
+            $orgaoDTO->setNumIdOrgao($tokenData[2]);
             $contextoDTO = new ContextoDTO();
             $contextoDTO->setNumIdContexto($tokenData[3]);
             $result = $this->apiAutenticar($usuarioDTO, $contextoDTO, $orgaoDTO);
@@ -186,7 +186,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
             $ret->sigla = $usuarioDTO->getStrSigla();
             $ret->nome = SessaoSEI::getInstance()->getStrNomeUsuario();
             
-            $token = $this->tokenEncode($usuarioDTO->getStrSigla(), $usuarioDTO->getStrSenha(), $siglaOrgao, $contexto);
+            $token = $this->tokenEncode($usuarioDTO->getStrSigla(), $usuarioDTO->getStrSenha(), $orgao, $contexto);
 
             $arrUnidades = array();
             foreach(SessaoSEI::getInstance()->getArrUnidades() as $unidade){
