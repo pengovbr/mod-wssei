@@ -148,41 +148,22 @@ class MdWsSeiUsuarioRN extends InfraRN {
         try{
             $contexto = $contextoDTO->getNumIdContexto();
             $orgao = $orgaoDTO->getNumIdOrgao();
-            $siglaOrgao = $orgaoDTO->getStrSigla();
+            $siglaOrgao = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema');
 
             $orgaoRN = new OrgaoRN();
 
-            if(!$siglaOrgao && is_null($orgao)){
-                $objOrgaoDTO = new OrgaoDTO();
-                $objOrgaoDTO->setBolExclusaoLogica(false);
-                $objOrgaoDTO->retNumIdOrgao();
-                $objOrgaoDTO->retStrSigla();
-                $objOrgaoDTO->setStrSigla(ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema'));
-                /**
-                 * @var $orgaoCarregdo OrgaoDTO
-                 * Orgao da sessao do sistema
-                 */
-                $orgaoCarregdo = $orgaoRN->consultarRN1352($objOrgaoDTO);
-                $orgao = $orgaoCarregdo->getNumIdOrgao();
-                $siglaOrgao = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema');
-            }
-            if(!$siglaOrgao){
-                $objOrgaoDTO = new OrgaoDTO();
-                $objOrgaoDTO->setBolExclusaoLogica(false);
-                $objOrgaoDTO->retNumIdOrgao();
-                $objOrgaoDTO->retStrSigla();
-                $objOrgaoDTO->setNumIdOrgao($orgao);
-                $objOrgaoDTO = $orgaoRN->consultarRN1352($objOrgaoDTO);
-                $siglaOrgao = $objOrgaoDTO->getStrSigla();
-            }
             if(is_null($orgao)){
                 $objOrgaoDTO = new OrgaoDTO();
                 $objOrgaoDTO->setBolExclusaoLogica(false);
                 $objOrgaoDTO->retNumIdOrgao();
                 $objOrgaoDTO->retStrSigla();
                 $objOrgaoDTO->setStrSigla($siglaOrgao);
-                $objOrgaoDTO = $orgaoRN->consultarRN1352($objOrgaoDTO);
-                $siglaOrgao = $objOrgaoDTO->getStrSigla();
+                /**
+                 * @var $orgaoCarregdo OrgaoDTO
+                 * Orgao da sessao do sistema
+                 */
+                $orgaoCarregdo = $orgaoRN->consultarRN1352($objOrgaoDTO);
+                $orgao = $orgaoCarregdo->getNumIdOrgao();
             }
 
             $objSipWs = $this->retornaServicoSip();

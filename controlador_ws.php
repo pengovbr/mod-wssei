@@ -92,7 +92,6 @@ $app->group('/api/v1',function(){
         $contextoDTO->setNumIdContexto($request->getParam('contexto'));
         $orgaoDTO = new OrgaoDTO();
         $orgaoDTO->setNumIdOrgao($request->getParam('orgao'));
-        $orgaoDTO->setStrSigla($request->getParam('siglaorgao'));
 
         return $response->withJSON($rn->apiAutenticar($usuarioDTO, $contextoDTO, $orgaoDTO));
     });

@@ -277,7 +277,8 @@ class MdWsSeiRest extends SeiIntegracao
             ."_"
             .SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
             ."_"
-            .SessaoSEI::getInstance()->getNumIdContextoUsuario();
+            .SessaoSEI::getInstance()->getNumIdContextoUsuario()
+            ."_X";
         $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
 
         if($html){
@@ -304,7 +305,7 @@ class MdWsSeiRest extends SeiIntegracao
             .'/controlador_ws.php/api/v1';
         $conteudoQrCode =  'url: '.$urlSEI
             .';'
-            .'siglaorgao: '.SessaoSEI::getInstance()->getStrSiglaOrgaoUsuario()
+            .'siglaorgao: '.SessaoSEI::getInstance()->getStrSiglaOrgaoSistema()
             .';'
             .'orgao: '.SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
             .';'
