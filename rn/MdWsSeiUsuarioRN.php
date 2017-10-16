@@ -149,26 +149,40 @@ class MdWsSeiUsuarioRN extends InfraRN {
             $contexto = $contextoDTO->getNumIdContexto();
             $orgao = $orgaoDTO->getNumIdOrgao();
             $siglaOrgao = $orgaoDTO->getStrSigla();
-            if(!$siglaOrgao){
-                $orgaoRN = new OrgaoRN();
+
+            $orgaoRN = new OrgaoRN();
+
+            if(!$siglaOrgao && is_null($orgao)){
                 $objOrgaoDTO = new OrgaoDTO();
                 $objOrgaoDTO->setBolExclusaoLogica(false);
                 $objOrgaoDTO->retNumIdOrgao();
                 $objOrgaoDTO->retStrSigla();
-                if(!is_null($orgao)){
-                    $objOrgaoDTO->setNumIdOrgao($orgao);
-                    $objOrgaoDTO = $orgaoRN->consultarRN1352($objOrgaoDTO);
-                    $siglaOrgao = $objOrgaoDTO->getStrSigla();
-                }else{
-                    $objOrgaoDTO->setStrSigla(ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema'));
-                    /**
-                     * @var $orgaoCarregdo OrgaoDTO
-                     * Orgao da sessao do sistema
-                     */
-                    $orgaoCarregdo = $orgaoRN->consultarRN1352($objOrgaoDTO);
-                    $orgao = $orgaoCarregdo->getNumIdOrgao();
-                    $siglaOrgao = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema');
-                }
+                $objOrgaoDTO->setStrSigla(ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema'));
+                /**
+                 * @var $orgaoCarregdo OrgaoDTO
+                 * Orgao da sessao do sistema
+                 */
+                $orgaoCarregdo = $orgaoRN->consultarRN1352($objOrgaoDTO);
+                $orgao = $orgaoCarregdo->getNumIdOrgao();
+                $siglaOrgao = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema');
+            }
+            if(!$siglaOrgao){
+                $objOrgaoDTO = new OrgaoDTO();
+                $objOrgaoDTO->setBolExclusaoLogica(false);
+                $objOrgaoDTO->retNumIdOrgao();
+                $objOrgaoDTO->retStrSigla();
+                $objOrgaoDTO->setNumIdOrgao($orgao);
+                $objOrgaoDTO = $orgaoRN->consultarRN1352($objOrgaoDTO);
+                $siglaOrgao = $objOrgaoDTO->getStrSigla();
+            }
+            if(is_null($orgao)){
+                $objOrgaoDTO = new OrgaoDTO();
+                $objOrgaoDTO->setBolExclusaoLogica(false);
+                $objOrgaoDTO->retNumIdOrgao();
+                $objOrgaoDTO->retStrSigla();
+                $objOrgaoDTO->setStrSigla($siglaOrgao);
+                $objOrgaoDTO = $orgaoRN->consultarRN1352($objOrgaoDTO);
+                $siglaOrgao = $objOrgaoDTO->getStrSigla();
             }
 
             $objSipWs = $this->retornaServicoSip();
