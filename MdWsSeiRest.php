@@ -278,7 +278,7 @@ class MdWsSeiRest extends SeiIntegracao
             .SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
             ."_"
             .SessaoSEI::getInstance()->getNumIdContextoUsuario()
-            ."_X";
+            ."__";
         $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
 
         if($html){
