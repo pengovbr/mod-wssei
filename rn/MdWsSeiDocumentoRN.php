@@ -258,6 +258,11 @@ class MdWsSeiDocumentoRN extends InfraRN {
                 $editorDTOConsulta->setStrSinRodape('S');
                 $editorDTOConsulta->setStrSinIdentificacaoVersao('S');
                 $editorDTOConsulta->setStrSinProcessarLinks('S');
+
+                if(MdWsSeiEditorRN::versaoCarimboPublicacaoObrigatorio()){
+                    $editorDTOConsulta->setStrSinCarimboPublicacao('N');
+                }
+
                 $editorRN = new EditorRN();
                 $html = $editorRN->consultarHtmlVersao($editorDTOConsulta);
 
