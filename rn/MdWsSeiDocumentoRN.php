@@ -410,8 +410,10 @@ class MdWsSeiDocumentoRN extends InfraRN {
         $bolFlagBloqueado = false;
         $bolErro = false;
         $numCodigoAcesso = 0;
+        $strNoProc = "";
 
-        $objProcedimentoDTO = ProcedimentoINT::montarAcoesArvore($documentoDTO->getDblIdProcedimento(),
+        $objProcedimentoDTO = ProcedimentoINT::montarAcoesArvore(
+            $documentoDTO->getDblIdProcedimento(),
             SessaoSEI::getInstance()->getNumIdUnidadeAtual(),
             $bolFlagAberto,
             $bolFlagAnexado,
@@ -421,8 +423,11 @@ class MdWsSeiDocumentoRN extends InfraRN {
             $bolFlagSobrestado,
             $bolFlagBloqueado,
             $numCodigoAcesso,
-            $numNo, $strNos,
-            $numNoAcao, $strNosAcao,
+            $numNo,
+            $strNos,
+            $numNoAcao,
+            $strNosAcao,
+            $strNoProc,
             $bolErro);
 
         $arrRelProtocoloProtocoloDTO = $objProcedimentoDTO->getArrObjRelProtocoloProtocoloDTO();
