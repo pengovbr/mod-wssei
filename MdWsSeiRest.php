@@ -277,8 +277,7 @@ class MdWsSeiRest extends SeiIntegracao
             ."_"
             .SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
             ."_"
-            .SessaoSEI::getInstance()->getNumIdContextoUsuario()
-            ."__";
+            .SessaoSEI::getInstance()->getNumIdContextoUsuario();
         $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
 
         if($html){
@@ -327,13 +326,18 @@ class MdWsSeiRest extends SeiIntegracao
 
         $htmlQrCode .= '<div style="text-align: center;">';
         $htmlQrCode .= '<div style="height: 12px; background-color: #01A5DA; border-bottom: 4px solid #AFCF2C;"></div>';
-        $htmlQrCode .= '<img style="margin: 20px auto 6px;" align="center" src="data:image/png;base64, '
-            . base64_encode($binQrCode) . '" />';
-        $htmlQrCode .= '<p>';
+        $htmlQrCode .= '<p style="text-align: left; margin: 5px;">';
         $htmlQrCode .= '<strong style="font-weight: bolder">';
-        $htmlQrCode .= 'Faça a leitura do código acima para acessar o aplicativo do SEI no seu telefone.';
+        $htmlQrCode .= 'Acesse as lojas App Store ou Google Play e instale o aplicativo do SEI! No seu celular.';
         $htmlQrCode .= '</strong>';
         $htmlQrCode .= '</p>';
+        $htmlQrCode .= '<p style="text-align: left; margin: 15px 5px 5px 5px;">';
+        $htmlQrCode .= '<strong style="font-weight: bolder">';
+        $htmlQrCode .= 'Abra o aplicativo do SEI! e faça a leitura do código abaixo para sincronizá-lo com sua conta.';
+        $htmlQrCode .= '</strong>';
+        $htmlQrCode .= '</p>';
+        $htmlQrCode .= '<img style="margin: 20px auto 6px;" align="center" src="data:image/png;base64, '
+            . base64_encode($binQrCode) . '" />';
         $htmlQrCode .= '</div>';
 
         return $htmlQrCode;
