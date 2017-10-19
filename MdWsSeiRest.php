@@ -284,7 +284,7 @@ class MdWsSeiRest extends SeiIntegracao
             return $html;
         }
 
-        $html = $this->montaCorpoHtMLQRCode($nomeArquivo);
+        $html = $this->montaCorpoHTMLQRCode($nomeArquivo);
         CacheSEI::getInstance()->setAtributo($nomeArquivo, $html, CacheSEI::getInstance()->getNumTempo());
 
         return $html;
@@ -295,7 +295,7 @@ class MdWsSeiRest extends SeiIntegracao
      * @param $nomeArquivo
      * @return string
      */
-    private function montaCorpoHtMLQRCode($nomeArquivo)
+    private function montaCorpoHTMLQRCode($nomeArquivo)
     {
         $htmlQrCode = '';
         $caminhoAtual = explode("/sei/web", __DIR__);
@@ -324,11 +324,11 @@ class MdWsSeiRest extends SeiIntegracao
             $infraException->lancarValidacao('Não foi possível ler o arquivo do QRCode.');
         }
 
-        $htmlQrCode .= '<div style="text-align: center;">';
-        $htmlQrCode .= '<div style="height: 12px; background-color: #01A5DA; border-bottom: 4px solid #AFCF2C;"></div>';
+        $htmlQrCode .= '<div style="font-size: 18px; text-align: center;">';
+        $htmlQrCode .= '<div style="height: 12px; margin-bottom: 22px; background-color: #01A5DA; border-bottom: 4px solid #AFCF2C;"></div>';
         $htmlQrCode .= '<p style="text-align: left; margin: 5px;">';
         $htmlQrCode .= '<strong style="font-weight: bolder">';
-        $htmlQrCode .= 'Acesse as lojas App Store ou Google Play e instale o aplicativo do SEI! No seu celular.';
+        $htmlQrCode .= 'Acesse as lojas App Store ou Google Play e instale o aplicativo do SEI! no seu celular.';
         $htmlQrCode .= '</strong>';
         $htmlQrCode .= '</p>';
         $htmlQrCode .= '<p style="text-align: left; margin: 15px 5px 5px 5px;">';
