@@ -17,46 +17,59 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
     protected function listarDocumentosProcessoConectado(DocumentoDTO $documentoDTOParam){
         try{
             $result = array();
-            $documentoDTOConsulta = new DocumentoDTO();
+            $relProtocoloProtocoloDTOConsulta = new RelProtocoloProtocoloDTO();
             if(!$documentoDTOParam->isSetDblIdProcedimento()){
                 throw new InfraException('O procedimento deve ser informado.');
             }
-            $documentoDTOConsulta->setDblIdProcedimento($documentoDTOParam->getDblIdProcedimento());
+            $relProtocoloProtocoloDTOConsulta->setDblIdProtocolo1($documentoDTOParam->getDblIdProcedimento());
+            $relProtocoloProtocoloDTOConsulta->retStrSinCiencia();
+            $relProtocoloProtocoloDTOConsulta->retDblIdProtocolo1();
+            $relProtocoloProtocoloDTOConsulta->retDblIdProtocolo2();
+            $relProtocoloProtocoloDTOConsulta->retNumSequencia();
+            $relProtocoloProtocoloDTOConsulta->setOrdNumSequencia(InfraDTO::$TIPO_ORDENACAO_ASC);
             if($documentoDTOParam->getNumMaxRegistrosRetorno()){
-                $documentoDTOConsulta->setNumMaxRegistrosRetorno($documentoDTOParam->getNumMaxRegistrosRetorno());
+                $relProtocoloProtocoloDTOConsulta->setNumMaxRegistrosRetorno($documentoDTOParam->getNumMaxRegistrosRetorno());
             }else{
-                $documentoDTOConsulta->setNumMaxRegistrosRetorno(10);
+                $relProtocoloProtocoloDTOConsulta->setNumMaxRegistrosRetorno(10);
             }
             if(is_null($documentoDTOParam->getNumPaginaAtual())){
-                $documentoDTOConsulta->setNumPaginaAtual(0);
+                $relProtocoloProtocoloDTOConsulta->setNumPaginaAtual(0);
             }else{
-                $documentoDTOConsulta->setNumPaginaAtual($documentoDTOParam->getNumPaginaAtual());
+                $relProtocoloProtocoloDTOConsulta->setNumPaginaAtual($documentoDTOParam->getNumPaginaAtual());
             }
-            $documentoDTOConsulta->retStrStaNivelAcessoLocalProtocolo();
-            $documentoDTOConsulta->retDblIdDocumento();
-            $documentoDTOConsulta->retStrStaProtocoloProtocolo();
-            $documentoDTOConsulta->retDblIdProcedimento();
-            $documentoDTOConsulta->retStrProtocoloDocumentoFormatado();
-            $documentoDTOConsulta->retStrNumero();
-            $documentoDTOConsulta->retStrNomeSerie();
-            $documentoDTOConsulta->retStrSiglaUnidadeGeradoraProtocolo();
-            $documentoDTOConsulta->retStrSiglaUnidadeGeradoraProtocolo();
-            $documentoDTOConsulta->retNumIdUnidadeGeradoraProtocolo();
-            $documentoDTOConsulta->retStrCrcAssinatura();
-            $documentoDTOConsulta->retStrStaEstadoProtocolo();
-            $documentoDTOConsulta->setOrdDtaGeracaoProtocolo(InfraDTO::$TIPO_ORDENACAO_ASC);
-            $documentoDTOConsulta->setOrdDblIdProcedimento(InfraDTO::$TIPO_ORDENACAO_ASC);
 
-            $documentoBD = new DocumentoBD($this->getObjInfraIBanco());
-            $ret = $documentoBD->listar($documentoDTOConsulta, true);
-            return $ret;
+            $relProtocoloProtocoloRN = new RelProtocoloProtocoloRN();
+            $ret = $relProtocoloProtocoloRN->listarRN0187($relProtocoloProtocoloDTOConsulta);
+            $arrDocumentos = array();
+            if($ret){
+                $documentoDTOConsulta = new DocumentoDTO();
+                $documentoDTOConsulta->retStrStaNivelAcessoLocalProtocolo();
+                $documentoDTOConsulta->retDblIdDocumento();
+                $documentoDTOConsulta->retStrStaProtocoloProtocolo();
+                $documentoDTOConsulta->retDblIdProcedimento();
+                $documentoDTOConsulta->retStrProtocoloDocumentoFormatado();
+                $documentoDTOConsulta->retStrNumero();
+                $documentoDTOConsulta->retStrNomeSerie();
+                $documentoDTOConsulta->retStrSiglaUnidadeGeradoraProtocolo();
+                $documentoDTOConsulta->retStrSiglaUnidadeGeradoraProtocolo();
+                $documentoDTOConsulta->retNumIdUnidadeGeradoraProtocolo();
+                $documentoDTOConsulta->retStrCrcAssinatura();
+                $documentoDTOConsulta->retStrStaEstadoProtocolo();
+                $documentoDTOConsulta->setDblIdDocumento(array_keys(InfraArray::indexarArrInfraDTO($ret,'IdProtocolo2')), InfraDTO::$OPER_IN);
+                $documentoBD = new DocumentoBD($this->getObjInfraIBanco());
+                $retDocumentos = $documentoBD->listar($documentoDTOConsulta);
+                /** @var DocumentoDTO $documentoDTOOrd */
+                foreach ($retDocumentos as $documentoDTOOrd){
+                    $arrDocumentos[$documentoDTOOrd->getDblIdDocumento()] = $documentoDTOOrd;
+                }
+            }
 
             $anexoRN = new AnexoRN();
             $observacaoRN = new ObservacaoRN();
             $publicacaoRN = new PublicacaoRN();
-            $relProtocoloProtocoloRN = new RelProtocoloProtocoloRN();
-            /** @var DocumentoDTO $documentoDTO */
-            foreach($ret as $documentoDTO){
+            /** @var RelProtocoloProtocoloDTO $relProtocoloProtocoloDTO */
+            foreach($ret as $relProtocoloProtocoloDTO){
+                $documentoDTO = $arrDocumentos[$relProtocoloProtocoloDTO->getDblIdProtocolo2()];
                 $mimetype = null;
                 $nomeAnexo = null;
                 $informacao = null;
@@ -96,17 +109,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $publicacaoDTOConsulta->setNumMaxRegistrosRetorno(1);
                 $resultPublicacao = $publicacaoRN->listarRN1045($publicacaoDTOConsulta);
                 $documentoPublicado = $resultPublicacao ? 'S' : 'N';
-
-                $relProtocoloProtocoloDTOConsulta = new RelProtocoloProtocoloDTO();
-                $relProtocoloProtocoloDTOConsulta->setDblIdProtocolo2($documentoDTO->getDblIdDocumento());
-                $relProtocoloProtocoloDTOConsulta->retStrSinCiencia();
-                $relProtocoloProtocoloDTOConsulta->setNumMaxRegistrosRetorno(1);
-                $resultRelProtProt = $relProtocoloProtocoloRN->listarRN0187($relProtocoloProtocoloDTOConsulta);
-                if($resultRelProtProt){
-                    /** @var RelProtocoloProtocoloDTO $relProtocoloProtocoloDTO */
-                    $relProtocoloProtocoloDTO = $resultRelProtProt[0];
-                    $ciencia = $relProtocoloProtocoloDTO->getStrSinCiencia();
-                }
+                $ciencia = $relProtocoloProtocoloDTO->getStrSinCiencia();
 
                 $podeVisualizarDocumento = $this->podeVisualizarDocumento($documentoDTO);
 
@@ -138,7 +141,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 );
             }
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $documentoDTOConsulta->getNumTotalRegistros());
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relProtocoloProtocoloDTOConsulta->getNumTotalRegistros());
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
