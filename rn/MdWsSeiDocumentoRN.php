@@ -44,8 +44,8 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $documentoDTOConsulta->retNumIdUnidadeGeradoraProtocolo();
             $documentoDTOConsulta->retStrCrcAssinatura();
             $documentoDTOConsulta->retStrStaEstadoProtocolo();
-            $documentoDTOConsulta->setOrdDtaGeracaoProtocolo(InfraDTO::$TIPO_ORDENACAO_DESC);
-            $documentoDTOConsulta->setOrdDblIdProcedimento(InfraDTO::$TIPO_ORDENACAO_DESC);
+            $documentoDTOConsulta->setOrdDtaGeracaoProtocolo(InfraDTO::$TIPO_ORDENACAO_ASC);
+            $documentoDTOConsulta->setOrdDblIdProcedimento(InfraDTO::$TIPO_ORDENACAO_ASC);
 
             $documentoBD = new DocumentoBD($this->getObjInfraIBanco());
             $ret = $documentoBD->listar($documentoDTOConsulta);
