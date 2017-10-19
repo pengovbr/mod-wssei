@@ -145,7 +145,7 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function getVersao()
     {
-        return '0.7.3';
+        return '0.7.4';
     }
 
     public function getInstituicao()
@@ -277,7 +277,9 @@ class MdWsSeiRest extends SeiIntegracao
             ."_"
             .SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
             ."_"
-            .SessaoSEI::getInstance()->getNumIdContextoUsuario();
+            .SessaoSEI::getInstance()->getNumIdContextoUsuario()
+            ."_"
+            .self::getVersao();
         $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
 
         if($html){
@@ -324,7 +326,7 @@ class MdWsSeiRest extends SeiIntegracao
             $infraException->lancarValidacao('Não foi possível ler o arquivo do QRCode.');
         }
 
-        $htmlQrCode .= '<div style="font-size: 18px; text-align: center;">';
+        $htmlQrCode .= '<div style="font-size: 16px; text-align: center;">';
         $htmlQrCode .= '<div style="height: 12px; margin-bottom: 22px; background-color: #01A5DA; border-bottom: 4px solid #AFCF2C;"></div>';
         $htmlQrCode .= '<p style="text-align: left; margin: 5px;">';
         $htmlQrCode .= '<strong style="font-weight: bolder">';
