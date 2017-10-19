@@ -1,7 +1,7 @@
 <?
 require_once dirname(__FILE__).'/../../../SEI.php';
 
-class MdWsSeiDocumentoRN extends InfraRN {
+class MdWsSeiDocumentoRN extends DocumentoRN {
 
     CONST NOME_ATRIBUTO_ANDAMENTO_DOCUMENTO = 'DOCUMENTO';
 
@@ -44,8 +44,11 @@ class MdWsSeiDocumentoRN extends InfraRN {
             $documentoDTOConsulta->retNumIdUnidadeGeradoraProtocolo();
             $documentoDTOConsulta->retStrCrcAssinatura();
             $documentoDTOConsulta->retStrStaEstadoProtocolo();
-            $documentoRN = new DocumentoRN();
-            $ret = $documentoRN->listarRN0008($documentoDTOConsulta);
+            $documentoDTOConsulta->setOrdDtaGeracaoProtocolo(InfraDTO::$TIPO_ORDENACAO_DESC);
+            $documentoDTOConsulta->setOrdDblIdProcedimento(InfraDTO::$TIPO_ORDENACAO_DESC);
+
+            $documentoBD = new DocumentoBD($this->getObjInfraIBanco());
+            $ret = $documentoBD->listar($documentoDTOConsulta);
 
             $anexoRN = new AnexoRN();
             $observacaoRN = new ObservacaoRN();
