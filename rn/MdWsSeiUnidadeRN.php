@@ -26,9 +26,16 @@ class MdWsSeiUnidadeRN extends InfraRN {
             }
             if($unidadeDTOParam->isSetStrSigla()){
                 $filter = '%'.$unidadeDTOParam->getStrSigla().'%';
-                $unidadeDTO->setStrSigla($filter, InfraDTO::$OPER_LIKE, true);
+
+                $unidadeDTO->adicionarCriterio(
+                    array('Sigla', 'Descricao'),
+                    array(InfraDTO::$OPER_LIKE, InfraDTO::$OPER_LIKE),
+                    array($filter, $filter),
+                    InfraDTO::$OPER_LOGICO_OR
+                );
             }
             $unidadeDTO->setStrSinAtivo('S');
+            $unidadeDTO->setStrSinEnvioProcesso('S');
             $unidadeDTO->retNumIdUnidade();
             $unidadeDTO->retStrSigla();
             $unidadeDTO->retStrDescricao();
