@@ -22,7 +22,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 throw new InfraException('O procedimento deve ser informado.');
             }
             $relProtocoloProtocoloDTOConsulta->setDblIdProtocolo1($documentoDTOParam->getDblIdProcedimento());
-            $relProtocoloProtocoloDTOConsulta->setDblIdProtocolo2(
+            $relProtocoloProtocoloDTOConsulta->setStrStaEstadoProtocolo2(
                 array(ProtocoloRN::$TP_DOCUMENTO_GERADO, ProtocoloRN::$TP_DOCUMENTO_RECEBIDO),
                 InfraDTO::$OPER_IN
             );
