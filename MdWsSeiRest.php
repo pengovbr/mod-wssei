@@ -15,36 +15,38 @@ class MdWsSeiRest extends SeiIntegracao
      * @param $item
      * @return array|string
      */
-    public static function dataToUtf8($item){
+    public static function dataToUtf8($item)
+    {
 
-        if(is_array($item)){
+        if (is_array($item)) {
             $itemArr = $item;
-        }else if(is_object($item)) {
+        } else if (is_object($item)) {
             $itemArr = get_object_vars($item);
-        }else if(is_bool($item)){
+        } else if (is_bool($item)) {
             return $item;
-        }else{
+        } else {
             return utf8_encode(htmlspecialchars($item));
         }
         $response = array();
-        foreach($itemArr as $key => $val){
+        foreach ($itemArr as $key => $val) {
             $response[$key] = MdWsSeiRest::dataToUtf8($val);
         }
         return $response;
     }
 
-    public static function dataToIso88591($item){
-        if(is_array($item)){
+    public static function dataToIso88591($item)
+    {
+        if (is_array($item)) {
             $itemArr = $item;
-        }else if(is_object($item)) {
+        } else if (is_object($item)) {
             $itemArr = get_object_vars($item);
-        }else if(is_bool($item)){
+        } else if (is_bool($item)) {
             return $item;
-        }else{
+        } else {
             return mb_convert_encoding($item, 'ISO-8859-1');
         }
         $response = array();
-        foreach($itemArr as $key => $val){
+        foreach ($itemArr as $key => $val) {
             $response[$key] = MdWsSeiRest::dataToIso88591($val);
         }
         return $response;
@@ -58,16 +60,17 @@ class MdWsSeiRest extends SeiIntegracao
      * @param bool $jsonEncode - Se alterado para true retornará como json_encode
      * @return array
      */
-    public static function formataRetornoSucessoREST($mensagem = null, $result = null, $total = null, $jsonEncode = false){
+    public static function formataRetornoSucessoREST($mensagem = null, $result = null, $total = null, $jsonEncode = false)
+    {
         $data = array();
         $data['sucesso'] = true;
-        if($mensagem){
+        if ($mensagem) {
             $data['mensagem'] = $mensagem;
         }
-        if($result){
+        if ($result) {
             $data['data'] = $result;
         }
-        if(!is_null($total)){
+        if (!is_null($total)) {
             $data['total'] = $total;
         }
         $retorno = MdWsSeiRest::dataToUtf8($data);
@@ -80,25 +83,26 @@ class MdWsSeiRest extends SeiIntegracao
      * @param Exception $e
      * @return array
      */
-    public static function formataRetornoErroREST(Exception $e){
+    public static function formataRetornoErroREST(Exception $e)
+    {
         $mensagem = $e->getMessage();
-        if($e instanceof InfraException){
-            if(!$e->getStrDescricao()){
+        if ($e instanceof InfraException) {
+            if (!$e->getStrDescricao()) {
                 /** @var InfraValidacaoDTO $validacaoDTO */
-                if(count($e->getArrObjInfraValidacao()) == 1){
+                if (count($e->getArrObjInfraValidacao()) == 1) {
                     $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
-                }else{
-                    foreach($e->getArrObjInfraValidacao() as $validacaoDTO){
+                } else {
+                    foreach ($e->getArrObjInfraValidacao() as $validacaoDTO) {
                         $mensagem[] = $validacaoDTO->getStrDescricao();
                     }
                 }
-            }else{
+            } else {
                 $mensagem = $e->getStrDescricao();
             }
 
         }
         return MdWsSeiRest::dataToUtf8(
-            array (
+            array(
                 "sucesso" => false,
                 "mensagem" => $mensagem,
                 "exception" => $e
@@ -117,8 +121,8 @@ class MdWsSeiRest extends SeiIntegracao
     {
         global $SEI_MODULOS;
         $ativo = false;
-        foreach($SEI_MODULOS as $modulo){
-            if($modulo instanceof self){
+        foreach ($SEI_MODULOS as $modulo) {
+            if ($modulo instanceof self) {
                 $ativo = true;
                 break;
             }
@@ -131,7 +135,8 @@ class MdWsSeiRest extends SeiIntegracao
      * @param $strVersaoSEI
      * @return bool
      */
-    public function verificaCompatibilidade($strVersaoSEI){
+    public function verificaCompatibilidade($strVersaoSEI)
+    {
         if (substr($strVersaoSEI, 0, 2) != '3.') {
             return false;
         }
@@ -145,7 +150,7 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function getVersao()
     {
-        return '0.7.5';
+        return '0.7.6';
     }
 
     public function getInstituicao()
@@ -273,16 +278,16 @@ class MdWsSeiRest extends SeiIntegracao
     public function adicionarElementoMenu()
     {
         $nomeArquivo = 'QRCODE_'
-            .self::NOME_MODULO
-            ."_"
-            .SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
-            ."_"
-            .SessaoSEI::getInstance()->getNumIdContextoUsuario()
-            ."_"
-            .self::getVersao();
+            . self::NOME_MODULO
+            . "_"
+            . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
+            . "_"
+            . SessaoSEI::getInstance()->getNumIdContextoUsuario()
+            . "_"
+            . self::getVersao();
         $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
 
-        if($html){
+        if ($html) {
             return $html;
         }
 
@@ -301,28 +306,28 @@ class MdWsSeiRest extends SeiIntegracao
     {
         $htmlQrCode = '';
         $caminhoAtual = explode("/sei/web", __DIR__);
-        $urlSEI = ConfiguracaoSEI::getInstance()->getValor('SEI','URL')
-            .$caminhoAtual[1]
-            .'/controlador_ws.php/api/v1';
-        $conteudoQrCode =  'url: '.$urlSEI
-            .';'
-            .'siglaorgao: '.SessaoSEI::getInstance()->getStrSiglaOrgaoUsuario()
-            .';'
-            .'orgao: '.SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
-            .';'
-            .'contexto: '.SessaoSEI::getInstance()->getNumIdContextoUsuario();
-        $caminhoFisicoQrCode = DIR_SEI_TEMP.'/'.$nomeArquivo;
+        $urlSEI = ConfiguracaoSEI::getInstance()->getValor('SEI', 'URL')
+            . $caminhoAtual[1]
+            . '/controlador_ws.php/api/v1';
+        $conteudoQrCode = 'url: ' . $urlSEI
+            . ';'
+            . 'siglaorgao: ' . SessaoSEI::getInstance()->getStrSiglaOrgaoUsuario()
+            . ';'
+            . 'orgao: ' . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
+            . ';'
+            . 'contexto: ' . SessaoSEI::getInstance()->getNumIdContextoUsuario();
+        $caminhoFisicoQrCode = DIR_SEI_TEMP . '/' . $nomeArquivo;
 
-        InfraQRCode::gerar($conteudoQrCode, $caminhoFisicoQrCode,'L',2,1);
+        InfraQRCode::gerar($conteudoQrCode, $caminhoFisicoQrCode, 'L', 2, 1);
 
         $infraException = new InfraException();
-        if (!file_exists($caminhoFisicoQrCode)){
+        if (!file_exists($caminhoFisicoQrCode)) {
             $infraException->lancarValidacao('Arquivo do QRCode não encontrado.');
         }
-        if (filesize($caminhoFisicoQrCode)==0){
+        if (filesize($caminhoFisicoQrCode) == 0) {
             $infraException->lancarValidacao('Arquivo do QRCode vazio.');
         }
-        if (($binQrCode = file_get_contents($caminhoFisicoQrCode))===false){
+        if (($binQrCode = file_get_contents($caminhoFisicoQrCode)) === false) {
             $infraException->lancarValidacao('Não foi possível ler o arquivo do QRCode.');
         }
 
