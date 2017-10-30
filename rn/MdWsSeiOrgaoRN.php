@@ -20,6 +20,7 @@ class MdWsSeiOrgaoRN extends InfraRN {
             $orgaoDTO->retStrSigla();
             $orgaoDTO->retStrDescricao();
             $orgaoDTO->setStrSinAtivo('S');
+            $orgaoDTO->setOrdStrSigla(InfraDTO::$TIPO_ORDENACAO_ASC);
 
             if($orgaoDTOParam->getNumMaxRegistrosRetorno()){
                 $orgaoDTO->setNumMaxRegistrosRetorno($orgaoDTOParam->getNumMaxRegistrosRetorno());
