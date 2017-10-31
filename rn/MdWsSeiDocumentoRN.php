@@ -258,7 +258,6 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $documentoDTOConsulta->retStrConteudoAssinatura();
             $documentoBD = new DocumentoRN();
             $resultDocumento = $documentoBD->listarRN0008($documentoDTOConsulta);
-            var_dump($resultDocumento);exit;
 
             if(!empty($resultDocumento)){
                 /** @var DocumentoDTO $documentoDTO */
