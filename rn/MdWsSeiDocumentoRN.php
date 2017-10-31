@@ -322,7 +322,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                     $strNomeDownload .= '_' .$documentoDTO->getStrNumero();
                 }
 
-                echo 111;exit;
+                var_dump($html);exit;
                 InfraPagina::montarHeaderDownload($strNomeDownload.'.html', 'attachment');
                 die($html);
             }
