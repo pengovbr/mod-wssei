@@ -256,11 +256,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $documentoDTOConsulta->retStrNumero();
             $documentoDTOConsulta->retStrSiglaUnidadeGeradoraProtocolo();
             $documentoDTOConsulta->retStrProtocoloDocumentoFormatado();
+            $documentoDTOConsulta->retStrProtocoloProcedimentoFormatado();
             $documentoDTOConsulta->retStrStaProtocoloProtocolo();
             $documentoDTOConsulta->retStrStaDocumento();
             $documentoDTOConsulta->retDblIdDocumentoEdoc();
-            $documentoBD = new DocumentoRN();
-            $documentoDTO = $documentoBD->consultarRN0005($documentoDTOConsulta);
+            $documentoRN = new DocumentoRN();
+            $documentoDTO = $documentoRN->consultarRN0005($documentoDTOConsulta);
 
             if ($documentoDTO->getStrStaDocumento()==DocumentoRN::$TD_EDITOR_EDOC) {
                 if ($documentoDTO->getDblIdDocumentoEdoc() == null) {
@@ -268,6 +269,10 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 }
                 $eDocRN = new EDocRN();
                 $html = $eDocRN->consultarHTMLDocumentoRN1204($documentoDTO);
+
+                return MdWsSeiRest::formataRetornoSucessoREST(null, array('html' => $html));
+            }else if(in_array($documentoDTO->getStrStaDocumento(), array(DocumentoRN::$TD_FORMULARIO_AUTOMATICO, DocumentoRN::$TD_FORMULARIO_GERADO))) {
+                $html = $documentoRN->consultarHtmlFormulario($documentoDTO);
 
                 return MdWsSeiRest::formataRetornoSucessoREST(null, array('html' => $html));
             }else if($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO){
