@@ -249,64 +249,82 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             if(!$protocoloDTOParam->isSetDblIdProtocolo() || !$protocoloDTOParam->getDblIdProtocolo()){
                 throw new InfraException('O protocolo deve ser informado!');
             }
-            $documentoDTOConsulta = new DocumentoDTO();
-            $documentoDTOConsulta->setDblIdProtocoloProtocolo($protocoloDTOParam->getDblIdProtocolo());
-            //$documentoDTOConsulta->setStrStaDocumento(DocumentoRN::$TD_EDITOR_INTERNO);
-            $documentoDTOConsulta->retDblIdDocumento();
-            $documentoDTOConsulta->retStrConteudo();
-            $documentoDTOConsulta->retStrStaDocumento();
-            $documentoDTOConsulta->retStrConteudoAssinatura();
-            $documentoBD = new DocumentoRN();
-            $resultDocumento = $documentoBD->listarRN0008($documentoDTOConsulta);
+            $documentoDTO = new DocumentoDTO();
+            $documentoDTO->retDblIdDocumento();
+            $documentoDTO->retStrNomeSerie();
+            $documentoDTO->retStrNumero();
+            $documentoDTO->retStrSiglaUnidadeGeradoraProtocolo();
+            $documentoDTO->retStrProtocoloDocumentoFormatado();
+            $documentoDTO->retStrStaProtocoloProtocolo();
+            $documentoDTO->retStrStaDocumento();
+            $documentoDTO->retDblIdDocumentoEdoc();
+            $documentoDTO->setDblIdDocumento($protocoloDTOParam->getDblIdProtocolo());
 
-            if(!empty($resultDocumento)){
-                /** @var DocumentoDTO $documentoDTO */
-                $documentoDTO = $resultDocumento[0];
-                $editorDTOConsulta = new EditorDTO();
-                $editorDTOConsulta->setDblIdDocumento($documentoDTO->getDblIdDocumento());
-                $editorDTOConsulta->setNumIdBaseConhecimento(null);
-                $editorDTOConsulta->setStrSinCabecalho('S');
-                $editorDTOConsulta->setStrSinRodape('S');
-                $editorDTOConsulta->setStrSinIdentificacaoVersao('S');
-                $editorDTOConsulta->setStrSinProcessarLinks('S');
-
-                if(MdWsSeiEditorRN::versaoCarimboPublicacaoObrigatorio()){
-                    $editorDTOConsulta->setStrSinCarimboPublicacao('S');
+            $documentoRN = new DocumentoRN();
+            $documentoDTO = $documentoRN->consultarRN0005($documentoDTO);
+            if(!$documentoDTO){
+                throw new InfraException('Documento não encontrado!');
+            }
+            if ($documentoDTO->getStrStaDocumento()==DocumentoRN::$TD_EDITOR_EDOC) {
+                if ($documentoDTO->getDblIdDocumentoEdoc() == null) {
+                    throw new InfraException('Documento sem conteúdo!');
                 }
-
+                $objEDocRN = new EDocRN();
+                $html = $objEDocRN->consultarHTMLDocumentoRN1204($documentoDTO);
+                return MdWsSeiRest::formataRetornoSucessoREST(null, array('html' => $html));
+            }else if ($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO){
+                $editorDTO = new EditorDTO();
+                $editorDTO->setDblIdDocumento($documentoDTO->getDblIdDocumento());
+                $editorDTO->setNumIdBaseConhecimento(null);
+                $editorDTO->setStrSinCabecalho('S');
+                $editorDTO->setStrSinRodape('S');
+                $editorDTO->setStrSinCarimboPublicacao('S');
+                $editorDTO->setStrSinIdentificacaoVersao('S');
+                $editorDTO->setStrSinProcessarLinks('S');
                 $editorRN = new EditorRN();
-                $html = $editorRN->consultarHtmlVersao($editorDTOConsulta);
-
+                $html = $editorRN->consultarHtmlVersao($editorDTO);
                 $auditoriaProtocoloDTO = new AuditoriaProtocoloDTO();
-                $auditoriaProtocoloDTO->setStrRecurso('documento_visualizar');
+                $auditoriaProtocoloDTO->setStrRecurso($_GET['acao']);
                 $auditoriaProtocoloDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
-                $auditoriaProtocoloDTO->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
+                $auditoriaProtocoloDTO->setDblIdProtocolo($_GET['id_documento']);
                 $auditoriaProtocoloDTO->setNumIdAnexo(null);
                 $auditoriaProtocoloDTO->setDtaAuditoria(InfraData::getStrDataAtual());
-                $auditoriaProtocoloDTO->setNumVersao($editorDTOConsulta->getNumVersao());
+                $auditoriaProtocoloDTO->setNumVersao($editorDTO->getNumVersao());
 
                 $auditoriaProtocoloRN = new AuditoriaProtocoloRN();
                 $auditoriaProtocoloRN->auditarVisualizacao($auditoriaProtocoloDTO);
-
                 return MdWsSeiRest::formataRetornoSucessoREST(null, array('html' => $html));
-            }
+            }else if ($documentoDTO->getStrStaProtocoloProtocolo() == ProtocoloRN::$TP_DOCUMENTO_RECEBIDO){
+                $anexoDTO = new AnexoDTO();
+                $anexoDTO->retNumIdAnexo();
+                $anexoDTO->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
 
-            $anexoDTO = new AnexoDTO();
-            $anexoDTO->retNumIdAnexo();
-            $anexoDTO->retDthInclusao();
-            $anexoDTO->retDthInclusao();
-            $anexoDTO->retStrNome();
-            $anexoDTO->retStrHash();
-            $anexoDTO->setDblIdProtocolo($protocoloDTOParam->getDblIdProtocolo());
-            $anexoDTO->setStrSinAtivo('S');
-            $anexoRN = new AnexoRN();
-            $resultAnexo = $anexoRN->listarRN0218($anexoDTO);
-            if(empty($resultAnexo)){
-                throw new InfraException('Documento não encontrado!');
+                $anexoRN = new AnexoRN();
+                $arrAnexoDTO = $anexoRN->listarRN0218($anexoDTO);
+                if (count($arrAnexoDTO)){
+                    SeiINT::download($arrAnexoDTO[0]);
+                }else{
+                    throw new InfraException('Documento sem conteúdo!');
+                }
+            }else{
+                $documentoDTOAssinatura = new DocumentoDTO();
+                $documentoDTOAssinatura->retStrConteudoAssinatura();
+                $documentoDTOAssinatura->setDblIdDocumento($_GET['id_documento']);
+
+                $documentoRN = new DocumentoRN();
+                $documentoDTOAssinatura = $documentoRN->consultarRN0005($documentoDTOAssinatura);
+                $html = $documentoDTOAssinatura->getStrConteudoAssinatura();
+
+                AuditoriaSEI::getInstance()->auditar('documento_visualizar');
+
+                $strNomeDownload = $documentoDTO->getStrProtocoloDocumentoFormatado().'_'.$documentoDTO->getStrNomeSerie();
+                if (!InfraString::isBolVazia($documentoDTO->getStrNumero())) {
+                    $strNomeDownload .= '_' .$documentoDTO->getStrNumero();
+                }
+
+                InfraPagina::montarHeaderDownload($strNomeDownload.'.html', 'attachment');
+                die($html);
             }
-            $anexo = $resultAnexo[0];
-            SeiINT::download($anexo);
-            exit;
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
