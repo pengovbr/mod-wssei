@@ -271,6 +271,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 }
                 $objEDocRN = new EDocRN();
                 $html = $objEDocRN->consultarHTMLDocumentoRN1204($documentoDTO);
+
                 return MdWsSeiRest::formataRetornoSucessoREST(null, array('html' => $html));
             }else if ($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO){
                 $editorDTO = new EditorDTO();
@@ -293,6 +294,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
 
                 $auditoriaProtocoloRN = new AuditoriaProtocoloRN();
                 $auditoriaProtocoloRN->auditarVisualizacao($auditoriaProtocoloDTO);
+
                 return MdWsSeiRest::formataRetornoSucessoREST(null, array('html' => $html));
             }else if ($documentoDTO->getStrStaProtocoloProtocolo() == ProtocoloRN::$TP_DOCUMENTO_RECEBIDO){
                 $anexoDTO = new AnexoDTO();
@@ -325,8 +327,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $aditoriaProtocoloRN = new AuditoriaProtocoloRN();
                 $aditoriaProtocoloRN->auditarVisualizacao($aditoriaProtocoloDTO);
 
-                InfraPagina::montarHeaderDownload(null, null, 'Content-Type: text/html; charset=iso-8859-1');
-                die($html);
+                return MdWsSeiRest::formataRetornoSucessoREST(null, array('html' => $html));
             }
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
