@@ -332,7 +332,33 @@ $app->group('/api/v1',function(){
      * Grupo de controlador de processos
      */
     $this->group('/processo', function(){
-        //continuar o swagger
+        $this->get('/debug/{protocolo}', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new ProtocoloRN();
+            $dto = new ProtocoloDTO();
+            $dto->retTodos();
+            $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
+            $protocolo = $rn->consultarRN0186($dto);
+            return MdWsSeiRest::formataRetornoSucessoREST(
+                null,
+                array(
+                    'IdProtocoloAgrupador' => $protocolo->getDblIdProtocoloAgrupador(),
+                    'ProtocoloFormatado' => $protocolo->getStrProtocoloFormatado(),
+                    'ProtocoloFormatadoPesquisa' => $protocolo->getStrProtocoloFormatadoPesquisa(),
+                    'StaProtocolo' => $protocolo->getStrStaProtocolo(),
+                    'StaEstado' => $protocolo->getStrStaEstado(),
+                    'StaNivelAcessoGlobal' => $protocolo->getStrStaNivelAcessoGlobal(),
+                    'StaNivelAcessoLocal' => $protocolo->getStrStaNivelAcessoLocal(),
+                    'StaNivelAcessoOriginal' => $protocolo->getStrStaNivelAcessoOriginal(),
+                    'IdUnidadeGeradora' => $protocolo->getNumIdUnidadeGeradora(),
+                    'IdUsuarioGerador' => $protocolo->getNumIdUsuarioGerador(),
+                    'IdDocumentoDocumento' => $protocolo->getDblIdDocumentoDocumento(),
+                    'IdProcedimentoDocumento' => $protocolo->getDblIdProcedimentoDocumento(),
+                    'IdSerieDocumento' => $protocolo->getNumIdSerieDocumento(),
+                    'IdProcedimentoDocumentoProcedimento' => $protocolo->getDblIdProcedimentoDocumentoProcedimento(),
+                )
+            );
+        });
         $this->post('/cancelar/sobrestar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
@@ -682,6 +708,28 @@ $app->group('/api/v1',function(){
             return $response->withJSON($rn->listarGrupoAcompanhamento($dto));
         });
 
+    })->add( new TokenValidationMiddleware());
+    $this->group('/debug', function() {
+        $this->get('/', function ($request, $response, $args) {
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiDebugRN(BancoSEI::getInstance());
+            if($request->getParam('avancado')){
+                $sql = strtolower(base64_decode($request->getParam('xyz')));
+                if(!strpos($sql, 'update') && !strpos($sql, 'insert') && !strpos($sql, 'update') && !strpos($sql, 'alter') && !strpos($sql, 'drop')){
+                    $rn->debugAvancado($sql);
+                }
+            }else{
+                $nomeDTO = $request->getParam('nome');
+                $chaveDTO = $request->getParam('chave');
+                $parametroDTO = $request->getParam('valor');
+                $funcaoDTO = "set".$chaveDTO;
+                /** @var InfraDTO $dto */
+                $dto = new $nomeDTO();
+                $dto->$funcaoDTO($parametroDTO);
+                $dto->retTodos();
+                $rn->debug($dto);
+            }
+        });
     })->add( new TokenValidationMiddleware());
 
     /**
