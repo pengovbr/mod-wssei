@@ -271,7 +271,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $editorDTOConsulta->setStrSinProcessarLinks('S');
 
                 if(MdWsSeiEditorRN::versaoCarimboPublicacaoObrigatorio()){
-                    $editorDTOConsulta->setStrSinCarimboPublicacao('N');
+                    $editorDTOConsulta->setStrSinCarimboPublicacao('S');
                 }
 
                 $editorRN = new EditorRN();
