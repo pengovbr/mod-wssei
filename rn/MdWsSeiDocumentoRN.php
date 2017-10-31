@@ -307,23 +307,25 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                     throw new InfraException('Documento sem conteúdo!');
                 }
             }else{
-                $documentoDTOAssinatura = new DocumentoDTO();
-                $documentoDTOAssinatura->retStrConteudoAssinatura();
-                $documentoDTOAssinatura->setDblIdDocumento($protocoloDTOParam->getDblIdProtocolo());
+                $documentoDTO = new DocumentoDTO();
+                $documentoDTO->setDblIdDocumento($protocoloDTOParam->getDblIdProtocolo());
+                $documentoDTO->setObjInfraSessao(SessaoSEI::getInstance());
+                $documentoDTO->setStrLinkDownload('controlador.php?acao=documento_download_anexo');
 
-                $documentoRN = new DocumentoRN();
-                $documentoDTOAssinatura = $documentoRN->consultarRN0005($documentoDTOAssinatura);
-                $html = $documentoDTOAssinatura->getStrConteudoAssinatura();
+                $html = $documentoRN->consultarHtmlFormulario($documentoDTO);
 
-                AuditoriaSEI::getInstance()->auditar('documento_visualizar');
+                $aditoriaProtocoloDTO = new AuditoriaProtocoloDTO();
+                $aditoriaProtocoloDTO->setStrRecurso('visualizar_documento');
+                $aditoriaProtocoloDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+                $aditoriaProtocoloDTO->setDblIdProtocolo($protocoloDTOParam->getDblIdProtocolo());
+                $aditoriaProtocoloDTO->setNumIdAnexo(null);
+                $aditoriaProtocoloDTO->setDtaAuditoria(InfraData::getStrDataAtual());
+                $aditoriaProtocoloDTO->setNumVersao(null);
 
-                $strNomeDownload = $documentoDTO->getStrProtocoloDocumentoFormatado().'_'.$documentoDTO->getStrNomeSerie();
-                if (!InfraString::isBolVazia($documentoDTO->getStrNumero())) {
-                    $strNomeDownload .= '_' .$documentoDTO->getStrNumero();
-                }
+                $aditoriaProtocoloRN = new AuditoriaProtocoloRN();
+                $aditoriaProtocoloRN->auditarVisualizacao($aditoriaProtocoloDTO);
 
-                var_dump($html);exit;
-                InfraPagina::montarHeaderDownload($strNomeDownload.'.html', 'attachment');
+                InfraPagina::montarHeaderDownload(null, null, 'Content-Type: text/html; charset=iso-8859-1');
                 die($html);
             }
         }catch (Exception $e){
