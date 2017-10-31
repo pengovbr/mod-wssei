@@ -251,7 +251,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             }
             $documentoDTOConsulta = new DocumentoDTO();
             $documentoDTOConsulta->setDblIdProtocoloProtocolo($protocoloDTOParam->getDblIdProtocolo());
-            $documentoDTOConsulta->setStrStaDocumento(DocumentoRN::$TD_EDITOR_INTERNO);
+            //$documentoDTOConsulta->setStrStaDocumento(DocumentoRN::$TD_EDITOR_INTERNO);
             $documentoDTOConsulta->retDblIdDocumento();
             $documentoDTOConsulta->retStrConteudo();
             $documentoDTOConsulta->retStrStaDocumento();
