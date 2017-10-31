@@ -266,6 +266,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 throw new InfraException('Documento não encontrado!');
             }
             if ($documentoDTO->getStrStaDocumento()==DocumentoRN::$TD_EDITOR_EDOC) {
+                echo 444;exit;
                 if ($documentoDTO->getDblIdDocumentoEdoc() == null) {
                     throw new InfraException('Documento sem conteúdo!');
                 }
@@ -274,6 +275,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
 
                 return MdWsSeiRest::formataRetornoSucessoREST(null, array('html' => $html));
             }else if ($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO){
+                echo 333;exit;
                 $editorDTO = new EditorDTO();
                 $editorDTO->setDblIdDocumento($documentoDTO->getDblIdDocumento());
                 $editorDTO->setNumIdBaseConhecimento(null);
@@ -297,6 +299,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
 
                 return MdWsSeiRest::formataRetornoSucessoREST(null, array('html' => $html));
             }else if ($documentoDTO->getStrStaProtocoloProtocolo() == ProtocoloRN::$TP_DOCUMENTO_RECEBIDO){
+                echo 222;exit;
                 $anexoDTO = new AnexoDTO();
                 $anexoDTO->retNumIdAnexo();
                 $anexoDTO->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
@@ -309,6 +312,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                     throw new InfraException('Documento sem conteúdo!');
                 }
             }else{
+                echo 111;exit;
                 $documentoDTO = new DocumentoDTO();
                 $documentoDTO->setDblIdDocumento($protocoloDTOParam->getDblIdProtocolo());
                 $documentoDTO->setObjInfraSessao(SessaoSEI::getInstance());
