@@ -309,7 +309,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             }else{
                 $documentoDTOAssinatura = new DocumentoDTO();
                 $documentoDTOAssinatura->retStrConteudoAssinatura();
-                $documentoDTOAssinatura->setDblIdDocumento($_GET['id_documento']);
+                $documentoDTOAssinatura->setDblIdDocumento($protocoloDTOParam->getDblIdProtocolo());
 
                 $documentoRN = new DocumentoRN();
                 $documentoDTOAssinatura = $documentoRN->consultarRN0005($documentoDTOAssinatura);
