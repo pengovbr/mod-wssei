@@ -249,6 +249,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             if(!$protocoloDTOParam->isSetDblIdProtocolo() || !$protocoloDTOParam->getDblIdProtocolo()){
                 throw new InfraException('O protocolo deve ser informado!');
             }
+            $strContentDisposition = 'attachment';
             $documentoDTO = new DocumentoDTO();
             $documentoDTO->retDblIdDocumento();
             $documentoDTO->retStrNomeSerie();
@@ -284,6 +285,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $editorDTO->setStrSinProcessarLinks('S');
                 $editorRN = new EditorRN();
                 $html = $editorRN->consultarHtmlVersao($editorDTO);
+
                 $auditoriaProtocoloDTO = new AuditoriaProtocoloDTO();
                 $auditoriaProtocoloDTO->setStrRecurso('visualizar_documento');
                 $auditoriaProtocoloDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
@@ -296,25 +298,26 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $auditoriaProtocoloRN->auditarVisualizacao($auditoriaProtocoloDTO);
 
                 $anexoDTO = new AnexoDTO();
-                $anexoDTO->retNumIdAnexo();
+                $anexoDTO->retTodos();
                 $anexoDTO->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
 
                 $anexoRN = new AnexoRN();
                 $arrAnexoDTO = $anexoRN->listarRN0218($anexoDTO);
+
                 if (count($arrAnexoDTO)) {
-                    SeiINT::download($arrAnexoDTO[0]);
+                    SeiINT::download($arrAnexoDTO[0], null, null, $strContentDisposition);
                 }else{
                     return MdWsSeiRest::formataRetornoSucessoREST(null, array('html' => $html));
                 }
             }else if ($documentoDTO->getStrStaProtocoloProtocolo() == ProtocoloRN::$TP_DOCUMENTO_RECEBIDO){
                 $anexoDTO = new AnexoDTO();
-                $anexoDTO->retNumIdAnexo();
+                $anexoDTO->retTodos();
                 $anexoDTO->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
 
                 $anexoRN = new AnexoRN();
                 $arrAnexoDTO = $anexoRN->listarRN0218($anexoDTO);
                 if (count($arrAnexoDTO)){
-                    SeiINT::download($arrAnexoDTO[0]);
+                    SeiINT::download($arrAnexoDTO[0], null, null, $strContentDisposition);
                 }else{
                     throw new InfraException('Documento sem conteúdo!');
                 }
@@ -338,13 +341,13 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $aditoriaProtocoloRN->auditarVisualizacao($aditoriaProtocoloDTO);
 
                 $anexoDTO = new AnexoDTO();
-                $anexoDTO->retNumIdAnexo();
+                $anexoDTO->retTodos();
                 $anexoDTO->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
 
                 $anexoRN = new AnexoRN();
                 $arrAnexoDTO = $anexoRN->listarRN0218($anexoDTO);
                 if (count($arrAnexoDTO)) {
-                    SeiINT::download($arrAnexoDTO[0]);
+                    SeiINT::download($arrAnexoDTO[0], null, null, $strContentDisposition);
                 }else{
                     return MdWsSeiRest::formataRetornoSucessoREST(null, array('html' => $html));
                 }
