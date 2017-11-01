@@ -111,15 +111,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $publicacaoDTOConsulta->setDblIdDocumento($documentoDTO->getDblIdDocumento());
                 $publicacaoDTOConsulta->retDblIdDocumento();
                 $publicacaoDTOConsulta->setNumMaxRegistrosRetorno(1);
-                $podeVisualizarDocumento = null;
                 $resultPublicacao = $publicacaoRN->listarRN1045($publicacaoDTOConsulta);
                 $documentoPublicado = $resultPublicacao ? 'S' : 'N';
                 $ciencia = $relProtocoloProtocoloDTO->getStrSinCiencia();
-
-                //$podeVisualizarDocumento = $this->podeVisualizarDocumento($documentoDTO);
+                $podeVisualizarDocumento = $this->podeVisualizarDocumento($documentoDTO);
 
                 $result[] = array(
-                    'xxx' => 1,
                     'id' => $documentoDTO->getDblIdDocumento(),
                     'atributos' => array(
                         'idProcedimento' => $documentoDTO->getDblIdProcedimento(),
