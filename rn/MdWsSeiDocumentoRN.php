@@ -44,7 +44,6 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
 
             $relProtocoloProtocoloRN = new RelProtocoloProtocoloRN();
             $ret = $relProtocoloProtocoloRN->listarRN0187($relProtocoloProtocoloDTOConsulta);
-            echo 111;exit;
             $arrDocumentos = array();
             if($ret){
                 $documentoDTOConsulta = new DocumentoDTO();
@@ -68,6 +67,8 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                     $arrDocumentos[$documentoDTOOrd->getDblIdDocumento()] = $documentoDTOOrd;
                 }
             }
+
+            echo 222;exit;
 
             $anexoRN = new AnexoRN();
             $observacaoRN = new ObservacaoRN();
