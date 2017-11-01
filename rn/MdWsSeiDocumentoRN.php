@@ -68,8 +68,6 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 }
             }
 
-            echo 222;exit;
-
             $anexoRN = new AnexoRN();
             $observacaoRN = new ObservacaoRN();
             $publicacaoRN = new PublicacaoRN();
@@ -113,11 +111,13 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $publicacaoDTOConsulta->setDblIdDocumento($documentoDTO->getDblIdDocumento());
                 $publicacaoDTOConsulta->retDblIdDocumento();
                 $publicacaoDTOConsulta->setNumMaxRegistrosRetorno(1);
-                $resultPublicacao = $publicacaoRN->listarRN1045($publicacaoDTOConsulta);
-                $documentoPublicado = $resultPublicacao ? 'S' : 'N';
+                $documentoPublicado = null;
+                $podeVisualizarDocumento = null;
+                //$resultPublicacao = $publicacaoRN->listarRN1045($publicacaoDTOConsulta);
+                //$documentoPublicado = $resultPublicacao ? 'S' : 'N';
                 $ciencia = $relProtocoloProtocoloDTO->getStrSinCiencia();
 
-                $podeVisualizarDocumento = $this->podeVisualizarDocumento($documentoDTO);
+                //$podeVisualizarDocumento = $this->podeVisualizarDocumento($documentoDTO);
 
                 $result[] = array(
                     'id' => $documentoDTO->getDblIdDocumento(),
