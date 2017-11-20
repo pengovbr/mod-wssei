@@ -102,10 +102,6 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                     ? 'S' : 'N';
 
                 if(!in_array($documentoDTO->getStrStaDocumento(), $arrDocHtml)){
-                    if($documentoDTO->getDblIdDocumento() == 951){
-                        var_dump($documentoDTO->getStrStaDocumento());exit;
-                    }
-
                     $anexoDTOConsulta = new AnexoDTO();
                     $anexoDTOConsulta->retStrNome();
                     $anexoDTOConsulta->retNumTamanho();
