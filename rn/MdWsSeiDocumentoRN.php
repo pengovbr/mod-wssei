@@ -16,6 +16,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
      */
     protected function listarDocumentosProcessoConectado(DocumentoDTO $documentoDTOParam){
         try{
+            $arrDocHtml = array(
+                DocumentoRN::$TD_EDITOR_EDOC,
+                DocumentoRN::$TD_FORMULARIO_AUTOMATICO,
+                DocumentoRN::$TD_FORMULARIO_GERADO,
+                DocumentoRN::$TD_EDITOR_INTERNO
+            );
             $result = array();
             $relProtocoloProtocoloDTOConsulta = new RelProtocoloProtocoloDTO();
             if(!$documentoDTOParam->isSetDblIdProcedimento()){
@@ -93,20 +99,23 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $documentoCancelado = $documentoDTO->getStrStaEstadoProtocolo() == ProtocoloRN::$TE_DOCUMENTO_CANCELADO
                     ? 'S' : 'N';
 
-                $anexoDTOConsulta = new AnexoDTO();
-                $anexoDTOConsulta->retStrNome();
-                $anexoDTOConsulta->retNumTamanho();
-                $anexoDTOConsulta->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
-                $anexoDTOConsulta->setStrSinAtivo('S');
-                $anexoDTOConsulta->setNumMaxRegistrosRetorno(1);
-                $resultAnexo = $anexoRN->listarRN0218($anexoDTOConsulta);
-                if($resultAnexo){
-                    /** @var AnexoDTO $anexoDTO */
-                    $anexoDTO = $resultAnexo[0];
-                    $mimetype = $anexoDTO->getStrNome();
-                    $mimetype = substr($mimetype, strrpos($mimetype, '.')+1);
-                    $nomeAnexo = $anexoDTO->getStrNome();
-                    $tamanhoAnexo = $anexoDTO->getNumTamanho();
+                if(!in_array($documentoDTO->getStrStaDocumento(), $arrDocHtml)){
+
+                    $anexoDTOConsulta = new AnexoDTO();
+                    $anexoDTOConsulta->retStrNome();
+                    $anexoDTOConsulta->retNumTamanho();
+                    $anexoDTOConsulta->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
+                    $anexoDTOConsulta->setStrSinAtivo('S');
+                    $anexoDTOConsulta->setNumMaxRegistrosRetorno(1);
+                    $resultAnexo = $anexoRN->listarRN0218($anexoDTOConsulta);
+                    if($resultAnexo){
+                        /** @var AnexoDTO $anexoDTO */
+                        $anexoDTO = $resultAnexo[0];
+                        $mimetype = $anexoDTO->getStrNome();
+                        $mimetype = substr($mimetype, strrpos($mimetype, '.')+1);
+                        $nomeAnexo = $anexoDTO->getStrNome();
+                        $tamanhoAnexo = $anexoDTO->getNumTamanho();
+                    }
                 }
                 $observacaoDTOConsulta = new ObservacaoDTO();
                 $observacaoDTOConsulta->setNumMaxRegistrosRetorno(1);
@@ -171,7 +180,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
      * @param int $idUsuario
      * @return array
      */
-    public function apiAssinarDocumentos($arrIdDocumento, $idOrgao, $strCargoFuncao, $siglaUsuario, $senhaUsuario, $idUsuario){
+        public function apiAssinarDocumentos($arrIdDocumento, $idOrgao, $strCargoFuncao, $siglaUsuario, $senhaUsuario, $idUsuario){
         //transforma os dados no array
         if(strpos($arrIdDocumento, ',') !== false) {
             $arrDocs = explode(',', $arrIdDocumento);
