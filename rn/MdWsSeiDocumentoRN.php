@@ -70,6 +70,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $documentoDTOConsulta->retDblIdProcedimento();
                 $documentoDTOConsulta->retStrProtocoloDocumentoFormatado();
                 $documentoDTOConsulta->retStrNumero();
+                $documentoDTOConsulta->retStrStaDocumento();
                 $documentoDTOConsulta->retNumIdSerie();
                 $documentoDTOConsulta->retStrNomeSerie();
                 $documentoDTOConsulta->retStrSiglaUnidadeGeradoraProtocolo();
