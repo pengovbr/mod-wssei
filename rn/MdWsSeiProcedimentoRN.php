@@ -206,6 +206,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
         try {
             $acompanhamentoRN = new AcompanhamentoRN();
             $acompanhamentoDTO = new AcompanhamentoDTO();
+            $acompanhamentoDTO->setOrdIdAcompanhamento(InfraDTO::$TIPO_ORDENACAO_DESC);
             if(!$mdWsSeiProtocoloDTOParam->isSetNumIdGrupoAcompanhamentoProcedimento()){
                 throw new Exception('O grupo deve ser informado!');
             }else{
@@ -400,13 +401,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             if ($mdWsSeiProtocoloDTOParam->getStrSinTipoBusca() == MdWsSeiProtocoloDTO::SIN_TIPO_BUSCA_R) {
                 $pesquisaPendenciaDTO->setStrSinInicial('N');
-                $ret = $atividadeRN->listarPendencias($pesquisaPendenciaDTO);
             } else if ($mdWsSeiProtocoloDTOParam->getStrSinTipoBusca() == MdWsSeiProtocoloDTO::SIN_TIPO_BUSCA_G) {
                 $pesquisaPendenciaDTO->setStrSinInicial('S');
-                $ret = $atividadeRN->listarPendencias($pesquisaPendenciaDTO);
             } else {
                 throw new InfraException('O tipo de busca deve ser (R)ecebidos ou (G)erados');
             }
+            $ret = $atividadeRN->listarPendencias($pesquisaPendenciaDTO);
             $result = $this->montaRetornoListagemProcessos($ret, $usuarioAtribuicaoAtividade);
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $pesquisaPendenciaDTO->getNumTotalRegistros());
