@@ -206,7 +206,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
         try {
             $acompanhamentoRN = new AcompanhamentoRN();
             $acompanhamentoDTO = new AcompanhamentoDTO();
-            $acompanhamentoDTO->setOrdIdAcompanhamento(InfraDTO::$TIPO_ORDENACAO_DESC);
+            $acompanhamentoDTO->setOrdNumIdAcompanhamento(InfraDTO::$TIPO_ORDENACAO_DESC);
             if(!$mdWsSeiProtocoloDTOParam->isSetNumIdGrupoAcompanhamentoProcedimento()){
                 throw new Exception('O grupo deve ser informado!');
             }else{
