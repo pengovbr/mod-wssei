@@ -145,7 +145,7 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function getNome()
     {
-        return 'Módulo de provisionamento de serviços REST do SEI';
+        return 'Módulo de provisionamento de serviços REST do SEIIII';
     }
 
     public function getVersao()
