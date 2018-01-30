@@ -9,7 +9,55 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
         return BancoSEI::getInstance();
     }
     
-      /**
+    
+         /**
+     * Alterar Seção do documento
+     * @param DocumentoDTO DocumentoDTO
+     * @return array
+     */
+    public function alterarSecaoDocumento($dados){
+        try{
+            $idDocumento    = $dados["documento"];
+            $numVersao      = $dados["versao"];
+            $arrSecoes      = $dados["secoes"];
+            
+            // Criação do DTO de editor que realiza a edição das seções. 
+            $objEditorDTO = new EditorDTO();
+
+            $objEditorDTO->setDblIdDocumento($idDocumento); // Informa o id do documento
+            $objEditorDTO->setNumVersao($numVersao); // Número da versão
+            $objEditorDTO->setNumIdBaseConhecimento(null);
+            $objEditorDTO->setStrSinIgnorarNovaVersao('N');
+
+            // Percorre as seções do documento alteradas 
+            $arrObjSecaoDocumentoDTO = array();  
+            // var_dump($arrSecoes); die();
+            
+            if($arrSecoes){
+                foreach ($arrSecoes as $secao) {
+                    $objSecaoDocumentoDTO = new SecaoDocumentoDTO();
+//                    $objSecaoDocumentoDTO->setNumIdSecaoModelo($secao['id']);
+                    $objSecaoDocumentoDTO->setNumIdSecaoDocumento($secao['id']);
+                    $objSecaoDocumentoDTO->setNumIdSecaoModelo($secao['idSecaoModelo']);
+                    $objSecaoDocumentoDTO->setStrConteudo($secao['conteudo']);
+                    $arrObjSecaoDocumentoDTO[] = $objSecaoDocumentoDTO;
+                }
+            }
+            
+            $objEditorDTO->setArrObjSecaoDocumentoDTO($arrObjSecaoDocumentoDTO);
+
+            // Realiza a alteração das seções. 
+            $objEditorRN = new EditorRN();
+            $numVersao = $objEditorRN->adicionarVersao($objEditorDTO);
+            
+            
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $numVersao);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+    
+    /**
      * Listar Seção do documento
      * @param DocumentoDTO DocumentoDTO
      * @return array
@@ -44,9 +92,10 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 foreach ($arrObjVersaoSecaoDocumentoDTO as $obj) {
                     if ($obj->getStrSinAssinaturaSecaoDocumento() == 'N') {
                         $arrayRetorno["secoes"][] = array(
-                            "id"                =>  $obj->getNumIdSecaoModeloSecaoDocumento(),
-                            "conteudo"          =>  $obj->getStrConteudo(),
-                            "someneteLeitura"   =>  $obj->getStrSinSomenteLeituraSecaoDocumento()
+                            "id"               =>  $obj->getNumIdSecaoDocumento(),
+                            "idSecaoModelo"    =>  $obj->getNumIdSecaoModeloSecaoDocumento(),
+                            "conteudo"         =>  $obj->getStrConteudo(),
+                            "someneteLeitura"  =>  $obj->getStrSinSomenteLeituraSecaoDocumento()
                         );
                     }
 
@@ -75,7 +124,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $favoritos      = $dto->getStrFavoritos();
             $id             = $dto->getNumIdTipoDocumento();
             $nome           = $dto->getStrNomeTipoDocumento();
-            $aplicabilidade = $dto->getStrAplicabilidade();
+            $aplicabilidade = $dto->getArrAplicabilidade();
             $start          = $dto->getNumStart();
             $limit          = $dto->getNumLimit();
 //PARÂMETROS DE ENTRADA
@@ -105,7 +154,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                             &&
                         (($nome && strpos(utf8_encode($aux->getStrNome()), $nome) !== false) || !$nome)
                             &&
-                        ($aux->getStrStaAplicabilidade() == $aplicabilidade || !$aplicabilidade)
+                        (in_array($aux->getStrStaAplicabilidade(), $aplicabilidade) == $aplicabilidade || !$aplicabilidade)
                     ){
                         $arrayRetorno[] = array(
                                             "id"                => $aux->getNumIdSerie(),
@@ -191,48 +240,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
     
     
     
-       /**
-     * Alterar Seção do documento
-     * @param DocumentoDTO DocumentoDTO
-     * @return array
-     */
-    public function alterarSecaoDocumento($dados){
-        try{
-            $idDocumento    = $dados["documento"];
-            $numVersao      = $dados["versao"];
-            $arrSecoes      = $dados["secoes"];
-            
-            // Criação do DTO de editor que realiza a edição das seções. 
-            $objEditorDTO = new EditorDTO();
-
-            $objEditorDTO->setDblIdDocumento($idDocumento); // Informa o id do documento
-            $objEditorDTO->setNumVersao($numVersao); // Número da versão
-            $objEditorDTO->setNumIdBaseConhecimento(null);
-            $objEditorDTO->setStrSinIgnorarNovaVersao('N');
-
-            // Percorre as seções do documento alteradas 
-            $arrObjSecaoDocumentoDTO = array();    
-            if($arrSecoes){
-                foreach ($arrSecoes as $secao) {
-                    $objSecaoDocumentoDTO = new SecaoDocumentoDTO();
-                    $objSecaoDocumentoDTO->setNumIdSecaoModelo($secao['id']);
-                    $objSecaoDocumentoDTO->setStrConteudo($secao['conteudo']);
-                    $arrObjSecaoDocumentoDTO[] = $objSecaoDocumentoDTO;
-                }
-            }
-
-            $objEditorDTO->setArrObjSecaoDocumentoDTO($arrObjSecaoDocumentoDTO);
-
-            // Realiza a alteração das seções. 
-            $objEditorRN = new EditorRN();
-            $numVersao = $objEditorRN->adicionarVersao($objEditorDTO);
-            
-            
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $numVersao);
-        }catch (Exception $e){
-            return MdWsSeiRest::formataRetornoErroREST($e);
-        }
-    }
+  
     
     
     /**
@@ -314,17 +322,20 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $arrRelProtocoloAssuntoDTO = array();
 
             $i = 0;
-            if($arrRemetentes){
+            if($arrAssuntos){
                 foreach($arrAssuntos as $assunto){
                     $relProtocoloAssuntoDTO = new RelProtocoloAssuntoDTO();
                     $relProtocoloAssuntoDTO->setNumIdAssunto($assunto['id']);
-                    $relProtocoloAssuntoDTO->setDblIdProtocolo($idDocumento);
+                    $relProtocoloAssuntoDTO->setDblIdProtocolo($documento);
                     $relProtocoloAssuntoDTO->setNumSequencia($i);
                     $arrRelProtocoloAssuntoDTO[] = $relProtocoloAssuntoDTO;
 
                     $i++;
                 }
             }
+            
+//            var_dump($arrRelProtocoloAssuntoDTO);
+//            die();
             
             $protocoloDTO->setArrObjRelProtocoloAssuntoDTO($arrRelProtocoloAssuntoDTO);
 
@@ -368,82 +379,87 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $grauSigilo        = $dados['grauSigilo'];
             $observacao        = $dados['observacao'];
 
-        //PARÂMETROS DE ENTRADA
-//           $documento = 106;
-//           $descricao = "DESCRIÇÃO E TESTE";
-//           $arrAssuntos = array(array('id' => 2), array('id' => 4));
-//           $arrInteressados = array(array('id' => 100000008), array('id' => 100000010), array('id' => 100000002), array('id' => 100000006));
-//           $arrDestinatarios =  array(array('id' => 100000008));
-//           $nivelAcesso = 0;
-//           $hipoteseLegal = "";
-//           $grauSigilo = "";
-//           $observacao = "OBSERVAÇÃO TESTE UM";
+            //PARÂMETROS DE ENTRADA
+            //           $documento = 106;
+            //           $descricao = "DESCRIÇÃO E TESTE";
+            //           $arrAssuntos = array(array('id' => 2), array('id' => 4));
+            //           $arrInteressados = array(array('id' => 100000008), array('id' => 100000010), array('id' => 100000002), array('id' => 100000006));
+            //           $arrDestinatarios =  array(array('id' => 100000008));
+            //           $nivelAcesso = 0;
+            //           $hipoteseLegal = "";
+            //           $grauSigilo = "";
+            //           $observacao = "OBSERVAÇÃO TESTE UM";
 
-           //Altera os dados do documento    
-           $protocoloDTO = new ProtocoloDTO();
-           $protocoloDTO->setDblIdProtocolo($documento);
-           $protocoloDTO->setStrDescricao("asdadas");
-           $protocoloDTO->setStrStaNivelAcessoLocal($nivelAcesso);
-           $protocoloDTO->setNumIdHipoteseLegal($hipoteseLegal);
-           $protocoloDTO->setStrStaGrauSigilo($grauSigilo);
+            //Altera os dados do documento    
+            $protocoloDTO = new ProtocoloDTO();
+            $protocoloDTO->setDblIdProtocolo($documento);
+            $protocoloDTO->setStrDescricao("asdadas");
+            $protocoloDTO->setStrStaNivelAcessoLocal($nivelAcesso);
+            $protocoloDTO->setNumIdHipoteseLegal($hipoteseLegal);
+            $protocoloDTO->setStrStaGrauSigilo($grauSigilo);
 
-           //Altera os Destinatários e Interessados
-           $arrParticipantes = array();
+            //Altera os Destinatários e Interessados
+            $arrParticipantes = array();
 
-           $i = 0;
-           foreach ($arrInteressados as $interessado) {
-               $objParticipanteDTO = new ParticipanteDTO();
-               $objParticipanteDTO->setNumIdContato($interessado['id']);
-               $objParticipanteDTO->setStrStaParticipacao(ParticipanteRN::$TP_INTERESSADO);
-               $objParticipanteDTO->setNumSequencia($i);
-               $i++;
+            $i = 0;
+            if($arrInteressados){
+                foreach ($arrInteressados as $interessado) {
+                    $objParticipanteDTO = new ParticipanteDTO();
+                    $objParticipanteDTO->setNumIdContato($interessado['id']);
+                    $objParticipanteDTO->setStrStaParticipacao(ParticipanteRN::$TP_INTERESSADO);
+                    $objParticipanteDTO->setNumSequencia($i);
+                    $i++;
 
-               $arrParticipantes[] = $objParticipanteDTO;
-           }
+                    $arrParticipantes[] = $objParticipanteDTO;
+                }
+            }
 
-           $i = 0;
-           foreach ($arrDestinatarios as $destinatario) {
-               $objParticipanteDTO = new ParticipanteDTO();
-               $objParticipanteDTO->setNumIdContato($destinatario['id']);
-               $objParticipanteDTO->setStrStaParticipacao(ParticipanteRN::$TP_DESTINATARIO);
-               $objParticipanteDTO->setNumSequencia($i);
-               $i++;
+            $i = 0;
+            if($arrDestinatarios){
+                foreach ($arrDestinatarios as $destinatario) {
+                   $objParticipanteDTO = new ParticipanteDTO();
+                   $objParticipanteDTO->setNumIdContato($destinatario['id']);
+                   $objParticipanteDTO->setStrStaParticipacao(ParticipanteRN::$TP_DESTINATARIO);
+                   $objParticipanteDTO->setNumSequencia($i);
+                   $i++;
 
-               $arrParticipantes[] = $objParticipanteDTO;
-           }
+                   $arrParticipantes[] = $objParticipanteDTO;
+                }
+            }
+            
+            $protocoloDTO->setArrObjParticipanteDTO($arrParticipantes);
 
-           $protocoloDTO->setArrObjParticipanteDTO($arrParticipantes);
+            //Altera os assuntos
+            $arrRelProtocoloAssuntoDTO = array();
 
-           //Altera os assuntos
-           $arrRelProtocoloAssuntoDTO = array();
+            $i = 0;
+            if($arrAssuntos){
+                foreach($arrAssuntos as $assunto){
+                   $relProtocoloAssuntoDTO = new RelProtocoloAssuntoDTO();
+                   $relProtocoloAssuntoDTO->setNumIdAssunto($assunto['id']);
+                   $relProtocoloAssuntoDTO->setDblIdProtocolo($documento);
+                   $relProtocoloAssuntoDTO->setNumSequencia($i);
+                   $arrRelProtocoloAssuntoDTO[] = $relProtocoloAssuntoDTO;
 
-           $i = 0;
-           foreach($arrAssuntos as $assunto){
-               $relProtocoloAssuntoDTO = new RelProtocoloAssuntoDTO();
-               $relProtocoloAssuntoDTO->setNumIdAssunto($assunto['id']);
-               $relProtocoloAssuntoDTO->setDblIdProtocolo($documento);
-               $relProtocoloAssuntoDTO->setNumSequencia($i);
-               $arrRelProtocoloAssuntoDTO[] = $relProtocoloAssuntoDTO;
+                   $i++;
+                }
+            }
+            $protocoloDTO->setArrObjRelProtocoloAssuntoDTO($arrRelProtocoloAssuntoDTO);
 
-               $i++;
-           }
+            //Edita a observação
+            $observacaoDTO = new ObservacaoDTO();
+            $observacaoDTO->setStrDescricao($observacao);
+            $protocoloDTO->setArrObjObservacaoDTO(array($observacaoDTO));
 
-           $protocoloDTO->setArrObjRelProtocoloAssuntoDTO($arrRelProtocoloAssuntoDTO);
+            //Edita o tipo de documento e número
+            $documentoDTO = new DocumentoDTO();
+            $documentoDTO->setDblIdDocumento($documento);
+            $documentoDTO->setObjProtocoloDTO($protocoloDTO);
 
-           //Edita a observação
-           $observacaoDTO = new ObservacaoDTO();
-           $observacaoDTO->setStrDescricao($observacao);
-           $protocoloDTO->setArrObjObservacaoDTO(array($observacaoDTO));
+            $documentoRN = new DocumentoRN();
+            $documentoRN->alterarRN0004($documentoDTO);
 
-           //Edita o tipo de documento e número
-           $documentoDTO = new DocumentoDTO();
-           $documentoDTO->setDblIdDocumento($documento);
-           $documentoDTO->setObjProtocoloDTO($protocoloDTO);
 
-           $documentoRN = new DocumentoRN();
-           $documentoRN->alterarRN0004($documentoDTO);
-
-          
             return MdWsSeiRest::formataRetornoSucessoREST(nulL);
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
@@ -588,7 +604,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $conteudoDocumento      = $dto->getStrConteudoDocumento();
             $observacao             = $dto->getStrObservacao();
             
-            
+
             //Parâmetros de entrada 
 //            $idProcesso = 15;
 //            $dataGeracaoDocumento = '25/01/2017';
@@ -676,7 +692,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $objProtocoloDTO->setArrObjObservacaoDTO(array($objObservacaoDTO));
 
             $objAnexoDTO = new AnexoDTO();
-            $objAnexoDTO->setStrNome($nome_arquivo);
+            $objAnexoDTO->setStrNome($nomeArquivo);
             $objProtocoloDTO->setArrObjAnexoDTO(array($objAnexoDTO));
 
             $objDocumentoDTO->setObjProtocoloDTO($objProtocoloDTO);
@@ -710,10 +726,10 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             
             
             $arrayRetorno = array();
-            if($obj){
+            if($objDocumentoDTOGerado){
                 $arrayRetorno = array(
-                    "IdDocumento"                   => $obj->getDblIdDocumento(),
-                    "ProtocoloDocumentoFormatado"   => $obj->getStrProtocoloDocumentoFormatado()
+                    "IdDocumento"                   => $objDocumentoDTOGerado->getDblIdDocumento(),
+                    "ProtocoloDocumentoFormatado"   => $objDocumentoDTOGerado->getStrProtocoloDocumentoFormatado()
                 );
             }
             

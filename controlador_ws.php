@@ -285,6 +285,7 @@ $app->group('/api/v1',function(){
             /** @var $request Slim\Http\Request */
             $dados["documento"]         = $request->getParam('documento');
             $dados["numero"]            = $request->getParam('numero');
+            $dados["idTipoDocumento"]            = $request->getParam('idTipoDocumento');
             $dados["data"]              = $request->getParam('data');
             $dados["assuntos"]          = json_decode($request->getParam('assuntos'), TRUE);
             $dados["interessados"]      = json_decode($request->getParam('interessados'), TRUE);
@@ -390,7 +391,10 @@ $app->group('/api/v1',function(){
             $dto->setNumIdTipoDocumento($request->getParam('id'));
             $dto->setStrNomeTipoDocumento($request->getParam('filter'));
             $dto->setStrFavoritos($request->getParam('favoritos'));
-            $dto->setStrAplicabilidade($request->getParam('aplicabilidade'));
+            
+            $arrAplicabilidade = explode(",",$request->getParam('aplicabilidade'));
+            
+            $dto->setArrAplicabilidade($arrAplicabilidade);
             $dto->setNumStart($request->getParam('start'));
             $dto->setNumLimit($request->getParam('limit'));
             
@@ -450,7 +454,7 @@ $app->group('/api/v1',function(){
             $dto->setDtaDataGeracaoDocumento(InfraData::getStrDataAtual());
             $dto->setStrNumero($request->getParam('numero'));
             $dto->setStrDescricao($request->getParam('descricao'));
-            $dto->setStrNomeArquivo($request->getParam('descricao'));
+            $dto->setStrNomeArquivo($request->getParam('nomeArquivo'));
             $dto->setStrNivelAcesso($request->getParam('nivelAcesso'));
             $dto->setNumIdHipoteseLegal($request->getParam('hipoteseLegal'));
             $dto->setStrGrauSigilo($request->getParam('grauSigilo'));
@@ -460,8 +464,8 @@ $app->group('/api/v1',function(){
             $dto->setArrRemetentes(json_decode($request->getParam('remetentes'), TRUE));
             $dto->setStrConteudoDocumento($request->getParam('conteudoDocumento'));
             $dto->setStrObservacao($request->getParam('observacao'));
-
             
+
             $rn = new MdWsSeiDocumentoRN();
 
             return $response->withJSON(
@@ -652,6 +656,11 @@ $app->group('/api/v1',function(){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
             $dto = new MdWsSeiProtocoloDTO();
+            
+            if($request->getParam('id')){
+                $dto->setDblIdProtocolo($request->getParam('id'));
+            }
+            
             if($request->getParam('limit')){
                 $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
             }
@@ -855,7 +864,6 @@ $app->group('/api/v1',function(){
 //                $assuntos = explode(",",$request->getParam('assunto'));
 //            }
             
-            
             //Interessado explode lista de objetos
             $interessados   = array();
             $interessados = json_decode($request->getParam('interessados'), TRUE);
@@ -869,11 +877,11 @@ $app->group('/api/v1',function(){
             //Atribuir parametros para o DTO
             $dto->setArrObjInteressado($interessados);
             $dto->setArrObjAssunto($assuntos);
-            $dto->setNumIdTipoProcedimento($request->getParam('idTipoProcedimento'));
+            $dto->setNumIdTipoProcedimento($request->getParam('tipoProcesso'));
             $dto->setStrEspecificacao($request->getParam('especificacao'));
-            $dto->setStrObservacao($request->getParam('observacao'));
+            $dto->setStrObservacao($request->getParam('observacoes'));
             $dto->setNumNivelAcesso($request->getParam('nivelAcesso'));
-            $dto->setNumIdHipoteseLegal($request->getParam('idHipoteseLegal'));
+            $dto->setNumIdHipoteseLegal($request->getParam('hipoteseLegal'));
             $dto->setStrStaGrauSigilo($request->getParam('grauSigilo'));
             
             return $response->withJSON($rn->gerarProcedimento($dto));
@@ -884,12 +892,12 @@ $app->group('/api/v1',function(){
             
             //Assunto  explode lista de objetos
             $assuntos   = array();
-            if($request->getParam('assunto')){
+            if($request->getParam('assuntos')){
                 $assuntos = json_decode($request->getParam('assuntos'), TRUE);
             }
             //Interessado explode lista de objetos
             $interessados   = array();
-            if($request->getParam('interessado')){
+            if($request->getParam('interessados')){
                 $interessados = json_decode($request->getParam('interessados'), TRUE);
             }
             
@@ -900,11 +908,11 @@ $app->group('/api/v1',function(){
             $dto->setNumIdProcedimento($request->getParam('id'));
             $dto->setArrObjInteressado($interessados);
             $dto->setArrObjAssunto($assuntos);
-            $dto->setNumIdTipoProcedimento($request->getParam('idTipoProcedimento'));
+            $dto->setNumIdTipoProcedimento($request->getParam('tipoProcesso'));
             $dto->setStrEspecificacao($request->getParam('especificacao'));
-            $dto->setStrObservacao($request->getParam('observacao'));
+            $dto->setStrObservacao($request->getParam('observacoes'));
             $dto->setNumNivelAcesso($request->getParam('nivelAcesso'));
-            $dto->setNumIdHipoteseLegal($request->getParam('idHipoteseLegal'));
+            $dto->setNumIdHipoteseLegal($request->getParam('hipoteseLegal'));
             $dto->setStrStaGrauSigilo($request->getParam('grauSigilo'));
             
             return $response->withJSON($rn->alterarProcedimento($dto));

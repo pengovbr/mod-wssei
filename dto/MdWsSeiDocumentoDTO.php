@@ -35,7 +35,7 @@ class MdWsSeiDocumentoDTO extends InfraDTO{
         
         $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'NomeTipoDocumento');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'Favoritos');
-        $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'Aplicabilidade');
+        $this->adicionarAtributo(InfraDTO::$PREFIXO_ARR, 'Aplicabilidade');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_NUM, 'Start');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_NUM, 'Limit');
     }        

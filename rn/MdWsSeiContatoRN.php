@@ -30,7 +30,7 @@ class MdWsSeiContatoRN extends InfraRN
                 $contatoDTO->setNumIdContato($id);
 
             if($filter)
-                $contatoDTO->setStrNome('%'.$filter.'%',InfraDTO::$OPER_LIKE);
+                $contatoDTO->setStrNome('%'.utf8_decode($filter).'%',InfraDTO::$OPER_LIKE);
 
             IF($limit)
                 $contatoDTO->setNumMaxRegistrosRetorno($limit);
