@@ -1,17 +1,16 @@
 <?php 
 
-//$file = file_get_contents("/opt/sei/web/modulos/mod-wssei/teste.pdf");
-$file = file_get_contents("/opt/sei/web/modulos/mod-wssei/c.pdf");
+$file = file_get_contents("/opt/sei/web/modulos/mod-wssei/teste.pdf");
+//$file = file_get_contents("/opt/sei/web/modulos/mod-wssei/c.pdf");
 
-$ch = curl_init("http://192.168.99.100/sei/modulos/mod-wssei/controlador_ws.php/api/v1/documento/externo/criar");
+$ch = curl_init("http://192.168.99.100/sei/modulos/mod-wssei/controlador_ws.php/api/v1/documento/externo/alterar");
 
 //distribuindo a informação a ser enviada
 $post = array(
-    'processo'              => '232',
-    'dataGeracaoDocumeto'   => '29/01/2017',
-    'tipoDocumento'         => '46',
+    'documento'             => '241',
+    'data'                  => '31/01/2017',
+    'idTipoDocumento'       => '106',
     'numero'                => '12321313',
-    'descricao'             => 'Descricao de teste',
     'nomeArquivo'           => 'teste.pdf',
     'nivelAcesso'           => '1',
     'hipoteseLegal'         => '1',
@@ -21,8 +20,9 @@ $post = array(
     'destinatarios'         => '[{"id":100000044}]',
     'remetentes'            => '[{"id":100000044}]',
     'conteudoDocumento'     => $file,
-    'observacao'            => 'documento Externo',
-    'tipoConferencia'       => '2',
+//    'conteudoDocumento'     => "",
+    'observacao'            => 'paçoca',
+    'tipoConferencia'       => '3',
 );
  
 $headers = array();

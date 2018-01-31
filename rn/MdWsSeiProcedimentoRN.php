@@ -205,9 +205,9 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $tipoProcedimentoRN = new TipoProcedimentoRN();
             $tipoProcedimentoDTO = $tipoProcedimentoRN->consultarRN0267($tipoProcedimentoDTO);
             
-            $arrayRetorno["nivelAcessoSugerido"]    = $tipoProcedimentoDTO ? $tipoProcedimentoDTO->getStrStaNivelAcessoSugestao() : false;
-            $arrayRetorno["hipoteseLegalSugerida"]  = $tipoProcedimentoDTO ? $tipoProcedimentoDTO->getNumIdHipoteseLegalSugestao() : false;
-            $arrayRetorno["grauSigiloSugerido"]     = $tipoProcedimentoDTO ? $tipoProcedimentoDTO->getStrStaGrauSigiloSugestao() : false;
+//            $arrayRetorno["nivelAcessoSugerido"]    = $tipoProcedimentoDTO ? $tipoProcedimentoDTO->getStrStaNivelAcessoSugestao() : false;
+//            $arrayRetorno["hipoteseLegalSugerida"]  = $tipoProcedimentoDTO ? $tipoProcedimentoDTO->getNumIdHipoteseLegalSugestao() : false;
+//            $arrayRetorno["grauSigiloSugerido"]     = $tipoProcedimentoDTO ? $tipoProcedimentoDTO->getStrStaGrauSigiloSugestao() : false;
             
             
             //CONSULTA NO PARÂMETRO QUE INFORMA SE A HIPÓTESE LEGAL É OBRIGATÓRIO PARA UM TIPO DE PROCESSO

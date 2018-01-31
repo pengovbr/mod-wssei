@@ -296,8 +296,17 @@ $app->group('/api/v1',function(){
             $dados["grauSigilo"]        = $request->getParam('grauSigilo');
             $dados["observacao"]        = $request->getParam('observacao');
             
-
+            $dados["nomeArquivo"]        = $request->getParam('nomeArquivo');
+            $dados["tipoConferencia"]    = $request->getParam('tipoConferencia');
             
+            if (array_key_exists("conteudoDocumento",$request->getParams())){
+                $dados["conteudoDocumento"] = false;
+                if($request->getParam('conteudoDocumento')) $dados["conteudoDocumento"]  = $request->getParam('conteudoDocumento');
+            }else{
+                $dados["conteudoDocumento"] = null;
+            }
+                    
+                    
             $rn = new MdWsSeiDocumentoRN();
             return $response->withJSON(
                 $rn->alterarDocumentoExterno($dados)
@@ -407,6 +416,7 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiDocumentoRN();
             $dto = new MdWsSeiDocumentoDTO();
             $dto->setNumIdTipoDocumento($request->getParam('id'));
+            $dto->setNumIdTipoProcedimento($request->getParam('idTipoProcedimento'));
             
             return $response->withJSON($rn->pesquisarTemplateDocumento($dto));
         });
@@ -463,6 +473,9 @@ $app->group('/api/v1',function(){
             $dto->setArrDestinatarios(json_decode($request->getParam('destinatarios'), TRUE));
             $dto->setArrRemetentes(json_decode($request->getParam('remetentes'), TRUE));
             $dto->setStrConteudoDocumento($request->getParam('conteudoDocumento'));
+            $dto->setStrObservacao($request->getParam('observacao'));
+            $dto->setNumTipoConferencia($request->getParam('tipoConferencia'));
+            
             $dto->setStrObservacao($request->getParam('observacao'));
             
 

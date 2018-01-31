@@ -184,9 +184,8 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
      */
     protected function pesquisarTemplateDocumentoConectado(MdWsSeiDocumentoDTO $dto){
         try{
-//            $id_tipo_documento = 46;
-            $id_tipo_documento  =  $dto->getNumIdTipoDocumento();
-
+            $id_tipo_documento      =  $dto->getNumIdTipoDocumento();
+            $idTipoProcedimento     =  $dto->getNumIdTipoProcedimento();
             //Consulta os assuntos sugeridos para um tipo de documento
             $relSerieAssuntoDTO = new RelSerieAssuntoDTO();
             $relSerieAssuntoDTO->setNumIdSerie($id_tipo_documento); // FILTRO PELO TIPO DE DOCUMENTO
@@ -201,8 +200,8 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             if($arrRelSerieAssuntoDTO){
                 foreach ($arrRelSerieAssuntoDTO as $obj) {
                     $assuntos[] = array(
-                                "id" => $obj->getNumIdAssuntoProxy(),
-                                "codigo" => $obj->getStrCodigoEstruturadoAssunto(),
+                                "id"        => $obj->getNumIdAssuntoProxy(),
+                                "codigo"    => $obj->getStrCodigoEstruturadoAssunto(),
                                 "descricao" => $obj->getStrDescricaoAssunto()
                         );
                 }
@@ -231,6 +230,42 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 "permiteInteressados"   => $permiteInteressados,
                 "permiteDestinatarios"  => $permiteDestinatarios
             );
+            
+            
+            //CONSULTA QUE LISTA TODOS OS NÍVES DE ACESSOS PERMITIDOS PARA OS TIPO DE PROCESSO
+            $nivelAcessoPermitidoDTO = new NivelAcessoPermitidoDTO();
+            $nivelAcessoPermitidoDTO->setNumIdTipoProcedimento($idTipoProcedimento); // FILTRO PELO TIPO DE PROCESSO
+            $nivelAcessoPermitidoDTO->retStrStaNivelAcesso(); // ID DO NÍVEL DE ACESSO - ProtocoloRN::$NA_PUBLICO, ProtocoloRN::$NA_RESTRITO ou ProtocoloRN::$NA_SIGILOSO
+
+            // A CONSULTA RETORNARÁ OS NÍVEL DE ACESSO PERMITIDOS PARA O TIPO DE PROCESSO ESPECIFICADO NO DTO. AQUELES QUE NÃO FOREM RETORNADOS NESSA
+            $nivelAcessoPermitidoRN = new NivelAcessoPermitidoRN();
+            $arrNivelAcessoPermitido = $nivelAcessoPermitidoRN->listar($nivelAcessoPermitidoDTO);
+            if($arrNivelAcessoPermitido){
+                foreach ($arrNivelAcessoPermitido as $nivel) {
+                    if($nivel->getStrStaNivelAcesso() == ProtocoloRN::$NA_PUBLICO)  $publico    = true;
+                    if($nivel->getStrStaNivelAcesso() == ProtocoloRN::$NA_RESTRITO) $restrito   = true;
+                    if($nivel->getStrStaNivelAcesso() == ProtocoloRN::$NA_SIGILOSO) $sigiloso   = true;
+                }
+            }
+            $arrayRetorno["nivelAcessoPermitido"] = array(
+                "publico"   =>$publico  ? $publico  : false,
+                "restrito"  =>$restrito ? $restrito : false,
+                "sigiloso"  =>$sigiloso ? $sigiloso : false,
+            );
+            
+            
+            //CONSULTA NO PARÂMETRO QUE INFORMA SE A HIPÓTESE LEGAL É OBRIGATÓRIO PARA UM TIPO DE PROCESSO
+            $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
+            $obrigatoriedadeHipoteseLegal = $objInfraParametro->getValor('SEI_HABILITAR_HIPOTESE_LEGAL');
+
+            //CONSULTA NO PARÂMETRO QUE INFORMA SE UM GRAU DE SIGILO É OBRIGATÓRIO PARA UM TIPO DE PROCESSO
+            $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
+            $obrigatoriedadeGrauSigilo = $objInfraParametro->getValor('SEI_HABILITAR_GRAU_SIGILO');
+            
+            $arrayRetorno["obrigatoriedadeHipoteseLegal"]   = $obrigatoriedadeHipoteseLegal;
+            $arrayRetorno["obrigatoriedadeGrauSigilo"]      = $obrigatoriedadeGrauSigilo;
+            
+                       
             
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno);
         }catch (Exception $e){
@@ -262,6 +297,9 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $hipoteseLegal     = $dados['hipoteseLegal'];
             $grauSigilo        = $dados['grauSigilo'];
             $observacao        = $dados['observacao'];
+            $conteudoDocumento = $dados['conteudoDocumento'];
+            $nomeArquivo       = $dados['nomeArquivo'];
+            $tipoConferencia   = $dados['tipoConferencia'];
 
             
             //Altera os dados do documento    
@@ -334,23 +372,60 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 }
             }
             
-//            var_dump($arrRelProtocoloAssuntoDTO);
-//            die();
-            
             $protocoloDTO->setArrObjRelProtocoloAssuntoDTO($arrRelProtocoloAssuntoDTO);
 
             //Edita a observação
             $observacaoDTO = new ObservacaoDTO();
             $observacaoDTO->setStrDescricao($observacao);
             $protocoloDTO->setArrObjObservacaoDTO(array($observacaoDTO));
-
+            
             //Edita o tipo de documento e número
             $documentoDTO = new DocumentoDTO();
             $documentoDTO->setDblIdDocumento($documento);
             $documentoDTO->setNumIdSerie($idTipoDocumento);
             $documentoDTO->setStrNumero($numero);
             $documentoDTO->setObjProtocoloDTO($protocoloDTO);
+            $documentoDTO->setNumIdTipoConferencia($tipoConferencia);
+            
+            if($conteudoDocumento === false){
+                $objAnexoDTO = new AnexoDTO();
+                $objAnexoDTO->retNumIdAnexo();
+                $objAnexoDTO->setDblIdProtocolo($documento);
 
+                $objAnexoRN = new AnexoRN();
+                $arrObjAnexoDTO = $objAnexoRN->listarRN0218($objAnexoDTO);
+                $objAnexoRN->excluirRN0226($arrObjAnexoDTO);    
+            }
+            if($conteudoDocumento){
+                $objAnexoDTO = new AnexoDTO();
+                $objAnexoDTO->setStrNome($nomeArquivo);
+                $protocoloDTO->setArrObjAnexoDTO(array($objAnexoDTO));
+                
+                $documentoDTO->setStrConteudo(null);
+                $documentoDTO->setStrStaDocumento(DocumentoRN::$TD_EXTERNO);
+
+                $arrObjAnexoDTO = $documentoDTO->getObjProtocoloDTO()->getArrObjAnexoDTO();
+
+                //Adiciona o anexo 
+                if (count($arrObjAnexoDTO) == 1) {
+
+                    if (!$arrObjAnexoDTO[0]->isSetNumIdAnexoOrigem()) {
+                        $objAnexoRN = new AnexoRN();
+                        $strNomeArquivoUpload = $objAnexoRN->gerarNomeArquivoTemporario();
+
+                        $fp = fopen(DIR_SEI_TEMP . '/' . $strNomeArquivoUpload, 'w');
+                        fwrite($fp, $conteudoDocumento);
+                        fclose($fp);
+
+                        $arrObjAnexoDTO[0]->setNumIdAnexo($strNomeArquivoUpload);
+                        $arrObjAnexoDTO[0]->setDthInclusao(InfraData::getStrDataHoraAtual());
+                        $arrObjAnexoDTO[0]->setNumTamanho(filesize(DIR_SEI_TEMP . '/' . $strNomeArquivoUpload));
+                        $arrObjAnexoDTO[0]->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+                    }
+                }
+            }
+            
+                      
             $documentoRN = new DocumentoRN();
             $documentoRN->alterarRN0004($documentoDTO);
 
@@ -603,6 +678,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $arrRemetentes          = $dto->getArrRemetentes();
             $conteudoDocumento      = $dto->getStrConteudoDocumento();
             $observacao             = $dto->getStrObservacao();
+            $tipoConferencia        = $dto->getNumTipoConferencia();
             
 
             //Parâmetros de entrada 
@@ -621,7 +697,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
 //            $arrRemetentes = array(array('id' => 100000008));
 //            $conteudoDocumento = file_get_contents('/opt/sei/web/modulos/mod-wssei/codigo-fonte/mod-wssei/rn/c.pdf'); // DEVE CONTER O BINÁRIO DO ARQUIVO. ESSE FILE_GET_CONTENTS É UM EXEMPLO APENAS
 //            $observacao = 'ewefwe';
-
+            
             //Popula os dados do documento para salvamento 
             $objDocumentoDTO = new DocumentoDTO();
             $objDocumentoDTO->setDblIdDocumento(null);
@@ -630,7 +706,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $objDocumentoDTO->setDblIdDocumentoEdoc(null);
             $objDocumentoDTO->setDblIdDocumentoEdocBase(null);
             $objDocumentoDTO->setNumIdUnidadeResponsavel(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-            $objDocumentoDTO->setNumIdTipoConferencia(null);
+            $objDocumentoDTO->setNumIdTipoConferencia($tipoConferencia);
             $objDocumentoDTO->setStrNumero($numero);
 
             //Popula os dados do protocolo do documento
