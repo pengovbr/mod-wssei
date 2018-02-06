@@ -21,6 +21,7 @@ class MdWsSeiDocumentoDTO extends InfraDTO{
         $this->adicionarAtributo(InfraDTO::$PREFIXO_DTA, 'DataGeracaoDocumento');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'Numero');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_NUM, 'IdTipoDocumento');
+        $this->adicionarAtributo(InfraDTO::$PREFIXO_NUM, 'IdTipoProcedimento');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'Descricao');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'NomeArquivo');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'NivelAcesso');
@@ -32,10 +33,11 @@ class MdWsSeiDocumentoDTO extends InfraDTO{
         $this->adicionarAtributo(InfraDTO::$PREFIXO_ARR, 'Remetentes');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'ConteudoDocumento');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'Observacao');
+        $this->adicionarAtributo(InfraDTO::$PREFIXO_NUM, 'TipoConferencia');
         
         $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'NomeTipoDocumento');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'Favoritos');
-        $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'Aplicabilidade');
+        $this->adicionarAtributo(InfraDTO::$PREFIXO_ARR, 'Aplicabilidade');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_NUM, 'Start');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_NUM, 'Limit');
     }        

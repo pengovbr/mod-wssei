@@ -119,7 +119,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     $permiteSigiloso = $objNivelAcessoPermitidoRN->contar($objNivelAcessoPermitidoDTO) > 0 ? true : false;            
                      
 
-                    $arrayRetorno[$i] = array(
+                    $arrayRetorno[] = array(
                                             "id"                => $aux["id"],
                                             "nome"              => $aux["nome"],
                                             "permiteSigiloso"   => $permiteSigiloso
@@ -205,9 +205,9 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $tipoProcedimentoRN = new TipoProcedimentoRN();
             $tipoProcedimentoDTO = $tipoProcedimentoRN->consultarRN0267($tipoProcedimentoDTO);
             
-            $arrayRetorno["nivelAcessoSugerido"]    = $tipoProcedimentoDTO ? $tipoProcedimentoDTO->getStrStaNivelAcessoSugestao() : false;
-            $arrayRetorno["hipoteseLegalSugerida"]  = $tipoProcedimentoDTO ? $tipoProcedimentoDTO->getNumIdHipoteseLegalSugestao() : false;
-            $arrayRetorno["grauSigiloSugerido"]     = $tipoProcedimentoDTO ? $tipoProcedimentoDTO->getStrStaGrauSigiloSugestao() : false;
+//            $arrayRetorno["nivelAcessoSugerido"]    = $tipoProcedimentoDTO ? $tipoProcedimentoDTO->getStrStaNivelAcessoSugestao() : false;
+//            $arrayRetorno["hipoteseLegalSugerida"]  = $tipoProcedimentoDTO ? $tipoProcedimentoDTO->getNumIdHipoteseLegalSugestao() : false;
+//            $arrayRetorno["grauSigiloSugerido"]     = $tipoProcedimentoDTO ? $tipoProcedimentoDTO->getStrStaGrauSigiloSugestao() : false;
             
             
             //CONSULTA NO PARÂMETRO QUE INFORMA SE A HIPÓTESE LEGAL É OBRIGATÓRIO PARA UM TIPO DE PROCESSO
@@ -427,14 +427,11 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 foreach ($procedimentoDTO->getArrObjInteressado() as $interessado) {
                     $i++;
                     $objParticipanteDTO = new ParticipanteDTO();
-                    $objParticipanteDTO->setNumIdParticipante($interessado['id']);
-                    $objParticipanteDTO->retTodos();
+                    $objParticipanteDTO->setNumIdContato($interessado['id']);
+                    $objParticipanteDTO->setNumSequencia($i);
+                    $objParticipanteDTO->setStrStaParticipacao(ParticipanteRN::$TP_INTERESSADO);
                     
-                    $participanteRn = new ParticipanteRN();
-                    $obj = $participanteRn->consultarRN1008($objParticipanteDTO);
-                    $obj->setNumSequencia($i);
-                    
-                    $arrayInteressados[] = $obj;
+                    $arrayInteressados[] = $objParticipanteDTO;
                 }
             }
             
@@ -461,9 +458,10 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         
             
             $objProcedimentoRN = new ProcedimentoRN();
-            $objProcedimentoRN->gerarRN0156($objProcedimentoDTO);
+            $retorno = $objProcedimentoRN->gerarRN0156($objProcedimentoDTO);
+//            var_dump($retorno);
             
-            
+
         //ObjParticipanteDTO
         //ObjRelProtocoloAssuntoDTO
             
@@ -489,7 +487,11 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $objSeiRN = new SeiRN();
             $aux = $objSeiRN->gerarProcedimento($objEntradaGerarProcedimentoAPI);*/
             
-            return MdWsSeiRest::formataRetornoSucessoREST(null);
+            return MdWsSeiRest::formataRetornoSucessoREST(null,
+                    array(
+                        "IdProcedimento"        => $retorno->getDblIdProcedimento(),
+                        "ProtocoloFormatado"    => $retorno->getStrProtocoloProcedimentoFormatado())
+                    );
         
         } catch (InfraException $e) {
             //die($e->getStrDescricao());
@@ -547,6 +549,9 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         $arrayParticipantes[] = $objParticipanteDTO;
                     }
                 }
+//                
+//                var_dump($arrayParticipantes);
+//                die();
                 
                 // EDITA AS OBSERVAÇÕES 
                 $objObservacaoDTO = new ObservacaoDTO();
@@ -576,7 +581,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             return MdWsSeiRest::formataRetornoSucessoREST(null);
         
         } catch (InfraException $e) {
-            //die($e->getStrDescricao());
+//            die($e->getStrDescricao());
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -902,6 +907,10 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $pesquisaPendenciaDTO->setNumPaginaAtual($mdWsSeiProtocoloDTOParam->getNumPaginaAtual());
             } else {
                 $pesquisaPendenciaDTO->setNumPaginaAtual(0);
+            }
+            
+            if($mdWsSeiProtocoloDTOParam->getDblIdProtocolo()) {
+                $pesquisaPendenciaDTO->setDblIdProtocolo($mdWsSeiProtocoloDTOParam->getDblIdProtocolo());
             }
 
             if ($mdWsSeiProtocoloDTOParam->isSetNumMaxRegistrosRetorno()) {
