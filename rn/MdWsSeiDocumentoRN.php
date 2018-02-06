@@ -749,6 +749,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $relProtocoloProtocoloDTOConsulta->retStrSinCiencia();
             $relProtocoloProtocoloDTOConsulta->retDblIdProtocolo1();
             $relProtocoloProtocoloDTOConsulta->retDblIdProtocolo2();
+            $relProtocoloProtocoloDTOConsulta->retDblIdProtocolo2();
             $relProtocoloProtocoloDTOConsulta->retNumSequencia();
             $relProtocoloProtocoloDTOConsulta->setOrdNumSequencia(InfraDTO::$TIPO_ORDENACAO_ASC);
             if($documentoDTOParam->getNumMaxRegistrosRetorno()){
@@ -792,9 +793,13 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $documentoDTOConsulta->retNumIdUnidadeGeradoraProtocolo();
                 $documentoDTOConsulta->retStrCrcAssinatura();
                 $documentoDTOConsulta->retStrStaEstadoProtocolo();
+//                $documentoDTOConsulta->retStrSinAssinado();
                 $documentoDTOConsulta->setDblIdDocumento(array_keys(InfraArray::indexarArrInfraDTO($ret,'IdProtocolo2')), InfraDTO::$OPER_IN);
                 $documentoBD = new DocumentoBD($this->getObjInfraIBanco());
                 $retDocumentos = $documentoBD->listar($documentoDTOConsulta);
+                
+//                var_dump($retDocumentos);
+//                die();
                 /** @var DocumentoDTO $documentoDTOOrd */
                 foreach ($retDocumentos as $documentoDTOOrd){
                     $arrDocumentos[$documentoDTOOrd->getDblIdDocumento()] = $documentoDTOOrd;
@@ -814,7 +819,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $ciencia = 'N';
                 $documentoCancelado = $documentoDTO->getStrStaEstadoProtocolo() == ProtocoloRN::$TE_DOCUMENTO_CANCELADO
                     ? 'S' : 'N';
-
+                     
                 if(!in_array($documentoDTO->getStrStaDocumento(), $arrDocHtml)){
                     $anexoDTOConsulta = new AnexoDTO();
                     $anexoDTOConsulta->retStrNome();
@@ -850,7 +855,15 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $documentoPublicado = $resultPublicacao ? 'S' : 'N';
                 $ciencia = $relProtocoloProtocoloDTO->getStrSinCiencia();
                 $podeVisualizarDocumento = $this->podeVisualizarDocumento($documentoDTO, $bolFlagProtocolo);
-
+                
+                $arrObjProtocoloDTO = "";
+                $objPesquisaProtocoloDTO = new PesquisaProtocoloDTO();
+                $objPesquisaProtocoloDTO->setStrStaTipo(ProtocoloRN::$TPP_DOCUMENTOS_GERADOS);
+                $objPesquisaProtocoloDTO->setStrStaAcesso(ProtocoloRN::$TAP_TODOS);
+                $objPesquisaProtocoloDTO->setDblIdProtocolo($relProtocoloProtocoloDTO->getDblIdProtocolo2());
+                $objProtocoloRN = new ProtocoloRN();
+                $arrObjProtocoloDTO = $objProtocoloRN->pesquisarRN0967($objPesquisaProtocoloDTO);
+                
                 $result[] = array(
                     'id' => $documentoDTO->getDblIdDocumento(),
                     'atributos' => array(
@@ -865,6 +878,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                         'tamanho' => $tamanhoAnexo,
                         'idUnidade' => $documentoDTO->getNumIdUnidadeGeradoraProtocolo(),
                         'siglaUnidade' => $documentoDTO->getStrSiglaUnidadeGeradoraProtocolo(),
+                        'nomeComposto' => DocumentoINT::montarIdentificacaoArvore($documentoDTO),
                         'status' => array(
                             'sinBloqueado' => $documentoDTO->getStrStaNivelAcessoLocalProtocolo() == 1 ? 'S' : 'N',
                             'documentoSigiloso' => $documentoDTO->getStrStaNivelAcessoLocalProtocolo() == 2 ? 'S' : 'N',
@@ -873,7 +887,8 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                             'documentoAssinado' =>  $documentoDTO->getStrCrcAssinatura() ? 'S' : 'N',
                             'ciencia' => $ciencia,
                             'documentoCancelado' => $documentoCancelado,
-                            'podeVisualizarDocumento' => $podeVisualizarDocumento ? 'S' : 'N'
+                            'podeVisualizarDocumento' => $podeVisualizarDocumento ? 'S' : 'N',
+                            'permiteAssinatura' => $arrObjProtocoloDTO ? $arrObjProtocoloDTO[0]->getStrSinAssinado() : ""
                         )
                     )
                 );
