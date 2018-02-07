@@ -909,7 +909,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $pesquisaPendenciaDTO->setNumPaginaAtual(0);
             }
             
-            if($mdWsSeiProtocoloDTOParam->getDblIdProtocolo()) {
+            if($mdWsSeiProtocoloDTOParam->isSetDblIdProtocolo()) {
                 $pesquisaPendenciaDTO->setDblIdProtocolo($mdWsSeiProtocoloDTOParam->getDblIdProtocolo());
             }
 

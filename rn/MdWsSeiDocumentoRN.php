@@ -95,7 +95,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                             "id"               =>  $obj->getNumIdSecaoDocumento(),
                             "idSecaoModelo"    =>  $obj->getNumIdSecaoModeloSecaoDocumento(),
                             "conteudo"         =>  $obj->getStrConteudo(),
-                            "someneteLeitura"  =>  $obj->getStrSinSomenteLeituraSecaoDocumento()
+                            "somenteLeitura"  =>  $obj->getStrSinSomenteLeituraSecaoDocumento()
                         );
                     }
 
