@@ -71,6 +71,11 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $objVersaoSecaoDocumentoDTO->retNumIdSecaoModeloSecaoDocumento();
             $objVersaoSecaoDocumentoDTO->retStrSinAssinaturaSecaoDocumento();
             $objVersaoSecaoDocumentoDTO->retStrSinSomenteLeituraSecaoDocumento();
+            
+            $objVersaoSecaoDocumentoDTO->retStrSinAssinaturaSecaoDocumento();
+            $objVersaoSecaoDocumentoDTO->retStrSinPrincipalSecaoDocumento();
+            $objVersaoSecaoDocumentoDTO->retStrSinDinamicaSecaoDocumento();
+            
             $objVersaoSecaoDocumentoDTO->retStrConteudo();
             $objVersaoSecaoDocumentoDTO->retNumVersao();
             $objVersaoSecaoDocumentoDTO->retNumIdSecaoDocumento();
@@ -92,10 +97,13 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 foreach ($arrObjVersaoSecaoDocumentoDTO as $obj) {
                     if ($obj->getStrSinAssinaturaSecaoDocumento() == 'N') {
                         $arrayRetorno["secoes"][] = array(
-                            "id"               =>  $obj->getNumIdSecaoDocumento(),
-                            "idSecaoModelo"    =>  $obj->getNumIdSecaoModeloSecaoDocumento(),
-                            "conteudo"         =>  $obj->getStrConteudo(),
-                            "somenteLeitura"  =>  $obj->getStrSinSomenteLeituraSecaoDocumento()
+                            "id"                        =>  $obj->getNumIdSecaoDocumento(),
+                            "idSecaoModelo"             =>  $obj->getNumIdSecaoModeloSecaoDocumento(),
+                            "conteudo"                  =>  $obj->getStrConteudo(),
+                            "somenteLeitura"            =>  $obj->getStrSinSomenteLeituraSecaoDocumento(),
+                            "AssinaturaSecaoDocumento"  =>  $obj->getStrSinAssinaturaSecaoDocumento(),
+                            "PrincipalSecaoDocumento"   =>  $obj->getStrSinPrincipalSecaoDocumento(),
+                            "DinamicaSecaoDocumento"    =>  $obj->getStrSinDinamicaSecaoDocumento()
                         );
                     }
 
