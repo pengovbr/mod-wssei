@@ -893,7 +893,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $documentoDTOConsulta->retNumIdUnidadeGeradoraProtocolo();
                 $documentoDTOConsulta->retStrCrcAssinatura();
                 $documentoDTOConsulta->retStrStaEstadoProtocolo();
-//                $documentoDTOConsulta->retStrSinAssinado();
+                $documentoDTOConsulta->retNumIdTipoConferencia();
                 $documentoDTOConsulta->setDblIdDocumento(array_keys(InfraArray::indexarArrInfraDTO($ret,'IdProtocolo2')), InfraDTO::$OPER_IN);
                 $documentoBD = new DocumentoBD($this->getObjInfraIBanco());
                 $retDocumentos = $documentoBD->listar($documentoDTOConsulta);
@@ -979,6 +979,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                         'idUnidade' => $documentoDTO->getNumIdUnidadeGeradoraProtocolo(),
                         'siglaUnidade' => $documentoDTO->getStrSiglaUnidadeGeradoraProtocolo(),
                         'nomeComposto' => DocumentoINT::montarIdentificacaoArvore($documentoDTO),
+                        'tipoConferencia' => $documentoDTO->getNumIdTipoConferencia(),
                         'status' => array(
                             'sinBloqueado' => $documentoDTO->getStrStaNivelAcessoLocalProtocolo() == 1 ? 'S' : 'N',
                             'documentoSigiloso' => $documentoDTO->getStrStaNivelAcessoLocalProtocolo() == 2 ? 'S' : 'N',
