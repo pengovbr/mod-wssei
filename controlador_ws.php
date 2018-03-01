@@ -79,6 +79,13 @@ $app = new \Slim\App($config);
  * Grupo para a versao v1 de servicos REST
  */
 $app->group('/api/v1',function(){
+    
+    $this->get('/versao', function($request, $response, $args){
+        return $response->withJSON(MdWsSeiRest::formataRetornoSucessoREST(null, ['versao' => SEI_VERSAO]));
+    });
+    /**
+     * 
+     */
     /**
      * Grupo de autenticacao <publico>
      */
@@ -254,6 +261,12 @@ $app->group('/api/v1',function(){
      * Grupo de controlador de documentos
      */
     $this->group('/documento', function(){
+        
+        $this->get('/consultar/{protocolo}', function($request, $response, $args){
+            $rn = new MdWsSeiDocumentoRN();
+            return $response->withJSON($rn->consultarDocumento($request->getAttribute('route')->getArgument('protocolo')));
+        });
+        
         $this->get('/listar/ciencia/{protocolo}', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();
