@@ -1309,7 +1309,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
 
             if ($objArrRelProtocoloAssuntoDTO) {
                 foreach ($objArrRelProtocoloAssuntoDTO as $key => $objProtocoloAssuntoDTO) {
-                    $arrDadosDocumento['assuntos'][$key]['id'] = $objProtocoloAssuntoDTO->getNumSequencia();
+                    $arrDadosDocumento['assuntos'][$key]['id'] = $objProtocoloAssuntoDTO->getNumIdAssunto();
                     $arrDadosDocumento['assuntos'][$key]['codigo'] = $objProtocoloAssuntoDTO->getStrCodigoEstruturadoAssunto();
                     $arrDadosDocumento['assuntos'][$key]['descricao'] = $objProtocoloAssuntoDTO->getStrDescricaoAssunto();
                 }
@@ -1323,7 +1323,10 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $objParticipanteDTO->retStrStaParticipacao();
             $objParticipanteDTO->retStrSiglaContato();
             $objParticipanteDTO->retStrNomeContato();
-
+            $objParticipanteDTO->retNumSequencia();
+            $objParticipanteDTO->setOrdStrStaParticipacao(InfraDTO::$TIPO_ORDENACAO_ASC);
+            $objParticipanteDTO->setOrdNumSequencia(InfraDTO::$TIPO_ORDENACAO_ASC);
+            
             $objParticipanteRN = new ParticipanteRN();
             $objArrParticipanteDTO = $objParticipanteRN->listarRN0189($objParticipanteDTO);
             $arrDadosDocumento['interessados'] = array();
@@ -1331,23 +1334,23 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $arrDadosDocumento['remetentes'] = array();
 
             if ($objArrParticipanteDTO) {
-                foreach ($objArrParticipanteDTO as $key => $obParticipanteDTO) {
-                    if ($obParticipanteDTO->getStrStaParticipacao() == ParticipanteRN::$TP_INTERESSADO) {
-                        $arrDadosDocumento['interessados'][$key]['id'] = $objProtocoloAssuntoDTO->getNumSequencia();
-                        $arrDadosDocumento['interessados'][$key]['codigo'] = $objProtocoloAssuntoDTO->getStrCodigoEstruturadoAssunto();
-                        $arrDadosDocumento['interessados'][$key]['descricao'] = $objProtocoloAssuntoDTO->getStrDescricaoAssunto();
+                foreach ($objArrParticipanteDTO as $key => $objParticipanteDTO) {
+                    if ($objParticipanteDTO->getStrStaParticipacao() == ParticipanteRN::$TP_INTERESSADO) {
+                        $arrDadosDocumento['interessados'][$objParticipanteDTO->getNumSequencia()]['id'] = $objParticipanteDTO->getNumIdContato();
+                        $arrDadosDocumento['interessados'][$objParticipanteDTO->getNumSequencia()]['sigla'] = $objParticipanteDTO->getStrSiglaContato();
+                        $arrDadosDocumento['interessados'][$objParticipanteDTO->getNumSequencia()]['nome'] = $objParticipanteDTO->getStrNomeContato();
                     }
 
-                    if ($obParticipanteDTO->getStrStaParticipacao() == ParticipanteRN::$TP_DESTINATARIO) {
-                        $arrDadosDocumento['destinatarios'][$key]['id'] = $objProtocoloAssuntoDTO->getNumSequencia();
-                        $arrDadosDocumento['destinatarios'][$key]['codigo'] = $objProtocoloAssuntoDTO->getStrCodigoEstruturadoAssunto();
-                        $arrDadosDocumento['destinatarios'][$key]['descricao'] = $objProtocoloAssuntoDTO->getStrDescricaoAssunto();
+                    if ($objParticipanteDTO->getStrStaParticipacao() == ParticipanteRN::$TP_DESTINATARIO) {
+                        $arrDadosDocumento['destinatarios'][$objParticipanteDTO->getNumSequencia()]['id'] = $objParticipanteDTO->getNumIdContato();
+                        $arrDadosDocumento['destinatarios'][$objParticipanteDTO->getNumSequencia()]['sigla'] = $objParticipanteDTO->getStrSiglaContato();
+                        $arrDadosDocumento['destinatarios'][$objParticipanteDTO->getNumSequencia()]['nome'] = $objParticipanteDTO->getStrNomeContato();
                     }
 
-                    if ($obParticipanteDTO->getStrStaParticipacao() == ParticipanteRN::$TP_REMETENTE) {
-                        $arrDadosDocumento['remetentes'][$key]['id'] = $objProtocoloAssuntoDTO->getNumSequencia();
-                        $arrDadosDocumento['remetentes'][$key]['codigo'] = $objProtocoloAssuntoDTO->getStrCodigoEstruturadoAssunto();
-                        $arrDadosDocumento['remetentes'][$key]['descricao'] = $objProtocoloAssuntoDTO->getStrDescricaoAssunto();
+                    if ($objParticipanteDTO->getStrStaParticipacao() == ParticipanteRN::$TP_REMETENTE) {
+                        $arrDadosDocumento['remetentes'][$objParticipanteDTO->getNumSequencia()]['id'] = $objParticipanteDTO->getNumIdContato();
+                        $arrDadosDocumento['remetentes'][$objParticipanteDTO->getNumSequencia()]['sigla'] = $objParticipanteDTO->getStrSiglaContato();
+                        $arrDadosDocumento['remetentes'][$objParticipanteDTO->getNumSequencia()]['nome'] = $objParticipanteDTO->getStrNomeContato();
                     }
                 }
             }
@@ -1379,6 +1382,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $objObservacaoDTO->retNumIdUnidade();
             $objObservacaoDTO->retStrSiglaUnidade();
             $objObservacaoDTO->retStrDescricaoUnidade();
+            $objObservacaoDTO->retStrDescricao();
 
             $objObservacaoRN = new ObservacaoRN();
             $arrObjObservacaoDTO = $objObservacaoRN->listarRN0219($objObservacaoDTO);
@@ -1387,7 +1391,8 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 foreach ($arrObjObservacaoDTO as $key => $objObservacaoDTO) {
                     $arrDadosDocumento['observacoes'][$key]['unidade'] = $objObservacaoDTO->getNumIdUnidade();
                     $arrDadosDocumento['observacoes'][$key]['siglaUnidade'] = $objObservacaoDTO->getStrSiglaUnidade();
-                    $arrDadosDocumento['observacoes'][$key]['observacao'] = $objObservacaoDTO->getStrDescricaoUnidade();
+                    $arrDadosDocumento['observacoes'][$key]['nomeUnidade'] = $objObservacaoDTO->getStrDescricaoUnidade();
+                    $arrDadosDocumento['observacoes'][$key]['observacao'] = $objObservacaoDTO->getStrDescricao();
                 }
             } else {
                 $arrDadosDocumento['observacao'] = array();
