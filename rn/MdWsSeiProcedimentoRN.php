@@ -90,10 +90,16 @@ class MdWsSeiProcedimentoRN extends InfraRN
             //FILTRA NOME, ID e INTERNO
             if($arrObjTipoProcedimentoDTO){
                 foreach ($arrObjTipoProcedimentoDTO as $aux) {
+
+                    setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+                    $objDtoFormatado = strtolower(iconv('ISO-8859-1', 'ASCII//TRANSLIT', $aux->getStrNome()));
+                    $nomeFormatado = str_replace('?','',strtolower(iconv('ISO-8859-1', 'ASCII//TRANSLIT', $nome)));
+
                     if(
                         ($aux->getNumIdTipoProcedimento() == $id     || !$id)    
                             &&
-                        (($nome && strpos($aux->getStrNome(), $nome) !== false) || !$nome)
+                        (($nome && strpos($objDtoFormatado, $nomeFormatado) !== false) || !$nomeFormatado)
 //                            &&
 //                        ($aux->getStrSinInterno() == $interno       || !$interno)
                     ){
@@ -127,12 +133,16 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 }
             }
 
-            if($start) $arrayRetorno = array_slice($arrayRetorno, ($start-1));   
-            if($limit) $arrayRetorno = array_slice($arrayRetorno, 0,($limit));   
-            
             $total = 0;
             $total = count($arrayRetorno);
-            
+
+            if($start) $arrayRetorno = array_slice($arrayRetorno, ($start-1));   
+            if($limit) $arrayRetorno = array_slice($arrayRetorno, 0,($limit));
+
+
+            /*$total = 0;
+            $total = count($arrayRetorno);*/
+
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno, $total);    
         } catch (Exception $e) {
             return MdWsSeiRest::formataRetornoErroREST($e);

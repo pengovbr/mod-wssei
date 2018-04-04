@@ -578,14 +578,14 @@ $app->group('/api/v1',function(){
         $this->get('/tipo/listar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
-            $objGetMdWsSeiTipoProcedimentoDTO = new MdWsSeiTipoProcedimentoDTO(); 
+            $objGetMdWsSeiTipoProcedimentoDTO = new MdWsSeiTipoProcedimentoDTO();
             $objGetMdWsSeiTipoProcedimentoDTO->setNumIdTipoProcedimento($request->getParam('id'));
             $objGetMdWsSeiTipoProcedimentoDTO->setStrNome($request->getParam('filter'));
 //            $objGetMdWsSeiTipoProcedimentoDTO->setStrSinInterno($request->getParam('internos'));            
             $objGetMdWsSeiTipoProcedimentoDTO->setStrFavoritos($request->getParam('favoritos'));            
             $objGetMdWsSeiTipoProcedimentoDTO->setNumStart($request->getParam('start'));
             $objGetMdWsSeiTipoProcedimentoDTO->setNumLimit($request->getParam('limit'));
-            
+
             return $response->withJSON(
                 $rn->listarTipoProcedimento($objGetMdWsSeiTipoProcedimentoDTO)
             );
