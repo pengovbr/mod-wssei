@@ -202,17 +202,20 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 );
             }
 
-            $arrPerfis = array();
             $retPerfis = $this->listarPerfisUsuario($ret->IdSistema, $ret->IdUsuario);
-            if($retPerfis && $retPerfis['data']){
+
+          /* ANTIGA
+
+              if($retPerfis && $retPerfis['data']){
                 $arrPerfis = $retPerfis['data'];
-            }
+            }*/
 
             return MdWsSeiRest::formataRetornoSucessoREST(
                 null,
                 array(
                     'loginData'=> $ret,
-                    'perfis' => $arrPerfis,
+                    // ANTIGA 'perfis' => $arrPerfis,
+                    'perfis' => $retPerfis,
                     'unidades' => $arrUnidades,
                     'token' => $token
                 )
@@ -246,7 +249,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 );
             }
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $arrPerfis);
+            return $arrPerfis;
 
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
