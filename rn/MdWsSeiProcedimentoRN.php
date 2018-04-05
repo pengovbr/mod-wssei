@@ -331,6 +331,11 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $protocoloRN = new ProtocoloRN();
             $objProtocoloDTO = $protocoloRN->consultarRN0186($objProtocoloDTO);
 
+
+            if (!$objProtocoloDTO) {
+                throw new Exception('Não foi encontrado processo com id ' . $processo);
+            }
+
             // Recupera o tipo de processo da tabela de procedimento
             $objProcedimentoDTO = new ProcedimentoDTO();
             $objProcedimentoDTO->setDblIdProcedimento($processo);
