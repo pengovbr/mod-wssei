@@ -251,14 +251,22 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $filter     = $objGetMdWsSeiAssuntoDTO->getStrFilter();
             $start      = $objGetMdWsSeiAssuntoDTO->getNumStart();
             $limit      = $objGetMdWsSeiAssuntoDTO->getNumLimit();
-            
+
             $assuntoDTO = new AssuntoDTO();
             if($id)
                 $assuntoDTO->setNumIdAssunto($id);
-            
-            if($filter)  $assuntoDTO->adicionarCriterio(array('CodigoEstruturado','Descricao'),array(InfraDTO::$OPER_LIKE,InfraDTO::$OPER_LIKE),array('%'.utf8_decode($filter).'%','%'.utf8_decode($filter).'%'),InfraDTO::$OPER_LOGICO_OR);
+
+            if($filter)  $assuntoDTO->adicionarCriterio(array('CodigoEstruturado','Descricao','Observacao'),array(InfraDTO::$OPER_LIKE,InfraDTO::$OPER_LIKE,InfraDTO::$OPER_LIKE),array('%'.utf8_decode($filter).'%','%'.utf8_decode($filter).'%','%'.utf8_decode($filter).'%'), array(InfraDTO::$OPER_LOGICO_OR,InfraDTO::$OPER_LOGICO_OR));
 //                $objInfraAgendamentoTarefaDTO->adicionarCriterio(array('SinAtivo','IdInfraAgendamentoTarefa'),array(InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL),array('S',$strValorItemSelecionado),InfraDTO::$OPER_LOGICO_OR);
 //                $assuntoDTO->setStrCodigoEstruturado('%'.$filter.'%',InfraDTO::$OPER_LIKE);
+
+
+            $assuntoRN = new AssuntoRN();
+
+            $assuntoCountDTO = $assuntoDTO; // APENAS PARA TOTALIZAR OS REGISTROS DE RETORNO
+            $assuntoCountDTO->retNumIdAssunto();
+            $assuntoCountDTO = $assuntoRN->listarRN0247($assuntoCountDTO);
+
 
             if($limit)
                 $assuntoDTO->setNumMaxRegistrosRetorno($limit);
@@ -270,28 +278,28 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $assuntoDTO->retStrDescricao();
 
             // REALIZA A CHAMADA DA DE ASSUNTOS
-            $assuntoRN = new AssuntoRN();
-            $arrAssuntoDTO = $assuntoRN->listarRN0247($assuntoDTO);          
-            
+
+            $arrAssuntoDTO = $assuntoRN->listarRN0247($assuntoDTO);
+
             $arrayRetorno = array();
             if($arrAssuntoDTO){
                 foreach ($arrAssuntoDTO as $obj) {
                     $arrayRetorno[]   = array(
-                                            "id"        => $obj->getNumIdAssunto(),
-                                            "codigo"    => $obj->getStrCodigoEstruturado(),
-                                            "descricao" => $obj->getStrDescricao(),
-                                      );
+                        "id"        => $obj->getNumIdAssunto(),
+                        "codigo"    => $obj->getStrCodigoEstruturado(),
+                        "descricao" => $obj->getStrDescricao(),
+                    );
                 }
             }
-            
+
 //            $arrayRetorno = array();
-//            if($start) $arrayRetorno = array_slice($arrayRetorno, ($start-1));   
-//            if($limit) $arrayRetorno = array_slice($arrayRetorno, 0,($limit));   
-            
+//            if($start) $arrayRetorno = array_slice($arrayRetorno, ($start-1));
+//            if($limit) $arrayRetorno = array_slice($arrayRetorno, 0,($limit));
+
             $total = 0;
-            $total = count($arrayRetorno);
-            
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno, $total);    
+            $total = count($assuntoCountDTO);
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno, $total);
         } catch (Exception $e) {
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
