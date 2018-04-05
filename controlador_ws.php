@@ -293,8 +293,7 @@ $app->group('/api/v1',function(){
                 $request->getParam('usuario')
             ));
         });
-        
-         $this->post('/externo/alterar', function($request, $response, $args){
+        $this->post('/externo/alterar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $dados["documento"]         = $request->getParam('documento');
             $dados["numero"]            = $request->getParam('numero');
@@ -325,8 +324,7 @@ $app->group('/api/v1',function(){
                 $rn->alterarDocumentoExterno($dados)
             );
         });
-        
-           $this->post('/interno/alterar', function($request, $response, $args){
+        $this->post('/interno/alterar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $dados["documento"]         = $request->getParam('documento');
             $dados["assuntos"]          = json_decode($request->getParam('assuntos'), TRUE);
@@ -344,7 +342,6 @@ $app->group('/api/v1',function(){
                 $rn->alterarDocumentoInterno($dados)
             );
         });
-        
         $this->post('/secao/alterar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $dados["documento"] = $request->getParam('documento');
@@ -356,8 +353,6 @@ $app->group('/api/v1',function(){
                 $rn->alterarSecaoDocumento($dados)
             );
         });
-        
-        
         $this->post('/ciencia', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();
@@ -394,8 +389,6 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->listarDocumentosProcesso($dto));
         });
-        
-        
         $this->get('/secao/listar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();
@@ -404,16 +397,15 @@ $app->group('/api/v1',function(){
             
             return $response->withJSON($rn->listarSecaoDocumento($dto));
         });
-        
         $this->get('/tipo/pesquisar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();
-            
             $dto = new MdWsSeiDocumentoDTO();
+
             $dto->setNumIdTipoDocumento($request->getParam('id'));
             $dto->setStrNomeTipoDocumento($request->getParam('filter'));
             $dto->setStrFavoritos($request->getParam('favoritos'));
-            
+
             $arrAplicabilidade = explode(",",$request->getParam('aplicabilidade'));
             
             $dto->setArrAplicabilidade($arrAplicabilidade);
@@ -422,9 +414,7 @@ $app->group('/api/v1',function(){
             
             return $response->withJSON($rn->pesquisarTipoDocumento($dto));
         });
-        
-        
-         $this->get('/tipo/template', function($request, $response, $args){
+        $this->get('/tipo/template', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();
             $dto = new MdWsSeiDocumentoDTO();
@@ -433,8 +423,6 @@ $app->group('/api/v1',function(){
             
             return $response->withJSON($rn->pesquisarTemplateDocumento($dto));
         });
-        
-        
         $this->get('/baixar/anexo/{protocolo}', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();
@@ -444,8 +432,6 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->downloadAnexo($dto));
         });
-        
-        
         $this->post('/interno/criar', function($request, $response, $args){
             
             /** @var $request Slim\Http\Request */
@@ -466,8 +452,7 @@ $app->group('/api/v1',function(){
             return $response->withJSON(
                 $rn->documentoInternoCriar($dto)
             );
-        }); 
-        
+        });
         $this->post('/externo/criar', function($request, $response, $args){
             
             /** @var $request Slim\Http\Request */
@@ -497,8 +482,7 @@ $app->group('/api/v1',function(){
             return $response->withJSON(
                 $rn->documentoExternoCriar($dto)
             );
-        }); 
-        
+        });
         $this->post('/incluir', function($request, $response, $args){
             try{
                 /** @var $request Slim\Http\Request */
@@ -578,6 +562,7 @@ $app->group('/api/v1',function(){
         $this->get('/tipo/listar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
+
             $objGetMdWsSeiTipoProcedimentoDTO = new MdWsSeiTipoProcedimentoDTO();
             $objGetMdWsSeiTipoProcedimentoDTO->setNumIdTipoProcedimento($request->getParam('id'));
             $objGetMdWsSeiTipoProcedimentoDTO->setStrNome($request->getParam('filter'));

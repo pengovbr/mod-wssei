@@ -72,7 +72,8 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $favoritos  = $objGetMdWsSeiTipoProcedimentoDTO->getStrFavoritos();
             $start      = $objGetMdWsSeiTipoProcedimentoDTO->getNumStart();
             $limit      = $objGetMdWsSeiTipoProcedimentoDTO->getNumLimit();
-            
+
+
             // DTO QUE REPRESENTA OS TIPOS DE PROCESSO. 
             $objTipoProcedimentoDTO = new TipoProcedimentoDTO(); 
             $objTipoProcedimentoDTO->setStrSinSomenteUtilizados($favoritos); //Flag de FAVORITOS S (true) / N (false)
@@ -94,7 +95,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
 
                     $objDtoFormatado = strtolower(iconv('ISO-8859-1', 'ASCII//TRANSLIT', $aux->getStrNome()));
-                    $nomeFormatado = str_replace('?','',strtolower(iconv('ISO-8859-1', 'ASCII//TRANSLIT', $nome)));
+                    $nomeFormatado = str_replace('?','',strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $nome)));
 
                     if(
                         ($aux->getNumIdTipoProcedimento() == $id     || !$id)    

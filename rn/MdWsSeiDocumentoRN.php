@@ -156,9 +156,15 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             //FILTRA NOME, ID e APLICABILIDADE
             if ($arrObjSerieDTO) {
                 foreach ($arrObjSerieDTO as $aux) {
+
+                    setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+                    $objDtoFormatado = str_replace('?','',strtolower(iconv('ISO-8859-1', 'ASCII//TRANSLIT', $aux->getStrNome())));
+                    $nomeFormatado = str_replace('?','',strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $nome)));
+
                     if (
                             ($aux->getNumIdSerie() == $id || !$id) &&
-                            (($nome && strpos(utf8_encode($aux->getStrNome()), $nome) !== false) || !$nome) &&
+                            (($nomeFormatado && strpos(utf8_encode($objDtoFormatado), $nomeFormatado) !== false) || !$nomeFormatado) &&
                             (in_array($aux->getStrStaAplicabilidade(), $aplicabilidade) == $aplicabilidade || !$aplicabilidade)
                     ) {
                         $arrayRetorno[] = array(
@@ -169,13 +175,14 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 }
             }
 
+            $total = 0;
+            $total = count($arrayRetorno);
+
+
             if ($start)
                 $arrayRetorno = array_slice($arrayRetorno, ($start - 1));
             if ($limit)
                 $arrayRetorno = array_slice($arrayRetorno, 0, ($limit));
-
-            $total = 0;
-            $total = count($arrayRetorno);
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno, $total);
         } catch (Exception $e) {
