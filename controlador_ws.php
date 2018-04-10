@@ -874,23 +874,28 @@ $app->group('/api/v1',function(){
 //            if($request->getParam('assunto')){
 //                $assuntos = explode(",",$request->getParam('assunto'));
 //            }
-            
+
             //Interessado explode lista de objetos
             $interessados   = array();
             $interessados = json_decode($request->getParam('interessados'), TRUE);
 //            if($request->getParam('interessado')){
 //                $interessados = explode(",",$request->getParam('interessado'));
 //            }
-            
+
             $rn     = new MdWsSeiProcedimentoRN();
             $dto    = new MdWsSeiProcedimentoDTO();
-   
+
+            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+            $especificacaoFormatado = str_replace('?','',strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $request->getParam('especificacao'))));
+            $observacoesFormatado = str_replace('?','',strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $request->getParam('observacoes'))));
+
             //Atribuir parametros para o DTO
             $dto->setArrObjInteressado($interessados);
             $dto->setArrObjAssunto($assuntos);
             $dto->setNumIdTipoProcedimento($request->getParam('tipoProcesso'));
-            $dto->setStrEspecificacao($request->getParam('especificacao'));
-            $dto->setStrObservacao($request->getParam('observacoes'));
+            $dto->setStrEspecificacao($especificacaoFormatado);
+            $dto->setStrObservacao($observacoesFormatado);
             $dto->setNumNivelAcesso($request->getParam('nivelAcesso'));
             $dto->setNumIdHipoteseLegal($request->getParam('hipoteseLegal'));
             $dto->setStrStaGrauSigilo($request->getParam('grauSigilo'));
