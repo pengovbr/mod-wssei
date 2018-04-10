@@ -294,9 +294,18 @@ $app->group('/api/v1',function(){
             ));
         });
         $this->post('/externo/alterar', function($request, $response, $args){
+
+            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+            $nomeArquivoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('nomeArquivo'));
+            $descricaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('descricao'));
+            $observacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacao'));
+            $binarioFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('conteudoDocumento'));
+            $numeroFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('numero'));
+
             /** @var $request Slim\Http\Request */
             $dados["documento"]         = $request->getParam('documento');
-            $dados["numero"]            = $request->getParam('numero');
+            $dados["numero"]            = $numeroFormatado;
             $dados["idTipoDocumento"]            = $request->getParam('idTipoDocumento');
             $dados["data"]              = $request->getParam('data');
             $dados["assuntos"]          = json_decode($request->getParam('assuntos'), TRUE);
@@ -306,14 +315,14 @@ $app->group('/api/v1',function(){
             $dados["nivelAcesso"]       = $request->getParam('nivelAcesso');
             $dados["hipoteseLegal"]     = $request->getParam('hipoteseLegal');
             $dados["grauSigilo"]        = $request->getParam('grauSigilo');
-            $dados["observacao"]        = $request->getParam('observacao');
+            $dados["observacao"]        = $observacaoFormatado;
             
-            $dados["nomeArquivo"]        = $request->getParam('nomeArquivo');
+            $dados["nomeArquivo"]        = $nomeArquivoFormatado;
             $dados["tipoConferencia"]    = $request->getParam('tipoConferencia');
             
             if (array_key_exists("conteudoDocumento",$request->getParams())){
                 $dados["conteudoDocumento"] = false;
-                if($request->getParam('conteudoDocumento')) $dados["conteudoDocumento"]  = $request->getParam('conteudoDocumento');
+                if($request->getParam('conteudoDocumento')) $dados["conteudoDocumento"]  = $binarioFormatado;
             }else{
                 $dados["conteudoDocumento"] = null;
             }
@@ -435,17 +444,24 @@ $app->group('/api/v1',function(){
         $this->post('/interno/criar', function($request, $response, $args){
             
             /** @var $request Slim\Http\Request */
+
+            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+            $observacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacao'));
+            $descricaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('descricao'));
+
+
             $dto = new MdWsSeiDocumentoDTO();
             $dto->setNumIdProcesso($request->getParam('processo'));
             $dto->setNumIdTipoDocumento($request->getParam('tipoDocumento'));
-            $dto->setStrDescricao($request->getParam('descricao'));
+            $dto->setStrDescricao($descricaoFormatado);
             $dto->setStrNivelAcesso($request->getParam('nivelAcesso'));
             $dto->setNumIdHipoteseLegal($request->getParam('hipoteseLegal'));
             $dto->setStrGrauSigilo($request->getParam('grauSigilo'));
             $dto->setArrAssuntos(json_decode($request->getParam('assuntos'), TRUE));
             $dto->setArrInteressados(json_decode($request->getParam('interessados'), TRUE));
             $dto->setArrDestinatarios(json_decode($request->getParam('destinatarios'), TRUE));
-            $dto->setStrObservacao($request->getParam('observacao'));
+            $dto->setStrObservacao($observacaoFormatado);
 
             $rn = new MdWsSeiDocumentoRN();
 
@@ -454,15 +470,24 @@ $app->group('/api/v1',function(){
             );
         });
         $this->post('/externo/criar', function($request, $response, $args){
-            
+
+
+            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+            $nomeArquivoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('nomeArquivo'));
+            $descricaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('descricao'));
+            $observacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacao'));
+            $binarioFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('conteudoDocumento'));
+            $numeroFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('numero'));
+
             /** @var $request Slim\Http\Request */
             $dto = new MdWsSeiDocumentoDTO();
             $dto->setNumIdProcesso($request->getParam('processo'));
             $dto->setNumIdTipoDocumento($request->getParam('tipoDocumento'));
             $dto->setDtaDataGeracaoDocumento(InfraData::getStrDataAtual());
-            $dto->setStrNumero($request->getParam('numero'));
-            $dto->setStrDescricao($request->getParam('descricao'));
-            $dto->setStrNomeArquivo($request->getParam('nomeArquivo'));
+            $dto->setStrNumero($numeroFormatado);
+            $dto->setStrDescricao($descricaoFormatado);
+            $dto->setStrNomeArquivo($nomeArquivoFormatado);
             $dto->setStrNivelAcesso($request->getParam('nivelAcesso'));
             $dto->setNumIdHipoteseLegal($request->getParam('hipoteseLegal'));
             $dto->setStrGrauSigilo($request->getParam('grauSigilo'));
@@ -470,11 +495,9 @@ $app->group('/api/v1',function(){
             $dto->setArrInteressados(json_decode($request->getParam('interessados'), TRUE));
             $dto->setArrDestinatarios(json_decode($request->getParam('destinatarios'), TRUE));
             $dto->setArrRemetentes(json_decode($request->getParam('remetentes'), TRUE));
-            $dto->setStrConteudoDocumento($request->getParam('conteudoDocumento'));
-            $dto->setStrObservacao($request->getParam('observacao'));
+            $dto->setStrConteudoDocumento($binarioFormatado);
+            $dto->setStrObservacao($observacaoFormatado);
             $dto->setNumTipoConferencia($request->getParam('tipoConferencia'));
-            
-            $dto->setStrObservacao($request->getParam('observacao'));
             
 
             $rn = new MdWsSeiDocumentoRN();
@@ -887,8 +910,8 @@ $app->group('/api/v1',function(){
 
             setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
 
-            $especificacaoFormatado = str_replace('?','',strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $request->getParam('especificacao'))));
-            $observacoesFormatado = str_replace('?','',strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $request->getParam('observacoes'))));
+            $especificacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('especificacao'));
+            $observacoesFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacoes'));
 
             //Atribuir parametros para o DTO
             $dto->setArrObjInteressado($interessados);
@@ -922,8 +945,8 @@ $app->group('/api/v1',function(){
 
             setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
 
-            $especificacaoFormatado = str_replace('?','',strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $request->getParam('especificacao'))));
-            $observacoesFormatado = str_replace('?','',strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $request->getParam('observacoes'))));
+            $especificacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('especificacao'));
+            $observacoesFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacoes'));
    
             //Atribuir parametros para o DTO
             $dto->setNumIdProcedimento($request->getParam('id'));
@@ -1050,7 +1073,13 @@ $app->group('/api/v1',function(){
             /** @var $request Slim\Http\Request */
             
             $dto = new MdWsSeiContatoDTO();
-            $dto->setStrNome($request->getParam('nome'));
+
+
+            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+            $nomeFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('nome'));
+
+            $dto->setStrNome($nomeFormatado);
             
             $rn = new MdWsSeiContatoRN();
             return $response->withJSON($rn->criarContato($dto));
