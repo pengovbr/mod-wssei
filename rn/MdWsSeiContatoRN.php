@@ -32,6 +32,9 @@ class MdWsSeiContatoRN extends InfraRN
             if($filter)
                 $contatoDTO->setStrNome('%'.utf8_decode($filter).'%',InfraDTO::$OPER_LIKE);
 
+            $contatoCountDTO = new ContatoDTO();
+            $contatoCountDTO->retNumIdContato();
+
             IF($limit)
                 $contatoDTO->setNumMaxRegistrosRetorno($limit);
 
@@ -44,6 +47,8 @@ class MdWsSeiContatoRN extends InfraRN
 
             $contatoRN = new ContatoRN();
             $arrContatoDTO = $contatoRN->listarRN0325($contatoDTO);
+
+            $contatoCountDTO = $contatoRN->listarRN0325($contatoCountDTO);
             
             $arrayRetorno = array();
             if($arrContatoDTO){
@@ -57,7 +62,7 @@ class MdWsSeiContatoRN extends InfraRN
             }
             
             $total = 0;
-            $total = count($arrayRetorno);
+            $total = count($contatoCountDTO);
             
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno, $total);    
         } catch (Exception $e) {
