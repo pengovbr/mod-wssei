@@ -1271,7 +1271,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
         $protocoloDTODocumento = $arrProtocoloDTO[$documentoDTO->getDblIdDocumento()];
 
         $numCodigoAcesso = $protocoloDTODocumento->getNumCodigoAcesso();
-        if ($numCodigoAcesso > 0 || $bolFlagProtocolo) {
+        if ($numCodigoAcesso > 0) {
             $podeVisualizar = true;
         }
         if ($documentoDTO->getStrStaEstadoProtocolo() == ProtocoloRN::$TE_DOCUMENTO_CANCELADO) {
