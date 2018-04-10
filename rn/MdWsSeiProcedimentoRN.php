@@ -277,6 +277,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $assuntoDTO->retNumIdAssunto();
             $assuntoDTO->retStrCodigoEstruturado();
             $assuntoDTO->retStrDescricao();
+            $assuntoDTO->retStrSinEstrutural();
 
             // REALIZA A CHAMADA DA DE ASSUNTOS
 
@@ -285,10 +286,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $arrayRetorno = array();
             if($arrAssuntoDTO){
                 foreach ($arrAssuntoDTO as $obj) {
+
                     $arrayRetorno[]   = array(
                         "id"        => $obj->getNumIdAssunto(),
                         "codigo"    => $obj->getStrCodigoEstruturado(),
                         "descricao" => $obj->getStrDescricao(),
+                        "item_apenas_estrutural" => ($obj->getStrSinEstrutural() == "S") ? true : false
                     );
                 }
             }
