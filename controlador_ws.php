@@ -334,6 +334,12 @@ $app->group('/api/v1',function(){
             );
         });
         $this->post('/interno/alterar', function($request, $response, $args){
+
+            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+            $descricaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('descricao'));
+            $observacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacao'));
+
             /** @var $request Slim\Http\Request */
             $dados["documento"]         = $request->getParam('documento');
             $dados["assuntos"]          = json_decode($request->getParam('assuntos'), TRUE);
@@ -342,7 +348,8 @@ $app->group('/api/v1',function(){
             $dados["nivelAcesso"]       = $request->getParam('nivelAcesso');
             $dados["hipoteseLegal"]     = $request->getParam('hipoteseLegal');
             $dados["grauSigilo"]        = $request->getParam('grauSigilo');
-            $dados["observacao"]        = $request->getParam('observacao');
+            $dados["observacao"]        = $observacaoFormatado;
+            $dados["descricao"]         = $descricaoFormatado;
             
 
             
