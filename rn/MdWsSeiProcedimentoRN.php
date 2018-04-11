@@ -557,7 +557,10 @@ class MdWsSeiProcedimentoRN extends InfraRN
 //                $hipoteseLegal = 2;
 //                $grauSigilo = '';
 
-                // PREENCHE OS ASSUNTOS 
+
+                // PREENCHE OS ASSUNTOS
+                $arrayAssuntos = array();
+
                 if($arrAssuntos){
                     foreach ($arrAssuntos as $k => $assunto) {
                         $objRelProtocoloAssuntoDTO = new RelProtocoloAssuntoDTO();
@@ -566,7 +569,10 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         $arrayAssuntos[] = $objRelProtocoloAssuntoDTO;
                     }
                 }
-                // PREENCHE OS INTERESSADOS 
+
+                // PREENCHE OS INTERESSADOS
+                $arrayParticipantes = array();
+
                 if($arrInteressados){
                     foreach ($arrInteressados as $k => $interessado) {
                         $objParticipanteDTO = new ParticipanteDTO();
