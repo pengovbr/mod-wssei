@@ -364,7 +364,13 @@ $app->group('/api/v1',function(){
             $dados["documento"] = $request->getParam('documento');
             $dados["secoes"]    = json_decode($request->getParam('secoes'), TRUE);
             $dados["versao"]    = $request->getParam('versao');
-            
+
+            // Ajuste de encoding das secoes
+            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+            for ($i = 0; $i < count($dados["secoes"]); $i++) {
+                $dados["secoes"][$i]['conteudo'] = iconv('UTF-8', 'ISO-8859-1', $dados["secoes"][$i]['conteudo']);
+            }
+
             $rn = new MdWsSeiDocumentoRN();
             return $response->withJSON(
                 $rn->alterarSecaoDocumento($dados)
