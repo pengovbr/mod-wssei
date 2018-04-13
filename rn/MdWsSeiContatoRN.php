@@ -23,23 +23,33 @@ class MdWsSeiContatoRN extends InfraRN
             $filter     = $objGetMdWsSeiContatoDTO->getStrFilter();
             $start      = $objGetMdWsSeiContatoDTO->getNumStart();
             $limit      = $objGetMdWsSeiContatoDTO->getNumLimit();
+            $bool       = false;
             
             $contatoDTO = new ContatoDTO();
 
             if($id)
                 $contatoDTO->setNumIdContato($id);
 
-            if($filter)
-                $contatoDTO->setStrNome('%'.utf8_decode($filter).'%',InfraDTO::$OPER_LIKE);
+            if($filter) {
+                $contatoDTO->adicionarCriterio(array('Nome', 'Nome'),
+                    array(InfraDTO::$OPER_LIKE, InfraDTO::$OPER_LIKE),
+                    array('%' . utf8_decode(str_replace("-"," ", $filter)) . '%', '%' . utf8_decode(str_replace(" ","-", $filter)) . '%'),
+                    array(InfraDTO::$OPER_LOGICO_OR));
+            }
+
 
             $contatoCountDTO = new ContatoDTO();
             $contatoCountDTO->retNumIdContato();
 
-            IF($limit)
+            IF($limit) {
                 $contatoDTO->setNumMaxRegistrosRetorno($limit);
+                $bool = true;
+            }
 
-            IF($start)
-                $contatoDTO->setNumPaginaAtual($start); 
+            IF($start) {
+                $contatoDTO->setNumPaginaAtual($start);
+                $bool = true;
+            }
 
             $contatoDTO->retNumIdContato();
             $contatoDTO->retStrSigla();
@@ -62,7 +72,12 @@ class MdWsSeiContatoRN extends InfraRN
             }
             
             $total = 0;
-            $total = count($contatoCountDTO);
+            $total = count($arrayRetorno);
+
+            if($bool){
+                 $total = count($contatoCountDTO);
+            }
+
             
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno, $total);    
         } catch (Exception $e) {

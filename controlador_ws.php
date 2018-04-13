@@ -939,7 +939,7 @@ $app->group('/api/v1',function(){
             //Assunto  explode lista de objetos
             $assuntos   = array();
             if($request->getParam('assuntos')){
-                $assuntos = $request->getParam('assuntos');
+                $assuntos = json_decode($request->getParam('assuntos'), TRUE);
             }
             //Interessado explode lista de objetos
             $interessados   = array();
