@@ -316,6 +316,7 @@ $app->group('/api/v1',function(){
             $dados["hipoteseLegal"]     = $request->getParam('hipoteseLegal');
             $dados["grauSigilo"]        = $request->getParam('grauSigilo');
             $dados["observacao"]        = $observacaoFormatado;
+            $dados["descricao"]         = $descricaoFormatado;
             
             $dados["nomeArquivo"]        = $nomeArquivoFormatado;
             $dados["tipoConferencia"]    = $request->getParam('tipoConferencia');

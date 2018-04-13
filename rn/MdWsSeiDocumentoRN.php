@@ -312,7 +312,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $conteudoDocumento = $dados['conteudoDocumento'];
             $nomeArquivo = $dados['nomeArquivo'];
             $tipoConferencia = $dados['tipoConferencia'];
-
+            $descricao = $dados['descricao'];
 
             //Altera os dados do documento    
             $protocoloDTO = new ProtocoloDTO();
@@ -323,6 +323,17 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $protocoloDTO->setStrStaNivelAcessoLocal($nivelAcesso);
             $protocoloDTO->setNumIdHipoteseLegal($hipoteseLegal);
             $protocoloDTO->setStrStaGrauSigilo($grauSigilo);
+
+
+            $protocoloDTOauxiliar = new ProtocoloDTO();
+            $protocoloDTOauxiliar->setDblIdProtocolo($documento);
+            $protocoloDTOauxiliar->retStrStaProtocolo();
+            $protocoloRN = new ProtocoloRN();
+            $retProtoculoDTO = $protocoloRN->consultarRN0186($protocoloDTOauxiliar);
+
+            if($retProtoculoDTO->getStrStaProtocolo() != ProtocoloRN::$TP_DOCUMENTO_RECEBIDO){
+                throw new InfraException('A alteração deve ser apenas de documentos externos.');
+            }
 
             //Altera os Destinatários, Remetentes e Interessados
             $arrParticipantes = array();
@@ -464,6 +475,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $hipoteseLegal = $dados['hipoteseLegal'];
             $grauSigilo = $dados['grauSigilo'];
             $observacao = $dados['observacao'];
+            $descricao = $dados['descricao'];
 
             //PARÂMETROS DE ENTRADA
             //           $documento = 106;
@@ -478,10 +490,21 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             //Altera os dados do documento    
             $protocoloDTO = new ProtocoloDTO();
             $protocoloDTO->setDblIdProtocolo($documento);
-            $protocoloDTO->setStrDescricao("asdadas");
+            $protocoloDTO->setStrDescricao($descricao);
             $protocoloDTO->setStrStaNivelAcessoLocal($nivelAcesso);
             $protocoloDTO->setNumIdHipoteseLegal($hipoteseLegal);
             $protocoloDTO->setStrStaGrauSigilo($grauSigilo);
+
+            $protocoloDTOauxiliar = new ProtocoloDTO();
+            $protocoloDTOauxiliar->setDblIdProtocolo($documento);
+            $protocoloDTOauxiliar->retStrStaProtocolo();
+            $protocoloRN = new ProtocoloRN();
+            $retProtoculoDTO = $protocoloRN->consultarRN0186($protocoloDTOauxiliar);
+
+            if($retProtoculoDTO->getStrStaProtocolo() != ProtocoloRN::$TP_DOCUMENTO_GERADO){
+                throw new InfraException('A alteração deve ser apenas de documentos internos.');
+            }
+
 
             //Altera os Destinatários e Interessados
             $arrParticipantes = array();
