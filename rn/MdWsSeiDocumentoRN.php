@@ -165,7 +165,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                     if (
                             ($aux->getNumIdSerie() == $id || !$id) &&
                             (($nomeFormatado && strpos(utf8_encode($objDtoFormatado), $nomeFormatado) !== false) || !$nomeFormatado) &&
-                            (in_array($aux->getStrStaAplicabilidade(), $aplicabilidade) == $aplicabilidade || !$aplicabilidade)
+                            (in_array($aux->getStrStaAplicabilidade(), $aplicabilidade) == $aplicabilidade || !$aplicabilidade[0])
                     ) {
                         $arrayRetorno[] = array(
                             "id" => $aux->getNumIdSerie(),
