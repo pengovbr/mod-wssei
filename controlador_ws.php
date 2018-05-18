@@ -539,6 +539,35 @@ $app->group('/api/v1',function(){
             }
             //return $response->withJSON();
         });
+
+        $this->post('/linkedicao', function ($request, $response, $args) {
+            try {
+                session_start();
+
+                if(empty($request->getParam('id_documento')))
+                    throw new InfraException('Deve ser passado valor para o (id_documento).');
+
+                // Recupera o id do procedimento
+                $protocoloDTO = new DocumentoDTO();
+                $protocoloDTO->setDblIdDocumento($request->getParam('id_documento'));
+                $protocoloDTO->retDblIdProcedimento();
+                $protocoloRN = new DocumentoRN();
+                $protocoloDTO = $protocoloRN->consultarRN0005($protocoloDTO);
+
+                if(empty($protocoloDTO))
+                    throw new InfraException('Documento não encontrado');
+
+                $linkassinado = SessaoSEI::getInstance()->assinarLink('controlador.php?acao=editor_montar&acao_origem=arvore_visualizar&id_procedimento=' . $protocoloDTO->getDblIdProcedimento() . '&id_documento=' . $request->getParam('id_documento'));
+
+                return $response->withJSON(
+                    array("link" => $linkassinado, "phpsessid" => session_id())
+                );
+
+            } catch (InfraException $e) {
+                die($e->getStrDescricao());
+            }
+        });
+
         
     })->add( new TokenValidationMiddleware());
 
