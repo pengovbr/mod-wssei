@@ -197,8 +197,11 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
      */
     protected function pesquisarTemplateDocumentoConectado(MdWsSeiDocumentoDTO $dto) {
         try {
+
             $id_tipo_documento = $dto->getNumIdTipoDocumento();
-            $idTipoProcedimento = $dto->getNumIdTipoProcedimento();
+            //$idTipoProcedimento = $dto->getNumIdTipoProcedimento();
+            $idProcedimento = $dto->getNumIdProcesso();
+            //$idProcedimento = $dto->getNumProcedimento();
             //Consulta os assuntos sugeridos para um tipo de documento
             $relSerieAssuntoDTO = new RelSerieAssuntoDTO();
             $relSerieAssuntoDTO->setNumIdSerie($id_tipo_documento); // FILTRO PELO TIPO DE DOCUMENTO
@@ -240,34 +243,74 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                     $permiteDestinatarios = false;
             }
 
+            $interessados = null;
+            $arrayRetorno["nivelAcessoPermitido"] = null;
+
+            if ($idProcedimento) {
+                $objParticipanteDTO = new ParticipanteDTO();
+                $objParticipanteDTO->setDblIdProtocolo($idProcedimento);
+                $objParticipanteDTO->retStrNomeContato();
+                $objParticipanteDTO->retNumIdContato();
+
+                $objParticipanteRN = new ParticipanteRN();
+                $arrParticipanteDTO = $objParticipanteRN->listarRN0189($objParticipanteDTO);
+
+                if ($arrParticipanteDTO) {
+                    foreach ($arrParticipanteDTO as $obj) {
+                        $interessados[] = array(
+                            "id" => $obj->getNumIdContato(),
+                            "nome" => $obj->getStrNomeContato()
+                        );
+                    }
+                }
+
+                $objProcedimentoDTO = new ProcedimentoDTO();
+                $objProcedimentoDTO->setDblIdProcedimento($idProcedimento);
+                $objProcedimentoDTO->retNumIdTipoProcedimento();
+
+                $objProcedimentoRN = new ProcedimentoRN();
+                $objProcedimentoDTO = $objProcedimentoRN->listarRN0278($objProcedimentoDTO);
+
+                $nivelAcessoPermitidoDTO = new NivelAcessoPermitidoDTO();
+                $nivelAcessoPermitidoDTO->setNumIdTipoProcedimento($objProcedimentoDTO[0]->getNumIdTipoProcedimento()); // FILTRO PELO TIPO DE PROCESSO
+                $nivelAcessoPermitidoDTO->retStrStaNivelAcesso(); // ID DO NÍVEL DE ACESSO - ProtocoloRN::$NA_PUBLICO, ProtocoloRN::$NA_RESTRITO ou ProtocoloRN::$NA_SIGILOSO
+
+
+                $nivelAcessoPermitidoRN = new NivelAcessoPermitidoRN();
+                $arrNivelAcessoPermitido = $nivelAcessoPermitidoRN->listar($nivelAcessoPermitidoDTO);
+                if ($arrNivelAcessoPermitido) {
+                    foreach ($arrNivelAcessoPermitido as $nivel) {
+                        if ($nivel->getStrStaNivelAcesso() == ProtocoloRN::$NA_PUBLICO)
+                            $publico = true;
+                        if ($nivel->getStrStaNivelAcesso() == ProtocoloRN::$NA_RESTRITO)
+                            $restrito = true;
+                        if ($nivel->getStrStaNivelAcesso() == ProtocoloRN::$NA_SIGILOSO)
+                            $sigiloso = true;
+                    }
+                }
+
+                $arrayRetorno["nivelAcessoPermitido"] = array(
+                    "publico" => $publico ? $publico : false,
+                    "restrito" => $restrito ? $restrito : false,
+                    "sigiloso" => $sigiloso ? $sigiloso : false,
+                );
+
+
+            /*    echo('<pre>');
+                var_export($arrayRetorno["nivelAcessoPermitido"]);
+                die('</pre>');*/
+
+
+
+            }
+
+
             $arrayRetorno = array(
                 "assuntos" => $assuntos,
+                "interessados" => empty($interessados) ? array() : $interessados,
+                "nivelAcessoPermitido" => empty($arrayRetorno["nivelAcessoPermitido"]) ? array() : $arrayRetorno["nivelAcessoPermitido"],
                 "permiteInteressados" => $permiteInteressados,
                 "permiteDestinatarios" => $permiteDestinatarios
-            );
-
-
-            //CONSULTA QUE LISTA TODOS OS NÍVES DE ACESSOS PERMITIDOS PARA OS TIPO DE PROCESSO
-            $nivelAcessoPermitidoDTO = new NivelAcessoPermitidoDTO();
-            $nivelAcessoPermitidoDTO->setNumIdTipoProcedimento($idTipoProcedimento); // FILTRO PELO TIPO DE PROCESSO
-            $nivelAcessoPermitidoDTO->retStrStaNivelAcesso(); // ID DO NÍVEL DE ACESSO - ProtocoloRN::$NA_PUBLICO, ProtocoloRN::$NA_RESTRITO ou ProtocoloRN::$NA_SIGILOSO
-            // A CONSULTA RETORNARÁ OS NÍVEL DE ACESSO PERMITIDOS PARA O TIPO DE PROCESSO ESPECIFICADO NO DTO. AQUELES QUE NÃO FOREM RETORNADOS NESSA
-            $nivelAcessoPermitidoRN = new NivelAcessoPermitidoRN();
-            $arrNivelAcessoPermitido = $nivelAcessoPermitidoRN->listar($nivelAcessoPermitidoDTO);
-            if ($arrNivelAcessoPermitido) {
-                foreach ($arrNivelAcessoPermitido as $nivel) {
-                    if ($nivel->getStrStaNivelAcesso() == ProtocoloRN::$NA_PUBLICO)
-                        $publico = true;
-                    if ($nivel->getStrStaNivelAcesso() == ProtocoloRN::$NA_RESTRITO)
-                        $restrito = true;
-                    if ($nivel->getStrStaNivelAcesso() == ProtocoloRN::$NA_SIGILOSO)
-                        $sigiloso = true;
-                }
-            }
-            $arrayRetorno["nivelAcessoPermitido"] = array(
-                "publico" => $publico ? $publico : false,
-                "restrito" => $restrito ? $restrito : false,
-                "sigiloso" => $sigiloso ? $sigiloso : false,
             );
 
 
@@ -865,7 +908,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             }
             $relProtocoloProtocoloDTOConsulta->setDblIdProtocolo1($documentoDTOParam->getDblIdProcedimento());
             $relProtocoloProtocoloDTOConsulta->setStrStaProtocoloProtocolo2(
-                    array(ProtocoloRN::$TP_DOCUMENTO_GERADO, ProtocoloRN::$TP_DOCUMENTO_RECEBIDO), InfraDTO::$OPER_IN
+                array(ProtocoloRN::$TP_DOCUMENTO_GERADO, ProtocoloRN::$TP_DOCUMENTO_RECEBIDO), InfraDTO::$OPER_IN
             );
             $relProtocoloProtocoloDTOConsulta->retStrSinCiencia();
             $relProtocoloProtocoloDTOConsulta->retDblIdProtocolo1();
@@ -1356,7 +1399,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $objParticipanteDTO->retNumSequencia();
             $objParticipanteDTO->setOrdStrStaParticipacao(InfraDTO::$TIPO_ORDENACAO_ASC);
             $objParticipanteDTO->setOrdNumSequencia(InfraDTO::$TIPO_ORDENACAO_ASC);
-            
+
             $objParticipanteRN = new ParticipanteRN();
             $objArrParticipanteDTO = $objParticipanteRN->listarRN0189($objParticipanteDTO);
             $arrDadosDocumento['interessados'] = array();

@@ -442,8 +442,9 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiDocumentoRN();
             $dto = new MdWsSeiDocumentoDTO();
             $dto->setNumIdTipoDocumento($request->getParam('id'));
-            $dto->setNumIdTipoProcedimento($request->getParam('idTipoProcedimento'));
-            
+            //$dto->setNumIdTipoProcedimento($request->getParam('idTipoProcedimento'));
+            $dto->setNumIdProcesso($request->getParam('procedimento'));
+
             return $response->withJSON($rn->pesquisarTemplateDocumento($dto));
         });
         $this->get('/baixar/anexo/{protocolo}', function($request, $response, $args){
