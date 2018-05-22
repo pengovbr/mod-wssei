@@ -929,6 +929,8 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
 
             $relProtocoloProtocoloRN = new RelProtocoloProtocoloRN();
             $ret = $relProtocoloProtocoloRN->listarRN0187($relProtocoloProtocoloDTOConsulta);
+
+
             $arrDocumentos = array();
             if ($ret) {
                 $unidadeDTO = new UnidadeDTO();
@@ -973,6 +975,8 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $anexoRN = new AnexoRN();
             $observacaoRN = new ObservacaoRN();
             $publicacaoRN = new PublicacaoRN();
+
+
             /** @var RelProtocoloProtocoloDTO $relProtocoloProtocoloDTO */
             foreach ($ret as $relProtocoloProtocoloDTO) {
                 $documentoDTO = $arrDocumentos[$relProtocoloProtocoloDTO->getDblIdProtocolo2()];
@@ -1027,6 +1031,39 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $objProtocoloRN = new ProtocoloRN();
                 $arrObjProtocoloDTO = $objProtocoloRN->pesquisarRN0967($objPesquisaProtocoloDTO);
 
+
+                //recupera documentos disponibilizados pela unidade atual
+                $objRelBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
+                $objRelBlocoProtocoloDTO->setDistinct(true);
+                $objRelBlocoProtocoloDTO->retDblIdProtocolo();
+                $objRelBlocoProtocoloDTO->setNumIdUnidadeBloco(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+                $objRelBlocoProtocoloDTO->setStrStaTipoBloco(BlocoRN::$TB_ASSINATURA);
+                $objRelBlocoProtocoloDTO->setStrStaEstadoBloco(BlocoRN::$TE_DISPONIBILIZADO);
+
+
+                $objRelBlocoProtocoloRN = new RelBlocoProtocoloRN();
+                $arrDocumentosDisponibilizados = InfraArray::indexarArrInfraDTO($objRelBlocoProtocoloRN->listarRN1291($objRelBlocoProtocoloDTO),'IdProtocolo');
+
+
+                if (isset($arrDocumentosDisponibilizados[$documentoDTOParam->getDblIdProcedimento()])) {
+                    $disponibilizado = "S";
+                } else {
+                    $disponibilizado = "N";
+                }
+
+                $strStaDocumento =  $documentoDTO->getStrStaDocumento();
+                $numIdUnidadeGeradoraProtocolo = $documentoDTO->getNumIdUnidadeGeradoraProtocolo();
+                $numIdUnidadeAtual = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
+                $strSinDisponibilizadoParaOutraUnidade = $disponibilizado;
+
+                $permiteAssinatura = false;
+
+                if(($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO || $strStaDocumento==DocumentoRN::$TD_FORMULARIO_GERADO) &&
+                    ($numIdUnidadeGeradoraProtocolo == $numIdUnidadeAtual && $strSinDisponibilizadoParaOutraUnidade == 'N')){
+                    $permiteAssinatura = true;
+                }
+
+
                 $result[] = array(
                     'id' => $documentoDTO->getDblIdDocumento(),
                     'atributos' => array(
@@ -1052,7 +1089,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                             'ciencia' => $ciencia,
                             'documentoCancelado' => $documentoCancelado,
                             'podeVisualizarDocumento' => $podeVisualizarDocumento ? 'S' : 'N',
-                            'permiteAssinatura' => $arrObjProtocoloDTO ? $arrObjProtocoloDTO[0]->getStrSinAssinado() : ""
+                            'permiteAssinatura' => $permiteAssinatura
                         )
                     )
                 );
