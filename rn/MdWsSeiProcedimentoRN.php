@@ -479,7 +479,8 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $objProtocoloDTO->setStrStaGrauSigilo($procedimentoDTO->getStrStaGrauSigilo());
             
             $objProcedimentoDTO = new ProcedimentoDTO();
-            $objProcedimentoDTO->setNumIdTipoProcedimento($procedimentoDTO->getNumIdTipoProcedimento()); 
+            $objProcedimentoDTO->setNumIdTipoProcedimento($procedimentoDTO->getNumIdTipoProcedimento());
+            $objProcedimentoDTO->setDblIdProcedimento(null);
             $objProcedimentoDTO->setObjProtocoloDTO($objProtocoloDTO);           
             $objProcedimentoDTO->setStrSinGerarPendencia('S');
                         
