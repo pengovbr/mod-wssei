@@ -973,7 +973,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 throw new InfraException('O tipo de busca deve ser (R)ecebidos ou (G)erados');
             }
             $ret = $atividadeRN->listarPendencias($pesquisaPendenciaDTO);
-            $result = $this->montaRetornoListagemProcessos($ret, $usuarioAtribuicaoAtividade);
+            $result = $this->montaRetornoListagemProcessos($ret, $usuarioAtribuicaoAtividade, $mdWsSeiProtocoloDTOParam->getStrSinTipoBusca());
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $pesquisaPendenciaDTO->getNumTotalRegistros());
         } catch (Exception $e) {
@@ -988,7 +988,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
      * @param null $usuarioAtribuicaoAtividade
      * @return array
      */
-    private function montaRetornoListagemProcessos(array $ret, $usuarioAtribuicaoAtividade = null)
+    private function montaRetornoListagemProcessos(array $ret, $usuarioAtribuicaoAtividade = null , $typeSource = null)
     {
         $result = array();
         $protocoloRN = new ProtocoloRN();
@@ -1275,6 +1275,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         'processoAnexado' => $processoAnexado ? 'S' : 'N',
                         'podeReabrirProcesso' => $podeReabrirProcesso ? 'S' : 'N',
                         'podeRegistrarAnotacao' => $podeRegistrarAnotacao ? 'S' : 'N',
+                        'tipo' => $typeSource
                     )
                 )
             );
