@@ -1053,18 +1053,6 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $atividadeDTOConsulta->setNumMaxRegistrosRetorno(1);
             $atividadeDTOConsulta->setOrdNumIdAtividade(InfraDTO::$TIPO_ORDENACAO_DESC);
 
-            $arrAtividades = $atividadeRN->listarRN0036($atividadeDTOConsulta);
-
-            if ($arrAtividades) {
-                /** @var AtividadeDTO $atividadeDTO */
-                $atividadeDTO = $arrAtividades[0];
-                $documentoNovo = $atividadeDTO->getNumIdTarefa() == 1 ? 'S' : 'N';
-                $usuarioAtribuido = $atividadeDTO->getStrNomeUsuarioAtribuicao();
-                $tipoVisualizacao = $atividadeDTO->getNumTipoVisualizacao() == 0 ? 'S' : 'N';
-                if ($atividadeDTO->getNumIdUsuarioVisualizacao() == $usuarioAtribuicaoAtividade) {
-                    $usuarioVisualizacao = 'S';
-                }
-            }
             $arrAtividadePendenciaDTO = array();
             if ($dto instanceof ProcedimentoDTO && $dto->isSetArrObjAtividadeDTO()) {
                 $procedimentoDTO = $dto;
@@ -1086,6 +1074,22 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     $arrAtividadePendenciaDTO = $procedimentoDTO->getArrObjAtividadeDTO();
                 }
             }
+
+            $arrAtividades = $procedimentoDTO->getArrObjAtividadeDTO();
+
+            if ($arrAtividades) {
+                /** @var AtividadeDTO $atividadeDTO */
+                $atividadeDTO = $arrAtividades[0];
+
+                $numTipoVisualizacao=$atividadeDTO->getNumTipoVisualizacao();
+
+                if ($numTipoVisualizacao != AtividadeRN::$TV_NAO_VISUALIZADO &&
+                    $protocoloDTO->getStrStaNivelAcessoGlobal() != ProtocoloRN::$NA_SIGILOSO){
+                    $usuarioVisualizacao = 'S';
+                }
+            }
+
+
             if ($arrAtividadePendenciaDTO) {
                 $atividadePendenciaDTO = $arrAtividadePendenciaDTO[0];
                 if ($atividadePendenciaDTO->getNumTipoVisualizacao() & AtividadeRN::$TV_REMOCAO_SOBRESTAMENTO) {
@@ -1860,6 +1864,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             if($arrIdProcessos){
                 $protocoloRN = new ProtocoloRN();
                 $protocoloDTO = new MdWsSeiProtocoloDTO();
+
                 $protocoloDTO->setDblIdProtocolo($arrIdProcessos, InfraDTO::$OPER_IN);
                 $protocoloDTO->retDblIdProtocolo();
                 $protocoloDTO->retNumIdUnidadeGeradora();
