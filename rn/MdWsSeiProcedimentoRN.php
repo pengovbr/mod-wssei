@@ -558,7 +558,22 @@ class MdWsSeiProcedimentoRN extends InfraRN
 //                $hipoteseLegal = 2;
 //                $grauSigilo = '';
 
+            
+                $objTipoProcedimentoDTO = new TipoProcedimentoDTO();
+                $objTipoProcedimentoDTO->setBolExclusaoLogica(false);
+                $objTipoProcedimentoDTO->retStrNome();
+                $objTipoProcedimentoDTO->retStrSinIndividual();
+                $objTipoProcedimentoDTO->setNumIdTipoProcedimento($tipoProcesso);
 
+                $objTipoProcedimentoRN = new TipoProcedimentoRN();
+                $objTipoProcedimentoDTO = $objTipoProcedimentoRN->consultarRN0267($objTipoProcedimentoDTO);
+
+
+                if ($objTipoProcedimentoDTO->getStrSinIndividual() == 'S') {
+                    if (count($arrInteressados) > 1) {
+                        throw new InfraException('Mais de um Interessado informado.');
+                    }
+                }
                 // PREENCHE OS ASSUNTOS
                 $arrayAssuntos = array();
 
@@ -610,9 +625,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
                 // REALIZA A ALTERAÇÃO DOS DADOS DO PROCESSO
                 $objProcedimentoRN = new ProcedimentoRN();
-                $objProcedimentoRN->alterarRN0202($objProcedimentoDTO);
-    
+                $retorno = $objProcedimentoRN->alterarRN0202($objProcedimentoDTO);
+
             return MdWsSeiRest::formataRetornoSucessoREST(null);
+
+    
+            //return MdWsSeiRest::formataRetornoSucessoREST(null);
         
         } catch (InfraException $e) {
 //            die($e->getStrDescricao());
