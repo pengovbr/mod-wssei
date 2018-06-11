@@ -374,6 +374,10 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $protocoloRN = new ProtocoloRN();
             $retProtoculoDTO = $protocoloRN->consultarRN0186($protocoloDTOauxiliar);
 
+            if(empty($retProtoculoDTO)){
+                throw new InfraException('Documento não encontrado.');
+            }
+
             if($retProtoculoDTO->getStrStaProtocolo() != ProtocoloRN::$TP_DOCUMENTO_RECEBIDO){
                 throw new InfraException('A alteração deve ser apenas de documentos externos.');
             }
@@ -543,6 +547,10 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
             $protocoloDTOauxiliar->retStrStaProtocolo();
             $protocoloRN = new ProtocoloRN();
             $retProtoculoDTO = $protocoloRN->consultarRN0186($protocoloDTOauxiliar);
+
+            if(empty($retProtoculoDTO)){
+                throw new InfraException('Documento não encontrado.');
+            }
 
             if($retProtoculoDTO->getStrStaProtocolo() != ProtocoloRN::$TP_DOCUMENTO_GERADO){
                 throw new InfraException('A alteração deve ser apenas de documentos internos.');
