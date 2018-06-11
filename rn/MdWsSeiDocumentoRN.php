@@ -294,16 +294,10 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                     "restrito" => $restrito ? $restrito : false,
                     "sigiloso" => $sigiloso ? $sigiloso : false,
                 );
-
-
-            /*    echo('<pre>');
-                var_export($arrayRetorno["nivelAcessoPermitido"]);
-                die('</pre>');*/
-
-
-
             }
 
+            if(!$permiteInteressados)
+                $interessados =null;
 
             $arrayRetorno = array(
                 "assuntos" => $assuntos,
@@ -903,6 +897,9 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
      */
     protected function listarDocumentosProcessoConectado(DocumentoDTO $documentoDTOParam) {
         try {
+
+            global $SEI_MODULOS;
+
             $arrDocHtml = array(
                 DocumentoRN::$TD_EDITOR_EDOC,
                 DocumentoRN::$TD_FORMULARIO_AUTOMATICO,
@@ -1079,9 +1076,39 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $strSinDisponibilizadoParaOutraUnidade = $disponibilizado;
 
                 $permiteAssinatura = false;
+                $hasBloco = false;
 
-                if(($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO || $strStaDocumento==DocumentoRN::$TD_FORMULARIO_GERADO) &&
-                    ($numIdUnidadeGeradoraProtocolo == $numIdUnidadeAtual && $strSinDisponibilizadoParaOutraUnidade == 'N')){
+                //recupera blocos disponibilizados para a unidade atual
+                $objRelBlocoUnidadeDTO = new RelBlocoUnidadeDTO();
+                $objRelBlocoUnidadeDTO->retNumIdBloco();
+                $objRelBlocoUnidadeDTO->retStrStaTipoBloco();
+                $objRelBlocoUnidadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+                $objRelBlocoUnidadeDTO->setStrSinRetornado('N');
+                //$objRelBlocoUnidadeDTO->setStrStaEstadoBloco(BlocoRN::$TE_DISPONIBILIZADO);
+
+                $objRelBlocoUnidadeRN = new RelBlocoUnidadeRN();
+                $arrObjRelBlocoUnidadeDTO = $objRelBlocoUnidadeRN->listarRN1304($objRelBlocoUnidadeDTO);
+
+
+                //se tem blocos disponibilizados
+                if (count($arrObjRelBlocoUnidadeDTO)){
+                    //busca documentos dos blocos que foram disponibilizados para a unidade atual
+                    $objRelBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
+                    $objRelBlocoProtocoloDTO->retDblIdProtocolo();
+                    $objRelBlocoProtocoloDTO->retNumIdUnidadeBloco();
+                    $objRelBlocoProtocoloDTO->retStrStaTipoBloco();
+                    $objRelBlocoProtocoloDTO->retStrStaProtocoloProtocolo();
+                    $objRelBlocoProtocoloDTO->retDblIdProcedimentoDocumento();
+                    $objRelBlocoProtocoloDTO->setNumIdBloco(InfraArray::converterArrInfraDTO($arrObjRelBlocoUnidadeDTO,'IdBloco'),InfraDTO::$OPER_IN);
+
+                    $objRelBlocoProtocoloRN = new RelBlocoProtocoloRN();
+                    $arrObjRelBlocoProtocoloDTO = $objRelBlocoProtocoloRN->listarRN1291($objRelBlocoProtocoloDTO);
+                    $hasBloco = true;
+                }
+
+
+                if((($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO || $strStaDocumento==DocumentoRN::$TD_FORMULARIO_GERADO) &&
+                    ($numIdUnidadeGeradoraProtocolo == $numIdUnidadeAtual && $strSinDisponibilizadoParaOutraUnidade == 'N')) || $hasBloco){
                     $permiteAssinatura = true;
                 }
 
