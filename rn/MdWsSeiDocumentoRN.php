@@ -987,6 +987,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $ciencia = 'N';
                 $documentoCancelado = $documentoDTO->getStrStaEstadoProtocolo() == ProtocoloRN::$TE_DOCUMENTO_CANCELADO ? 'S' : 'N';
 
+
                 if (!in_array($documentoDTO->getStrStaDocumento(), $arrDocHtml)) {
                     $anexoDTOConsulta = new AnexoDTO();
                     $anexoDTOConsulta->retStrNome();
@@ -1005,15 +1006,28 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                     }
                 }
                 $observacaoDTOConsulta = new ObservacaoDTO();
+
+
                 $observacaoDTOConsulta->setNumMaxRegistrosRetorno(1);
                 $observacaoDTOConsulta->setOrdNumIdObservacao(InfraDTO::$TIPO_ORDENACAO_DESC);
                 $observacaoDTOConsulta->retStrDescricao();
                 $resultObservacao = $observacaoRN->listarRN0219($observacaoDTOConsulta);
-                if ($resultObservacao) {
-                    /** @var ObservacaoDTO $observacaoDTO */
+
+
+                $objProtocoloDTO = new ProtocoloDTO();
+                $objProtocoloDTO->setDblIdProtocolo($relProtocoloProtocoloDTO->getDblIdProtocolo2());
+                $objProtocoloDTO->retStrDescricao();
+                $objTempProtocoloRN = new ProtocoloRN();
+                $objProtocoloDTO = $objTempProtocoloRN->consultarRN0186($objProtocoloDTO);
+                $informacao = $objProtocoloDTO->getStrDescricao();
+
+
+             /*   if ($resultObservacao) {
+                    // @var ObservacaoDTO $observacaoDTO
                     $observacaoDTO = $resultObservacao[0];
                     $informacao = substr($observacaoDTO->getStrDescricao(), 0, 250);
-                }
+                }*/
+
                 $publicacaoDTOConsulta = new PublicacaoDTO();
                 $publicacaoDTOConsulta->setDblIdDocumento($documentoDTO->getDblIdDocumento());
                 $publicacaoDTOConsulta->retDblIdDocumento();
