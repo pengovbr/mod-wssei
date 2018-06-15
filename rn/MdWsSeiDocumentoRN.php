@@ -197,7 +197,31 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
      */
     protected function pesquisarTemplateDocumentoConectado(MdWsSeiDocumentoDTO $dto) {
         try {
+            
+            $objProcedimentoDTO = new ProcedimentoDTO();
+            $objProcedimentoDTO->setDblIdProcedimento($dto->getNumIdProcesso());
+            $objProcedimentoDTO->retNumIdTipoProcedimento();
 
+            $objProcedimentoRN = new ProcedimentoRN();
+            $objProcedimentoDTO = $objProcedimentoRN->listarRN0278($objProcedimentoDTO);
+
+            if (!$objProcedimentoDTO) {
+                throw new Exception('Não foi encontrado processo com id ' . $dto->getNumIdProcesso());
+            }
+                        
+            // Consulta se o tipo de documento permite a inclusão de destinatários e interessados
+            $serieDTO = new SerieDTO();
+            $serieDTO->setNumIdSerie($dto->getNumIdTipoDocumento());
+            $serieDTO->retStrSinDestinatario();
+            $serieDTO->retStrSinInteressado();
+
+            $serieRN = new SerieRN();
+            $arrSerieDTO = $serieRN->listarRN0646($serieDTO);
+            
+            if (!$arrSerieDTO) {
+                throw new Exception('Não foi encontrado processo um tipo de processo ' . $dto->getNumIdTipoDocumento());
+            }
+            
             $id_tipo_documento = $dto->getNumIdTipoDocumento();
             //$idTipoProcedimento = $dto->getNumIdTipoProcedimento();
             $idProcedimento = $dto->getNumIdProcesso();
@@ -223,15 +247,6 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 }
             }
 
-            // Consulta se o tipo de documento permite a inclusão de destinatários e interessados
-            $serieDTO = new SerieDTO();
-            $serieDTO->setNumIdSerie($id_tipo_documento);
-            $serieDTO->retStrSinDestinatario();
-            $serieDTO->retStrSinInteressado();
-
-            $serieRN = new SerieRN();
-            $arrSerieDTO = $serieRN->listarRN0646($serieDTO);
-
             $serie = "";
             if ($arrSerieDTO) {
                 $serie = $arrSerieDTO[0];
@@ -245,7 +260,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
 
             $interessados = null;
             $arrayRetorno["nivelAcessoPermitido"] = null;
-
+            
             if ($idProcedimento) {
                 $objParticipanteDTO = new ParticipanteDTO();
                 $objParticipanteDTO->setDblIdProtocolo($idProcedimento);
@@ -264,13 +279,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                     }
                 }
 
-                $objProcedimentoDTO = new ProcedimentoDTO();
-                $objProcedimentoDTO->setDblIdProcedimento($idProcedimento);
-                $objProcedimentoDTO->retNumIdTipoProcedimento();
-
-                $objProcedimentoRN = new ProcedimentoRN();
-                $objProcedimentoDTO = $objProcedimentoRN->listarRN0278($objProcedimentoDTO);
-
+                
                 $nivelAcessoPermitidoDTO = new NivelAcessoPermitidoDTO();
                 $nivelAcessoPermitidoDTO->setNumIdTipoProcedimento($objProcedimentoDTO[0]->getNumIdTipoProcedimento()); // FILTRO PELO TIPO DE PROCESSO
                 $nivelAcessoPermitidoDTO->retStrStaNivelAcesso(); // ID DO NÍVEL DE ACESSO - ProtocoloRN::$NA_PUBLICO, ProtocoloRN::$NA_RESTRITO ou ProtocoloRN::$NA_SIGILOSO
@@ -1084,7 +1093,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                 $objRelBlocoUnidadeDTO->retStrStaTipoBloco();
                 $objRelBlocoUnidadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
                 $objRelBlocoUnidadeDTO->setStrSinRetornado('N');
-                //$objRelBlocoUnidadeDTO->setStrStaEstadoBloco(BlocoRN::$TE_DISPONIBILIZADO);
+                $objRelBlocoUnidadeDTO->setStrStaEstadoBloco(BlocoRN::$TE_DISPONIBILIZADO);
 
                 $objRelBlocoUnidadeRN = new RelBlocoUnidadeRN();
                 $arrObjRelBlocoUnidadeDTO = $objRelBlocoUnidadeRN->listarRN1304($objRelBlocoUnidadeDTO);
@@ -1100,10 +1109,14 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
                     $objRelBlocoProtocoloDTO->retStrStaProtocoloProtocolo();
                     $objRelBlocoProtocoloDTO->retDblIdProcedimentoDocumento();
                     $objRelBlocoProtocoloDTO->setNumIdBloco(InfraArray::converterArrInfraDTO($arrObjRelBlocoUnidadeDTO,'IdBloco'),InfraDTO::$OPER_IN);
-
+                    $objRelBlocoProtocoloDTO->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
+                    
                     $objRelBlocoProtocoloRN = new RelBlocoProtocoloRN();
                     $arrObjRelBlocoProtocoloDTO = $objRelBlocoProtocoloRN->listarRN1291($objRelBlocoProtocoloDTO);
-                    $hasBloco = true;
+                    
+                    if(count($arrObjRelBlocoProtocoloDTO)){
+                        $hasBloco = true;
+                    }
                 }
 
 

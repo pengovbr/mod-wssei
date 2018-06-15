@@ -14,16 +14,17 @@ require_once dirname(__FILE__) . '/vendor/autoload.php';
 session_start();
 
 
-//$_POST['documento_id'] = '105';
-//$_POST['token'] = 'YTE5YzgzNDM0OWFhMDNlNzAxMWY3OWNkN2UwZTYwZDdlZDAxNzFkM2FUVnhUV2sxYnoxOGZHazFjVTFwTlc4OWZId3dmSHc9';
+//$_REQUEST['documento_id'] = '105';
+//$_REQUEST['token'] = 'YTE5YzgzNDM0OWFhMDNlNzAxMWY3OWNkN2UwZTYwZDdlZDAxNzFkM2FUVnhUV2sxYnoxOGZHazFjVTFwTlc4OWZId3dmSHc9';
 
-if(empty($_POST['documento_id']))
+if(empty($_REQUEST['id_documento']))
     throw new InfraException('Deve ser passado valor para o (id_documento).');
 
-if(empty($_POST['token']))
+if(empty($_REQUEST['token']))
     throw new InfraException('Deve ser passado token no header.');
 
-$token = $_POST['token'];
+
+$token = $_REQUEST['token'];
 
 if(!$token)
     return new InfraException('Acesso negado!');
@@ -46,11 +47,11 @@ $usuarioDTO->setStrSenha($tokenData[1]);
 $contextoDTO->setNumIdContexto(null);
 $orgaoDTO = new OrgaoDTO();
 $orgaoDTO->setNumIdOrgao(null);
-$rn->apiAutenticar($usuarioDTO, $contextoDTO, $orgaoDTO);
+$return = $rn->apiAutenticar($usuarioDTO, $contextoDTO, $orgaoDTO);
 
 // Recupera o id do procedimento
 $protocoloDTO = new DocumentoDTO();
-$protocoloDTO->setDblIdDocumento($_POST['documento_id']);
+$protocoloDTO->setDblIdDocumento($_REQUEST['id_documento']);
 $protocoloDTO->retDblIdProcedimento();
 $protocoloRN = new DocumentoRN();
 $protocoloDTO = $protocoloRN->consultarRN0005($protocoloDTO);
@@ -58,8 +59,8 @@ $protocoloDTO = $protocoloRN->consultarRN0005($protocoloDTO);
 if(empty($protocoloDTO))
     return new InfraException('Documento não encontrado');
 
-$linkassinado = SessaoSEI::getInstance()->assinarLink('/sei/controlador.php?acao=editor_montar&acao_origem=arvore_visualizar&id_procedimento=' . $protocoloDTO->getDblIdProcedimento() . '&id_documento=' . $_POST['documento_id']);
 
+$linkassinado = SessaoSEI::getInstance()->assinarLink('/sei/controlador.php?acao=editor_montar&acao_origem=arvore_visualizar&id_procedimento=' . $protocoloDTO->getDblIdProcedimento() . '&id_documento=' . $_REQUEST['id_documento']);
 
  header('Location: ' . $linkassinado);
 

@@ -991,7 +991,7 @@ $app->group('/api/v1',function(){
 
             $especificacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('especificacao'));
             $observacoesFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacoes'));
-   
+                        
             //Atribuir parametros para o DTO
             $dto->setNumIdProcedimento($request->getParam('id'));
             $dto->setArrObjInteressado($interessados);
