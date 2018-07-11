@@ -183,13 +183,28 @@ class MdWsSeiUsuarioRN extends InfraRN {
             $this->setaVariaveisAutenticacao(get_object_vars($ret));
             
             $objInfraDadoUsuario = new InfraDadoUsuario(SessaoSEI::getInstance());
-            $teste = $objInfraDadoUsuario->getValor('ASSINATURA_CARGO_FUNCAO_'.SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-            
+
+            //Obtem os dados do carto da assinatura
+            $numIdCargoAssinatura = null;
+            $strNomeCargoAssinatura = $objInfraDadoUsuario->getValor('ASSINATURA_CARGO_FUNCAO_'.SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+
+            $objAssinanteDTO = new AssinanteDTO();
+            $objAssinanteDTO->setStrCargoFuncao($strNomeCargoAssinatura);
+            $objAssinanteDTO->retNumIdAssinante();
+
+            $objAssinanteRN = new AssinanteRN();
+
+            if($objAssinanteRN->contarRN1340($objAssinanteDTO) == 1){
+                $objAssinanteDTO = $objAssinanteRN->consultarRN1338($objAssinanteDTO);
+                $numIdCargoAssinatura = $objAssinanteDTO->getNumIdAssinante();
+            }
+
             //dados usuário
             $ret->IdUnidadeAtual = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
             $ret->sigla = $usuarioDTO->getStrSigla();
             $ret->nome = SessaoSEI::getInstance()->getStrNomeUsuario();
-            $ret->ultimoCargoAssinatura = $teste;
+            $ret->idUltimoCargoAssinatura = $numIdCargoAssinatura;
+            $ret->ultimoCargoAssinatura = $strNomeCargoAssinatura;
             
             $token = $this->tokenEncode($usuarioDTO->getStrSigla(), $usuarioDTO->getStrSenha(), $orgao, $contexto);
 

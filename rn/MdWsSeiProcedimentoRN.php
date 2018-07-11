@@ -547,18 +547,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $nivelAcesso        = $procedimentoDTO->getNumNivelAcesso();
                 $hipoteseLegal      = $procedimentoDTO->getNumIdHipoteseLegal();
                 $grauSigilo         = $procedimentoDTO->getStrStaGrauSigilo();
-                
-                // PARÂMETROS DE ENTRADA
-//                $tipoProcesso = 100000349;
-//                $especificacao = 'descrição alterada';
-//                $arrAssuntos = array(array('id' => 2));
-//                $arrInteressados = array(array('id' => 100000003));
-//                $observacoes = "observação de teste";
-//                $nivelAcesso = 1;
-//                $hipoteseLegal = 2;
-//                $grauSigilo = '';
 
-            
                 $objTipoProcedimentoDTO = new TipoProcedimentoDTO();
                 $objTipoProcedimentoDTO->setBolExclusaoLogica(false);
                 $objTipoProcedimentoDTO->retStrNome();
@@ -569,7 +558,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $objTipoProcedimentoDTO = $objTipoProcedimentoRN->consultarRN0267($objTipoProcedimentoDTO);
 
 
-                if ($objTipoProcedimentoDTO->getStrSinIndividual() == 'S') {
+                if ($objTipoProcedimentoDTO && $objTipoProcedimentoDTO->getStrSinIndividual() == 'S') {
                     if (count($arrInteressados) > 1) {
                         throw new InfraException('Mais de um Interessado informado.');
                     }
@@ -598,10 +587,6 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         $arrayParticipantes[] = $objParticipanteDTO;
                     }
                 }
-//                
-//                var_dump($arrayParticipantes);
-//                die();
-                
                 // EDITA AS OBSERVAÇÕES 
                 $objObservacaoDTO = new ObservacaoDTO();
                 $objObservacaoDTO->setStrDescricao($observacoes);
@@ -988,9 +973,9 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $pesquisaPendenciaDTO->setStrSinInicial('N');
             } else if ($mdWsSeiProtocoloDTOParam->getStrSinTipoBusca() == MdWsSeiProtocoloDTO::SIN_TIPO_BUSCA_G) {
                 $pesquisaPendenciaDTO->setStrSinInicial('S');
-            } else {
+            } /* else {
                 throw new InfraException('O tipo de busca deve ser (R)ecebidos ou (G)erados');
-            }
+            }*/
             $ret = $atividadeRN->listarPendencias($pesquisaPendenciaDTO);
             $result = $this->montaRetornoListagemProcessos($ret, $usuarioAtribuicaoAtividade, $mdWsSeiProtocoloDTOParam->getStrSinTipoBusca());
 
@@ -1009,6 +994,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
      */
     private function montaRetornoListagemProcessos(array $ret, $usuarioAtribuicaoAtividade = null , $typeSource = null)
     {
+
         $result = array();
         $protocoloRN = new ProtocoloRN();
         foreach ($ret as $dto) {
@@ -1094,7 +1080,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 }
             }
 
-            $arrAtividades = $procedimentoDTO->getArrObjAtividadeDTO();
+            $arrAtividades = $procedimentoDTO ? $procedimentoDTO->getArrObjAtividadeDTO() : null;
 
             if ($arrAtividades) {
                 /** @var AtividadeDTO $atividadeDTO */
@@ -1251,6 +1237,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             }
 
             $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
+            $processoGeradoRecebido = $dto->getNumIdUnidadeGeradoraProtocolo() == SessaoSEI::getInstance()->getNumIdUnidadeAtual() ? 'G' : 'R';
 
             $result[] = array(
                 'id' => $protocoloDTO->getDblIdProtocolo(),
@@ -1294,7 +1281,8 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         'processoAnexado' => $processoAnexado ? 'S' : 'N',
                         'podeReabrirProcesso' => $podeReabrirProcesso ? 'S' : 'N',
                         'podeRegistrarAnotacao' => $podeRegistrarAnotacao ? 'S' : 'N',
-                        'tipo' => $typeSource
+                        'tipo' => $typeSource,
+                        'processoGeradoRecebido' => $processoGeradoRecebido
                     )
                 )
             );
