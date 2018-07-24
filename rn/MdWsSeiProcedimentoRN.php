@@ -1080,10 +1080,8 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 }
             }
 
-            $arrAtividades = $procedimentoDTO ? $procedimentoDTO->getArrObjAtividadeDTO() : null;
-
+            /*$arrAtividades = $procedimentoDTO ? $procedimentoDTO->getArrObjAtividadeDTO() : null;
             if ($arrAtividades) {
-                /** @var AtividadeDTO $atividadeDTO */
                 $atividadeDTO = $arrAtividades[0];
 
                 $numTipoVisualizacao=$atividadeDTO->getNumTipoVisualizacao();
@@ -1092,8 +1090,25 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     $protocoloDTO->getStrStaNivelAcessoGlobal() != ProtocoloRN::$NA_SIGILOSO){
                     $usuarioVisualizacao = 'S';
                 }
-            }
+            }*/
 
+			$objAtividadesAbertasDTO = new AtividadeDTO();
+            $objAtividadesAbertasDTO->retNumIdAtividade();
+            $objAtividadesAbertasDTO->retNumTipoVisualizacao();
+            $objAtividadesAbertasDTO->setDthConclusao(null);
+            $objAtividadesAbertasDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+            $objAtividadesAbertasDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $arrObjAtividadesAbertasDTO = $atividadeRN->listarRN0036($objAtividadesAbertasDTO);
+
+            $numTipoVisualizacao=$arrObjAtividadesAbertasDTO[0]->getNumTipoVisualizacao();
+
+            if ($numTipoVisualizacao && ($numTipoVisualizacao == AtividadeRN::$TV_NAO_VISUALIZADO)){
+                $usuarioVisualizacao = 'N';
+            }
+            else {
+                $usuarioVisualizacao = 'S';
+            }
+			
 
             if ($arrAtividadePendenciaDTO) {
                 $atividadePendenciaDTO = $arrAtividadePendenciaDTO[0];
