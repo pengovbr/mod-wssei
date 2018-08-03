@@ -39,7 +39,7 @@ class TesteAtividade {
         $rn = new MdWsSeiAtividadeRN();
         $dto = $rn->encapsulaLancarAndamentoProcesso(array(
             'protocolo' => 30,
-            'descricao' => 'La vamos nÃ³s!'
+            'descricao' => 'La vamos nós!'
         ));
         var_dump($rn->lancarAndamentoProcesso($dto));
     }

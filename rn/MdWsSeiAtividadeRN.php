@@ -60,7 +60,7 @@ class MdWsSeiAtividadeRN extends AtividadeRN {
     }
 
     /**
-     * MÃ©todo que encapsula os dados para o cadastramento do andamento do processo
+     * Método que encapsula os dados para o cadastramento do andamento do processo
      * @param array $post
      * @return AtualizarAndamentoDTO
      */
@@ -83,9 +83,9 @@ class MdWsSeiAtividadeRN extends AtividadeRN {
     }
 
     /**
-     * MÃ©todo que cadastra o andamento manual de um processo
+     * Método que cadastra o andamento manual de um processo
      * @param EntradaLancarAndamentoAPI $entradaLancarAndamentoAPIParam
-     * @info usar o mÃ©todo auxiliar encapsulaLancarAndamentoProcesso para faciliar
+     * @info usar o método auxiliar encapsulaLancarAndamentoProcesso para faciliar
      * @return array
      */
     protected function lancarAndamentoProcessoControlado(EntradaLancarAndamentoAPI $entradaLancarAndamentoAPIParam){
@@ -93,14 +93,14 @@ class MdWsSeiAtividadeRN extends AtividadeRN {
             $seiRN = new SeiRN();
             $seiRN->lancarAndamento($entradaLancarAndamentoAPIParam);
 
-            return MdWsSeiRest::formataRetornoSucessoREST('ObservaÃ§Ã£o cadastrada com sucesso!');
+            return MdWsSeiRest::formataRetornoSucessoREST('Observação cadastrada com sucesso!');
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
 
     /**
-     * MÃ©todo clonado de AtividadeRN::listarPendenciasRN0754Conectado com alteraÃ§Ãµes para pesquisa de processo
+     * Método clonado de AtividadeRN::listarPendenciasRN0754Conectado com alterações para pesquisa de processo
      * @param MdWsSeiPesquisarPendenciaDTO $objPesquisaPendenciaDTO
      * @return array
      * @throws InfraException
@@ -236,13 +236,13 @@ class MdWsSeiAtividadeRN extends AtividadeRN {
             $objAtividadeDTO->setOrdNumIdAtividade(InfraDTO::$TIPO_ORDENACAO_DESC);
 
 
-            //paginaÃ§Ã£o
+            //paginação
             $objAtividadeDTO->setNumMaxRegistrosRetorno($objPesquisaPendenciaDTO->getNumMaxRegistrosRetorno());
             $objAtividadeDTO->setNumPaginaAtual($objPesquisaPendenciaDTO->getNumPaginaAtual());
 
             $arrAtividadeDTO = $this->listarRN0036($objAtividadeDTO);
 
-            //paginaÃ§Ã£o
+            //paginação
             $objPesquisaPendenciaDTO->setNumTotalRegistros($objAtividadeDTO->getNumTotalRegistros());
             $objPesquisaPendenciaDTO->setNumRegistrosPaginaAtual($objAtividadeDTO->getNumRegistrosPaginaAtual());
 
@@ -331,7 +331,7 @@ class MdWsSeiAtividadeRN extends AtividadeRN {
 
                     $objProcedimentoDTO = $arr[$objAtividadeDTO->getDblIdProtocolo()];
 
-                    //pode nÃ£o existir se o procedimento foi excluÃ­do
+                    //pode não existir se o procedimento foi excluído
                     if ($objProcedimentoDTO != null) {
 
                         $dblIdProcedimento = $objProcedimentoDTO->getDblIdProcedimento();
@@ -414,7 +414,7 @@ class MdWsSeiAtividadeRN extends AtividadeRN {
     }
 
     /**
-     * Sobrescrevendo mÃ©todo para colocar paginaÃ§Ã£o
+     * Sobrescrevendo método para colocar paginação
      * @param ProcedimentoDTO $objProcedimentoDTO
      * @return mixed
      * @throws InfraException
@@ -443,11 +443,11 @@ class MdWsSeiAtividadeRN extends AtividadeRN {
             $objAcessoRN = new AcessoRN();
 
             if ($objAcessoRN->consultar($objAcessoDTO) == null){
-                $objInfraException->adicionarValidacao('UsuÃ¡rio atual nÃ£o possui credencial de acesso ao processo '.$objProtocoloDTO->getStrProtocoloFormatado().' nesta unidade.');
+                $objInfraException->adicionarValidacao('Usuário atual não possui credencial de acesso ao processo '.$objProtocoloDTO->getStrProtocoloFormatado().' nesta unidade.');
             }
 
             if ($objProtocoloDTO->getStrStaNivelAcessoGlobal()!=ProtocoloRN::$NA_SIGILOSO){
-                $objInfraException->adicionarValidacao('NÃ£o Ã© possÃ­vel listar credenciais de acesso para um processo nÃ£o sigiloso ('.$objProtocoloDTO->getStrProtocoloFormatado().').');
+                $objInfraException->adicionarValidacao('Não é possível listar credenciais de acesso para um processo não sigiloso ('.$objProtocoloDTO->getStrProtocoloFormatado().').');
             }
 
             $objInfraException->lancarValidacoes();
