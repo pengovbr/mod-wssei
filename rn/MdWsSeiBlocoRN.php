@@ -157,7 +157,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             if($blocoDTOConsulta->getNumMaxRegistrosRetorno()){
                 $relBlocoProtocoloDTOConsulta->setNumMaxRegistrosRetorno($blocoDTOConsulta->getNumMaxRegistrosRetorno());
             }else{
-                $relBlocoProtocoloDTOConsulta->setNumMaxRegistrosRetorno(10);
+                $relBlocoProtocoloDTOConsulta->setNumMaxRegistrosRetorno(10000000);
             }
             if(!is_null($blocoDTOConsulta->getNumPaginaAtual())){
                 $relBlocoProtocoloDTOConsulta->setNumPaginaAtual($blocoDTOConsulta->getNumPaginaAtual());
@@ -179,6 +179,7 @@ class MdWsSeiBlocoRN extends InfraRN {
                 /** @var RelBlocoProtocoloDTO $relBlocoProtocoloDTO */
                 foreach($arrRelProtocolo as $relBlocoProtocoloDTO){
                     $relProtocoloProtocoloDTO = new RelProtocoloProtocoloDTO();
+                    $relProtocoloProtocoloDTO->setStrStaAssociacao($protocoloProtocoloRN::$TA_DOCUMENTO_CIRCULAR , InfraDTO::$OPER_DIFERENTE);
                     $relProtocoloProtocoloDTO->setDblIdProtocolo2($relBlocoProtocoloDTO->getDblIdProtocolo());
                     $relProtocoloProtocoloDTO->retDblIdProtocolo1();
                     $relProtocoloProtocoloDTO = $protocoloProtocoloRN->consultarRN0841($relProtocoloProtocoloDTO);
@@ -237,7 +238,8 @@ class MdWsSeiBlocoRN extends InfraRN {
                 }
             }
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relBlocoProtocoloDTOConsulta->getNumTotalRegistros());
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, count($result));
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
