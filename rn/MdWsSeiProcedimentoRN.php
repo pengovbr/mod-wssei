@@ -537,7 +537,10 @@ class MdWsSeiProcedimentoRN extends InfraRN
     protected function alterarProcedimentoConectado(MdWsSeiProcedimentoDTO $procedimentoDTO)
     {
         try {
-            
+                if (empty($procedimentoDTO->getNumIdProcedimento())) {
+                    throw new InfraException('É obrigatorio informar o procedimento!');
+                }
+
                 $processo           = $procedimentoDTO->getNumIdProcedimento();
                 $tipoProcesso       = $procedimentoDTO->getNumIdTipoProcedimento();
                 $especificacao      = $procedimentoDTO->getStrEspecificacao();
