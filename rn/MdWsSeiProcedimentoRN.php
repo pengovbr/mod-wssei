@@ -1103,7 +1103,9 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $objAtividadesAbertasDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
             $arrObjAtividadesAbertasDTO = $atividadeRN->listarRN0036($objAtividadesAbertasDTO);
 
-            $numTipoVisualizacao=$arrObjAtividadesAbertasDTO[0]->getNumTipoVisualizacao();
+            if ($arrObjAtividadesAbertasDTO) {
+                $numTipoVisualizacao=$arrObjAtividadesAbertasDTO[0]->getNumTipoVisualizacao();    
+            }
 
             if ($numTipoVisualizacao && ($numTipoVisualizacao == AtividadeRN::$TV_NAO_VISUALIZADO)){
                 $usuarioVisualizacao = 'N';
@@ -1255,7 +1257,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             }
 
             $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
-            $processoGeradoRecebido = $dto->getNumIdUnidadeGeradoraProtocolo() == SessaoSEI::getInstance()->getNumIdUnidadeAtual() ? 'G' : 'R';
+            $processoGeradoRecebido = $protocoloDTO->getNumIdUnidadeGeradora() == SessaoSEI::getInstance()->getNumIdUnidadeAtual() ? 'G' : 'R';
 
             $result[] = array(
                 'id' => $protocoloDTO->getDblIdProtocolo(),
