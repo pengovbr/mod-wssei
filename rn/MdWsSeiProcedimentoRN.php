@@ -1916,5 +1916,51 @@ class MdWsSeiProcedimentoRN extends InfraRN
         }
     }
 
+    /**
+     * Metodo que recebe o procedimento na atual unidade
+     * Criado por Adriano Cesar - MPOG
+     * @param Objeto DTO contendo a informação do procedimento
+     * @return sucesso ou erro
+     */
+    protected function receberProcedimentoControlado(MdWsSeiProcedimentoDTO $dto)
+    {
+        try {
+            // Se o id do procedimento não foi passado, gera exceção
+            if (!$dto->getNumIdProcedimento()) {
+                throw new InfraException('E obrigatório informar o número identificador do procedimento!');
+            }
+
+            $objPesquisaPendenciaDTO = new PesquisaPendenciaDTO();
+            $objPesquisaPendenciaDTO->setDblIdProtocolo($dto->getNumIdProcedimento());
+            $objPesquisaPendenciaDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+            $objPesquisaPendenciaDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $objPesquisaPendenciaDTO->setStrSinMontandoArvore('S');
+            $objPesquisaPendenciaDTO->setStrSinRetornoProgramado('S');
+      
+            $objAtividadeRN = new AtividadeRN();
+            $arrObjProcedimentoDTO = $objAtividadeRN->listarPendenciasRN0754($objPesquisaPendenciaDTO);
+
+            $numRegistrosProcedimento = count($arrObjProcedimentoDTO);
+      
+      
+            $objProcedimentoRN = new ProcedimentoRN();
+
+            if ($numRegistrosProcedimento == 1){
+         
+                $objProcedimentoDTOPar = $arrObjProcedimentoDTO[0];
+
+                //Rotina do core do sistema, que recebe procedimento
+                $objProcedimentoRN->receber($objProcedimentoDTOPar);
+
+                return MdWsSeiRest::formataRetornoSucessoREST('Processo recebido com sucesso!');
+            }
+ 
+            return MdWsSeiRest::formataRetornoSucessoREST('Processo não disponível para recebimento na unidade atual.');
+
+
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
 
 }
