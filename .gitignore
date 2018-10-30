@@ -1,0 +1,11 @@
+# Arquivos temporários gerados pelo sistema
+*~
+
+# Arquivos temporários criados pelo ambiente de desenvolvimento Vagrant
+.vagrant/
+Vagrantfile
+
+# Arquivos de projeto de editores de texto e IDEs
+*.sublime-project
+*.sublime-workspace
+.phpintel/

@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Controlador (API v1) de servicos REST usando o framework Slim
  */
@@ -79,6 +79,13 @@ $app = new \Slim\App($config);
  * Grupo para a versao v1 de servicos REST
  */
 $app->group('/api/v1',function(){
+    
+    $this->get('/versao', function($request, $response, $args){
+        return $response->withJSON(MdWsSeiRest::formataRetornoSucessoREST(null, ['versao' => SEI_VERSAO]));
+    });
+    /**
+     * 
+     */
     /**
      * Grupo de autenticacao <publico>
      */
@@ -254,6 +261,12 @@ $app->group('/api/v1',function(){
      * Grupo de controlador de documentos
      */
     $this->group('/documento', function(){
+        
+        $this->get('/consultar/{protocolo}', function($request, $response, $args){
+            $rn = new MdWsSeiDocumentoRN();
+            return $response->withJSON($rn->consultarDocumento($request->getAttribute('route')->getArgument('protocolo')));
+        });
+        
         $this->get('/listar/ciencia/{protocolo}', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();
@@ -279,6 +292,89 @@ $app->group('/api/v1',function(){
                 $request->getParam('senha'),
                 $request->getParam('usuario')
             ));
+        });
+        $this->post('/externo/alterar', function($request, $response, $args){
+
+            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+            $nomeArquivoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('nomeArquivo'));
+            $descricaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('descricao'));
+            $observacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacao'));
+            $binarioFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('conteudoDocumento'));
+            $numeroFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('numero'));
+
+            /** @var $request Slim\Http\Request */
+            $dados["documento"]         = $request->getParam('documento');
+            $dados["numero"]            = $numeroFormatado;
+            $dados["idTipoDocumento"]            = $request->getParam('idTipoDocumento');
+            $dados["data"]              = $request->getParam('data');
+            $dados["assuntos"]          = json_decode($request->getParam('assuntos'), TRUE);
+            $dados["interessados"]      = json_decode($request->getParam('interessados'), TRUE);
+            $dados["destinatarios"]     = json_decode($request->getParam('destinatarios'), TRUE);
+            $dados["remetentes"]        = json_decode($request->getParam('remetentes'), TRUE);
+            $dados["nivelAcesso"]       = $request->getParam('nivelAcesso');
+            $dados["hipoteseLegal"]     = $request->getParam('hipoteseLegal');
+            $dados["grauSigilo"]        = $request->getParam('grauSigilo');
+            $dados["observacao"]        = $observacaoFormatado;
+            $dados["descricao"]         = $descricaoFormatado;
+            
+            $dados["nomeArquivo"]        = $nomeArquivoFormatado;
+            $dados["tipoConferencia"]    = $request->getParam('tipoConferencia');
+            
+            if (array_key_exists("conteudoDocumento",$request->getParams())){
+                $dados["conteudoDocumento"] = false;
+                if($request->getParam('conteudoDocumento')) $dados["conteudoDocumento"]  = $binarioFormatado;
+            }else{
+                $dados["conteudoDocumento"] = null;
+            }
+                    
+                    
+            $rn = new MdWsSeiDocumentoRN();
+            return $response->withJSON(
+                $rn->alterarDocumentoExterno($dados)
+            );
+        });
+        $this->post('/interno/alterar', function($request, $response, $args){
+
+            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+            $descricaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('descricao'));
+            $observacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacao'));
+
+            /** @var $request Slim\Http\Request */
+            $dados["documento"]         = $request->getParam('documento');
+            $dados["assuntos"]          = json_decode($request->getParam('assuntos'), TRUE);
+            $dados["interessados"]      = json_decode($request->getParam('interessados'), TRUE);
+            $dados["destinatarios"]     = json_decode($request->getParam('destinatarios'), TRUE);
+            $dados["nivelAcesso"]       = $request->getParam('nivelAcesso');
+            $dados["hipoteseLegal"]     = $request->getParam('hipoteseLegal');
+            $dados["grauSigilo"]        = $request->getParam('grauSigilo');
+            $dados["observacao"]        = $observacaoFormatado;
+            $dados["descricao"]         = $descricaoFormatado;
+            
+
+            
+            $rn = new MdWsSeiDocumentoRN();
+            return $response->withJSON(
+                $rn->alterarDocumentoInterno($dados)
+            );
+        });
+        $this->post('/secao/alterar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $dados["documento"] = $request->getParam('documento');
+            $dados["secoes"]    = json_decode($request->getParam('secoes'), TRUE);
+            $dados["versao"]    = $request->getParam('versao');
+
+            // Ajuste de encoding das secoes
+            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+            for ($i = 0; $i < count($dados["secoes"]); $i++) {
+                $dados["secoes"][$i]['conteudo'] = iconv('UTF-8', 'ISO-8859-1', $dados["secoes"][$i]['conteudo']);
+            }
+
+            $rn = new MdWsSeiDocumentoRN();
+            return $response->withJSON(
+                $rn->alterarSecaoDocumento($dados)
+            );
         });
         $this->post('/ciencia', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
@@ -316,6 +412,41 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->listarDocumentosProcesso($dto));
         });
+        $this->get('/secao/listar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiDocumentoRN();
+            $dto = new DocumentoDTO();
+            $dto->setDblIdDocumento($request->getParam('id'));
+            
+            return $response->withJSON($rn->listarSecaoDocumento($dto));
+        });
+        $this->get('/tipo/pesquisar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiDocumentoRN();
+            $dto = new MdWsSeiDocumentoDTO();
+
+            $dto->setNumIdTipoDocumento($request->getParam('id'));
+            $dto->setStrNomeTipoDocumento($request->getParam('filter'));
+            $dto->setStrFavoritos($request->getParam('favoritos'));
+
+            $arrAplicabilidade = explode(",",$request->getParam('aplicabilidade'));
+            
+            $dto->setArrAplicabilidade($arrAplicabilidade);
+            $dto->setNumStart($request->getParam('start'));
+            $dto->setNumLimit($request->getParam('limit'));
+            
+            return $response->withJSON($rn->pesquisarTipoDocumento($dto));
+        });
+        $this->get('/tipo/template', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiDocumentoRN();
+            $dto = new MdWsSeiDocumentoDTO();
+            $dto->setNumIdTipoDocumento($request->getParam('id'));
+            //$dto->setNumIdTipoProcedimento($request->getParam('idTipoProcedimento'));
+            $dto->setNumIdProcesso($request->getParam('procedimento'));
+
+            return $response->withJSON($rn->pesquisarTemplateDocumento($dto));
+        });
         $this->get('/baixar/anexo/{protocolo}', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();
@@ -325,7 +456,120 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->downloadAnexo($dto));
         });
+        $this->post('/interno/criar', function($request, $response, $args){
+            
+            /** @var $request Slim\Http\Request */
 
+            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+            $observacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacao'));
+            $descricaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('descricao'));
+
+
+            $dto = new MdWsSeiDocumentoDTO();
+            $dto->setNumIdProcesso($request->getParam('processo'));
+            $dto->setNumIdTipoDocumento($request->getParam('tipoDocumento'));
+            $dto->setStrDescricao($descricaoFormatado);
+            $dto->setStrNivelAcesso($request->getParam('nivelAcesso'));
+            $dto->setNumIdHipoteseLegal($request->getParam('hipoteseLegal'));
+            $dto->setStrGrauSigilo($request->getParam('grauSigilo'));
+            $dto->setArrAssuntos(json_decode($request->getParam('assuntos'), TRUE));
+            $dto->setArrInteressados(json_decode($request->getParam('interessados'), TRUE));
+            $dto->setArrDestinatarios(json_decode($request->getParam('destinatarios'), TRUE));
+            $dto->setStrObservacao($observacaoFormatado);
+
+            $rn = new MdWsSeiDocumentoRN();
+
+            return $response->withJSON(
+                $rn->documentoInternoCriar($dto)
+            );
+        });
+        $this->post('/externo/criar', function($request, $response, $args){
+
+
+            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+            $nomeArquivoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('nomeArquivo'));
+            $descricaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('descricao'));
+            $observacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacao'));
+            $binarioFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('conteudoDocumento'));
+            $numeroFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('numero'));
+
+            /** @var $request Slim\Http\Request */
+            $dto = new MdWsSeiDocumentoDTO();
+            $dto->setNumIdProcesso($request->getParam('processo'));
+            $dto->setNumIdTipoDocumento($request->getParam('tipoDocumento'));
+            $dto->setDtaDataGeracaoDocumento(InfraData::getStrDataAtual());
+            $dto->setStrNumero($numeroFormatado);
+            $dto->setStrDescricao($descricaoFormatado);
+            $dto->setStrNomeArquivo($nomeArquivoFormatado);
+            $dto->setStrNivelAcesso($request->getParam('nivelAcesso'));
+            $dto->setNumIdHipoteseLegal($request->getParam('hipoteseLegal'));
+            $dto->setStrGrauSigilo($request->getParam('grauSigilo'));
+            $dto->setArrAssuntos(json_decode($request->getParam('assuntos'), TRUE));
+            $dto->setArrInteressados(json_decode($request->getParam('interessados'), TRUE));
+            $dto->setArrDestinatarios(json_decode($request->getParam('destinatarios'), TRUE));
+            $dto->setArrRemetentes(json_decode($request->getParam('remetentes'), TRUE));
+            $dto->setStrConteudoDocumento($binarioFormatado);
+            $dto->setStrObservacao($observacaoFormatado);
+            $dto->setNumTipoConferencia($request->getParam('tipoConferencia'));
+            
+
+            $rn = new MdWsSeiDocumentoRN();
+
+            return $response->withJSON(
+                $rn->documentoExternoCriar($dto)
+            );
+        });
+        $this->post('/incluir', function($request, $response, $args){
+            try{
+                /** @var $request Slim\Http\Request */
+                $objDocumentoAPI = new DocumentoAPI();
+                //Se o ID do processo é conhecido utilizar setIdProcedimento no lugar de
+                //setProtocoloProcedimento
+                //evitando uma consulta ao banco
+                $objDocumentoAPI->setProtocoloProcedimento('99990.000109/2018-36');
+                //$objDocumentoAPI->setIdProcedimento();
+                $objDocumentoAPI->setTipo('G');
+                $objDocumentoAPI->setIdSerie(371);
+                $objDocumentoAPI->setConteudo(base64_encode('Texto do documento interno'));
+                $objSeiRN = new SeiRN();
+                $objSeiRN->incluirDocumento($objDocumentoAPI);
+            } catch (InfraException $e) {
+                die($e->getStrDescricao());
+            }
+            //return $response->withJSON();
+        });
+
+        $this->post('/linkedicao', function ($request, $response, $args) {
+            try {
+                session_start();
+
+                if(empty($request->getParam('id_documento')))
+                    throw new InfraException('Deve ser passado valor para o (id_documento).');
+
+                // Recupera o id do procedimento
+                $protocoloDTO = new DocumentoDTO();
+                $protocoloDTO->setDblIdDocumento($request->getParam('id_documento'));
+                $protocoloDTO->retDblIdProcedimento();
+                $protocoloRN = new DocumentoRN();
+                $protocoloDTO = $protocoloRN->consultarRN0005($protocoloDTO);
+
+                if(empty($protocoloDTO))
+                    throw new InfraException('Documento não encontrado');
+
+                $linkassinado = SessaoSEI::getInstance()->assinarLink('controlador.php?acao=editor_montar&acao_origem=arvore_visualizar&id_procedimento=' . $protocoloDTO->getDblIdProcedimento() . '&id_documento=' . $request->getParam('id_documento'));
+
+                return $response->withJSON(
+                    array("link" => $linkassinado, "phpsessid" => session_id())
+                );
+
+            } catch (InfraException $e) {
+                die($e->getStrDescricao());
+            }
+        });
+
+        
     })->add( new TokenValidationMiddleware());
 
     /**
@@ -380,6 +624,68 @@ $app->group('/api/v1',function(){
                 $rn->apiConsultarProcessoDigitado(MdWsSeiRest::dataToIso88591($request->getParam('protocoloFormatado')))
             );
         });
+        
+        
+        $this->get('/tipo/listar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+
+            $objGetMdWsSeiTipoProcedimentoDTO = new MdWsSeiTipoProcedimentoDTO();
+            $objGetMdWsSeiTipoProcedimentoDTO->setNumIdTipoProcedimento($request->getParam('id'));
+            $objGetMdWsSeiTipoProcedimentoDTO->setStrNome($request->getParam('filter'));
+//            $objGetMdWsSeiTipoProcedimentoDTO->setStrSinInterno($request->getParam('internos'));            
+            $objGetMdWsSeiTipoProcedimentoDTO->setStrFavoritos($request->getParam('favoritos'));            
+            $objGetMdWsSeiTipoProcedimentoDTO->setNumStart($request->getParam('start'));
+            $objGetMdWsSeiTipoProcedimentoDTO->setNumLimit($request->getParam('limit'));
+
+            return $response->withJSON(
+                $rn->listarTipoProcedimento($objGetMdWsSeiTipoProcedimentoDTO)
+            );
+        });
+        
+        $this->get('/consultar/{id}', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+
+            $dto    = new MdWsSeiProcedimentoDTO();
+            //Atribuir parametros para o DTO
+            if($request->getAttribute('route')->getArgument('id')){
+                $dto->setNumIdProcedimento($request->getAttribute('route')->getArgument('id'));
+            }
+            
+            return $response->withJSON($rn->consultarProcesso($dto));
+        });
+        
+        $this->get('/assunto/pesquisar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+            $objGetMdWsSeiAssuntoDTO = new MdWsSeiAssuntoDTO(); 
+            $objGetMdWsSeiAssuntoDTO->setNumIdAssunto($request->getParam('id'));
+            $objGetMdWsSeiAssuntoDTO->setStrFilter($request->getParam('filter'));
+            $objGetMdWsSeiAssuntoDTO->setNumStart($request->getParam('start'));
+            $objGetMdWsSeiAssuntoDTO->setNumLimit($request->getParam('limit'));
+            
+            return $response->withJSON(
+                $rn->listarAssunto($objGetMdWsSeiAssuntoDTO)
+            );
+        });
+        
+         $this->get('/tipo/template', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+            
+            $dto = new MdWsSeiTipoProcedimentoDTO(); 
+            $dto->setNumIdTipoProcedimento($request->getParam('id'));
+            
+            return $response->withJSON(
+                $rn->buscarTipoTemplate($dto)
+            );
+        });
+        
+        
+        
+        
+        
         $this->post('/{protocolo}/sobrestar/processo', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
@@ -428,6 +734,11 @@ $app->group('/api/v1',function(){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
             $dto = new MdWsSeiProtocoloDTO();
+            
+            if($request->getParam('id')){
+                $dto->setDblIdProtocolo($request->getParam('id'));
+            }
+            
             if($request->getParam('limit')){
                 $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
             }
@@ -622,6 +933,90 @@ $app->group('/api/v1',function(){
             return $response->withJSON($rn->listarCredenciaisProcesso($dto));
         });
 
+        $this->post('/criar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            //Assunto  explode lista de objetos
+            $assuntos   = array();
+            $assuntos = json_decode($request->getParam('assuntos'), TRUE);
+//            if($request->getParam('assunto')){
+//                $assuntos = explode(",",$request->getParam('assunto'));
+//            }
+
+            //Interessado explode lista de objetos
+            $interessados   = array();
+            $interessados = json_decode($request->getParam('interessados'), TRUE);
+//            if($request->getParam('interessado')){
+//                $interessados = explode(",",$request->getParam('interessado'));
+//            }
+
+            $rn     = new MdWsSeiProcedimentoRN();
+            $dto    = new MdWsSeiProcedimentoDTO();
+
+            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+            $especificacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('especificacao'));
+            $observacoesFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacoes'));
+
+            //Atribuir parametros para o DTO
+            $dto->setArrObjInteressado($interessados);
+            $dto->setArrObjAssunto($assuntos);
+            $dto->setNumIdTipoProcedimento($request->getParam('tipoProcesso'));
+            $dto->setStrEspecificacao($especificacaoFormatado);
+            $dto->setStrObservacao($observacoesFormatado);
+            $dto->setNumNivelAcesso($request->getParam('nivelAcesso'));
+            $dto->setNumIdHipoteseLegal($request->getParam('hipoteseLegal'));
+            $dto->setStrStaGrauSigilo($request->getParam('grauSigilo'));
+            
+            return $response->withJSON($rn->gerarProcedimento($dto));
+        });
+        
+        $this->post('/alterar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            
+            //Assunto  explode lista de objetos
+            $assuntos   = array();
+            if($request->getParam('assuntos')){
+                $assuntos = json_decode($request->getParam('assuntos'), TRUE);
+            }
+            //Interessado explode lista de objetos
+            $interessados   = array();
+            if($request->getParam('interessados')){
+                $interessados = json_decode($request->getParam('interessados'), TRUE);
+            }
+            
+            $rn     = new MdWsSeiProcedimentoRN();
+            $dto    = new MdWsSeiProcedimentoDTO();
+
+            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+            $especificacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('especificacao'));
+            $observacoesFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacoes'));
+                        
+            //Atribuir parametros para o DTO
+            $dto->setNumIdProcedimento($request->getParam('id'));
+            $dto->setArrObjInteressado($interessados);
+            $dto->setArrObjAssunto($assuntos);
+            $dto->setNumIdTipoProcedimento($request->getParam('tipoProcesso'));
+            $dto->setStrEspecificacao($especificacaoFormatado);
+            $dto->setStrObservacao($observacoesFormatado);
+            $dto->setNumNivelAcesso($request->getParam('nivelAcesso'));
+            $dto->setNumIdHipoteseLegal($request->getParam('hipoteseLegal'));
+            $dto->setStrStaGrauSigilo($request->getParam('grauSigilo'));
+            
+            return $response->withJSON($rn->alterarProcedimento($dto));
+        });
+
+        //Serviço de recebimento do processo na unidade - adicionado por Adriano Cesar - MPOG
+        $this->post('/receber', function($request, $response, $args){
+            
+            $rn = new MdWsSeiProcedimentoRN();
+            $dto = new MdWsSeiProcedimentoDTO();
+            if($request->getParam('procedimento')){
+                $dto->setNumIdProcedimento($request->getParam('procedimento'));
+            }
+            return $response->withJSON($rn->receberProcedimento($dto));
+        });
+        
     })->add( new TokenValidationMiddleware());
 
     /**
@@ -709,6 +1104,64 @@ $app->group('/api/v1',function(){
         });
 
     })->add( new TokenValidationMiddleware());
+    
+    
+      /**
+     * Grupo de controlador contato
+     */
+    $this->group('/contato', function(){
+        $this->get('/pesquisar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            
+            $dto = new MdWsSeiContatoDTO();
+            $dto->setNumIdContato($request->getParam('id'));
+            $dto->setStrFilter($request->getParam('filter'));
+            $dto->setNumStart($request->getParam('start'));
+            $dto->setNumLimit($request->getParam('limit'));
+            
+            $rn = new MdWsSeiContatoRN();
+            return $response->withJSON($rn->listarContato($dto));
+        });
+        
+        $this->post('/criar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            
+            $dto = new MdWsSeiContatoDTO();
+
+
+            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+            $nomeFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('nome'));
+
+            $dto->setStrNome($nomeFormatado);
+            
+            $rn = new MdWsSeiContatoRN();
+            return $response->withJSON($rn->criarContato($dto));
+        });
+        
+
+    })->add( new TokenValidationMiddleware());
+    
+     /**
+     * Grupo de controlador HipoteseLegal
+     */
+    $this->group('/hipoteseLegal', function(){
+        $this->get('/pesquisar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            
+            $dto = new MdWsSeiHipoteseLegalDTO();
+            $dto->setNumIdHipoteseLegal($request->getParam('id'));
+            $dto->setNumNivelAcesso($request->getParam('nivelAcesso'));
+            $dto->setStrFilter($request->getParam('filter'));
+            $dto->setNumStart($request->getParam('start'));
+            $dto->setNumLimit($request->getParam('limit'));
+            
+            $rn = new MdWsSeiHipoteseLegalRN();
+            return $response->withJSON($rn->listarHipoteseLegal($dto));
+        });
+    })->add( new TokenValidationMiddleware());
+    
+    
     $this->group('/debug', function() {
         $this->get('/', function ($request, $response, $args) {
             /** @var $request Slim\Http\Request */

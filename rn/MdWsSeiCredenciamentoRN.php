@@ -15,13 +15,13 @@ class MdWsSeiCredenciamentoRN extends InfraRN {
     protected function concederCredenciamentoControlado(ConcederCredencialDTO $concederCredencialDTO){
         try{
             if(!$concederCredencialDTO->isSetDblIdProcedimento() || !$concederCredencialDTO->getDblIdProcedimento()){
-                throw new Exception('Processo nÃ£o informado!');
+                throw new Exception('Processo não informado!');
             }
             if(!$concederCredencialDTO->isSetNumIdUnidade() || !$concederCredencialDTO->getNumIdUnidade()){
-                throw new Exception('Unidade nÃ£o informada!');
+                throw new Exception('Unidade não informada!');
             }
             if(!$concederCredencialDTO->isSetNumIdUsuario() || !$concederCredencialDTO->getNumIdUsuario()){
-                throw new Exception('UsuÃ¡rio nÃ£o informado!');
+                throw new Exception('Usuário não informado!');
             }
 
             $atividadeRN = new AtividadeRN();
@@ -32,7 +32,7 @@ class MdWsSeiCredenciamentoRN extends InfraRN {
             $arrProcedimentoDTO = $atividadeRN->listarPendenciasRN0754($pesquisaPendenciaDTO);
 
             if (count($arrProcedimentoDTO)==0){
-                throw new Exception('Processo nÃ£o encontrado.');
+                throw new Exception('Processo não encontrado.');
             }
             $arrAtividadesOrigem = $arrProcedimentoDTO[0]->getArrObjAtividadeDTO();
             $concederCredencialDTO->setArrAtividadesOrigem($arrAtividadesOrigem);
@@ -52,7 +52,7 @@ class MdWsSeiCredenciamentoRN extends InfraRN {
     protected function cassarCredencialControlado(AtividadeDTO $atividadeDTO){
         try{
             if(!$atividadeDTO->isSetNumIdAtividade() || !$atividadeDTO->getNumIdAtividade()){
-                throw new Exception('Atividade nÃ£o informado!');
+                throw new Exception('Atividade não informado!');
             }
 
             $objAtividadeRN = new AtividadeRN();
@@ -71,7 +71,7 @@ class MdWsSeiCredenciamentoRN extends InfraRN {
     protected function listarCredenciaisProcessoConectado(ProcedimentoDTO $procedimentoDTOParam){
         try{
             if(!$procedimentoDTOParam->isSetDblIdProcedimento() || !$procedimentoDTOParam->getDblIdProcedimento()){
-                throw new Exception('Atividade nÃ£o informado!');
+                throw new Exception('Atividade não informado!');
             }
             if(is_null($procedimentoDTOParam->getNumPaginaAtual())){
                 $procedimentoDTOParam->setNumPaginaAtual(0);
@@ -110,7 +110,7 @@ class MdWsSeiCredenciamentoRN extends InfraRN {
     }
 
     /**
-     * MÃ©todo de reununcia de credencial de acesso
+     * Método de reununcia de credencial de acesso
      * @param ProcedimentoDTO $procedimentoDTO
      * @return array
      */
@@ -118,10 +118,10 @@ class MdWsSeiCredenciamentoRN extends InfraRN {
         try{
             $temPermissao = SessaoSEI::getInstance()->verificarPermissao('procedimento_credencial_renunciar');
             if(!$temPermissao){
-                throw new Exception("O usuÃ¡rio nÃ£o tem permissÃ£o para renunciar!");
+                throw new Exception("O usuário não tem permissão para renunciar!");
             }
             if(!$procedimentoDTO->isSetDblIdProcedimento()){
-                throw new Exception("O processo nÃ£o foi informado!");
+                throw new Exception("O processo não foi informado!");
             }
             $atividadeRN = new AtividadeRN();
             $atividadeRN->renunciarCredenciais($procedimentoDTO);

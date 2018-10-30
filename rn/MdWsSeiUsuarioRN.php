@@ -1,5 +1,6 @@
-<?
+<?php
 require_once dirname(__FILE__).'/../../../SEI.php';
+
 
 class MdWsSeiUsuarioRN extends InfraRN {
 
@@ -181,10 +182,29 @@ class MdWsSeiUsuarioRN extends InfraRN {
             }
             $this->setaVariaveisAutenticacao(get_object_vars($ret));
             
+            $objInfraDadoUsuario = new InfraDadoUsuario(SessaoSEI::getInstance());
+
+            //Obtem os dados do carto da assinatura
+            $numIdCargoAssinatura = null;
+            $strNomeCargoAssinatura = $objInfraDadoUsuario->getValor('ASSINATURA_CARGO_FUNCAO_'.SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+
+            $objAssinanteDTO = new AssinanteDTO();
+            $objAssinanteDTO->setStrCargoFuncao($strNomeCargoAssinatura);
+            $objAssinanteDTO->retNumIdAssinante();
+
+            $objAssinanteRN = new AssinanteRN();
+
+            if($objAssinanteRN->contarRN1340($objAssinanteDTO) == 1){
+                $objAssinanteDTO = $objAssinanteRN->consultarRN1338($objAssinanteDTO);
+                $numIdCargoAssinatura = $objAssinanteDTO->getNumIdAssinante();
+            }
+
             //dados usuário
             $ret->IdUnidadeAtual = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
             $ret->sigla = $usuarioDTO->getStrSigla();
             $ret->nome = SessaoSEI::getInstance()->getStrNomeUsuario();
+            $ret->idUltimoCargoAssinatura = $numIdCargoAssinatura;
+            $ret->ultimoCargoAssinatura = $strNomeCargoAssinatura;
             
             $token = $this->tokenEncode($usuarioDTO->getStrSigla(), $usuarioDTO->getStrSenha(), $orgao, $contexto);
 
@@ -197,17 +217,20 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 );
             }
 
-            $arrPerfis = array();
             $retPerfis = $this->listarPerfisUsuario($ret->IdSistema, $ret->IdUsuario);
-            if($retPerfis && $retPerfis['data']){
+
+          /* ANTIGA
+
+              if($retPerfis && $retPerfis['data']){
                 $arrPerfis = $retPerfis['data'];
-            }
+            }*/
 
             return MdWsSeiRest::formataRetornoSucessoREST(
                 null,
                 array(
                     'loginData'=> $ret,
-                    'perfis' => $arrPerfis,
+                    // ANTIGA 'perfis' => $arrPerfis,
+                    'perfis' => $retPerfis,
                     'unidades' => $arrUnidades,
                     'token' => $token
                 )
@@ -241,7 +264,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 );
             }
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $arrPerfis);
+            return $arrPerfis;
 
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);

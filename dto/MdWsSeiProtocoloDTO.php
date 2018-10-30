@@ -45,7 +45,7 @@ class MdWsSeiProtocoloDTO extends ProtocoloDTO{
 
         $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'SinTipoBusca');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'SinApenasMeus');
-
+        
         $this->configurarFK('IdProtocolo', 'procedimento p2', 'p2.id_procedimento', InfraDTO::$TIPO_FK_OBRIGATORIA);
         $this->configurarFK('IdProtocolo', 'acompanhamento', 'id_protocolo');
     }

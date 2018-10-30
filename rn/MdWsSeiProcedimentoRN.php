@@ -1,5 +1,5 @@
-<?
-require_once dirname(__FILE__) . '/../../../SEI.php';
+<?php
+require_once dirname(__FILE__).'/../../../SEI.php';
 
 class MdWsSeiProcedimentoRN extends InfraRN
 {
@@ -57,6 +57,575 @@ class MdWsSeiProcedimentoRN extends InfraRN
         }
     }
 
+     /**
+     * Retorna todos tipos de procedimentos filtrados
+     * @param MdWsSeiTipoProcedimentoDTO $objGetMdWsSeiTipoProcedimentoDTO
+     * @return array
+     */
+    protected function listarTipoProcedimentoConectado(MdWsSeiTipoProcedimentoDTO $objGetMdWsSeiTipoProcedimentoDTO)
+    {
+        try {
+            
+            $id         = $objGetMdWsSeiTipoProcedimentoDTO->getNumIdTipoProcedimento();
+            $nome       = $objGetMdWsSeiTipoProcedimentoDTO->getStrNome();
+//            $interno    = $objGetMdWsSeiTipoProcedimentoDTO->getStrSinInterno();
+            $favoritos  = $objGetMdWsSeiTipoProcedimentoDTO->getStrFavoritos();
+            $start      = $objGetMdWsSeiTipoProcedimentoDTO->getNumStart();
+            $limit      = $objGetMdWsSeiTipoProcedimentoDTO->getNumLimit();
+
+
+            // DTO QUE REPRESENTA OS TIPOS DE PROCESSO. 
+            $objTipoProcedimentoDTO = new TipoProcedimentoDTO(); 
+            $objTipoProcedimentoDTO->setStrSinSomenteUtilizados($favoritos); //Flag de FAVORITOS S (true) / N (false)
+            
+            //RETORNOS ESPERADOS NOS PARÂMETROS DE SAÍDA
+            $objTipoProcedimentoDTO->retNumIdTipoProcedimento();
+            $objTipoProcedimentoDTO->retStrNome();
+            $objTipoProcedimentoDTO->retStrSinInterno();
+
+            //MÉTODO QUE RETORNA A BUSCA DOS TIPOS DE PROCESSO APLICANDO AS REGRAS DE RESTRIÇÃO POR ÓRGÃO, UNIDADE E OUVIDORIA
+            $objTipoProcedimentoRN = new TipoProcedimentoRN();
+            $arrObjTipoProcedimentoDTO = $objTipoProcedimentoRN->listarTiposUnidade($objTipoProcedimentoDTO); //Lista os tipos de processo
+            
+            $arrayObjs = array();
+            //FILTRA NOME, ID e INTERNO
+            if($arrObjTipoProcedimentoDTO){
+                foreach ($arrObjTipoProcedimentoDTO as $aux) {
+
+                    setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
+
+                    $objDtoFormatado = strtolower(iconv('ISO-8859-1', 'ASCII//TRANSLIT', $aux->getStrNome()));
+                    $nomeFormatado = str_replace('?','',strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $nome)));
+
+                    if(
+                        ($aux->getNumIdTipoProcedimento() == $id     || !$id)    
+                            &&
+                        (($nome && strpos($objDtoFormatado, $nomeFormatado) !== false) || !$nomeFormatado)
+//                            &&
+//                        ($aux->getStrSinInterno() == $interno       || !$interno)
+                    ){
+                        $arrayObjs[] = array(
+                                            "id"                => $aux->getNumIdTipoProcedimento(),
+                                            "nome"              => $aux->getStrNome()
+                                        );
+                    }
+                }
+            }
+                      
+            $arrayRetorno = array();
+            $i = 0;
+            //PERMITE SIGILOSO
+            if(count($arrayObjs) > 0){
+                foreach ($arrayObjs as $aux) {
+                    $i++;
+                    $objNivelAcessoPermitidoDTO = new NivelAcessoPermitidoDTO();
+                    $objNivelAcessoPermitidoDTO->setNumIdTipoProcedimento($aux["id"]); // ID DO TIPO DE PROCESSO 
+                    $objNivelAcessoPermitidoDTO->setStrStaNivelAcesso(ProtocoloRN::$NA_SIGILOSO);
+                    
+                    $objNivelAcessoPermitidoRN = new NivelAcessoPermitidoRN();
+                    $permiteSigiloso = $objNivelAcessoPermitidoRN->contar($objNivelAcessoPermitidoDTO) > 0 ? true : false;            
+                     
+
+                    $arrayRetorno[] = array(
+                                            "id"                => $aux["id"],
+                                            "nome"              => $aux["nome"],
+                                            "permiteSigiloso"   => $permiteSigiloso
+                                        );
+                }
+            }
+
+            $total = 0;
+            $total = count($arrayRetorno);
+
+            if($start) $arrayRetorno = array_slice($arrayRetorno, ($start-1));   
+            if($limit) $arrayRetorno = array_slice($arrayRetorno, 0,($limit));
+
+
+            /*$total = 0;
+            $total = count($arrayRetorno);*/
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno, $total);    
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+    
+    
+    
+     /**
+     * Retorna todos tipos de procedimentos filtrados
+     * @param MdWsSeiTipoProcedimentoDTO $objGetMdWsSeiTipoProcedimentoDTO
+     * @return array
+     */
+    protected function buscarTipoTemplateConectado(MdWsSeiTipoProcedimentoDTO $dto)
+    {
+        try {
+            
+            $id = $dto->getNumIdTipoProcedimento();
+
+            //DTO QUE REPRESENTA A RELAÇÃO ENTRE OS ASSUNTOS E OS TIPOS DE PROCESSO
+            $relTipoProcedimentoAssuntoDTO = new RelTipoProcedimentoAssuntoDTO();
+            $relTipoProcedimentoAssuntoDTO->setNumIdTipoProcedimento($id); // FILTRO PELO TIPO DE PROCESSO
+            $relTipoProcedimentoAssuntoDTO->retNumIdAssunto(); // ID DO ASSUNTO QUE DEVE SE RETORNADO
+            $relTipoProcedimentoAssuntoDTO->retStrCodigoEstruturadoAssunto(); // CÓDIGO DO ASSUNTO QUE DEVE SE RETORNADO
+            $relTipoProcedimentoAssuntoDTO->retStrDescricaoAssunto(); // DESCRIÇÃO DO ASSUNTO QUE DEVE SER RETORNADA
+
+            //CONSULTA QUE LISTA TODOS OS ASSUNTOS SUGERIDOS PARA O TIPO DE PROCESSO
+            $relTipoProcedimentoAssuntoRN = new RelTipoProcedimentoAssuntoRN();
+            $arrRelTipoProcedimentoAssuntoDTO = $relTipoProcedimentoAssuntoRN->listarRN0192($relTipoProcedimentoAssuntoDTO);
+            
+            $arrayRetorno = array();
+            if($arrRelTipoProcedimentoAssuntoDTO){
+                foreach ($arrRelTipoProcedimentoAssuntoDTO as $obj) {
+                    $arrayRetorno["assuntos"][] = array(
+                                        "id"        => $obj->getNumIdAssunto(),
+                                        "codigo"    => $obj->getStrCodigoEstruturadoAssunto(),
+                                        "descricao" => $obj->getStrDescricaoAssunto() 
+                                    );
+                }
+            }
+            
+            //CONSULTA QUE LISTA TODOS OS NÍVES DE ACESSOS PERMITIDOS PARA OS TIPO DE PROCESSO
+            $nivelAcessoPermitidoDTO = new NivelAcessoPermitidoDTO();
+            $nivelAcessoPermitidoDTO->setNumIdTipoProcedimento($id); // FILTRO PELO TIPO DE PROCESSO
+            $nivelAcessoPermitidoDTO->retStrStaNivelAcesso(); // ID DO NÍVEL DE ACESSO - ProtocoloRN::$NA_PUBLICO, ProtocoloRN::$NA_RESTRITO ou ProtocoloRN::$NA_SIGILOSO
+
+            // A CONSULTA RETORNARÁ OS NÍVEL DE ACESSO PERMITIDOS PARA O TIPO DE PROCESSO ESPECIFICADO NO DTO. AQUELES QUE NÃO FOREM RETORNADOS NESSA
+            $nivelAcessoPermitidoRN = new NivelAcessoPermitidoRN();
+            $arrNivelAcessoPermitido = $nivelAcessoPermitidoRN->listar($nivelAcessoPermitidoDTO);
+            if($arrNivelAcessoPermitido){
+                foreach ($arrNivelAcessoPermitido as $nivel) {
+                    if($nivel->getStrStaNivelAcesso() == ProtocoloRN::$NA_PUBLICO)  $publico    = true;
+                    if($nivel->getStrStaNivelAcesso() == ProtocoloRN::$NA_RESTRITO) $restrito   = true;
+                    if($nivel->getStrStaNivelAcesso() == ProtocoloRN::$NA_SIGILOSO) $sigiloso   = true;
+                }
+            }
+            $arrayRetorno["nivelAcessoPermitido"] = array(
+                "publico"   =>$publico  ? $publico  : false,
+                "restrito"  =>$restrito ? $restrito : false,
+                "sigiloso"  =>$sigiloso ? $sigiloso : false,
+            );
+                       
+            
+            $tipoProcedimentoDTO = new TipoProcedimentoDTO();
+            $tipoProcedimentoDTO->setNumIdTipoProcedimento($id);
+            $tipoProcedimentoDTO->retStrStaNivelAcessoSugestao();
+            $tipoProcedimentoDTO->retStrStaGrauSigiloSugestao();
+            $tipoProcedimentoDTO->retNumIdHipoteseLegalSugestao();
+
+            $tipoProcedimentoRN = new TipoProcedimentoRN();
+            $tipoProcedimentoDTO = $tipoProcedimentoRN->consultarRN0267($tipoProcedimentoDTO);
+            
+//            $arrayRetorno["nivelAcessoSugerido"]    = $tipoProcedimentoDTO ? $tipoProcedimentoDTO->getStrStaNivelAcessoSugestao() : false;
+//            $arrayRetorno["hipoteseLegalSugerida"]  = $tipoProcedimentoDTO ? $tipoProcedimentoDTO->getNumIdHipoteseLegalSugestao() : false;
+//            $arrayRetorno["grauSigiloSugerido"]     = $tipoProcedimentoDTO ? $tipoProcedimentoDTO->getStrStaGrauSigiloSugestao() : false;
+            
+            
+            //CONSULTA NO PARÂMETRO QUE INFORMA SE A HIPÓTESE LEGAL É OBRIGATÓRIO PARA UM TIPO DE PROCESSO
+            $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
+            $obrigatoriedadeHipoteseLegal = $objInfraParametro->getValor('SEI_HABILITAR_HIPOTESE_LEGAL');
+
+            //CONSULTA NO PARÂMETRO QUE INFORMA SE UM GRAU DE SIGILO É OBRIGATÓRIO PARA UM TIPO DE PROCESSO
+            $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
+            $obrigatoriedadeGrauSigilo = $objInfraParametro->getValor('SEI_HABILITAR_GRAU_SIGILO');
+            
+            $arrayRetorno["obrigatoriedadeHipoteseLegal"]   = $obrigatoriedadeHipoteseLegal;
+            $arrayRetorno["obrigatoriedadeGrauSigilo"]      = $obrigatoriedadeGrauSigilo;
+                                            
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno);    
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+    
+    
+    
+    /**
+     * Retorna todos tipos de procedimentos filtrados
+     * @param MdWsSeiTipoProcedimentoDTO $objGetMdWsSeiTipoProcedimentoDTO
+     * @return array
+     */
+    protected function listarAssuntoConectado(MdWsSeiAssuntoDTO $objGetMdWsSeiAssuntoDTO)
+    {
+        try {
+            $id         = $objGetMdWsSeiAssuntoDTO->getNumIdAssunto();
+            $filter     = $objGetMdWsSeiAssuntoDTO->getStrFilter();
+            $start      = $objGetMdWsSeiAssuntoDTO->getNumStart();
+            $limit      = $objGetMdWsSeiAssuntoDTO->getNumLimit();
+
+            $assuntoDTO = new AssuntoDTO();
+            if($id)
+                $assuntoDTO->setNumIdAssunto($id);
+
+            if($filter)  $assuntoDTO->adicionarCriterio(array('CodigoEstruturado','Descricao','Observacao'),array(InfraDTO::$OPER_LIKE,InfraDTO::$OPER_LIKE,InfraDTO::$OPER_LIKE),array('%'.utf8_decode($filter).'%','%'.utf8_decode($filter).'%','%'.utf8_decode($filter).'%'), array(InfraDTO::$OPER_LOGICO_OR,InfraDTO::$OPER_LOGICO_OR));
+//                $objInfraAgendamentoTarefaDTO->adicionarCriterio(array('SinAtivo','IdInfraAgendamentoTarefa'),array(InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL),array('S',$strValorItemSelecionado),InfraDTO::$OPER_LOGICO_OR);
+//                $assuntoDTO->setStrCodigoEstruturado('%'.$filter.'%',InfraDTO::$OPER_LIKE);
+
+
+            $assuntoRN = new AssuntoRN();
+
+            $assuntoCountDTO = $assuntoDTO; // APENAS PARA TOTALIZAR OS REGISTROS DE RETORNO
+            $assuntoCountDTO->retNumIdAssunto();
+            $assuntoCountDTO = $assuntoRN->listarRN0247($assuntoCountDTO);
+
+
+            if($limit)
+                $assuntoDTO->setNumMaxRegistrosRetorno($limit);
+            if($start)
+                $assuntoDTO->setNumPaginaAtual($start);
+
+            $assuntoDTO->retNumIdAssunto();
+            $assuntoDTO->retStrCodigoEstruturado();
+            $assuntoDTO->retStrDescricao();
+            $assuntoDTO->retStrSinEstrutural();
+
+            // REALIZA A CHAMADA DA DE ASSUNTOS
+
+            $arrAssuntoDTO = $assuntoRN->listarRN0247($assuntoDTO);
+
+            $arrayRetorno = array();
+            if($arrAssuntoDTO){
+                foreach ($arrAssuntoDTO as $obj) {
+
+                    $arrayRetorno[]   = array(
+                        "id"        => $obj->getNumIdAssunto(),
+                        "codigo"    => $obj->getStrCodigoEstruturado(),
+                        "descricao" => $obj->getStrDescricao(),
+                        "item_apenas_estrutural" => ($obj->getStrSinEstrutural() == "S") ? true : false
+                    );
+                }
+            }
+
+//            $arrayRetorno = array();
+//            if($start) $arrayRetorno = array_slice($arrayRetorno, ($start-1));
+//            if($limit) $arrayRetorno = array_slice($arrayRetorno, 0,($limit));
+
+            $total = 0;
+            $total = count($assuntoCountDTO);
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno, $total);
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+    
+     /**
+     * Realiza a consulta dos metadados de um processo especifico.
+     * @param MdWsSeiProcedimentoDTO $dto
+     * @return array
+     */
+    protected function consultarProcessoConectado(MdWsSeiProcedimentoDTO $dto)
+    {
+        try {
+            $arrayRetorno = array();
+            $id = $dto->getNumIdProcedimento();
+           
+            //Id do processo enviado por parâmetro
+            $processo = $id;
+
+            // Recupera os dados do processo inseridos na tabela de protocolo 
+            $objProtocoloDTO = new ProtocoloDTO();
+            $objProtocoloDTO->setDblIdProtocolo($processo);
+            $objProtocoloDTO->retStrDescricao(); // Recupera a especificação do processo
+            $objProtocoloDTO->retStrStaNivelAcessoLocal(); // Recupera o nível de acesso do processo 
+            $objProtocoloDTO->retNumIdHipoteseLegal(); // Recupera o id da hipótese legal
+            $objProtocoloDTO->retStrStaGrauSigilo(); // Recupera o grau de sigilo
+
+            $protocoloRN = new ProtocoloRN();
+            $objProtocoloDTO = $protocoloRN->consultarRN0186($objProtocoloDTO);
+
+
+            if (!$objProtocoloDTO) {
+                throw new Exception('Não foi encontrado processo com id ' . $processo);
+            }
+
+            // Recupera o tipo de processo da tabela de procedimento
+            $objProcedimentoDTO = new ProcedimentoDTO();
+            $objProcedimentoDTO->setDblIdProcedimento($processo);
+            $objProcedimentoDTO->retNumIdTipoProcedimento();
+
+            $objProcedimentoRN = new ProcedimentoRN();
+            $objProcedimentoDTO = $objProcedimentoRN->consultarRN0201($objProcedimentoDTO);
+
+            // Recupera os assuntos do processo
+            $objRelProtocoloAssuntoDTO = new RelProtocoloAssuntoDTO();
+            $objRelProtocoloAssuntoDTO->setDblIdProtocolo($processo);
+            $objRelProtocoloAssuntoDTO->retStrCodigoEstruturadoAssunto();
+            $objRelProtocoloAssuntoDTO->retStrDescricaoAssunto();
+            $objRelProtocoloAssuntoDTO->retNumIdAssunto();
+
+            $objRelProtocoloAssuntoRN = new RelProtocoloAssuntoRN();
+            $objRelProtocoloAssuntoDTO = $objRelProtocoloAssuntoRN->listarRN0188($objRelProtocoloAssuntoDTO);
+            
+            $assuntos = array();
+            if($objRelProtocoloAssuntoDTO){
+                foreach ($objRelProtocoloAssuntoDTO as $obj) {
+                    $assuntos[] = array(
+                                        "id"        => $obj->getNumIdAssunto(),
+                                        "codigo"    => $obj->getStrCodigoEstruturadoAssunto(),
+                                        "descricao" => $obj->getStrDescricaoAssunto() 
+                                    );
+                }
+            }
+            
+            //Recupera os interessados do processo
+            $objParticipanteDTO = new ParticipanteDTO();
+            $objParticipanteDTO->setDblIdProtocolo($processo);
+            $objParticipanteDTO->setStrStaParticipacao('I');
+            $objParticipanteDTO->retNumIdContato();
+            $objParticipanteDTO->retStrNomeContato();
+
+            $objParticipanteRN = new ParticipanteRN();
+            $objParticipanteDTO = $objParticipanteRN->listarRN0189($objParticipanteDTO);
+            
+            $interessados = array();
+            if($objParticipanteDTO){
+                foreach ($objParticipanteDTO as $obj) {
+                    $interessados[] = array(
+                                        "id"    => $obj->getNumIdContato(),
+                                        "nome"  => $obj->getStrNomeContato()
+                                    );
+                }
+            }
+            
+            //Recupera as observações do process
+            $objObservacaoDTO = new ObservacaoDTO();
+            $objObservacaoDTO->setDblIdProtocolo($processo);
+            $objObservacaoDTO->retStrDescricao();
+            $objObservacaoDTO->retNumIdUnidade();
+
+            $objObservacaoRN = new ObservacaoRN();
+            $objObservacaoDTO = $objObservacaoRN->listarRN0219($objObservacaoDTO);
+            
+            $observacoes = array();
+            if($objObservacaoDTO){
+                foreach ($objObservacaoDTO as $obj) {
+                    $observacoes[] = array(
+                        "unidade"       =>$obj->getNumIdUnidade(),
+                        "observacao"    =>$obj->getStrDescricao()
+                    );
+                }
+            }
+            
+            $arrayRetorno = array(
+                "especificacao"     => $objProtocoloDTO->getStrDescricao(),
+                "tipoProcesso"      => $objProcedimentoDTO->getNumIdTipoProcedimento(),
+                "assuntos"          => $assuntos,
+                "interessados"      => $interessados,
+                "nivelAcesso"       => $objProtocoloDTO->getStrStaNivelAcessoLocal(),
+                "hipoteseLegal"     => $objProtocoloDTO->getNumIdHipoteseLegal(),
+                "grauSigilo"        => $objProtocoloDTO->getStrStaGrauSigilo(),
+                "observacoes"       => $observacoes 
+            );
+            
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno);    
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+    
+    
+    
+     /**
+     * Gerar Procedimento
+     * @param ProtocoloDTO $protocoloDTO
+     * @return array
+     */
+    protected function gerarProcedimentoConectado(MdWsSeiProcedimentoDTO $procedimentoDTO)
+    {
+        try {
+
+//          Assuntos
+            $arrayAssuntos = array();
+            if($procedimentoDTO->getArrObjAssunto()){
+                $i = 0;
+                foreach ($procedimentoDTO->getArrObjAssunto() as $assunto) {
+                    $i++;
+                    $objRelProtocoloAssuntoDTO = new RelProtocoloAssuntoDTO();
+                    $objRelProtocoloAssuntoDTO->setNumIdAssunto($assunto['id']);
+                    $objRelProtocoloAssuntoDTO->setNumSequencia($i);
+                    $arrayAssuntos[] = $objRelProtocoloAssuntoDTO;
+                }
+            }
+//          Interessados 
+            $arrayInteressados = array();
+            if($procedimentoDTO->getArrObjInteressado()){
+                $i = 0;
+                foreach ($procedimentoDTO->getArrObjInteressado() as $interessado) {
+                    $i++;
+                    $objParticipanteDTO = new ParticipanteDTO();
+                    $objParticipanteDTO->setNumIdContato($interessado['id']);
+                    $objParticipanteDTO->setNumSequencia($i);
+                    $objParticipanteDTO->setStrStaParticipacao(ParticipanteRN::$TP_INTERESSADO);
+                    
+                    $arrayInteressados[] = $objParticipanteDTO;
+                }
+            }
+            
+            
+            
+            $objObservacaoDTO = new ObservacaoDTO();
+            $objObservacaoDTO->setStrDescricao($procedimentoDTO->getStrObservacao());
+            
+            $objProtocoloDTO = new ProtocoloDTO();
+            $objProtocoloDTO->setStrDescricao($procedimentoDTO->getStrEspecificacao()); 
+           // $objProtocoloDTO->setStrDescricaoObservacao('praxedes'); 
+            $objProtocoloDTO->setStrStaNivelAcessoLocal($procedimentoDTO->getNumNivelAcesso());
+            $objProtocoloDTO->setNumIdHipoteseLegal($procedimentoDTO->getNumIdHipoteseLegal());
+//            $objProtocoloDTO->setArrObjRelProtocoloAssuntoDTO(array($objRelProtocoloAssuntoDTO));
+            $objProtocoloDTO->setArrObjRelProtocoloAssuntoDTO($arrayAssuntos);
+            $objProtocoloDTO->setArrObjParticipanteDTO($arrayInteressados);
+            $objProtocoloDTO->setArrObjObservacaoDTO(array($objObservacaoDTO));
+            $objProtocoloDTO->setStrStaGrauSigilo($procedimentoDTO->getStrStaGrauSigilo());
+            
+            $objProcedimentoDTO = new ProcedimentoDTO();
+            $objProcedimentoDTO->setNumIdTipoProcedimento($procedimentoDTO->getNumIdTipoProcedimento());
+            $objProcedimentoDTO->setDblIdProcedimento(null);
+            $objProcedimentoDTO->setObjProtocoloDTO($objProtocoloDTO);           
+            $objProcedimentoDTO->setStrSinGerarPendencia('S');
+                        
+            
+            $objProcedimentoRN = new ProcedimentoRN();
+            $retorno = $objProcedimentoRN->gerarRN0156($objProcedimentoDTO);
+//            var_dump($retorno);
+            
+
+        //ObjParticipanteDTO
+        //ObjRelProtocoloAssuntoDTO
+            
+            
+       /*     $objProcedimentoAPI = new ProcedimentoAPI();
+            $objProcedimentoAPI->setIdTipoProcedimento($procedimentoDTO->getNumIdTipoProcedimento()); 
+            $objProcedimentoAPI->setEspecificacao($procedimentoDTO->getStrEspecificacao());
+            $objProcedimentoAPI->setAssuntos($procedimentoDTO->getArrObjAssunto());
+            $objProcedimentoAPI->setInteressados($procedimentoDTO->getArrObjInteressado());
+            $objProcedimentoAPI->setObservacao($procedimentoDTO->getStrObservacao());
+                  
+            // 0 publico
+            // 1 restrito
+            // 2 sigiloso
+            $objProcedimentoAPI->setNivelAcesso($procedimentoDTO->getNumNivelAcesso());
+            $objProcedimentoAPI->setIdHipoteseLegal($procedimentoDTO->getNumIdHipoteseLegal());
+            
+            
+            $objEntradaGerarProcedimentoAPI = new EntradaGerarProcedimentoAPI();
+            $objEntradaGerarProcedimentoAPI->setProcedimento($objProcedimentoAPI);
+            
+           // var_dump($objEntradaGerarProcedimentoAPI); die();
+            $objSeiRN = new SeiRN();
+            $aux = $objSeiRN->gerarProcedimento($objEntradaGerarProcedimentoAPI);*/
+            
+            return MdWsSeiRest::formataRetornoSucessoREST(null,
+                    array(
+                        "IdProcedimento"        => $retorno->getDblIdProcedimento(),
+                        "ProtocoloFormatado"    => $retorno->getStrProtocoloProcedimentoFormatado())
+                    );
+        
+        } catch (InfraException $e) {
+            //die($e->getStrDescricao());
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+    
+    
+      
+     /**
+     * Alterar Procedimento
+     * @param ProtocoloDTO $protocoloDTO
+     * @return array
+     */
+    protected function alterarProcedimentoConectado(MdWsSeiProcedimentoDTO $procedimentoDTO)
+    {
+        try {
+                if (empty($procedimentoDTO->getNumIdProcedimento())) {
+                    throw new InfraException('É obrigatorio informar o procedimento!');
+                }
+
+                $processo           = $procedimentoDTO->getNumIdProcedimento();
+                $tipoProcesso       = $procedimentoDTO->getNumIdTipoProcedimento();
+                $especificacao      = $procedimentoDTO->getStrEspecificacao();
+                $arrAssuntos        = $procedimentoDTO->getArrObjAssunto();
+                $arrInteressados    = $procedimentoDTO->getArrObjInteressado();
+                $observacoes        = $procedimentoDTO->getStrObservacao();
+                $nivelAcesso        = $procedimentoDTO->getNumNivelAcesso();
+                $hipoteseLegal      = $procedimentoDTO->getNumIdHipoteseLegal();
+                $grauSigilo         = $procedimentoDTO->getStrStaGrauSigilo();
+
+                $objTipoProcedimentoDTO = new TipoProcedimentoDTO();
+                $objTipoProcedimentoDTO->setBolExclusaoLogica(false);
+                $objTipoProcedimentoDTO->retStrNome();
+                $objTipoProcedimentoDTO->retStrSinIndividual();
+                $objTipoProcedimentoDTO->setNumIdTipoProcedimento($tipoProcesso);
+
+                $objTipoProcedimentoRN = new TipoProcedimentoRN();
+                $objTipoProcedimentoDTO = $objTipoProcedimentoRN->consultarRN0267($objTipoProcedimentoDTO);
+
+
+                if ($objTipoProcedimentoDTO && $objTipoProcedimentoDTO->getStrSinIndividual() == 'S') {
+                    if (count($arrInteressados) > 1) {
+                        throw new InfraException('Mais de um Interessado informado.');
+                    }
+                }
+                // PREENCHE OS ASSUNTOS
+                $arrayAssuntos = array();
+
+                if($arrAssuntos){
+                    foreach ($arrAssuntos as $k => $assunto) {
+                        $objRelProtocoloAssuntoDTO = new RelProtocoloAssuntoDTO();
+                        $objRelProtocoloAssuntoDTO->setNumIdAssunto($assunto['id']);
+                        $objRelProtocoloAssuntoDTO->setNumSequencia($k);
+                        $arrayAssuntos[] = $objRelProtocoloAssuntoDTO;
+                    }
+                }
+
+                // PREENCHE OS INTERESSADOS
+                $arrayParticipantes = array();
+
+                if($arrInteressados){
+                    foreach ($arrInteressados as $k => $interessado) {
+                        $objParticipanteDTO = new ParticipanteDTO();
+                        $objParticipanteDTO->setNumIdContato($interessado['id']);
+                        $objParticipanteDTO->setStrStaParticipacao('I');
+                        $objParticipanteDTO->setNumSequencia($k);
+                        $arrayParticipantes[] = $objParticipanteDTO;
+                    }
+                }
+                // EDITA AS OBSERVAÇÕES 
+                $objObservacaoDTO = new ObservacaoDTO();
+                $objObservacaoDTO->setStrDescricao($observacoes);
+
+                // EDITA OS DADOS DO PROCESSO 
+                $objProtocoloDTO = new ProtocoloDTO();
+                $objProtocoloDTO->setDblIdProtocolo($processo);
+                $objProtocoloDTO->setStrDescricao($especificacao);
+                $objProtocoloDTO->setStrStaNivelAcessoLocal($nivelAcesso);
+                $objProtocoloDTO->setNumIdHipoteseLegal($hipoteseLegal);
+                $objProtocoloDTO->setArrObjRelProtocoloAssuntoDTO($arrayAssuntos);
+                $objProtocoloDTO->setArrObjParticipanteDTO($arrayParticipantes);
+                $objProtocoloDTO->setArrObjObservacaoDTO(array($objObservacaoDTO));
+                $objProtocoloDTO->setStrStaGrauSigilo($grauSigilo);
+
+                $objProcedimentoDTO = new ProcedimentoDTO();
+                $objProcedimentoDTO->setDblIdProcedimento($processo);
+                $objProcedimentoDTO->setNumIdTipoProcedimento($tipoProcesso);
+                $objProcedimentoDTO->setObjProtocoloDTO($objProtocoloDTO);
+                $objProcedimentoDTO->setStrSinGerarPendencia('S');
+
+                // REALIZA A ALTERAÇÃO DOS DADOS DO PROCESSO
+                $objProcedimentoRN = new ProcedimentoRN();
+                $retorno = $objProcedimentoRN->alterarRN0202($objProcedimentoDTO);
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null);
+
+    
+            //return MdWsSeiRest::formataRetornoSucessoREST(null);
+        
+        } catch (InfraException $e) {
+//            die($e->getStrDescricao());
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+    
     /**
      * Método que lista o sobrestamento de um processo
      * @param AtividadeDTO $atividadeDTOParam
@@ -379,6 +948,10 @@ class MdWsSeiProcedimentoRN extends InfraRN
             } else {
                 $pesquisaPendenciaDTO->setNumPaginaAtual(0);
             }
+            
+            if($mdWsSeiProtocoloDTOParam->isSetDblIdProtocolo()) {
+                $pesquisaPendenciaDTO->setDblIdProtocolo($mdWsSeiProtocoloDTOParam->getDblIdProtocolo());
+            }
 
             if ($mdWsSeiProtocoloDTOParam->isSetNumMaxRegistrosRetorno()) {
                 $pesquisaPendenciaDTO->setNumMaxRegistrosRetorno($mdWsSeiProtocoloDTOParam->getNumMaxRegistrosRetorno());
@@ -403,11 +976,11 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $pesquisaPendenciaDTO->setStrSinInicial('N');
             } else if ($mdWsSeiProtocoloDTOParam->getStrSinTipoBusca() == MdWsSeiProtocoloDTO::SIN_TIPO_BUSCA_G) {
                 $pesquisaPendenciaDTO->setStrSinInicial('S');
-            } else {
+            } /* else {
                 throw new InfraException('O tipo de busca deve ser (R)ecebidos ou (G)erados');
-            }
+            }*/
             $ret = $atividadeRN->listarPendencias($pesquisaPendenciaDTO);
-            $result = $this->montaRetornoListagemProcessos($ret, $usuarioAtribuicaoAtividade);
+            $result = $this->montaRetornoListagemProcessos($ret, $usuarioAtribuicaoAtividade, $mdWsSeiProtocoloDTOParam->getStrSinTipoBusca());
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $pesquisaPendenciaDTO->getNumTotalRegistros());
         } catch (Exception $e) {
@@ -422,8 +995,9 @@ class MdWsSeiProcedimentoRN extends InfraRN
      * @param null $usuarioAtribuicaoAtividade
      * @return array
      */
-    private function montaRetornoListagemProcessos(array $ret, $usuarioAtribuicaoAtividade = null)
+    private function montaRetornoListagemProcessos(array $ret, $usuarioAtribuicaoAtividade = null , $typeSource = null)
     {
+
         $result = array();
         $protocoloRN = new ProtocoloRN();
         foreach ($ret as $dto) {
@@ -487,18 +1061,6 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $atividadeDTOConsulta->setNumMaxRegistrosRetorno(1);
             $atividadeDTOConsulta->setOrdNumIdAtividade(InfraDTO::$TIPO_ORDENACAO_DESC);
 
-            $arrAtividades = $atividadeRN->listarRN0036($atividadeDTOConsulta);
-
-            if ($arrAtividades) {
-                /** @var AtividadeDTO $atividadeDTO */
-                $atividadeDTO = $arrAtividades[0];
-                $documentoNovo = $atividadeDTO->getNumIdTarefa() == 1 ? 'S' : 'N';
-                $usuarioAtribuido = $atividadeDTO->getStrNomeUsuarioAtribuicao();
-                $tipoVisualizacao = $atividadeDTO->getNumTipoVisualizacao() == 0 ? 'S' : 'N';
-                if ($atividadeDTO->getNumIdUsuarioVisualizacao() == $usuarioAtribuicaoAtividade) {
-                    $usuarioVisualizacao = 'S';
-                }
-            }
             $arrAtividadePendenciaDTO = array();
             if ($dto instanceof ProcedimentoDTO && $dto->isSetArrObjAtividadeDTO()) {
                 $procedimentoDTO = $dto;
@@ -520,6 +1082,39 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     $arrAtividadePendenciaDTO = $procedimentoDTO->getArrObjAtividadeDTO();
                 }
             }
+
+            /*$arrAtividades = $procedimentoDTO ? $procedimentoDTO->getArrObjAtividadeDTO() : null;
+            if ($arrAtividades) {
+                $atividadeDTO = $arrAtividades[0];
+
+                $numTipoVisualizacao=$atividadeDTO->getNumTipoVisualizacao();
+
+                if ($numTipoVisualizacao != AtividadeRN::$TV_NAO_VISUALIZADO &&
+                    $protocoloDTO->getStrStaNivelAcessoGlobal() != ProtocoloRN::$NA_SIGILOSO){
+                    $usuarioVisualizacao = 'S';
+                }
+            }*/
+
+            $objAtividadesAbertasDTO = new AtividadeDTO();
+            $objAtividadesAbertasDTO->retNumIdAtividade();
+            $objAtividadesAbertasDTO->retNumTipoVisualizacao();
+            $objAtividadesAbertasDTO->setDthConclusao(null);
+            $objAtividadesAbertasDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+            $objAtividadesAbertasDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $arrObjAtividadesAbertasDTO = $atividadeRN->listarRN0036($objAtividadesAbertasDTO);
+
+            if ($arrObjAtividadesAbertasDTO) {
+                $numTipoVisualizacao=$arrObjAtividadesAbertasDTO[0]->getNumTipoVisualizacao();    
+            }
+
+            if ($numTipoVisualizacao && ($numTipoVisualizacao == AtividadeRN::$TV_NAO_VISUALIZADO)){
+                $usuarioVisualizacao = 'N';
+            }
+            else {
+                $usuarioVisualizacao = 'S';
+            }
+            
+
             if ($arrAtividadePendenciaDTO) {
                 $atividadePendenciaDTO = $arrAtividadePendenciaDTO[0];
                 if ($atividadePendenciaDTO->getNumTipoVisualizacao() & AtividadeRN::$TV_REMOCAO_SOBRESTAMENTO) {
@@ -662,6 +1257,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             }
 
             $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
+            $processoGeradoRecebido = $protocoloDTO->getNumIdUnidadeGeradora() == SessaoSEI::getInstance()->getNumIdUnidadeAtual() ? 'G' : 'R';
 
             $result[] = array(
                 'id' => $protocoloDTO->getDblIdProtocolo(),
@@ -705,6 +1301,8 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         'processoAnexado' => $processoAnexado ? 'S' : 'N',
                         'podeReabrirProcesso' => $podeReabrirProcesso ? 'S' : 'N',
                         'podeRegistrarAnotacao' => $podeRegistrarAnotacao ? 'S' : 'N',
+                        'tipo' => $typeSource,
+                        'processoGeradoRecebido' => $processoGeradoRecebido
                     )
                 )
             );
@@ -1294,6 +1892,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             if($arrIdProcessos){
                 $protocoloRN = new ProtocoloRN();
                 $protocoloDTO = new MdWsSeiProtocoloDTO();
+
                 $protocoloDTO->setDblIdProtocolo($arrIdProcessos, InfraDTO::$OPER_IN);
                 $protocoloDTO->retDblIdProtocolo();
                 $protocoloDTO->retNumIdUnidadeGeradora();
@@ -1317,5 +1916,51 @@ class MdWsSeiProcedimentoRN extends InfraRN
         }
     }
 
+    /**
+     * Metodo que recebe o procedimento na atual unidade
+     * Criado por Adriano Cesar - MPOG
+     * @param Objeto DTO contendo a informação do procedimento
+     * @return sucesso ou erro
+     */
+    protected function receberProcedimentoControlado(MdWsSeiProcedimentoDTO $dto)
+    {
+        try {
+            // Se o id do procedimento não foi passado, gera exceção
+            if (!$dto->getNumIdProcedimento()) {
+                throw new InfraException('E obrigatório informar o número identificador do procedimento!');
+            }
+
+            $objPesquisaPendenciaDTO = new PesquisaPendenciaDTO();
+            $objPesquisaPendenciaDTO->setDblIdProtocolo($dto->getNumIdProcedimento());
+            $objPesquisaPendenciaDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+            $objPesquisaPendenciaDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $objPesquisaPendenciaDTO->setStrSinMontandoArvore('S');
+            $objPesquisaPendenciaDTO->setStrSinRetornoProgramado('S');
+      
+            $objAtividadeRN = new AtividadeRN();
+            $arrObjProcedimentoDTO = $objAtividadeRN->listarPendenciasRN0754($objPesquisaPendenciaDTO);
+
+            $numRegistrosProcedimento = count($arrObjProcedimentoDTO);
+      
+      
+            $objProcedimentoRN = new ProcedimentoRN();
+
+            if ($numRegistrosProcedimento == 1){
+         
+                $objProcedimentoDTOPar = $arrObjProcedimentoDTO[0];
+
+                //Rotina do core do sistema, que recebe procedimento
+                $objProcedimentoRN->receber($objProcedimentoDTOPar);
+
+                return MdWsSeiRest::formataRetornoSucessoREST('Processo recebido com sucesso!');
+            }
+ 
+            return MdWsSeiRest::formataRetornoSucessoREST('Processo não disponível para recebimento na unidade atual.');
+
+
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
 
 }
