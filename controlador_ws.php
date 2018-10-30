@@ -1005,7 +1005,17 @@ $app->group('/api/v1',function(){
             
             return $response->withJSON($rn->alterarProcedimento($dto));
         });
-        
+
+        //Serviço de recebimento do processo na unidade - adicionado por Adriano Cesar - MPOG
+        $this->post('/receber', function($request, $response, $args){
+            
+            $rn = new MdWsSeiProcedimentoRN();
+            $dto = new MdWsSeiProcedimentoDTO();
+            if($request->getParam('procedimento')){
+                $dto->setNumIdProcedimento($request->getParam('procedimento'));
+            }
+            return $response->withJSON($rn->receberProcedimento($dto));
+        });
         
     })->add( new TokenValidationMiddleware());
 

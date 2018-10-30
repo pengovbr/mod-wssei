@@ -197,6 +197,14 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
      */
     protected function pesquisarTemplateDocumentoConectado(MdWsSeiDocumentoDTO $dto) {
         try {
+
+            if (!$dto->getNumIdTipoDocumento()) {
+                throw new InfraException('Tipo de documento é uma informação obrigatória.');
+            }
+
+            if (!$dto->getNumIdProcesso()) {
+                throw new InfraException('O id do processo é obrigatório.');
+            }
             
             $objProcedimentoDTO = new ProcedimentoDTO();
             $objProcedimentoDTO->setDblIdProcedimento($dto->getNumIdProcesso());

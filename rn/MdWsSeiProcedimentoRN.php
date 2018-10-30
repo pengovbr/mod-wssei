@@ -537,7 +537,10 @@ class MdWsSeiProcedimentoRN extends InfraRN
     protected function alterarProcedimentoConectado(MdWsSeiProcedimentoDTO $procedimentoDTO)
     {
         try {
-            
+                if (empty($procedimentoDTO->getNumIdProcedimento())) {
+                    throw new InfraException('É obrigatorio informar o procedimento!');
+                }
+
                 $processo           = $procedimentoDTO->getNumIdProcedimento();
                 $tipoProcesso       = $procedimentoDTO->getNumIdTipoProcedimento();
                 $especificacao      = $procedimentoDTO->getStrEspecificacao();
@@ -1092,7 +1095,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 }
             }*/
 
-			$objAtividadesAbertasDTO = new AtividadeDTO();
+            $objAtividadesAbertasDTO = new AtividadeDTO();
             $objAtividadesAbertasDTO->retNumIdAtividade();
             $objAtividadesAbertasDTO->retNumTipoVisualizacao();
             $objAtividadesAbertasDTO->setDthConclusao(null);
@@ -1100,7 +1103,9 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $objAtividadesAbertasDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
             $arrObjAtividadesAbertasDTO = $atividadeRN->listarRN0036($objAtividadesAbertasDTO);
 
-            $numTipoVisualizacao=$arrObjAtividadesAbertasDTO[0]->getNumTipoVisualizacao();
+            if ($arrObjAtividadesAbertasDTO) {
+                $numTipoVisualizacao=$arrObjAtividadesAbertasDTO[0]->getNumTipoVisualizacao();    
+            }
 
             if ($numTipoVisualizacao && ($numTipoVisualizacao == AtividadeRN::$TV_NAO_VISUALIZADO)){
                 $usuarioVisualizacao = 'N';
@@ -1108,7 +1113,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             else {
                 $usuarioVisualizacao = 'S';
             }
-			
+            
 
             if ($arrAtividadePendenciaDTO) {
                 $atividadePendenciaDTO = $arrAtividadePendenciaDTO[0];
@@ -1252,7 +1257,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             }
 
             $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
-            $processoGeradoRecebido = $dto->getNumIdUnidadeGeradoraProtocolo() == SessaoSEI::getInstance()->getNumIdUnidadeAtual() ? 'G' : 'R';
+            $processoGeradoRecebido = $protocoloDTO->getNumIdUnidadeGeradora() == SessaoSEI::getInstance()->getNumIdUnidadeAtual() ? 'G' : 'R';
 
             $result[] = array(
                 'id' => $protocoloDTO->getDblIdProtocolo(),
@@ -1911,5 +1916,51 @@ class MdWsSeiProcedimentoRN extends InfraRN
         }
     }
 
+    /**
+     * Metodo que recebe o procedimento na atual unidade
+     * Criado por Adriano Cesar - MPOG
+     * @param Objeto DTO contendo a informação do procedimento
+     * @return sucesso ou erro
+     */
+    protected function receberProcedimentoControlado(MdWsSeiProcedimentoDTO $dto)
+    {
+        try {
+            // Se o id do procedimento não foi passado, gera exceção
+            if (!$dto->getNumIdProcedimento()) {
+                throw new InfraException('E obrigatório informar o número identificador do procedimento!');
+            }
+
+            $objPesquisaPendenciaDTO = new PesquisaPendenciaDTO();
+            $objPesquisaPendenciaDTO->setDblIdProtocolo($dto->getNumIdProcedimento());
+            $objPesquisaPendenciaDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+            $objPesquisaPendenciaDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $objPesquisaPendenciaDTO->setStrSinMontandoArvore('S');
+            $objPesquisaPendenciaDTO->setStrSinRetornoProgramado('S');
+      
+            $objAtividadeRN = new AtividadeRN();
+            $arrObjProcedimentoDTO = $objAtividadeRN->listarPendenciasRN0754($objPesquisaPendenciaDTO);
+
+            $numRegistrosProcedimento = count($arrObjProcedimentoDTO);
+      
+      
+            $objProcedimentoRN = new ProcedimentoRN();
+
+            if ($numRegistrosProcedimento == 1){
+         
+                $objProcedimentoDTOPar = $arrObjProcedimentoDTO[0];
+
+                //Rotina do core do sistema, que recebe procedimento
+                $objProcedimentoRN->receber($objProcedimentoDTOPar);
+
+                return MdWsSeiRest::formataRetornoSucessoREST('Processo recebido com sucesso!');
+            }
+ 
+            return MdWsSeiRest::formataRetornoSucessoREST('Processo não disponível para recebimento na unidade atual.');
+
+
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
 
 }
