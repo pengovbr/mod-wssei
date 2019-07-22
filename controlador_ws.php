@@ -1126,12 +1126,23 @@ $app->group('/api/v1',function(){
         $this->get('/pesquisar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             
-            $dto = new MdWsSeiContatoDTO();
-            $dto->setNumIdContato($request->getParam('id'));
-            $dto->setStrFilter($request->getParam('filter'));
-            $dto->setNumStart($request->getParam('start'));
-            $dto->setNumLimit($request->getParam('limit'));
-            
+            $dto = new ContatoDTO();
+            if($request->getParam('filter') != ''){
+                $dto->setStrPalavrasPesquisa($request->getParam('filter'));
+            }
+            if(!is_null($request->getParam('idGrupoContato')) && $request->getParam('idGrupoContato') != ''){
+                $dto->setNumIdGrupoContato($request->getParam('idGrupoContato'));
+            }
+            if(!is_null($request->getParam('id')) && $request->getParam('id') != ''){
+                $dto->setNumIdContato($request->getParam('id'));
+            }
+            if(!is_null($request->getParam('limit')) && $request->getParam('limit') != ''){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start')) && $request->getParam('start') != ''){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+
             $rn = new MdWsSeiContatoRN();
             return $response->withJSON($rn->listarContato($dto));
         });
