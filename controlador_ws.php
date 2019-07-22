@@ -569,6 +569,19 @@ $app->group('/api/v1',function(){
             }
         });
 
+        $this->get('/tipoconferencia/listar', function ($request, $response, $args) {
+            $dto = new TipoConferenciaDTO();
+            if(!is_null($request->getParam('limit')) && $request->getParam('limit') != ''){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start')) && $request->getParam('start') != ''){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiDocumentoRN();
+            return $response->withJSON($rn->listarTipoConferencia($dto));
+        });
+
         
     })->add( new TokenValidationMiddleware());
 

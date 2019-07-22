@@ -1584,4 +1584,35 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
         }
     }
 
+
+    /**
+     * Retorna a lista de tipo conferencia
+     * @param TipoConferenciaDTO $tipoConferenciaDTOParam
+     * @return array
+     */
+    protected function listarTipoConferenciaConectado(TipoConferenciaDTO $tipoConferenciaDTOParam)
+    {
+        try{
+            $result = array();
+            $tipoConferenciaDTOParam->retNumIdTipoConferencia();
+            $tipoConferenciaDTOParam->retStrDescricao();
+            $tipoConferenciaDTOParam->setOrdStrDescricao(InfraDTO::$TIPO_ORDENACAO_ASC);
+
+            $tipoConferenciaRN = new TipoConferenciaRN();
+            $ret = $tipoConferenciaRN->listar($tipoConferenciaDTOParam);
+
+            /** @var SerieDTO $tipoConferenciaDTO */
+            foreach($ret as $tipoConferenciaDTO){
+                $result[] = array(
+                    'id' => $tipoConferenciaDTO->getNumIdTipoConferencia(),
+                    'descricao' => $tipoConferenciaDTO->getStrDescricao(),
+                );
+            }
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $tipoConferenciaDTOParam->getNumTotalRegistros());
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }
