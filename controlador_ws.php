@@ -672,14 +672,22 @@ $app->group('/api/v1',function(){
         $this->get('/assunto/pesquisar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
-            $objGetMdWsSeiAssuntoDTO = new MdWsSeiAssuntoDTO(); 
-            $objGetMdWsSeiAssuntoDTO->setNumIdAssunto($request->getParam('id'));
-            $objGetMdWsSeiAssuntoDTO->setStrFilter($request->getParam('filter'));
-            $objGetMdWsSeiAssuntoDTO->setNumStart($request->getParam('start'));
-            $objGetMdWsSeiAssuntoDTO->setNumLimit($request->getParam('limit'));
-            
+            $dto = new AssuntoDTO();
+            if($request->getParam('filter') != ''){
+                $dto->setStrPalavrasPesquisa($request->getParam('filter'));
+            }
+            if(!is_null($request->getParam('id')) && $request->getParam('id') != ''){
+                $dto->setNumIdAssunto($request->getParam('id'));
+            }
+            if(!is_null($request->getParam('limit')) && $request->getParam('limit') != ''){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start')) && $request->getParam('start') != ''){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+
             return $response->withJSON(
-                $rn->listarAssunto($objGetMdWsSeiAssuntoDTO)
+                $rn->pesquisarAssunto($dto)
             );
         });
         

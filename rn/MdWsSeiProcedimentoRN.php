@@ -237,6 +237,39 @@ class MdWsSeiProcedimentoRN extends InfraRN
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
+
+    /**
+     * Pesquisa Assuntos de um documento
+     * @param AssuntoDTO $assuntoDTOParam
+     * @return array
+     */
+    protected function pesquisarAssuntoConectado(AssuntoDTO $assuntoDTOParam)
+    {
+        try {
+            $result = array();
+            $assuntoDTOParam->retNumIdAssunto();
+            $assuntoDTOParam->retStrCodigoEstruturado();
+            $assuntoDTOParam->retStrDescricao();
+            $assuntoDTOParam->setStrSinEstrutural('N');
+            $assuntoDTOParam->setStrSinAtualTabelaAssuntos('S');
+            $assuntoRN = new AssuntoRN();
+            $ret = $assuntoRN->pesquisarRN0246($assuntoDTOParam);
+
+            /** @var AssuntoDTO $assuntoDTO */
+            foreach ($ret as $assuntoDTO) {
+                $result[] = array(
+                    'codigoestruturadoformatado' => AssuntoINT::formatarCodigoDescricaoRI0568($assuntoDTO->getStrCodigoEstruturado(),$assuntoDTO->getStrDescricao()),
+                    'descricao' => $assuntoDTO->getStrDescricao(),
+                    'codigoestruturado' => $assuntoDTO->getStrCodigoEstruturado(),
+                    'id' => $assuntoDTO->getNumIdAssunto()
+                );
+            }
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $assuntoDTOParam->getNumTotalRegistros());
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
     
     
     
