@@ -30,7 +30,7 @@ class MdWsSeiSerieRN extends InfraRN {
             foreach($ret as $serieDTO){
                 $result[] = array(
                     'id' => $serieDTO->getNumIdSerie(),
-                    'sigla' => $serieDTO->getStrNome(),
+                    'nome' => $serieDTO->getStrNome(),
                 );
             }
             
