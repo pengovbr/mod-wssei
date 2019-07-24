@@ -270,9 +270,45 @@ class MdWsSeiProcedimentoRN extends InfraRN
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
-    
-    
-    
+
+    /**
+     * Retorna a lista de sugestao de assuntos
+     * @param RelSerieAssuntoDTO $relSerieAssuntoDTOParam
+     * @return array
+     */
+    protected function sugestaoAssuntoConectado(RelSerieAssuntoDTO $relSerieAssuntoDTOParam)
+    {
+        try {
+            $result = array();
+            $relSerieAssuntoDTOParam->retNumIdAssunto();
+            $relSerieAssuntoDTOParam->retStrDescricaoAssunto();
+            $relSerieAssuntoDTOParam->retStrCodigoEstruturadoAssunto();
+            $relSerieAssuntoDTOParam->setOrdNumSequencia(InfraDTO::$TIPO_ORDENACAO_ASC);
+
+            $relSerieAssuntoRN = new RelSerieAssuntoRN();
+            /** Consulta no componente SEI a lista de assuntos **/
+            $ret = $relSerieAssuntoRN->listar($relSerieAssuntoDTOParam);
+
+            /** @var RelSerieAssuntoDTO $relSerieAssuntoDTO */
+            foreach ($ret as $relSerieAssuntoDTO) {
+                $result[] = array(
+                    /** Chamando componente do SEI para formataçao de nome do assunto **/
+                    'codigoestruturadoformatado' => AssuntoINT::formatarCodigoDescricaoRI0568(
+                        $relSerieAssuntoDTO->getStrCodigoEstruturadoAssunto(),
+                        $relSerieAssuntoDTO->getStrDescricaoAssunto()
+                    ),
+                    'descricao' => $relSerieAssuntoDTO->getStrDescricaoAssunto(),
+                    'codigoestruturado' => $relSerieAssuntoDTO->getStrCodigoEstruturadoAssunto(),
+                    'id' => $relSerieAssuntoDTO->getNumIdAssunto()
+                );
+            }
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relSerieAssuntoDTOParam->getNumTotalRegistros());
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
     /**
      * Retorna todos tipos de procedimentos filtrados
      * @param MdWsSeiTipoProcedimentoDTO $objGetMdWsSeiTipoProcedimentoDTO
