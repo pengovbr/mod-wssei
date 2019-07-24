@@ -262,9 +262,9 @@ $app->group('/api/v1',function(){
      */
     $this->group('/documento', function(){
         
-        $this->get('/consultar/{protocolo}', function($request, $response, $args){
+        $this->get('/externo/consultar/{protocolo}', function($request, $response, $args){
             $rn = new MdWsSeiDocumentoRN();
-            return $response->withJSON($rn->consultarDocumento($request->getAttribute('route')->getArgument('protocolo')));
+            return $response->withJSON($rn->consultarDocumentoExterno($request->getAttribute('route')->getArgument('protocolo')));
         });
         
         $this->get('/listar/ciencia/{protocolo}', function($request, $response, $args){
@@ -661,7 +661,23 @@ $app->group('/api/v1',function(){
                 $rn->pesquisarAssunto($dto)
             );
         });
-        
+        $this->get('/assunto/sugestao/{serie}/listar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+            $dto = new RelSerieAssuntoDTO();
+            $dto->setNumIdSerie($request->getAttribute('route')->getArgument('serie'));
+            if(!is_null($request->getParam('limit')) && $request->getParam('limit') != ''){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start')) && $request->getParam('start') != ''){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+
+            return $response->withJSON(
+                $rn->sugestaoAssunto($dto)
+            );
+        });
+
          $this->get('/tipo/template', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
