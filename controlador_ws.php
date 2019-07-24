@@ -1212,7 +1212,7 @@ $app->group('/api/v1',function(){
     })->add( new TokenValidationMiddleware());
 
     $this->group('/serie', function(){
-        $this->get('/externo/listar', function ($request, $response, $args) {
+        $this->get('/externo/pesquisar', function ($request, $response, $args) {
             $dto = new SerieDTO();
             if(!is_null($request->getParam('limit')) && $request->getParam('limit') != ''){
                 $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
@@ -1220,9 +1220,15 @@ $app->group('/api/v1',function(){
             if(!is_null($request->getParam('start')) && $request->getParam('start') != ''){
                 $dto->setNumPaginaAtual($request->getParam('start'));
             }
+            if(!is_null($request->getParam('id')) && $request->getParam('id') != ''){
+                $dto->setNumIdSerie($request->getParam('id'));
+            }
+            if($request->getParam('filter') != ''){
+                $dto->setStrNome($request->getParam('filter'));
+            }
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiSerieRN();
-            return $response->withJSON($rn->listarExterno($dto));
+            return $response->withJSON($rn->pesquisarExterno($dto));
         });
     })->add( new TokenValidationMiddleware());
 

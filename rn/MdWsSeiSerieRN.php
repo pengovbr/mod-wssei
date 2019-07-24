@@ -13,7 +13,7 @@ class MdWsSeiSerieRN extends InfraRN {
      * @param SerieDTO $serieDTO
      * @return array
      */
-    protected function listarExternoConectado(SerieDTO $serieDTOParam)
+    protected function pesquisarExternoConectado(SerieDTO $serieDTOParam)
     {
         try{
             $result = array();
@@ -22,6 +22,13 @@ class MdWsSeiSerieRN extends InfraRN {
             $serieDTOParam->setStrStaAplicabilidade(array(SerieRN::$TA_INTERNO_EXTERNO, SerieRN::$TA_EXTERNO),InfraDTO::$OPER_IN);
             $serieDTOParam->setStrSinInterno('N');
             $serieDTOParam->setOrdStrNome(InfraDTO::$TIPO_ORDENACAO_ASC);
+
+            if($serieDTOParam->isSetStrNome()){
+                $serieDTOParam->setStrNome(
+                    '%'.$serieDTOParam->getStrNome().'%',
+                    InfraDTO::$OPER_LIKE
+                );
+            }
 
             $serieRN = new SerieRN();
             $ret = $serieRN->listarRN0646($serieDTOParam);
