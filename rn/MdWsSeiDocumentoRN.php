@@ -750,158 +750,51 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
     }
 
     /**
-     * Método que cria um documento interno
-     * @param MdWsSeiDocumentoDTO $dto
+     * Método que cria um documento externo atraves de uma requisição do Slim
+     * @param \Slim\Http\Request $request
+     */
+    public function criarDocumentoExternoRequest(\Slim\Http\Request $request)
+    {
+        try{
+            if(!$request->getAttribute('route')->getArgument('procedimento')){
+                throw new Exception('O processo naõ foi informado.');
+            }
+            $post = $request->getParams();
+            /** Realiza o encapsulamento das informações vindas da requisiçao */
+            $documentoDTO = self::encapsulaDocumento($post);
+            $documentoDTO->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
+            $arrFiles = $request->getUploadedFiles();
+            if(!isset($arrFiles['anexo']) || empty($arrFiles['anexo'])){
+                throw new Exception('Anexo não informado.');
+            }
+            /** Processa o upload do arquivo e grava na pasta temporaria do SEI */
+            $anexoDTO = MdWsSeiAnexoRN::processarUploadSlim($arrFiles['anexo']);
+            $documentoDTO->getObjProtocoloDTO()->setArrObjAnexoDTO(array($anexoDTO));
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+        /** Processo de criação de documento do tipo externo */
+        return $this->documentoExternoCriar($documentoDTO);
+    }
+
+    /**
+     * Método que cria um documento externo
      * @return array
      */
-    protected function documentoExternoCriarConectado(MdWsSeiDocumentoDTO $dto) {
+    protected function documentoExternoCriarConectado(DocumentoDTO $documentoDTO) {
         try {
-            $idProcesso = $dto->getNumIdProcesso();
-            $idTipoDocumento = $dto->getNumIdTipoDocumento();
-            $dataGeracaoDocumento = $dto->getDtaDataGeracaoDocumento();
-            $numero = $dto->getStrNumero();
-            $descricao = $dto->getStrDescricao();
-            $nomeArquivo = $dto->getStrNomeArquivo();
-            $nivelAcesso = $dto->getStrNivelAcesso();
-            $hipoteseLegal = $dto->getNumIdHipoteseLegal();
-            $grauSigilo = $dto->getStrGrauSigilo();
-            $arrAssuntos = $dto->getArrAssuntos();
-            $arrInteressados = $dto->getArrInteressados();
-            $arrDestinatarios = $dto->getArrDestinatarios();
-            $arrRemetentes = $dto->getArrRemetentes();
-            $conteudoDocumento = $dto->getStrConteudoDocumento();
-            $observacao = $dto->getStrObservacao();
-            $tipoConferencia = $dto->getNumTipoConferencia();
-
-
-            //Parâmetros de entrada 
-//            $idProcesso = 15;
-//            $dataGeracaoDocumento = '25/01/2017';
-//            $idTipoDocumento = 8;
-//            $numero = '598714789156';
-//            $descricao = 'descrição de teste';
-//            $nome_arquivo = 'teste.pdf';
-//            $nivelAcesso = 1;
-//            $hipoteseLegal = 1;
-//            $grauSigilo = '';
-//            $arrAssuntos = array(array('id' => 2), array('id' => 4));
-//            $arrInteressados = array(array('id' => 100000008), array('id' => 100000010), array('id' => 100000002), array('id' => 100000006));
-//            $arrDestinatarios = array(array('id' => 100000008));
-//            $arrRemetentes = array(array('id' => 100000008));
-//            $conteudoDocumento = file_get_contents('/opt/sei/web/modulos/mod-wssei/codigo-fonte/mod-wssei/rn/c.pdf'); // DEVE CONTER O BINÁRIO DO ARQUIVO. ESSE FILE_GET_CONTENTS É UM EXEMPLO APENAS
-//            $observacao = 'ewefwe';
-            //Popula os dados do documento para salvamento 
-            $objDocumentoDTO = new DocumentoDTO();
-            $objDocumentoDTO->setDblIdDocumento(null);
-            $objDocumentoDTO->setDblIdProcedimento($idProcesso);
-            $objDocumentoDTO->setNumIdSerie($idTipoDocumento);
-            $objDocumentoDTO->setDblIdDocumentoEdoc(null);
-            $objDocumentoDTO->setDblIdDocumentoEdocBase(null);
-            $objDocumentoDTO->setNumIdUnidadeResponsavel(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-            $objDocumentoDTO->setNumIdTipoConferencia($tipoConferencia);
-            $objDocumentoDTO->setStrNumero($numero);
-
-            //Popula os dados do protocolo do documento
-            $objProtocoloDTO = new ProtocoloDTO();
-            $objProtocoloDTO->setDblIdProtocolo(null);
-            $objProtocoloDTO->setStrStaProtocolo('R');
-            $objProtocoloDTO->setDtaGeracao($dataGeracaoDocumento);
-            $objProtocoloDTO->setStrStaNivelAcessoLocal($nivelAcesso);
-            $objProtocoloDTO->setNumIdHipoteseLegal($hipoteseLegal);
-            $objProtocoloDTO->setStrDescricao($descricao);
-            $objProtocoloDTO->setStrStaGrauSigilo($grauSigilo);
-
-            //Popula os remetentes, destinatários e interessados 
-            $arrParticipantesDTO = array();
-            if ($arrRemetentes) {
-                foreach ($arrRemetentes as $k => $remetente) {
-                    $objParticipanteDTO = new ParticipanteDTO();
-                    $objParticipanteDTO->setNumIdContato($remetente['id']);
-                    $objParticipanteDTO->setStrStaParticipacao(ParticipanteRN::$TP_REMETENTE);
-                    $objParticipanteDTO->setNumSequencia($k);
-                    $arrParticipantesDTO[] = $objParticipanteDTO;
-                }
-            }
-            if ($arrInteressados) {
-                foreach ($arrInteressados as $k => $interessado) {
-                    $objParticipanteDTO = new ParticipanteDTO();
-                    $objParticipanteDTO->setNumIdContato($interessado['id']);
-                    $objParticipanteDTO->setStrStaParticipacao(ParticipanteRN::$TP_INTERESSADO);
-                    $objParticipanteDTO->setNumSequencia($k);
-                    $arrParticipantesDTO[] = $objParticipanteDTO;
-                }
-            }
-            if ($arrDestinatarios) {
-                foreach ($arrDestinatarios as $k => $destinatario) {
-                    $objParticipanteDTO = new ParticipanteDTO();
-                    $objParticipanteDTO->setNumIdContato($destinatario['id']);
-                    $objParticipanteDTO->setStrStaParticipacao(ParticipanteRN::$TP_DESTINATARIO);
-                    $objParticipanteDTO->setNumSequencia($k);
-                    $arrParticipantesDTO[] = $objParticipanteDTO;
-                }
-            }
-            //Popula os assuntos
-            $arrRelProtocoloAssuntoDTO = array();
-            if ($arrAssuntos) {
-                foreach ($arrAssuntos as $k => $assunto) {
-                    $relProtocoloAssuntoDTO = new RelProtocoloAssuntoDTO();
-                    $relProtocoloAssuntoDTO->setNumIdAssunto($assunto['id']);
-                    $relProtocoloAssuntoDTO->setDblIdProtocolo($idProcesso);
-                    $relProtocoloAssuntoDTO->setNumSequencia($k);
-                    $arrRelProtocoloAssuntoDTO[] = $relProtocoloAssuntoDTO;
-                }
-            }
-            $objProtocoloDTO->setArrObjParticipanteDTO($arrParticipantesDTO);
-            $objProtocoloDTO->setArrObjRelProtocoloAssuntoDTO($arrRelProtocoloAssuntoDTO);
-
-            //OBSERVACOES
-            $objObservacaoDTO = new ObservacaoDTO();
-            $objObservacaoDTO->setStrDescricao($observacao);
-            $objProtocoloDTO->setArrObjObservacaoDTO(array($objObservacaoDTO));
-
-            $objAnexoDTO = new AnexoDTO();
-            $objAnexoDTO->setStrNome($nomeArquivo);
-            $objProtocoloDTO->setArrObjAnexoDTO(array($objAnexoDTO));
-
-            $objDocumentoDTO->setObjProtocoloDTO($objProtocoloDTO);
-            $objDocumentoDTO->setStrConteudo(null);
-            $objDocumentoDTO->setStrStaDocumento(DocumentoRN::$TD_EXTERNO);
-
-            $arrObjAnexoDTO = $objDocumentoDTO->getObjProtocoloDTO()->getArrObjAnexoDTO();
-
-            //Adiciona o anexo 
-            if (count($arrObjAnexoDTO) == 1) {
-
-                if (!$arrObjAnexoDTO[0]->isSetNumIdAnexoOrigem()) {
-                    $objAnexoRN = new AnexoRN();
-                    $strNomeArquivoUpload = $objAnexoRN->gerarNomeArquivoTemporario();
-
-                    $fp = fopen(DIR_SEI_TEMP . '/' . $strNomeArquivoUpload, 'w');
-                    fwrite($fp, $conteudoDocumento);
-                    fclose($fp);
-
-                    $arrObjAnexoDTO[0]->setNumIdAnexo($strNomeArquivoUpload);
-                    $arrObjAnexoDTO[0]->setDthInclusao(InfraData::getStrDataHoraAtual());
-                    $arrObjAnexoDTO[0]->setNumTamanho(filesize(DIR_SEI_TEMP . '/' . $strNomeArquivoUpload));
-                    $arrObjAnexoDTO[0]->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
-                }
-            }
-
-            //Gera o documento
+            $result = array();
+            $documentoDTO->setStrStaDocumento(DocumentoRN::$TD_EXTERNO);
             $objDocumentoRN = new DocumentoRN();
-            $objDocumentoDTOGerado = $objDocumentoRN->cadastrarRN0003($objDocumentoDTO);
+            /** Chamada a componente do SEI para cadastro de DOCUMENTO e seus anexos */
+            $documentoDTO = $objDocumentoRN->cadastrarRN0003($documentoDTO);
 
+            $result = array(
+                "IdDocumento" => $documentoDTO->getDblIdDocumento(),
+                "ProtocoloDocumentoFormatado" => $documentoDTO->getStrProtocoloDocumentoFormatado()
+            );
 
-
-            $arrayRetorno = array();
-            if ($objDocumentoDTOGerado) {
-                $arrayRetorno = array(
-                    "IdDocumento" => $objDocumentoDTOGerado->getDblIdDocumento(),
-                    "ProtocoloDocumentoFormatado" => $objDocumentoDTOGerado->getStrProtocoloDocumentoFormatado()
-                );
-            }
-
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno);
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
@@ -1613,6 +1506,123 @@ class MdWsSeiDocumentoRN extends DocumentoRN {
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
+    }
+
+    /**
+     * Apoia encapsulamento do documento na criação/edição
+     * @param array $post
+     * @return DocumentoDTO
+     */
+    public static function encapsulaDocumento(array $post)
+    {
+        $objDocumentoDTO = new DocumentoDTO();
+        $objDocumentoDTO->setDblIdDocumento(null);
+        if(isset($post['procedimento'])){
+            $objDocumentoDTO->setDblIdProcedimento($post['procedimento']);
+        }
+        $objProtocoloDTO = new ProtocoloDTO();
+        $objProtocoloDTO->setDblIdProtocolo(null);
+
+        if(isset($post['idSerie'])){
+            $objDocumentoDTO->setNumIdSerie($post['idSerie']);
+            $objProtocoloDTO->setNumIdSerieDocumento($post['idSerie']);
+        }
+
+        if(isset($post['idUnidadeGeradoraProtocolo'])){
+            $objDocumentoDTO->setNumIdUnidadeGeradoraProtocolo($post['idUnidadeGeradoraProtocolo']);
+        }
+        $objDocumentoDTO->setNumIdUnidadeGeradoraProtocolo(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+        $objDocumentoDTO->setNumIdUnidadeResponsavel(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+        if(isset($post['numero']) && $post['numero'] != ''){
+            $objDocumentoDTO->setStrNumero($post['numero']);
+        }
+
+        if(isset($post['idTipoConferencia'])){
+            $objDocumentoDTO->setNumIdTipoConferencia($post['idTipoConferencia']);
+        }
+        $objDocumentoDTO->setStrSinBloqueado('N');
+
+        if(isset($post['flagProtocolo']) && $post['flagProtocolo'] == 'S'){
+            $arrObjUnidadeDTOReabertura = array();
+            $arrUnidadesReabertura = explode(',', $post['unidadesReabertura']);
+            for($i=0; $i< count($arrUnidadesReabertura) ;$i++){
+                $objUnidadeDTO  = new UnidadeDTO();
+                $objUnidadeDTO->setNumIdUnidade($arrUnidadesReabertura[$i]);
+                $arrObjUnidadeDTOReabertura[] = $objUnidadeDTO;
+            }
+            $objDocumentoDTO->setArrObjUnidadeDTO($arrObjUnidadeDTOReabertura);
+        }
+
+        if (isset($post['nivelAcesso'])){
+            $objProtocoloDTO->setStrStaNivelAcessoLocal($post['nivelAcesso']);
+            $objProtocoloDTO->setNumIdHipoteseLegal($post['idHipoteseLegal']);
+            $objProtocoloDTO->setStrStaGrauSigilo($post['grauSigilo']);
+        }else{
+            $objProtocoloDTO->setStrStaNivelAcessoLocal(null);
+        }
+
+        $objProtocoloDTO->setStrDescricao($post['descricao']);
+
+        if (isset($post['dataElaboracao']) && $post['dataElaboracao'] != ''){
+            $objProtocoloDTO->setDtaGeracao($post['dataElaboracao']);
+        }else{
+            $objProtocoloDTO->setDtaGeracao(InfraData::getStrDataAtual());
+        }
+
+        if(isset($post['assuntos']) && $post['assuntos'] != ''){
+            $arrAssuntos = explode(',', $post['assuntos']);
+            $arrObjAssuntosDTO = array();
+            for($x = 0;$x<count($arrAssuntos);$x++){
+                $objRelProtocoloAssuntoDTO = new RelProtocoloAssuntoDTO();
+                $objRelProtocoloAssuntoDTO->setNumIdAssunto($arrAssuntos[$x]);
+                $objRelProtocoloAssuntoDTO->setNumSequencia($x);
+                $arrObjAssuntosDTO[$x] = $objRelProtocoloAssuntoDTO;
+            }
+            $objProtocoloDTO->setArrObjRelProtocoloAssuntoDTO($arrObjAssuntosDTO);
+        }
+
+        $arrObjParticipantesDTO = array();
+
+        if(isset($post['interessados']) && $post['interessados'] != ''){
+            $arrParticipantes = explode(',', $post['interessados']);
+            for($i=0; $i< count($arrParticipantes) ;$i++){
+                $objParticipante  = new ParticipanteDTO();
+                $objParticipante->setNumIdContato($arrParticipantes[$i]);
+                $objParticipante->setStrStaParticipacao(ParticipanteRN::$TP_INTERESSADO);
+                $objParticipante->setNumSequencia($i);
+                $arrObjParticipantesDTO[] = $objParticipante;
+            }
+        }
+
+        if(isset($post['remetente']) && $post['remetente'] != ''){
+            $objParticipante  = new ParticipanteDTO();
+            $objParticipante->setNumIdContato($post['remetente']);
+            $objParticipante->setStrStaParticipacao(ParticipanteRN::$TP_REMETENTE);
+            $objParticipante->setNumSequencia(0);
+            $arrObjParticipantesDTO[] = $objParticipante;
+        }
+
+        if(isset($post['destinatarios']) && $post['destinatarios'] != ''){
+            $arrParticipantes = explode(',', $post['destinatarios']);
+            for($i=0; $i< count($arrParticipantes) ;$i++){
+                $objParticipante  = new ParticipanteDTO();
+                $objParticipante->setNumIdContato($arrParticipantes[$i]);
+                $objParticipante->setStrStaParticipacao(ParticipanteRN::$TP_DESTINATARIO);
+                $objParticipante->setNumSequencia($i);
+                $arrObjParticipantesDTO[] = $objParticipante;
+            }
+        }
+
+        $objProtocoloDTO->setArrObjParticipanteDTO($arrObjParticipantesDTO);
+
+        $objObservacaoDTO  = new ObservacaoDTO();
+        $objObservacaoDTO->setStrDescricao($post['observacao']);
+        $objProtocoloDTO->setArrObjObservacaoDTO(array($objObservacaoDTO));
+        $objDocumentoDTO->setObjProtocoloDTO($objProtocoloDTO);
+        $objDocumentoDTO->setNumIdTextoPadraoInterno($post['idTextoPadraoInterno']);
+        $objDocumentoDTO->setStrProtocoloDocumentoTextoBase($post['protocoloDocumentoTextoBase']);
+
+        return $objDocumentoDTO;
     }
 
 }

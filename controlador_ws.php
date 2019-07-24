@@ -484,41 +484,12 @@ $app->group('/api/v1',function(){
                 $rn->documentoInternoCriar($dto)
             );
         });
-        $this->post('/externo/criar', function($request, $response, $args){
 
-
-            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
-
-            $nomeArquivoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('nomeArquivo'));
-            $descricaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('descricao'));
-            $observacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacao'));
-            $binarioFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('conteudoDocumento'));
-            $numeroFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('numero'));
-
-            /** @var $request Slim\Http\Request */
-            $dto = new MdWsSeiDocumentoDTO();
-            $dto->setNumIdProcesso($request->getParam('processo'));
-            $dto->setNumIdTipoDocumento($request->getParam('tipoDocumento'));
-            $dto->setDtaDataGeracaoDocumento(InfraData::getStrDataAtual());
-            $dto->setStrNumero($numeroFormatado);
-            $dto->setStrDescricao($descricaoFormatado);
-            $dto->setStrNomeArquivo($nomeArquivoFormatado);
-            $dto->setStrNivelAcesso($request->getParam('nivelAcesso'));
-            $dto->setNumIdHipoteseLegal($request->getParam('hipoteseLegal'));
-            $dto->setStrGrauSigilo($request->getParam('grauSigilo'));
-            $dto->setArrAssuntos(json_decode($request->getParam('assuntos'), TRUE));
-            $dto->setArrInteressados(json_decode($request->getParam('interessados'), TRUE));
-            $dto->setArrDestinatarios(json_decode($request->getParam('destinatarios'), TRUE));
-            $dto->setArrRemetentes(json_decode($request->getParam('remetentes'), TRUE));
-            $dto->setStrConteudoDocumento($binarioFormatado);
-            $dto->setStrObservacao($observacaoFormatado);
-            $dto->setNumTipoConferencia($request->getParam('tipoConferencia'));
-            
-
+        $this->post('/{procedimento}/externo/criar', function($request, $response, $args){
+            /** @var $request \Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();
-
             return $response->withJSON(
-                $rn->documentoExternoCriar($dto)
+                $rn->criarDocumentoExternoRequest($request)
             );
         });
         $this->post('/incluir', function($request, $response, $args){
