@@ -181,7 +181,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 throw new InfraException('Usuário ou senha inválido!');
             }
             $this->setaVariaveisAutenticacao(get_object_vars($ret));
-            
+
             $objInfraDadoUsuario = new InfraDadoUsuario(SessaoSEI::getInstance());
 
             //Obtem os dados do carto da assinatura
