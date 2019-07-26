@@ -277,22 +277,28 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function adicionarElementoMenu()
     {
-        $nomeArquivo = 'QRCODE_'
-            . self::NOME_MODULO
-            . "_"
-            . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
-            . "_"
-            . SessaoSEI::getInstance()->getNumIdContextoUsuario()
-            . "_"
-            . self::getVersao();
-        $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
+        try{
+            $nomeArquivo = 'QRCODE_'
+                . self::NOME_MODULO
+                . "_"
+                . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
+                . "_"
+                . SessaoSEI::getInstance()->getNumIdContextoUsuario()
+                . "_"
+                . self::getVersao();
+            $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
 
-        if ($html) {
-            return $html;
+            if ($html) {
+                return $html;
+            }
+
+            $html = $this->montaCorpoHTMLQRCode($nomeArquivo);
+            CacheSEI::getInstance()->setAtributo($nomeArquivo, $html, CacheSEI::getInstance()->getNumTempo());
         }
-
-        $html = $this->montaCorpoHTMLQRCode($nomeArquivo);
-        CacheSEI::getInstance()->setAtributo($nomeArquivo, $html, CacheSEI::getInstance()->getNumTempo());
+        catch(Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
+            throw $e;            
+        }
 
         return $html;
     }
