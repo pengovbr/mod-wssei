@@ -644,7 +644,7 @@ $app->group('/api/v1',function(){
                 $rn->listarTipoProcedimento($objGetMdWsSeiTipoProcedimentoDTO)
             );
         });
-        
+
         $this->get('/consultar/{id}', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
