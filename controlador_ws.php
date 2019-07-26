@@ -311,47 +311,6 @@ $app->group('/api/v1',function(){
                 $request->getParam('usuario')
             ));
         });
-        $this->post('/externo/alterar', function($request, $response, $args){
-
-            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
-
-            $nomeArquivoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('nomeArquivo'));
-            $descricaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('descricao'));
-            $observacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacao'));
-            $binarioFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('conteudoDocumento'));
-            $numeroFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('numero'));
-
-            /** @var $request Slim\Http\Request */
-            $dados["documento"]         = $request->getParam('documento');
-            $dados["numero"]            = $numeroFormatado;
-            $dados["idTipoDocumento"]            = $request->getParam('idTipoDocumento');
-            $dados["data"]              = $request->getParam('data');
-            $dados["assuntos"]          = json_decode($request->getParam('assuntos'), TRUE);
-            $dados["interessados"]      = json_decode($request->getParam('interessados'), TRUE);
-            $dados["destinatarios"]     = json_decode($request->getParam('destinatarios'), TRUE);
-            $dados["remetentes"]        = json_decode($request->getParam('remetentes'), TRUE);
-            $dados["nivelAcesso"]       = $request->getParam('nivelAcesso');
-            $dados["hipoteseLegal"]     = $request->getParam('hipoteseLegal');
-            $dados["grauSigilo"]        = $request->getParam('grauSigilo');
-            $dados["observacao"]        = $observacaoFormatado;
-            $dados["descricao"]         = $descricaoFormatado;
-            
-            $dados["nomeArquivo"]        = $nomeArquivoFormatado;
-            $dados["tipoConferencia"]    = $request->getParam('tipoConferencia');
-            
-            if (array_key_exists("conteudoDocumento",$request->getParams())){
-                $dados["conteudoDocumento"] = false;
-                if($request->getParam('conteudoDocumento')) $dados["conteudoDocumento"]  = $binarioFormatado;
-            }else{
-                $dados["conteudoDocumento"] = null;
-            }
-                    
-                    
-            $rn = new MdWsSeiDocumentoRN();
-            return $response->withJSON(
-                $rn->alterarDocumentoExterno($dados)
-            );
-        });
         $this->post('/interno/alterar', function($request, $response, $args){
 
             setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
@@ -479,6 +438,13 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiDocumentoRN();
             return $response->withJSON(
                 $rn->criarDocumentoExternoRequest($request)
+            );
+        });
+        $this->post('/externo/{documento}/alterar', function($request, $response, $args){
+            /** @var $request \Slim\Http\Request */
+            $rn = new MdWsSeiDocumentoRN();
+            return $response->withJSON(
+                $rn->alterarDocumentoExternoRequest($request)
             );
         });
         $this->post('/interno/criar', function($request, $response, $args){
