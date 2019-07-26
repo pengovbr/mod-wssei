@@ -474,6 +474,13 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->downloadAnexo($dto));
         });
+        $this->post('/{procedimento}/externo/criar', function($request, $response, $args){
+            /** @var $request \Slim\Http\Request */
+            $rn = new MdWsSeiDocumentoRN();
+            return $response->withJSON(
+                $rn->criarDocumentoExternoRequest($request)
+            );
+        });
         $this->post('/interno/criar', function($request, $response, $args){
             
             /** @var $request Slim\Http\Request */
@@ -500,14 +507,6 @@ $app->group('/api/v1',function(){
 
             return $response->withJSON(
                 $rn->documentoInternoCriar($dto)
-            );
-        });
-
-        $this->post('/{procedimento}/externo/criar', function($request, $response, $args){
-            /** @var $request \Slim\Http\Request */
-            $rn = new MdWsSeiDocumentoRN();
-            return $response->withJSON(
-                $rn->criarDocumentoExternoRequest($request)
             );
         });
         $this->post('/incluir', function($request, $response, $args){

@@ -758,58 +758,6 @@ class MdWsSeiDocumentoRN extends DocumentoRN
     }
 
     /**
-     * Método que cria um documento externo atraves de uma requisição do Slim
-     * @param \Slim\Http\Request $request
-     */
-    public function criarDocumentoExternoRequest(\Slim\Http\Request $request)
-    {
-        try {
-            if (!$request->getAttribute('route')->getArgument('procedimento')) {
-                throw new Exception('O processo naõ foi informado.');
-            }
-            $post = $request->getParams();
-            /** Realiza o encapsulamento das informações vindas da requisiçao */
-            $documentoDTO = self::encapsulaDocumento($post);
-            $documentoDTO->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
-            $arrFiles = $request->getUploadedFiles();
-            if (!isset($arrFiles['anexo']) || empty($arrFiles['anexo'])) {
-                throw new Exception('Anexo não informado.');
-            }
-            /** Processa o upload do arquivo e grava na pasta temporaria do SEI */
-            $anexoDTO = MdWsSeiAnexoRN::processarUploadSlim($arrFiles['anexo']);
-            $documentoDTO->getObjProtocoloDTO()->setArrObjAnexoDTO(array($anexoDTO));
-        } catch (Exception $e) {
-            return MdWsSeiRest::formataRetornoErroREST($e);
-        }
-        /** Processo de criação de documento do tipo externo */
-        return $this->documentoExternoCriar($documentoDTO);
-    }
-
-    /**
-     * Método que cria um documento externo
-     * @return array
-     */
-    protected function documentoExternoCriarConectado(DocumentoDTO $documentoDTO)
-    {
-        try {
-            $result = array();
-            $documentoDTO->setStrStaDocumento(DocumentoRN::$TD_EXTERNO);
-            $objDocumentoRN = new DocumentoRN();
-            /** Chamada a componente do SEI para cadastro de DOCUMENTO e seus anexos */
-            $documentoDTO = $objDocumentoRN->cadastrarRN0003($documentoDTO);
-
-            $result = array(
-                "IdDocumento" => $documentoDTO->getDblIdDocumento(),
-                "ProtocoloDocumentoFormatado" => $documentoDTO->getStrProtocoloDocumentoFormatado()
-            );
-
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
-        } catch (Exception $e) {
-            return MdWsSeiRest::formataRetornoErroREST($e);
-        }
-    }
-
-    /**
      * Método que retorna os documentos de um processo
      * @param DocumentoDTO $documentoDTOParam
      * @return array
@@ -1364,6 +1312,59 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         }
 
         return $podeVisualizar;
+    }
+
+
+    /**
+     * Método que cria um documento externo atraves de uma requisição do Slim
+     * @param \Slim\Http\Request $request
+     */
+    public function criarDocumentoExternoRequest(\Slim\Http\Request $request)
+    {
+        try {
+            if (!$request->getAttribute('route')->getArgument('procedimento')) {
+                throw new Exception('O processo naõ foi informado.');
+            }
+            $post = $request->getParams();
+            /** Realiza o encapsulamento das informações vindas da requisiçao */
+            $documentoDTO = self::encapsulaDocumento($post);
+            $documentoDTO->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
+            $arrFiles = $request->getUploadedFiles();
+            if (!isset($arrFiles['anexo']) || empty($arrFiles['anexo'])) {
+                throw new Exception('Anexo não informado.');
+            }
+            /** Processa o upload do arquivo e grava na pasta temporaria do SEI */
+            $anexoDTO = MdWsSeiAnexoRN::processarUploadSlim($arrFiles['anexo']);
+            $documentoDTO->getObjProtocoloDTO()->setArrObjAnexoDTO(array($anexoDTO));
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+        /** Processo de criação de documento do tipo externo */
+        return $this->documentoExternoCriar($documentoDTO);
+    }
+
+    /**
+     * Método que cria um documento externo
+     * @return array
+     */
+    protected function documentoExternoCriarConectado(DocumentoDTO $documentoDTO)
+    {
+        try {
+            $result = array();
+            $documentoDTO->setStrStaDocumento(DocumentoRN::$TD_EXTERNO);
+            $objDocumentoRN = new DocumentoRN();
+            /** Chamada a componente do SEI para cadastro de DOCUMENTO e seus anexos */
+            $documentoDTO = $objDocumentoRN->cadastrarRN0003($documentoDTO);
+
+            $result = array(
+                "IdDocumento" => $documentoDTO->getDblIdDocumento(),
+                "ProtocoloDocumentoFormatado" => $documentoDTO->getStrProtocoloDocumentoFormatado()
+            );
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
     }
 
     /**
