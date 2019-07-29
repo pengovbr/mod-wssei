@@ -1567,17 +1567,24 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
 
     /**
-     * Retorna a lista de tipo conferencia
+     * Retorna a pesquisa de tipo conferencia
      * @param TipoConferenciaDTO $tipoConferenciaDTOParam
      * @return array
      */
-    protected function listarTipoConferenciaConectado(TipoConferenciaDTO $tipoConferenciaDTOParam)
+    protected function pesquisarTipoConferenciaConectado(TipoConferenciaDTO $tipoConferenciaDTOParam)
     {
         try {
             $result = array();
             $tipoConferenciaDTOParam->retNumIdTipoConferencia();
             $tipoConferenciaDTOParam->retStrDescricao();
             $tipoConferenciaDTOParam->setOrdStrDescricao(InfraDTO::$TIPO_ORDENACAO_ASC);
+
+            if($tipoConferenciaDTOParam->isSetStrDescricao()){
+                $tipoConferenciaDTOParam->setStrDescricao(
+                    '%'.$tipoConferenciaDTOParam->getStrDescricao().'%',
+                    InfraDTO::$OPER_LIKE
+                );
+            }
 
             $tipoConferenciaRN = new TipoConferenciaRN();
             $ret = $tipoConferenciaRN->listar($tipoConferenciaDTOParam);

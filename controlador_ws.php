@@ -523,7 +523,7 @@ $app->group('/api/v1',function(){
             }
         });
 
-        $this->get('/tipoconferencia/listar', function ($request, $response, $args) {
+        $this->get('/tipoconferencia/pesquisar', function ($request, $response, $args) {
             $dto = new TipoConferenciaDTO();
             if(!is_null($request->getParam('limit')) && $request->getParam('limit') != ''){
                 $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
@@ -531,9 +531,15 @@ $app->group('/api/v1',function(){
             if(!is_null($request->getParam('start')) && $request->getParam('start') != ''){
                 $dto->setNumPaginaAtual($request->getParam('start'));
             }
+            if(!is_null($request->getParam('id')) && $request->getParam('id') != ''){
+                $dto->setNumIdTipoConferencia($request->getParam('id'));
+            }
+            if($request->getParam('filter') != ''){
+                $dto->setStrDescricao($request->getParam('filter'));
+            }
             /** @var $request Slim\Http\Request */
-            $rn = new MdWsSeiDocumentoRN();
-            return $response->withJSON($rn->listarTipoConferencia($dto));
+            $rn = new MdWsSeiDocumentoRN();//o-
+            return $response->withJSON($rn->pesquisarTipoConferencia($dto));
         });
 
         
