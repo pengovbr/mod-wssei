@@ -1294,6 +1294,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             $objDocumentoDTO->retNumIdTipoConferencia();
             $objDocumentoDTO->retNumIdUnidadeGeradoraProtocolo();
             $objDocumentoDTO->retStrSinBloqueado();
+            $objDocumentoDTO->retStrProtocoloDocumentoFormatado();
             $objDocumentoDTO->retStrNumero();
             $objDocumentoDTO->retStrDescricaoTipoConferencia();
             $objDocumentoDTO->retNumIdTipoConferencia();
