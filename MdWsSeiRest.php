@@ -242,6 +242,12 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function processarControlador($strAcao)
     {
+        switch($strAcao){
+            case 'md_wssei_editor_externo_montar':
+            case 'md_wssei_editor_externo_imagem_upload':
+                require_once dirname(__FILE__) . '/md_wssei_editor_externo.php';
+                return true;
+        }
         return false;
     }
 

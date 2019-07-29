@@ -488,120 +488,6 @@ class MdWsSeiDocumentoRN extends DocumentoRN
     }
 
     /**
-     * Método que cria um documento interno
-     * @param MdWsSeiDocumentoDTO $dto
-     * @return array
-     */
-    protected function documentoInternoCriarConectado(MdWsSeiDocumentoDTO $dto)
-    {
-        try {
-            $idProcesso = $dto->getNumIdProcesso();
-            $idTipoDocumento = $dto->getNumIdTipoDocumento();
-            $descricao = $dto->getStrDescricao();
-            $nivelAcesso = $dto->getStrNivelAcesso();
-            $hipoteseLegal = $dto->getNumIdHipoteseLegal();
-            $grauSigilo = $dto->getStrGrauSigilo();
-            $arrAssuntos = $dto->getArrAssuntos();
-            $arrInteressados = $dto->getArrInteressados();
-            $arrDestinatarios = $dto->getArrDestinatarios();
-            $observacao = $dto->getStrObservacao();
-
-//            $idProcesso = 13;
-//            $idTipoDocumento = 12;
-//            $descricao = 'descrição de teste';
-//            $nivelAcesso = 1;
-//            $hipoteseLegal = 1;
-//            $grauSigilo = '';
-//            $arrAssuntos = array(array('id' => 2), array('id' => 4));
-//            $arrInteressados = array(array('id' => 100000008), array('id' => 100000010), array('id' => 100000002), array('id' => 100000006));
-//            $arrDestinatarios = array(array('id' => 100000008));
-//            $observacao = 'teste';
-
-            $objDocumentoDTO = new DocumentoDTO();
-            $objDocumentoDTO->setDblIdDocumento(null);
-            $objDocumentoDTO->setDblIdProcedimento($idProcesso);
-
-            $objProtocoloDTO = new ProtocoloDTO();
-            $objProtocoloDTO->setDblIdProtocolo(null);
-            $objProtocoloDTO->setStrStaProtocolo('G');
-            // $objProtocoloDTO->setDtaGeracao($dtaGeracao);
-
-            $objDocumentoDTO->setNumIdSerie($idTipoDocumento);
-            // $objDocumentoDTO->setStrNomeSerie($nomeTipo);
-
-            $objDocumentoDTO->setDblIdDocumentoEdoc(null);
-            $objDocumentoDTO->setDblIdDocumentoEdocBase(null);
-            $objDocumentoDTO->setNumIdUnidadeResponsavel(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-            $objDocumentoDTO->setNumIdTipoConferencia(null);
-            $objDocumentoDTO->setStrNumero('');
-            // $objDocumentoDTO->setNumIdTipoConferencia($objDocumentoAPI->getIdTipoConferencia());
-
-            $objProtocoloDTO->setStrStaNivelAcessoLocal($nivelAcesso);
-            $objProtocoloDTO->setNumIdHipoteseLegal($hipoteseLegal);
-            $objProtocoloDTO->setStrDescricao($descricao);
-            $objProtocoloDTO->setStrStaGrauSigilo($grauSigilo);
-
-            $arrParticipantesDTO = array();
-            if ($arrInteressados) {
-                foreach ($arrInteressados as $k => $interessado) {
-                    $objParticipanteDTO = new ParticipanteDTO();
-                    $objParticipanteDTO->setNumIdContato($interessado['id']);
-                    $objParticipanteDTO->setStrStaParticipacao(ParticipanteRN::$TP_INTERESSADO);
-                    $objParticipanteDTO->setNumSequencia($k);
-                    $arrParticipantesDTO[] = $objParticipanteDTO;
-                }
-            }
-
-            if ($arrDestinatarios) {
-                foreach ($arrDestinatarios as $k => $destinatario) {
-                    $objParticipanteDTO = new ParticipanteDTO();
-                    $objParticipanteDTO->setNumIdContato($destinatario['id']);
-                    $objParticipanteDTO->setStrStaParticipacao(ParticipanteRN::$TP_DESTINATARIO);
-                    $objParticipanteDTO->setNumSequencia($k);
-                    $arrParticipantesDTO[] = $objParticipanteDTO;
-                }
-            }
-            $arrRelProtocoloAssuntoDTO = array();
-
-            if ($arrAssuntos) {
-                foreach ($arrAssuntos as $k => $assunto) {
-                    $relProtocoloAssuntoDTO = new RelProtocoloAssuntoDTO();
-                    $relProtocoloAssuntoDTO->setNumIdAssunto($assunto['id']);
-                    $relProtocoloAssuntoDTO->setDblIdProtocolo($idProcesso);
-                    $relProtocoloAssuntoDTO->setNumSequencia($k);
-                    $arrRelProtocoloAssuntoDTO[] = $relProtocoloAssuntoDTO;
-                }
-            }
-
-            $objProtocoloDTO->setArrObjParticipanteDTO($arrParticipantesDTO);
-            $objProtocoloDTO->setArrObjRelProtocoloAssuntoDTO($arrRelProtocoloAssuntoDTO);
-
-            //OBSERVACOES
-            $objObservacaoDTO = new ObservacaoDTO();
-            $objObservacaoDTO->setStrDescricao($observacao);
-            $objProtocoloDTO->setArrObjObservacaoDTO(array($objObservacaoDTO));
-
-            $objDocumentoDTO->setObjProtocoloDTO($objProtocoloDTO);
-            $objDocumentoDTO->setStrStaDocumento(DocumentoRN::$TD_EDITOR_INTERNO);
-
-            $objDocumentoRN = new DocumentoRN();
-            $obj = $objDocumentoRN->cadastrarRN0003($objDocumentoDTO);
-
-            $arrayRetorno = array();
-            if ($obj) {
-                $arrayRetorno = array(
-                    "idDocumento" => $obj->getDblIdDocumento(),
-                    "protocoloDocumentoFormatado" => $obj->getStrProtocoloDocumentoFormatado()
-                );
-            }
-
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno);
-        } catch (Exception $e) {
-            return MdWsSeiRest::formataRetornoErroREST($e);
-        }
-    }
-
-    /**
      * Método que retorna os documentos de um processo
      * @param DocumentoDTO $documentoDTOParam
      * @return array
@@ -1158,7 +1044,6 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         return $podeVisualizar;
     }
 
-
     /**
      * Método que cria um documento externo atraves de uma requisição do Slim
      * @param \Slim\Http\Request $request
@@ -1185,6 +1070,27 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         }
         /** Processo de criação de documento do tipo externo */
         return $this->documentoExternoCriar($documentoDTO);
+    }
+
+    /**
+     * Método que cria um documento interno atraves de uma requisição do Slim
+     * @param \Slim\Http\Request $request
+     */
+    public function criarDocumentoInternoRequest(\Slim\Http\Request $request)
+    {
+        try {
+            if (!$request->getAttribute('route')->getArgument('procedimento')) {
+                throw new Exception('O processo não foi informado.');
+            }
+            $post = $request->getParams();
+            /** Realiza o encapsulamento das informações vindas da requisiçao */
+            $documentoDTO = self::encapsulaDocumento($post);
+            $documentoDTO->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+        /** Processo de criação de documento do tipo interno */
+        return $this->documentoInternoCriar($documentoDTO);
     }
 
     /**
@@ -1232,6 +1138,32 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             $documentoDTO->setStrStaDocumento(DocumentoRN::$TD_EXTERNO);
             $objDocumentoRN = new DocumentoRN();
             /** Chamada a componente do SEI para cadastro de DOCUMENTO e seus anexos */
+            $documentoDTO = $objDocumentoRN->cadastrarRN0003($documentoDTO);
+
+            $result = array(
+                "idDocumento" => $documentoDTO->getDblIdDocumento(),
+                "protocoloDocumentoFormatado" => $documentoDTO->getStrProtocoloDocumentoFormatado()
+            );
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
+     * Método que cria um documento interno
+     * @return array
+     */
+    protected function documentoInternoCriarConectado(DocumentoDTO $documentoDTO)
+    {
+        try {
+            $result = array();
+            $numIdProcedimento = $documentoDTO->getDblIdProcedimento();
+            $documentoDTO->setStrStaDocumento(DocumentoRN::$TD_EDITOR_INTERNO);
+            $documentoDTO->getObjProtocoloDTO()->setDtaGeracao(InfraData::getStrDataAtual());
+            $objDocumentoRN = new DocumentoRN();
+            /** Chamada a componente do SEI para cadastro de DOCUMENTO */
             $documentoDTO = $objDocumentoRN->cadastrarRN0003($documentoDTO);
 
             $result = array(
@@ -1633,6 +1565,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         }
 
         $objDocumentoDTO->setStrNumero($post['numero']);
+        $objDocumentoDTO->setNumIdTextoPadraoInterno($post['idTextoPadraoInterno']);
         $objDocumentoDTO->setNumIdTipoConferencia($post['idTipoConferencia']);
         if(!$objDocumentoDTO){
             $objDocumentoDTO->setStrSinBloqueado('N');

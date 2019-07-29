@@ -462,6 +462,13 @@ $app->group('/api/v1',function(){
                 $rn->criarDocumentoExternoRequest($request)
             );
         });
+        $this->post('/{procedimento}/interno/criar', function($request, $response, $args){
+            /** @var $request \Slim\Http\Request */
+            $rn = new MdWsSeiDocumentoRN();
+            return $response->withJSON(
+                $rn->criarDocumentoInternoRequest($request)
+            );
+        });
         $this->post('/externo/{documento}/alterar', function($request, $response, $args){
             /** @var $request \Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();
