@@ -1643,7 +1643,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $atividadeRN = new AtividadeRN();
             /** Chamada ao componente SEI para remover a atribuição */
             $atividadeRN->atribuirRN0985($atribuirDTO);
-            return MdWsSeiRest::formataRetornoSucessoREST('Atribuiçao removida com sucesso!');
+            return MdWsSeiRest::formataRetornoSucessoREST('Atribuição removida com sucesso!');
         } catch (Exception $e) {
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
