@@ -333,31 +333,6 @@ $app->group('/api/v1',function(){
                 $request->getParam('usuario')
             ));
         });
-        $this->post('/interno/alterar', function($request, $response, $args){
-
-            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
-
-            $descricaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('descricao'));
-            $observacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacao'));
-
-            /** @var $request Slim\Http\Request */
-            $dados["documento"]         = $request->getParam('documento');
-            $dados["assuntos"]          = json_decode($request->getParam('assuntos'), TRUE);
-            $dados["interessados"]      = json_decode($request->getParam('interessados'), TRUE);
-            $dados["destinatarios"]     = json_decode($request->getParam('destinatarios'), TRUE);
-            $dados["nivelAcesso"]       = $request->getParam('nivelAcesso');
-            $dados["hipoteseLegal"]     = $request->getParam('hipoteseLegal');
-            $dados["grauSigilo"]        = $request->getParam('grauSigilo');
-            $dados["observacao"]        = $observacaoFormatado;
-            $dados["descricao"]         = $descricaoFormatado;
-            
-
-            
-            $rn = new MdWsSeiDocumentoRN();
-            return $response->withJSON(
-                $rn->alterarDocumentoInterno($dados)
-            );
-        });
         $this->post('/secao/alterar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $dados["documento"] = $request->getParam('documento');
@@ -474,6 +449,14 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiDocumentoRN();
             return $response->withJSON(
                 $rn->alterarDocumentoExternoRequest($request)
+            );
+        });
+        $this->post('/interno/{documento}/alterar', function($request, $response, $args){
+            //o-
+            /** @var $request \Slim\Http\Request */
+            $rn = new MdWsSeiDocumentoRN();
+            return $response->withJSON(
+                $rn->alterarDocumentoInternoRequest($request)
             );
         });
         $this->post('/interno/criar', function($request, $response, $args){
