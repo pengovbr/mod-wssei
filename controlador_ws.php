@@ -452,39 +452,10 @@ $app->group('/api/v1',function(){
             );
         });
         $this->post('/interno/{documento}/alterar', function($request, $response, $args){
-            //o-
             /** @var $request \Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();
             return $response->withJSON(
                 $rn->alterarDocumentoInternoRequest($request)
-            );
-        });
-        $this->post('/interno/criar', function($request, $response, $args){
-            
-            /** @var $request Slim\Http\Request */
-
-            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
-
-            $observacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacao'));
-            $descricaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('descricao'));
-
-
-            $dto = new MdWsSeiDocumentoDTO();
-            $dto->setNumIdProcesso($request->getParam('processo'));
-            $dto->setNumIdTipoDocumento($request->getParam('tipoDocumento'));
-            $dto->setStrDescricao($descricaoFormatado);
-            $dto->setStrNivelAcesso($request->getParam('nivelAcesso'));
-            $dto->setNumIdHipoteseLegal($request->getParam('hipoteseLegal'));
-            $dto->setStrGrauSigilo($request->getParam('grauSigilo'));
-            $dto->setArrAssuntos(json_decode($request->getParam('assuntos'), TRUE));
-            $dto->setArrInteressados(json_decode($request->getParam('interessados'), TRUE));
-            $dto->setArrDestinatarios(json_decode($request->getParam('destinatarios'), TRUE));
-            $dto->setStrObservacao($observacaoFormatado);
-
-            $rn = new MdWsSeiDocumentoRN();
-
-            return $response->withJSON(
-                $rn->documentoInternoCriar($dto)
             );
         });
         $this->post('/incluir', function($request, $response, $args){
