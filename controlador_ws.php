@@ -301,12 +301,20 @@ $app->group('/api/v1',function(){
      */
     $this->group('/documento', function(){
 
+        $this->get('/{documento}/interno/visualizar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiDocumentoRN();
+            $dto = new DocumentoDTO();
+            $dto->setDblIdDocumento($request->getAttribute('route')->getArgument('documento'));
+            return $response->withJSON($rn->visualizarInterno($dto));
+        });
+
         $this->get('/externo/consultar/{protocolo}', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();
             return $response->withJSON($rn->consultarDocumentoExterno($request->getAttribute('route')->getArgument('protocolo')));
         });
-        
+
         $this->get('/listar/ciencia/{protocolo}', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();

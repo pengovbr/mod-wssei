@@ -13,6 +13,105 @@ class MdWsSeiDocumentoRN extends DocumentoRN
     }
 
     /**
+     * Retorna o documento interno no formato HTML
+     * @param DocumentoDTO $documentoDTOParam
+     * @return array
+     */
+    protected function visualizarInternoConectado(DocumentoDTO $documentoDTOParam)
+    {
+        try{
+            $strAcaoSeiCorrespondente = 'documento_visualizar';
+            $result = '';
+            if(!$documentoDTOParam->isSetDblIdDocumento() || !$documentoDTOParam->getDblIdDocumento()){
+                throw new Exception('Documento não informado.');
+            }
+
+            $documentoDTOParam->retDblIdDocumento();
+            $documentoDTOParam->retStrNomeSerie();
+            $documentoDTOParam->retStrNumero();
+            $documentoDTOParam->retStrSiglaUnidadeGeradoraProtocolo();
+            $documentoDTOParam->retStrProtocoloDocumentoFormatado();
+            $documentoDTOParam->retStrStaProtocoloProtocolo();
+            $documentoDTOParam->retStrStaDocumento();
+            $documentoDTOParam->retDblIdDocumentoEdoc();
+
+            $documentoRN = new DocumentoRN();
+            /** Chama o componente SEI para consulta do Documento */
+            $documentoDTOParam = $documentoRN->consultarRN0005($documentoDTOParam);
+
+            if(!$documentoDTOParam){
+                throw new Exception('Documento não encontrado.');
+            }
+
+            if ($documentoDTOParam->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_EDOC) {
+
+                if ($documentoDTOParam->getDblIdDocumentoEdoc() == null) {
+                    throw new Exception('Documento sem conteúdo.');
+                }
+
+                $objEDocRN = new EDocRN();
+                /** Chama o componente SEI para retornar o conteúdo HTML do documento do tipo EDOC */
+                $strResultado = $objEDocRN->consultarHTMLDocumentoRN1204($documentoDTOParam);
+                $result = $strResultado;
+            } else if ($documentoDTOParam->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO) {
+                $editorDTO = new EditorDTO();
+                $editorDTO->setDblIdDocumento($documentoDTOParam->getDblIdDocumento());
+                $editorDTO->setNumIdBaseConhecimento(null);
+                $editorDTO->setStrSinCabecalho('S');
+                $editorDTO->setStrSinRodape('S');
+                $editorDTO->setStrSinIdentificacaoVersao('S');
+                $editorDTO->setStrSinProcessarLinks('S');
+
+                /*
+                if (isset($_GET['versao'])){
+                    $editorDTO->setNumVersao($_GET['versao']);
+                }
+                */
+
+                $editorRN = new EditorRN();
+                /** Chamada ao componente SEI para retornar o conteúdo HTML do Documento do tipo interno */
+                $result = $editorRN->consultarHtmlVersao($editorDTO);
+
+                $auditoriaProtocoloDTO = new AuditoriaProtocoloDTO();
+                $auditoriaProtocoloDTO->setStrRecurso($strAcaoSeiCorrespondente);
+                $auditoriaProtocoloDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+                $auditoriaProtocoloDTO->setDblIdProtocolo($documentoDTOParam->getDblIdDocumento());
+                $auditoriaProtocoloDTO->setNumIdAnexo(null);
+                $auditoriaProtocoloDTO->setDtaAuditoria(InfraData::getStrDataAtual());
+                $auditoriaProtocoloDTO->setNumVersao($editorDTO->getNumVersao());
+
+                $auditoriaProtocoloRN = new AuditoriaProtocoloRN();
+                /** Chamada ao componente SEI para auditar a visualização do Documento */
+                $auditoriaProtocoloRN->auditarVisualizacao($auditoriaProtocoloDTO);
+            } else if ($documentoDTOParam->getStrStaProtocoloProtocolo() == ProtocoloRN::$TP_DOCUMENTO_RECEBIDO) {
+                throw new Exception('Para visualização do Anexo deve-se chamar o serviço correspondente.');
+            }else{
+                $documentoDTOConsulta = new DocumentoDTO();
+                $documentoDTOConsulta->setDblIdDocumento($documentoDTOParam->getDblIdDocumento());
+                $documentoDTOConsulta->setObjInfraSessao(SessaoSEI::getInstance());
+                $documentoDTOConsulta->setStrLinkDownload('controlador.php?acao=documento_download_anexo');
+
+                $result = $documentoRN->consultarHtmlFormulario($documentoDTOConsulta);
+
+                $auditoriaProtocoloDTO = new AuditoriaProtocoloDTO();
+                $auditoriaProtocoloDTO->setStrRecurso($strAcaoSeiCorrespondente);
+                $auditoriaProtocoloDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+                $auditoriaProtocoloDTO->setDblIdProtocolo($documentoDTOParam->getDblIdDocumento());
+                $auditoriaProtocoloDTO->setNumIdAnexo(null);
+                $auditoriaProtocoloDTO->setDtaAuditoria(InfraData::getStrDataAtual());
+                $auditoriaProtocoloDTO->setNumVersao(null);
+                $auditoriaProtocoloRN = new AuditoriaProtocoloRN();
+                /** Chamada ao componente SEI para auditar a visualização do Documento */
+                $auditoriaProtocoloRN->auditarVisualizacao($auditoriaProtocoloDTO);
+            }
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
      * Alterar Seção do documento
      * @param DocumentoDTO DocumentoDTO
      * @return array
