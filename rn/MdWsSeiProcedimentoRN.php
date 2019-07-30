@@ -1627,6 +1627,29 @@ class MdWsSeiProcedimentoRN extends InfraRN
     }
 
     /**
+     * Método que remove a atribuição de um usuário a um processo
+     * @param ProtocoloDTO $protocoloDTO
+     * @return array
+     */
+    public function removerAtribuicaoControlado(ProtocoloDTO $protocoloDTO)
+    {
+        try{
+            if(!$protocoloDTO->isSetDblIdProtocolo() || !$protocoloDTO->getDblIdProtocolo()){
+                throw new Exception('Protocolo não informado.');
+            }
+            $atribuirDTO = new AtribuirDTO();
+            $atribuirDTO->setNumIdUsuarioAtribuicao(null);
+            $atribuirDTO->setArrObjProtocoloDTO(array($protocoloDTO));
+            $atividadeRN = new AtividadeRN();
+            /** Chamada ao componente SEI para remover a atribuição */
+            $atividadeRN->atribuirRN0985($atribuirDTO);
+            return MdWsSeiRest::formataRetornoSucessoREST('Atribuiçao removida com sucesso!');
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
      * Encapsula o objeto ENtradaEnviarProcessoAPI para o metodo enviarProcesso
      * @param array $post
      * @return EntradaEnviarProcessoAPI

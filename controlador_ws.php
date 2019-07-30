@@ -863,6 +863,13 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiProcedimentoRN();
             return $response->withJSON($rn->atribuirProcesso($api));
         });
+        $this->post('/{protocolo}/remover/atribuicao', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $dto = new ProtocoloDTO();
+                $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
+            $rn = new MdWsSeiProcedimentoRN();
+            return $response->withJSON($rn->removerAtribuicao($dto));
+        });
         $this->get('/verifica/acesso/{protocolo}', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
