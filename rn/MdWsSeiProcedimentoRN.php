@@ -1650,6 +1650,50 @@ class MdWsSeiProcedimentoRN extends InfraRN
     }
 
     /**
+     * Método que retorna a atribuição de um usuário a um processo
+     * @param ProtocoloDTO $protocoloDTO
+     * @return array
+     */
+    public function consultarAtribuicaoConectado(ProtocoloDTO $protocoloDTO)
+    {
+        try{
+            if(!$protocoloDTO->isSetDblIdProtocolo() || !$protocoloDTO->getDblIdProtocolo()){
+                throw new Exception('Protocolo não informado.');
+            }
+            $result = array();
+            $atividadeDTO = new AtividadeDTO();
+            $atividadeDTO->retNumIdUsuarioAtribuicao();
+            $atividadeDTO->retNumIdAtividade();
+            $atividadeDTO->retNumIdTarefa();
+            $atividadeDTO->retStrSiglaUsuarioAtribuicao();
+            $atividadeDTO->retStrNomeUsuarioAtribuicao();
+            $atividadeDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+            $atividadeDTO->setNumIdTarefa(
+                array(TarefaRN::$TI_REMOCAO_ATRIBUICAO, TarefaRN::$TI_PROCESSO_ATRIBUIDO),
+                InfraDTO::$OPER_IN
+            );
+            $atividadeDTO->setNumMaxRegistrosRetorno(1);
+            $atividadeDTO->setOrdNumIdAtividade(InfraDTO::$TIPO_ORDENACAO_DESC);
+            $atividadeRN = new AtividadeRN();
+            /** Consulta o componente SEI para retornar a atividade referente a atribuição do usuário */
+            $ret = $atividadeRN->listarRN0036($atividadeDTO);
+            if(!empty($ret) && $ret[0]->getNumIdTarefa() != TarefaRN::$TI_REMOCAO_ATRIBUICAO){
+                $result = array(
+                    'idAtividade' => $ret[0]->getNumIdAtividade(),
+                    'idUsuario' => $ret[0]->getNumIdUsuarioAtribuicao(),
+                    'sigla' => $ret[0]->getStrSiglaUsuarioAtribuicao(),
+                    'nome' => $ret[0]->getStrNomeUsuarioAtribuicao(),
+                    'nomeformatado' => $ret[0]->getStrSiglaUsuarioAtribuicao().' - '.$ret[0]->getStrNomeUsuarioAtribuicao()
+                );
+            }
+            /** Chamada ao componente SEI para consultar a atribuição */
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
      * Encapsula o objeto ENtradaEnviarProcessoAPI para o metodo enviarProcesso
      * @param array $post
      * @return EntradaEnviarProcessoAPI
