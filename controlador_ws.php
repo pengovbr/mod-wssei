@@ -769,8 +769,20 @@ $app->group('/api/v1',function(){
             if(!is_null($request->getParam('start'))){
                 $dto->setNumPaginaAtual($request->getParam('start'));
             }
+            if(!is_null($request->getParam('staTipoData'))){
+                $dto->setStrStaTipoData($request->getParam('staTipoData'));
+            }
+            if($request->getParam('dataInicio')){
+                $dto->setDtaInicio($request->getParam('dataInicio'));
+            }
+            if($request->getParam('dataFim')){
+                $dto->setDtaFim($request->getParam('dataFim'));
+            }
             if(!is_null($request->getParam('idUnidadeGeradora')) && $request->getParam('idUnidadeGeradora') != ''){
                 $dto->setNumIdUnidadeGeradora($request->getParam('idUnidadeGeradora'));
+            }
+            if(!is_null($request->getParam('idAssunto')) && $request->getParam('idAssunto') != ''){
+                $dto->setNumIdAssunto($request->getParam('idAssunto'));
             }
 
             return $response->withJSON($rn->pesquisarProcessosSolar($dto));

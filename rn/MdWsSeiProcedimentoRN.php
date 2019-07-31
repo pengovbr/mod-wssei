@@ -1846,6 +1846,13 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $partialfields .= '(' . SolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrDescricao(), 'desc') . ')';
             }
 
+            if ($pesquisaProtocoloSolrDTO->isSetNumIdUnidadeGeradora() && $pesquisaProtocoloSolrDTO->getNumIdUnidadeGeradora() != null) {
+                if ($partialfields != '') {
+                    $partialfields .= ' AND ';
+                }
+                $partialfields .= '(id_uni_ger:' . $pesquisaProtocoloSolrDTO->getNumIdUnidadeGeradora() . ')';
+            }
+
             if ($pesquisaProtocoloSolrDTO->isSetStrObservacao() && $pesquisaProtocoloSolrDTO->getStrObservacao() != null) {
                 if ($partialfields != '') {
                     $partialfields .= ' AND ';
@@ -1853,7 +1860,6 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $partialfields .= '(' . SolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrObservacao(), 'obs_' . SessaoSEI::getInstance()->getNumIdUnidadeAtual()) . ')';
             }
 
-            //o- verificar lógica do solar
             if ($pesquisaProtocoloSolrDTO->isSetDblIdProcedimento() && $pesquisaProtocoloSolrDTO->getDblIdProcedimento() != null) {
                 if ($partialfields != '') {
                     $partialfields .= ' AND ';
@@ -1878,6 +1884,27 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
                     $partialfields .= '(' . $strProcessos . ')';
                 }
+            }
+
+            if ($pesquisaProtocoloSolrDTO->getNumIdAssunto() != null) {
+
+                $objAssuntoProxyDTO = new AssuntoProxyDTO();
+                $objAssuntoProxyDTO->retNumIdAssuntoProxy();
+                $objAssuntoProxyDTO->setNumIdAssunto($pesquisaProtocoloSolrDTO->getNumIdAssunto());
+
+                $objAssuntoProxyRN = new AssuntoProxyRN();
+                $arrObjAssuntoProxyDTO = $objAssuntoProxyRN->listar($objAssuntoProxyDTO);
+
+                if ($partialfields != '') {
+                    $partialfields .= ' AND ';
+                }
+
+                $arrAssuntos = array();
+                foreach($arrObjAssuntoProxyDTO as $objAssuntoProxyDTO){
+                    array_push($arrAssuntos, 'id_assun:*;' . $objAssuntoProxyDTO->getNumIdAssuntoProxy() . ';*');
+                }
+
+                $partialfields .= '(' . implode(" OR ", $arrAssuntos) . ')';
             }
 
             if ($pesquisaProtocoloSolrDTO->isSetStrProtocoloPesquisa() && $pesquisaProtocoloSolrDTO->getStrProtocoloPesquisa() != null) {
@@ -1935,7 +1962,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 if ($partialfields != '') {
                     $partialfields .= ' AND ';
                 }
-
+                
                 $partialfields .= 'dta_ger:[' . $ano1 . '-' . $mes1 . '-' . $dia1 . 'T00:00:00Z TO ' . $ano2 . '-' . $mes2 . '-' . $dia2 . 'T00:00:00Z]';
             }
 
@@ -2019,7 +2046,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $arrIdProcessos = array();
             $registros = $xml->xpath('/response/result/doc');
             $numRegistros = sizeof($registros);
-
+            
             $result = array();
             for ($i = 0; $i < $numRegistros; $i++) {
                 $arrIdProcessos[] = SolrUtil::obterTag($registros[$i], 'id_proc', 'long');
