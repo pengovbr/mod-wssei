@@ -993,40 +993,10 @@ $app->group('/api/v1',function(){
             return $response->withJSON($rn->gerarProcedimento($dto));
         });
         
-        $this->post('/alterar', function($request, $response, $args){
+        $this->post('/{protocolo}/alterar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
-            
-            //Assunto  explode lista de objetos
-            $assuntos   = array();
-            if($request->getParam('assuntos')){
-                $assuntos = json_decode($request->getParam('assuntos'), TRUE);
-            }
-            //Interessado explode lista de objetos
-            $interessados   = array();
-            if($request->getParam('interessados')){
-                $interessados = json_decode($request->getParam('interessados'), TRUE);
-            }
-            
             $rn     = new MdWsSeiProcedimentoRN();
-            $dto    = new MdWsSeiProcedimentoDTO();
-
-            setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
-
-            $especificacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('especificacao'));
-            $observacoesFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacoes'));
-                        
-            //Atribuir parametros para o DTO
-            $dto->setNumIdProcedimento($request->getParam('id'));
-            $dto->setArrObjInteressado($interessados);
-            $dto->setArrObjAssunto($assuntos);
-            $dto->setNumIdTipoProcedimento($request->getParam('tipoProcesso'));
-            $dto->setStrEspecificacao($especificacaoFormatado);
-            $dto->setStrObservacao($observacoesFormatado);
-            $dto->setNumNivelAcesso($request->getParam('nivelAcesso'));
-            $dto->setNumIdHipoteseLegal($request->getParam('hipoteseLegal'));
-            $dto->setStrStaGrauSigilo($request->getParam('grauSigilo'));
-            
-            return $response->withJSON($rn->alterarProcedimento($dto));
+            return $response->withJSON($rn->alterarProcessoRequest($request));
         });
 
         //Serviço de recebimento do processo na unidade - adicionado por Adriano Cesar - MPOG

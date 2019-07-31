@@ -557,104 +557,131 @@ class MdWsSeiProcedimentoRN extends InfraRN
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
-    
-    
-      
-     /**
-     * Alterar Procedimento
+
+    /**
+     * Método que altera um processo através de uma requisição do Slim
+     * @param \Slim\Http\Request $request
+     * @return array
+     */
+    public function alterarProcessoRequest(\Slim\Http\Request $request)
+    {
+        try{
+            if (!$request->getAttribute('route')->getArgument('protocolo')) {
+                throw new Exception('O procedimento não foi informado.');
+            }
+            $procedimentoDTO = new ProcedimentoDTO();
+            $procedimentoDTO->setDblIdProcedimento($request->getAttribute('route')->getArgument('protocolo'));
+            $procedimentoDTO->retTodos(true);
+
+            $procedimentoRN = new ProcedimentoRN();
+            $procedimentoDTO = $procedimentoRN->consultarRN0201($procedimentoDTO);
+            if(!$procedimentoDTO){
+                throw new Exception('Procedimento não encontrado.');
+            }
+            $post = $request->getParams();
+            $procedimentoDTO = self::encapsulaProcesso($post, $procedimentoDTO);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+
+        return $this->alterarProcedimento($procedimentoDTO);
+    }
+
+    /**
+     * Método que altera o processo
      * @param ProtocoloDTO $protocoloDTO
      * @return array
      */
-    protected function alterarProcedimentoConectado(MdWsSeiProcedimentoDTO $procedimentoDTO)
+    protected function alterarProcedimentoControlado(ProcedimentoDTO $procedimentoDTO)
     {
         try {
-                if (empty($procedimentoDTO->getNumIdProcedimento())) {
-                    throw new InfraException('É obrigatorio informar o procedimento!');
+            if (empty($procedimentoDTO->getDblIdProcedimento())) {
+                throw new Exception('É obrigatorio informar o procedimento!');
+            }
+            $protocoloDTO = $procedimentoDTO->getObjProtocoloDTO();
+            if(!empty($protocoloDTO->getArrObjParticipanteDTO()) && $protocoloDTO->isSetNumIdTipoProcedimentoProcedimento()){
+                $tipoProcedimentoRN = new TipoProcedimentoRN();
+                $tipoProcedimentoDTO = new TipoProcedimentoDTO();
+                $tipoProcedimentoDTO->retStrSinIndividual();
+                $tipoProcedimentoDTO->setNumIdTipoProcedimento($protocoloDTO->getNumIdTipoProcedimentoProcedimento());
+                /** Consulta no componente SEI o tipo de processo */
+                $tipoProcedimentoDTO = $tipoProcedimentoRN->consultarRN0267($tipoProcedimentoDTO);
+                if(!$tipoProcedimentoDTO){
+                    throw new Exception('Tipo de processo não encontrado.');
                 }
-
-                $processo           = $procedimentoDTO->getNumIdProcedimento();
-                $tipoProcesso       = $procedimentoDTO->getNumIdTipoProcedimento();
-                $especificacao      = $procedimentoDTO->getStrEspecificacao();
-                $arrAssuntos        = $procedimentoDTO->getArrObjAssunto();
-                $arrInteressados    = $procedimentoDTO->getArrObjInteressado();
-                $observacoes        = $procedimentoDTO->getStrObservacao();
-                $nivelAcesso        = $procedimentoDTO->getNumNivelAcesso();
-                $hipoteseLegal      = $procedimentoDTO->getNumIdHipoteseLegal();
-                $grauSigilo         = $procedimentoDTO->getStrStaGrauSigilo();
-
-                $objTipoProcedimentoDTO = new TipoProcedimentoDTO();
-                $objTipoProcedimentoDTO->setBolExclusaoLogica(false);
-                $objTipoProcedimentoDTO->retStrNome();
-                $objTipoProcedimentoDTO->retStrSinIndividual();
-                $objTipoProcedimentoDTO->setNumIdTipoProcedimento($tipoProcesso);
-
-                $objTipoProcedimentoRN = new TipoProcedimentoRN();
-                $objTipoProcedimentoDTO = $objTipoProcedimentoRN->consultarRN0267($objTipoProcedimentoDTO);
-
-
-                if ($objTipoProcedimentoDTO && $objTipoProcedimentoDTO->getStrSinIndividual() == 'S') {
-                    if (count($arrInteressados) > 1) {
-                        throw new InfraException('Mais de um Interessado informado.');
-                    }
+                if($tipoProcedimentoDTO->getStrSinIndividual() == 'S' && count($protocoloDTO->getArrObjParticipanteDTO()) > 1){
+                    throw new Exception('O tipo de processo é individual e foi informado mais de um interessado.');
                 }
-                // PREENCHE OS ASSUNTOS
-                $arrayAssuntos = array();
-
-                if($arrAssuntos){
-                    foreach ($arrAssuntos as $k => $assunto) {
-                        $objRelProtocoloAssuntoDTO = new RelProtocoloAssuntoDTO();
-                        $objRelProtocoloAssuntoDTO->setNumIdAssunto($assunto['id']);
-                        $objRelProtocoloAssuntoDTO->setNumSequencia($k);
-                        $arrayAssuntos[] = $objRelProtocoloAssuntoDTO;
-                    }
-                }
-
-                // PREENCHE OS INTERESSADOS
-                $arrayParticipantes = array();
-
-                if($arrInteressados){
-                    foreach ($arrInteressados as $k => $interessado) {
-                        $objParticipanteDTO = new ParticipanteDTO();
-                        $objParticipanteDTO->setNumIdContato($interessado['id']);
-                        $objParticipanteDTO->setStrStaParticipacao('I');
-                        $objParticipanteDTO->setNumSequencia($k);
-                        $arrayParticipantes[] = $objParticipanteDTO;
-                    }
-                }
-                // EDITA AS OBSERVAÇÕES 
-                $objObservacaoDTO = new ObservacaoDTO();
-                $objObservacaoDTO->setStrDescricao($observacoes);
-
-                // EDITA OS DADOS DO PROCESSO 
-                $objProtocoloDTO = new ProtocoloDTO();
-                $objProtocoloDTO->setDblIdProtocolo($processo);
-                $objProtocoloDTO->setStrDescricao($especificacao);
-                $objProtocoloDTO->setStrStaNivelAcessoLocal($nivelAcesso);
-                $objProtocoloDTO->setNumIdHipoteseLegal($hipoteseLegal);
-                $objProtocoloDTO->setArrObjRelProtocoloAssuntoDTO($arrayAssuntos);
-                $objProtocoloDTO->setArrObjParticipanteDTO($arrayParticipantes);
-                $objProtocoloDTO->setArrObjObservacaoDTO(array($objObservacaoDTO));
-                $objProtocoloDTO->setStrStaGrauSigilo($grauSigilo);
-
-                $objProcedimentoDTO = new ProcedimentoDTO();
-                $objProcedimentoDTO->setDblIdProcedimento($processo);
-                $objProcedimentoDTO->setNumIdTipoProcedimento($tipoProcesso);
-                $objProcedimentoDTO->setObjProtocoloDTO($objProtocoloDTO);
-                $objProcedimentoDTO->setStrSinGerarPendencia('S');
-
-                // REALIZA A ALTERAÇÃO DOS DADOS DO PROCESSO
-                $objProcedimentoRN = new ProcedimentoRN();
-                $retorno = $objProcedimentoRN->alterarRN0202($objProcedimentoDTO);
-
-            return MdWsSeiRest::formataRetornoSucessoREST(null);
-
-    
-            //return MdWsSeiRest::formataRetornoSucessoREST(null);
-        
-        } catch (InfraException $e) {
-//            die($e->getStrDescricao());
+            }
+            $procedimentoDTO->setStrSinGerarPendencia('N');
+            $procedimentoRN = new ProcedimentoRN();
+            /** Chama o componente SEI para alterar um processo */
+            $procedimentoRN->alterarRN0202($procedimentoDTO);
+            return MdWsSeiRest::formataRetornoSucessoREST('Procedimento alterado.');
+        } catch (Exception $e) {
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
+    }
+
+
+    /**
+     * Apoia encapsulamento do processo na criação/edição
+     * @param array $post
+     * @param ProcedimentoDTO $objProcedimentoDTO
+     * @return ProcedimentoDTO
+     */
+    public static function encapsulaProcesso(array $post, ProcedimentoDTO $objProcedimentoDTO = null)
+    {
+        $objProtocoloDTO = new ProtocoloDTO();
+        if(!$objProcedimentoDTO){
+            $objProcedimentoDTO = new ProcedimentoDTO();
+            $objProtocoloDTO->setDtaGeracao($post['dataGeracao']);
+        }else{
+            $objProtocoloDTO->setDblIdProtocolo($objProcedimentoDTO->getDblIdProcedimento());
+        }
+
+        $objProtocoloDTO->setStrDescricao($post['especificacao']);
+        $objProtocoloDTO->setStrStaNivelAcessoLocal($post['nivelAcesso']);
+        $objProtocoloDTO->setNumIdHipoteseLegal($post['idHipoteseLegal']);
+        $objProtocoloDTO->setStrStaGrauSigilo($post['grauSigilo']);
+        $objProcedimentoDTO->setNumIdTipoProcedimento($post['idTipoProcesso']);
+        $objProtocoloDTO->setNumIdTipoProcedimentoProcedimento($post['idTipoProcesso']);
+
+        $objObservacaoDTO  = new ObservacaoDTO();
+        $objObservacaoDTO->setStrDescricao($post['observacao']);
+        $objProtocoloDTO->setArrObjObservacaoDTO(array($objObservacaoDTO));
+
+        if (isset($post['assuntos']) && $post['assuntos'] != '') {
+            $arrAssuntos = explode(',', $post['assuntos']);
+            $arrObjAssuntosDTO = array();
+            for ($x = 0; $x < count($arrAssuntos); $x++) {
+                $objRelProtocoloAssuntoDTO = new RelProtocoloAssuntoDTO();
+                $objRelProtocoloAssuntoDTO->setNumIdAssunto($arrAssuntos[$x]);
+                $objRelProtocoloAssuntoDTO->setNumSequencia($x);
+                $arrObjAssuntosDTO[$x] = $objRelProtocoloAssuntoDTO;
+            }
+            $objProtocoloDTO->setArrObjRelProtocoloAssuntoDTO($arrObjAssuntosDTO);
+        }else{
+            $objProtocoloDTO->setArrObjRelProtocoloAssuntoDTO(array());
+        }
+
+        $arrObjParticipantesDTO = array();
+
+        if (isset($post['interessados']) && $post['interessados'] != '') {
+            $arrParticipantes = explode(',', $post['interessados']);
+            for ($i = 0; $i < count($arrParticipantes); $i++) {
+                $objParticipante = new ParticipanteDTO();
+                $objParticipante->setNumIdContato($arrParticipantes[$i]);
+                $objParticipante->setStrStaParticipacao(ParticipanteRN::$TP_INTERESSADO);
+                $objParticipante->setNumSequencia($i);
+                $arrObjParticipantesDTO[] = $objParticipante;
+            }
+        }
+
+        $objProtocoloDTO->setArrObjParticipanteDTO($arrObjParticipantesDTO);
+        $objProcedimentoDTO->setObjProtocoloDTO($objProtocoloDTO);
+
+        return $objProcedimentoDTO;
     }
     
     /**
