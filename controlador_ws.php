@@ -311,7 +311,7 @@ $app->group('/api/v1',function(){
         });
         $this->get('/assunto/sugestao/{serie}/listar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
-            $rn = new MdWsSeiProcedimentoRN();
+            $rn = new MdWsSeiDocumentoRN();
             $dto = new RelSerieAssuntoDTO();
             $dto->setNumIdSerie($request->getAttribute('route')->getArgument('serie'));
             if(!is_null($request->getParam('limit')) && $request->getParam('limit') != ''){
@@ -319,6 +319,12 @@ $app->group('/api/v1',function(){
             }
             if(!is_null($request->getParam('start')) && $request->getParam('start') != ''){
                 $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            if(!is_null($request->getParam('id')) && $request->getParam('id') != ''){
+                $dto->setNumIdAssunto($request->getParam('id'));
+            }
+            if($request->getParam('filter') != ''){
+                $dto->setStrDescricaoAssunto($request->getParam('filter'));
             }
 
             return $response->withJSON(
@@ -605,8 +611,8 @@ $app->group('/api/v1',function(){
                 $rn->apiConsultarProcessoDigitado($request->getParam('protocoloFormatado'))
             );
         });
-        
-        
+
+
         $this->get('/tipo/listar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
