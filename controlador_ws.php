@@ -309,6 +309,22 @@ $app->group('/api/v1',function(){
             $dto->setDblIdDocumento($request->getAttribute('route')->getArgument('documento'));
             return $response->withJSON($rn->visualizarInterno($dto));
         });
+        $this->get('/assunto/sugestao/{serie}/listar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiProcedimentoRN();
+            $dto = new RelSerieAssuntoDTO();
+            $dto->setNumIdSerie($request->getAttribute('route')->getArgument('serie'));
+            if(!is_null($request->getParam('limit')) && $request->getParam('limit') != ''){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start')) && $request->getParam('start') != ''){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+
+            return $response->withJSON(
+                $rn->sugestaoAssunto($dto)
+            );
+        });
 
         $this->get('/externo/consultar/{protocolo}', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
@@ -642,22 +658,6 @@ $app->group('/api/v1',function(){
                 $rn->pesquisarAssunto($dto)
             );
         });
-        $this->get('/assunto/sugestao/{serie}/listar', function($request, $response, $args){
-            /** @var $request Slim\Http\Request */
-            $rn = new MdWsSeiProcedimentoRN();
-            $dto = new RelSerieAssuntoDTO();
-            $dto->setNumIdSerie($request->getAttribute('route')->getArgument('serie'));
-            if(!is_null($request->getParam('limit')) && $request->getParam('limit') != ''){
-                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
-            }
-            if(!is_null($request->getParam('start')) && $request->getParam('start') != ''){
-                $dto->setNumPaginaAtual($request->getParam('start'));
-            }
-
-            return $response->withJSON(
-                $rn->sugestaoAssunto($dto)
-            );
-        });
 
          $this->get('/tipo/template', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
@@ -670,11 +670,7 @@ $app->group('/api/v1',function(){
                 $rn->buscarTipoTemplate($dto)
             );
         });
-        
-        
-        
-        
-        
+
         $this->post('/{protocolo}/sobrestar/processo', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiProcedimentoRN();
