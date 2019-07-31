@@ -2088,4 +2088,49 @@ class MdWsSeiProcedimentoRN extends InfraRN
         }
     }
 
+    /**
+     * Retorna a lista de sugestao de assuntos
+     * @param RelTipoProcedimentoAssuntoDTO $relTipoProcedimentoAssuntoDTOParam
+     * @return array
+     */
+    protected function sugestaoAssuntoConectado(RelTipoProcedimentoAssuntoDTO $relTipoProcedimentoAssuntoDTOParam)
+    {
+        try {
+            $result = array();
+            $relTipoProcedimentoAssuntoDTOParam->retNumIdAssunto();
+            $relTipoProcedimentoAssuntoDTOParam->retStrDescricaoAssunto();
+            $relTipoProcedimentoAssuntoDTOParam->retStrCodigoEstruturadoAssunto();
+            $relTipoProcedimentoAssuntoDTOParam->setOrdNumSequencia(InfraDTO::$TIPO_ORDENACAO_ASC);
+
+            if($relTipoProcedimentoAssuntoDTOParam->isSetStrDescricaoAssunto() && $relTipoProcedimentoAssuntoDTOParam->getStrDescricaoAssunto() != ''){
+                $relTipoProcedimentoAssuntoDTOParam->setStrDescricaoAssunto(
+                    '%'.$relTipoProcedimentoAssuntoDTOParam->getStrDescricaoAssunto().'%',
+                    InfraDTO::$OPER_LIKE
+                );
+            }
+
+            $relTipoProcedimentoAssuntoRN = new RelTipoProcedimentoAssuntoRN();
+            /** Consulta no componente SEI a lista de assuntos **/
+            $ret = $relTipoProcedimentoAssuntoRN->listarRN0192($relTipoProcedimentoAssuntoDTOParam);
+
+            /** @var RelTipoProcedimentoAssuntoDTO $relTipoProcedimentoAssuntoDTO */
+            foreach ($ret as $relTipoProcedimentoAssuntoDTO) {
+                $result[] = array(
+                    /** Chamando componente do SEI para formataçao de nome do assunto **/
+                    'codigoestruturadoformatado' => AssuntoINT::formatarCodigoDescricaoRI0568(
+                        $relTipoProcedimentoAssuntoDTO->getStrCodigoEstruturadoAssunto(),
+                        $relTipoProcedimentoAssuntoDTO->getStrDescricaoAssunto()
+                    ),
+                    'descricao' => $relTipoProcedimentoAssuntoDTO->getStrDescricaoAssunto(),
+                    'codigoestruturado' => $relTipoProcedimentoAssuntoDTO->getStrCodigoEstruturadoAssunto(),
+                    'id' => $relTipoProcedimentoAssuntoDTO->getNumIdAssunto()
+                );
+            }
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relTipoProcedimentoAssuntoDTOParam->getNumTotalRegistros());
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }
