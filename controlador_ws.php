@@ -77,6 +77,7 @@ class EncodingMiddleware {
     public function __invoke($request, $response, $next)
     {
         $request = $request->withParsedBody(MdWsSeiRest::dataToIso88591($request->getParsedBody()) ?: array());
+        $request = $request->withQueryParams(MdWsSeiRest::dataToIso88591($request->getQueryParams()) ?: array());
         $response = $next($request, $response);
         return $response;
     }
@@ -759,11 +760,17 @@ $app->group('/api/v1',function(){
             if($request->getParam('protocoloPesquisa')){
                 $dto->setStrProtocoloPesquisa(InfraUtil::retirarFormatacao($request->getParam('protocoloPesquisa'),false));
             }
+            if($request->getParam('descricao')){
+                $dto->setStrDescricao($request->getParam('descricao'));
+            }
             if($request->getParam('limit')){
                 $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
             }
             if(!is_null($request->getParam('start'))){
                 $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            if(!is_null($request->getParam('idUnidadeGeradora')) && $request->getParam('idUnidadeGeradora') != ''){
+                $dto->setNumIdUnidadeGeradora($request->getParam('idUnidadeGeradora'));
             }
 
             return $response->withJSON($rn->pesquisarProcessosSolar($dto));
