@@ -248,13 +248,24 @@ $app->group('/api/v1',function(){
      * Grupo de controlador de bloco
      */
     $this->group('/bloco', function(){
-        $this->get('/listar', function($request, $response, $args){
+        $this->get('/assinatura/pesquisar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
             $dto = new BlocoDTO();
-            $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
-            $dto->setNumPaginaAtual($request->getParam('start'));
-            return $response->withJSON($rn->listarBloco($dto));
+            if(!is_null($request->getParam('limit')) && $request->getParam('limit') != ''){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start')) && $request->getParam('start') != ''){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            if(!is_null($request->getParam('id')) && $request->getParam('id') != ''){
+                $dto->setNumIdBloco($request->getParam('id'));
+            }
+            if($request->getParam('filter') != ''){
+                $dto->setStrPalavrasPesquisa($request->getParam('filter'));
+            }
+
+            return $response->withJSON($rn->pesquisarBlocoAssinatura($dto));
         });
         $this->post('/{bloco}/retornar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */

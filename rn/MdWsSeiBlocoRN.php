@@ -66,26 +66,14 @@ class MdWsSeiBlocoRN extends InfraRN {
     }
 
     /**
-     * Consultar Blocos
+     * Pesquisa blocos de assinatura
      * @param BlocoDTO $blocoDTO
      * @return array
      */
-    protected function listarBlocoConectado(BlocoDTO $blocoDTO){
+    protected function pesquisarBlocoAssinaturaConectado(BlocoDTO $blocoDTOConsulta){
         try{
             $result = array();
             $blocoRN = new BlocoRN();
-            $blocoDTOConsulta = new BlocoDTO();
-            if(!$blocoDTO->getNumMaxRegistrosRetorno()){
-                $blocoDTOConsulta->setNumMaxRegistrosRetorno(10);
-            }else{
-                $blocoDTOConsulta->setNumMaxRegistrosRetorno($blocoDTO->getNumMaxRegistrosRetorno());
-            }
-            if(is_null($blocoDTO->getNumPaginaAtual())){
-                $blocoDTOConsulta->setNumPaginaAtual(0);
-            }else{
-                $blocoDTOConsulta->setNumPaginaAtual($blocoDTO->getNumPaginaAtual());
-            }
-
             $blocoDTOConsulta->setStrStaEstado(BlocoRN::$TE_CONCLUIDO,InfraDTO::$OPER_DIFERENTE);
             $blocoDTOConsulta->setStrStaTipo(BlocoRN::$TB_ASSINATURA);
             $blocoDTOConsulta->retNumIdBloco();
@@ -101,6 +89,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $blocoDTOConsulta->retArrObjRelBlocoUnidadeDTO();
             $blocoDTOConsulta->setOrdNumIdBloco(InfraDTO::$TIPO_ORDENACAO_DESC);
 
+            /** Acessa o componente SEI para realizar a pesquisa de blocos de assinatura */
             $ret = $blocoRN->pesquisar($blocoDTOConsulta);
 
             /** @var BlocoDTO $blocoDTO */
@@ -112,6 +101,7 @@ class MdWsSeiBlocoRN extends InfraRN {
                 $relBlocoProtocoloDTOConsulta->setNumIdBloco($blocoDTO->getNumIdBloco());
                 $relBlocoProtocoloDTOConsulta->setOrdNumIdBloco(InfraDTO::$TIPO_ORDENACAO_DESC);
                 $relBlocoProtocoloDTOConsulta->retDblIdProtocolo();
+                /** Acessa o componente SEI para consultar o total de documentos dentro de um bloco de assinatura */
                 $relBlocoProtocoloRN->listarRN1291($relBlocoProtocoloDTOConsulta);
                 $numeroDocumentos = $relBlocoProtocoloDTOConsulta->getNumTotalRegistros();
 
