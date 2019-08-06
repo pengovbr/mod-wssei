@@ -290,4 +290,52 @@ class MdWsSeiBlocoRN extends InfraRN {
         }
     }
 
+    /**
+     * Método que cadastra um bloco de assinatura
+     * @param \Slim\Http\Request $request
+     * @return array
+     */
+    public function cadastrarBlocoAssinaturaRequest(\Slim\Http\Request $request)
+    {
+        try{
+            $result = array();
+            if(!$request->getParam('descricao')){
+                throw new Exception('Descrição não informada.');
+            }
+            $blocoDTO = new BlocoDTO();
+            $blocoDTO->setStrStaTipo(BlocoRN::$TB_ASSINATURA);
+            $blocoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $blocoDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+            $blocoDTO->setStrIdxBloco(null);
+            $blocoDTO->setStrStaEstado(BlocoRN::$TE_ABERTO);
+            $blocoDTO->setStrDescricao($request->getParam('descricao'));
+
+            $arrObjRelBlocoUnidadeDTO = array();
+            $arrUnidades = array();
+            if($request->getParam('unidades') != ''){
+                $arrUnidades = explode(',', $request->getParam('unidades'));
+                foreach($arrUnidades as $numIdUnidade){
+                    $objRelBlocoUnidadeDTO = new RelBlocoUnidadeDTO();
+                    $objRelBlocoUnidadeDTO->setNumIdBloco(null);
+                    $objRelBlocoUnidadeDTO->setNumIdUnidade($numIdUnidade);
+                    $arrObjRelBlocoUnidadeDTO[] = $objRelBlocoUnidadeDTO;
+                }
+            }
+            $blocoDTO->setArrObjRelBlocoUnidadeDTO($arrObjRelBlocoUnidadeDTO);
+            $blocoRN = new BlocoRN();
+            /** Acessa o componente SEI para cadastro de Bloco de assinatura */
+            $blocoRN->cadastrarRN1273($blocoDTO);
+
+            $result = array(
+                'id' => $blocoDTO->getNumIdBloco(),
+                'descricao' => $blocoDTO->getStrDescricao(),
+                'unidades' => $arrUnidades,
+            );
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Bloco de assinatura cadastrado com sucesso.', $result);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }

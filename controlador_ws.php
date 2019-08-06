@@ -267,6 +267,11 @@ $app->group('/api/v1',function(){
 
             return $response->withJSON($rn->pesquisarBlocoAssinatura($dto));
         });
+        $this->post('/assinatura/criar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            return $response->withJSON($rn->cadastrarBlocoAssinaturaRequest($request));
+        });
         $this->post('/{bloco}/retornar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
