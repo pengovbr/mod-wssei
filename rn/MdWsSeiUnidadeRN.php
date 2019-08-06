@@ -57,4 +57,38 @@ class MdWsSeiUnidadeRN extends InfraRN {
         }
     }
 
+    /**
+     * Método para pesquisar outras unidades,
+     * baseado no UnidadeINT::autoCompletarUnidades
+     * @param UnidadeDTO $unidadeDTOParam
+     * @return array
+     */
+    protected function pesquisarOutrasConectado(UnidadeDTO $unidadeDTOParam)
+    {
+        try{
+            $unidadeDTOParam->retNumIdUnidade();
+            $unidadeDTOParam->retStrSigla();
+            $unidadeDTOParam->retStrDescricao();
+            $unidadeDTOParam->setOrdStrSigla(InfraDTO::$TIPO_ORDENACAO_ASC);
+            $unidadeRN = new UnidadeRN();
+            /** Acessa o componente SEI para listagem de unidades */
+            $arrObjUnidadeDTO = $unidadeRN->listarOutrasComFiltro($unidadeDTOParam);
+            $result = array();
+            /** @var UnidadeDTO $unidadeDTO */
+            foreach($arrObjUnidadeDTO as $unidadeDTO)
+            {
+                $result[] = array(
+                    'id' => $unidadeDTO->getNumIdUnidade(),
+                    'descricao' => $unidadeDTO->getStrDescricao(),
+                    'sigla' => $unidadeDTO->getStrSigla(),
+                    /** Acessa o componente SEI para formatação do nome da unidade */
+                    'nomeformatado' => UnidadeINT::formatarSiglaDescricao($unidadeDTO->getStrSigla(),$unidadeDTO->getStrDescricao()),
+                );
+            }
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $unidadeDTOParam->getNumTotalRegistros());
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }

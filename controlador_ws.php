@@ -206,6 +206,28 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->pesquisarUnidade($dto));
         });
+        $this->get('/outras/pesquisar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiUnidadeRN();
+            $dto = new UnidadeDTO();
+            if(!is_null($request->getParam('limit')) && $request->getParam('limit') != ''){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start')) && $request->getParam('start') != ''){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            if(!is_null($request->getParam('id')) && $request->getParam('id') != ''){
+                $dto->adicionarCriterio(
+                    array('IdUnidade'),
+                    array(InfraDTO::$OPER_IGUAL),
+                    array($request->getParam('id'))
+                );
+            }
+            if($request->getParam('filter') && $request->getParam('filter') != ''){
+                $dto->setStrPalavrasPesquisa($request->getParam('filter'));
+            }
+            return $response->withJSON($rn->pesquisarOutras($dto));
+        });
 
         $this->get('/textopadrao/interno/pesquisar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
