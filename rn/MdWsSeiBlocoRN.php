@@ -26,7 +26,6 @@ class MdWsSeiBlocoRN extends InfraRN {
         }
     }
 
-
     /**
      * Assina todos os documentos do bloco
      * @param $idOrgao
@@ -333,6 +332,33 @@ class MdWsSeiBlocoRN extends InfraRN {
             );
 
             return MdWsSeiRest::formataRetornoSucessoREST('Bloco de assinatura cadastrado com sucesso.', $result);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
+     * Método generico para excluir blocos
+     * @param BlocoDTO $blocoDTO
+     * @return array
+     */
+    public function excluirBlocos(array $arrIdBlocos)
+    {
+        try{
+            if(empty($arrIdBlocos)){
+                throw new Exception('Bloco não informado.');
+            }
+            $blocoRN = new BlocoRN();
+            $arrBlocosExclusao = array();
+            foreach($arrIdBlocos as $idBloco) {
+                $blocoDTO = new BlocoDTO();
+                $blocoDTO->setNumIdBloco($idBloco);
+                $arrBlocosExclusao[] = $blocoDTO;
+            }
+            /** Chama o componente SEI para exclusão de blocos */
+            $blocoRN->excluirRN1275($arrBlocosExclusao);
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Bloco de assinatura excluído com sucesso.', null);
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }

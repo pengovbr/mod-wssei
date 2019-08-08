@@ -299,6 +299,15 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiBlocoRN();
             return $response->withJSON($rn->alterarBlocoAssinaturaRequest($request));
         });
+        $this->post('/assinatura/excluir', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            $arrIdBlocos = array();
+            if($request->getParam('blocos')){
+                $arrIdBlocos = explode(',', $request->getParam('blocos'));
+            }
+            return $response->withJSON($rn->excluirBlocos($arrIdBlocos));
+        });
         $this->post('/{bloco}/retornar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
