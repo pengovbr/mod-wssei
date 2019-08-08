@@ -338,4 +338,60 @@ class MdWsSeiBlocoRN extends InfraRN {
         }
     }
 
+    /**
+     * Método que altera um bloco de assinatura
+     * @param \Slim\Http\Request $request
+     * @return array
+     */
+    public function alterarBlocoAssinaturaRequest(\Slim\Http\Request $request)
+    {
+        try{
+            $result = array();
+            if(!$request->getParam('descricao')){
+                throw new Exception('Descrição não informada.');
+            }
+            if(!$request->getAttribute('route')->getArgument('bloco')){
+                throw new Exception('Bloco não informado.');
+            }
+            $blocoDTO = new BlocoDTO();
+            $blocoDTO->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
+            $blocoDTO->retTodos();
+            $blocoRN = new BlocoRN();
+            $blocoDTO = $blocoRN->consultarRN1276($blocoDTO);
+            if(!$blocoDTO){
+                throw new Exception('Bloco não encontrado.');
+            }
+            if($blocoDTO->getStrStaTipo() != BlocoRN::$TB_ASSINATURA){
+                throw new Exception('Bloco diferente do informado.');
+            }
+
+            $blocoDTO->setStrDescricao($request->getParam('descricao'));
+
+            $arrObjRelBlocoUnidadeDTO = array();
+            $arrUnidades = array();
+            if($request->getParam('unidades') != ''){
+                $arrUnidades = explode(',', $request->getParam('unidades'));
+                foreach($arrUnidades as $numIdUnidade){
+                    $objRelBlocoUnidadeDTO = new RelBlocoUnidadeDTO();
+                    $objRelBlocoUnidadeDTO->setNumIdBloco(null);
+                    $objRelBlocoUnidadeDTO->setNumIdUnidade($numIdUnidade);
+                    $arrObjRelBlocoUnidadeDTO[] = $objRelBlocoUnidadeDTO;
+                }
+            }
+            $blocoDTO->setArrObjRelBlocoUnidadeDTO($arrObjRelBlocoUnidadeDTO);
+            /** Acessa o componente SEI para alteração de Bloco de assinatura */
+            $blocoRN->alterarRN1274($blocoDTO);
+
+            $result = array(
+                'id' => $blocoDTO->getNumIdBloco(),
+                'descricao' => $blocoDTO->getStrDescricao(),
+                'unidades' => $arrUnidades,
+            );
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Bloco de assinatura alterado com sucesso.', $result);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }

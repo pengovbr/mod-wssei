@@ -294,6 +294,11 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiBlocoRN();
             return $response->withJSON($rn->cadastrarBlocoAssinaturaRequest($request));
         });
+        $this->post('/assinatura/{bloco}/alterar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            return $response->withJSON($rn->alterarBlocoAssinaturaRequest($request));
+        });
         $this->post('/{bloco}/retornar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
