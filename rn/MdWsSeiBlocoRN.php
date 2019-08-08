@@ -365,6 +365,33 @@ class MdWsSeiBlocoRN extends InfraRN {
     }
 
     /**
+     * Método generico para excluir blocos
+     * @param BlocoDTO $blocoDTO
+     * @return array
+     */
+    public function concluirBlocos(array $arrIdBlocos)
+    {
+        try{
+            if(empty($arrIdBlocos)){
+                throw new Exception('Bloco não informado.');
+            }
+            $blocoRN = new BlocoRN();
+            $arrBlocosExclusao = array();
+            foreach($arrIdBlocos as $idBloco) {
+                $blocoDTO = new BlocoDTO();
+                $blocoDTO->setNumIdBloco($idBloco);
+                $arrBlocosExclusao[] = $blocoDTO;
+            }
+            /** Chama o componente SEI para conclusão de blocos */
+            $blocoRN->concluir($arrBlocosExclusao);
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Bloco de assinatura concluído com sucesso.', null);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
      * Método que altera um bloco de assinatura
      * @param \Slim\Http\Request $request
      * @return array

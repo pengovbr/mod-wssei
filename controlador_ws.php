@@ -308,6 +308,15 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->excluirBlocos($arrIdBlocos));
         });
+        $this->post('/assinatura/concluir', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            $arrIdBlocos = array();
+            if($request->getParam('blocos')){
+                $arrIdBlocos = explode(',', $request->getParam('blocos'));
+            }
+            return $response->withJSON($rn->concluirBlocos($arrIdBlocos));
+        });
         $this->post('/{bloco}/retornar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
