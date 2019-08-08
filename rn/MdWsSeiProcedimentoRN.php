@@ -1875,7 +1875,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 }
             }
 
-            if ($pesquisaProtocoloSolrDTO->getNumIdAssunto() != null) {
+            if ($pesquisaProtocoloSolrDTO->isSetNumIdAssunto() && $pesquisaProtocoloSolrDTO->getNumIdAssunto() != null) {
 
                 $objAssuntoProxyDTO = new AssuntoProxyDTO();
                 $objAssuntoProxyDTO->retNumIdAssuntoProxy();
