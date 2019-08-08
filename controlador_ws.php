@@ -317,6 +317,13 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->concluirBlocos($arrIdBlocos));
         });
+        $this->post('/assinatura/{bloco}/reabrir', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $dto = new BlocoDTO();
+            $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
+            $rn = new MdWsSeiBlocoRN();
+            return $response->withJSON($rn->reabrirBloco($dto));
+        });
         $this->post('/{bloco}/retornar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();

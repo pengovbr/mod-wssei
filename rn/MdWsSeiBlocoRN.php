@@ -365,7 +365,7 @@ class MdWsSeiBlocoRN extends InfraRN {
     }
 
     /**
-     * Método generico para excluir blocos
+     * Método generico para concluir blocos
      * @param BlocoDTO $blocoDTO
      * @return array
      */
@@ -386,6 +386,35 @@ class MdWsSeiBlocoRN extends InfraRN {
             $blocoRN->concluir($arrBlocosExclusao);
 
             return MdWsSeiRest::formataRetornoSucessoREST('Bloco de assinatura concluído com sucesso.', null);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
+     * Método generico reabrir bloco
+     * @param BlocoDTO $blocoDTO
+     * @return array
+     */
+    protected function reabrirBlocoControlado(BlocoDTO $blocoDTO)
+    {
+        try{
+            if(!$blocoDTO->getNumIdBloco()){
+                throw new Exception('Bloco não informado.');
+            }
+            $blocoRN = new BlocoRN();
+            $blocoDTO->retNumIdBloco();
+            $blocoDTO->retStrStaEstado();
+            $blocoDTO->retStrDescricao();
+            /** Chama o componente SEI para consultar o Bloco e validar existencia */
+            $blocoDTO = $blocoRN->consultarRN1276($blocoDTO);
+            /** Chama o componente SEI para conclusão de blocos */
+            if(!$blocoDTO){
+                throw new Exception('Bloco não encontrado.');
+            }
+            $blocoRN->reabrir($blocoDTO);
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Bloco de assinatura reaberto com sucesso.', null);
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
