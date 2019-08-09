@@ -246,7 +246,7 @@ class MdWsSeiBlocoRN extends InfraRN {
                 throw new InfraException('Bloco não informado.');
             }
             $blocoRN = new BlocoRN();
-            /** Chama o componente SEI para disponibilizar um bloco de assinatura */
+            /** Chama o componente SEI para cancelar a disponibilização de um bloco de assinatura */
             $blocoRN->cancelarDisponibilizacao(array($blocoDTO));
             return MdWsSeiRest::formataRetornoSucessoREST('Disponibilização cancelada com sucesso.');
         }catch (Exception $e){
