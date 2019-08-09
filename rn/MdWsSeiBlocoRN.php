@@ -235,6 +235,26 @@ class MdWsSeiBlocoRN extends InfraRN {
     }
 
     /**
+     * Método que cancela a disponibilização do bloco de assinatura
+     * @param BlocoDTO $blocoDTO
+     * @return array
+     */
+    protected function cancelarDisponibilizacaoBlocoAssinaturaControlado(BlocoDTO $blocoDTO)
+    {
+        try{
+            if(!$blocoDTO->getNumIdBloco()){
+                throw new InfraException('Bloco não informado.');
+            }
+            $blocoRN = new BlocoRN();
+            /** Chama o componente SEI para disponibilizar um bloco de assinatura */
+            $blocoRN->cancelarDisponibilizacao(array($blocoDTO));
+            return MdWsSeiRest::formataRetornoSucessoREST('Disponibilização cancelada com sucesso.');
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
      * Metodo publico que cadastra a anotacao em um bloco
      * @param array $post
      * @return array

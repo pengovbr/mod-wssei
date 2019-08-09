@@ -338,6 +338,13 @@ $app->group('/api/v1',function(){
             $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
             return $response->withJSON($rn->disponibilizarBlocoAssinatura($dto));
         });
+        $this->post('/assinatura/{bloco}/disponibilizacao/cancelar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            $dto = new BlocoDTO();
+            $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
+            return $response->withJSON($rn->cancelarDisponibilizacaoBlocoAssinatura($dto));
+        });
         $this->get('/assinatura/{bloco}/documentos/listar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
