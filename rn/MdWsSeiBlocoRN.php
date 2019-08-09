@@ -44,6 +44,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $objRelBlocoProtocoloDTO->setOrdNumSequencia(InfraDTO::$TIPO_ORDENACAO_ASC);
 
             $objRelBlocoProtocoloRN = new RelBlocoProtocoloRN();
+            /** Chama o componente SEI para retornar todos os IDs dos documentos do bloco para assinatura */
             $arrIdDocumentos = InfraArray::converterArrInfraDTO($objRelBlocoProtocoloRN->listarProtocolosBloco($objRelBlocoProtocoloDTO),'IdProtocolo');
             if(!$arrIdDocumentos){
                 return MdWsSeiRest::formataRetornoSucessoREST('Nenhum documento para ser assinado neste bloco.');
@@ -59,7 +60,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $assinaturaDTO->setArrObjDocumentoDTO(InfraArray::gerarArrInfraDTO('DocumentoDTO','IdDocumento',$arrIdDocumentos));
             $documentoRN = new DocumentoRN();
             $documentoRN->assinarInterno($assinaturaDTO);
-            return MdWsSeiRest::formataRetornoSucessoREST('Documentos em bloco assinados com sucesso.');
+            return MdWsSeiRest::formataRetornoSucessoREST('Bloco assinado com sucesso.');
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }

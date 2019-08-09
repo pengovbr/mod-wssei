@@ -368,7 +368,7 @@ $app->group('/api/v1',function(){
             return $response->withJSON($rn->cadastrarAnotacaoBloco($dto));
         });
 
-        $this->post('/assinar/{bloco}', function($request, $response, $args){
+        $this->post('/assinatura/{bloco}/assinar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
             return $response->withJSON($rn->apiAssinarBloco(
