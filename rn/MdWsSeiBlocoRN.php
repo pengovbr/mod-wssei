@@ -132,103 +132,83 @@ class MdWsSeiBlocoRN extends InfraRN {
     }
 
     /**
-     * Consultar Documentos por Bloco
-     * @param BlocoDTO $blocoDTOConsulta
+     * Consultar Documentos de um Bloco de Assinatura
+     * @param RelBlocoProtocoloDTO $relBlocoProtocoloDTOConsulta
      * @return array
      */
-    protected function listarDocumentosBlocoConectado(BlocoDTO $blocoDTOConsulta){
+    protected function listarDocumentosBlocoAssinaturaConectado(RelBlocoProtocoloDTO $relBlocoProtocoloDTOConsulta){
         try{
-            if(!$blocoDTOConsulta->getNumIdBloco()){
+            if(!$relBlocoProtocoloDTOConsulta->getNumIdBloco()){
                 throw new InfraException('Bloco não informado.');
             }
-            $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
-            $relBlocoProtocoloDTOConsulta = new RelBlocoProtocoloDTO();
-            if($blocoDTOConsulta->getNumMaxRegistrosRetorno()){
-                $relBlocoProtocoloDTOConsulta->setNumMaxRegistrosRetorno($blocoDTOConsulta->getNumMaxRegistrosRetorno());
-            }else{
-                $relBlocoProtocoloDTOConsulta->setNumMaxRegistrosRetorno(10000000);
-            }
-            if(!is_null($blocoDTOConsulta->getNumPaginaAtual())){
-                $relBlocoProtocoloDTOConsulta->setNumPaginaAtual($blocoDTOConsulta->getNumPaginaAtual());
-            }else{
-                $relBlocoProtocoloDTOConsulta->setNumPaginaAtual(0);
+            $blocoDTO = new BlocoDTO();
+            $blocoDTO->retStrStaTipo();
+            $blocoDTO->retStrStaEstado();
+            $blocoDTO->retStrTipoDescricao();
+            $blocoDTO->retNumIdUnidade();
+            $blocoDTO->setNumIdBloco($relBlocoProtocoloDTOConsulta->getNumIdBloco());
+
+            $blocoRN = new BlocoRN();
+            $blocoDTO = $blocoRN->consultarRN1276($blocoDTO);
+            if(!$blocoDTO){
+                throw new InfraException('Bloco não encontrado.');
             }
             $result = array();
-            $relBlocoProtocoloDTOConsulta->setNumIdBloco($blocoDTOConsulta->getNumIdBloco());
-            $relBlocoProtocoloDTOConsulta->setOrdNumIdBloco(InfraDTO::$TIPO_ORDENACAO_DESC);
+            $arrAtributos = array(
+                'assinar' => (
+                    SessaoSEI::getInstance()->verificarPermissao('documento_assinar') &&
+                    !($blocoDTO->getNumIdUnidade()==SessaoSEI::getInstance()->getNumIdUnidadeAtual() && $blocoDTO->getStrStaEstado()==BlocoRN::$TE_DISPONIBILIZADO)
+                ),
+                'retirar' => (
+                    SessaoSEI::getInstance()->verificarPermissao('rel_bloco_protocolo_excluir') &&
+                    $blocoDTO->getStrStaEstado() != BlocoRN::$TE_DISPONIBILIZADO &&
+                    $blocoDTO->getNumIdUnidade() == SessaoSEI::getInstance()->getNumIdUnidadeAtual()
+                ),
+                'anotar' => (
+                    SessaoSEI::getInstance()->verificarPermissao('rel_bloco_protocolo_alterar')
+                )
+            );
+
+            $result['permissoes'] = $arrAtributos;
+
+            $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
+            $relBlocoProtocoloDTOConsulta->setOrdNumSequencia(InfraDTO::$TIPO_ORDENACAO_ASC);
             $relBlocoProtocoloDTOConsulta->retDblIdProtocolo();
-            $relBlocoProtocoloDTOConsulta->retStrAnotacao();
+            $relBlocoProtocoloDTOConsulta->retNumIdBloco();
+            $relBlocoProtocoloDTOConsulta->retNumSequencia();
+            $relBlocoProtocoloDTOConsulta->retNumIdUnidadeBloco();
             $relBlocoProtocoloDTOConsulta->retStrProtocoloFormatadoProtocolo();
-            $arrRelProtocolo = $relBlocoProtocoloRN->listarRN1291($relBlocoProtocoloDTOConsulta);
-            if($arrRelProtocolo){
-                $anexoRN = new AnexoRN();
-                $assinaturaRN = new AssinaturaRN();
-                $protocoloRN = new ProtocoloRN();
-                $protocoloProtocoloRN = new RelProtocoloProtocoloRN();
+            $relBlocoProtocoloDTOConsulta->retStrStaProtocoloProtocolo();
+            $relBlocoProtocoloDTOConsulta->retStrAnotacao();
+            /** Acessa o componente SEI para consulta dos documentos de um bloco */
+            $ret = $relBlocoProtocoloRN->listarProtocolosBloco($relBlocoProtocoloDTOConsulta);
                 /** @var RelBlocoProtocoloDTO $relBlocoProtocoloDTO */
-                foreach($arrRelProtocolo as $relBlocoProtocoloDTO){
-                    $relProtocoloProtocoloDTO = new RelProtocoloProtocoloDTO();
-                    $relProtocoloProtocoloDTO->setStrStaAssociacao($protocoloProtocoloRN::$TA_DOCUMENTO_CIRCULAR , InfraDTO::$OPER_DIFERENTE);
-                    $relProtocoloProtocoloDTO->setDblIdProtocolo2($relBlocoProtocoloDTO->getDblIdProtocolo());
-                    $relProtocoloProtocoloDTO->retDblIdProtocolo1();
-                    $relProtocoloProtocoloDTO = $protocoloProtocoloRN->consultarRN0841($relProtocoloProtocoloDTO);
-                    $arrResultAssinatura = array();
-                    $protocoloDTO = new ProtocoloDTO();
-                    $protocoloDTO->setDblIdProtocolo($relProtocoloProtocoloDTO->getDblIdProtocolo1());
-                    $protocoloDTO->retStrNomeSerieDocumento();
-                    $protocoloDTO->retStrProtocoloFormatado();
-                    $protocoloDTO->retDblIdProtocolo();
-                    $protocoloDTO->retDtaGeracao();
-                    $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
-
-                    $protocoloDTODocumento = new ProtocoloDTO();
-                    $protocoloDTODocumento->retStrNomeSerieDocumento();
-                    $protocoloDTODocumento->setDblIdProtocolo($relBlocoProtocoloDTO->getDblIdProtocolo());
-                    $protocoloDTODocumento = $protocoloRN->consultarRN0186($protocoloDTODocumento);
-
-                    $assinaturaDTOConsulta = new AssinaturaDTO();
-                    $assinaturaDTOConsulta->setDblIdDocumento($relBlocoProtocoloDTO->getDblIdProtocolo());
-                    $assinaturaDTOConsulta->retStrNome();
-                    $assinaturaDTOConsulta->retStrTratamento();
-                    $assinaturaDTOConsulta->retNumIdUsuario();
-                    $arrAssinatura = $assinaturaRN->listarRN1323($assinaturaDTOConsulta);
-                    /** @var AssinaturaDTO $assinaturaDTO */
-                    foreach($arrAssinatura as $assinaturaDTO){
-                        $arrResultAssinatura[] = array(
-                            'nome' => $assinaturaDTO->getStrNome(),
-                            'cargo' => $assinaturaDTO->getStrTratamento(),
-                            'idUsuario' => $assinaturaDTO->getNumIdUsuario(),
-                        );
-                    }
-                    $anexoDTOConsulta = new AnexoDTO();
-                    $anexoDTOConsulta->retTodos();
-                    $anexoDTOConsulta->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
-                    $anexoDTOConsulta->setStrSinAtivo('S');
-                    $anexoDTOConsulta->setNumMaxRegistrosRetorno(1);
-                    $retAnexo = $anexoRN->listarRN0218($anexoDTOConsulta);
-                    $mimetype = null;
-                    if($retAnexo){
-                        $mimetype = $retAnexo[0]->getStrNome();
-                        $mimetype = substr($mimetype, strrpos($mimetype, '.')+1);
-                    }
-                    $result[] = array(
-                        'id' => $protocoloDTO->getDblIdProtocolo(),
-                        'atributos' => array(
-                            'idDocumento' => $relBlocoProtocoloDTO->getDblIdProtocolo(),
-                            'mimeType' => ($mimetype)?$mimetype:'html',
-                            'data' => $protocoloDTO->getDtaGeracao(),
-                            'numero' => $relBlocoProtocoloDTO->getStrProtocoloFormatadoProtocolo(),
-                            'numeroProcesso' => $protocoloDTO->getStrProtocoloFormatado(),
-                            'tipo' => $protocoloDTODocumento->getStrNomeSerieDocumento(),
-                            'assinaturas' => $arrResultAssinatura
-                        ),
-                        'anotacao' => $relBlocoProtocoloDTO->getStrAnotacao()
+            foreach($ret as $relBlocoProtocoloDTO){
+                /** @var AssinaturaDTO $assinaturaDTO */
+                $arrAssinaturas = array();
+                foreach($relBlocoProtocoloDTO->getArrObjAssinaturaDTO() as $assinaturaDTO){
+                    $arrAssinaturas[] = array(
+                        'nome' => $assinaturaDTO->getStrNome(),
+                        'cargo' => $assinaturaDTO->getStrTratamento(),
+                        'idUsuario' => $assinaturaDTO->getNumIdUsuario(),
                     );
                 }
+                $result['dados'][] = array(
+                    'sequencia' => $relBlocoProtocoloDTO->getNumSequencia(),
+                    'id' => $relBlocoProtocoloDTO->getDblIdProtocolo(),
+                    'aberto' => $relBlocoProtocoloDTO->getObjProtocoloDTO()->getStrSinAberto(),
+                    'data' => $relBlocoProtocoloDTO->getObjProtocoloDTO()->getDtaGeracao(),
+                    'idDocumento' => $relBlocoProtocoloDTO->getDblIdProtocolo(),
+                    'nomeTipoProcesso' => $relBlocoProtocoloDTO->getObjProtocoloDTO()->getStrNomeTipoProcedimentoDocumento(),
+                    'protocoloFormatado' => $relBlocoProtocoloDTO->getObjProtocoloDTO()->getStrProtocoloFormatadoProcedimentoDocumento(),
+                    'numeroDocumento' => $relBlocoProtocoloDTO->getStrProtocoloFormatadoProtocolo(),
+                    'tipoDocumento' => $relBlocoProtocoloDTO->getObjProtocoloDTO()->getStrNomeSerieDocumento(),
+                    'assinaturas' => $arrAssinaturas,
+                    'anotacao' => $relBlocoProtocoloDTO->getStrAnotacao(),
+                );
             }
 
-
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, count($result));
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relBlocoProtocoloDTOConsulta->getNumTotalRegistros());
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }

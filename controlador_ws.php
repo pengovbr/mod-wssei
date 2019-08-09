@@ -331,14 +331,18 @@ $app->group('/api/v1',function(){
             $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
             return $response->withJSON($rn->retornar($dto));
         });
-        $this->get('/listar/{bloco}/documentos', function($request, $response, $args){
+        $this->get('/assinatura/{bloco}/documentos/listar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
-            $dto = new BlocoDTO();
+            $dto = new RelBlocoProtocoloDTO();
             $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
-            $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
-            $dto->setNumPaginaAtual($request->getParam('start'));
-            return $response->withJSON($rn->listarDocumentosBloco($dto));
+            if(!is_null($request->getParam('limit')) && $request->getParam('limit') != ''){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start')) && $request->getParam('start') != ''){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            return $response->withJSON($rn->listarDocumentosBlocoAssinatura($dto));
         });
         $this->post('/{bloco}/anotacao', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
