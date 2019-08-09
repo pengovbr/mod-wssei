@@ -324,12 +324,12 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiBlocoRN();
             return $response->withJSON($rn->reabrirBloco($dto));
         });
-        $this->post('/{bloco}/retornar', function($request, $response, $args){
+        $this->post('/assinatura/{bloco}/retornar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
             $dto = new BlocoDTO();
             $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
-            return $response->withJSON($rn->retornar($dto));
+            return $response->withJSON($rn->retornarBloco($dto));
         });
         $this->post('/assinatura/{bloco}/disponibilizar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */

@@ -12,12 +12,13 @@ class MdWsSeiBlocoRN extends InfraRN {
      * @param BlocoDTO $blocoDTO
      * @return array
      */
-    protected function retornarControlado(BlocoDTO $blocoDTO){
+    protected function retornarBlocoControlado(BlocoDTO $blocoDTO){
         try{
-            if(!$blocoDTO->isSetNumIdBloco()){
+            if(!$blocoDTO->getNumIdBloco()){
                 throw new Exception('Bloco não informado!');
             }
             $blocoRN = new BlocoRN();
+            /** Chamada ao componente SEI para retorno de bloco de assinatura */
             $blocoRN->retornar(array($blocoDTO));
 
             return MdWsSeiRest::formataRetornoSucessoREST('Bloco retornado com sucesso!');
