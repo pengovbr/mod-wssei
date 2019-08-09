@@ -367,7 +367,6 @@ $app->group('/api/v1',function(){
             $dto->setStrAnotacao($request->getParam('anotacao'));
             return $response->withJSON($rn->cadastrarAnotacaoBloco($dto));
         });
-
         $this->post('/assinatura/{bloco}/assinar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
@@ -378,6 +377,18 @@ $app->group('/api/v1',function(){
                 $request->getParam('login'),
                 $request->getParam('senha'),
                 $request->getParam('usuario')
+            ));
+        });
+        $this->post('/assinatura/assinar/documentos', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            return $response->withJSON($rn->apiAssinarDocumentos(
+                $request->getParam('orgao'),
+                $request->getParam('cargo'),
+                $request->getParam('login'),
+                $request->getParam('senha'),
+                $request->getParam('usuario'),
+                explode(',', $request->getParam('documentos'))
             ));
         });
 

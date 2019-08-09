@@ -59,8 +59,42 @@ class MdWsSeiBlocoRN extends InfraRN {
             $assinaturaDTO->setNumIdContextoUsuario(null);
             $assinaturaDTO->setArrObjDocumentoDTO(InfraArray::gerarArrInfraDTO('DocumentoDTO','IdDocumento',$arrIdDocumentos));
             $documentoRN = new DocumentoRN();
+            /** Chama o componente SEI para assinar os documentos */
             $documentoRN->assinarInterno($assinaturaDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Bloco assinado com sucesso.');
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
+     * Assina os documentos selecionados do bloco
+     * @param $strCargoFuncao
+     * @param $siglaUsuario
+     * @param $senhaUsuario
+     * @param $idUsuario
+     * @param $arrIdDocumentos
+     * @return array
+     */
+    public function apiAssinarDocumentos($idOrgao, $strCargoFuncao, $siglaUsuario, $senhaUsuario, $idUsuario, $arrIdDocumentos)
+    {
+        try{
+            if(!$arrIdDocumentos){
+                return MdWsSeiRest::formataRetornoSucessoREST('Nenhum documento foi informado para ser assinado.');
+            }
+            $assinaturaDTO = new AssinaturaDTO();
+            $assinaturaDTO->setStrSiglaUsuario($siglaUsuario);
+            $assinaturaDTO->setStrSenhaUsuario($senhaUsuario);
+            $assinaturaDTO->setNumIdUsuario($idUsuario);
+            $assinaturaDTO->setNumIdOrgaoUsuario($idOrgao);
+            $assinaturaDTO->setStrCargoFuncao($strCargoFuncao);
+            $assinaturaDTO->setStrStaFormaAutenticacao(AssinaturaRN::$TA_SENHA);
+            $assinaturaDTO->setNumIdContextoUsuario(null);
+            $assinaturaDTO->setArrObjDocumentoDTO(InfraArray::gerarArrInfraDTO('DocumentoDTO','IdDocumento',$arrIdDocumentos));
+            $documentoRN = new DocumentoRN();
+            /** Chama o componente SEI para realizar a assinatura dos documentos */
+            $documentoRN->assinarInterno($assinaturaDTO);
+            return MdWsSeiRest::formataRetornoSucessoREST('Documento(s) assinado(s) com sucesso.');
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
