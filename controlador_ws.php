@@ -391,6 +391,14 @@ $app->group('/api/v1',function(){
                 explode(',', $request->getParam('documentos'))
             ));
         });
+        $this->post('/assinatura/{bloco}/documentos/retirar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            return $response->withJSON($rn->apiRetirarDocumentos(
+                $request->getAttribute('route')->getArgument('bloco'),
+                explode(',', $request->getParam('documentos'))
+            ));
+        });
 
     })->add( new TokenValidationMiddleware());
 

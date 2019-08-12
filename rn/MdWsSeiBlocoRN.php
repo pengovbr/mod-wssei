@@ -101,6 +101,34 @@ class MdWsSeiBlocoRN extends InfraRN {
     }
 
     /**
+     * Retira os documentos selecionados do bloco
+     * @param $idBloco
+     * @param $arrIdDocumentos
+     * @return array
+     */
+    public function apiRetirarDocumentos($idBloco, $arrIdDocumentos)
+    {
+        try{
+            if(!$arrIdDocumentos){
+                return MdWsSeiRest::formataRetornoSucessoREST('Nenhum documento foi informado.');
+            }
+            $arrObjRelBlocoProtocoloDTO = array();
+            foreach($arrIdDocumentos as $idDocumento) {
+                $relBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
+                $relBlocoProtocoloDTO->setDblIdProtocolo($idDocumento);
+                $relBlocoProtocoloDTO->setNumIdBloco($idBloco);
+                $arrObjRelBlocoProtocoloDTO[] = $relBlocoProtocoloDTO;
+            }
+            $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
+            /** Chama o componente SEI para exclusão dos documentos do bloco */
+            $relBlocoProtocoloRN->excluirRN1289($arrObjRelBlocoProtocoloDTO);
+            return MdWsSeiRest::formataRetornoSucessoREST('Documento(s) removido(s) com sucesso.');
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
      * Pesquisa blocos de assinatura
      * @param BlocoDTO $blocoDTO
      * @return array
