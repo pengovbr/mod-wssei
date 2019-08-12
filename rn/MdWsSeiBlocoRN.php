@@ -335,15 +335,15 @@ class MdWsSeiBlocoRN extends InfraRN {
             $relBlocoProtocoloDTO->setStrAnotacao($post['anotacao']);
         }
 
-        return $this->cadastrarAnotacaoBloco($relBlocoProtocoloDTO);
+        return $this->salvarAnotacaoBloco($relBlocoProtocoloDTO);
     }
 
     /**
-     * Cadastrar Anotacao documento do Bloco
+     * Salvar Anotacao documento do Bloco
      * @param RelBlocoProtocoloDTO $relBlocoProtocoloDTOParam
      * @return array
      */
-    protected function cadastrarAnotacaoBlocoControlado(RelBlocoProtocoloDTO $relBlocoProtocoloDTOParam){
+    protected function salvarAnotacaoBlocoControlado(RelBlocoProtocoloDTO $relBlocoProtocoloDTOParam){
 
         try {
             if (!$relBlocoProtocoloDTOParam->isSetNumIdBloco()) {
@@ -360,14 +360,16 @@ class MdWsSeiBlocoRN extends InfraRN {
             $relBlocoProtocoloDTO->setDblIdProtocolo($relBlocoProtocoloDTOParam->getDblIdProtocolo());
             $relBlocoProtocoloDTO->retTodos();
             $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
+            /** Acessando o componente SEI para consulta de Documento no Bloco */
             $relBlocoProtocoloDTO = $relBlocoProtocoloRN->consultarRN1290($relBlocoProtocoloDTO);
             if (!$relBlocoProtocoloDTO) {
                 throw new InfraException('Documento não encontrado no bloco informado.');
             }
             $relBlocoProtocoloDTO->setStrAnotacao($relBlocoProtocoloDTOParam->getStrAnotacao());
+            /** Chamando o componente SEI para salvar a anotação */
             $relBlocoProtocoloRN->alterarRN1288($relBlocoProtocoloDTO);
 
-            return MdWsSeiRest::formataRetornoSucessoREST('Anotação realizada com sucesso.');
+            return MdWsSeiRest::formataRetornoSucessoREST('Operação realizada com sucesso.');
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }

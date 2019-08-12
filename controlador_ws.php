@@ -294,7 +294,7 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiBlocoRN();
             return $response->withJSON($rn->cadastrarBlocoAssinaturaRequest($request));
         });
-        $this->post('/assinatura/{bloco}/alterar', function($request, $response, $args){
+        $this->post('/assinatura/{bloco:[0-9]+}/alterar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
             return $response->withJSON($rn->alterarBlocoAssinaturaRequest($request));
@@ -317,35 +317,35 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->concluirBlocos($arrIdBlocos));
         });
-        $this->post('/assinatura/{bloco}/reabrir', function($request, $response, $args){
+        $this->post('/assinatura/{bloco:[0-9]+}/reabrir', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $dto = new BlocoDTO();
             $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
             $rn = new MdWsSeiBlocoRN();
             return $response->withJSON($rn->reabrirBloco($dto));
         });
-        $this->post('/assinatura/{bloco}/retornar', function($request, $response, $args){
+        $this->post('/assinatura/{bloco:[0-9]+}/retornar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
             $dto = new BlocoDTO();
             $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
             return $response->withJSON($rn->retornarBloco($dto));
         });
-        $this->post('/assinatura/{bloco}/disponibilizar', function($request, $response, $args){
+        $this->post('/assinatura/{bloco:[0-9]+}/disponibilizar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
             $dto = new BlocoDTO();
             $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
             return $response->withJSON($rn->disponibilizarBlocoAssinatura($dto));
         });
-        $this->post('/assinatura/{bloco}/disponibilizacao/cancelar', function($request, $response, $args){
+        $this->post('/assinatura/{bloco:[0-9]+}/disponibilizacao/cancelar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
             $dto = new BlocoDTO();
             $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
             return $response->withJSON($rn->cancelarDisponibilizacaoBlocoAssinatura($dto));
         });
-        $this->get('/assinatura/{bloco}/documentos/listar', function($request, $response, $args){
+        $this->get('/assinatura/{bloco:[0-9]+}/documentos/listar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
             $dto = new RelBlocoProtocoloDTO();
@@ -358,7 +358,7 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->listarDocumentosBlocoAssinatura($dto));
         });
-        $this->post('/{bloco}/anotacao', function($request, $response, $args){
+        $this->post('/{bloco:[0-9]+}/anotacao', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
             $dto = new RelBlocoProtocoloDTO();
@@ -367,7 +367,7 @@ $app->group('/api/v1',function(){
             $dto->setStrAnotacao($request->getParam('anotacao'));
             return $response->withJSON($rn->cadastrarAnotacaoBloco($dto));
         });
-        $this->post('/assinatura/{bloco}/assinar', function($request, $response, $args){
+        $this->post('/assinatura/{bloco:[0-9]+}/assinar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
             return $response->withJSON($rn->apiAssinarBloco(
@@ -391,13 +391,28 @@ $app->group('/api/v1',function(){
                 explode(',', $request->getParam('documentos'))
             ));
         });
-        $this->post('/assinatura/{bloco}/documentos/retirar', function($request, $response, $args){
+        $this->post('/assinatura/{bloco:[0-9]+}/documentos/retirar', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiBlocoRN();
             return $response->withJSON($rn->apiRetirarDocumentos(
                 $request->getAttribute('route')->getArgument('bloco'),
                 explode(',', $request->getParam('documentos'))
             ));
+        });
+        $this->post('/assinatura/anotacao/cadastrar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $dto = new RelBlocoProtocoloDTO();
+            if($request->getParam('bloco')){
+                $dto->setNumIdBloco($request->getParam('bloco'));
+            }
+            if($request->getParam('documento')){
+                $dto->setDblIdProtocolo($request->getParam('documento'));
+            }
+            if($request->getParam('anotacao') != ''){
+                $dto->setStrAnotacao($request->getParam('anotacao'));
+            }
+            $rn = new MdWsSeiBlocoRN();
+            return $response->withJSON($rn->salvarAnotacaoBloco($dto));
         });
 
     })->add( new TokenValidationMiddleware());
