@@ -478,6 +478,21 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiBlocoRN();
             return $response->withJSON($rn->salvarAnotacaoBloco($dto));
         });
+        $this->post('/interno/anotacao/alterar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $dto = new RelBlocoProtocoloDTO();
+            if($request->getParam('bloco')){
+                $dto->setNumIdBloco($request->getParam('bloco'));
+            }
+            if($request->getParam('protocolo')){
+                $dto->setDblIdProtocolo($request->getParam('protocolo'));
+            }
+            if($request->getParam('anotacao') != ''){
+                $dto->setStrAnotacao($request->getParam('anotacao'));
+            }
+            $rn = new MdWsSeiBlocoRN();
+            return $response->withJSON($rn->salvarAnotacaoBloco($dto));
+        });
 
     })->add( new TokenValidationMiddleware());
 
