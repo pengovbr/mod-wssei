@@ -129,6 +129,34 @@ class MdWsSeiBlocoRN extends InfraRN {
     }
 
     /**
+     * Retira os Processos selecionados do bloco
+     * @param $idBloco
+     * @param $arrIdProtocolos
+     * @return array
+     */
+    public function apiRetirarProcessos($idBloco, $arrIdProtocolos)
+    {
+        try{
+            if(!$arrIdProtocolos){
+                return MdWsSeiRest::formataRetornoSucessoREST('Nenhum processo foi informado.');
+            }
+            $arrObjRelBlocoProtocoloDTO = array();
+            foreach($arrIdProtocolos as $idProtocolo) {
+                $relBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
+                $relBlocoProtocoloDTO->setDblIdProtocolo($idProtocolo);
+                $relBlocoProtocoloDTO->setNumIdBloco($idBloco);
+                $arrObjRelBlocoProtocoloDTO[] = $relBlocoProtocoloDTO;
+            }
+            $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
+            /** Chama o componente SEI para exclusão dos processos do bloco */
+            $relBlocoProtocoloRN->excluirRN1289($arrObjRelBlocoProtocoloDTO);
+            return MdWsSeiRest::formataRetornoSucessoREST('Processo(s) removido(s) com sucesso.');
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
      * Pesquisa blocos de assinatura
      * @param BlocoDTO $blocoDTO
      * @return array

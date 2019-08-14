@@ -493,6 +493,14 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiBlocoRN();
             return $response->withJSON($rn->salvarAnotacaoBloco($dto));
         });
+        $this->post('/assinatura/{bloco:[0-9]+}/processos/retirar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            return $response->withJSON($rn->apiRetirarProcessos(
+                $request->getAttribute('route')->getArgument('bloco'),
+                explode(',', $request->getParam('protocolos'))
+            ));
+        });
 
     })->add( new TokenValidationMiddleware());
 
