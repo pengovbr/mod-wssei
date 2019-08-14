@@ -504,7 +504,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             /** Chama o componente SEI para conclusão de blocos */
             $blocoRN->concluir($arrBlocosExclusao);
 
-            return MdWsSeiRest::formataRetornoSucessoREST('Bloco de assinatura concluído com sucesso.', null);
+            return MdWsSeiRest::formataRetornoSucessoREST('Bloco(s) concluído(s) com sucesso.', null);
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
