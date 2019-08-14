@@ -424,6 +424,39 @@ class MdWsSeiBlocoRN extends InfraRN {
     }
 
     /**
+     * Método que cadastra um bloco interno
+     * @param BlocoDTO $blocoDTO
+     * @return array
+     */
+    protected function cadastrarBlocoInternoControlado(BlocoDTO $blocoDTO)
+    {
+        try{
+            $result = array();
+            if(!$blocoDTO->isSetStrDescricao() || !trim($blocoDTO->getStrDescricao())){
+                throw new Exception('Descrição não informada.');
+            }
+            $blocoDTO->setStrStaTipo(BlocoRN::$TB_INTERNO);
+            $blocoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $blocoDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+            $blocoDTO->setStrIdxBloco(null);
+            $blocoDTO->setStrStaEstado(BlocoRN::$TE_ABERTO);
+            $blocoDTO->setArrObjRelBlocoUnidadeDTO(array());
+            $blocoRN = new BlocoRN();
+            /** Acessa o componente SEI para cadastro de Bloco Interno */
+            $blocoRN->cadastrarRN1273($blocoDTO);
+
+            $result = array(
+                'id' => $blocoDTO->getNumIdBloco(),
+                'descricao' => $blocoDTO->getStrDescricao(),
+            );
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Bloco Interno cadastrado com sucesso.', $result);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
      * Método generico para excluir blocos
      * @param BlocoDTO $blocoDTO
      * @return array

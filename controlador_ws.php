@@ -429,6 +429,13 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiBlocoRN();
             return $response->withJSON($rn->salvarAnotacaoBloco($dto));
         });
+        $this->post('/interno/criar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $dto = new BlocoDTO();
+            $dto->setStrDescricao($request->getParam('descricao'));
+            $rn = new MdWsSeiBlocoRN();
+            return $response->withJSON($rn->cadastrarBlocoInterno($dto));
+        });
 
     })->add( new TokenValidationMiddleware());
 
