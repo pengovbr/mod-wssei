@@ -555,13 +555,13 @@ class MdWsSeiBlocoRN extends InfraRN {
             $blocoDTO->retStrDescricao();
             /** Chama o componente SEI para consultar o Bloco e validar existencia */
             $blocoDTO = $blocoRN->consultarRN1276($blocoDTO);
-            /** Chama o componente SEI para conclusão de blocos */
             if(!$blocoDTO){
                 throw new Exception('Bloco não encontrado.');
             }
+            /** Chama o componente SEI para reabrir o bloco */
             $blocoRN->reabrir($blocoDTO);
 
-            return MdWsSeiRest::formataRetornoSucessoREST('Bloco de assinatura reaberto com sucesso.', null);
+            return MdWsSeiRest::formataRetornoSucessoREST('Bloco reaberto com sucesso.', null);
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
