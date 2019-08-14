@@ -436,6 +436,15 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiBlocoRN();
             return $response->withJSON($rn->cadastrarBlocoInterno($dto));
         });
+        $this->post('/interno/{bloco:[0-9]+}/alterar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            $dto = new BlocoDTO();
+            $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
+            $dto->setStrDescricao($request->getParam('descricao'));
+            $rn = new MdWsSeiBlocoRN();
+            return $response->withJSON($rn->alterarBlocoInterno($dto));
+        });
 
     })->add( new TokenValidationMiddleware());
 

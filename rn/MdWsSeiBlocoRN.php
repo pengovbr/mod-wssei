@@ -595,4 +595,47 @@ class MdWsSeiBlocoRN extends InfraRN {
         }
     }
 
+    /**
+     * Método que altera um bloco interno
+     * @param BlocoDTO $blocoDTO
+     * @return array
+     */
+    public function alterarBlocoInternoControlado(BlocoDTO $blocoDTO)
+    {
+        try{
+            $result = array();
+            if(!trim($blocoDTO->getStrDescricao())){
+                throw new Exception('Descrição não informada.');
+            }
+            if(!$blocoDTO->getNumIdBloco()){
+                throw new Exception('Bloco não informado.');
+            }
+            $blocoDTOConsulta = new BlocoDTO();
+            $blocoDTOConsulta->retTodos();
+            $blocoDTOConsulta->setNumIdBloco($blocoDTO->getNumIdBloco());
+            $blocoRN = new BlocoRN();
+            $blocoDTOConsulta = $blocoRN->consultarRN1276($blocoDTOConsulta);
+            if(!$blocoDTOConsulta){
+                throw new Exception('Bloco não encontrado.');
+            }
+            if($blocoDTOConsulta->getStrStaTipo() != BlocoRN::$TB_INTERNO){
+                throw new Exception('Bloco diferente do informado.');
+            }
+
+            $blocoDTOConsulta->setStrDescricao($blocoDTO->getStrDescricao());
+            $blocoDTOConsulta->setArrObjRelBlocoUnidadeDTO(array());
+            /** Acessa o componente SEI para alteração de Bloco interno */
+            $blocoRN->alterarRN1274($blocoDTOConsulta);
+
+            $result = array(
+                'id' => $blocoDTO->getNumIdBloco(),
+                'descricao' => $blocoDTO->getStrDescricao(),
+            );
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Bloco de interno alterado com sucesso.', $result);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }
