@@ -477,7 +477,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             /** Chama o componente SEI para exclusão de blocos */
             $blocoRN->excluirRN1275($arrBlocosExclusao);
 
-            return MdWsSeiRest::formataRetornoSucessoREST('Bloco de assinatura excluído com sucesso.', null);
+            return MdWsSeiRest::formataRetornoSucessoREST('Bloco(s) excluído(s) com sucesso.', null);
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }

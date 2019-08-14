@@ -454,6 +454,15 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->concluirBlocos($arrIdBlocos));
         });
+        $this->post('/interno/excluir', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            $arrIdBlocos = array();
+            if($request->getParam('blocos')){
+                $arrIdBlocos = explode(',', $request->getParam('blocos'));
+            }
+            return $response->withJSON($rn->excluirBlocos($arrIdBlocos));
+        });
 
     })->add( new TokenValidationMiddleware());
 
