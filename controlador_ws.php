@@ -1483,6 +1483,14 @@ $app->group('/api/v1',function(){
         });
     })->add( new TokenValidationMiddleware());
 
+    $this->group('/upload', function(){
+        $this->get('/parametros', function ($request, $response, $args) {
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiExtensaoRN();
+            return $response->withJSON($rn->retornarParametrosUpload());
+        });
+    })->add( new TokenValidationMiddleware());
+
 })
     ->add( new ModuleVerificationMiddleware())
     ->add(new EncodingMiddleware());
