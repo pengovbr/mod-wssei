@@ -219,7 +219,12 @@ try {
         .cke_button__assinatura_label {display:inline !important;}
         .cke_combopanel__styles {width:500px !important;}
         /** desabilitando botoes do SEI para versao externa */
-        .cke_button__assinatura, .cke_button__source, .cke_button__base64image {display: none !important;}
+        .cke_button__assinatura, .cke_button__source, .cke_button__base64image,
+        .cke_button__subscript, .cke_button__superscript, .cke_button__maiuscula,
+        .cke_button__minuscula, .cke_button__find, .cke_button__replace, .cke_toolbar_separator,
+        .cke_button__removeformat, .cke_button__autotexto, .cke_combo__styles,
+        .cke_toolbar:nth-child(5), .cke_toolbar:nth-child(7) > .cke_toolgroup:nth-child(2)
+        {display: none !important;}
         div.infraAreaDebug{
             overflow:auto;
             display:table;
