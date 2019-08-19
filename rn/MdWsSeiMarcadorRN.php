@@ -172,7 +172,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
      * @param AndamentoMarcadorDTO $andamentoMarcadorDTO
      * @return array
      */
-    protected function marcadorProcessoConsultarControlado(AndamentoMarcadorDTO $andamentoMarcadorDTOParam)
+    protected function marcadorProcessoConsultarConectado(AndamentoMarcadorDTO $andamentoMarcadorDTOParam)
     {
         try{
             if(!$andamentoMarcadorDTOParam->getDblIdProcedimento()){
@@ -184,6 +184,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
             $procedimentoDTO->retDblIdProcedimento();
 
             $procedimentoRN = new ProcedimentoRN();
+            /** Acessa o componente SEI para consulta da existencia do processo */
             $procedimentoDTO = $procedimentoRN->consultarRN0201($procedimentoDTO);
 
             if ($procedimentoDTO == null) {
@@ -217,6 +218,64 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
                     'idCor' => $andamentoMarcadorDTO->getStrStaIconeMarcador(),
                     'descricaoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrDescricao(),
                     'arquivoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrArquivo()
+                );
+            }
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
+     * Lista o histórico do marcador do processo
+     * @param AndamentoMarcadorDTO $andamentoMarcadorDTO
+     * @return array
+     */
+    protected function listarHistoricoProcessoConectado(AndamentoMarcadorDTO $andamentoMarcadorDTOParam)
+    {
+        try{
+            if(!$andamentoMarcadorDTOParam->getDblIdProcedimento()){
+                throw new InfraException('Processo não informado.');
+            }
+
+            $procedimentoDTO = new ProcedimentoDTO();
+            $procedimentoDTO->setDblIdProcedimento($andamentoMarcadorDTOParam->getDblIdProcedimento());
+            $procedimentoDTO->retDblIdProcedimento();
+
+            $procedimentoRN = new ProcedimentoRN();
+            /** Acessa o componente SEI para consulta da existencia do processo */
+            $procedimentoDTO = $procedimentoRN->consultarRN0201($procedimentoDTO);
+
+            if ($procedimentoDTO == null) {
+                throw new InfraException("Processo não encontrado.");
+            }
+
+            $result = array();
+
+            $andamentoMarcadorDTOParam->retNumIdMarcador();
+            $andamentoMarcadorDTOParam->retStrNomeMarcador();
+            $andamentoMarcadorDTOParam->retStrSinAtivoMarcador();
+            $andamentoMarcadorDTOParam->retStrTexto();
+            $andamentoMarcadorDTOParam->retDthExecucao();
+            $andamentoMarcadorDTOParam->retNumIdUsuario();
+            $andamentoMarcadorDTOParam->retStrSiglaUsuario();
+            $andamentoMarcadorDTOParam->retStrNomeUsuario();
+            $andamentoMarcadorDTOParam->retNumIdAndamentoMarcador();
+            $andamentoMarcadorDTOParam->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $andamentoMarcadorDTOParam->setOrdNumIdAndamentoMarcador(InfraDTO::$TIPO_ORDENACAO_DESC);
+
+            $andamentoMarcadorRN = new AndamentoMarcadorRN();
+            $ret = $andamentoMarcadorRN->listar($andamentoMarcadorDTOParam);
+
+            foreach($ret as $andamentoMarcadorDTO) {
+                $result[] = array(
+                    'marcadorAtivo' => $andamentoMarcadorDTO->getStrSinAtivoMarcador(),
+                    'data' => substr($andamentoMarcadorDTO->getDthExecucao(), 0, 16),
+                    'texto' => $andamentoMarcadorDTO->getStrTexto(),
+                    'nomeMarcador' => ($andamentoMarcadorDTO->getNumIdMarcador() ? $andamentoMarcadorDTO->getStrNomeMarcador() : '[REMOVIDO]'),
+                    'nomeUsuario' => $andamentoMarcadorDTO->getStrNomeUsuario(),
+                    'siglaUsuario' => $andamentoMarcadorDTO->getStrSiglaUsuario(),
                 );
             }
 

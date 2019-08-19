@@ -1638,6 +1638,19 @@ $app->group('/api/v1',function(){
             $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('protocolo'));
             return $response->withJSON($rn->marcadorProcessoConsultar($dto));
         });
+        $this->get('/processo/{protocolo:[0-9]+}/historico/listar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiMarcadorRN();
+            $dto = new AndamentoMarcadorDTO();
+            $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('protocolo'));
+            if($request->getParam('limit')){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start'))){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            return $response->withJSON($rn->listarHistoricoProcesso($dto));
+        });
     })->add( new TokenValidationMiddleware());
 
 })
