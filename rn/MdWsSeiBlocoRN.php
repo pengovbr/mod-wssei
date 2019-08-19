@@ -624,6 +624,45 @@ class MdWsSeiBlocoRN extends InfraRN {
     }
 
     /**
+     * Inclui os Documentos selecionados no bloco
+     * @param $idBloco
+     * @param $arrIdDocumentos
+     * @return array
+     */
+    public function apiIncluirDocumentosBlocoAssinatura($idBloco, $arrIdDocumentos)
+    {
+        try{
+            if(!$arrIdDocumentos){
+                return MdWsSeiRest::formataRetornoSucessoREST('Nenhum documento foi informado.');
+            }
+            $blocoDTO = new BlocoDTO();
+            $blocoDTO->retNumIdBloco();
+            $blocoDTO->setNumIdBloco($idBloco);
+            $blocoDTO->setStrStaTipo(BlocoRN::$TB_ASSINATURA);
+            $blocoRN = new BlocoRN();
+            /** Chamando componente SEI para verificação de existencia de bloco **/
+            $blocoDTO = $blocoRN->consultarRN1276($blocoDTO);
+            if(!$blocoDTO){
+                throw new InfraException('Bloco não encontrado.');
+            }
+            $arrObjRelBlocoProtocoloDTO = array();
+            foreach($arrIdDocumentos as $idProtocolo) {
+                $relBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
+                $relBlocoProtocoloDTO->setDblIdProtocolo($idProtocolo);
+                $relBlocoProtocoloDTO->setNumIdBloco($idBloco);
+                $relBlocoProtocoloDTO->setStrAnotacao(null);
+                $arrObjRelBlocoProtocoloDTO[] = $relBlocoProtocoloDTO;
+            }
+            $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
+            /** Chama o componente SEI para inclusão dos documentos no bloco */
+            $relBlocoProtocoloRN->cadastrarMultiplo($arrObjRelBlocoProtocoloDTO);
+            return MdWsSeiRest::formataRetornoSucessoREST('Documento(s) incluído(s) com sucesso.');
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
      * Método que altera um bloco interno
      * @param BlocoDTO $blocoDTO
      * @return array

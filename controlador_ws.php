@@ -507,6 +507,14 @@ $app->group('/api/v1',function(){
                 explode(',', $request->getParam('protocolos'))
             ));
         });
+        $this->post('/assinatura/{bloco:[0-9]+}/documentos/incluir', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            return $response->withJSON($rn->apiIncluirDocumentosBlocoAssinatura(
+                $request->getAttribute('route')->getArgument('bloco'),
+                explode(',', $request->getParam('documentos'))
+            ));
+        });
         $this->post('/interno/{bloco:[0-9]+}/reabrir', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $dto = new BlocoDTO();
