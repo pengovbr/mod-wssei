@@ -1567,6 +1567,9 @@ $app->group('/api/v1',function(){
             if($request->getParam('filter') != ''){
                 $dto->setStrNome($request->getParam('filter'));
             }
+            if($request->getParam('ativo') != ''){
+                $dto->setStrSinAtivo($request->getParam('ativo'));
+            }
             $rn = new MdWsSeiMarcadorRN();
             return $response->withJSON($rn->pesquisar($dto));
         });

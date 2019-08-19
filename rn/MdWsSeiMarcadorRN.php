@@ -18,9 +18,12 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         try{
             $result = array();
             $marcadorDTOConsulta->retTodos();
-            $marcadorDTOConsulta->setBolExclusaoLogica(false);
             $marcadorDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
             $marcadorDTOConsulta->setOrdNumIdMarcador(InfraDTO::$TIPO_ORDENACAO_ASC);
+
+            if($marcadorDTOConsulta->isSetStrSinAtivo() && !in_array($marcadorDTOConsulta->getStrSinAtivo(), array('S', 'N'))){
+                throw new InfraException('Parametro ativo inválido.');
+            }
 
             if($marcadorDTOConsulta->isSetStrNome()){
                 $marcadorDTOConsulta->setStrNome(
@@ -42,6 +45,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
                 $result[] = array(
                     'id' => $marcadorDTO->getNumIdMarcador(),
                     'nome' => $marcadorDTO->getStrNome(),
+                    'ativo' => $marcadorDTO->getStrSinAtivo(),
                     'idCor' => $marcadorDTO->getStrStaIcone(),
                     'descricaoCor' => $arrIconeMarcadorDTO[$marcadorDTO->getStrStaIcone()]->getStrDescricao(),
                     'arquivoCor' => $arrIconeMarcadorDTO[$marcadorDTO->getStrStaIcone()]->getStrArquivo()
