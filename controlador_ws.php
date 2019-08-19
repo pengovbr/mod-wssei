@@ -1578,6 +1578,14 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiMarcadorRN();
             return $response->withJSON($rn->listarCores());
         });
+        $this->post('/criar', function ($request, $response, $args) {
+            /** @var $request Slim\Http\Request */
+            $dto = new MarcadorDTO();
+            $dto->setStrNome($request->getParam('nome'));
+            $dto->setStrStaIcone($request->getParam('idCor'));
+            $rn = new MdWsSeiMarcadorRN();
+            return $response->withJSON($rn->cadastrar($dto));
+        });
     })->add( new TokenValidationMiddleware());
 
 })

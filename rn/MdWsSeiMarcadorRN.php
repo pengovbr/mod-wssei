@@ -84,4 +84,38 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         }
     }
 
+    /**
+     * Cadastra um marcador
+     * @param MarcadorDTO $marcadorDTO
+     * @return array
+     */
+    protected function cadastrarControlado(MarcadorDTO $marcadorDTO)
+    {
+        try{
+            $marcadorDTO->setNumIdMarcador(null);
+            $marcadorDTO->setStrDescricao(null);
+            $marcadorDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $marcadorDTO->setStrSinAtivo('S');
+            $marcadorRN = new MarcadorRN();
+            /** Chama o componente SEI para realizar o cadastro de um marcador */
+            $marcadorDTO = $marcadorRN->cadastrar($marcadorDTO);
+
+            /** Chama o componente SEI para retornar as cores disponíveis para o Marcador */
+            $arrIconeMarcadorDTO = $marcadorRN->listarValoresIcone();
+
+            $result = array(
+                'id' => $marcadorDTO->getNumIdMarcador(),
+                'nome' => $marcadorDTO->getStrNome(),
+                'ativo' => $marcadorDTO->getStrSinAtivo(),
+                'idCor' => $marcadorDTO->getStrStaIcone(),
+                'descricaoCor' => $arrIconeMarcadorDTO[$marcadorDTO->getStrStaIcone()]->getStrDescricao(),
+                'arquivoCor' => $arrIconeMarcadorDTO[$marcadorDTO->getStrStaIcone()]->getStrArquivo()
+            );
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Marcador cadastrado com sucesso.', $result);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }
