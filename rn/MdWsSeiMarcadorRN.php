@@ -166,4 +166,31 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         }
     }
 
+    /**
+     * Método que exclui marcadores
+     * @param $arrIdMarcadores
+     * @return array
+     */
+    public function excluirMarcadores(array $arrIdMarcadores)
+    {
+        try{
+            if(empty($arrIdMarcadores)){
+                throw new Exception('Marcador não informado.');
+            }
+            $marcadorRN = new MarcadorRN();
+            $arrMarcadoresExclusao = array();
+            foreach($arrIdMarcadores as $idMarcador) {
+                $marcadorDTO = new MarcadorDTO();
+                $marcadorDTO->setNumIdMarcador($idMarcador);
+                $arrMarcadoresExclusao[] = $marcadorDTO;
+            }
+            /** Chama o componente SEI para exclusão de marcadores */
+            $marcadorRN->excluir($arrMarcadoresExclusao);
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Marcador(es) excluído(s) com sucesso.', null);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }

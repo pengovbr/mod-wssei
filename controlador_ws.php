@@ -1595,6 +1595,15 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiMarcadorRN();
             return $response->withJSON($rn->alterar($dto));
         });
+        $this->post('/excluir', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiMarcadorRN();
+            $arrIdMarcadores = array();
+            if($request->getParam('marcadores')){
+                $arrIdMarcadores = explode(',', $request->getParam('marcadores'));
+            }
+            return $response->withJSON($rn->excluirMarcadores($arrIdMarcadores));
+        });
     })->add( new TokenValidationMiddleware());
 
 })
