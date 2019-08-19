@@ -286,9 +286,9 @@ $app->group('/api/v1',function(){
             if($request->getParam('filter') != ''){
                 $dto->setStrPalavrasPesquisa($request->getParam('filter'));
             }
-            if($request->getParam('status') != ''){
+            if($request->getParam('estado') != ''){
                 $dto->setStrStaEstado(
-                    explode(',', $request->getParam('status')),
+                    explode(',', $request->getParam('estado')),
                     InfraDTO::$OPER_IN
                 );
             }
