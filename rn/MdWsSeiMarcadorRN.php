@@ -19,7 +19,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
             $result = array();
             $marcadorDTOConsulta->retTodos();
             $marcadorDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-            $marcadorDTOConsulta->setOrdNumIdMarcador(InfraDTO::$TIPO_ORDENACAO_ASC);
+            $marcadorDTOConsulta->setOrdStrNome(InfraDTO::$TIPO_ORDENACAO_ASC);
 
             if($marcadorDTOConsulta->isSetStrSinAtivo() && !in_array($marcadorDTOConsulta->getStrSinAtivo(), array('S', 'N'))){
                 throw new InfraException('Parametro ativo inválido.');
