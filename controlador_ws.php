@@ -1551,6 +1551,27 @@ $app->group('/api/v1',function(){
         });
     })->add( new TokenValidationMiddleware());
 
+    $this->group('/marcador', function(){
+        $this->get('/pesquisar', function ($request, $response, $args) {
+            /** @var $request Slim\Http\Request */
+            $dto = new MarcadorDTO();
+            if(!is_null($request->getParam('limit')) && $request->getParam('limit') != ''){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start')) && $request->getParam('start') != ''){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            if(!is_null($request->getParam('id')) && $request->getParam('id') != ''){
+                $dto->setNumIdMarcador($request->getParam('id'));
+            }
+            if($request->getParam('filter') != ''){
+                $dto->setStrNome($request->getParam('filter'));
+            }
+            $rn = new MdWsSeiMarcadorRN();
+            return $response->withJSON($rn->pesquisar($dto));
+        });
+    })->add( new TokenValidationMiddleware());
+
 })
     ->add( new ModuleVerificationMiddleware())
     ->add(new EncodingMiddleware());
