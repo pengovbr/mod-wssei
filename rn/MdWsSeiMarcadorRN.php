@@ -18,6 +18,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         try{
             $result = array();
             $marcadorDTOConsulta->retTodos();
+            $marcadorDTOConsulta->setBolExclusaoLogica(false);
             $marcadorDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
             $marcadorDTOConsulta->setOrdStrNome(InfraDTO::$TIPO_ORDENACAO_ASC);
 
