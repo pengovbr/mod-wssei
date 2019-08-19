@@ -248,4 +248,25 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         }
     }
 
+    /**
+     * Método que relaciona um processo a um marcador
+     * @param AndamentoMarcadorDTO $andamentoMarcadorDTO
+     * @return array
+     */
+    protected function marcarProcessoControlado(AndamentoMarcadorDTO $andamentoMarcadorDTO)
+    {
+        try{
+            if(empty($andamentoMarcadorDTO->getDblIdProcedimento())){
+                throw new Exception('Processo não informado.');
+            }
+
+            $andamentoMarcadorRN = new AndamentoMarcadorRN();
+            $andamentoMarcadorRN->gerenciar($andamentoMarcadorDTO);
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Processo marcado com sucesso.', null);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }

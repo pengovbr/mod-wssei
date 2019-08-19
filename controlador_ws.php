@@ -1622,6 +1622,15 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->reativarMarcadores($arrIdMarcadores));
         });
+        $this->post('/processo/{protocolo}/marcar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiMarcadorRN();
+            $dto = new AndamentoMarcadorDTO();
+            $dto->setDblIdProcedimento(array($request->getAttribute('route')->getArgument('protocolo')));
+            $dto->setNumIdMarcador($request->getParam('marcador'));
+            $dto->setStrTexto($request->getParam('texto'));
+            return $response->withJSON($rn->marcarProcesso($dto));
+        });
     })->add( new TokenValidationMiddleware());
 
 })
