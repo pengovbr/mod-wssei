@@ -168,6 +168,65 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
     }
 
     /**
+     * Consulta o marcador de um processo
+     * @param AndamentoMarcadorDTO $andamentoMarcadorDTO
+     * @return array
+     */
+    protected function marcadorProcessoConsultarControlado(AndamentoMarcadorDTO $andamentoMarcadorDTOParam)
+    {
+        try{
+            if(!$andamentoMarcadorDTOParam->getDblIdProcedimento()){
+                throw new InfraException('Processo não informado.');
+            }
+
+            $procedimentoDTO = new ProcedimentoDTO();
+            $procedimentoDTO->setDblIdProcedimento($andamentoMarcadorDTOParam->getDblIdProcedimento());
+            $procedimentoDTO->retDblIdProcedimento();
+
+            $procedimentoRN = new ProcedimentoRN();
+            $procedimentoDTO = $procedimentoRN->consultarRN0201($procedimentoDTO);
+
+            if ($procedimentoDTO == null) {
+                throw new InfraException("Processo não encontrado.");
+            }
+
+            $result = array();
+
+            $marcadorRN = new MarcadorRN();
+            /** Chama o componente SEI para retornar as cores disponíveis para o Marcador */
+            $arrIconeMarcadorDTO = $marcadorRN->listarValoresIcone();
+
+            $andamentoMarcadorRN = new AndamentoMarcadorRN();
+            $andamentoMarcadorDTO = new AndamentoMarcadorDTO();
+            $andamentoMarcadorDTO->setDistinct(true);
+            $andamentoMarcadorDTO->retNumIdMarcador();
+            $andamentoMarcadorDTO->retStrStaIconeMarcador();
+            $andamentoMarcadorDTO->retDblIdProcedimento();
+            $andamentoMarcadorDTO->retStrTexto();
+            $andamentoMarcadorDTO->setDblIdProcedimento(array($andamentoMarcadorDTOParam->getDblIdProcedimento()),InfraDTO::$OPER_IN);
+            $andamentoMarcadorDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $andamentoMarcadorDTO->setStrSinUltimo('S');
+            /** Chama o componente SEI para retornar o andamento do marcador */
+            $arrObjAndamentoMarcadorDTO = $andamentoMarcadorRN->listar($andamentoMarcadorDTO);
+            $andamentoMarcadorDTO = $arrObjAndamentoMarcadorDTO[0];
+            if($andamentoMarcadorDTO){
+                $result = array(
+                    'idMarcador' => $andamentoMarcadorDTO->getNumIdMarcador(),
+                    'idProtocolo' => $andamentoMarcadorDTO->getDblIdProcedimento(),
+                    'texto' => $andamentoMarcadorDTO->getStrTexto(),
+                    'idCor' => $andamentoMarcadorDTO->getStrStaIconeMarcador(),
+                    'descricaoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrDescricao(),
+                    'arquivoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrArquivo()
+                );
+            }
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
      * Método que exclui marcadores
      * @param $arrIdMarcadores
      * @return array
