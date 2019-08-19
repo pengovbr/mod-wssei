@@ -527,6 +527,31 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->listarProcessosBlocoInterno($dto));
         });
+        $this->get('/interno/pesquisar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            $dto = new BlocoDTO();
+            if(!is_null($request->getParam('limit')) && $request->getParam('limit') != ''){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start')) && $request->getParam('start') != ''){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            if(!is_null($request->getParam('id')) && $request->getParam('id') != ''){
+                $dto->setNumIdBloco($request->getParam('id'));
+            }
+            if($request->getParam('filter') != ''){
+                $dto->setStrPalavrasPesquisa($request->getParam('filter'));
+            }
+            if($request->getParam('estado') != ''){
+                $dto->setStrStaEstado(
+                    explode(',', $request->getParam('estado')),
+                    InfraDTO::$OPER_IN
+                );
+            }
+
+            return $response->withJSON($rn->pesquisarBlocoInterno($dto));
+        });
 
     })->add( new TokenValidationMiddleware());
 

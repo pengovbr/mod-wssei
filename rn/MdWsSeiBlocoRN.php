@@ -733,4 +733,57 @@ class MdWsSeiBlocoRN extends InfraRN {
         }
     }
 
+    /**
+     * Pesquisa blocos de interno
+     * @param BlocoDTO $blocoDTO
+     * @return array
+     */
+    protected function pesquisarBlocoInternoConectado(BlocoDTO $blocoDTOConsulta){
+        try{
+            $result = array();
+            $blocoRN = new BlocoRN();
+            $blocoDTOConsulta->setStrStaTipo(BlocoRN::$TB_INTERNO);
+            $blocoDTOConsulta->retNumIdBloco();
+            $blocoDTOConsulta->retNumIdUnidade();
+            $blocoDTOConsulta->retStrDescricao();
+            $blocoDTOConsulta->retStrStaTipo();
+            $blocoDTOConsulta->retStrStaEstado();
+            $blocoDTOConsulta->retStrStaEstadoDescricao();
+            $blocoDTOConsulta->retStrTipoDescricao();
+            $blocoDTOConsulta->retStrSiglaUnidade();
+            $blocoDTOConsulta->retStrDescricaoUnidade();
+            $blocoDTOConsulta->retStrSinVazio();
+            $blocoDTOConsulta->retArrObjRelBlocoUnidadeDTO();
+            $blocoDTOConsulta->setOrdNumIdBloco(InfraDTO::$TIPO_ORDENACAO_DESC);
+
+            /** Acessa o componente SEI para realizar a pesquisa de blocos internos */
+            $ret = $blocoRN->pesquisar($blocoDTOConsulta);
+
+            /** @var BlocoDTO $blocoDTO */
+            foreach($ret as $blocoDTO){
+                $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
+                $relBlocoProtocoloDTOConsulta = new RelBlocoProtocoloDTO();
+                $relBlocoProtocoloDTOConsulta->setNumMaxRegistrosRetorno(1);
+                $relBlocoProtocoloDTOConsulta->setNumPaginaAtual(0);
+                $relBlocoProtocoloDTOConsulta->setNumIdBloco($blocoDTO->getNumIdBloco());
+                $relBlocoProtocoloDTOConsulta->setOrdNumIdBloco(InfraDTO::$TIPO_ORDENACAO_DESC);
+                $relBlocoProtocoloDTOConsulta->retDblIdProtocolo();
+                /** Acessa o componente SEI para consultar o total de processos dentro de um bloco interno */
+                $relBlocoProtocoloRN->listarRN1291($relBlocoProtocoloDTOConsulta);
+                $numeroProcessos = $relBlocoProtocoloDTOConsulta->getNumTotalRegistros();
+                $result[] = array(
+                    'id' => $blocoDTO->getNumIdBloco(),
+                    'idUnidade' => $blocoDTO->getNumIdUnidade(),
+                    'siglaUnidade' => $blocoDTO->getStrSiglaUnidade(),
+                    'estado' => $blocoDTO->getStrStaEstado(),
+                    'descricao' => $blocoDTO->getStrDescricao(),
+                    'numeroProcessos' => $numeroProcessos
+                );
+            }
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $blocoDTOConsulta->getNumTotalRegistros());
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }
