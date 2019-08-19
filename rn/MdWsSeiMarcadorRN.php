@@ -118,4 +118,52 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         }
     }
 
+    /**
+     * Edita um marcador
+     * @param MarcadorDTO $marcadorDTO
+     * @return array
+     */
+    protected function alterarControlado(MarcadorDTO $marcadorDTO)
+    {
+        try{
+            if(!$marcadorDTO->getNumIdMarcador()){
+                throw new InfraException('Marcador não informado.');
+            }
+            $marcadorRN = new MarcadorRN();
+            $marcadorDTOConsulta = new MarcadorDTO();
+            $marcadorDTOConsulta->retNumIdUnidade();
+            $marcadorDTOConsulta->retStrSinAtivo();
+            $marcadorDTOConsulta->retNumIdMarcador();
+            $marcadorDTOConsulta->setNumIdMarcador($marcadorDTO->getNumIdMarcador());
+            $marcadorDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            /** Chama o componente SEI para realizar a validaçao de existencia do marcador */
+            $marcadorDTOConsulta = $marcadorRN->consultar($marcadorDTOConsulta);
+
+            if(!$marcadorDTOConsulta){
+                throw new InfraException('Marcador não encontrado.');
+            }
+
+            $marcadorDTOConsulta->setStrNome($marcadorDTO->getStrNome());
+            $marcadorDTOConsulta->setStrStaIcone($marcadorDTO->getStrStaIcone());
+            /** Chama o componente SEI para realizar a edição de um marcador */
+            $marcadorRN->alterar($marcadorDTOConsulta);
+
+            /** Chama o componente SEI para retornar as cores disponíveis para o Marcador */
+            $arrIconeMarcadorDTO = $marcadorRN->listarValoresIcone();
+
+            $result = array(
+                'id' => $marcadorDTOConsulta->getNumIdMarcador(),
+                'nome' => $marcadorDTOConsulta->getStrNome(),
+                'ativo' => $marcadorDTOConsulta->getStrSinAtivo(),
+                'idCor' => $marcadorDTOConsulta->getStrStaIcone(),
+                'descricaoCor' => $arrIconeMarcadorDTO[$marcadorDTOConsulta->getStrStaIcone()]->getStrDescricao(),
+                'arquivoCor' => $arrIconeMarcadorDTO[$marcadorDTOConsulta->getStrStaIcone()]->getStrArquivo()
+            );
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Marcador alterado com sucesso.', $result);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }

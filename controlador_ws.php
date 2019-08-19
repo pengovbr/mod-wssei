@@ -1586,6 +1586,15 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiMarcadorRN();
             return $response->withJSON($rn->cadastrar($dto));
         });
+        $this->post('/{marcador:[0-9]+}/alterar', function ($request, $response, $args) {
+            /** @var $request Slim\Http\Request */
+            $dto = new MarcadorDTO();
+            $dto->setNumIdMarcador($request->getAttribute('route')->getArgument('marcador'));
+            $dto->setStrNome($request->getParam('nome'));
+            $dto->setStrStaIcone($request->getParam('idCor'));
+            $rn = new MdWsSeiMarcadorRN();
+            return $response->withJSON($rn->alterar($dto));
+        });
     })->add( new TokenValidationMiddleware());
 
 })
