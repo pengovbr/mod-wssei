@@ -43,11 +43,38 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
                     'id' => $marcadorDTO->getNumIdMarcador(),
                     'nome' => $marcadorDTO->getStrNome(),
                     'idCor' => $marcadorDTO->getStrStaIcone(),
-                    'descricaoCor' => $arrIconeMarcadorDTO[$marcadorDTO->getStrStaIcone()]->getStrDescricao()
+                    'descricaoCor' => $arrIconeMarcadorDTO[$marcadorDTO->getStrStaIcone()]->getStrDescricao(),
+                    'arquivoCor' => $arrIconeMarcadorDTO[$marcadorDTO->getStrStaIcone()]->getStrArquivo()
                 );
             }
             
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $marcadorDTOConsulta->getNumTotalRegistros());
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
+     * Lista as cores dos marcadores
+     * @return array
+     */
+    public function listarCores()
+    {
+        try{
+            /** Acessa o componente SEI para retornar as cores dos marcadores */
+            $ret = $this->listarValoresIcone();
+
+            /** @var IconeMarcadorDTO $iconeMarcadorDTO */
+            foreach($ret as $index => $iconeMarcadorDTO){
+
+                $result[] = array(
+                    'id' => $iconeMarcadorDTO->getStrStaIcone(),
+                    'descricao' => $iconeMarcadorDTO->getStrDescricao(),
+                    'arquivo' => $iconeMarcadorDTO->getStrArquivo(),
+                );
+            }
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, count($result));
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }

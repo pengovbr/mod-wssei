@@ -1570,6 +1570,11 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiMarcadorRN();
             return $response->withJSON($rn->pesquisar($dto));
         });
+        $this->get('/cores/listar', function ($request, $response, $args) {
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiMarcadorRN();
+            return $response->withJSON($rn->listarCores());
+        });
     })->add( new TokenValidationMiddleware());
 
 })
