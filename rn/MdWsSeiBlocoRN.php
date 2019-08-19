@@ -666,4 +666,71 @@ class MdWsSeiBlocoRN extends InfraRN {
         }
     }
 
+
+    /**
+     * Consultar Processos de um Bloco de Interno
+     * @param RelBlocoProtocoloDTO $relBlocoProtocoloDTOConsulta
+     * @return array
+     */
+    protected function listarProcessosBlocoInternoConectado(RelBlocoProtocoloDTO $relBlocoProtocoloDTOConsulta){
+        try{
+            if(!$relBlocoProtocoloDTOConsulta->getNumIdBloco()){
+                throw new InfraException('Bloco não informado.');
+            }
+            $blocoDTO = new BlocoDTO();
+            $blocoDTO->retStrStaTipo();
+            $blocoDTO->retStrStaEstado();
+            $blocoDTO->retStrTipoDescricao();
+            $blocoDTO->retNumIdUnidade();
+            $blocoDTO->setNumIdBloco($relBlocoProtocoloDTOConsulta->getNumIdBloco());
+            $blocoDTO->setStrStaTipo(BlocoRN::$TB_INTERNO);
+
+            $blocoRN = new BlocoRN();
+            $blocoDTO = $blocoRN->consultarRN1276($blocoDTO);
+            if(!$blocoDTO){
+                throw new InfraException('Bloco não encontrado.');
+            }
+            $result = array();
+            $arrAtributos = array(
+                'retirar' => (
+                    SessaoSEI::getInstance()->verificarPermissao('rel_bloco_protocolo_excluir') &&
+                    $blocoDTO->getStrStaEstado() != BlocoRN::$TE_DISPONIBILIZADO &&
+                    $blocoDTO->getNumIdUnidade() == SessaoSEI::getInstance()->getNumIdUnidadeAtual()
+                ),
+                'anotar' => (
+                    SessaoSEI::getInstance()->verificarPermissao('rel_bloco_protocolo_alterar')
+                )
+            );
+
+            $result['permissoes'] = $arrAtributos;
+
+            $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
+            $relBlocoProtocoloDTOConsulta->setOrdNumSequencia(InfraDTO::$TIPO_ORDENACAO_ASC);
+            $relBlocoProtocoloDTOConsulta->retDblIdProtocolo();
+            $relBlocoProtocoloDTOConsulta->retNumIdBloco();
+            $relBlocoProtocoloDTOConsulta->retNumSequencia();
+            $relBlocoProtocoloDTOConsulta->retNumIdUnidadeBloco();
+            $relBlocoProtocoloDTOConsulta->retStrProtocoloFormatadoProtocolo();
+            $relBlocoProtocoloDTOConsulta->retStrStaProtocoloProtocolo();
+            $relBlocoProtocoloDTOConsulta->retStrAnotacao();
+            /** Acessa o componente SEI para consulta dos processos de um bloco */
+            $ret = $relBlocoProtocoloRN->listarProtocolosBloco($relBlocoProtocoloDTOConsulta);
+            /** @var RelBlocoProtocoloDTO $relBlocoProtocoloDTO */
+            foreach($ret as $relBlocoProtocoloDTO){
+                $result['dados'][] = array(
+                    'sequencia' => $relBlocoProtocoloDTO->getNumSequencia(),
+                    'id' => $relBlocoProtocoloDTO->getDblIdProtocolo(),
+                    'data' => $relBlocoProtocoloDTO->getObjProtocoloDTO()->getDtaGeracao(),
+                    'nomeTipoProcesso' => $relBlocoProtocoloDTO->getObjProtocoloDTO()->getStrNomeTipoProcedimentoProcedimento(),
+                    'protocoloFormatado' => $relBlocoProtocoloDTO->getStrProtocoloFormatadoProtocolo(),
+                    'anotacao' => $relBlocoProtocoloDTO->getStrAnotacao(),
+                );
+            }
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relBlocoProtocoloDTOConsulta->getNumTotalRegistros());
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }

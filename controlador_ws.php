@@ -514,6 +514,19 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiBlocoRN();
             return $response->withJSON($rn->reabrirBloco($dto));
         });
+        $this->get('/interno/{bloco:[0-9]+}/processos/listar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            $dto = new RelBlocoProtocoloDTO();
+            $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
+            if(!is_null($request->getParam('limit')) && $request->getParam('limit') != ''){
+                $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+            }
+            if(!is_null($request->getParam('start')) && $request->getParam('start') != ''){
+                $dto->setNumPaginaAtual($request->getParam('start'));
+            }
+            return $response->withJSON($rn->listarProcessosBlocoInterno($dto));
+        });
 
     })->add( new TokenValidationMiddleware());
 
