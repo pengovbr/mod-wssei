@@ -786,4 +786,44 @@ class MdWsSeiBlocoRN extends InfraRN {
         }
     }
 
+
+    /**
+     * Inclui os Processos selecionados no bloco
+     * @param $idBloco
+     * @param $arrIdProtocolos
+     * @return array
+     */
+    public function apiIncluirProcessosBlocoInterno($idBloco, $arrIdProtocolos)
+    {
+        try{
+            if(!$arrIdProtocolos){
+                return MdWsSeiRest::formataRetornoSucessoREST('Nenhum processo foi informado.');
+            }
+            $blocoDTO = new BlocoDTO();
+            $blocoDTO->retNumIdBloco();
+            $blocoDTO->setNumIdBloco($idBloco);
+            $blocoDTO->setStrStaTipo(BlocoRN::$TB_INTERNO);
+            $blocoRN = new BlocoRN();
+            /** Chamando componente SEI para verificação de existencia de bloco **/
+            $blocoDTO = $blocoRN->consultarRN1276($blocoDTO);
+            if(!$blocoDTO){
+                throw new InfraException('Bloco não encontrado.');
+            }
+            $arrObjRelBlocoProtocoloDTO = array();
+            foreach($arrIdProtocolos as $idProtocolo) {
+                $relBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
+                $relBlocoProtocoloDTO->setDblIdProtocolo($idProtocolo);
+                $relBlocoProtocoloDTO->setNumIdBloco($idBloco);
+                $relBlocoProtocoloDTO->setStrAnotacao(null);
+                $arrObjRelBlocoProtocoloDTO[] = $relBlocoProtocoloDTO;
+            }
+            $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
+            /** Chama o componente SEI para inclusão dos processos no bloco */
+            $relBlocoProtocoloRN->cadastrarMultiplo($arrObjRelBlocoProtocoloDTO);
+            return MdWsSeiRest::formataRetornoSucessoREST('Processo(s) incluído(s) com sucesso.');
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }

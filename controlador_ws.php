@@ -552,6 +552,14 @@ $app->group('/api/v1',function(){
 
             return $response->withJSON($rn->pesquisarBlocoInterno($dto));
         });
+        $this->post('/interno/{bloco:[0-9]+}/processos/incluir', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiBlocoRN();
+            return $response->withJSON($rn->apiIncluirProcessosBlocoInterno(
+                $request->getAttribute('route')->getArgument('bloco'),
+                explode(',', $request->getParam('protocolos'))
+            ));
+        });
 
     })->add( new TokenValidationMiddleware());
 
