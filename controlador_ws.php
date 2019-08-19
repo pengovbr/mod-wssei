@@ -1604,6 +1604,15 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->excluirMarcadores($arrIdMarcadores));
         });
+        $this->post('/desativar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiMarcadorRN();
+            $arrIdMarcadores = array();
+            if($request->getParam('marcadores')){
+                $arrIdMarcadores = explode(',', $request->getParam('marcadores'));
+            }
+            return $response->withJSON($rn->desativarMarcadores($arrIdMarcadores));
+        });
     })->add( new TokenValidationMiddleware());
 
 })
