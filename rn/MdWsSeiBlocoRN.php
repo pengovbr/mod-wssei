@@ -165,7 +165,7 @@ class MdWsSeiBlocoRN extends InfraRN {
         try{
             $result = array();
             $blocoRN = new BlocoRN();
-            $blocoDTOConsulta->setStrStaEstado(BlocoRN::$TE_CONCLUIDO,InfraDTO::$OPER_DIFERENTE);
+            //$blocoDTOConsulta->setStrStaEstado(BlocoRN::$TE_CONCLUIDO,InfraDTO::$OPER_DIFERENTE);
             $blocoDTOConsulta->setStrStaTipo(BlocoRN::$TB_ASSINATURA);
             $blocoDTOConsulta->retNumIdBloco();
             $blocoDTOConsulta->retNumIdUnidade();

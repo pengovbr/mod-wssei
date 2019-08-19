@@ -286,6 +286,12 @@ $app->group('/api/v1',function(){
             if($request->getParam('filter') != ''){
                 $dto->setStrPalavrasPesquisa($request->getParam('filter'));
             }
+            if($request->getParam('status') != ''){
+                $dto->setStrStaEstado(
+                    explode(',', $request->getParam('status')),
+                    InfraDTO::$OPER_IN
+                );
+            }
 
             return $response->withJSON($rn->pesquisarBlocoAssinatura($dto));
         });
