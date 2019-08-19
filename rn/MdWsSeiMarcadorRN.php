@@ -220,4 +220,31 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         }
     }
 
+    /**
+     * Método que reativar marcadores
+     * @param $arrIdMarcadores
+     * @return array
+     */
+    public function reativarMarcadores(array $arrIdMarcadores)
+    {
+        try{
+            if(empty($arrIdMarcadores)){
+                throw new Exception('Marcador não informado.');
+            }
+            $marcadorRN = new MarcadorRN();
+            $arrMarcadoresResativar = array();
+            foreach($arrIdMarcadores as $idMarcador) {
+                $marcadorDTO = new MarcadorDTO();
+                $marcadorDTO->setNumIdMarcador($idMarcador);
+                $arrMarcadoresResativar[] = $marcadorDTO;
+            }
+            /** Chama o componente SEI para desativar de marcadores */
+            $marcadorRN->reativar($arrMarcadoresResativar);
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Marcador(es) resativado(s) com sucesso.', null);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }

@@ -1613,6 +1613,15 @@ $app->group('/api/v1',function(){
             }
             return $response->withJSON($rn->desativarMarcadores($arrIdMarcadores));
         });
+        $this->post('/reativar', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiMarcadorRN();
+            $arrIdMarcadores = array();
+            if($request->getParam('marcadores')){
+                $arrIdMarcadores = explode(',', $request->getParam('marcadores'));
+            }
+            return $response->withJSON($rn->reativarMarcadores($arrIdMarcadores));
+        });
     })->add( new TokenValidationMiddleware());
 
 })
