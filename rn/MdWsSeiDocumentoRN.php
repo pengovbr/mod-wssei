@@ -1249,6 +1249,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $arrDataAssuntos[] = array(
                     'id' => $objRelProtocoloAssuntoDTO->getNumIdAssunto(),
                     'codigoestruturadoformatado' => $objRelProtocoloAssuntoDTO->getStrCodigoEstruturadoAssunto(),
+                    'descricao' => $objRelProtocoloAssuntoDTO->getStrDescricaoAssunto(),
                     'sequencia' => $objRelProtocoloAssuntoDTO->retNumSequencia(),
                 );
             }
@@ -1453,6 +1454,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $objRelProtocoloAssuntoDTO->setDistinct(true);
         $objRelProtocoloAssuntoDTO->retNumSequencia();
         $objRelProtocoloAssuntoDTO->retNumIdAssunto();
+        $objRelProtocoloAssuntoDTO->retStrDescricaoAssunto();
         $objRelProtocoloAssuntoDTO->retStrCodigoEstruturadoAssunto();
         $objRelProtocoloAssuntoDTO->retStrDescricaoAssunto();
         $objRelProtocoloAssuntoDTO->setDblIdProtocolo($numIdDocumento);
