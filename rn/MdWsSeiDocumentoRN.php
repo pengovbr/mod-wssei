@@ -1225,6 +1225,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             $objDocumentoDTO->retStrDescricaoTipoConferencia();
             $objDocumentoDTO->retNumIdTipoConferencia();
             $objDocumentoDTO->retNumIdUnidadeGeradoraProtocolo();
+            $objDocumentoDTO->retStrSiglaUnidadeGeradoraProtocolo();
             $objDocumentoDTO->setDblIdDocumento($numIdDocumento);
             $objDocumentoRN = new DocumentoRN();
             /** Consulta no componente do SEI para retornar o Documento **/
