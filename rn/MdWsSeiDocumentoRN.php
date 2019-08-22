@@ -492,6 +492,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             }
 
             $relProtocoloProtocoloRN = new RelProtocoloProtocoloRN();
+            /** Chama o componente SEI para consulta inicial dos documentos do processo */
             $ret = $relProtocoloProtocoloRN->listarRN0187($relProtocoloProtocoloDTOConsulta);
 
 
@@ -526,10 +527,9 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $documentoDTOConsulta->retNumIdTipoConferencia();
                 $documentoDTOConsulta->setDblIdDocumento(array_keys(InfraArray::indexarArrInfraDTO($ret, 'IdProtocolo2')), InfraDTO::$OPER_IN);
                 $documentoBD = new DocumentoBD($this->getObjInfraIBanco());
+                /** Chama o componente SEI para retorno das informações dos documentos do processo */
                 $retDocumentos = $documentoBD->listar($documentoDTOConsulta);
 
-//                var_dump($retDocumentos);
-//                die();
                 /** @var DocumentoDTO $documentoDTOOrd */
                 foreach ($retDocumentos as $documentoDTOOrd) {
                     $arrDocumentos[$documentoDTOOrd->getDblIdDocumento()] = $documentoDTOOrd;
@@ -559,6 +559,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                     $anexoDTOConsulta->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
                     $anexoDTOConsulta->setStrSinAtivo('S');
                     $anexoDTOConsulta->setNumMaxRegistrosRetorno(1);
+                    /** Chama o componente SEI para verificação da existencia de anexo no documento */
                     $resultAnexo = $anexoRN->listarRN0218($anexoDTOConsulta);
                     if ($resultAnexo) {
                         /** @var AnexoDTO $anexoDTO */
@@ -569,14 +570,6 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                         $tamanhoAnexo = $anexoDTO->getNumTamanho();
                     }
                 }
-                $observacaoDTOConsulta = new ObservacaoDTO();
-
-
-                $observacaoDTOConsulta->setNumMaxRegistrosRetorno(1);
-                $observacaoDTOConsulta->setOrdNumIdObservacao(InfraDTO::$TIPO_ORDENACAO_DESC);
-                $observacaoDTOConsulta->retStrDescricao();
-                $resultObservacao = $observacaoRN->listarRN0219($observacaoDTOConsulta);
-
 
                 $objProtocoloDTO = new ProtocoloDTO();
                 $objProtocoloDTO->setDblIdProtocolo($relProtocoloProtocoloDTO->getDblIdProtocolo2());
@@ -585,32 +578,17 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $objProtocoloDTO = $objTempProtocoloRN->consultarRN0186($objProtocoloDTO);
                 $informacao = $objProtocoloDTO->getStrDescricao();
 
-
-                /*   if ($resultObservacao) {
-                       // @var ObservacaoDTO $observacaoDTO
-                       $observacaoDTO = $resultObservacao[0];
-                       $informacao = substr($observacaoDTO->getStrDescricao(), 0, 250);
-                   }*/
-
                 $publicacaoDTOConsulta = new PublicacaoDTO();
                 $publicacaoDTOConsulta->setDblIdDocumento($documentoDTO->getDblIdDocumento());
                 $publicacaoDTOConsulta->retDblIdDocumento();
                 $publicacaoDTOConsulta->setNumMaxRegistrosRetorno(1);
+                /** Chama o componente SEI para verificar se o documento foi publicado */
                 $resultPublicacao = $publicacaoRN->listarRN1045($publicacaoDTOConsulta);
                 $documentoPublicado = $resultPublicacao ? 'S' : 'N';
                 $ciencia = $relProtocoloProtocoloDTO->getStrSinCiencia();
+                /** Faz a verificação de permissão de visualização de documento */
                 $podeVisualizarDocumento = $this->podeVisualizarDocumento($documentoDTO, $bolFlagProtocolo);
 
-                $arrObjProtocoloDTO = "";
-                $objPesquisaProtocoloDTO = new PesquisaProtocoloDTO();
-                $objPesquisaProtocoloDTO->setStrStaTipo(ProtocoloRN::$TPP_DOCUMENTOS_GERADOS);
-                $objPesquisaProtocoloDTO->setStrStaAcesso(ProtocoloRN::$TAP_TODOS);
-                $objPesquisaProtocoloDTO->setDblIdProtocolo($relProtocoloProtocoloDTO->getDblIdProtocolo2());
-                $objProtocoloRN = new ProtocoloRN();
-                $arrObjProtocoloDTO = $objProtocoloRN->pesquisarRN0967($objPesquisaProtocoloDTO);
-
-
-                //recupera documentos disponibilizados pela unidade atual
                 $objRelBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
                 $objRelBlocoProtocoloDTO->setDistinct(true);
                 $objRelBlocoProtocoloDTO->retDblIdProtocolo();
@@ -620,6 +598,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
 
                 $objRelBlocoProtocoloRN = new RelBlocoProtocoloRN();
+                /** Chama o componente SEI para verificação se o documento foi disponibilizado para outra unidade */
                 $arrDocumentosDisponibilizados = InfraArray::indexarArrInfraDTO($objRelBlocoProtocoloRN->listarRN1291($objRelBlocoProtocoloDTO), 'IdProtocolo');
 
 
@@ -646,6 +625,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $objRelBlocoUnidadeDTO->setStrStaEstadoBloco(BlocoRN::$TE_DISPONIBILIZADO);
 
                 $objRelBlocoUnidadeRN = new RelBlocoUnidadeRN();
+                /** Chama o componente SEI para verificação dos documentos disponibilizados para a unidade atual */
                 $arrObjRelBlocoUnidadeDTO = $objRelBlocoUnidadeRN->listarRN1304($objRelBlocoUnidadeDTO);
 
 
@@ -662,6 +642,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                     $objRelBlocoProtocoloDTO->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
 
                     $objRelBlocoProtocoloRN = new RelBlocoProtocoloRN();
+                    /** Chama o componente SEI para verificação do bloco de assinatura do documento */
                     $arrObjRelBlocoProtocoloDTO = $objRelBlocoProtocoloRN->listarRN1291($objRelBlocoProtocoloDTO);
 
                     if (count($arrObjRelBlocoProtocoloDTO)) {
@@ -686,6 +667,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                         'nome' => $nomeAnexo,
                         'titulo' => $documentoDTO->getStrNumero(),
                         'tipo' => $documentoDTO->getStrNomeSerie(),
+                        'tipoDocumento' => $strStaDocumento,
                         'mimeType' => $mimetype ? $mimetype : 'html',
                         'informacao' => $informacao,
                         'tamanho' => $tamanhoAnexo,
