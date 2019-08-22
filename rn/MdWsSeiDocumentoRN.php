@@ -62,11 +62,9 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $editorDTO->setStrSinIdentificacaoVersao('S');
                 $editorDTO->setStrSinProcessarLinks('S');
 
-                /*
-                if (isset($_GET['versao'])){
-                    $editorDTO->setNumVersao($_GET['versao']);
+                if (MdWsSeiEditorRN::versaoCarimboPublicacaoObrigatorio()) {
+                    $editorDTO->setStrSinCarimboPublicacao('N');
                 }
-                */
 
                 $editorRN = new EditorRN();
                 /** Chamada ao componente SEI para retornar o conteúdo HTML do Documento do tipo interno */
