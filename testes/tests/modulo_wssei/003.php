@@ -10,7 +10,7 @@ class TestWssei_Cenario003 extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->http = new GuzzleHttp\Client(['base_uri' => 'http://org4.sei-ci.seges.intra.planejamento/sei/modulos/mod-wssei/controlador_ws.php/api/v1/']);
+        $this->http = new GuzzleHttp\Client(['base_uri' => 'http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/']);
 
         $this->token = TesteUtils::obterToken($this->http);
         //caso n esteja autenticado já finaliza
@@ -25,14 +25,15 @@ class TestWssei_Cenario003 extends PHPUnit_Framework_TestCase
     public function testCriarProcessos()
     {
         $ps = Array();
-        for ($i=0; $i < 1; $i++) { 
+        for ($i=0; $i < 5; $i++) { 
             $p = $this->criarProcesso();
-            $ps[] = $p;
+            if($p) $ps[] = $p;
         }
 
         foreach ($ps as $v) {            
             
             $p = $v->{'IdProcedimento'};
+            
             $this->assertNotEmpty($p);
             
             $r='';
@@ -70,6 +71,7 @@ class TestWssei_Cenario003 extends PHPUnit_Framework_TestCase
         $r=array();
         try{
             $r = $this->http->request('POST', 'processo/criar', $b);
+            
             $r = json_decode($r->getBody());            
             $r = $r->{"data"};
             
