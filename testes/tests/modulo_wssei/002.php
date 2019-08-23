@@ -12,7 +12,7 @@ class TestWssei_Cenario002 extends PHPUnit_Framework_TestCase
     {
         $this->http = new GuzzleHttp\Client(['base_uri' => 'http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/']);
 
-        $this->token = obterToken($this->http);
+        $this->token = TesteUtils::obterToken($this->http);
         //caso n esteja autenticado já finaliza
 
     }

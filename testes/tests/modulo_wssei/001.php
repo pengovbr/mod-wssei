@@ -17,7 +17,7 @@ class UserAgentTest extends PHPUnit_Framework_TestCase
 
     public function testAutenticar()
     {
-        $t = obterToken($this->http);
+        $t = TesteUtils::obterToken($this->http);
         $this->assertNotEmpty($t);
     }
 
