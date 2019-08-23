@@ -25,7 +25,7 @@ class TestWssei_Cenario003 extends PHPUnit_Framework_TestCase
     public function testCriarProcessos()
     {
         $ps = Array();
-        for ($i=0; $i < 5; $i++) { 
+        for ($i=0; $i < 1; $i++) { 
             $p = $this->criarProcesso();
             if($p) $ps[] = $p;
         }
