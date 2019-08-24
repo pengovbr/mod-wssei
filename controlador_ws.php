@@ -611,7 +611,6 @@ $app->group('/api/v1',function(){
             $rn = new MdWsSeiDocumentoRN();
             return $response->withJSON($rn->consultarDocumentoExterno($request->getAttribute('route')->getArgument('protocolo')));
         });
-
         $this->get('/listar/ciencia/{protocolo}', function($request, $response, $args){
             /** @var $request Slim\Http\Request */
             $rn = new MdWsSeiDocumentoRN();
@@ -763,6 +762,12 @@ $app->group('/api/v1',function(){
                 $rn->alterarDocumentoInternoRequest($request)
             );
         });
+        $this->get('/interno/consultar/{protocolo}', function($request, $response, $args){
+            /** @var $request Slim\Http\Request */
+            $rn = new MdWsSeiDocumentoRN();
+            return $response->withJSON($rn->consultarDocumentoInterno($request->getAttribute('route')->getArgument('protocolo')));
+        });
+
         $this->post('/incluir', function($request, $response, $args){
             try{
                 /** @var $request Slim\Http\Request */
