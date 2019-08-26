@@ -137,6 +137,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
             $marcadorDTOConsulta->retNumIdMarcador();
             $marcadorDTOConsulta->setNumIdMarcador($marcadorDTO->getNumIdMarcador());
             $marcadorDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $marcadorDTOConsulta->setBolExclusaoLogica(false);
             /** Chama o componente SEI para realizar a validaçao de existencia do marcador */
             $marcadorDTOConsulta = $marcadorRN->consultar($marcadorDTOConsulta);
 
