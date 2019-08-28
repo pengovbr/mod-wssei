@@ -5,7 +5,7 @@ require_once __DIR__ . '/base.php';
 
 class TestWssei_Cenario003 extends UserAgentTest
 {
-    
+
     public function testCriarProcessos()
     {
 
@@ -17,7 +17,8 @@ class TestWssei_Cenario003 extends UserAgentTest
 
         foreach ($ps as $v) {
             
-            $p = $v->{'IdProcedimento'};            
+
+            $p = $v->{'IdProcedimento'};
             $this->assertNotEmpty($p);
             
             $r='';
@@ -30,8 +31,43 @@ class TestWssei_Cenario003 extends UserAgentTest
                 $r=$this->criarDocumentoExterno($p, 'Doc2');
                 $r = $r->{'IdDocumento'};                
             }
-            $this->assertNotEmpty($r);
+            $this->assertNotEmpty($r);            
+        }
 
+    }
+
+    private function criarProcesso(){
+        
+        $h = ['token' => $this->token];
+ 
+        $b = [
+                'form_params' => [
+                    'tipoProcesso' => '100000349',
+                    'especificacao' => 'descricao teste',                    
+                    'observacoes' => 'observacao teste',
+                    'nivelAcesso' => '1',
+                    'hipoteseLegal' => '1',
+                    'grauSigilo' => '',
+                    'assuntos' => '[{"id": 79}]'
+                ],
+                'headers' => $h
+            ];
+        
+        $r=array();
+        try{
+            $r = $this->http->request('POST', 'processo/criar', $b);
+            
+            $r = json_decode($r->getBody());            
+            $r = $r->{"data"};
+            
+        }catch(Exception $e){
+            print_r($e);
+            $r = array();
+        }        
+        return $r;
+    }
+
+    private function criarDocumentoInterno($idProcedimento, $desc){
             //listar procedimento
             $r = $this->listarProcedimentos($p);
             $this->assertContains('"total":"2"', $r);
