@@ -10,18 +10,21 @@ class TesteUtils
         $t = $GLOBALS['token'];
         
         if(!$t){
-
-            echo 'autenticar';
+            
             $t = self::autenticar($http);
             $GLOBALS['token'] = $t;
-
-        }else{
-
-            echo 'autenticado';
 
         }
 
         return $GLOBALS['token'];
+    }
+
+    public function montar_cabecalho_geral($token, $arrForm){
+        
+        $c = ['token' => $token]; 
+        $c = ['form_params' => $arrForm,'headers' => $c];
+
+        return $c;
     }
 
     private static function autenticar($http, $user='teste', $pass='teste'){
