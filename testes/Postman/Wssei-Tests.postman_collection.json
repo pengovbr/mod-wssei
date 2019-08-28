@@ -69,12 +69,14 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
+							"mode": "urlencoded",
+							"urlencoded": [
 								{
 									"key": "usuario",
 									"value": "teste",
@@ -84,18 +86,6 @@
 									"key": "senha",
 									"value": "teste",
 									"type": "text"
-								},
-								{
-									"key": "contexto",
-									"value": "null",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "orgao",
-									"value": "0",
-									"type": "text",
-									"disabled": true
 								}
 							]
 						},
@@ -736,7 +726,7 @@
 								{
 									"key": "anexo",
 									"type": "file",
-									"src": "SEI-v3.1.2.pdf"
+									"src": "/C:/Users/71364900149/projetos/git/spb/mod-wssei/testes/Postman/SEI-v3.1.2.pdf"
 								},
 								{
 									"key": "idSerie",
@@ -1228,11 +1218,17 @@
 							{
 								"key": "token",
 								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
+							"mode": "urlencoded",
+							"urlencoded": [
 								{
 									"key": "orgao",
 									"value": "0",
@@ -1245,7 +1241,7 @@
 								},
 								{
 									"key": "login",
-									"value": "teste",
+									"value": "test",
 									"type": "text"
 								},
 								{
@@ -2610,13 +2606,13 @@
 	],
 	"variable": [
 		{
-			"id": "8e28521d-8ffa-41c3-89f4-2c371d9fa26d",
+			"id": "fdd7f25b-ef29-4b5d-bd07-6ec381a6890d",
 			"key": "{{token}}",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "d18f780f-a6c8-4b4a-8f36-f6875cccacf7",
+			"id": "2d32b056-3e6e-49d4-ad93-b33c7d192ef8",
 			"key": "{{baseurl}}",
 			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
 			"type": "string"
