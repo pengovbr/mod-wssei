@@ -1,0 +1,2625 @@
+{
+	"info": {
+		"_postman_id": "9b60490f-9526-4e84-8a4b-1124763aaaac",
+		"name": "Wssei-Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Autenticar-Versao",
+			"item": [
+				{
+					"name": "Versao Sem Autenticar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bbcf0866-752f-4304-8f5f-1a4537689560",
+								"exec": [
+									"",
+									"pm.test('Retornar Versão sem login', function() {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.not.have.property('data');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/versao",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"versao"
+							]
+						},
+						"description": "Testa a chamada da versão sem autenticar\nAqui não pode retornar a versão"
+					},
+					"response": []
+				},
+				{
+					"name": "General-Autenticar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e4b5b26c-f632-4923-b43a-59fca91be5aa",
+								"exec": [
+									"pm.test(\"Existe token na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"token\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"token\", jsonData.data.token);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "usuario",
+									"value": "teste",
+									"type": "text"
+								},
+								{
+									"key": "senha",
+									"value": "teste",
+									"type": "text"
+								},
+								{
+									"key": "contexto",
+									"value": "null",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "orgao",
+									"value": "0",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/autenticar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"autenticar"
+							]
+						},
+						"description": "Autenticar o usuário"
+					},
+					"response": [
+						{
+							"name": "Exemplo Autenticação",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "usuario",
+											"value": "teste",
+											"type": "text"
+										},
+										{
+											"key": "senha",
+											"value": "teste",
+											"type": "text"
+										},
+										{
+											"key": "contexto",
+											"value": "null",
+											"type": "text"
+										},
+										{
+											"key": "orgao",
+											"value": "0",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/autenticar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"autenticar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1196",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jul 2019 13:45:32 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [],
+							"body": "{\"sucesso\":true,\"data\":{\"loginData\":{\"IdSistema\":\"100000100\",\"IdContexto\":\"\",\"IdUsuario\":\"100000001\",\"IdLogin\":\"c16ad95a55363578fc421308fcd5cb829361408b5995b0ba6a3933e10ff0a3c59601232312bc12015cb9ec946208e27a53d94250141a7f4e26768fa25a15a798\",\"HashAgente\":\"4e2622cd26cbb6a556c25f686187e32dea01bf8e2957d84a8e567eac09f5a4f7b7aaf1ed2f24583ded1a3f1a375743c0f492f910b5d4696065ff64ab7dcb6870\",\"IdUnidadeAtual\":\"110000001\",\"sigla\":\"teste\",\"nome\":\"Usu\\u00e1rio de Testes\",\"idUltimoCargoAssinatura\":\"4\",\"ultimoCargoAssinatura\":\"Presidente\"},\"perfis\":[{\"idPerfil\":\"100000938\",\"nome\":\"B\\u00e1sico\",\"stAtivo\":\"S\"},{\"idPerfil\":\"100000939\",\"nome\":\"Administrador\",\"stAtivo\":\"S\"},{\"idPerfil\":\"100000940\",\"nome\":\"Inform\\u00e1tica\",\"stAtivo\":\"S\"},{\"idPerfil\":\"100000941\",\"nome\":\"Arquivamento\",\"stAtivo\":\"S\"},{\"idPerfil\":\"100000945\",\"nome\":\"Inspe\\u00e7\\u00e3o\",\"stAtivo\":\"S\"}],\"unidades\":[{\"id\":\"110000001\",\"sigla\":\"TESTE\",\"descricao\":\"Unidade de Teste 1\"},{\"id\":\"110000002\",\"sigla\":\"TESTE_1_1\",\"descricao\":\"Unidade de Testes 1.1\"},{\"id\":\"110000003\",\"sigla\":\"TESTE_1_2\",\"descricao\":\"Unidade de Testes 1.2\"}],\"token\":\"NWY3NjRlOTA5ZjMzMmJjNjBiMzBjMzZmNmQzMGI2YWJiNjExYWNlYmFUVnhUV2sxYnoxOGZHazFjVTFwTlc4OWZId3dmSHc9\"}}"
+						}
+					]
+				},
+				{
+					"name": "Versao Autenticado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bbcf0866-752f-4304-8f5f-1a4537689560",
+								"exec": [
+									"",
+									"pm.test('Retornar Versão - Login Efetuado', function() {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property('data');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/versao",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"versao"
+							]
+						},
+						"description": "Testar a chamada da versão estando autenticado.\nAqui tem q retornar a versão"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Processo-Documento-Assinar",
+			"item": [
+				{
+					"name": "Usuario - Unidade Trocar Copy Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Usuário trocou de Unidade para TESTE\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "110000001",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Processo-Criar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"\r",
+									"pm.test(\"Existe ProtocoloFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idProcedimento\", jsonData.data.IdProcedimento);\r",
+									"pm.globals.set(\"ProtocoloFormatado\", jsonData.data.ProtocoloFormatado);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "tipoProcesso",
+									"value": "100000349",
+									"type": "text"
+								},
+								{
+									"key": "especificacao",
+									"value": "descricao teste",
+									"type": "text"
+								},
+								{
+									"key": "observacoes",
+									"value": "observacao teste",
+									"type": "text"
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "hipoteseLegal",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "[{\"id\": 79}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"criar"
+							]
+						},
+						"description": "Criar um processo simples"
+					},
+					"response": []
+				},
+				{
+					"name": "Documento - Cadastrar Documento Interno",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
+								"exec": [
+									"\r",
+									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idDocumentoInterno\", jsonData.data.idDocumento);\r",
+									"pm.globals.set(\"protocoloDocumentoFormatadoInterno\", jsonData.data.protocoloDocumentoFormatado);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idSerie",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text"
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "descricao",
+									"value": "descrição documento interno",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "2,3",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "destinatarios",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "observacao",
+									"value": "observação teste acentuação",
+									"type": "text"
+								},
+								{
+									"key": "idUnidadeGeradoraProtocolo",
+									"value": "110000001",
+									"type": "text"
+								},
+								{
+									"key": "idTextoPadraoInterno",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/:procedimento/interno/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								":procedimento",
+								"interno",
+								"criar"
+							],
+							"variable": [
+								{
+									"key": "procedimento",
+									"value": "{{idProcedimento}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Documento Interno",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "idSerie",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "descrição documento interno",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "2,3",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "observação teste acentuação",
+											"type": "text"
+										},
+										{
+											"key": "idUnidadeGeradoraProtocolo",
+											"value": "110000001",
+											"type": "text"
+										},
+										{
+											"key": "idTextoPadraoInterno",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/:procedimento/interno/criar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										":procedimento",
+										"interno",
+										"criar"
+									],
+									"variable": [
+										{
+											"key": "procedimento",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 29 Jul 2019 20:35:03 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idDocumento\":\"25\",\"protocoloDocumentoFormatado\":\"0000023\"}}"
+						}
+					]
+				},
+				{
+					"name": "Documento - Cadastrar Documento Externo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6f968e61-66e7-41cd-b7f2-040b7606aeba",
+								"exec": [
+									"\r",
+									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idDocumentoExterno\", jsonData.data.idDocumento);\r",
+									"pm.globals.set(\"protocoloDocumentoFormatadoExterno\", jsonData.data.protocoloDocumentoFormatado);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "anexo",
+									"type": "file",
+									"src": "SEI-v3.1.2.pdf"
+								},
+								{
+									"key": "idSerie",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "numero",
+									"value": "111",
+									"type": "text"
+								},
+								{
+									"key": "idTipoConferencia",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text"
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "descricao",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "dataElaboracao",
+									"value": "23/07/2019",
+									"description": "opcional",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "2,3",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "remetente",
+									"value": "100000004",
+									"type": "text"
+								},
+								{
+									"key": "destinatarios",
+									"value": "",
+									"description": "Enviar idContato separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "observacao",
+									"value": "observação teste acentuação",
+									"type": "text"
+								},
+								{
+									"key": "idUnidadeGeradoraProtocolo",
+									"value": "110000001",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/:procedimento/externo/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								":procedimento",
+								"externo",
+								"criar"
+							],
+							"variable": [
+								{
+									"key": "procedimento",
+									"value": "{{idProcedimento}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Documento Externo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "anexo",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "idSerie",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "numero",
+											"value": "111",
+											"type": "text"
+										},
+										{
+											"key": "idTipoConferencia",
+											"value": "3",
+											"type": "text"
+										},
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "dataElaboracao",
+											"value": "23/07/2019",
+											"description": "opcional",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "2,3",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "remetente",
+											"value": "100000004",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "",
+											"description": "Enviar idContato separado por ','",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "observacao",
+											"value": "observação",
+											"type": "text"
+										},
+										{
+											"key": "idUnidadeGeradoraProtocolo",
+											"value": "110000001",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/:procedimento/externo/criar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										":procedimento",
+										"externo",
+										"criar"
+									],
+									"variable": [
+										{
+											"key": "procedimento",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jul 2019 16:28:59 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [],
+							"body": "{\"sucesso\":true,\"data\":{\"IdDocumento\":\"71\",\"ProtocoloDocumentoFormatado\":\"0000070\"}}"
+						}
+					]
+				},
+				{
+					"name": "Assinante-Listar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "71c88fde-eb52-4a17-b010-27c3385e70c9",
+								"exec": [
+									"\r",
+									"pm.test(\"Verifica se executou com sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verifica se trouxe Chefe entre os cargos\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Fiscal\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{baseurl}}/assinante/listar/{{idUnidadeTeste}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"assinante",
+								"listar",
+								"{{idUnidadeTeste}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Assinar Documentos Bloco",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "orgao",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cargo",
+											"value": "Romão 2",
+											"type": "text"
+										},
+										{
+											"key": "login",
+											"value": "teste",
+											"type": "text"
+										},
+										{
+											"key": "senha",
+											"value": "teste",
+											"type": "text"
+										},
+										{
+											"key": "usuario",
+											"value": "100000001",
+											"type": "text"
+										},
+										{
+											"key": "documentos",
+											"value": "19,20",
+											"description": "id dos documentos para assinatura separados por ','",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/bloco/assinatura/assinar/documentos",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"bloco",
+										"assinatura",
+										"assinar",
+										"documentos"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "67",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 09 Aug 2019 19:12:02 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"mensagem\":\"Documento(s) assinado(s) com sucesso.\"}"
+						}
+					]
+				},
+				{
+					"name": "Documento - Assinar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "71c88fde-eb52-4a17-b010-27c3385e70c9",
+								"exec": [
+									"\r",
+									"pm.test(\"Verifica Assinatura\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "orgao",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "cargo",
+									"value": "Chefe de Gabinete da Presidência",
+									"type": "text"
+								},
+								{
+									"key": "login",
+									"value": "teste",
+									"type": "text"
+								},
+								{
+									"key": "senha",
+									"value": "teste",
+									"type": "text"
+								},
+								{
+									"key": "usuario",
+									"value": "100000001",
+									"type": "text"
+								},
+								{
+									"key": "documentos",
+									"value": "{{idDocumentoInterno}}",
+									"description": "id dos documentos para assinatura separados por ','",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/bloco/assinatura/assinar/documentos",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"bloco",
+								"assinatura",
+								"assinar",
+								"documentos"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Assinar Documentos Bloco",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "orgao",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cargo",
+											"value": "Romão 2",
+											"type": "text"
+										},
+										{
+											"key": "login",
+											"value": "teste",
+											"type": "text"
+										},
+										{
+											"key": "senha",
+											"value": "teste",
+											"type": "text"
+										},
+										{
+											"key": "usuario",
+											"value": "100000001",
+											"type": "text"
+										},
+										{
+											"key": "documentos",
+											"value": "19,20",
+											"description": "id dos documentos para assinatura separados por ','",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/bloco/assinatura/assinar/documentos",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"bloco",
+										"assinatura",
+										"assinar",
+										"documentos"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "67",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 09 Aug 2019 19:12:02 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"mensagem\":\"Documento(s) assinado(s) com sucesso.\"}"
+						}
+					]
+				},
+				{
+					"name": "Documento - Listar Documentos Processo - Todos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9022e936-4e3c-41b6-9a10-0c047a770ad7",
+								"exec": [
+									"\r",
+									"pm.test('Retornou Documentos', function() {\r",
+									"  var jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property('data');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Listou Documento Interno\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoInterno\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Listou Documento Externo\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno\"));\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/documento/listar/:procedimento?limit=&start=",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"listar",
+								":procedimento"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": ""
+								},
+								{
+									"key": "start",
+									"value": ""
+								}
+							],
+							"variable": [
+								{
+									"key": "procedimento",
+									"value": "{{idProcedimento}}"
+								}
+							]
+						},
+						"description": "Vamos listar os 2 documentos cadastrados anteriormente.\nTestar se eles retornaram"
+					},
+					"response": [
+						{
+							"name": "Listar Documentos Processo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/documento/listar/:procedimento?limit=100&start=0",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"listar",
+										":procedimento"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "100"
+										},
+										{
+											"key": "start",
+											"value": "0"
+										}
+									],
+									"variable": [
+										{
+											"key": "procedimento",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "10612",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Aug 2019 18:00:09 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":[{\"id\":\"12\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"12\",\"protocoloFormatado\":\"0000010\",\"nome\":\"\",\"titulo\":\"2\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 2 (0000010)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"13\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"13\",\"protocoloFormatado\":\"0000011\",\"nome\":\"\",\"titulo\":\"3\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 3 (0000011)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"S\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"14\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"14\",\"protocoloFormatado\":\"0000012\",\"nome\":\"\",\"titulo\":\"4\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 4 (0000012)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"S\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"15\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"15\",\"protocoloFormatado\":\"0000013\",\"nome\":\"\",\"titulo\":\"5\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 5 (0000013)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"S\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"16\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"16\",\"protocoloFormatado\":\"0000014\",\"nome\":\"\",\"titulo\":\"6\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 6 (0000014)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"17\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"17\",\"protocoloFormatado\":\"0000015\",\"nome\":\"\",\"titulo\":\"7\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 7 (0000015)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"18\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"18\",\"protocoloFormatado\":\"0000016\",\"nome\":\"\",\"titulo\":\"8\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 8 (0000016)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"19\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"19\",\"protocoloFormatado\":\"0000017\",\"nome\":\"\",\"titulo\":\"9\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 9 (0000017)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"S\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"20\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"20\",\"protocoloFormatado\":\"0000018\",\"nome\":\"\",\"titulo\":\"10\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 10 (0000018)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"S\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"21\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"21\",\"protocoloFormatado\":\"0000019\",\"nome\":\"\",\"titulo\":\"11\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 11 (0000019)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"22\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"22\",\"protocoloFormatado\":\"0000020\",\"nome\":\"\",\"titulo\":\"12\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 12 (0000020)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"23\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"23\",\"protocoloFormatado\":\"0000021\",\"nome\":\"\",\"titulo\":\"13\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 13 (0000021)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"24\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"24\",\"protocoloFormatado\":\"0000022\",\"nome\":\"\",\"titulo\":\"14\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 14 (0000022)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"25\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"25\",\"protocoloFormatado\":\"0000023\",\"nome\":\"\",\"titulo\":\"15\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"nova descri\\u00e7\\u00e3o\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 15 (0000023)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"N\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"N\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"27\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"27\",\"protocoloFormatado\":\"0000025\",\"nome\":\"\",\"titulo\":\"16\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"nova descri\\u00e7\\u00e3o - rom\\u00e3o\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 16 (0000025)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"N\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"N\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"28\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"28\",\"protocoloFormatado\":\"0000026\",\"nome\":\"\",\"titulo\":\"1\",\"tipo\":\"Abertura de Procedimento Licitat\\u00f3rio\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Abertura de Procedimento Licitat\\u00f3rio 1 (0000026)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"N\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"N\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"29\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"29\",\"protocoloFormatado\":\"0000027\",\"nome\":\"\",\"titulo\":\"\",\"tipo\":\"Plano de Gerenciamento de Projeto (PGP)\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Plano de Gerenciamento de Projeto (PGP) TESTE 0000027\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"N\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"N\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"30\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"30\",\"protocoloFormatado\":\"0000028\",\"nome\":\"Tabela Bonus Food.pdf\",\"titulo\":\"\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"X\",\"mimeType\":\"pdf\",\"informacao\":\"\",\"tamanho\":\"369816\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o  (0000028)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"N\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"N\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":false}}}],\"total\":\"18\"}"
+						}
+					]
+				},
+				{
+					"name": "Documento - Listar Documentos Processo - Soh o Primeiro",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9022e936-4e3c-41b6-9a10-0c047a770ad7",
+								"exec": [
+									"\r",
+									"pm.test('Retornou Documento', function() {\r",
+									"  var jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property('data');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Listou Documento Interno\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoInterno\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Não Listou Documento Externo\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno\"));\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/documento/listar/:procedimento?limit=1&start=0",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"listar",
+								":procedimento"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1"
+								},
+								{
+									"key": "start",
+									"value": "0"
+								}
+							],
+							"variable": [
+								{
+									"key": "procedimento",
+									"value": "{{idProcedimento}}"
+								}
+							]
+						},
+						"description": "Agora vamos mandar listar apenas o primeiro documento\nDeve voltar o primeiro e não o segundo"
+					},
+					"response": [
+						{
+							"name": "Listar Documentos Processo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/documento/listar/:procedimento?limit=100&start=0",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"listar",
+										":procedimento"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "100"
+										},
+										{
+											"key": "start",
+											"value": "0"
+										}
+									],
+									"variable": [
+										{
+											"key": "procedimento",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "10612",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Aug 2019 18:00:09 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":[{\"id\":\"12\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"12\",\"protocoloFormatado\":\"0000010\",\"nome\":\"\",\"titulo\":\"2\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 2 (0000010)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"13\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"13\",\"protocoloFormatado\":\"0000011\",\"nome\":\"\",\"titulo\":\"3\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 3 (0000011)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"S\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"14\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"14\",\"protocoloFormatado\":\"0000012\",\"nome\":\"\",\"titulo\":\"4\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 4 (0000012)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"S\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"15\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"15\",\"protocoloFormatado\":\"0000013\",\"nome\":\"\",\"titulo\":\"5\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 5 (0000013)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"S\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"16\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"16\",\"protocoloFormatado\":\"0000014\",\"nome\":\"\",\"titulo\":\"6\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 6 (0000014)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"17\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"17\",\"protocoloFormatado\":\"0000015\",\"nome\":\"\",\"titulo\":\"7\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 7 (0000015)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"18\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"18\",\"protocoloFormatado\":\"0000016\",\"nome\":\"\",\"titulo\":\"8\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 8 (0000016)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"19\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"19\",\"protocoloFormatado\":\"0000017\",\"nome\":\"\",\"titulo\":\"9\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 9 (0000017)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"S\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"20\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"20\",\"protocoloFormatado\":\"0000018\",\"nome\":\"\",\"titulo\":\"10\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 10 (0000018)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"S\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"21\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"21\",\"protocoloFormatado\":\"0000019\",\"nome\":\"\",\"titulo\":\"11\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 11 (0000019)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"22\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"22\",\"protocoloFormatado\":\"0000020\",\"nome\":\"\",\"titulo\":\"12\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 12 (0000020)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"23\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"23\",\"protocoloFormatado\":\"0000021\",\"nome\":\"\",\"titulo\":\"13\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 13 (0000021)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"24\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"24\",\"protocoloFormatado\":\"0000022\",\"nome\":\"\",\"titulo\":\"14\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 14 (0000022)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"25\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"25\",\"protocoloFormatado\":\"0000023\",\"nome\":\"\",\"titulo\":\"15\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"nova descri\\u00e7\\u00e3o\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 15 (0000023)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"N\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"N\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"27\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"27\",\"protocoloFormatado\":\"0000025\",\"nome\":\"\",\"titulo\":\"16\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"nova descri\\u00e7\\u00e3o - rom\\u00e3o\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 16 (0000025)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"N\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"N\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"28\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"28\",\"protocoloFormatado\":\"0000026\",\"nome\":\"\",\"titulo\":\"1\",\"tipo\":\"Abertura de Procedimento Licitat\\u00f3rio\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Abertura de Procedimento Licitat\\u00f3rio 1 (0000026)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"N\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"N\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"29\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"29\",\"protocoloFormatado\":\"0000027\",\"nome\":\"\",\"titulo\":\"\",\"tipo\":\"Plano de Gerenciamento de Projeto (PGP)\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Plano de Gerenciamento de Projeto (PGP) TESTE 0000027\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"N\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"N\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"30\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"30\",\"protocoloFormatado\":\"0000028\",\"nome\":\"Tabela Bonus Food.pdf\",\"titulo\":\"\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"X\",\"mimeType\":\"pdf\",\"informacao\":\"\",\"tamanho\":\"369816\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o  (0000028)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"N\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"N\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":false}}}],\"total\":\"18\"}"
+						}
+					]
+				},
+				{
+					"name": "Documento - Listar Documentos Processo - Soh o Primeiro Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9022e936-4e3c-41b6-9a10-0c047a770ad7",
+								"exec": [
+									"\r",
+									"pm.test('Retornou Documento', function() {\r",
+									"  var jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property('data');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Não Listou Documento Interno\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(pm.globals.get(\"protocoloDocumentoFormatadoInterno\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Listou Documento Externo\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno\"));\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/documento/listar/:procedimento?limit=1&start=1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"listar",
+								":procedimento"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1"
+								},
+								{
+									"key": "start",
+									"value": "1"
+								}
+							],
+							"variable": [
+								{
+									"key": "procedimento",
+									"value": "{{idProcedimento}}"
+								}
+							]
+						},
+						"description": "Agora vamos testar a listagem apenas do segundo documento\nDeve mostrar o segundo e não o primeiro"
+					},
+					"response": [
+						{
+							"name": "Listar Documentos Processo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/documento/listar/:procedimento?limit=100&start=0",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"listar",
+										":procedimento"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "100"
+										},
+										{
+											"key": "start",
+											"value": "0"
+										}
+									],
+									"variable": [
+										{
+											"key": "procedimento",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "10612",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Aug 2019 18:00:09 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":[{\"id\":\"12\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"12\",\"protocoloFormatado\":\"0000010\",\"nome\":\"\",\"titulo\":\"2\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 2 (0000010)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"13\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"13\",\"protocoloFormatado\":\"0000011\",\"nome\":\"\",\"titulo\":\"3\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 3 (0000011)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"S\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"14\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"14\",\"protocoloFormatado\":\"0000012\",\"nome\":\"\",\"titulo\":\"4\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 4 (0000012)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"S\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"15\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"15\",\"protocoloFormatado\":\"0000013\",\"nome\":\"\",\"titulo\":\"5\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 5 (0000013)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"S\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"16\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"16\",\"protocoloFormatado\":\"0000014\",\"nome\":\"\",\"titulo\":\"6\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 6 (0000014)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"17\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"17\",\"protocoloFormatado\":\"0000015\",\"nome\":\"\",\"titulo\":\"7\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 7 (0000015)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"18\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"18\",\"protocoloFormatado\":\"0000016\",\"nome\":\"\",\"titulo\":\"8\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 8 (0000016)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"19\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"19\",\"protocoloFormatado\":\"0000017\",\"nome\":\"\",\"titulo\":\"9\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 9 (0000017)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"S\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"20\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"20\",\"protocoloFormatado\":\"0000018\",\"nome\":\"\",\"titulo\":\"10\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 10 (0000018)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"S\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"21\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"21\",\"protocoloFormatado\":\"0000019\",\"nome\":\"\",\"titulo\":\"11\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 11 (0000019)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"22\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"22\",\"protocoloFormatado\":\"0000020\",\"nome\":\"\",\"titulo\":\"12\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 12 (0000020)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"23\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"23\",\"protocoloFormatado\":\"0000021\",\"nome\":\"\",\"titulo\":\"13\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 13 (0000021)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"24\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"24\",\"protocoloFormatado\":\"0000022\",\"nome\":\"\",\"titulo\":\"14\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"descri\\u00e7\\u00e3o documento interno\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 14 (0000022)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"S\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"S\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"25\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"25\",\"protocoloFormatado\":\"0000023\",\"nome\":\"\",\"titulo\":\"15\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"nova descri\\u00e7\\u00e3o\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 15 (0000023)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"N\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"N\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"27\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"27\",\"protocoloFormatado\":\"0000025\",\"nome\":\"\",\"titulo\":\"16\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"nova descri\\u00e7\\u00e3o - rom\\u00e3o\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o 16 (0000025)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"N\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"N\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"28\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"28\",\"protocoloFormatado\":\"0000026\",\"nome\":\"\",\"titulo\":\"1\",\"tipo\":\"Abertura de Procedimento Licitat\\u00f3rio\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Abertura de Procedimento Licitat\\u00f3rio 1 (0000026)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"N\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"N\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"29\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"29\",\"protocoloFormatado\":\"0000027\",\"nome\":\"\",\"titulo\":\"\",\"tipo\":\"Plano de Gerenciamento de Projeto (PGP)\",\"tipoDocumento\":\"I\",\"mimeType\":\"html\",\"informacao\":\"\",\"tamanho\":\"\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Plano de Gerenciamento de Projeto (PGP) TESTE 0000027\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"N\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"N\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":true}}},{\"id\":\"30\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"30\",\"protocoloFormatado\":\"0000028\",\"nome\":\"Tabela Bonus Food.pdf\",\"titulo\":\"\",\"tipo\":\"Ac\\u00f3rd\\u00e3o\",\"tipoDocumento\":\"X\",\"mimeType\":\"pdf\",\"informacao\":\"\",\"tamanho\":\"369816\",\"idUnidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nomeComposto\":\"Ac\\u00f3rd\\u00e3o  (0000028)\",\"tipoConferencia\":\"\",\"status\":{\"sinBloqueado\":\"N\",\"documentoSigiloso\":\"N\",\"documentoRestrito\":\"N\",\"documentoPublicado\":\"N\",\"documentoAssinado\":\"N\",\"ciencia\":\"N\",\"documentoCancelado\":\"N\",\"podeVisualizarDocumento\":\"S\",\"permiteAssinatura\":false}}}],\"total\":\"18\"}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Processo-Enviar",
+			"item": [
+				{
+					"name": "Processo-Enviar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"\r",
+									"pm.test(\"Enviou o Processo\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "numeroProcesso",
+									"value": "{{ProtocoloFormatado}}",
+									"type": "text"
+								},
+								{
+									"key": "unidadesDestino",
+									"value": "{{idUnidadeTeste_1_1}}",
+									"type": "text"
+								},
+								{
+									"key": "sinManterAbertoUnidade",
+									"value": "S",
+									"type": "text"
+								},
+								{
+									"key": "sinRemoverAnotacao",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sinEnviarEmailNotificacao",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "dataRetornoProgramado",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "diasRetornoProgramado",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sinDiasUteisRetornoProgramado",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sinReabrir",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/enviar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"enviar"
+							]
+						},
+						"description": "Enviar mantendo aberto na unidade TESTE"
+					},
+					"response": []
+				},
+				{
+					"name": "Processo- Listar Na Unidade Atual",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
+								"exec": [
+									"pm.test('Verifica se processo permanece na unidade', function() {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property('data');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/processo/listar?id={{idProcedimento}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{idProcedimento}}"
+								},
+								{
+									"key": "limit",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "usuario",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "tipo",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "apenasMeus",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Verifica se o processo permanece na unidade TESTE"
+					},
+					"response": []
+				},
+				{
+					"name": "Usuario-Unidade Trocar TESTE_1_1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"\r",
+									"pm.test(\"Usuário trocou de unidade\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_1}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Processo - Listar Processos Unidade 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
+								"exec": [
+									"pm.test('Verifica se o Processo é listado na Unidade', function() {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property('data');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/processo/listar?id={{idProcedimento}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{idProcedimento}}"
+								},
+								{
+									"key": "limit",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "usuario",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "tipo",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "apenasMeus",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuario - Unidade Trocar Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"\r",
+									"pm.test(\"Usuário Trocou de Unidade Para TESTE\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Processo-Enviar De volta Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Usuário Trocou de Unidade para TESTE_1_1\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "numeroProcesso",
+									"value": "{{ProtocoloFormatado}}",
+									"type": "text"
+								},
+								{
+									"key": "unidadesDestino",
+									"value": "{{idUnidadeTeste_1_1}}",
+									"type": "text"
+								},
+								{
+									"key": "sinManterAbertoUnidade",
+									"value": "N",
+									"type": "text"
+								},
+								{
+									"key": "sinRemoverAnotacao",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sinEnviarEmailNotificacao",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "dataRetornoProgramado",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "diasRetornoProgramado",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sinDiasUteisRetornoProgramado",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sinReabrir",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/enviar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"enviar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Processo - Listar Processos Unidade 2 Copy Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
+								"exec": [
+									"pm.test('Processo não deve constar na listagem', function() {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.not.have.property('data');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/processo/listar?id={{idProcedimento}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{idProcedimento}}"
+								},
+								{
+									"key": "limit",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "usuario",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "tipo",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "apenasMeus",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuario - Unidade Trocar Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Usuário trocou de Unidade\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_1}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Processo - Listar Processos Unidade 2 Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
+								"exec": [
+									"pm.test('Verificar se o Processo é Listado', function() {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property('data');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/processo/listar?id={{idProcedimento}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{idProcedimento}}"
+								},
+								{
+									"key": "limit",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "usuario",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "tipo",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "apenasMeus",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "494844dd-7739-4e70-b03c-07cf4c38ce67",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c01c9eb2-2c71-4574-b3ad-e12b12bbe539",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "8e28521d-8ffa-41c3-89f4-2c371d9fa26d",
+			"key": "{{token}}",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "d18f780f-a6c8-4b4a-8f36-f6875cccacf7",
+			"key": "{{baseurl}}",
+			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
+			"type": "string"
+		}
+	]
+}
