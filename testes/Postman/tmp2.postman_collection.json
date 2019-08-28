@@ -1,0 +1,227 @@
+{
+	"info": {
+		"_postman_id": "eadcdc82-b1ed-4130-8b7a-28140cf0fee9",
+		"name": "tmp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Autenticar-Versao",
+			"item": [
+				{
+					"name": "Versao Autenticado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bbcf0866-752f-4304-8f5f-1a4537689560",
+								"exec": [
+									"",
+									"pm.test('Retornar Versão - Login Efetuado', function() {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property('data');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseurl}}/versao",
+						"description": "Testar a chamada da versão estando autenticado.\nAqui tem q retornar a versão"
+					},
+					"response": []
+				},
+				{
+					"name": "General-Autenticar Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e4b5b26c-f632-4923-b43a-59fca91be5aa",
+								"exec": [
+									"pm.test(\"Existe token na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"token\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"token\", jsonData.data.token);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "usuario",
+									"value": "teste",
+									"type": "text"
+								},
+								{
+									"key": "senha",
+									"value": "teste",
+									"type": "text"
+								},
+								{
+									"key": "contexto",
+									"value": "null",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "orgao",
+									"value": "0",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "{{baseurl}}/autenticar",
+						"description": "Autenticar o usuário"
+					},
+					"response": [
+						{
+							"name": "Exemplo Autenticação",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "usuario",
+											"value": "teste",
+											"type": "text"
+										},
+										{
+											"key": "senha",
+											"value": "teste",
+											"type": "text"
+										},
+										{
+											"key": "contexto",
+											"value": "null",
+											"type": "text"
+										},
+										{
+											"key": "orgao",
+											"value": "0",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{baseurl}}/autenticar"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1196",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jul 2019 13:45:32 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [],
+							"body": "{\"sucesso\":true,\"data\":{\"loginData\":{\"IdSistema\":\"100000100\",\"IdContexto\":\"\",\"IdUsuario\":\"100000001\",\"IdLogin\":\"c16ad95a55363578fc421308fcd5cb829361408b5995b0ba6a3933e10ff0a3c59601232312bc12015cb9ec946208e27a53d94250141a7f4e26768fa25a15a798\",\"HashAgente\":\"4e2622cd26cbb6a556c25f686187e32dea01bf8e2957d84a8e567eac09f5a4f7b7aaf1ed2f24583ded1a3f1a375743c0f492f910b5d4696065ff64ab7dcb6870\",\"IdUnidadeAtual\":\"110000001\",\"sigla\":\"teste\",\"nome\":\"Usu\\u00e1rio de Testes\",\"idUltimoCargoAssinatura\":\"4\",\"ultimoCargoAssinatura\":\"Presidente\"},\"perfis\":[{\"idPerfil\":\"100000938\",\"nome\":\"B\\u00e1sico\",\"stAtivo\":\"S\"},{\"idPerfil\":\"100000939\",\"nome\":\"Administrador\",\"stAtivo\":\"S\"},{\"idPerfil\":\"100000940\",\"nome\":\"Inform\\u00e1tica\",\"stAtivo\":\"S\"},{\"idPerfil\":\"100000941\",\"nome\":\"Arquivamento\",\"stAtivo\":\"S\"},{\"idPerfil\":\"100000945\",\"nome\":\"Inspe\\u00e7\\u00e3o\",\"stAtivo\":\"S\"}],\"unidades\":[{\"id\":\"110000001\",\"sigla\":\"TESTE\",\"descricao\":\"Unidade de Teste 1\"},{\"id\":\"110000002\",\"sigla\":\"TESTE_1_1\",\"descricao\":\"Unidade de Testes 1.1\"},{\"id\":\"110000003\",\"sigla\":\"TESTE_1_2\",\"descricao\":\"Unidade de Testes 1.2\"}],\"token\":\"NWY3NjRlOTA5ZjMzMmJjNjBiMzBjMzZmNmQzMGI2YWJiNjExYWNlYmFUVnhUV2sxYnoxOGZHazFjVTFwTlc4OWZId3dmSHc9\"}}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "494844dd-7739-4e70-b03c-07cf4c38ce67",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c01c9eb2-2c71-4574-b3ad-e12b12bbe539",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "82efefef-b0f6-423c-ba62-c060e507dbc4",
+			"key": "{{token}}",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "de03ba68-792c-4681-8831-d5c88a1f6749",
+			"key": "{{baseurl}}",
+			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
+			"type": "string"
+		}
+	]
+}
