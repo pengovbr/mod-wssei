@@ -16,12 +16,12 @@
 							"script": {
 								"id": "bbcf0866-752f-4304-8f5f-1a4537689560",
 								"exec": [
-									"/*",
+									"",
 									"pm.test('Retornar Versão sem login', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(jsonData).to.not.have.property('data');",
 									"});",
-									"*/"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -726,7 +726,7 @@
 								{
 									"key": "anexo",
 									"type": "file",
-									"src": "SEI-v3.1.2.pdf"
+									"src": "/C:/Users/71364900149/projetos/git/spb/mod-wssei/testes/Postman/SEI-v3.1.2.pdf"
 								},
 								{
 									"key": "idSerie",
@@ -2606,13 +2606,13 @@
 	],
 	"variable": [
 		{
-			"id": "9ac47526-ebd1-40c0-9667-ea4ec6a4e6e5",
+			"id": "7c6c9d00-347d-457c-865f-0cc5451ccbb2",
 			"key": "{{token}}",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "4a7dca1a-f36a-4fc2-9678-92e5eb02776a",
+			"id": "18eb06f2-3009-478b-8cee-2a28afc0bf29",
 			"key": "{{baseurl}}",
 			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
 			"type": "string"
