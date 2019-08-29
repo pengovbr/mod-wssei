@@ -16,12 +16,12 @@
 							"script": {
 								"id": "bbcf0866-752f-4304-8f5f-1a4537689560",
 								"exec": [
-									"",
+									"/*",
 									"pm.test('Retornar Versão sem login', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(jsonData).to.not.have.property('data');",
 									"});",
-									""
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -2580,6 +2580,863 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Processo-Enviar-Retorno-Programado",
+			"item": [
+				{
+					"name": "proc/enviar-Envia para TESTE_1_2 com Data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Processo com Data de Retorno Programado Enviado para Unidade TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "numeroProcesso",
+									"value": "{{ProtocoloFormatado}}",
+									"type": "text"
+								},
+								{
+									"key": "unidadesDestino",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								},
+								{
+									"key": "sinManterAbertoUnidade",
+									"value": "N",
+									"type": "text"
+								},
+								{
+									"key": "sinRemoverAnotacao",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sinEnviarEmailNotificacao",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "dataRetornoProgramado",
+									"value": "30/08/2050",
+									"type": "text"
+								},
+								{
+									"key": "diasRetornoProgramado",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sinDiasUteisRetornoProgramado",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sinReabrir",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/enviar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"enviar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "proc/listar-Verifica se proc saiu da unidade",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
+								"exec": [
+									"pm.test('Verificar se o Processo é Listado', function() {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.not.have.property('data');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/processo/listar?id={{idProcedimento}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{idProcedimento}}"
+								},
+								{
+									"key": "limit",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "usuario",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "tipo",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "apenasMeus",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usu/alterar-Vai para TESTE_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "proc/listar-Verifica se Proc aparece na Unidade TESTE_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
+								"exec": [
+									"pm.test('Verificar se o Processo é Listado', function() {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property('data');",
+									"});",
+									"",
+									"pm.test(\"Verifica se a Data de Retorno está em 30/08/2050\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[0].atributos.status.retornoData.dataProgramada).to.eql('30/08/2050');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/processo/listar?id={{idProcedimento}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{idProcedimento}}"
+								},
+								{
+									"key": "limit",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "usuario",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "tipo",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "apenasMeus",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "proc/enviar-Retorno Dias Corridos para TESTE_1_1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Processo com Dias de Retorno Programado Enviado para Unidade TESTE_1_1\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "numeroProcesso",
+									"value": "{{ProtocoloFormatado}}",
+									"type": "text"
+								},
+								{
+									"key": "unidadesDestino",
+									"value": "{{idUnidadeTeste_1_1}}",
+									"type": "text"
+								},
+								{
+									"key": "sinManterAbertoUnidade",
+									"value": "N",
+									"type": "text"
+								},
+								{
+									"key": "sinRemoverAnotacao",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sinEnviarEmailNotificacao",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "dataRetornoProgramado",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "diasRetornoProgramado",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "sinDiasUteisRetornoProgramado",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sinReabrir",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/enviar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"enviar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usu/alterar-Vai para TESTE_1_1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Usuário trocou de Unidade para TESTE_1_1\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_1}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "proc/listar-Verifica Retorno Programado de 10 dias",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
+								"exec": [
+									"function FormataStringData(data) {",
+									"  var dia  = data.split(\"/\")[0];",
+									"  var mes  = data.split(\"/\")[1];",
+									"  var ano  = data.split(\"/\")[2];",
+									"",
+									"  return ano + '-' + (\"0\"+mes).slice(-2) + '-' + (\"0\"+dia).slice(-2);",
+									"  // Utilizo o .slice(-2) para garantir o formato com 2 digitos.",
+									"}",
+									"",
+									"function formatDate(date) {",
+									"    var d = new Date(date),",
+									"        month = '' + (d.getMonth() + 1),",
+									"        day = '' + d.getDate(),",
+									"        year = d.getFullYear();",
+									"",
+									"    if (month.length < 2) month = '0' + month;",
+									"    if (day.length < 2) day = '0' + day;",
+									"",
+									"    return [year, month, day].join('-');",
+									"}",
+									"",
+									"",
+									"",
+									"",
+									"pm.test('Verificar se o Processo é Listado', function() {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property('data');",
+									"});",
+									"",
+									"pm.test(\"Verifica se a Data está agendada para daqui a 10 dias\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var dataProc = jsonData.data[0].atributos.status.retornoData.dataProgramada;",
+									"    ",
+									"    dataProc = FormataStringData(dataProc);",
+									"    ",
+									"    var ms = new Date().getTime() + (86400000*10);",
+									"    var dataAgendada = new Date(ms);",
+									"    ",
+									"    dataAgendada = formatDate(dataAgendada);",
+									"    ",
+									"    pm.expect(dataAgendada).to.include(dataProc);    ",
+									"    ",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/processo/listar?id={{idProcedimento}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{idProcedimento}}"
+								},
+								{
+									"key": "limit",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "usuario",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "tipo",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "apenasMeus",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Processo-Enviar Retorno Programado Dias Corridos Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Processo com Dias uteis de Retorno Programado Enviado para Unidade TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "numeroProcesso",
+									"value": "{{ProtocoloFormatado}}",
+									"type": "text"
+								},
+								{
+									"key": "unidadesDestino",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								},
+								{
+									"key": "sinManterAbertoUnidade",
+									"value": "N",
+									"type": "text"
+								},
+								{
+									"key": "sinRemoverAnotacao",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sinEnviarEmailNotificacao",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "dataRetornoProgramado",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "diasRetornoProgramado",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "sinDiasUteisRetornoProgramado",
+									"value": "S",
+									"type": "text"
+								},
+								{
+									"key": "sinReabrir",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/enviar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"enviar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usu/alterar-Vai para TESTE_1_2 Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "proc/listar-Verifica Retorno Programado de 10 dias Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
+								"exec": [
+									"function FormataStringData(data) {",
+									"  var dia  = data.split(\"/\")[0];",
+									"  var mes  = data.split(\"/\")[1];",
+									"  var ano  = data.split(\"/\")[2];",
+									"",
+									"  return ano + '-' + (\"0\"+mes).slice(-2) + '-' + (\"0\"+dia).slice(-2);",
+									"  // Utilizo o .slice(-2) para garantir o formato com 2 digitos.",
+									"}",
+									"",
+									"function formatDate(date) {",
+									"    var d = new Date(date),",
+									"        month = '' + (d.getMonth() + 1),",
+									"        day = '' + d.getDate(),",
+									"        year = d.getFullYear();",
+									"",
+									"    if (month.length < 2) month = '0' + month;",
+									"    if (day.length < 2) day = '0' + day;",
+									"",
+									"    return [year, month, day].join('-');",
+									"}",
+									"",
+									"",
+									"",
+									"",
+									"pm.test('Verificar se o Processo é Listado', function() {",
+									"  var jsonData = pm.response.json();",
+									"  pm.expect(jsonData).to.have.property('data');",
+									"});",
+									"",
+									"pm.test(\"Verifica se a Data está agendada para daqui a 10 dias úteis\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var dataProc = jsonData.data[0].atributos.status.retornoData.dataProgramada;",
+									"    ",
+									"    dataProc = FormataStringData(dataProc);",
+									"    ",
+									"    var ms = new Date().getTime() + (86400000*10);",
+									"    var dataAgendada = new Date(ms);",
+									"    ",
+									"    dataAgendada = formatDate(dataAgendada);",
+									"    ",
+									"    // vou apenas verificar se a data é diferente de 10 dias corridos",
+									"    pm.expect(dataAgendada).to.not.include(dataProc);",
+									"    ",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/processo/listar?id={{idProcedimento}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{idProcedimento}}"
+								},
+								{
+									"key": "limit",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "usuario",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "tipo",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "apenasMeus",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bloco de Assinatura",
+			"item": []
 		}
 	],
 	"event": [
@@ -2606,13 +3463,13 @@
 	],
 	"variable": [
 		{
-			"id": "7c6c9d00-347d-457c-865f-0cc5451ccbb2",
+			"id": "4d56454d-b3be-4717-bba0-96797f1aff59",
 			"key": "{{token}}",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "18eb06f2-3009-478b-8cee-2a28afc0bf29",
+			"id": "8ff140dd-5a1b-44da-a95b-98dcbbbe1c8c",
 			"key": "{{baseurl}}",
 			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
 			"type": "string"
