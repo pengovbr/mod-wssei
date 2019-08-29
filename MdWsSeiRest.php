@@ -320,7 +320,7 @@ class MdWsSeiRest extends SeiIntegracao
         $caminhoAtual = explode("/sei/web", __DIR__);
         $urlSEI = ConfiguracaoSEI::getInstance()->getValor('SEI', 'URL')
             . $caminhoAtual[1]
-            . '/controlador_ws.php/api/v1';
+            . '/controlador_ws.php/api/v2';
         $conteudoQrCode = 'url: ' . $urlSEI
             . ';'
             . 'siglaorgao: ' . SessaoSEI::getInstance()->getStrSiglaOrgaoUsuario()
