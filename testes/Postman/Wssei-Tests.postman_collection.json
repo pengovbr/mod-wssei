@@ -7764,7 +7764,7 @@
 							"urlencoded": [
 								{
 									"key": "documento",
-									"value": "246",
+									"value": "{{idDocumentoInterno_2_1}}",
 									"type": "text"
 								},
 								{
@@ -10889,13 +10889,13 @@
 	],
 	"variable": [
 		{
-			"id": "37cfe1e3-40be-4d93-8cee-cbfd650baae0",
+			"id": "6822b813-723d-48c2-a850-2dd8234cf95f",
 			"key": "{{token}}",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "26e280de-e254-4e34-b3be-d40d5b4e1ece",
+			"id": "26332a78-9ec1-4f38-aa39-999f321eb583",
 			"key": "{{baseurl}}",
 			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
 			"type": "string"
