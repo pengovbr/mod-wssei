@@ -8160,7 +8160,7 @@
 								},
 								{
 									"key": "cargo",
-									"value": "Chefe de Gabinete",
+									"value": "Chefe de Gabinete da Presidência",
 									"type": "text"
 								},
 								{
@@ -8616,7 +8616,7 @@
 								},
 								{
 									"key": "cargo",
-									"value": "Chefe de Gabinete",
+									"value": "Chefe de Gabinete da Presidência",
 									"type": "text"
 								},
 								{
@@ -9242,7 +9242,7 @@
 								},
 								{
 									"key": "cargo",
-									"value": "Chefe de Gabinete",
+									"value": "Chefe de Gabinete da Presidência",
 									"type": "text"
 								},
 								{
@@ -9712,7 +9712,7 @@
 								},
 								{
 									"key": "cargo",
-									"value": "Chefe de Gabinete",
+									"value": "Chefe de Gabinete da Presidência",
 									"type": "text"
 								},
 								{
@@ -10701,7 +10701,7 @@
 								},
 								{
 									"key": "cargo",
-									"value": "Chefe de Gabinete",
+									"value": "Chefe de Gabinete da Presidência",
 									"type": "text"
 								},
 								{
@@ -10889,13 +10889,13 @@
 	],
 	"variable": [
 		{
-			"id": "6822b813-723d-48c2-a850-2dd8234cf95f",
+			"id": "5096f663-2ad6-435a-b80d-5e81c047d00f",
 			"key": "{{token}}",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "26332a78-9ec1-4f38-aa39-999f321eb583",
+			"id": "45bfa252-4308-4039-90f2-950f38f36520",
 			"key": "{{baseurl}}",
 			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
 			"type": "string"
