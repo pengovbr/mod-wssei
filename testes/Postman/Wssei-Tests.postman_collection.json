@@ -701,8 +701,8 @@
 									"\r",
 									"var jsonData = JSON.parse(responseBody);\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
-									"pm.globals.set(\"idDocumentoExterno_1_1\", jsonData.data.idDocumento);\r",
-									"pm.globals.set(\"protocoloDocumentoFormatadoExterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
+									"pm.globals.set(\"idDocumentoExterno_1_2\", jsonData.data.idDocumento);\r",
+									"pm.globals.set(\"protocoloDocumentoFormatadoExterno_1_2\", jsonData.data.protocoloDocumentoFormatado);\r",
 									""
 								],
 								"type": "text/javascript"
@@ -1416,7 +1416,7 @@
 									"});\r",
 									"\r",
 									"pm.test(\"Listou Documento Externo\", function () {\r",
-									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno_1_1\"));\r",
+									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno_1_2\"));\r",
 									"\r",
 									"});"
 								],
@@ -1584,7 +1584,7 @@
 									"});\r",
 									"\r",
 									"pm.test(\"Não Listou Documento Externo\", function () {\r",
-									"    pm.expect(pm.response.text()).to.not.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno_1_1\"));\r",
+									"    pm.expect(pm.response.text()).to.not.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno_1_2\"));\r",
 									"\r",
 									"});"
 								],
@@ -1748,11 +1748,11 @@
 									"});\r",
 									"\r",
 									"pm.test(\"Não Listou Documento Interno\", function () {\r",
-									"    pm.expect(pm.response.text()).to.not.include(pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\"));\r",
+									"    pm.expect(pm.response.text()).to.not.include(pm.globals.get('\"protocoloDocumentoFormatadoInterno_1_1\"'));\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Listou Documento Externo\", function () {\r",
-									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno_1_1\"));\r",
+									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno_1_2\"));\r",
 									"\r",
 									"});"
 								],
@@ -10889,13 +10889,13 @@
 	],
 	"variable": [
 		{
-			"id": "5096f663-2ad6-435a-b80d-5e81c047d00f",
+			"id": "f4341897-69d8-4246-a200-02f3a3c12180",
 			"key": "{{token}}",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "45bfa252-4308-4039-90f2-950f38f36520",
+			"id": "17eb22cf-88bb-4188-b55d-671ed611ccac",
 			"key": "{{baseurl}}",
 			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
 			"type": "string"
