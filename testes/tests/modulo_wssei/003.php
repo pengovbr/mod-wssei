@@ -36,7 +36,7 @@ class TestWssei_Cenario003 extends UserAgentTest
 
     }
 
-    private function criarProcesso(){
+    protected function acriarProcesso(){
         
         $h = ['token' => $this->token];
  
