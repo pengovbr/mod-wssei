@@ -67,7 +67,7 @@ class TestWssei_Cenario003 extends UserAgentTest
         return $r;
     }
 
-    private function criarDocumentoInterno($idProcedimento, $desc){
+    private function acriarDocumentoInterno($idProcedimento, $desc){
             //listar procedimento
             $r = $this->listarProcedimentos($p);
             $this->assertContains('"total":"2"', $r);
