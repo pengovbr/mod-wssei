@@ -71,7 +71,7 @@ class TestWssei_Cenario003 extends UserAgentTest
             //listar procedimento
             $r = $this->listarProcedimentos($p);
             $this->assertContains('"total":"2"', $r);
-        }
+        
     }
         
 }
