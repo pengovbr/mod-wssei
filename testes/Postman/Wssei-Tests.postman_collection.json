@@ -726,7 +726,7 @@
 								{
 									"key": "anexo",
 									"type": "file",
-"src": "SEI-v3.1.2.pdf"
+									"src": "SEI-v3.1.2.pdf"
 								},
 								{
 									"key": "idSerie",
@@ -2135,7 +2135,7 @@
 								{
 									"key": "anexo",
 									"type": "file",
-"src": "SEI-v3.1.2.pdf"
+									"src": "SEI-v3.1.2.pdf"
 								},
 								{
 									"key": "idSerie",
@@ -8427,7 +8427,7 @@
 								{
 									"key": "anexo",
 									"type": "file",
-"src": "Cartilha.pdf"
+									"src": "Cartilha.pdf"
 								},
 								{
 									"key": "idSerie",
@@ -9437,7 +9437,7 @@
 									"key": "anexo",
 									"description": "Enviar no caso de novo anexo",
 									"type": "file",
-"src": "SEI-v3.1.2.pdf"
+									"src": "SEI-v3.1.2.pdf"
 								},
 								{
 									"key": "idSerie",
@@ -10639,7 +10639,7 @@
 									"key": "anexo",
 									"description": "Enviar no caso de novo anexo",
 									"type": "file",
-"src": "SEI-v3.1.2.pdf"
+									"src": "SEI-v3.1.2.pdf"
 								},
 								{
 									"key": "idSerie",
@@ -12243,7 +12243,7 @@
 									"key": "anexo",
 									"description": "Enviar no caso de novo anexo",
 									"type": "file",
-"src": "SEI-v3.1.2.pdf"
+									"src": "/C:/Users/71364900149/projetos/git/spb/mod-wssei/testes/Postman/SEI-v3.1.2.pdf"
 								},
 								{
 									"key": "idSerie",
@@ -13365,7 +13365,7 @@
 								{
 									"key": "anexo",
 									"type": "file",
-"src": "SEI-v3.1.2.pdf"
+									"src": "SEI-v3.1.2.pdf"
 								},
 								{
 									"key": "idSerie",
@@ -23696,13 +23696,13 @@
 	],
 	"variable": [
 		{
-			"id": "99db7e54-8e44-4290-b8ca-24a57ea6bbe1",
+			"id": "76a636de-6249-48a2-a58b-01cae87b918c",
 			"key": "{{token}}",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "b42892f0-bc7a-4657-b9f5-4351a8f8808e",
+			"id": "1f6d0534-4604-4ccb-88ba-a17a1d1983c4",
 			"key": "{{baseurl}}",
 			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
 			"type": "string"
