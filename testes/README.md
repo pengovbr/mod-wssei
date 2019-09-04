@@ -11,9 +11,11 @@ Para rodar os testes em Postman:
 - Conhecimento de uso básico/moderado do Postman
 
 ### Para Rodar os Testes
-- Baixe o projeto deste git
-- Vá até a pasta Postman
+- Baixe o projeto deste git (vou chamar de <projeto>)
+- Vá até a pasta <projeto>/testes/Postman
 - Importe os arquivos Wssei-Tests.postman_collection.json e SEI.postman_environment.json para o Postman
+- Ajuste o Working Dir do Postman para a pasta <projeto>/testes/Postman - necessário para reconhecer os arquivos de upload de docs externos 
 - Ajuste os valores do seu environment, de acordo com o ambiente que deseja testar
 - Execute o teste
+
 
