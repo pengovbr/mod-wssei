@@ -726,7 +726,7 @@
 								{
 									"key": "anexo",
 									"type": "file",
-									"src": "/C:/Users/71364900149/projetos/git/spb/mod-wssei/testes/Postman/SEI-v3.1.2.pdf"
+"src": "SEI-v3.1.2.pdf"
 								},
 								{
 									"key": "idSerie",
@@ -2135,7 +2135,7 @@
 								{
 									"key": "anexo",
 									"type": "file",
-									"src": "/C:/Users/71364900149/projetos/git/spb/mod-wssei/testes/Postman/SEI-v3.1.2.pdf"
+"src": "SEI-v3.1.2.pdf"
 								},
 								{
 									"key": "idSerie",
@@ -6455,10 +6455,10 @@
 			]
 		},
 		{
-			"name": "Processo-Documento-Assinar",
+			"name": "Processo-Docs",
 			"item": [
 				{
-					"name": "Usuario - Unidade Trocar Copy Copy",
+					"name": "Usuario - Unidade Trocar",
 					"event": [
 						{
 							"listen": "test",
@@ -6516,7 +6516,7 @@
 					"response": []
 				},
 				{
-					"name": "Processo-Criar",
+					"name": "Processo-Criar-Restrito",
 					"event": [
 						{
 							"listen": "test",
@@ -7963,7 +7963,7 @@
 					]
 				},
 				{
-					"name": "Consultar Documento Interno Copy",
+					"name": "Consultar Documento Interno",
 					"event": [
 						{
 							"listen": "test",
@@ -8427,7 +8427,7 @@
 								{
 									"key": "anexo",
 									"type": "file",
-									"src": "/C:/Users/71364900149/projetos/git/spb/mod-wssei/testes/Postman/SEI-v3.1.2.pdf"
+"src": "Cartilha.pdf"
 								},
 								{
 									"key": "idSerie",
@@ -8858,6 +8858,4799 @@
 								}
 							],
 							"body": "{\"sucesso\":true,\"data\":{\"nomeDocumento\":\"Ac\\u00f3rd\\u00e3o 111 (0000004)\",\"protocolo\":\"1\",\"idDocumento\":\"5\",\"idSerie\":\"8\",\"nomeSerie\":\"Ac\\u00f3rd\\u00e3o\",\"numero\":\"111\",\"idTipoConferencia\":\"3\",\"descricaoTipoConferencia\":\"C\\u00f3pia Autenticada Administrativamente\",\"nivelAcesso\":\"1\",\"idHipoteseLegal\":\"2\",\"nomeHipoteseLegal\":\"Direito Autoral\",\"grauSigilo\":\"\",\"descricao\":\"\",\"dataElaboracao\":\"23\\/07\\/2019\",\"observacao\":\"observa\\u00e7\\u00e3o teste acentua\\u00e7\\u00e3o\",\"assuntos\":[{\"id\":\"2\",\"codigoestruturadoformatado\":\"001\",\"sequencia\":\"\"},{\"id\":\"3\",\"codigoestruturadoformatado\":\"002\",\"sequencia\":\"\"}],\"remetente\":{\"id\":\"100000004\",\"nome\":\"INTRANET\",\"sigla\":\"INTRANET\",\"nomeformatado\":\"INTRANET (INTRANET)\"},\"interessados\":[{\"id\":\"100000010\",\"nome\":\"ORGAO ABC (ABC)\",\"nomeformatado\":\"ORGAO ABC (ABC) (ABC)\",\"sigla\":\"ABC\"},{\"id\":\"100000006\",\"nome\":\"Unidade de Testes 1 (TESTE)\",\"nomeformatado\":\"Unidade de Testes 1 (TESTE) (TESTE)\",\"sigla\":\"TESTE\"}],\"destinatarios\":[],\"observacoesUnidades\":[],\"anexo\":{\"id\":\"4\",\"unidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nome\":\"Comprovante.pdf\",\"dataInclusao\":\"25\\/07\\/2019 15:43:41\",\"tamanho\":\"7321\",\"siglaUsuario\":\"teste\",\"podeExcluir\":false}}}"
+						}
+					]
+				},
+				{
+					"name": "Download do Doc Externo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bf5aa386-7062-4d00-b06a-78772119b9d7",
+								"exec": [
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Verificar se o nome do arquivo está correto\", function () {",
+									"    pm.expect( pm.response.headers.all().toString()).to.include(\"Cartilha.pdf\");",
+									"});",
+									"",
+									"pm.test(\"Verificar se o tamanho está correto\", function () {",
+									"    console.log(pm.response.responseSize);",
+									"    pm.expect(pm.response.responseSize).to.be.above(12000000);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/documento/baixar/anexo/{{idDocumentoExterno_1_2}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"baixar",
+								"anexo",
+								"{{idDocumentoExterno_1_2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Metadados Documento Externo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
+								"exec": [
+									"pm.test(\"Verifica se retornou sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "anexo",
+									"description": "Enviar no caso de novo anexo",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "idSerie",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "numero",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "idTipoConferencia",
+									"value": "4",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "8",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "descricao",
+									"value": "desc nova",
+									"type": "text"
+								},
+								{
+									"key": "dataElaboracao",
+									"value": "23/07/2000",
+									"description": "opcional",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "3,5,6",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "interessados",
+									"value": "100000006,100000007",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "remetente",
+									"value": "100000006",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "destinatarios",
+									"value": "",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "observacao",
+									"value": "obs nova",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/externo/:documento/alterar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"externo",
+								":documento",
+								"alterar"
+							],
+							"variable": [
+								{
+									"key": "documento",
+									"value": "{{idDocumentoExterno_1_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Editar Documento Externo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "anexo",
+											"description": "Enviar no caso de novo anexo",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "idSerie",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "numero",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "idTipoConferencia",
+											"value": "4",
+											"type": "text"
+										},
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "dataElaboracao",
+											"value": "23/07/2019",
+											"description": "opcional",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "3,5,6",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000006,100000007",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "remetente",
+											"value": "100000006",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "alteração observação 2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/externo/:documento/alterar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"externo",
+										":documento",
+										"alterar"
+									],
+									"variable": [
+										{
+											"key": "documento",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "83",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 26 Jul 2019 19:17:52 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=99",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idDocumento\":\"8\",\"protocoloDocumentoFormatado\":\"0000007\"}}"
+						}
+					]
+				},
+				{
+					"name": "Consultar Documento Externo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ca10038a-436c-4dbc-b3e6-13c1bf9157e1",
+								"exec": [
+									"pm.test(\"Verifica se alteração da série\", function () {",
+									"    pm.expect(pm.response.text()).to.include('\"idSerie\":\"7\"');",
+									"});",
+									"",
+									"pm.test(\"Verifica se alterou a data\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"23\\\\/07\\\\/2000\");",
+									"",
+									"});",
+									"",
+									"pm.test(\"Verifica se alterou observacao\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"obs nova\");",
+									"",
+									"});",
+									"",
+									"pm.test(\"Verifica se alterou a descricao\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"desc nova\");",
+									"",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/documento/externo/consultar/:protocolo",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"externo",
+								"consultar",
+								":protocolo"
+							],
+							"variable": [
+								{
+									"key": "protocolo",
+									"value": "{{idDocumentoExterno_1_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Consultar Documento Externo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/documento/externo/consultar/:protocolo",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"externo",
+										"consultar",
+										":protocolo"
+									],
+									"variable": [
+										{
+											"key": "protocolo",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1184",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jul 2019 20:31:05 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=98",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"nomeDocumento\":\"Ac\\u00f3rd\\u00e3o 111 (0000004)\",\"protocolo\":\"1\",\"idDocumento\":\"5\",\"idSerie\":\"8\",\"nomeSerie\":\"Ac\\u00f3rd\\u00e3o\",\"numero\":\"111\",\"idTipoConferencia\":\"3\",\"descricaoTipoConferencia\":\"C\\u00f3pia Autenticada Administrativamente\",\"nivelAcesso\":\"1\",\"idHipoteseLegal\":\"2\",\"nomeHipoteseLegal\":\"Direito Autoral\",\"grauSigilo\":\"\",\"descricao\":\"\",\"dataElaboracao\":\"23\\/07\\/2019\",\"observacao\":\"observa\\u00e7\\u00e3o teste acentua\\u00e7\\u00e3o\",\"assuntos\":[{\"id\":\"2\",\"codigoestruturadoformatado\":\"001\",\"sequencia\":\"\"},{\"id\":\"3\",\"codigoestruturadoformatado\":\"002\",\"sequencia\":\"\"}],\"remetente\":{\"id\":\"100000004\",\"nome\":\"INTRANET\",\"sigla\":\"INTRANET\",\"nomeformatado\":\"INTRANET (INTRANET)\"},\"interessados\":[{\"id\":\"100000010\",\"nome\":\"ORGAO ABC (ABC)\",\"nomeformatado\":\"ORGAO ABC (ABC) (ABC)\",\"sigla\":\"ABC\"},{\"id\":\"100000006\",\"nome\":\"Unidade de Testes 1 (TESTE)\",\"nomeformatado\":\"Unidade de Testes 1 (TESTE) (TESTE)\",\"sigla\":\"TESTE\"}],\"destinatarios\":[],\"observacoesUnidades\":[],\"anexo\":{\"id\":\"4\",\"unidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nome\":\"Comprovante.pdf\",\"dataInclusao\":\"25\\/07\\/2019 15:43:41\",\"tamanho\":\"7321\",\"siglaUsuario\":\"teste\",\"podeExcluir\":false}}}"
+						}
+					]
+				},
+				{
+					"name": "Editar Documento Externo - Novo arq",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
+								"exec": [
+									"pm.test(\"Verifica se retornou sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "anexo",
+									"description": "Enviar no caso de novo anexo",
+									"type": "file",
+"src": "SEI-v3.1.2.pdf"
+								},
+								{
+									"key": "idSerie",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "numero",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "idTipoConferencia",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "8",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "descricao",
+									"value": "desc nova",
+									"type": "text"
+								},
+								{
+									"key": "dataElaboracao",
+									"value": "23/07/2000",
+									"description": "opcional",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "3,5,6",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000006,100000007",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "remetente",
+									"value": "100000006",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "destinatarios",
+									"value": "",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "observacao",
+									"value": "obs nova",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/externo/:documento/alterar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"externo",
+								":documento",
+								"alterar"
+							],
+							"variable": [
+								{
+									"key": "documento",
+									"value": "{{idDocumentoExterno_1_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Editar Documento Externo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "anexo",
+											"description": "Enviar no caso de novo anexo",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "idSerie",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "numero",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "idTipoConferencia",
+											"value": "4",
+											"type": "text"
+										},
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "dataElaboracao",
+											"value": "23/07/2019",
+											"description": "opcional",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "3,5,6",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000006,100000007",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "remetente",
+											"value": "100000006",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "alteração observação 2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/externo/:documento/alterar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"externo",
+										":documento",
+										"alterar"
+									],
+									"variable": [
+										{
+											"key": "documento",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "83",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 26 Jul 2019 19:17:52 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=99",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idDocumento\":\"8\",\"protocoloDocumentoFormatado\":\"0000007\"}}"
+						}
+					]
+				},
+				{
+					"name": "Consultar Documento Externo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ca10038a-436c-4dbc-b3e6-13c1bf9157e1",
+								"exec": [
+									"pm.test(\"Verifica se alteração da série\", function () {",
+									"    pm.expect(pm.response.text()).to.include('\"idSerie\":\"7\"');",
+									"});",
+									"",
+									"pm.test(\"Verifica se alterou a data\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"23\\\\/07\\\\/2000\");",
+									"",
+									"});",
+									"",
+									"pm.test(\"Verifica se alterou observacao\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"obs nova\");",
+									"",
+									"});",
+									"",
+									"pm.test(\"Verifica se alterou a descricao\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"desc nova\");",
+									"",
+									"});",
+									"",
+									"pm.test(\"Verifica se alterou tipo conferencia\", function () {",
+									"    pm.expect(pm.response.text()).to.include('\"idTipoConferencia\":\"4\"');",
+									"});",
+									"",
+									"pm.test(\"Verifica se alterou Assunto 1\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"PROJETOS DE TRABALHO\");",
+									"",
+									"});",
+									"",
+									"pm.test(\"Verifica se alterou Assunto 2\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\". CONTRATOS. \");",
+									"",
+									"});",
+									"",
+									"pm.test(\"Verifica se alterou Assunto 3\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Diretrizes, Procedimentos\");",
+									"",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verifica se alterou anexo\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"SEI-v3.1.2.pdf\");",
+									"",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/documento/externo/consultar/:protocolo",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"externo",
+								"consultar",
+								":protocolo"
+							],
+							"variable": [
+								{
+									"key": "protocolo",
+									"value": "{{idDocumentoExterno_1_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Consultar Documento Externo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/documento/externo/consultar/:protocolo",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"externo",
+										"consultar",
+										":protocolo"
+									],
+									"variable": [
+										{
+											"key": "protocolo",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1184",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jul 2019 20:31:05 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=98",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"nomeDocumento\":\"Ac\\u00f3rd\\u00e3o 111 (0000004)\",\"protocolo\":\"1\",\"idDocumento\":\"5\",\"idSerie\":\"8\",\"nomeSerie\":\"Ac\\u00f3rd\\u00e3o\",\"numero\":\"111\",\"idTipoConferencia\":\"3\",\"descricaoTipoConferencia\":\"C\\u00f3pia Autenticada Administrativamente\",\"nivelAcesso\":\"1\",\"idHipoteseLegal\":\"2\",\"nomeHipoteseLegal\":\"Direito Autoral\",\"grauSigilo\":\"\",\"descricao\":\"\",\"dataElaboracao\":\"23\\/07\\/2019\",\"observacao\":\"observa\\u00e7\\u00e3o teste acentua\\u00e7\\u00e3o\",\"assuntos\":[{\"id\":\"2\",\"codigoestruturadoformatado\":\"001\",\"sequencia\":\"\"},{\"id\":\"3\",\"codigoestruturadoformatado\":\"002\",\"sequencia\":\"\"}],\"remetente\":{\"id\":\"100000004\",\"nome\":\"INTRANET\",\"sigla\":\"INTRANET\",\"nomeformatado\":\"INTRANET (INTRANET)\"},\"interessados\":[{\"id\":\"100000010\",\"nome\":\"ORGAO ABC (ABC)\",\"nomeformatado\":\"ORGAO ABC (ABC) (ABC)\",\"sigla\":\"ABC\"},{\"id\":\"100000006\",\"nome\":\"Unidade de Testes 1 (TESTE)\",\"nomeformatado\":\"Unidade de Testes 1 (TESTE) (TESTE)\",\"sigla\":\"TESTE\"}],\"destinatarios\":[],\"observacoesUnidades\":[],\"anexo\":{\"id\":\"4\",\"unidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nome\":\"Comprovante.pdf\",\"dataInclusao\":\"25\\/07\\/2019 15:43:41\",\"tamanho\":\"7321\",\"siglaUsuario\":\"teste\",\"podeExcluir\":false}}}"
+						}
+					]
+				},
+				{
+					"name": "Download",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bf5aa386-7062-4d00-b06a-78772119b9d7",
+								"exec": [
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Verificar se o nome do arquivo está correto\", function () {",
+									"    pm.expect( pm.response.headers.all().toString()).to.include(\"SEI_v3.1.2.pdf\");",
+									"});",
+									"",
+									"pm.test(\"Verificar se o tamanho está correto\", function () {",
+									"    pm.expect(pm.response.responseSize).to.be.above(202000);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/documento/baixar/anexo/{{idDocumentoExterno_1_2}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"baixar",
+								"anexo",
+								"{{idDocumentoExterno_1_2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usu/alterar-altera unidade para TESTE_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar Documento Externo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ca10038a-436c-4dbc-b3e6-13c1bf9157e1",
+								"exec": [
+									"pm.test(\"Verifica se não retornou nome documento\", function () {",
+									"    pm.expect(pm.response.text()).to.not.include(\"nomeDocumento\");",
+									"});",
+									"",
+									"pm.test(\"Verifica se não retornou numero documento\", function () {",
+									"    pm.expect(pm.response.text()).to.not.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno_1_2\"));",
+									"    ",
+									"",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/documento/externo/consultar/:protocolo",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"externo",
+								"consultar",
+								":protocolo"
+							],
+							"variable": [
+								{
+									"key": "protocolo",
+									"value": "{{idDocumentoExterno_1_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Consultar Documento Externo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/documento/externo/consultar/:protocolo",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"externo",
+										"consultar",
+										":protocolo"
+									],
+									"variable": [
+										{
+											"key": "protocolo",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1184",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jul 2019 20:31:05 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=98",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"nomeDocumento\":\"Ac\\u00f3rd\\u00e3o 111 (0000004)\",\"protocolo\":\"1\",\"idDocumento\":\"5\",\"idSerie\":\"8\",\"nomeSerie\":\"Ac\\u00f3rd\\u00e3o\",\"numero\":\"111\",\"idTipoConferencia\":\"3\",\"descricaoTipoConferencia\":\"C\\u00f3pia Autenticada Administrativamente\",\"nivelAcesso\":\"1\",\"idHipoteseLegal\":\"2\",\"nomeHipoteseLegal\":\"Direito Autoral\",\"grauSigilo\":\"\",\"descricao\":\"\",\"dataElaboracao\":\"23\\/07\\/2019\",\"observacao\":\"observa\\u00e7\\u00e3o teste acentua\\u00e7\\u00e3o\",\"assuntos\":[{\"id\":\"2\",\"codigoestruturadoformatado\":\"001\",\"sequencia\":\"\"},{\"id\":\"3\",\"codigoestruturadoformatado\":\"002\",\"sequencia\":\"\"}],\"remetente\":{\"id\":\"100000004\",\"nome\":\"INTRANET\",\"sigla\":\"INTRANET\",\"nomeformatado\":\"INTRANET (INTRANET)\"},\"interessados\":[{\"id\":\"100000010\",\"nome\":\"ORGAO ABC (ABC)\",\"nomeformatado\":\"ORGAO ABC (ABC) (ABC)\",\"sigla\":\"ABC\"},{\"id\":\"100000006\",\"nome\":\"Unidade de Testes 1 (TESTE)\",\"nomeformatado\":\"Unidade de Testes 1 (TESTE) (TESTE)\",\"sigla\":\"TESTE\"}],\"destinatarios\":[],\"observacoesUnidades\":[],\"anexo\":{\"id\":\"4\",\"unidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nome\":\"Comprovante.pdf\",\"dataInclusao\":\"25\\/07\\/2019 15:43:41\",\"tamanho\":\"7321\",\"siglaUsuario\":\"teste\",\"podeExcluir\":false}}}"
+						}
+					]
+				},
+				{
+					"name": "Consultar Documento Interno",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eccd6ce6-a905-4834-bd6f-3b22815eabfd",
+								"exec": [
+									"",
+									"pm.test(\"Verifica se a descrição não retornou\", function () {",
+									"    pm.expect(pm.response.text()).to.not.include('desc nova');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/documento/interno/consultar/:protocolo",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"interno",
+								"consultar",
+								":protocolo"
+							],
+							"variable": [
+								{
+									"key": "protocolo",
+									"value": "{{idDocumentoInterno_1_1}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Consultar Documento Interno",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/documento/interno/consultar/:protocolo",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"interno",
+										"consultar",
+										":protocolo"
+									],
+									"variable": [
+										{
+											"key": "protocolo",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 24 Aug 2019 12:08:29 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1239"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"sucesso\": true,\n    \"data\": {\n        \"nomeDocumento\": \"Abertura de Procedimento Licitatório 1 (0000001)\",\n        \"protocolo\": \"1\",\n        \"idDocumento\": \"2\",\n        \"idSerie\": \"260\",\n        \"nomeSerie\": \"Abertura de Procedimento Licitatório\",\n        \"numero\": \"1\",\n        \"idTipoConferencia\": \"\",\n        \"descricaoTipoConferencia\": \"\",\n        \"nivelAcesso\": \"1\",\n        \"idHipoteseLegal\": \"10\",\n        \"nomeHipoteseLegal\": \"Proteção da Propriedade Intelectual de Software\",\n        \"baseLegal\": \"Art. 2º da Lei nº 9.609/1998\",\n        \"grauSigilo\": \"\",\n        \"descricao\": \"desc documento\",\n        \"dataElaboracao\": \"24/08/2019\",\n        \"observacao\": \"Observação\",\n        \"assuntos\": [\n            {\n                \"id\": \"2\",\n                \"codigoestruturadoformatado\": \"001\",\n                \"descricao\": \"001 - MODERNIZAÇÃO E REFORMA ADMINISTRATIVA (inclusive Projetos, Estudos e Normas)\",\n                \"sequencia\": \"\"\n            },\n            {\n                \"id\": \"4\",\n                \"codigoestruturadoformatado\": \"003\",\n                \"descricao\": \"003 - RELATÓRIOS DE ATIVIDADES\",\n                \"sequencia\": \"\"\n            }\n        ],\n        \"interessados\": [\n            {\n                \"id\": \"100000004\",\n                \"nome\": \"INTRANET (INTRANET)\",\n                \"nomeformatado\": \"INTRANET (INTRANET) (INTRANET)\",\n                \"sigla\": \"INTRANET\"\n            },\n            {\n                \"id\": \"100000010\",\n                \"nome\": \"ORGAO ABC (ABC)\",\n                \"nomeformatado\": \"ORGAO ABC (ABC) (ABC)\",\n                \"sigla\": \"ABC\"\n            }\n        ],\n        \"destinatarios\": [\n            {\n                \"id\": \"100000004\",\n                \"nome\": \"INTRANET (INTRANET)\",\n                \"nomeformatado\": \"INTRANET (INTRANET) (INTRANET)\",\n                \"sigla\": \"INTRANET\"\n            }\n        ],\n        \"observacoesUnidades\": []\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Download Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bf5aa386-7062-4d00-b06a-78772119b9d7",
+								"exec": [
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Verificar se o nome do arquivo não vem na resposta\", function () {",
+									"    pm.expect( pm.response.headers.all().toString()).to.not.include(\"SEI_v3.1.2.pdf\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/documento/baixar/anexo/{{idDocumentoExterno_1_2}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"baixar",
+								"anexo",
+								"{{idDocumentoExterno_1_2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Documento Interno",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b76390ef-8824-4012-bf90-a239139191c9",
+								"exec": [
+									"pm.test(\"Verifica se não pode alterar o doc\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "descricao",
+									"value": "desc nova",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "5,6",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "interessados",
+									"value": "100000006,100000007",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "destinatarios",
+									"value": "100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "observacao",
+									"value": "obs nova",
+									"type": "text"
+								},
+								{
+									"key": "idTextoPadraoInterno",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/interno/:documento/alterar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"interno",
+								":documento",
+								"alterar"
+							],
+							"variable": [
+								{
+									"key": "documento",
+									"value": "{{idDocumentoInterno_1_1}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Editar Documento Interno",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "nova descrição",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "5,6",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000006,100000007",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "alteração observação",
+											"type": "text"
+										},
+										{
+											"key": "idTextoPadraoInterno",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/interno/:documento/alterar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"interno",
+										":documento",
+										"alterar"
+									],
+									"variable": [
+										{
+											"key": "documento",
+											"value": "25"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Jul 2019 16:06:39 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idDocumento\":\"25\",\"protocoloDocumentoFormatado\":\"0000023\"}}"
+						}
+					]
+				},
+				{
+					"name": "Editar Documento Externo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
+								"exec": [
+									"pm.test(\"Verifica se retornou sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "anexo",
+									"description": "Enviar no caso de novo anexo",
+									"type": "file",
+"src": "SEI-v3.1.2.pdf"
+								},
+								{
+									"key": "idSerie",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "numero",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "idTipoConferencia",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "8",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "descricao",
+									"value": "desc nova",
+									"type": "text"
+								},
+								{
+									"key": "dataElaboracao",
+									"value": "23/07/2000",
+									"description": "opcional",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "3,5,6",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000006,100000007",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "remetente",
+									"value": "100000006",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "destinatarios",
+									"value": "",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "observacao",
+									"value": "obs nova",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/externo/:documento/alterar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"externo",
+								":documento",
+								"alterar"
+							],
+							"variable": [
+								{
+									"key": "documento",
+									"value": "{{idDocumentoExterno_1_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Editar Documento Externo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "anexo",
+											"description": "Enviar no caso de novo anexo",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "idSerie",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "numero",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "idTipoConferencia",
+											"value": "4",
+											"type": "text"
+										},
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "dataElaboracao",
+											"value": "23/07/2019",
+											"description": "opcional",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "3,5,6",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000006,100000007",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "remetente",
+											"value": "100000006",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "alteração observação 2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/externo/:documento/alterar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"externo",
+										":documento",
+										"alterar"
+									],
+									"variable": [
+										{
+											"key": "documento",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "83",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 26 Jul 2019 19:17:52 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=99",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idDocumento\":\"8\",\"protocoloDocumentoFormatado\":\"0000007\"}}"
+						}
+					]
+				},
+				{
+					"name": "Editar Documento Externo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
+								"exec": [
+									"pm.test(\"Verifica se retornou sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "anexo",
+									"description": "Enviar no caso de novo anexo",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "idSerie",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "numero",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "idTipoConferencia",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "8",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "descricao",
+									"value": "desc novaa",
+									"type": "text"
+								},
+								{
+									"key": "dataElaboracao",
+									"value": "23/07/2000",
+									"description": "opcional",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "3,5,6",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000006,100000007",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "remetente",
+									"value": "100000006",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "destinatarios",
+									"value": "",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "observacao",
+									"value": "obs nova",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/externo/:documento/alterar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"externo",
+								":documento",
+								"alterar"
+							],
+							"variable": [
+								{
+									"key": "documento",
+									"value": "{{idDocumentoExterno_1_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Editar Documento Externo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "anexo",
+											"description": "Enviar no caso de novo anexo",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "idSerie",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "numero",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "idTipoConferencia",
+											"value": "4",
+											"type": "text"
+										},
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "dataElaboracao",
+											"value": "23/07/2019",
+											"description": "opcional",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "3,5,6",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000006,100000007",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "remetente",
+											"value": "100000006",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "alteração observação 2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/externo/:documento/alterar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"externo",
+										":documento",
+										"alterar"
+									],
+									"variable": [
+										{
+											"key": "documento",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "83",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 26 Jul 2019 19:17:52 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=99",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idDocumento\":\"8\",\"protocoloDocumentoFormatado\":\"0000007\"}}"
+						}
+					]
+				},
+				{
+					"name": "Usuario - Unidade Trocar TESTE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Usuário trocou de Unidade para TESTE\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Processo - Publico",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f8575168-2f1c-43b0-aedf-368e76b9a38e",
+								"exec": [
+									"pm.test(\"Alterou o processo\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "5",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "assuntos",
+									"value": "4,6",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000006,100000007",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "observacao",
+									"value": "Observação edit",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "especificacao",
+									"value": "especificação",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "idTipoProcesso",
+									"value": "100000103",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/:protocolo/alterar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								":protocolo",
+								"alterar"
+							],
+							"variable": [
+								{
+									"key": "protocolo",
+									"value": "{{idProcedimento_1}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Editar Processo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "5",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "4,6",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000006,100000007",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "Observação edit",
+											"type": "text"
+										},
+										{
+											"key": "especificacao",
+											"value": "especificação",
+											"type": "text"
+										},
+										{
+											"key": "idTipoProcesso",
+											"value": "100000103",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/processo/:protocolo/alterar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"processo",
+										":protocolo",
+										"alterar"
+									],
+									"variable": [
+										{
+											"key": "protocolo",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "52",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 31 Jul 2019 20:14:23 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"mensagem\":\"Procedimento alterado.\"}"
+						}
+					]
+				},
+				{
+					"name": "usu/alterar-altera unidade para TESTE_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar Documento Externo Copy Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ca10038a-436c-4dbc-b3e6-13c1bf9157e1",
+								"exec": [
+									"pm.test(\"Verifica se retornou nome documento\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"nomeDocumento\");",
+									"});",
+									"",
+									"pm.test(\"Verifica se retornou numero documento\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno_1_2\"));",
+									"    ",
+									"",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/documento/externo/consultar/:protocolo",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"externo",
+								"consultar",
+								":protocolo"
+							],
+							"variable": [
+								{
+									"key": "protocolo",
+									"value": "{{idDocumentoExterno_1_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Consultar Documento Externo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/documento/externo/consultar/:protocolo",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"externo",
+										"consultar",
+										":protocolo"
+									],
+									"variable": [
+										{
+											"key": "protocolo",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1184",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jul 2019 20:31:05 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=98",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"nomeDocumento\":\"Ac\\u00f3rd\\u00e3o 111 (0000004)\",\"protocolo\":\"1\",\"idDocumento\":\"5\",\"idSerie\":\"8\",\"nomeSerie\":\"Ac\\u00f3rd\\u00e3o\",\"numero\":\"111\",\"idTipoConferencia\":\"3\",\"descricaoTipoConferencia\":\"C\\u00f3pia Autenticada Administrativamente\",\"nivelAcesso\":\"1\",\"idHipoteseLegal\":\"2\",\"nomeHipoteseLegal\":\"Direito Autoral\",\"grauSigilo\":\"\",\"descricao\":\"\",\"dataElaboracao\":\"23\\/07\\/2019\",\"observacao\":\"observa\\u00e7\\u00e3o teste acentua\\u00e7\\u00e3o\",\"assuntos\":[{\"id\":\"2\",\"codigoestruturadoformatado\":\"001\",\"sequencia\":\"\"},{\"id\":\"3\",\"codigoestruturadoformatado\":\"002\",\"sequencia\":\"\"}],\"remetente\":{\"id\":\"100000004\",\"nome\":\"INTRANET\",\"sigla\":\"INTRANET\",\"nomeformatado\":\"INTRANET (INTRANET)\"},\"interessados\":[{\"id\":\"100000010\",\"nome\":\"ORGAO ABC (ABC)\",\"nomeformatado\":\"ORGAO ABC (ABC) (ABC)\",\"sigla\":\"ABC\"},{\"id\":\"100000006\",\"nome\":\"Unidade de Testes 1 (TESTE)\",\"nomeformatado\":\"Unidade de Testes 1 (TESTE) (TESTE)\",\"sigla\":\"TESTE\"}],\"destinatarios\":[],\"observacoesUnidades\":[],\"anexo\":{\"id\":\"4\",\"unidade\":\"110000001\",\"siglaUnidade\":\"TESTE\",\"nome\":\"Comprovante.pdf\",\"dataInclusao\":\"25\\/07\\/2019 15:43:41\",\"tamanho\":\"7321\",\"siglaUsuario\":\"teste\",\"podeExcluir\":false}}}"
+						}
+					]
+				},
+				{
+					"name": "Consultar Documento Interno Copy Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eccd6ce6-a905-4834-bd6f-3b22815eabfd",
+								"exec": [
+									"",
+									"pm.test(\"Verifica se a descrição retornou\", function () {",
+									"    pm.expect(pm.response.text()).to.include('desc nova');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/documento/interno/consultar/:protocolo",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"interno",
+								"consultar",
+								":protocolo"
+							],
+							"variable": [
+								{
+									"key": "protocolo",
+									"value": "{{idDocumentoInterno_1_1}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Consultar Documento Interno",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/documento/interno/consultar/:protocolo",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"interno",
+										"consultar",
+										":protocolo"
+									],
+									"variable": [
+										{
+											"key": "protocolo",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 24 Aug 2019 12:08:29 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1239"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"sucesso\": true,\n    \"data\": {\n        \"nomeDocumento\": \"Abertura de Procedimento Licitatório 1 (0000001)\",\n        \"protocolo\": \"1\",\n        \"idDocumento\": \"2\",\n        \"idSerie\": \"260\",\n        \"nomeSerie\": \"Abertura de Procedimento Licitatório\",\n        \"numero\": \"1\",\n        \"idTipoConferencia\": \"\",\n        \"descricaoTipoConferencia\": \"\",\n        \"nivelAcesso\": \"1\",\n        \"idHipoteseLegal\": \"10\",\n        \"nomeHipoteseLegal\": \"Proteção da Propriedade Intelectual de Software\",\n        \"baseLegal\": \"Art. 2º da Lei nº 9.609/1998\",\n        \"grauSigilo\": \"\",\n        \"descricao\": \"desc documento\",\n        \"dataElaboracao\": \"24/08/2019\",\n        \"observacao\": \"Observação\",\n        \"assuntos\": [\n            {\n                \"id\": \"2\",\n                \"codigoestruturadoformatado\": \"001\",\n                \"descricao\": \"001 - MODERNIZAÇÃO E REFORMA ADMINISTRATIVA (inclusive Projetos, Estudos e Normas)\",\n                \"sequencia\": \"\"\n            },\n            {\n                \"id\": \"4\",\n                \"codigoestruturadoformatado\": \"003\",\n                \"descricao\": \"003 - RELATÓRIOS DE ATIVIDADES\",\n                \"sequencia\": \"\"\n            }\n        ],\n        \"interessados\": [\n            {\n                \"id\": \"100000004\",\n                \"nome\": \"INTRANET (INTRANET)\",\n                \"nomeformatado\": \"INTRANET (INTRANET) (INTRANET)\",\n                \"sigla\": \"INTRANET\"\n            },\n            {\n                \"id\": \"100000010\",\n                \"nome\": \"ORGAO ABC (ABC)\",\n                \"nomeformatado\": \"ORGAO ABC (ABC) (ABC)\",\n                \"sigla\": \"ABC\"\n            }\n        ],\n        \"destinatarios\": [\n            {\n                \"id\": \"100000004\",\n                \"nome\": \"INTRANET (INTRANET)\",\n                \"nomeformatado\": \"INTRANET (INTRANET) (INTRANET)\",\n                \"sigla\": \"INTRANET\"\n            }\n        ],\n        \"observacoesUnidades\": []\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Download Copy Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bf5aa386-7062-4d00-b06a-78772119b9d7",
+								"exec": [
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Verificar se o nome do arquivo vem na resposta\", function () {",
+									"    pm.expect( pm.response.headers.all().toString()).to.include(\"SEI_v3.1.2.pdf\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/documento/baixar/anexo/{{idDocumentoExterno_1_2}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"baixar",
+								"anexo",
+								"{{idDocumentoExterno_1_2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Documento Interno Copy Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b76390ef-8824-4012-bf90-a239139191c9",
+								"exec": [
+									"pm.test(\"Verifica se não pode alterar o doc\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "descricao",
+									"value": "desc nova",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "5,6",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "interessados",
+									"value": "100000006,100000007",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "destinatarios",
+									"value": "100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "observacao",
+									"value": "obs nova",
+									"type": "text"
+								},
+								{
+									"key": "idTextoPadraoInterno",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/interno/:documento/alterar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"interno",
+								":documento",
+								"alterar"
+							],
+							"variable": [
+								{
+									"key": "documento",
+									"value": "{{idDocumentoInterno_1_1}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Editar Documento Interno",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "nova descrição",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "5,6",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000006,100000007",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "alteração observação",
+											"type": "text"
+										},
+										{
+											"key": "idTextoPadraoInterno",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/interno/:documento/alterar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"interno",
+										":documento",
+										"alterar"
+									],
+									"variable": [
+										{
+											"key": "documento",
+											"value": "25"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Jul 2019 16:06:39 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idDocumento\":\"25\",\"protocoloDocumentoFormatado\":\"0000023\"}}"
+						}
+					]
+				},
+				{
+					"name": "Editar Documento Externo Copy Copy Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
+								"exec": [
+									"pm.test(\"Verifica se não retornou sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "anexo",
+									"description": "Enviar no caso de novo anexo",
+									"type": "file",
+"src": "SEI-v3.1.2.pdf"
+								},
+								{
+									"key": "idSerie",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "numero",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "idTipoConferencia",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "8",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "descricao",
+									"value": "desc nova",
+									"type": "text"
+								},
+								{
+									"key": "dataElaboracao",
+									"value": "23/07/2000",
+									"description": "opcional",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "3,5,6",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000006,100000007",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "remetente",
+									"value": "100000006",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "destinatarios",
+									"value": "",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "observacao",
+									"value": "obs nova",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/externo/:documento/alterar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"externo",
+								":documento",
+								"alterar"
+							],
+							"variable": [
+								{
+									"key": "documento",
+									"value": "{{idDocumentoExterno_1_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Editar Documento Externo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "anexo",
+											"description": "Enviar no caso de novo anexo",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "idSerie",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "numero",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "idTipoConferencia",
+											"value": "4",
+											"type": "text"
+										},
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "dataElaboracao",
+											"value": "23/07/2019",
+											"description": "opcional",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "3,5,6",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000006,100000007",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "remetente",
+											"value": "100000006",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "alteração observação 2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/externo/:documento/alterar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"externo",
+										":documento",
+										"alterar"
+									],
+									"variable": [
+										{
+											"key": "documento",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "83",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 26 Jul 2019 19:17:52 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=99",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idDocumento\":\"8\",\"protocoloDocumentoFormatado\":\"0000007\"}}"
+						}
+					]
+				},
+				{
+					"name": "Editar Documento Externo Copy Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
+								"exec": [
+									"pm.test(\"Verifica se não retornou sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "anexo",
+									"description": "Enviar no caso de novo anexo",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "idSerie",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "numero",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "idTipoConferencia",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "8",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "descricao",
+									"value": "desc novaa",
+									"type": "text"
+								},
+								{
+									"key": "dataElaboracao",
+									"value": "23/07/2000",
+									"description": "opcional",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "3,5,6",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000006,100000007",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "remetente",
+									"value": "100000006",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "destinatarios",
+									"value": "",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "observacao",
+									"value": "obs nova",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/externo/:documento/alterar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"externo",
+								":documento",
+								"alterar"
+							],
+							"variable": [
+								{
+									"key": "documento",
+									"value": "{{idDocumentoExterno_1_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Editar Documento Externo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "anexo",
+											"description": "Enviar no caso de novo anexo",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "idSerie",
+											"value": "7",
+											"type": "text"
+										},
+										{
+											"key": "numero",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "idTipoConferencia",
+											"value": "4",
+											"type": "text"
+										},
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "dataElaboracao",
+											"value": "23/07/2019",
+											"description": "opcional",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "3,5,6",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000006,100000007",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "remetente",
+											"value": "100000006",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "alteração observação 2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/externo/:documento/alterar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"externo",
+										":documento",
+										"alterar"
+									],
+									"variable": [
+										{
+											"key": "documento",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "83",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 26 Jul 2019 19:17:52 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=99",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idDocumento\":\"8\",\"protocoloDocumentoFormatado\":\"0000007\"}}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Processo-Documento-Assinar",
+			"item": [
+				{
+					"name": "Usuario - Unidade Trocar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Usuário trocou de Unidade para TESTE\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Processo-Criar-Restrito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"\r",
+									"pm.test(\"Existe ProtocoloFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
+									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "tipoProcesso",
+									"value": "100000349",
+									"type": "text"
+								},
+								{
+									"key": "especificacao",
+									"value": "descricao teste",
+									"type": "text"
+								},
+								{
+									"key": "observacoes",
+									"value": "observacao teste",
+									"type": "text"
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "hipoteseLegal",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "[{\"id\": 79}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"criar"
+							]
+						},
+						"description": "Criar um processo simples"
+					},
+					"response": []
+				},
+				{
+					"name": "Documento - Cadastrar Documento Interno",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
+								"exec": [
+									"\r",
+									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
+									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idSerie",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text"
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "descricao",
+									"value": "descricao documento interno",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "2,3",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "destinatarios",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "observacao",
+									"value": "observação teste acentuação",
+									"type": "text"
+								},
+								{
+									"key": "idUnidadeGeradoraProtocolo",
+									"value": "110000001",
+									"type": "text"
+								},
+								{
+									"key": "idTextoPadraoInterno",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/:procedimento/interno/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								":procedimento",
+								"interno",
+								"criar"
+							],
+							"variable": [
+								{
+									"key": "procedimento",
+									"value": "{{idProcedimento_1}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Documento Interno",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "idSerie",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "descrição documento interno",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "2,3",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "observação teste acentuação",
+											"type": "text"
+										},
+										{
+											"key": "idUnidadeGeradoraProtocolo",
+											"value": "110000001",
+											"type": "text"
+										},
+										{
+											"key": "idTextoPadraoInterno",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/:procedimento/interno/criar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										":procedimento",
+										"interno",
+										"criar"
+									],
+									"variable": [
+										{
+											"key": "procedimento",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 29 Jul 2019 20:35:03 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idDocumento\":\"25\",\"protocoloDocumentoFormatado\":\"0000023\"}}"
+						}
+					]
+				},
+				{
+					"name": "Documento - Cadastrar Documento Externo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6f968e61-66e7-41cd-b7f2-040b7606aeba",
+								"exec": [
+									"\r",
+									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idDocumentoExterno_1_2\", jsonData.data.idDocumento);\r",
+									"pm.globals.set(\"protocoloDocumentoFormatadoExterno_1_2\", jsonData.data.protocoloDocumentoFormatado);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "anexo",
+									"type": "file",
+"src": "SEI-v3.1.2.pdf"
+								},
+								{
+									"key": "idSerie",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "numero",
+									"value": "111",
+									"type": "text"
+								},
+								{
+									"key": "idTipoConferencia",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text"
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "descricao",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "dataElaboracao",
+									"value": "23/07/2019",
+									"description": "opcional",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "2,3",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "remetente",
+									"value": "100000004",
+									"type": "text"
+								},
+								{
+									"key": "destinatarios",
+									"value": "",
+									"description": "Enviar idContato separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "observacao",
+									"value": "observação teste acentuação",
+									"type": "text"
+								},
+								{
+									"key": "idUnidadeGeradoraProtocolo",
+									"value": "110000001",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/:procedimento/externo/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								":procedimento",
+								"externo",
+								"criar"
+							],
+							"variable": [
+								{
+									"key": "procedimento",
+									"value": "{{idProcedimento_1}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Documento Externo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "anexo",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "idSerie",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "numero",
+											"value": "111",
+											"type": "text"
+										},
+										{
+											"key": "idTipoConferencia",
+											"value": "3",
+											"type": "text"
+										},
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "dataElaboracao",
+											"value": "23/07/2019",
+											"description": "opcional",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "2,3",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "remetente",
+											"value": "100000004",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "",
+											"description": "Enviar idContato separado por ','",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "observacao",
+											"value": "observação",
+											"type": "text"
+										},
+										{
+											"key": "idUnidadeGeradoraProtocolo",
+											"value": "110000001",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/:procedimento/externo/criar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										":procedimento",
+										"externo",
+										"criar"
+									],
+									"variable": [
+										{
+											"key": "procedimento",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jul 2019 16:28:59 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [],
+							"body": "{\"sucesso\":true,\"data\":{\"IdDocumento\":\"71\",\"ProtocoloDocumentoFormatado\":\"0000070\"}}"
 						}
 					]
 				},
@@ -18903,13 +23696,13 @@
 	],
 	"variable": [
 		{
-			"id": "e03b70a2-b0a9-445f-89d5-67fefa826d13",
+			"id": "99db7e54-8e44-4290-b8ca-24a57ea6bbe1",
 			"key": "{{token}}",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "62074b0e-13f0-49b4-a432-7e741f2f1fd8",
+			"id": "b42892f0-bc7a-4657-b9f5-4351a8f8808e",
 			"key": "{{baseurl}}",
 			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
 			"type": "string"
