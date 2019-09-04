@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Wssei-Tests" tests="155" time="138.891">
+  <testsuite name="Autenticar-Versao / Versao Sem Autenticar" id="620502e9-ddeb-4355-aaf4-306556b4f821" timestamp="2019-09-04T16:13:50.256Z" tests="0" failures="0" errors="0" time="0.485"/>
+  <testsuite name="Autenticar-Versao / General-Autenticar" id="80286c9b-dda1-4303-b937-7d1c81e3723c" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.505">
+    <testcase name="Existe token na resposta" time="0.505" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Autenticar-Versao / Versao Autenticado" id="f818b121-7bc6-45a3-a66f-0f38f9ef2227" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.096">
+    <testcase name="Retornar Versão - Login Efetuado" time="0.096" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Usuario - Unidade Teste" id="b03fc9f9-5585-4a47-9f08-909e58fc7fe1" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.517">
+    <testcase name="Usuário trocou de Unidade para TESTE" time="0.517" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Processo-Criar-Restrito" id="8da9ca8c-8825-4528-bce7-dc09f58816b9" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.721">
+    <testcase name="Existe ProtocoloFormatado na resposta" time="0.721" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Documento - Cadastrar Documento Interno" id="353aa4d5-b94d-4ccc-99bf-e93ff794c9e8" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.097">
+    <testcase name="Existe protocoloDocumentoFormatado na resposta" time="1.097" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Documento - Cadastrar Documento Externo" id="fcfec41d-5390-47fc-8646-bd3c942fd0b9" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.020">
+    <testcase name="Existe protocoloDocumentoFormatado na resposta" time="1.020" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / sleep 10 secs" id="16e58d04-123d-4137-b7ef-47176db28ceb" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.092">
+    <testcase name="Dormir 10secs" time="0.092" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Pesquisar Geral" id="cad157cf-8392-425c-9e9f-c1d1438d86ea" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="2.583">
+    <testcase name="Verifica se pesquisou na mesma unidade" time="2.583" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Listar Processos - somente o criado" id="c7fe4d5e-c7c9-4198-93fb-091e9a860246" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.615">
+    <testcase name="Verifica se Listou na mesma unidade" time="0.615" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / usu/alterar-altera unidade para TESTE_1_2" id="8327c923-ba18-49cd-8d33-8b58b9ac1520" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.518">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE_1_2" time="0.518" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Pesquisar Processo Restrito de Outra Unidade" id="a8d94f16-1f1a-4993-b4b8-44aabb8c866a" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.444">
+    <testcase name="Verifica se não pesquisou o protocolo na outra unidade" time="1.444" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Listar Processo Restrito Outra Unidade" id="ae736d36-b8ec-4414-8f37-d92c87704759" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.545">
+    <testcase name="Verifica se Não Listou processo Restrito na outra unidade" time="0.545" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Processo-Criar-Publico" id="73b85718-02dc-40d4-9c15-7e9d166c9c66" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.665">
+    <testcase name="Existe ProtocoloFormatado na resposta" time="0.665" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Documento - Cadastrar Documento Interno Pub" id="0200c43f-b19e-422c-805d-8b15f4f7118c" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.131">
+    <testcase name="Existe protocoloDocumentoFormatado na resposta" time="1.131" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Documento - Cadastrar Documento Externo Pub" id="ded10b3b-aac3-4a5f-be98-bfd1016edc53" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.058">
+    <testcase name="Existe protocoloDocumentoFormatado na resposta" time="1.058" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / sleep 10 secs Copy" id="46728ab2-afbe-4b80-a549-7be3cf6fbc08" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.095">
+    <testcase name="Dormir 10secs" time="0.095" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Pesquisar Proc Publico" id="39f308b7-c955-4d24-bce3-0716feb3ab47" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.502">
+    <testcase name="Verifica se pesquisou na mesma unidade" time="1.502" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Listar Processo Pub" id="94ba54d5-80c3-4a88-8027-99863fa6c787" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.629">
+    <testcase name="Verifica se Listou na mesma unidade" time="0.629" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Usuario - Unidade Trocar Teste" id="3bdff6ab-9cd1-4555-9f2d-40997c71da08" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.537">
+    <testcase name="Usuário trocou de Unidade para TESTE" time="0.537" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Pesquisar Proc Pub em Outra Unidade" id="6c40fd7f-722c-4929-897c-59f9d2cf517a" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="2.488">
+    <testcase name="Verifica se pesquisou na mesma unidade" time="2.488" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Listar Processo Pub Outra Unidade" id="a695eed3-9a28-430e-a4ff-eb0f9c81371a" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="1" errors="0" time="0.561">
+    <testcase name="Verifica se Listou na mesma unidade" time="0.561" classname="WsseiTests">
+      <failure type="AssertionFailure" message="expected '{&quot;sucesso&quot;:true,&quot;total&quot;:&quot;0&quot;}' to include '99992.000010\\/2019-03'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 9b60490f-9526-4e84-8a4b-1124763aaaac.]]>
+        <![CDATA[Collection name: Wssei-Tests.]]>
+        <![CDATA[Request name: Processo-Pesquisar / Listar Processo Pub Outra Unidade.]]>
+        <![CDATA[Test description: Verifica se Listou na mesma unidade.]]>
+        <![CDATA[Error message: expected '{"sucesso":true,"total":"0"}' to include '99992.000010\\/2019-03'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected '{"sucesso":true,"total":"0"}' to include '99992.000010\\/2019-03'
+   at Object.eval sandbox-script.js:1:22).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Pesquisar Param Prot MeioNumero" id="ba6b8dff-305f-41c6-83a5-53c6b44447f5" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="2.397">
+    <testcase name="Verifica se pesquisou na mesma unidade" time="2.397" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Pesquisar Param Prot MeioNumero Unidade" id="3f32500a-2357-4fb9-b949-240c1c89dfdd" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="2.244">
+    <testcase name="Verifica se não pesquisou na unidade Teste" time="2.244" classname="WsseiTests"/>
+    <testcase name="Verifica se retornou outros protocolos da unidade TESTE" time="2.244" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Pesquisar Param Prot MeioNumero Unidade TESTE_1_2" id="7e797605-187f-43c1-b49b-d6429456a70f" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.799">
+    <testcase name="Verifica se pesquisou na unidade Teste_1_2" time="0.799" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Pesquisar Param Prot Uni data30" id="bdda7606-84ff-46b3-8601-13829f42982d" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.796">
+    <testcase name="Verifica se pesquisou na unidade Teste_1_2 com periodo de 30 dias" time="0.796" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Pesquisar Param Prot Uni data60" id="5ac79c5b-8193-4a1e-bdd4-1b2e0ff10e43" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.795">
+    <testcase name="Verifica se pesquisou na unidade Teste_1_2 com periodo de 60 dias" time="0.795" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Pesquisar Param Prot Uni data fixa antiga" id="e9bf29dc-e340-4b88-a134-3173c0f9b928" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.514">
+    <testcase name="Verifica se não pesquisou na unidade Teste_1_2 com data bem antiga" time="0.514" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Pesquisar Param Prot Uni data fixa atual" id="9aeebdbe-e41f-456a-a782-420ca9eb995f" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.769">
+    <testcase name="Verifica se pesquisou na unidade Teste_1_2 com data fixa ini e fim" time="0.769" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Pesquisar Param Prot Uni data desc invalida" id="da772fd3-419f-44dd-8c0f-70e929be732a" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.529">
+    <testcase name="Verifica se não pesquisou na unidade Teste_1_2 com descricao nao existente" time="0.529" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Pesquisar Param Prot Uni data desc valida" id="c3f92dad-b87b-41cf-bdc7-76fe44a75fd5" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.762">
+    <testcase name="Verifica se pesquisou na unidade Teste_1_2 com descricao" time="0.762" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Pesquisar Param Prot Uni data desc assunto" id="d6b78970-13fa-4e1e-948f-3e3b3fafa1fb" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.753">
+    <testcase name="Verifica se pesquisou na unidade Teste_1_2 com assunto" time="0.753" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Pesquisar / Pesquisar Param Prot Uni data desc assunto invalido" id="2e1d0f36-a2ac-4ab8-885c-1541b71e72da" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.541">
+    <testcase name="Verifica se não pesquisou na unidade Teste_1_2 com assunto inválido" time="0.541" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Andamento / Usuario - Unidade Teste" id="cbf05039-7b73-4c00-9de4-45903b87b831" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.528">
+    <testcase name="Usuário trocou de Unidade para TESTE" time="0.528" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Andamento / Processo-Criar-Publico" id="60972ac2-b0af-416f-a86a-6246d4ab0b30" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.728">
+    <testcase name="Existe ProtocoloFormatado na resposta" time="0.728" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Andamento / Documento - Cadastrar Documento Interno Pub" id="4f383930-16c7-40b5-8327-81000df0784a" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.124">
+    <testcase name="Existe protocoloDocumentoFormatado na resposta" time="1.124" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Andamento / Listar Atividades Processo" id="d691fa42-a37d-4b39-8574-9c00dd286a57" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.589">
+    <testcase name="Voltou chave data" time="0.589" classname="WsseiTests"/>
+    <testcase name="Voltou 1 andamento" time="0.589" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Andamento / Processo-Enviar" id="c41ee96a-011c-449b-a786-9033a20df766" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.693">
+    <testcase name="Enviou o Processo" time="0.693" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Andamento / Listar Atividades Processo" id="324bfa1d-e41b-4ff8-b89e-3ce776c5b4ac" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.589">
+    <testcase name="Voltou chave data" time="0.589" classname="WsseiTests"/>
+    <testcase name="Voltou 2 andamentos" time="0.589" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Usuario - Unidade Trocar" id="859831c5-8145-4664-bf33-ad320e3d4367" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.568">
+    <testcase name="Usuário trocou de Unidade para TESTE" time="0.568" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Processo-Criar-Restrito" id="5ccf5bdc-af8e-4af6-b7b7-48f86974307d" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.812">
+    <testcase name="Existe ProtocoloFormatado na resposta" time="0.812" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Listar Tipos doc - todos" id="f9f7ccfd-a2bd-4bb4-a9c9-8cdba17632e6" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.556">
+    <testcase name="Verifica se retornou chave DATA" time="0.556" classname="WsseiTests"/>
+    <testcase name="Verifica se retornou pelo menos um nome" time="0.556" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Listar Tipos doc - limit" id="5e51e213-7715-477c-b340-ac0b41144943" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.576">
+    <testcase name="Verifica se retornou chave DATA" time="0.576" classname="WsseiTests"/>
+    <testcase name="Verifica se retornou pelo menos um nome" time="0.576" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Listar Tipos doc - filter" id="16788a5a-9055-49a7-a3be-ee86c304ba03" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.556">
+    <testcase name="Verifica se retornou chave DATA" time="0.556" classname="WsseiTests"/>
+    <testcase name="Verifica se retornou pelo menos um nome" time="0.556" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Documento - Cadastrar Documento Interno" id="bcd5bf56-e7a7-466e-911e-069b959c5e5f" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.128">
+    <testcase name="Existe protocoloDocumentoFormatado na resposta" time="1.128" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Consultar Documento Interno" id="b5bc5789-55f9-4b56-8717-15f5b174a6e8" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.542">
+    <testcase name="Verifica se a descrição retornou" time="0.542" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Visualizar Documento Interno" id="80172d91-203c-4698-8e4d-99d3943d72e8" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.674">
+    <testcase name="Executou visualizar com sucesso" time="0.674" classname="WsseiTests"/>
+    <testcase name="Ver se há um html na resposta" time="0.674" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Editar Documento Interno" id="d0854657-2c88-43e2-ba1f-3395e29e8fc4" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.714">
+    <testcase name="Voltou com sucesso" time="0.714" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Consultar Documento Interno" id="38769406-bf65-492c-9248-98ccb3a93d2b" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.590">
+    <testcase name="Verifica se a descrição retornou" time="0.590" classname="WsseiTests"/>
+    <testcase name="Verifica se a obs retornou" time="0.590" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Listar Tipo Conferência" id="05e3900e-9390-417b-aac0-b99df03a29df" timestamp="2019-09-04T16:13:50.256Z" tests="0" failures="0" errors="0" time="0.513"/>
+  <testsuite name="Processo-Docs / Listar Tipo Conferência - filter" id="7c7904ec-6259-43f6-9767-1599f58f955d" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.557">
+    <testcase name="Verifica se retornou descrica" time="0.557" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Documento - Cadastrar Documento Externo" id="d3387073-fc7c-47b3-a0af-26cd1e170826" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="8.674">
+    <testcase name="Existe protocoloDocumentoFormatado na resposta" time="8.674" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Consultar Documento Externo" id="d6301285-dc5e-4ae1-997e-e8777cd1dc48" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.562">
+    <testcase name="Verifica se retornou nome documento" time="0.562" classname="WsseiTests"/>
+    <testcase name="Verifica se retornou numero documento" time="0.562" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Download do Doc Externo" id="911c1163-1177-418c-940a-542bc1065ac8" timestamp="2019-09-04T16:13:50.256Z" tests="3" failures="0" errors="0" time="17.157">
+    <testcase name="Content-Type is present" time="17.157" classname="WsseiTests"/>
+    <testcase name="Verificar se o nome do arquivo está correto" time="17.157" classname="WsseiTests"/>
+    <testcase name="Verificar se o tamanho está correto" time="17.157" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Editar Metadados Documento Externo" id="7bfe3b3f-2b5d-4281-8dca-848541025c36" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="2.249">
+    <testcase name="Verifica se retornou sucesso" time="2.249" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Consultar Documento Externo" id="a1250ad5-7a1d-4abd-8293-d2a8b490ec36" timestamp="2019-09-04T16:13:50.256Z" tests="4" failures="0" errors="0" time="0.617">
+    <testcase name="Verifica se alteração da série" time="0.617" classname="WsseiTests"/>
+    <testcase name="Verifica se alterou a data" time="0.617" classname="WsseiTests"/>
+    <testcase name="Verifica se alterou observacao" time="0.617" classname="WsseiTests"/>
+    <testcase name="Verifica se alterou a descricao" time="0.617" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Editar Documento Externo - Novo arq" id="b45c5c9a-9882-4497-b223-888f270601a6" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.115">
+    <testcase name="Verifica se retornou sucesso" time="1.115" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Consultar Documento Externo" id="82fc270c-7001-4a53-914e-babfefd99b5a" timestamp="2019-09-04T16:13:50.256Z" tests="9" failures="0" errors="0" time="0.593">
+    <testcase name="Verifica se alteração da série" time="0.593" classname="WsseiTests"/>
+    <testcase name="Verifica se alterou a data" time="0.593" classname="WsseiTests"/>
+    <testcase name="Verifica se alterou observacao" time="0.593" classname="WsseiTests"/>
+    <testcase name="Verifica se alterou a descricao" time="0.593" classname="WsseiTests"/>
+    <testcase name="Verifica se alterou tipo conferencia" time="0.593" classname="WsseiTests"/>
+    <testcase name="Verifica se alterou Assunto 1" time="0.593" classname="WsseiTests"/>
+    <testcase name="Verifica se alterou Assunto 2" time="0.593" classname="WsseiTests"/>
+    <testcase name="Verifica se alterou Assunto 3" time="0.593" classname="WsseiTests"/>
+    <testcase name="Verifica se alterou anexo" time="0.593" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Download" id="31f95bac-0bf3-40f5-9082-cf08df069ddb" timestamp="2019-09-04T16:13:50.256Z" tests="3" failures="0" errors="0" time="0.790">
+    <testcase name="Content-Type is present" time="0.790" classname="WsseiTests"/>
+    <testcase name="Verificar se o nome do arquivo está correto" time="0.790" classname="WsseiTests"/>
+    <testcase name="Verificar se o tamanho está correto" time="0.790" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / usu/alterar-altera unidade para TESTE_1_2" id="08da6579-4cc4-4b45-8549-457f432c9cf5" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.570">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE_1_2" time="0.570" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Consultar Documento Externo" id="49f9083f-e12d-4f29-9ec6-bd42e5af1e63" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="2" errors="0" time="0.581">
+    <testcase name="Verifica se não retornou nome documento" time="0.581" classname="WsseiTests">
+      <failure type="AssertionFailure" message="expected '{&quot;sucesso&quot;:true,&quot;data&quot;:{&quot;nomeDocumento&quot;:&quot;An\\u00e1lise  (0000094)&quot;,&quot;protocolo&quot;:&quot;148&quot;,&quot;idDocumento&quot;:&quot;150&quot;,&quot;idSerie&quot;:&quot;7&quot;,&quot;nomeSerie&quot;:&quot;An\\u00e1lise&quot;,&quot;numero&quot;:&quot;&quot;,&quot;idTipoConferencia&quot;:&quot;4&quot;,&quot;descricaoTipoConferencia&quot;:&quot;C\\u00f3pia Simples&quot;,&quot;nivelAcesso&quot;:&quot;0&quot;,&quot;idHipoteseLegal&quot;:&quot;&quot;,&quot;nomeHipoteseLegal&quot;:&quot;&quot;,&quot;grauSigilo&quot;:&quot;&quot;,&quot;descricao&quot;:&quot;desc nova&quot;,&quot;dataElaboracao&quot;:&quot;23\\/07\\/2000&quot;,&quot;observacao&quot;:&quot;&quot;,&quot;assuntos&quot;:[{&quot;id&quot;:&quot;3&quot;,&quot;codigoestruturadoformatado&quot;:&quot;002&quot;,&quot;descricao&quot;:&quot;002 - PLANOS, PROGRAMAS E PROJETOS DE TRABALHO&quot;,&quot;sequencia&quot;:&quot;&quot;},{&quot;id&quot;:&quot;5&quot;,&quot;codigoestruturadoformatado&quot;:&quot;004&quot;,&quot;descricao&quot;:&quot;004 - ACORDOS. AJUSTES. CONTRATOS. CONV\\u00caNIOS (Inclusive formaliza\\u00e7\\u00e3o, execu\\u00e7\\u00e3o, acompanhamento, fiscaliza\\u00e7\\u00e3o, presta\\u00e7\\u00e3o de contas, tomada de contas e tomada de contas especial de conv\\u00eanios, contratos de repasse, termos de parceria e termos de coopera\\u00e7\\u00e3o)&quot;,&quot;sequencia&quot;:&quot;&quot;},{&quot;id&quot;:&quot;6&quot;,&quot;codigoestruturadoformatado&quot;:&quot;010&quot;,&quot;descricao&quot;:&quot;010 - ORGANIZA\\u00c7\\u00c3O E FUNCIONAMENTO (inclusive Normas, Regulamenta\\u00e7\\u00f5es, Diretrizes, Procedimentos, Estudos e\\/ou Decis\\u00f5es de Car\\u00e1ter Geral)&quot;,&quot;sequencia&quot;:&quot;&quot;}],&quot;remetente&quot;:&quot;&quot;,&quot;interessados&quot;:[],&quot;destinatarios&quot;:[],&quot;observacoesUnidades&quot;:[{&quot;id&quot;:&quot;140&quot;,&quot;sigla&quot;:&quot;TESTE&quot;,&quot;unidade&quot;:&quot;Unidade de Teste 1&quot;,&quot;descricao&quot;:&quot;obs nova&quot;}],&quot;anexo&quot;:{&quot;id&quot;:&quot;35&quot;,&quot;unidade&quot;:&quot;110000001&quot;,&quot;siglaUnidade&quot;:&quot;TESTE&quot;,&quot;nome&quot;:&quot;SEI-v3.1.2.pdf&quot;,&quot;dataInclusao&quot;:&quot;04\\/09\\/2019 13:16:26&quot;,&quot;tamanho&quot;:&quot;202014&quot;,&quot;siglaUsuario&quot;:&quot;teste&quot;,&quot;podeExcluir&quot;:true}}}' to not include 'nomeDocumento'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 9b60490f-9526-4e84-8a4b-1124763aaaac.]]>
+        <![CDATA[Collection name: Wssei-Tests.]]>
+        <![CDATA[Request name: Processo-Docs / Consultar Documento Externo.]]>
+        <![CDATA[Test description: Verifica se não retornou nome documento.]]>
+        <![CDATA[Error message: expected '{"sucesso":true,"data":{"nomeDocumento":"An\\u00e1lise  (0000094)","protocolo":"148","idDocumento":"150","idSerie":"7","nomeSerie":"An\\u00e1lise","numero":"","idTipoConferencia":"4","descricaoTipoConferencia":"C\\u00f3pia Simples","nivelAcesso":"0","idHipoteseLegal":"","nomeHipoteseLegal":"","grauSigilo":"","descricao":"desc nova","dataElaboracao":"23\\/07\\/2000","observacao":"","assuntos":[{"id":"3","codigoestruturadoformatado":"002","descricao":"002 - PLANOS, PROGRAMAS E PROJETOS DE TRABALHO","sequencia":""},{"id":"5","codigoestruturadoformatado":"004","descricao":"004 - ACORDOS. AJUSTES. CONTRATOS. CONV\\u00caNIOS (Inclusive formaliza\\u00e7\\u00e3o, execu\\u00e7\\u00e3o, acompanhamento, fiscaliza\\u00e7\\u00e3o, presta\\u00e7\\u00e3o de contas, tomada de contas e tomada de contas especial de conv\\u00eanios, contratos de repasse, termos de parceria e termos de coopera\\u00e7\\u00e3o)","sequencia":""},{"id":"6","codigoestruturadoformatado":"010","descricao":"010 - ORGANIZA\\u00c7\\u00c3O E FUNCIONAMENTO (inclusive Normas, Regulamenta\\u00e7\\u00f5es, Diretrizes, Procedimentos, Estudos e\\/ou Decis\\u00f5es de Car\\u00e1ter Geral)","sequencia":""}],"remetente":"","interessados":[],"destinatarios":[],"observacoesUnidades":[{"id":"140","sigla":"TESTE","unidade":"Unidade de Teste 1","descricao":"obs nova"}],"anexo":{"id":"35","unidade":"110000001","siglaUnidade":"TESTE","nome":"SEI-v3.1.2.pdf","dataInclusao":"04\\/09\\/2019 13:16:26","tamanho":"202014","siglaUsuario":"teste","podeExcluir":true}}}' to not include 'nomeDocumento'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected '{"sucesso":true,"data":{"nomeDocumento":"An\\u00e1lise  (0000094)","protocolo":"148","idDocumento":"150","idSerie":"7","nomeSerie":"An\\u00e1lise","numero":"","idTipoConferencia":"4","descricaoTipoConferencia":"C\\u00f3pia Simples","nivelAcesso":"0","idHipoteseLegal":"","nomeHipoteseLegal":"","grauSigilo":"","descricao":"desc nova","dataElaboracao":"23\\/07\\/2000","observacao":"","assuntos":[{"id":"3","codigoestruturadoformatado":"002","descricao":"002 - PLANOS, PROGRAMAS E PROJETOS DE TRABALHO","sequencia":""},{"id":"5","codigoestruturadoformatado":"004","descricao":"004 - ACORDOS. AJUSTES. CONTRATOS. CONV\\u00caNIOS (Inclusive formaliza\\u00e7\\u00e3o, execu\\u00e7\\u00e3o, acompanhamento, fiscaliza\\u00e7\\u00e3o, presta\\u00e7\\u00e3o de contas, tomada de contas e tomada de contas especial de conv\\u00eanios, contratos de repasse, termos de parceria e termos de coopera\\u00e7\\u00e3o)","sequencia":""},{"id":"6","codigoestruturadoformatado":"010","descricao":"010 - ORGANIZA\\u00c7\\u00c3O E FUNCIONAMENTO (inclusive Normas, Regulamenta\\u00e7\\u00f5es, Diretrizes, Procedimentos, Estudos e\\/ou Decis\\u00f5es de Car\\u00e1ter Geral)","sequencia":""}],"remetente":"","interessados":[],"destinatarios":[],"observacoesUnidades":[{"id":"140","sigla":"TESTE","unidade":"Unidade de Teste 1","descricao":"obs nova"}],"anexo":{"id":"35","unidade":"110000001","siglaUnidade":"TESTE","nome":"SEI-v3.1.2.pdf","dataInclusao":"04\\/09\\/2019 13:16:26","tamanho":"202014","siglaUsuario":"teste","podeExcluir":true}}}' to not include 'nomeDocumento'
+   at Object.eval sandbox-script.js:1:61).]]>
+      </failure>
+    </testcase>
+    <testcase name="Verifica se não retornou numero documento" time="0.581" classname="WsseiTests">
+      <failure type="AssertionFailure" message="expected '{&quot;sucesso&quot;:true,&quot;data&quot;:{&quot;nomeDocumento&quot;:&quot;An\\u00e1lise  (0000094)&quot;,&quot;protocolo&quot;:&quot;148&quot;,&quot;idDocumento&quot;:&quot;150&quot;,&quot;idSerie&quot;:&quot;7&quot;,&quot;nomeSerie&quot;:&quot;An\\u00e1lise&quot;,&quot;numero&quot;:&quot;&quot;,&quot;idTipoConferencia&quot;:&quot;4&quot;,&quot;descricaoTipoConferencia&quot;:&quot;C\\u00f3pia Simples&quot;,&quot;nivelAcesso&quot;:&quot;0&quot;,&quot;idHipoteseLegal&quot;:&quot;&quot;,&quot;nomeHipoteseLegal&quot;:&quot;&quot;,&quot;grauSigilo&quot;:&quot;&quot;,&quot;descricao&quot;:&quot;desc nova&quot;,&quot;dataElaboracao&quot;:&quot;23\\/07\\/2000&quot;,&quot;observacao&quot;:&quot;&quot;,&quot;assuntos&quot;:[{&quot;id&quot;:&quot;3&quot;,&quot;codigoestruturadoformatado&quot;:&quot;002&quot;,&quot;descricao&quot;:&quot;002 - PLANOS, PROGRAMAS E PROJETOS DE TRABALHO&quot;,&quot;sequencia&quot;:&quot;&quot;},{&quot;id&quot;:&quot;5&quot;,&quot;codigoestruturadoformatado&quot;:&quot;004&quot;,&quot;descricao&quot;:&quot;004 - ACORDOS. AJUSTES. CONTRATOS. CONV\\u00caNIOS (Inclusive formaliza\\u00e7\\u00e3o, execu\\u00e7\\u00e3o, acompanhamento, fiscaliza\\u00e7\\u00e3o, presta\\u00e7\\u00e3o de contas, tomada de contas e tomada de contas especial de conv\\u00eanios, contratos de repasse, termos de parceria e termos de coopera\\u00e7\\u00e3o)&quot;,&quot;sequencia&quot;:&quot;&quot;},{&quot;id&quot;:&quot;6&quot;,&quot;codigoestruturadoformatado&quot;:&quot;010&quot;,&quot;descricao&quot;:&quot;010 - ORGANIZA\\u00c7\\u00c3O E FUNCIONAMENTO (inclusive Normas, Regulamenta\\u00e7\\u00f5es, Diretrizes, Procedimentos, Estudos e\\/ou Decis\\u00f5es de Car\\u00e1ter Geral)&quot;,&quot;sequencia&quot;:&quot;&quot;}],&quot;remetente&quot;:&quot;&quot;,&quot;interessados&quot;:[],&quot;destinatarios&quot;:[],&quot;observacoesUnidades&quot;:[{&quot;id&quot;:&quot;140&quot;,&quot;sigla&quot;:&quot;TESTE&quot;,&quot;unidade&quot;:&quot;Unidade de Teste 1&quot;,&quot;descricao&quot;:&quot;obs nova&quot;}],&quot;anexo&quot;:{&quot;id&quot;:&quot;35&quot;,&quot;unidade&quot;:&quot;110000001&quot;,&quot;siglaUnidade&quot;:&quot;TESTE&quot;,&quot;nome&quot;:&quot;SEI-v3.1.2.pdf&quot;,&quot;dataInclusao&quot;:&quot;04\\/09\\/2019 13:16:26&quot;,&quot;tamanho&quot;:&quot;202014&quot;,&quot;siglaUsuario&quot;:&quot;teste&quot;,&quot;podeExcluir&quot;:true}}}' to not include '0000094'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 9b60490f-9526-4e84-8a4b-1124763aaaac.]]>
+        <![CDATA[Collection name: Wssei-Tests.]]>
+        <![CDATA[Request name: Processo-Docs / Consultar Documento Externo.]]>
+        <![CDATA[Test description: Verifica se não retornou numero documento.]]>
+        <![CDATA[Error message: expected '{"sucesso":true,"data":{"nomeDocumento":"An\\u00e1lise  (0000094)","protocolo":"148","idDocumento":"150","idSerie":"7","nomeSerie":"An\\u00e1lise","numero":"","idTipoConferencia":"4","descricaoTipoConferencia":"C\\u00f3pia Simples","nivelAcesso":"0","idHipoteseLegal":"","nomeHipoteseLegal":"","grauSigilo":"","descricao":"desc nova","dataElaboracao":"23\\/07\\/2000","observacao":"","assuntos":[{"id":"3","codigoestruturadoformatado":"002","descricao":"002 - PLANOS, PROGRAMAS E PROJETOS DE TRABALHO","sequencia":""},{"id":"5","codigoestruturadoformatado":"004","descricao":"004 - ACORDOS. AJUSTES. CONTRATOS. CONV\\u00caNIOS (Inclusive formaliza\\u00e7\\u00e3o, execu\\u00e7\\u00e3o, acompanhamento, fiscaliza\\u00e7\\u00e3o, presta\\u00e7\\u00e3o de contas, tomada de contas e tomada de contas especial de conv\\u00eanios, contratos de repasse, termos de parceria e termos de coopera\\u00e7\\u00e3o)","sequencia":""},{"id":"6","codigoestruturadoformatado":"010","descricao":"010 - ORGANIZA\\u00c7\\u00c3O E FUNCIONAMENTO (inclusive Normas, Regulamenta\\u00e7\\u00f5es, Diretrizes, Procedimentos, Estudos e\\/ou Decis\\u00f5es de Car\\u00e1ter Geral)","sequencia":""}],"remetente":"","interessados":[],"destinatarios":[],"observacoesUnidades":[{"id":"140","sigla":"TESTE","unidade":"Unidade de Teste 1","descricao":"obs nova"}],"anexo":{"id":"35","unidade":"110000001","siglaUnidade":"TESTE","nome":"SEI-v3.1.2.pdf","dataInclusao":"04\\/09\\/2019 13:16:26","tamanho":"202014","siglaUsuario":"teste","podeExcluir":true}}}' to not include '0000094'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected '{"sucesso":true,"data":{"nomeDocumento":"An\\u00e1lise  (0000094)","protocolo":"148","idDocumento":"150","idSerie":"7","nomeSerie":"An\\u00e1lise","numero":"","idTipoConferencia":"4","descricaoTipoConferencia":"C\\u00f3pia Simples","nivelAcesso":"0","idHipoteseLegal":"","nomeHipoteseLegal":"","grauSigilo":"","descricao":"desc nova","dataElaboracao":"23\\/07\\/2000","observacao":"","assuntos":[{"id":"3","codigoestruturadoformatado":"002","descricao":"002 - PLANOS, PROGRAMAS E PROJETOS DE TRABALHO","sequencia":""},{"id":"5","codigoestruturadoformatado":"004","descricao":"004 - ACORDOS. AJUSTES. CONTRATOS. CONV\\u00caNIOS (Inclusive formaliza\\u00e7\\u00e3o, execu\\u00e7\\u00e3o, acompanhamento, fiscaliza\\u00e7\\u00e3o, presta\\u00e7\\u00e3o de contas, tomada de contas e tomada de contas especial de conv\\u00eanios, contratos de repasse, termos de parceria e termos de coopera\\u00e7\\u00e3o)","sequencia":""},{"id":"6","codigoestruturadoformatado":"010","descricao":"010 - ORGANIZA\\u00c7\\u00c3O E FUNCIONAMENTO (inclusive Normas, Regulamenta\\u00e7\\u00f5es, Diretrizes, Procedimentos, Estudos e\\/ou Decis\\u00f5es de Car\\u00e1ter Geral)","sequencia":""}],"remetente":"","interessados":[],"destinatarios":[],"observacoesUnidades":[{"id":"140","sigla":"TESTE","unidade":"Unidade de Teste 1","descricao":"obs nova"}],"anexo":{"id":"35","unidade":"110000001","siglaUnidade":"TESTE","nome":"SEI-v3.1.2.pdf","dataInclusao":"04\\/09\\/2019 13:16:26","tamanho":"202014","siglaUsuario":"teste","podeExcluir":true}}}' to not include '0000094'
+   at Object.eval sandbox-script.js:2:61).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Processo-Docs / Consultar Documento Interno" id="2914adf4-8fc6-4093-934c-67953b6991d1" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="1" errors="0" time="0.581">
+    <testcase name="Verifica se a descrição não retornou" time="0.581" classname="WsseiTests">
+      <failure type="AssertionFailure" message="expected '{&quot;sucesso&quot;:true,&quot;data&quot;:{&quot;nomeDocumento&quot;:&quot;Ac\\u00f3rd\\u00e3o 66 (0000093)&quot;,&quot;protocolo&quot;:&quot;148&quot;,&quot;idDocumento&quot;:&quot;149&quot;,&quot;idSerie&quot;:&quot;8&quot;,&quot;nomeSerie&quot;:&quot;Ac\\u00f3rd\\u00e3o&quot;,&quot;numero&quot;:&quot;66&quot;,&quot;idTipoConferencia&quot;:&quot;&quot;,&quot;descricaoTipoConferencia&quot;:&quot;&quot;,&quot;nivelAcesso&quot;:&quot;0&quot;,&quot;idHipoteseLegal&quot;:&quot;&quot;,&quot;nomeHipoteseLegal&quot;:&quot;&quot;,&quot;baseLegal&quot;:&quot;&quot;,&quot;grauSigilo&quot;:&quot;&quot;,&quot;descricao&quot;:&quot;desc nova&quot;,&quot;dataElaboracao&quot;:&quot;04\\/09\\/2019&quot;,&quot;observacao&quot;:&quot;&quot;,&quot;assuntos&quot;:[],&quot;interessados&quot;:[],&quot;destinatarios&quot;:[],&quot;observacoesUnidades&quot;:[{&quot;id&quot;:&quot;139&quot;,&quot;sigla&quot;:&quot;TESTE&quot;,&quot;unidade&quot;:&quot;Unidade de Teste 1&quot;,&quot;descricao&quot;:&quot;obs nova&quot;}]}}' to not include 'desc nova'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 9b60490f-9526-4e84-8a4b-1124763aaaac.]]>
+        <![CDATA[Collection name: Wssei-Tests.]]>
+        <![CDATA[Request name: Processo-Docs / Consultar Documento Interno.]]>
+        <![CDATA[Test description: Verifica se a descrição não retornou.]]>
+        <![CDATA[Error message: expected '{"sucesso":true,"data":{"nomeDocumento":"Ac\\u00f3rd\\u00e3o 66 (0000093)","protocolo":"148","idDocumento":"149","idSerie":"8","nomeSerie":"Ac\\u00f3rd\\u00e3o","numero":"66","idTipoConferencia":"","descricaoTipoConferencia":"","nivelAcesso":"0","idHipoteseLegal":"","nomeHipoteseLegal":"","baseLegal":"","grauSigilo":"","descricao":"desc nova","dataElaboracao":"04\\/09\\/2019","observacao":"","assuntos":[],"interessados":[],"destinatarios":[],"observacoesUnidades":[{"id":"139","sigla":"TESTE","unidade":"Unidade de Teste 1","descricao":"obs nova"}]}}' to not include 'desc nova'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected '{"sucesso":true,"data":{"nomeDocumento":"Ac\\u00f3rd\\u00e3o 66 (0000093)","protocolo":"148","idDocumento":"149","idSerie":"8","nomeSerie":"Ac\\u00f3rd\\u00e3o","numero":"66","idTipoConferencia":"","descricaoTipoConferencia":"","nivelAcesso":"0","idHipoteseLegal":"","nomeHipoteseLegal":"","baseLegal":"","grauSigilo":"","descricao":"desc nova","dataElaboracao":"04\\/09\\/2019","observacao":"","assuntos":[],"interessados":[],"destinatarios":[],"observacoesUnidades":[{"id":"139","sigla":"TESTE","unidade":"Unidade de Teste 1","descricao":"obs nova"}]}}' to not include 'desc nova'
+   at Object.eval sandbox-script.js:1:62).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Processo-Docs / Download Copy" id="a5455a68-9cf7-431b-9d2b-379202ac9a7f" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="1" errors="0" time="0.795">
+    <testcase name="Content-Type is present" time="0.795" classname="WsseiTests"/>
+    <testcase name="Verificar se o nome do arquivo não vem na resposta" time="0.795" classname="WsseiTests">
+      <failure type="AssertionFailure" message="expected 'Date: Wed, 04 Sep 2019 16:16:30 GMT,Server: Apache/2.2.15 (CentOS),X-Powered-By: PHP/5.6.31,Cache-Control: private, no-cache, no-store, must-revalidate, max-age=0,Pragma: no-cache,Expires: 0,Content-Disposition: inline; filename=&quot;SEI_v3.1.2.pdf&quot;,Transfer-Encoding: chunked,Content-Type: application/pdf;' to not include 'SEI_v3.1.2.pdf'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 9b60490f-9526-4e84-8a4b-1124763aaaac.]]>
+        <![CDATA[Collection name: Wssei-Tests.]]>
+        <![CDATA[Request name: Processo-Docs / Download Copy.]]>
+        <![CDATA[Test description: Verificar se o nome do arquivo não vem na resposta.]]>
+        <![CDATA[Error message: expected 'Date: Wed, 04 Sep 2019 16:16:30 GMT,Server: Apache/2.2.15 (CentOS),X-Powered-By: PHP/5.6.31,Cache-Control: private, no-cache, no-store, must-revalidate, max-age=0,Pragma: no-cache,Expires: 0,Content-Disposition: inline; filename="SEI_v3.1.2.pdf",Transfer-Encoding: chunked,Content-Type: application/pdf;' to not include 'SEI_v3.1.2.pdf'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected 'Date: Wed, 04 Sep 2019 16:16:30 GMT,Server: Apache/2.2.15 (CentOS),X-Powered-By: PHP/5.6.31,Cache-Control: private, no-cache, no-store, must-revalidate, max-age=0,Pragma: no-cache,Expires: 0,Content-Disposition: inline; filename="SEI_v3.1.2.pdf",Transfer-Encoding: chunked,Content-Type: application/pdf;' to not include 'SEI_v3.1.2.pdf'
+   at Object.eval sandbox-script.js:2:63).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Processo-Docs / Editar Documento Interno" id="8fccc070-2f46-4e14-b6a0-2a31c6394485" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="1" errors="0" time="0.682">
+    <testcase name="Verifica se não pode alterar o doc" time="0.682" classname="WsseiTests">
+      <failure type="AssertionFailure" message="expected true to deeply equal false">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 9b60490f-9526-4e84-8a4b-1124763aaaac.]]>
+        <![CDATA[Collection name: Wssei-Tests.]]>
+        <![CDATA[Request name: Processo-Docs / Editar Documento Interno.]]>
+        <![CDATA[Test description: Verifica se não pode alterar o doc.]]>
+        <![CDATA[Error message: expected true to deeply equal false.]]>
+        <![CDATA[Stacktrace: AssertionError: expected true to deeply equal false
+   at Object.eval sandbox-script.js:1:64).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Processo-Docs / Editar Documento Externo" id="87337006-98d5-4acd-bd97-4b4cdbf0173e" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.005">
+    <testcase name="Verifica se retornou sucesso" time="1.005" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Editar Documento Externo" id="5adff298-2bff-4fff-bac8-6f6ca34c2506" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="1" errors="0" time="0.740">
+    <testcase name="Verifica se retornou sucesso" time="0.740" classname="WsseiTests">
+      <failure type="AssertionFailure" message="expected true to deeply equal false">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 9b60490f-9526-4e84-8a4b-1124763aaaac.]]>
+        <![CDATA[Collection name: Wssei-Tests.]]>
+        <![CDATA[Request name: Processo-Docs / Editar Documento Externo.]]>
+        <![CDATA[Test description: Verifica se retornou sucesso.]]>
+        <![CDATA[Error message: expected true to deeply equal false.]]>
+        <![CDATA[Stacktrace: AssertionError: expected true to deeply equal false
+   at Object.eval sandbox-script.js:1:66).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Processo-Docs / Usuario - Unidade Trocar TESTE" id="70c98abd-04af-4728-b45b-2d0c3da7226c" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.563">
+    <testcase name="Usuário trocou de Unidade para TESTE" time="0.563" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Editar Processo - Publico" id="b1797c2a-d9ba-409d-9cfa-0f0df4eda7ba" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.908">
+    <testcase name="Alterou o processo" time="0.908" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / usu/alterar-altera unidade para TESTE_1_2" id="cfca61f8-9d6e-48d8-bce8-ca1a0691965c" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.574">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE_1_2" time="0.574" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Consultar Documento Externo Copy Copy" id="cdd7cb46-80d3-4408-9864-8011deeb5956" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.562">
+    <testcase name="Verifica se retornou nome documento" time="0.562" classname="WsseiTests"/>
+    <testcase name="Verifica se retornou numero documento" time="0.562" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Consultar Documento Interno Copy Copy" id="32b3b398-3212-41bf-b649-7d4047ea0000" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.616">
+    <testcase name="Verifica se a descrição retornou" time="0.616" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Download Copy Copy" id="0b3f8527-823a-4208-b165-b3233f43df03" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.783">
+    <testcase name="Content-Type is present" time="0.783" classname="WsseiTests"/>
+    <testcase name="Verificar se o nome do arquivo vem na resposta" time="0.783" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Editar Documento Interno Copy Copy" id="1e530ce3-30b5-48f4-bd89-7e6f812732fc" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="1" errors="0" time="0.670">
+    <testcase name="Verifica se não pode alterar o doc" time="0.670" classname="WsseiTests">
+      <failure type="AssertionFailure" message="expected true to deeply equal false">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 9b60490f-9526-4e84-8a4b-1124763aaaac.]]>
+        <![CDATA[Collection name: Wssei-Tests.]]>
+        <![CDATA[Request name: Processo-Docs / Editar Documento Interno Copy Copy.]]>
+        <![CDATA[Test description: Verifica se não pode alterar o doc.]]>
+        <![CDATA[Error message: expected true to deeply equal false.]]>
+        <![CDATA[Stacktrace: AssertionError: expected true to deeply equal false
+   at Object.eval sandbox-script.js:1:73).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Processo-Docs / Editar Documento Externo Copy Copy Copy" id="01cec997-8abd-427d-b2b0-1d04d420ac42" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.195">
+    <testcase name="Verifica se não retornou sucesso" time="1.195" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Docs / Editar Documento Externo Copy Copy" id="99dfdb3b-9c6c-4978-ac05-9242ee70e477" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="1" errors="0" time="0.730">
+    <testcase name="Verifica se não retornou sucesso" time="0.730" classname="WsseiTests">
+      <failure type="AssertionFailure" message="expected true to deeply equal false">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 9b60490f-9526-4e84-8a4b-1124763aaaac.]]>
+        <![CDATA[Collection name: Wssei-Tests.]]>
+        <![CDATA[Request name: Processo-Docs / Editar Documento Externo Copy Copy.]]>
+        <![CDATA[Test description: Verifica se não retornou sucesso.]]>
+        <![CDATA[Error message: expected true to deeply equal false.]]>
+        <![CDATA[Stacktrace: AssertionError: expected true to deeply equal false
+   at Object.eval sandbox-script.js:1:75).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Processo-Documento-Assinar / Usuario - Unidade Trocar" id="4dcf972a-fb23-4ff0-8d8a-f82b4a8b52a8" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.587">
+    <testcase name="Usuário trocou de Unidade para TESTE" time="0.587" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Documento-Assinar / Processo-Criar-Restrito" id="3fad8b34-3569-493d-be10-74091ccd6875" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.712">
+    <testcase name="Existe ProtocoloFormatado na resposta" time="0.712" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Documento-Assinar / Documento - Cadastrar Documento Interno" id="4c869a0d-3bc6-4332-8642-1a32e4170ba0" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.085">
+    <testcase name="Existe protocoloDocumentoFormatado na resposta" time="1.085" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Documento-Assinar / Documento - Cadastrar Documento Externo" id="9629dcc5-cf73-4b71-9c03-145fb727bb41" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.121">
+    <testcase name="Existe protocoloDocumentoFormatado na resposta" time="1.121" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Documento-Assinar / Assinante-Listar" id="9f3e74cf-1728-45c5-b3f0-f363e0eaccdd" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.570">
+    <testcase name="Verifica se executou com sucesso" time="0.570" classname="WsseiTests"/>
+    <testcase name="Verifica se trouxe Chefe entre os cargos" time="0.570" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Documento-Assinar / Documento - Assinar" id="7fa47c5f-c8f1-40d8-9f3f-1b4f8d2ec94e" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.045">
+    <testcase name="Verifica Assinatura" time="1.045" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Documento-Assinar / Documento - Listar Documentos Processo - Todos" id="bd82b60c-196e-409a-8fff-b258f960a819" timestamp="2019-09-04T16:13:50.256Z" tests="3" failures="0" errors="0" time="0.627">
+    <testcase name="Retornou Documentos" time="0.627" classname="WsseiTests"/>
+    <testcase name="Listou Documento Interno" time="0.627" classname="WsseiTests"/>
+    <testcase name="Listou Documento Externo" time="0.627" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Documento-Assinar / Documento - Listar Documentos Processo - Todos Copy" id="f860212d-0af5-4582-b229-1f7f95de3404" timestamp="2019-09-04T16:13:50.256Z" tests="3" failures="0" errors="0" time="0.668">
+    <testcase name="Retornou Documentos" time="0.668" classname="WsseiTests"/>
+    <testcase name="Listou Documento Interno" time="0.668" classname="WsseiTests"/>
+    <testcase name="Listou Documento Externo" time="0.668" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Documento-Assinar / Documento - Listar Documentos Processo - Soh o Primeiro" id="5be283d3-1e1a-4593-afc6-95cfb143375e" timestamp="2019-09-04T16:13:50.256Z" tests="3" failures="0" errors="0" time="0.651">
+    <testcase name="Retornou Documento" time="0.651" classname="WsseiTests"/>
+    <testcase name="Listou Documento Interno" time="0.651" classname="WsseiTests"/>
+    <testcase name="Não Listou Documento Externo" time="0.651" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Documento-Assinar / Documento - Listar Documentos Processo - Soh o Primeiro Copy" id="68bc58aa-e641-4fc1-9abd-c2a6641edd88" timestamp="2019-09-04T16:13:50.256Z" tests="3" failures="0" errors="0" time="0.614">
+    <testcase name="Retornou Documento" time="0.614" classname="WsseiTests"/>
+    <testcase name="Não Listou Documento Interno" time="0.614" classname="WsseiTests"/>
+    <testcase name="Listou Documento Externo" time="0.614" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar / Processo-Enviar" id="0ae001a5-cc47-4c0c-a3a0-443dbee6d869" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.748">
+    <testcase name="Enviou o Processo" time="0.748" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar / Processo- Listar Na Unidade Atual" id="b53b48b5-20e1-4fef-a40d-52be484b91f7" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.678">
+    <testcase name="Verifica se processo permanece na unidade" time="0.678" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar / Usuario-Unidade Trocar TESTE_1_1" id="0360ecfe-48bd-4ef7-95df-c0a74ba9746e" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.533">
+    <testcase name="Usuário trocou de unidade" time="0.533" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar / Processo - Listar Processos Unidade 2" id="2e5cb752-e674-419d-b9f2-acd264ef0745" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.637">
+    <testcase name="Verifica se o Processo é listado na Unidade" time="0.637" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar / Usuario - Unidade Trocar Copy" id="830ccde7-dfca-46e4-8258-0c0c947821f5" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.555">
+    <testcase name="Usuário Trocou de Unidade Para TESTE" time="0.555" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar / Processo-Enviar De volta Copy" id="16e22eae-9f97-4ff2-96bc-003010b99551" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.757">
+    <testcase name="Usuário Trocou de Unidade para TESTE_1_1" time="0.757" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar / Processo - Listar Processos Unidade 2 Copy Copy" id="f31feaff-1c6f-44b9-8fe4-63b3faf1187e" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.563">
+    <testcase name="Processo não deve constar na listagem" time="0.563" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar / Usuario - Unidade Trocar Copy" id="b58e0ebe-068c-4a2b-ba05-5e119201427a" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.541">
+    <testcase name="Usuário trocou de Unidade" time="0.541" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar / Processo - Listar Processos Unidade 2 Copy" id="f701d1ec-3112-4af4-84fe-d987a0fd2214" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.058">
+    <testcase name="Verificar se o Processo é Listado" time="1.058" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar-Retorno-Programado / proc/enviar-Envia para TESTE_1_2 com Data" id="11d92081-4e3b-4691-ad39-9e493ced72d3" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.757">
+    <testcase name="Processo com Data de Retorno Programado Enviado para Unidade TESTE_1_2" time="0.757" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar-Retorno-Programado / proc/listar-Verifica se proc saiu da unidade" id="609f4680-0298-4060-9a49-ed2d04b3699b" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.558">
+    <testcase name="Verificar se o Processo é Listado" time="0.558" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar-Retorno-Programado / usu/alterar-Vai para TESTE_1_2" id="5877af7c-eb42-4baa-879d-35b502d23a35" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.568">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE_1_2" time="0.568" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar-Retorno-Programado / proc/listar-Verifica se Proc aparece na Unidade TESTE_1_2" id="f1275c7d-05e8-458b-95b4-8d3d6dcbbc9f" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.629">
+    <testcase name="Verificar se o Processo é Listado" time="0.629" classname="WsseiTests"/>
+    <testcase name="Verifica se a Data de Retorno está em 30/08/2050" time="0.629" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar-Retorno-Programado / proc/enviar-Retorno Dias Corridos para TESTE_1_1" id="3ae77091-50f1-442b-b745-db2690aef418" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.814">
+    <testcase name="Processo com Dias de Retorno Programado Enviado para Unidade TESTE_1_1" time="0.814" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar-Retorno-Programado / usu/alterar-Vai para TESTE_1_1" id="664c8af9-28ec-4e65-96eb-13750a49e75a" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.566">
+    <testcase name="Usuário trocou de Unidade para TESTE_1_1" time="0.566" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar-Retorno-Programado / proc/listar-Verifica Retorno Programado de 10 dias" id="50f41c49-d8fa-4bfe-a862-3a0d505313bd" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.641">
+    <testcase name="Verificar se o Processo é Listado" time="0.641" classname="WsseiTests"/>
+    <testcase name="Verifica se a Data está agendada para daqui a 10 dias" time="0.641" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar-Retorno-Programado / Processo-Enviar Retorno Programado Dias Corridos Copy" id="f072a8a7-54b9-4135-acca-07081f2bad2f" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.772">
+    <testcase name="Processo com Dias uteis de Retorno Programado Enviado para Unidade TESTE_1_2" time="0.772" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar-Retorno-Programado / usu/alterar-Vai para TESTE_1_2 Copy" id="96e571b2-a45c-4adb-8c8c-7523c60c5ea4" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.545">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE_1_2" time="0.545" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Processo-Enviar-Retorno-Programado / proc/listar-Verifica Retorno Programado de 10 dias Copy" id="a92087c9-39aa-4305-ad16-65698971f1e8" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.651">
+    <testcase name="Verificar se o Processo é Listado" time="0.651" classname="WsseiTests"/>
+    <testcase name="Verifica se a Data está agendada para daqui a 10 dias úteis" time="0.651" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / usu/alterar-altera unidade para TESTE" id="fb3ccab7-a072-4bac-803c-ffc99dd09936" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.557">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE" time="0.557" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / proc/criar-Segundo Proc" id="713d9918-aafd-470f-b2ae-4e5abddf9ebe" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.694">
+    <testcase name="Existe ProtocoloFormatado na resposta" time="0.694" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / doc/criar-Criar Doc no Segundo Proc" id="c2bb639e-30bd-4f03-9a7f-46fab2b90664" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.088">
+    <testcase name="Existe protocoloDocumentoFormatado na resposta" time="1.088" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / doc/criar-Criar Segundo Doc no Segundo Proc" id="aa4810e5-ed5f-4e34-a1ac-59aed20081e5" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.086">
+    <testcase name="Existe protocoloDocumentoFormatado na resposta" time="1.086" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / proc/criar-Terceiro Proc" id="6599732e-3544-432e-a194-749464e23901" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.695">
+    <testcase name="Existe ProtocoloFormatado na resposta" time="0.695" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / doc/criar-Criar Doc no Terceiro Proc" id="4cc9ce6c-4a80-4bbd-a356-229d4a79393f" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.031">
+    <testcase name="Existe protocoloDocumentoFormatado na resposta" time="1.031" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/cad-Cadastrar Bloco 1" id="792c7796-78cd-4d65-b14d-335015d1c687" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.609">
+    <testcase name="Bloco 1 Criado com Sucesso" time="0.609" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/cad-Cadastrar Bloco 2" id="5d5e6283-e8f1-4717-b779-79f0a243887d" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.598">
+    <testcase name="Bloco 2 Criado com Sucesso" time="0.598" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/cad-Cadastrar Bloco 3" id="0e7078f4-848d-4d6a-a6d6-69ad1c15bccc" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.579">
+    <testcase name="Bloco 3 Criado com Sucesso" time="0.579" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/pesq - Tudo" id="8909728c-0336-41f3-9352-0aed64a3d541" timestamp="2019-09-04T16:13:50.256Z" tests="3" failures="0" errors="0" time="0.546">
+    <testcase name="Retornou Blocos" time="0.546" classname="WsseiTests"/>
+    <testcase name="Verifica se retornou o primeiro bloco" time="0.546" classname="WsseiTests"/>
+    <testcase name="Verifica se retornou o segundo bloco" time="0.546" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/pesq - Apenas 2 elementos" id="f92bb827-f5cb-4b71-9195-54e9dfd47b65" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.591">
+    <testcase name="Retornou Blocos" time="0.591" classname="WsseiTests"/>
+    <testcase name="Verifica se voltaram apenas 2 elementos" time="0.591" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/del-Excluir os 2 blocos" id="661770be-cf0a-432e-9274-88802c84d283" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.626">
+    <testcase name="Excluiu Blocos com Sucesso" time="0.626" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/cad-Cadastrar Bloco 1 Novamente em Uma Unidade" id="ed6d5eed-9c38-4f5d-94c9-2d79e286d9c2" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.565">
+    <testcase name="Bloco 1 Criado com Sucesso" time="0.565" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/cad-Cadastrar Bloco 2 Novamente" id="5b46eb27-b254-44f1-a383-4521ec2b6962" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.575">
+    <testcase name="Bloco Criado com Sucesso" time="0.575" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/del-Excluir bloco 2" id="c1ce969b-8ecf-4bee-944d-411b1d9f574f" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.552">
+    <testcase name="Excluiu Bloco 2 com Sucesso" time="0.552" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/pesq-Verifica se Bloco 2 Apagou" id="7dd500f6-df88-42d9-89f1-f11a6188ca4e" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.534">
+    <testcase name="Pesquisou com Sucesso" time="0.534" classname="WsseiTests"/>
+    <testcase name="Verifica que não retornou o bloco 2" time="0.534" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/pesq-Verifica se Bloco 1 ok" id="f418903f-bc8a-41db-8ae7-3d4ec30c0d6d" timestamp="2019-09-04T16:13:50.256Z" tests="2" failures="0" errors="0" time="0.585">
+    <testcase name="Pesquisou com Sucesso" time="0.585" classname="WsseiTests"/>
+    <testcase name="Verifica se retornou o bloco 1" time="0.585" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/alt-Alterar Bloco1" id="79757c76-daf9-499e-ba9e-9b3f5d2d34d8" timestamp="2019-09-04T16:13:50.256Z" tests="3" failures="0" errors="0" time="0.551">
+    <testcase name="Pesquisou com Sucesso" time="0.551" classname="WsseiTests"/>
+    <testcase name="Verifica se alterou o nome do bloco 1" time="0.551" classname="WsseiTests"/>
+    <testcase name="Verifica se alterou a unidade do bloco 1 para TESTE_1_2" time="0.551" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/doc/inc-Cadastrar Docs no Bloco 1" id="7f08f2b5-ddbc-4944-a582-195381a3053d" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.711">
+    <testcase name="Verificar se incluiu com sucesso!" time="0.711" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/doc/inc-Cadastrar Docs no Bloco 1 Novamente" id="672afd11-0406-4bee-bd37-6524e85852c3" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.684">
+    <testcase name="Verificar se resposta foi negativa" time="0.684" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/doc/rem-Retirar Docs no Bloco" id="18e3d252-d8ee-4e37-a139-7dfced2c7fe3" timestamp="2019-09-04T16:13:50.256Z" tests="0" failures="0" errors="0" time="0.610"/>
+  <testsuite name="Bloco de Assinatura / bloco/pesq-Verificar Docs no Bloco" id="97c46b2f-b019-4ae5-8fd2-a97b23552f42" timestamp="2019-09-04T16:13:50.256Z" tests="3" failures="0" errors="0" time="0.604">
+    <testcase name="Verificar se primeiro documento está listado no bloco" time="0.604" classname="WsseiTests"/>
+    <testcase name="Verificar se segundo documento não está listado no bloco" time="0.604" classname="WsseiTests"/>
+    <testcase name="Verificar se terceiro documento não está listado no bloco" time="0.604" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/doc/inc-Cadastrar Docs novamente" id="2e3c4f2f-00bd-4861-a729-c649a0ad925e" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.694">
+    <testcase name="Verificar se incluiu com sucesso!" time="0.694" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/anotacao/cad-Cadastrar Anotação no Bloco" id="be32d608-2753-4aec-baa3-e6a6968f3319" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.545">
+    <testcase name="Criou anotação com sucesso" time="0.545" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/pesq-Verificar Anotação Cadastrar" id="e34f090b-a550-4612-9541-6fe4b2ac7f11" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.635">
+    <testcase name="Verificar se anotação está listado no bloco" time="0.635" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/anotacao/alt-Alterar Anotação no Bloco" id="e62ba3ac-0094-4dad-9bab-2c9b462a7352" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.567">
+    <testcase name="Alterou anotação com sucesso" time="0.567" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/pesq-Verificar Anotação Cadastrar Copy" id="9a696a8e-4bb1-48db-8e1d-6125df2fb4b7" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.637">
+    <testcase name="Verificar se anotação está listado no bloco" time="0.637" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / usu/alterar-altera unidade para TESTE_1_2" id="0d4c7691-4350-426c-bb2f-7f908a8bfef9" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.582">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE_1_2" time="0.582" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/assinar/docs-Tenta Assinar um doc n disponib" id="6b94a6c3-1f9b-4cdc-9ae8-f06b57b59bce" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.761">
+    <testcase name="Verifica se não Conseguiu Assinar" time="0.761" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / usu/alterar-altera unidade para TESTE Copy" id="44435dd7-5997-43c9-b5f6-f7be7fe95497" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.561">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE" time="0.561" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/disp-Disponibilizar para assinatura" id="0909d5fb-962a-4afc-8a00-d9fcee90affc" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.638">
+    <testcase name="Verifica se Disponibilizou" time="0.638" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / usu/alterar-altera unidade para TESTE_1_2" id="ab8c02b9-5ff5-4364-bbba-a023f6928c5a" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.578">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE_1_2" time="0.578" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/assin/docs-Assina 1 documento do bloco" id="e3032efe-64b9-4703-a95b-46be3866e12c" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.999">
+    <testcase name="Verifica se Conseguiu Assinar" time="0.999" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / usu/alterar-altera unidade para TESTE" id="d7091311-41ca-4106-8cb3-1c6c9ef149bc" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.530">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE" time="0.530" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/cancelar-Cancela a disponibilizacao do Bloco" id="9d91fa35-183e-46cd-b18a-356a92e97fd4" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.639">
+    <testcase name="Verifica se cancelou a disponibilização" time="0.639" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/doc/rem-Retirar Docs no Bloco Copy" id="c62fdd58-e1eb-4f12-a911-9f3b90374d56" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.643">
+    <testcase name="Retirou doc assinado com sucesso" time="0.643" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / usu/alterar-altera unidade para TESTE_1_2" id="24510786-fe73-449f-a6fc-10f27b49a2c9" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.567">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE_1_2" time="0.567" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/assinar-Tenta assinar bloco inteiro n disp" id="16717491-6772-47fa-9414-d9414557dc39" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.720">
+    <testcase name="Verifica se não conseguiu assinar" time="0.720" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / usu/alterar-altera unidade para TESTE" id="3c01e609-a357-4ca3-a911-7a2cb9be4f91" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.580">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE" time="0.580" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/concluir-Conclui um Bloco" id="7bb0f77d-1094-4585-8fdd-04609efd2575" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.604">
+    <testcase name="Verifica se concluiu" time="0.604" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / usu/alterar-altera unidade para TESTE_1_2" id="33e01c5d-9e39-42f1-9072-da462a55f6ee" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.591">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE_1_2" time="0.591" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/assinar-Tenta assinar bloco concluido" id="7d974538-e2ba-4eba-afad-683452f58ae7" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.748">
+    <testcase name="Verifica se não conseguiu assinar" time="0.748" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / usu/alterar-altera unidade para TESTE" id="f8a3dffe-3968-450d-8dd9-fcc076ee6f51" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.545">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE" time="0.545" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/reabrir-Reabre bloco concluido" id="2f33efb5-d82e-4ed1-b619-c13f747b32d5" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.623">
+    <testcase name="Verifica se Reabriu" time="0.623" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/disp-Disponibiliza bloco novamente" id="43730054-ca37-4605-9065-81e123952b38" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.650">
+    <testcase name="Verifica se Disponibilizou" time="0.650" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / usu/alterar-altera unidade para TESTE_1_2" id="88f60862-c71b-4519-9ccc-e7809218260b" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.577">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE_1_2" time="0.577" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/ret-Retorna o Bloco para o emissor" id="7754dc70-6dd1-4f9c-8b13-461e3274aa96" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.605">
+    <testcase name="Verifica se conseguiu Retornar" time="0.605" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / usu/alterar-altera unidade para TESTE" id="55f3b305-4d72-42f8-b40d-08fa42df48f6" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.554">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE" time="0.554" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/disp-Disponibiliza novamente o bloco retornado" id="a6aec66e-0233-4095-ae94-f07d928fc45a" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.635">
+    <testcase name="Verifica se Disponibilizou" time="0.635" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / usu/alterar-altera unidade para TESTE_1_2" id="a7407de2-0b67-4b58-b3ac-e71d5a17e433" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="0.552">
+    <testcase name="Usuário trocou de Unidade e foi para TESTE_1_2" time="0.552" classname="WsseiTests"/>
+  </testsuite>
+  <testsuite name="Bloco de Assinatura / bloco/assinar-Assina bloco inteiro com 2 docs" id="c22063be-78c7-4128-9f0b-e9eac75a2778" timestamp="2019-09-04T16:13:50.256Z" tests="1" failures="0" errors="0" time="1.257">
+    <testcase name="Verifica se conseguiu assinar" time="1.257" classname="WsseiTests"/>
+  </testsuite>
+</testsuites>
