@@ -1317,6 +1317,31 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
             $processoGeradoRecebido = $protocoloDTO->getNumIdUnidadeGeradora() == SessaoSEI::getInstance()->getNumIdUnidadeAtual() ? 'G' : 'R';
 
+            $arrDadosMarcador = array();
+
+            $andamentoMarcadorRN = new AndamentoMarcadorRN();
+            $andamentoMarcadorDTO = new AndamentoMarcadorDTO();
+            $andamentoMarcadorDTO->setDblIdProcedimento($protocoloDTO->getDblIdProtocolo());
+            $andamentoMarcadorDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $andamentoMarcadorDTO->setStrSinUltimo('S');
+            $andamentoMarcadorDTO->retNumIdMarcador();
+            $andamentoMarcadorDTO->retStrStaIconeMarcador();
+            $andamentoMarcadorDTO->retStrTexto();
+            /** Consulta o componente SEI para retorno do marcador do Processo **/
+            $andamentoMarcadorDTO = $andamentoMarcadorRN->consultar($andamentoMarcadorDTO);
+            $marcadorRN = new MarcadorRN();
+            /** Chama o componente SEI para retornar as cores disponíveis para o Marcador */
+            $arrIconeMarcadorDTO = $marcadorRN->listarValoresIcone();
+            if($andamentoMarcadorDTO && $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]){
+                $arrDadosMarcador = array(
+                    'idMarcador' => $andamentoMarcadorDTO->getNumIdMarcador(),
+                    'texto' => $andamentoMarcadorDTO->getStrTexto(),
+                    'idCor' => $andamentoMarcadorDTO->getStrStaIconeMarcador(),
+                    'descricaoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrDescricao(),
+                    'arquivoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrArquivo()
+                );
+            }
+
             $result[] = array(
                 'id' => $protocoloDTO->getDblIdProtocolo(),
                 'status' => $protocoloDTO->getStrStaProtocolo(),
@@ -1332,6 +1357,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         'idUnidade' => $protocoloDTO->getNumIdUnidadeGeradora(),
                         'sigla' => $protocoloDTO->getStrSiglaUnidadeGeradora()
                     ),
+                    'marcador' => $arrDadosMarcador,
                     'dadosAbertura' => $arrDadosAbertura,
                     'anotacoes' => $resultAnotacao,
                     'status' => array(
