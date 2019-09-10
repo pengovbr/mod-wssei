@@ -2063,29 +2063,61 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $numRegistros = sizeof($registros);
             
             $result = array();
+            $protocoloRN = new ProtocoloRN();
+            $procedimentoRN = new ProcedimentoRN();
+            $usuarioRN = new UsuarioRN();
             for ($i = 0; $i < $numRegistros; $i++) {
-                $arrIdProcessos[] = SolrUtil::obterTag($registros[$i], 'id_proc', 'long');
-            }
+                $procedimentoDTO = new ProcedimentoDTO();
+                $procedimentoDTO->setDblIdProcedimento(SolrUtil::obterTag($registros[$i], 'id_proc', 'long'));
+                $procedimentoDTO->retDblIdProcedimento();
+                $procedimentoDTO->retNumIdTipoProcedimento();
+                $procedimentoDTO->retStrNomeTipoProcedimento();
+                $procedimentoDTO->retStrSiglaUnidadeGeradoraProtocolo();
+                $procedimentoDTO->retNumIdUnidadeGeradoraProtocolo();
+                $procedimentoDTO->retStrProtocoloProcedimentoFormatado();
+                $procedimentoDTO->retNumIdUsuarioGeradorProtocolo();
+                $procedimentoDTO->retDtaGeracaoProtocolo();
 
-            if($arrIdProcessos){
-                $protocoloRN = new ProtocoloRN();
-                $protocoloDTO = new MdWsSeiProtocoloDTO();
+                /** Consulta o componente SEI para retornar os dados do Processo */
+                $procedimentoDTO = $procedimentoRN->consultarRN0201($procedimentoDTO);
+                $usuarioDTO = new UsuarioDTO();
+                $usuarioDTO->setNumIdUsuario($procedimentoDTO->getNumIdUsuarioGeradorProtocolo());
+                $usuarioDTO->retStrSigla();
+                $usuarioDTO->retStrNome();
+                /** Consulta o componente SEI para consulta do Usuário Gerador do Processo */
+                $usuarioDTO = $usuarioRN->consultarRN0489($usuarioDTO);
 
-                $protocoloDTO->setDblIdProtocolo($arrIdProcessos, InfraDTO::$OPER_IN);
-                $protocoloDTO->retDblIdProtocolo();
-                $protocoloDTO->retNumIdUnidadeGeradora();
-                $protocoloDTO->retStrStaProtocolo();
-                $protocoloDTO->retStrProtocoloFormatado();
-                $protocoloDTO->retStrNomeTipoProcedimentoProcedimento();
-                $protocoloDTO->retStrDescricao();
-                $protocoloDTO->retStrSiglaUnidadeGeradora();
-                $protocoloDTO->retStrStaGrauSigilo();
-                $protocoloDTO->retStrStaNivelAcessoLocal();
-                $protocoloDTO->retStrStaNivelAcessoGlobal();
-                $protocoloDTO->retStrSinCienciaProcedimento();
-                $protocoloDTO->retStrStaEstado();
-                $arrProtocoloDTO = $protocoloRN->listarRN0668($protocoloDTO);
-                $result = $this->montaRetornoListagemProcessos($arrProtocoloDTO, null);
+                $arrDadosProcedimento = array(
+                    'idProcedimento' => $procedimentoDTO->getDblIdProcedimento(),
+                    'idTipoProcedimento' => $procedimentoDTO->getNumIdTipoProcedimento(),
+                    'nomeTipoProcedimento' => $procedimentoDTO->getStrNomeTipoProcedimento(),
+                    'siglaUnidadeGeradora' => $procedimentoDTO->getStrSiglaUnidadeGeradoraProtocolo(),
+                    'idUnidadeGeradora' => $procedimentoDTO->getNumIdUnidadeGeradoraProtocolo(),
+                    'protocoloFormatadoProcedimento' => $procedimentoDTO->getStrProtocoloProcedimentoFormatado(),
+                    'idUsuarioGerador' => $procedimentoDTO->getNumIdUsuarioGeradorProtocolo(),
+                    'nomeUsuarioGerador' => $usuarioDTO->getStrNome(),
+                    'siglaUsuarioGerador' => $usuarioDTO->getStrSigla(),
+                    'dataGeracao' => $procedimentoDTO->getDtaGeracaoProtocolo(),
+                    'documento' => array()
+                );
+
+                if(SolrUtil::obterTag($registros[$i], 'id_doc', 'long')){
+                    $protocoloDTO = new ProtocoloDTO();
+                    $protocoloDTO->setDblIdProtocolo(SolrUtil::obterTag($registros[$i], 'id_doc', 'long'));
+                    $protocoloDTO->retDblIdProtocolo();
+                    $protocoloDTO->retStrProtocoloFormatado();
+                    $protocoloDTO->retNumIdSerieDocumento();
+                    $protocoloDTO->retStrNomeSerieDocumento();
+                    $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
+                    $arrDadosProcedimento['documento'] = array(
+                        'idDocumento' => $protocoloDTO->getDblIdProtocolo(),
+                        'idSerieDocumento' => $protocoloDTO->getNumIdSerieDocumento(),
+                        'nomeSerieDocumento' => $protocoloDTO->getStrNomeSerieDocumento(),
+                        'protocoloFormatadoDocumento' => $protocoloDTO->getStrProtocoloFormatado(),
+                    );
+                }
+
+                $result[] = $arrDadosProcedimento;
             }
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $total);
