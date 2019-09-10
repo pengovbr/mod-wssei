@@ -26,6 +26,10 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 throw new Exception('Documento não informado.');
             }
 
+            if(!$this->verificarAcessoProtocolo($documentoDTOParam->getDblIdDocumento())){
+                throw new InfraException("Acesso ao documento " . $documentoDTOParam->getDblIdDocumento() . " não autorizado.");
+            }           
+
             $documentoDTOParam->retDblIdDocumento();
             $documentoDTOParam->retStrNomeSerie();
             $documentoDTOParam->retStrNumero();
@@ -797,6 +801,11 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             if (!$protocoloDTOParam->isSetDblIdProtocolo() || !$protocoloDTOParam->getDblIdProtocolo()) {
                 throw new InfraException('O protocolo deve ser informado!');
             }
+
+            if(!$this->verificarAcessoProtocolo($protocoloDTOParam->getDblIdProtocolo()))
+                throw new InfraException("Acesso ao documento " . $protocoloDTOParam->getDblIdProtocolo() . " não autorizado.");
+            }
+
             $documentoDTOConsulta = new DocumentoDTO();
             $documentoDTOConsulta->setDblIdProtocoloProtocolo($protocoloDTOParam->getDblIdProtocolo());
             $documentoDTOConsulta->retDblIdDocumento();
@@ -1817,4 +1826,18 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         }
     }
 
+    /**
+     * Método para verificação de permissões de acesso ao documento pelo usuário ativo
+     */
+    private function verificarAcessoProtocolo($paramDblIdProtocolo)
+    {
+        $objPesquisaProtocoloDTO = new PesquisaProtocoloDTO();
+        $objPesquisaProtocoloDTO->setStrStaTipo(ProtocoloRN::$TPP_DOCUMENTOS);
+        $objPesquisaProtocoloDTO->setStrStaAcesso(ProtocoloRN::$TAP_AUTORIZADO);
+        $objPesquisaProtocoloDTO->setDblIdProtocolo($paramDblIdProtocolo);
+
+        $objProtocoloRN = new ProtocoloRN();
+        $arrObjProtocoloDTO = $objProtocoloRN->pesquisarRN0967($objPesquisaProtocoloDTO);
+        return isset($arrObjProtocoloDTO) && count($arrObjProtocoloDTO);
+    }
 }
