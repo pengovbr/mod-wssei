@@ -1208,8 +1208,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
     public function consultarDocumentoExterno($numIdDocumento)
     {
         try {
-            $result = array();
 
+            if(!$this->verificarAcessoProtocolo($numIdDocumento)){
+                throw new InfraException("Acesso ao documento " . $numIdDocumento . " não autorizado.");
+            }
+
+            $result = array();
             $objDocumentoDTO = new DocumentoDTO();
             $objDocumentoDTO->retDblIdProtocoloProcedimento();
             $objDocumentoDTO->retDblIdProcedimento();
@@ -1704,8 +1708,11 @@ class MdWsSeiDocumentoRN extends DocumentoRN
     public function consultarDocumentoInterno($numIdDocumento)
     {
         try {
-            $result = array();
+            if(!$this->verificarAcessoProtocolo($numIdDocumento)){
+                throw new InfraException("Acesso ao documento " . $numIdDocumento . " não autorizado.");
+            }
 
+            $result = array();
             $objDocumentoDTO = new DocumentoDTO();
             $objDocumentoDTO->retDblIdProtocoloProcedimento();
             $objDocumentoDTO->retDblIdProcedimento();
