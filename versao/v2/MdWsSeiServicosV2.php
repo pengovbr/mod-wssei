@@ -546,6 +546,13 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     $dto->setDblIdDocumento($request->getAttribute('route')->getArgument('documento'));
                     return $response->withJSON($rn->listarAssinaturasDocumento($dto));
                 });
+                $this->get('/{documento:[0-9]+}/bloco/assinatura/listar', function ($request, $response, $args) {
+                    /** @var $request Slim\Http\Request */
+                    $rn = new MdWsSeiDocumentoRN();
+                    $dto = new DocumentoDTO();
+                    $dto->setDblIdDocumento($request->getAttribute('route')->getArgument('documento'));
+                    return $response->withJSON($rn->listarBlocosAssinatura($dto));
+                });
                 $this->post('/assinar/bloco', function ($request, $response, $args) {
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiDocumentoRN();

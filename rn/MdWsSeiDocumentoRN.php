@@ -1817,4 +1817,57 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         }
     }
 
+    /**
+     * Método que retorna a lista de blocos de assinatura em que o documento se encontra
+     * @param DocumentoDTO $documentoDTO
+     * @return array
+     */
+    protected function listarBlocosAssinaturaConectado(DocumentoDTO $documentoDTO) {
+        try{
+            if(!$documentoDTO->isSetDblIdDocumento() || !$documentoDTO->getDblIdDocumento()){
+                throw new InfraException('Documento não encontrado.');
+            }
+
+            $protocoloRN = new ProtocoloRN();
+            $protocoloDTO = new ProtocoloDTO();
+            $protocoloDTO->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
+            $protocoloDTO->setStrStaProtocolo(ProtocoloRN::$TP_PROCEDIMENTO, InfraDTO::$OPER_DIFERENTE);
+            $protocoloDTO->retDblIdProtocolo();
+            $protocoloDTO->retNumIdSerieDocumento();
+            $protocoloDTO->retStrNomeSerieDocumento();
+            $protocoloDTO->retStrProtocoloFormatado();
+            $protocoloDTO->retDtaGeracao();
+
+            /** Chamando o componente SEI para consulta de dados do Documento */
+            $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
+
+            if(!$protocoloDTO){
+                throw new InfraException('Documento não encontrado.');
+            }
+
+            $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
+            $relBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
+            $relBlocoProtocoloDTO->retDblIdProtocolo();
+            $relBlocoProtocoloDTO->retNumIdBloco();
+            $relBlocoProtocoloDTO->setNumIdUnidadeBloco(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $relBlocoProtocoloDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+            /** Chamando o componente SEI para retorno dos blocos do documento */
+            $arrIdBlocos = array_keys(InfraArray::indexarArrInfraDTO($relBlocoProtocoloRN->listarRN1291($relBlocoProtocoloDTO), 'IdBloco'));
+
+            $result = array(
+                'idDocumento' => $protocoloDTO->getDblIdProtocolo(),
+                'protocoloFormatado' => $protocoloDTO->getStrProtocoloFormatado(),
+                'dataGeracao' => $protocoloDTO->getDtaGeracao(),
+                'idSerie' => $protocoloDTO->getNumIdSerieDocumento(),
+                'nomeSerie' => $protocoloDTO->getStrNomeSerieDocumento(),
+                'blocos' => $arrIdBlocos
+            );
+
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
 }
