@@ -24,9 +24,16 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
          */
         $this->slimApp->group('/api/v1',function(){
 
-            $this->get('/versao', function($request, $response, $args){
-                return $response->withJSON(MdWsSeiRest::formataRetornoSucessoREST(null, ['versao' => SEI_VERSAO]));
-            });
+            $this->get('/versao', function ($request, $response, $args) {
+                return $response->withJSON(MdWsSeiRest::formataRetornoSucessoREST(
+                    null,
+                    [
+                        'sei' => SEI_VERSAO,
+                        'wssei' => MdWsSeiRest::getVersao()
+                    ]
+                )
+                );
+            })->add(new TokenValidationMiddleware());
             /**
              * Grupo de autenticacao <publico>
              */
