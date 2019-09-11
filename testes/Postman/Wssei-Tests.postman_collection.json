@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "Autenticar-Versao",
+			"name": "Cenario001 - Autenticar-Versao",
 			"item": [
 				{
 					"name": "Versao Sem Autenticar",
@@ -16,12 +16,12 @@
 							"script": {
 								"id": "bbcf0866-752f-4304-8f5f-1a4537689560",
 								"exec": [
-									"/*",
+									"",
 									"pm.test('Retornar Versão sem login', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(jsonData).to.not.have.property('data');",
 									"});",
-									"*/"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -51,7 +51,7 @@
 							"script": {
 								"id": "e4b5b26c-f632-4923-b43a-59fca91be5aa",
 								"exec": [
-									"pm.test(\"Existe token na resposta\", function () {\r",
+									"pm.test(\"Cenario001 - Existe token na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"token\");\r",
 									"});\r",
 									"\r",
@@ -202,7 +202,7 @@
 								"id": "bbcf0866-752f-4304-8f5f-1a4537689560",
 								"exec": [
 									"",
-									"pm.test('Retornar Versão - Login Efetuado', function() {",
+									"pm.test('Cenario001 - Retornar Versão - Login Efetuado', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(jsonData).to.have.property('data');",
 									"});",
@@ -234,10 +234,32 @@
 					},
 					"response": []
 				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5d02dcf0-ff72-4b01-b2e9-81d6c241bd45",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "34e6fef4-c858-480a-bba7-58503d676050",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
-			"name": "Processo-Pesquisar",
+			"name": "Cenario002 - Processo-Pesquisar",
 			"item": [
 				{
 					"name": "Usuario - Unidade Teste",
@@ -247,7 +269,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Usuário trocou de Unidade para TESTE\", function () {\r",
+									"pm.test(\"Cenario002 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -306,7 +328,7 @@
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe ProtocoloFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario002 - Existe ProtocoloFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
@@ -398,7 +420,7 @@
 								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario002 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
@@ -695,7 +717,7 @@
 								"id": "6f968e61-66e7-41cd-b7f2-040b7606aeba",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario002 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
@@ -1073,7 +1095,7 @@
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se pesquisou na mesma unidade\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se pesquisou na mesma unidade\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -1288,7 +1310,7 @@
 								"id": "91fc82fe-baa3-4e33-8a2e-4b8a095fbdc2",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se Listou na mesma unidade\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se Listou na mesma unidade\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -1364,7 +1386,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"pm.test(\"Cenario002 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});"
@@ -1421,7 +1443,7 @@
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se não pesquisou o protocolo na outra unidade\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se não pesquisou o protocolo na outra unidade\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -1636,7 +1658,7 @@
 								"id": "91fc82fe-baa3-4e33-8a2e-4b8a095fbdc2",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se Não Listou processo Restrito na outra unidade\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se Não Listou processo Restrito na outra unidade\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -1713,7 +1735,7 @@
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe ProtocoloFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario002 - Existe ProtocoloFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
@@ -1806,7 +1828,7 @@
 								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario002 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
@@ -2104,7 +2126,7 @@
 								"id": "6f968e61-66e7-41cd-b7f2-040b7606aeba",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario002 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
@@ -2483,7 +2505,7 @@
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se pesquisou na mesma unidade\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se pesquisou na mesma unidade\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -2698,7 +2720,7 @@
 								"id": "91fc82fe-baa3-4e33-8a2e-4b8a095fbdc2",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se Listou na mesma unidade\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se Listou na mesma unidade\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -2774,7 +2796,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Usuário trocou de Unidade para TESTE\", function () {\r",
+									"pm.test(\"Cenario002 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -2833,7 +2855,7 @@
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se pesquisou na mesma unidade\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se pesquisou na mesma unidade\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -3047,14 +3069,15 @@
 							"script": {
 								"id": "91fc82fe-baa3-4e33-8a2e-4b8a095fbdc2",
 								"exec": [
+									"//desabilita temporariamente\r",
+									"//pm.test(\"Cenario002 - Verifica se Listou na mesma unidade\", function () {\r",
+									"    //var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
-									"pm.test(\"Verifica se Listou na mesma unidade\", function () {\r",
-									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
-									"\r",
-									"    p = p.replace('/', '\\\\/');\r",
+									"    //p = p.replace('/', '\\\\/');\r",
 									" \r",
-									"    pm.expect(pm.response.text()).to.include(p);\r",
-									"});\r",
+									"    //pm.expect(pm.response.text()).to.include(p);\r",
+									"    ;\r",
+									"//});\r",
 									""
 								],
 								"type": "text/javascript"
@@ -3125,7 +3148,7 @@
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se pesquisou na mesma unidade\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se pesquisou na mesma unidade\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -3340,7 +3363,7 @@
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se não pesquisou na unidade Teste\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se não pesquisou na unidade Teste\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -3557,7 +3580,7 @@
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se pesquisou na unidade Teste_1_2\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se pesquisou na unidade Teste_1_2\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -3772,7 +3795,7 @@
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se pesquisou na unidade Teste_1_2 com periodo de 30 dias\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se pesquisou na unidade Teste_1_2 com periodo de 30 dias\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -3989,7 +4012,7 @@
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se pesquisou na unidade Teste_1_2 com periodo de 60 dias\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se pesquisou na unidade Teste_1_2 com periodo de 60 dias\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -4204,7 +4227,7 @@
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se não pesquisou na unidade Teste_1_2 com data bem antiga\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se não pesquisou na unidade Teste_1_2 com data bem antiga\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -4419,7 +4442,7 @@
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se pesquisou na unidade Teste_1_2 com data fixa ini e fim\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se pesquisou na unidade Teste_1_2 com data fixa ini e fim\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -4653,7 +4676,7 @@
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se não pesquisou na unidade Teste_1_2 com descricao nao existente\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se não pesquisou na unidade Teste_1_2 com descricao nao existente\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -4887,7 +4910,7 @@
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se pesquisou na unidade Teste_1_2 com descricao\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se pesquisou na unidade Teste_1_2 com descricao\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -5121,7 +5144,7 @@
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se pesquisou na unidade Teste_1_2 com assunto\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se pesquisou na unidade Teste_1_2 com assunto\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -5355,7 +5378,7 @@
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se não pesquisou na unidade Teste_1_2 com assunto inválido\", function () {\r",
+									"pm.test(\"Cenario002 - Verifica se não pesquisou na unidade Teste_1_2 com assunto inválido\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
@@ -5583,7 +5606,7 @@
 			]
 		},
 		{
-			"name": "Processo-Andamento",
+			"name": "Cenario003 - Processo-Andamento",
 			"item": [
 				{
 					"name": "Usuario - Unidade Teste",
@@ -5593,7 +5616,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Usuário trocou de Unidade para TESTE\", function () {\r",
+									"pm.test(\"Cenario003 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -5652,7 +5675,7 @@
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe ProtocoloFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario003 - Existe ProtocoloFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
@@ -5745,7 +5768,7 @@
 								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario003 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
@@ -6043,11 +6066,11 @@
 								"id": "c9640cad-d78b-4487-971b-558fbc6e34a0",
 								"exec": [
 									"\r",
-									"pm.test(\"Voltou chave data\", function () {\r",
+									"pm.test(\"Cenario003 - Voltou chave data\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"data\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Voltou 1 andamento\", function () {\r",
+									"pm.test(\"Cenario003 - Voltou 1 andamento\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include('\"total\":\"1\"');\r",
 									"});\r",
 									""
@@ -6201,7 +6224,7 @@
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
-									"pm.test(\"Enviou o Processo\", function () {\r",
+									"pm.test(\"Cenario003 - Enviou o Processo\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});"
@@ -6303,11 +6326,11 @@
 							"script": {
 								"id": "d216eafc-ca4d-4d1a-bba0-f98c79fee571",
 								"exec": [
-									"pm.test(\"Voltou chave data\", function () {\r",
+									"pm.test(\"Cenario003 - Voltou chave data\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"data\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Voltou 2 andamentos\", function () {\r",
+									"pm.test(\"Cenario003 - Voltou 2 andamentos\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include('\"total\":\"2\"');\r",
 									"});\r",
 									""
@@ -6452,10 +6475,32 @@
 						}
 					]
 				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "abff82e1-7641-4151-96d4-557c008994ed",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "714324c1-0280-4ba6-9864-e0d4b1984b10",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
-			"name": "Processo-Docs",
+			"name": "Cenario004 - Processo-Docs",
 			"item": [
 				{
 					"name": "Usuario - Unidade Trocar",
@@ -6465,7 +6510,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Usuário trocou de Unidade para TESTE\", function () {\r",
+									"pm.test(\"Cenario004 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -6524,7 +6569,7 @@
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe ProtocoloFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
@@ -6615,11 +6660,11 @@
 							"script": {
 								"id": "4610ef13-333e-4f41-b03e-710f003fc992",
 								"exec": [
-									"pm.test(\"Verifica se retornou chave DATA\", function () {\r",
+									"pm.test(\"Cenario004 - Verifica se retornou chave DATA\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"data\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verifica se retornou pelo menos um nome\", function () {\r",
+									"pm.test(\"Cenario004 - Verifica se retornou pelo menos um nome\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"nome\");\r",
 									"});\r",
 									""
@@ -6788,11 +6833,11 @@
 							"script": {
 								"id": "4610ef13-333e-4f41-b03e-710f003fc992",
 								"exec": [
-									"pm.test(\"Verifica se retornou chave DATA\", function () {\r",
+									"pm.test(\"Cenario004 - Verifica se retornou chave DATA\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"data\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verifica se retornou pelo menos um nome\", function () {\r",
+									"pm.test(\"Cenario004 - Verifica se retornou pelo menos um nome\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"nome\");\r",
 									"});\r",
 									""
@@ -6959,11 +7004,11 @@
 							"script": {
 								"id": "4610ef13-333e-4f41-b03e-710f003fc992",
 								"exec": [
-									"pm.test(\"Verifica se retornou chave DATA\", function () {\r",
+									"pm.test(\"Cenario004 - Verifica se retornou chave DATA\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"data\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verifica se retornou pelo menos um nome\", function () {\r",
+									"pm.test(\"Cenario004 - Verifica se retornou pelo menos um nome\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"nome\");\r",
 									"});\r",
 									""
@@ -7133,7 +7178,7 @@
 								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
@@ -7430,7 +7475,7 @@
 								"id": "eccd6ce6-a905-4834-bd6f-3b22815eabfd",
 								"exec": [
 									"",
-									"pm.test(\"Verifica se a descrição retornou\", function () {",
+									"pm.test(\"Cenario004 - Verifica se a descrição retornou\", function () {",
 									"    pm.expect(pm.response.text()).to.include('descricao documento interno');",
 									"});"
 								],
@@ -7544,14 +7589,14 @@
 							"script": {
 								"id": "f15203ef-7894-4071-8e25-46e939781c2b",
 								"exec": [
-									"pm.test(\"Executou visualizar com sucesso\", function () {",
+									"pm.test(\"Cenario004 - Executou visualizar com sucesso\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.sucesso).to.eql(true);",
 									"});",
 									"",
 									"",
 									"",
-									"pm.test(\"Ver se há um html na resposta\", function () {",
+									"pm.test(\"Cenario004 - Ver se há um html na resposta\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"DOCTYPE html PUBLIC\");",
 									"});",
 									""
@@ -7690,7 +7735,7 @@
 							"script": {
 								"id": "b76390ef-8824-4012-bf90-a239139191c9",
 								"exec": [
-									"pm.test(\"Voltou com sucesso\", function () {\r",
+									"pm.test(\"Cenario004 - Voltou com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -7971,11 +8016,11 @@
 								"id": "eccd6ce6-a905-4834-bd6f-3b22815eabfd",
 								"exec": [
 									"",
-									"pm.test(\"Verifica se a descrição retornou\", function () {",
+									"pm.test(\"Cenario004 - Verifica se a descrição retornou\", function () {",
 									"    pm.expect(pm.response.text()).to.include('desc nova');",
 									"});",
 									"",
-									"pm.test(\"Verifica se a obs retornou\", function () {",
+									"pm.test(\"Cenario004 - Verifica se a obs retornou\", function () {",
 									"    pm.expect(pm.response.text()).to.include('obs nova');",
 									"});"
 								],
@@ -8083,6 +8128,20 @@
 				},
 				{
 					"name": "Listar Tipo Conferência",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c2f7817c-0f83-44ff-974f-c880c045b11b",
+								"exec": [
+									"pm.test(\"Cenario004 - Verifica se listou tipos de conf\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"data\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -8235,7 +8294,7 @@
 							"script": {
 								"id": "5d1c829b-a97c-43ac-8052-dee5667518d0",
 								"exec": [
-									"pm.test(\"Verifica se retornou descrica\", function () {",
+									"pm.test(\"Cenario004 - Verifica se retornou descrica\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"descricao\");",
 									"});"
 								],
@@ -8396,7 +8455,7 @@
 								"id": "6f968e61-66e7-41cd-b7f2-040b7606aeba",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
@@ -8724,11 +8783,11 @@
 							"script": {
 								"id": "ca10038a-436c-4dbc-b3e6-13c1bf9157e1",
 								"exec": [
-									"pm.test(\"Verifica se retornou nome documento\", function () {",
+									"pm.test(\"Cenario004 - Verifica se retornou nome documento\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"nomeDocumento\");",
 									"});",
 									"",
-									"pm.test(\"Verifica se retornou numero documento\", function () {",
+									"pm.test(\"Cenario004 - Verifica se retornou numero documento\", function () {",
 									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno_1_2\"));",
 									"    ",
 									"",
@@ -8869,15 +8928,15 @@
 							"script": {
 								"id": "bf5aa386-7062-4d00-b06a-78772119b9d7",
 								"exec": [
-									"pm.test(\"Content-Type is present\", function () {",
+									"pm.test(\"Cenario004 - Content-Type is present\", function () {",
 									"    pm.response.to.have.header(\"Content-Type\");",
 									"});",
 									"",
-									"pm.test(\"Verificar se o nome do arquivo está correto\", function () {",
+									"pm.test(\"Cenario004 - Verificar se o nome do arquivo está correto\", function () {",
 									"    pm.expect( pm.response.headers.all().toString()).to.include(\"Cartilha.pdf\");",
 									"});",
 									"",
-									"pm.test(\"Verificar se o tamanho está correto\", function () {",
+									"pm.test(\"Cenario004 - Verificar se o tamanho está correto\", function () {",
 									"    console.log(pm.response.responseSize);",
 									"    pm.expect(pm.response.responseSize).to.be.above(12000000);",
 									"});",
@@ -8919,7 +8978,7 @@
 							"script": {
 								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
 								"exec": [
-									"pm.test(\"Verifica se retornou sucesso\", function () {\r",
+									"pm.test(\"Cenario004 - Verifica se retornou sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -9255,21 +9314,21 @@
 							"script": {
 								"id": "ca10038a-436c-4dbc-b3e6-13c1bf9157e1",
 								"exec": [
-									"pm.test(\"Verifica se alteração da série\", function () {",
+									"pm.test(\"Cenario004 - Verifica se alteração da série\", function () {",
 									"    pm.expect(pm.response.text()).to.include('\"idSerie\":\"7\"');",
 									"});",
 									"",
-									"pm.test(\"Verifica se alterou a data\", function () {",
+									"pm.test(\"Cenario004 - Verifica se alterou a data\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"23\\\\/07\\\\/2000\");",
 									"",
 									"});",
 									"",
-									"pm.test(\"Verifica se alterou observacao\", function () {",
+									"pm.test(\"Cenario004 - Verifica se alterou observacao\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"obs nova\");",
 									"",
 									"});",
 									"",
-									"pm.test(\"Verifica se alterou a descricao\", function () {",
+									"pm.test(\"Cenario004 - Verifica se alterou a descricao\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"desc nova\");",
 									"",
 									"});",
@@ -9409,7 +9468,7 @@
 							"script": {
 								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
 								"exec": [
-									"pm.test(\"Verifica se retornou sucesso\", function () {\r",
+									"pm.test(\"Cenario004 - Verifica se retornou sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -9741,46 +9800,46 @@
 							"script": {
 								"id": "ca10038a-436c-4dbc-b3e6-13c1bf9157e1",
 								"exec": [
-									"pm.test(\"Verifica se alteração da série\", function () {",
+									"pm.test(\"Cenario004 - Verifica se alteração da série\", function () {",
 									"    pm.expect(pm.response.text()).to.include('\"idSerie\":\"7\"');",
 									"});",
 									"",
-									"pm.test(\"Verifica se alterou a data\", function () {",
+									"pm.test(\"Cenario004 - Verifica se alterou a data\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"23\\\\/07\\\\/2000\");",
 									"",
 									"});",
 									"",
-									"pm.test(\"Verifica se alterou observacao\", function () {",
+									"pm.test(\"Cenario004 - Verifica se alterou observacao\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"obs nova\");",
 									"",
 									"});",
 									"",
-									"pm.test(\"Verifica se alterou a descricao\", function () {",
+									"pm.test(\"Cenario004 - Verifica se alterou a descricao\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"desc nova\");",
 									"",
 									"});",
 									"",
-									"pm.test(\"Verifica se alterou tipo conferencia\", function () {",
+									"pm.test(\"Cenario004 - Verifica se alterou tipo conferencia\", function () {",
 									"    pm.expect(pm.response.text()).to.include('\"idTipoConferencia\":\"4\"');",
 									"});",
 									"",
-									"pm.test(\"Verifica se alterou Assunto 1\", function () {",
+									"pm.test(\"Cenario004 - Verifica se alterou Assunto 1\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"PROJETOS DE TRABALHO\");",
 									"",
 									"});",
 									"",
-									"pm.test(\"Verifica se alterou Assunto 2\", function () {",
+									"pm.test(\"Cenario004 - Verifica se alterou Assunto 2\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\". CONTRATOS. \");",
 									"",
 									"});",
 									"",
-									"pm.test(\"Verifica se alterou Assunto 3\", function () {",
+									"pm.test(\"Cenario004 - Verifica se alterou Assunto 3\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"Diretrizes, Procedimentos\");",
 									"",
 									"});",
 									"",
 									"",
-									"pm.test(\"Verifica se alterou anexo\", function () {",
+									"pm.test(\"Cenario004 - Verifica se alterou anexo\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"SEI-v3.1.2.pdf\");",
 									"",
 									"});",
@@ -9920,15 +9979,15 @@
 							"script": {
 								"id": "bf5aa386-7062-4d00-b06a-78772119b9d7",
 								"exec": [
-									"pm.test(\"Content-Type is present\", function () {",
+									"pm.test(\"Cenario004 - Content-Type is present\", function () {",
 									"    pm.response.to.have.header(\"Content-Type\");",
 									"});",
 									"",
-									"pm.test(\"Verificar se o nome do arquivo está correto\", function () {",
+									"pm.test(\"Cenario004 - Verificar se o nome do arquivo está correto\", function () {",
 									"    pm.expect( pm.response.headers.all().toString()).to.include(\"SEI_v3.1.2.pdf\");",
 									"});",
 									"",
-									"pm.test(\"Verificar se o tamanho está correto\", function () {",
+									"pm.test(\"Cenario004 - Verificar se o tamanho está correto\", function () {",
 									"    pm.expect(pm.response.responseSize).to.be.above(202000);",
 									"});",
 									""
@@ -9969,7 +10028,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"pm.test(\"Cenario004 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});"
@@ -10025,11 +10084,11 @@
 							"script": {
 								"id": "ca10038a-436c-4dbc-b3e6-13c1bf9157e1",
 								"exec": [
-									"pm.test(\"Verifica se não retornou nome documento\", function () {",
+									"pm.test(\"Cenario004 - Verifica se não retornou nome documento\", function () {",
 									"    pm.expect(pm.response.text()).to.not.include(\"nomeDocumento\");",
 									"});",
 									"",
-									"pm.test(\"Verifica se não retornou numero documento\", function () {",
+									"pm.test(\"Cenario004 - Verifica se não retornou numero documento\", function () {",
 									"    pm.expect(pm.response.text()).to.not.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno_1_2\"));",
 									"    ",
 									"",
@@ -10171,7 +10230,7 @@
 								"id": "eccd6ce6-a905-4834-bd6f-3b22815eabfd",
 								"exec": [
 									"",
-									"pm.test(\"Verifica se a descrição não retornou\", function () {",
+									"pm.test(\"Cenario004 - Verifica se a descrição não retornou\", function () {",
 									"    pm.expect(pm.response.text()).to.not.include('desc nova');",
 									"});"
 								],
@@ -10285,11 +10344,11 @@
 							"script": {
 								"id": "bf5aa386-7062-4d00-b06a-78772119b9d7",
 								"exec": [
-									"pm.test(\"Content-Type is present\", function () {",
+									"pm.test(\"Cenario004 - Content-Type is present\", function () {",
 									"    pm.response.to.have.header(\"Content-Type\");",
 									"});",
 									"",
-									"pm.test(\"Verificar se o nome do arquivo não vem na resposta\", function () {",
+									"pm.test(\"Cenario004 - Verificar se o nome do arquivo não vem na resposta\", function () {",
 									"    pm.expect( pm.response.headers.all().toString()).to.not.include(\"SEI_v3.1.2.pdf\");",
 									"});",
 									"",
@@ -10331,7 +10390,7 @@
 							"script": {
 								"id": "b76390ef-8824-4012-bf90-a239139191c9",
 								"exec": [
-									"pm.test(\"Verifica se não pode alterar o doc\", function () {\r",
+									"pm.test(\"Cenario004 - Verifica se não pode alterar o doc\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
 									"});\r",
@@ -10604,14 +10663,14 @@
 					]
 				},
 				{
-					"name": "Editar Documento Externo",
+					"name": "Editar Documento Externo Arq",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
 								"exec": [
-									"pm.test(\"Verifica se retornou sucesso\", function () {\r",
+									"pm.test(\"Cenario004 - Verifica se retornou sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
 									"});\r",
@@ -10936,14 +10995,14 @@
 					]
 				},
 				{
-					"name": "Editar Documento Externo",
+					"name": "Editar Documento Externo Met",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
 								"exec": [
-									"pm.test(\"Verifica se retornou sucesso\", function () {\r",
+									"pm.test(\"Cenario004 - Verifica se retornou sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
 									"});\r",
@@ -11277,7 +11336,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Usuário trocou de Unidade para TESTE\", function () {\r",
+									"pm.test(\"Cenario004 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -11335,7 +11394,7 @@
 							"script": {
 								"id": "f8575168-2f1c-43b0-aedf-368e76b9a38e",
 								"exec": [
-									"pm.test(\"Alterou o processo\", function () {\r",
+									"pm.test(\"Cenario004 - Alterou o processo\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -11573,7 +11632,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"pm.test(\"Cenario004 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});"
@@ -11629,11 +11688,11 @@
 							"script": {
 								"id": "ca10038a-436c-4dbc-b3e6-13c1bf9157e1",
 								"exec": [
-									"pm.test(\"Verifica se retornou nome documento\", function () {",
+									"pm.test(\"Cenario004 - Verifica se retornou nome documento\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"nomeDocumento\");",
 									"});",
 									"",
-									"pm.test(\"Verifica se retornou numero documento\", function () {",
+									"pm.test(\"Cenario004 - Verifica se retornou numero documento\", function () {",
 									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno_1_2\"));",
 									"    ",
 									"",
@@ -11775,8 +11834,8 @@
 								"id": "eccd6ce6-a905-4834-bd6f-3b22815eabfd",
 								"exec": [
 									"",
-									"pm.test(\"Verifica se a descrição retornou\", function () {",
-									"    pm.expect(pm.response.text()).to.include('desc nova');",
+									"pm.test(\"Cenario004 - Verifica se a descrição não retornou\", function () {",
+									"    pm.expect(pm.response.text()).to.not.include('desc nova');",
 									"});"
 								],
 								"type": "text/javascript"
@@ -11889,11 +11948,11 @@
 							"script": {
 								"id": "bf5aa386-7062-4d00-b06a-78772119b9d7",
 								"exec": [
-									"pm.test(\"Content-Type is present\", function () {",
+									"pm.test(\"Cenario004 - Content-Type is present\", function () {",
 									"    pm.response.to.have.header(\"Content-Type\");",
 									"});",
 									"",
-									"pm.test(\"Verificar se o nome do arquivo vem na resposta\", function () {",
+									"pm.test(\"Cenario004 - Verificar se o nome do arquivo vem na resposta\", function () {",
 									"    pm.expect( pm.response.headers.all().toString()).to.include(\"SEI_v3.1.2.pdf\");",
 									"});",
 									"",
@@ -11935,7 +11994,7 @@
 							"script": {
 								"id": "b76390ef-8824-4012-bf90-a239139191c9",
 								"exec": [
-									"pm.test(\"Verifica se não pode alterar o doc\", function () {\r",
+									"pm.test(\"Cenario004 - Verifica se não pode alterar o doc\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
 									"});\r",
@@ -12215,7 +12274,7 @@
 							"script": {
 								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
 								"exec": [
-									"pm.test(\"Verifica se não retornou sucesso\", function () {\r",
+									"pm.test(\"Cenario004 - Verifica se não retornou sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
 									"});\r",
@@ -12547,7 +12606,7 @@
 							"script": {
 								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
 								"exec": [
-									"pm.test(\"Verifica se não retornou sucesso\", function () {\r",
+									"pm.test(\"Cenario004 - Verifica se não retornou sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
 									"});\r",
@@ -12876,7 +12935,7 @@
 			]
 		},
 		{
-			"name": "Processo-Documento-Assinar",
+			"name": "Cenario005 - Processo-Documento-Assinar",
 			"item": [
 				{
 					"name": "Usuario - Unidade Trocar",
@@ -12886,7 +12945,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Usuário trocou de Unidade para TESTE\", function () {\r",
+									"pm.test(\"Cenario005 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -12945,7 +13004,7 @@
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe ProtocoloFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario005 - Existe ProtocoloFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
@@ -13037,7 +13096,7 @@
 								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario005 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
@@ -13334,7 +13393,7 @@
 								"id": "6f968e61-66e7-41cd-b7f2-040b7606aeba",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario005 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
@@ -13663,12 +13722,12 @@
 								"id": "71c88fde-eb52-4a17-b010-27c3385e70c9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica se executou com sucesso\", function () {\r",
+									"pm.test(\"Cenario005 - Verifica se executou com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verifica se trouxe Chefe entre os cargos\", function () {\r",
+									"pm.test(\"Cenario005 - Verifica se trouxe Chefe entre os cargos\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"Chefe\");\r",
 									"});"
 								],
@@ -13837,7 +13896,7 @@
 								"id": "71c88fde-eb52-4a17-b010-27c3385e70c9",
 								"exec": [
 									"\r",
-									"pm.test(\"Verifica Assinatura\", function () {\r",
+									"pm.test(\"Cenario005 - Verifica Assinatura\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -14045,16 +14104,16 @@
 								"id": "9022e936-4e3c-41b6-9a10-0c047a770ad7",
 								"exec": [
 									"\r",
-									"pm.test('Retornou Documentos', function() {\r",
+									"pm.test('Cenario005 - Retornou Documentos', function() {\r",
 									"  var jsonData = pm.response.json();\r",
 									"  pm.expect(jsonData).to.have.property('data');\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Listou Documento Interno\", function () {\r",
+									"pm.test(\"Cenario005 - Listou Documento Interno\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\"));\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Listou Documento Externo\", function () {\r",
+									"pm.test(\"Cenario005 - Listou Documento Externo\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno_1_2\"));\r",
 									"\r",
 									"});"
@@ -14213,16 +14272,16 @@
 								"id": "9022e936-4e3c-41b6-9a10-0c047a770ad7",
 								"exec": [
 									"\r",
-									"pm.test('Retornou Documentos', function() {\r",
+									"pm.test('Cenario005 - Retornou Documentos', function() {\r",
 									"  var jsonData = pm.response.json();\r",
 									"  pm.expect(jsonData).to.have.property('data');\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Listou Documento Interno\", function () {\r",
+									"pm.test(\"Cenario005 - Listou Documento Interno\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\"));\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Listou Documento Externo\", function () {\r",
+									"pm.test(\"Cenario005 - Listou Documento Externo\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno_1_2\"));\r",
 									"\r",
 									"});"
@@ -14381,16 +14440,16 @@
 								"id": "9022e936-4e3c-41b6-9a10-0c047a770ad7",
 								"exec": [
 									"\r",
-									"pm.test('Retornou Documento', function() {\r",
+									"pm.test('Cenario005 - Retornou Documento', function() {\r",
 									"  var jsonData = pm.response.json();\r",
 									"  pm.expect(jsonData).to.have.property('data');\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Listou Documento Interno\", function () {\r",
+									"pm.test(\"Cenario005 - Listou Documento Interno\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\"));\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Não Listou Documento Externo\", function () {\r",
+									"pm.test(\"Cenario005 - Não Listou Documento Externo\", function () {\r",
 									"    pm.expect(pm.response.text()).to.not.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno_1_2\"));\r",
 									"\r",
 									"});"
@@ -14549,16 +14608,16 @@
 								"id": "9022e936-4e3c-41b6-9a10-0c047a770ad7",
 								"exec": [
 									"\r",
-									"pm.test('Retornou Documento', function() {\r",
+									"pm.test('Cenario005 - Retornou Documento', function() {\r",
 									"  var jsonData = pm.response.json();\r",
 									"  pm.expect(jsonData).to.have.property('data');\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Não Listou Documento Interno\", function () {\r",
+									"pm.test(\"Cenario005 - Não Listou Documento Interno\", function () {\r",
 									"    pm.expect(pm.response.text()).to.not.include(pm.globals.get('\"protocoloDocumentoFormatadoInterno_1_1\"'));\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Listou Documento Externo\", function () {\r",
+									"pm.test(\"Cenario005 - Listou Documento Externo\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(pm.globals.get(\"protocoloDocumentoFormatadoExterno_1_2\"));\r",
 									"\r",
 									"});"
@@ -14708,10 +14767,32 @@
 						}
 					]
 				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f9f93885-7ed2-47c6-978b-7134de2c5694",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c038639d-e911-473d-a9b3-1d1ffde21680",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
-			"name": "Processo-Enviar",
+			"name": "Cenario006 - Processo-Enviar",
 			"item": [
 				{
 					"name": "Processo-Enviar",
@@ -14722,7 +14803,7 @@
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
-									"pm.test(\"Enviou o Processo\", function () {\r",
+									"pm.test(\"Cenario006 - Enviou o Processo\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});"
@@ -14824,7 +14905,7 @@
 							"script": {
 								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
 								"exec": [
-									"pm.test('Verifica se processo permanece na unidade', function() {",
+									"pm.test('Cenario006 - Verifica se processo permanece na unidade', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(jsonData).to.have.property('data');",
 									"});",
@@ -14899,7 +14980,7 @@
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
-									"pm.test(\"Usuário trocou de unidade\", function () {\r",
+									"pm.test(\"Cenario006 - Usuário trocou de unidade\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -14957,7 +15038,7 @@
 							"script": {
 								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
 								"exec": [
-									"pm.test('Verifica se o Processo é listado na Unidade', function() {",
+									"pm.test('Cenario006 - Verifica se o Processo é listado na Unidade', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(jsonData).to.have.property('data');",
 									"});",
@@ -15031,7 +15112,7 @@
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
-									"pm.test(\"Usuário Trocou de Unidade Para TESTE\", function () {\r",
+									"pm.test(\"Cenario006 - Usuário Trocou de Unidade Para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -15089,7 +15170,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Usuário Trocou de Unidade para TESTE_1_1\", function () {\r",
+									"pm.test(\"Cenario006 - Usuário Trocou de Unidade para TESTE_1_1\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});"
@@ -15190,7 +15271,7 @@
 							"script": {
 								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
 								"exec": [
-									"pm.test('Processo não deve constar na listagem', function() {",
+									"pm.test('Cenario006 - Processo não deve constar na listagem', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(jsonData).to.not.have.property('data');",
 									"});",
@@ -15263,7 +15344,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Usuário trocou de Unidade\", function () {\r",
+									"pm.test(\"Cenario006 - Usuário trocou de Unidade\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -15321,7 +15402,7 @@
 							"script": {
 								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
 								"exec": [
-									"pm.test('Verificar se o Processo é Listado', function() {",
+									"pm.test('Cenario006 - Verificar se o Processo é Listado', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(jsonData).to.have.property('data');",
 									"});",
@@ -15389,7 +15470,7 @@
 			]
 		},
 		{
-			"name": "Processo-Enviar-Retorno-Programado",
+			"name": "Cenario007 - Processo-Enviar-Retorno-Programado",
 			"item": [
 				{
 					"name": "proc/enviar-Envia para TESTE_1_2 com Data",
@@ -15399,7 +15480,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Processo com Data de Retorno Programado Enviado para Unidade TESTE_1_2\", function () {\r",
+									"pm.test(\"Cenario007 - Processo com Data de Retorno Programado Enviado para Unidade TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});"
@@ -15499,7 +15580,7 @@
 							"script": {
 								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
 								"exec": [
-									"pm.test('Verificar se o Processo é Listado', function() {",
+									"pm.test('Cenario007 - Verificar se o Processo é Listado', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(jsonData).to.not.have.property('data');",
 									"});",
@@ -15572,7 +15653,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"pm.test(\"Cenario007 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -15630,12 +15711,12 @@
 							"script": {
 								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
 								"exec": [
-									"pm.test('Verificar se o Processo é Listado', function() {",
+									"pm.test('Cenario007 - Verificar se o Processo é Listado', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(jsonData).to.have.property('data');",
 									"});",
 									"",
-									"pm.test(\"Verifica se a Data de Retorno está em 30/08/2050\", function () {",
+									"pm.test(\"Cenario007 - Verifica se a Data de Retorno está em 30/08/2050\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.data[0].atributos.status.retornoData.dataProgramada).to.eql('30/08/2050');",
 									"});"
@@ -15707,7 +15788,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Processo com Dias de Retorno Programado Enviado para Unidade TESTE_1_1\", function () {\r",
+									"pm.test(\"Cenario007 - Processo com Dias de Retorno Programado Enviado para Unidade TESTE_1_1\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});"
@@ -15807,7 +15888,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Usuário trocou de Unidade para TESTE_1_1\", function () {\r",
+									"pm.test(\"Cenario007 - Usuário trocou de Unidade para TESTE_1_1\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -15889,12 +15970,12 @@
 									"",
 									"",
 									"",
-									"pm.test('Verificar se o Processo é Listado', function() {",
+									"pm.test('Cenario007 - Verificar se o Processo é Listado', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(jsonData).to.have.property('data');",
 									"});",
 									"",
-									"pm.test(\"Verifica se a Data está agendada para daqui a 10 dias\", function () {",
+									"pm.test(\"Cenario007 - Verifica se a Data está agendada para daqui a 10 dias\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    var dataProc = jsonData.data[0].atributos.status.retornoData.dataProgramada;",
 									"    ",
@@ -15977,7 +16058,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Processo com Dias uteis de Retorno Programado Enviado para Unidade TESTE_1_2\", function () {\r",
+									"pm.test(\"Cenario007 - Processo com Dias uteis de Retorno Programado Enviado para Unidade TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});"
@@ -16076,7 +16157,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"pm.test(\"Cenario007 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -16158,12 +16239,12 @@
 									"",
 									"",
 									"",
-									"pm.test('Verificar se o Processo é Listado', function() {",
+									"pm.test('Cenario007 - Verificar se o Processo é Listado', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(jsonData).to.have.property('data');",
 									"});",
 									"",
-									"pm.test(\"Verifica se a Data está agendada para daqui a 10 dias úteis\", function () {",
+									"pm.test(\"Cenario007 - Verifica se a Data está agendada para daqui a 10 dias úteis\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    var dataProc = jsonData.data[0].atributos.status.retornoData.dataProgramada;",
 									"    ",
@@ -16242,7 +16323,7 @@
 			]
 		},
 		{
-			"name": "Bloco de Assinatura",
+			"name": "Cenario008 - Bloco de Assinatura",
 			"item": [
 				{
 					"name": "usu/alterar-altera unidade para TESTE",
@@ -16252,7 +16333,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"pm.test(\"Usuário trocou de Unidade e foi para TESTE\", function () {\r",
+									"pm.test(\"Cenario008 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});"
@@ -16309,7 +16390,7 @@
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe ProtocoloFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario008 - Existe ProtocoloFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
@@ -16402,7 +16483,7 @@
 								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario008 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
@@ -16702,7 +16783,7 @@
 								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario008 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
@@ -17002,7 +17083,7 @@
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe ProtocoloFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario008 - Existe ProtocoloFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
@@ -17095,7 +17176,7 @@
 								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
-									"pm.test(\"Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"pm.test(\"Cenario008 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
@@ -17393,7 +17474,7 @@
 							"script": {
 								"id": "ca533ae4-6645-45ad-9162-f61c41e09b58",
 								"exec": [
-									"pm.test(\"Bloco 1 Criado com Sucesso\", function () {\r",
+									"pm.test(\"Cenario008 - Bloco 1 Criado com Sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -17553,7 +17634,7 @@
 							"script": {
 								"id": "ca533ae4-6645-45ad-9162-f61c41e09b58",
 								"exec": [
-									"pm.test(\"Bloco 2 Criado com Sucesso\", function () {\r",
+									"pm.test(\"Cenario008 - Bloco 2 Criado com Sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -17713,7 +17794,7 @@
 							"script": {
 								"id": "ca533ae4-6645-45ad-9162-f61c41e09b58",
 								"exec": [
-									"pm.test(\"Bloco 3 Criado com Sucesso\", function () {\r",
+									"pm.test(\"Cenario008 - Bloco 3 Criado com Sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -17871,17 +17952,17 @@
 							"script": {
 								"id": "5f6f11e2-c0ec-43d2-a58c-fbeb4c21d97e",
 								"exec": [
-									"pm.test('Retornou Blocos', function() {",
+									"pm.test('Cenario008 - Retornou Blocos', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(jsonData).to.have.property('data');",
 									"});",
 									"",
 									"",
-									"pm.test(\"Verifica se retornou o primeiro bloco\", function () {",
+									"pm.test(\"Cenario008 - Verifica se retornou o primeiro bloco\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"Bloco Assinatura 01\");",
 									"});",
 									"",
-									"pm.test(\"Verifica se retornou o segundo bloco\", function () {",
+									"pm.test(\"Cenario008 - Verifica se retornou o segundo bloco\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"Bloco Assinatura 02\");",
 									"});"
 								],
@@ -18050,12 +18131,12 @@
 							"script": {
 								"id": "5f6f11e2-c0ec-43d2-a58c-fbeb4c21d97e",
 								"exec": [
-									"pm.test('Retornou Blocos', function() {",
+									"pm.test('Cenario008 - Retornou Blocos', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(jsonData).to.have.property('data');",
 									"});",
 									"",
-									"pm.test(\"Verifica se voltaram apenas 2 elementos\", function () {",
+									"pm.test(\"Cenario008 - Verifica se voltaram apenas 2 elementos\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.data.length).to.eql(2);",
 									"});"
@@ -18225,7 +18306,7 @@
 							"script": {
 								"id": "b793c542-4029-45fb-b4f9-d1cc015e16e3",
 								"exec": [
-									"pm.test(\"Excluiu Blocos com Sucesso\", function () {\r",
+									"pm.test(\"Cenario008 - Excluiu Blocos com Sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});"
@@ -18372,7 +18453,7 @@
 							"script": {
 								"id": "ca533ae4-6645-45ad-9162-f61c41e09b58",
 								"exec": [
-									"pm.test(\"Bloco 1 Criado com Sucesso\", function () {\r",
+									"pm.test(\"Cenario008 - Bloco 1 Criado com Sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -18532,7 +18613,7 @@
 							"script": {
 								"id": "ca533ae4-6645-45ad-9162-f61c41e09b58",
 								"exec": [
-									"pm.test(\"Bloco Criado com Sucesso\", function () {\r",
+									"pm.test(\"Cenario008 - Bloco Criado com Sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
@@ -18692,7 +18773,7 @@
 							"script": {
 								"id": "b793c542-4029-45fb-b4f9-d1cc015e16e3",
 								"exec": [
-									"pm.test(\"Excluiu Bloco 2 com Sucesso\", function () {\r",
+									"pm.test(\"Cenario008 - Excluiu Bloco 2 com Sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});"
@@ -18840,12 +18921,12 @@
 								"id": "5f6f11e2-c0ec-43d2-a58c-fbeb4c21d97e",
 								"exec": [
 									"",
-									"pm.test(\"Pesquisou com Sucesso\", function () {",
+									"pm.test(\"Cenario008 - Pesquisou com Sucesso\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.sucesso).to.eql(true);",
 									"});",
 									"",
-									"pm.test('Verifica que não retornou o bloco 2', function() {",
+									"pm.test('Cenario008 - Verifica que não retornou o bloco 2', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(jsonData).to.not.have.property('data');",
 									"});",
@@ -19018,12 +19099,12 @@
 								"id": "5f6f11e2-c0ec-43d2-a58c-fbeb4c21d97e",
 								"exec": [
 									"",
-									"pm.test(\"Pesquisou com Sucesso\", function () {",
+									"pm.test(\"Cenario008 - Pesquisou com Sucesso\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.sucesso).to.eql(true);",
 									"});",
 									"",
-									"pm.test('Verifica se retornou o bloco 1', function() {",
+									"pm.test('Cenario008 - Verifica se retornou o bloco 1', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(pm.response.text()).to.include(\"Bloco Assinatura 01\");",
 									"});",
@@ -19195,17 +19276,17 @@
 							"script": {
 								"id": "80e30a2e-1a50-4f6c-8132-ee99ff1b24bd",
 								"exec": [
-									"pm.test(\"Pesquisou com Sucesso\", function () {",
+									"pm.test(\"Cenario008 - Pesquisou com Sucesso\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.sucesso).to.eql(true);",
 									"});",
 									"",
-									"pm.test('Verifica se alterou o nome do bloco 1', function() {",
+									"pm.test('Cenario008 - Verifica se alterou o nome do bloco 1', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(pm.response.text()).to.include(\"Bloco Assinatura 1\");",
 									"});",
 									"",
-									"pm.test('Verifica se alterou a unidade do bloco 1 para TESTE_1_2', function() {",
+									"pm.test('Cenario008 - Verifica se alterou a unidade do bloco 1 para TESTE_1_2', function() {",
 									"  var jsonData = pm.response.json();",
 									"  pm.expect(pm.response.text()).to.include(pm.variables.get(\"idUnidadeTeste_1_2\"));",
 									"});",
@@ -19377,7 +19458,7 @@
 							"script": {
 								"id": "13e390a8-d4aa-4be9-9703-8b5ae393a620",
 								"exec": [
-									"pm.test(\"Verificar se incluiu com sucesso!\", function () {",
+									"pm.test(\"Cenario008 - Verificar se incluiu com sucesso!\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.sucesso).to.eql(true);",
 									"});"
@@ -19546,7 +19627,7 @@
 							"script": {
 								"id": "13e390a8-d4aa-4be9-9703-8b5ae393a620",
 								"exec": [
-									"pm.test(\"Verificar se resposta foi negativa\", function () {",
+									"pm.test(\"Cenario008 - Verificar se resposta foi negativa\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.sucesso).to.eql(false);",
 									"});"
@@ -23670,6 +23751,3786 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Cenario008.1 - Blocos Flood",
+			"item": [
+				{
+					"name": "usu/alterar-altera unidade para TESTE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario008.1 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.globals.set(\"iLoop\", \"0\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bloco/cad-Cadastrar Bloco Loop1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ca533ae4-6645-45ad-9162-f61c41e09b58",
+								"exec": [
+									"pm.test(\"Cenario008.1 - Bloco Criado com Sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.globals.set(\"blocoAssinatura_1\", jsonData.data.id);\r",
+									"\r",
+									"\r",
+									"var i=Number(pm.globals.get(\"iLoop\"));\r",
+									"i = i+1;\r",
+									"pm.globals.set(\"iLoop\", i);\r",
+									"\r",
+									"if(i<30){\r",
+									"    postman.setNextRequest('bloco/cad-Cadastrar Bloco Loop1');\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "descricao",
+									"value": "BA {{$randomNoun}} {{$timestamp}}",
+									"type": "text"
+								},
+								{
+									"key": "unidades",
+									"value": "{{idUnidadeTeste_1_1}},{{idUnidadeTeste_1_2}}",
+									"description": "enviar a lista de unidades separado por \",\"",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/bloco/assinatura/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"bloco",
+								"assinatura",
+								"criar"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Bloco Assinatura",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "descricao",
+											"value": "bloco postman 1",
+											"type": "text"
+										},
+										{
+											"key": "unidades",
+											"value": "110000002, 110000003",
+											"description": "enviar a lista de unidades separado por \",\"",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/bloco/assinatura/criar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"bloco",
+										"assinatura",
+										"criar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "159",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 06 Aug 2019 20:35:17 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=98",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"mensagem\":\"Bloco de assinatura cadastrado com sucesso.\",\"data\":{\"id\":\"5\",\"descricao\":\"bloco postman 1\",\"unidades\":[\"110000002\",\" 110000003\"]}}"
+						}
+					]
+				},
+				{
+					"name": "proc/criar-Segundo Proc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"\r",
+									"pm.test(\"Cenario008.1 - Existe ProtocoloFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idProcedimento_2\", jsonData.data.IdProcedimento);\r",
+									"pm.globals.set(\"ProtocoloFormatado_2\", jsonData.data.ProtocoloFormatado);\r",
+									"\r",
+									"pm.globals.set(\"iLoop\", \"0\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "tipoProcesso",
+									"value": "100000349",
+									"type": "text"
+								},
+								{
+									"key": "especificacao",
+									"value": "descricao teste",
+									"type": "text"
+								},
+								{
+									"key": "observacoes",
+									"value": "observacao teste",
+									"type": "text"
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "hipoteseLegal",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "[{\"id\": 79}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"criar"
+							]
+						},
+						"description": "Criar um processo simples"
+					},
+					"response": []
+				},
+				{
+					"name": "doc/criar-Criar Doc Loop",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
+								"exec": [
+									"\r",
+									"pm.test(\"Cenario008.1 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idDocumentoInterno_2_1\", jsonData.data.idDocumento);\r",
+									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_2_1\", jsonData.data.protocoloDocumentoFormatado);\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idSerie",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text"
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "descricao",
+									"value": "descrição documento interno",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "2,3",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "destinatarios",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "observacao",
+									"value": "observação teste acentuação",
+									"type": "text"
+								},
+								{
+									"key": "idUnidadeGeradoraProtocolo",
+									"value": "{{idUnidadeTeste}}",
+									"type": "text"
+								},
+								{
+									"key": "idTextoPadraoInterno",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/:procedimento/interno/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								":procedimento",
+								"interno",
+								"criar"
+							],
+							"variable": [
+								{
+									"key": "procedimento",
+									"value": "{{idProcedimento_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Documento Interno",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "idSerie",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "descrição documento interno",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "2,3",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "observação teste acentuação",
+											"type": "text"
+										},
+										{
+											"key": "idUnidadeGeradoraProtocolo",
+											"value": "110000001",
+											"type": "text"
+										},
+										{
+											"key": "idTextoPadraoInterno",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/:procedimento/interno/criar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										":procedimento",
+										"interno",
+										"criar"
+									],
+									"variable": [
+										{
+											"key": "procedimento",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 29 Jul 2019 20:35:03 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idDocumento\":\"25\",\"protocoloDocumentoFormatado\":\"0000023\"}}"
+						}
+					]
+				},
+				{
+					"name": "bloco/doc/inc-Cadastrar Docs no Bloco 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "13e390a8-d4aa-4be9-9703-8b5ae393a620",
+								"exec": [
+									"pm.test(\"Cenario008.1 - Verificar se incluiu com sucesso!\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.sucesso).to.eql(true);",
+									"});",
+									"",
+									"var i=Number(pm.globals.get(\"iLoop\"));",
+									"i = i+1;",
+									"pm.globals.set(\"iLoop\", i);",
+									"",
+									"if(i<30){",
+									"    postman.setNextRequest('doc/criar-Criar Doc Loop');",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "documentos",
+									"value": "{{idDocumentoInterno_2_1}}",
+									"description": "enviar a lista de documentos separado por \",\"",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/bloco/assinatura/:bloco/documentos/incluir",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"bloco",
+								"assinatura",
+								":bloco",
+								"documentos",
+								"incluir"
+							],
+							"variable": [
+								{
+									"key": "bloco",
+									"value": "{{blocoAssinatura_1}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Incluir Documentos em Bloco de Assinatura",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "documentos",
+											"value": "25",
+											"description": "enviar a lista de documentos separado por \",\"",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/bloco/assinatura/:bloco/documentos/incluir",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"bloco",
+										"assinatura",
+										":bloco",
+										"documentos",
+										"incluir"
+									],
+									"variable": [
+										{
+											"key": "bloco",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "72",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 16:28:38 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"mensagem\":\"Documento(s) inclu\\u00eddo(s) com sucesso.\"}"
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3042bf1a-bba6-42a7-91c9-c93c18ce17fb",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "bcab73a7-6c77-4607-86e1-3ae3675361ce",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Cenario009 - Marcadores",
+			"item": [
+				{
+					"name": "usu/alterar-altera unidade para TESTE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario008 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "proc/criar-Segundo Proc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"\r",
+									"pm.test(\"Cenario009 - Existe ProtocoloFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idProcedimento_2\", jsonData.data.IdProcedimento);\r",
+									"pm.globals.set(\"ProtocoloFormatado_2\", jsonData.data.ProtocoloFormatado);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "tipoProcesso",
+									"value": "100000349",
+									"type": "text"
+								},
+								{
+									"key": "especificacao",
+									"value": "descricao teste",
+									"type": "text"
+								},
+								{
+									"key": "observacoes",
+									"value": "observacao teste",
+									"type": "text"
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "hipoteseLegal",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "[{\"id\": 79}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"criar"
+							]
+						},
+						"description": "Criar um processo simples"
+					},
+					"response": []
+				},
+				{
+					"name": "doc/criar-Criar Doc no Segundo Proc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
+								"exec": [
+									"\r",
+									"pm.test(\"Cenario009 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idDocumentoInterno_2_1\", jsonData.data.idDocumento);\r",
+									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_2_1\", jsonData.data.protocoloDocumentoFormatado);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idSerie",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text"
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "descricao",
+									"value": "descrição documento interno",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "2,3",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "destinatarios",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "observacao",
+									"value": "observação teste acentuação",
+									"type": "text"
+								},
+								{
+									"key": "idUnidadeGeradoraProtocolo",
+									"value": "{{idUnidadeTeste}}",
+									"type": "text"
+								},
+								{
+									"key": "idTextoPadraoInterno",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/:procedimento/interno/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								":procedimento",
+								"interno",
+								"criar"
+							],
+							"variable": [
+								{
+									"key": "procedimento",
+									"value": "{{idProcedimento_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Documento Interno",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "idSerie",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "descrição documento interno",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "2,3",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "observação teste acentuação",
+											"type": "text"
+										},
+										{
+											"key": "idUnidadeGeradoraProtocolo",
+											"value": "110000001",
+											"type": "text"
+										},
+										{
+											"key": "idTextoPadraoInterno",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/:procedimento/interno/criar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										":procedimento",
+										"interno",
+										"criar"
+									],
+									"variable": [
+										{
+											"key": "procedimento",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 29 Jul 2019 20:35:03 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idDocumento\":\"25\",\"protocoloDocumentoFormatado\":\"0000023\"}}"
+						}
+					]
+				},
+				{
+					"name": "Listar Cores",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "41a83699-97e1-47a1-9f28-099dbfba269e",
+								"exec": [
+									"pm.test(\"Cenário009 - Retornou dados de cores\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Verde\");",
+									"    pm.expect(pm.response.text()).to.include(\"Ciano\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/marcador/cores/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"marcador",
+								"cores",
+								"listar"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Listar Cores",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/marcador/cores/listar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"marcador",
+										"cores",
+										"listar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "664",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 18:41:05 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":[{\"id\":\"0\",\"descricao\":\"Preto\",\"arquivo\":\"marcador_preto.png\"},{\"id\":\"1\",\"descricao\":\"Branco\",\"arquivo\":\"marcador_branco.png\"},{\"id\":\"2\",\"descricao\":\"Cinza\",\"arquivo\":\"marcador_cinza.png\"},{\"id\":\"3\",\"descricao\":\"Vermelho\",\"arquivo\":\"marcador_vermelho.png\"},{\"id\":\"4\",\"descricao\":\"Amarelo\",\"arquivo\":\"marcador_amarelo.png\"},{\"id\":\"5\",\"descricao\":\"Verde\",\"arquivo\":\"marcador_verde.png\"},{\"id\":\"6\",\"descricao\":\"Azul\",\"arquivo\":\"marcador_azul.png\"},{\"id\":\"7\",\"descricao\":\"Rosa\",\"arquivo\":\"marcador_rosa.png\"},{\"id\":\"8\",\"descricao\":\"Roxo\",\"arquivo\":\"marcador_roxo.png\"},{\"id\":\"9\",\"descricao\":\"Ciano\",\"arquivo\":\"marcador_ciano.png\"}],\"total\":\"10\"}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar Marcador",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c8e99ff-eada-4b6e-af15-7a8f8368576c",
+								"exec": [
+									"var idMarcador=0;",
+									"",
+									"pm.test(\"Cenario009 - Retornou Sucesso na criação do Marcador\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.sucesso).to.eql(true);",
+									"    ",
+									"    idMarcador = jsonData.data.id;",
+									"});",
+									"",
+									"pm.test(\"Cenario009 - Criou Marcador Verifica nome\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Marcador Verde\");",
+									"});",
+									"",
+									"pm.globals.set(\"Marcador1\", idMarcador);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nome",
+									"value": "Marcador Verde {{$timestamp}}",
+									"type": "text"
+								},
+								{
+									"key": "idCor",
+									"value": "6",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/marcador/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"marcador",
+								"criar"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Marcador",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "nome",
+											"value": "Branco",
+											"type": "text"
+										},
+										{
+											"key": "idCor",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/marcador/criar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"marcador",
+										"criar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "179",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 19:11:08 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"mensagem\":\"Marcador cadastrado com sucesso.\",\"data\":{\"id\":\"2\",\"nome\":\"Branco\",\"ativo\":\"S\",\"idCor\":\"1\",\"descricaoCor\":\"Branco\",\"arquivoCor\":\"marcador_branco.png\"}}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar Marcador 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c8e99ff-eada-4b6e-af15-7a8f8368576c",
+								"exec": [
+									"var idMarcador=0;",
+									"",
+									"pm.test(\"Cenario009 - Retornou Sucesso na Criação do Marcador\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.sucesso).to.eql(true);",
+									"    ",
+									"    idMarcador = jsonData.data.id;",
+									"});",
+									"",
+									"pm.test(\"Cenario009 - Criou Marcador Verificar Nome Ciano\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Marcador Ciano\");",
+									"});",
+									"",
+									"pm.globals.set(\"Marcador2\", idMarcador);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nome",
+									"value": "Marcador Ciano {{$timestamp}}",
+									"type": "text"
+								},
+								{
+									"key": "idCor",
+									"value": "9",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/marcador/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"marcador",
+								"criar"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Marcador",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "nome",
+											"value": "Branco",
+											"type": "text"
+										},
+										{
+											"key": "idCor",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/marcador/criar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"marcador",
+										"criar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "179",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 19:11:08 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"mensagem\":\"Marcador cadastrado com sucesso.\",\"data\":{\"id\":\"2\",\"nome\":\"Branco\",\"ativo\":\"S\",\"idCor\":\"1\",\"descricaoCor\":\"Branco\",\"arquivoCor\":\"marcador_branco.png\"}}"
+						}
+					]
+				},
+				{
+					"name": "Pesquisar Marcadores",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a8f63da4-5a11-4c4a-b3b0-18dbb71c9361",
+								"exec": [
+									"pm.test(\"Cenario009 - Verifica se pesquisou marcadores criados\", function () {",
+									"    var id1 = pm.globals.get(\"Marcador1\");",
+									"    var id2 = pm.globals.get(\"Marcador2\");",
+									"    ",
+									"    pm.expect(pm.response.text()).to.include('\"id\":\"'+id1+'\"');",
+									"    pm.expect(pm.response.text()).to.include('\"id\":\"'+id2+'\"');",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/marcador/pesquisar?limit=&start=&filter=&id&ativo=",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"marcador",
+								"pesquisar"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": ""
+								},
+								{
+									"key": "start",
+									"value": ""
+								},
+								{
+									"key": "filter",
+									"value": ""
+								},
+								{
+									"key": "id",
+									"value": null
+								},
+								{
+									"key": "ativo",
+									"value": "",
+									"description": "Enviar S para ativo e N para inativo"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Pesquisar Marcadores",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/marcador/pesquisar?limit=&start=&filter=&id",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"marcador",
+										"pesquisar"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": ""
+										},
+										{
+											"key": "start",
+											"value": ""
+										},
+										{
+											"key": "filter",
+											"value": ""
+										},
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "132",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 18:44:01 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":[{\"id\":\"1\",\"nome\":\"Preto\",\"ativo\":\"S\",\"idCor\":\"0\",\"descricaoCor\":\"Preto\",\"arquivoCor\":\"marcador_preto.png\"}]}"
+						}
+					]
+				},
+				{
+					"name": "Editar Marcador",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a66588db-d1e0-49df-aff3-4ff4a37e8f27",
+								"exec": [
+									"pm.test(\"Cenario009 - Marcador alterado\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nome",
+									"value": "Novo Nome para Apagar",
+									"type": "text"
+								},
+								{
+									"key": "idCor",
+									"value": "5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/marcador/:marcador/alterar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"marcador",
+								":marcador",
+								"alterar"
+							],
+							"variable": [
+								{
+									"key": "marcador",
+									"value": "{{Marcador2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Editar Marcador",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "nome",
+											"value": "Cinza",
+											"type": "text"
+										},
+										{
+											"key": "idCor",
+											"value": "2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/marcador/:marcador/alterar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"marcador",
+										":marcador",
+										"alterar"
+									],
+									"variable": [
+										{
+											"key": "marcador",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "174",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 19:20:23 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"mensagem\":\"Marcador alterado com sucesso.\",\"data\":{\"id\":\"2\",\"nome\":\"Cinza\",\"ativo\":\"S\",\"idCor\":\"2\",\"descricaoCor\":\"Cinza\",\"arquivoCor\":\"marcador_cinza.png\"}}"
+						}
+					]
+				},
+				{
+					"name": "Desativar Marcadores",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "97319b79-36d6-4341-bc68-2fa87815ac11",
+								"exec": [
+									"pm.test(\"Cenario009 - Marcador desativado\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "marcadores",
+									"value": "{{Marcador2}}",
+									"description": "Enviar a lista de id's separados por ','",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/marcador/desativar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"marcador",
+								"desativar"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Desativar Marcadores",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "marcadores",
+											"value": "4,3",
+											"description": "Enviar a lista de id's separados por ','",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/marcador/desativar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"marcador",
+										"desativar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "69",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 19:52:02 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"mensagem\":\"Marcador(es) desativado(s) com sucesso.\"}"
+						}
+					]
+				},
+				{
+					"name": "Reativar Marcadores",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5134a54c-aba1-45cc-8a5a-99013bcc5464",
+								"exec": [
+									"pm.test(\"Cenario009 - Marcador reativado\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "marcadores",
+									"value": "{{Marcador2}}",
+									"description": "Enviar a lista de id's separados por ','",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/marcador/reativar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"marcador",
+								"reativar"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Reativar Marcadores",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "marcadores",
+											"value": "4",
+											"description": "Enviar a lista de id's separados por ','",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/marcador/reativar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"marcador",
+										"reativar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "69",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 19:55:14 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"mensagem\":\"Marcador(es) resativado(s) com sucesso.\"}"
+						}
+					]
+				},
+				{
+					"name": "Excluir Marcador",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6d08d002-bb39-4a7b-8c7e-64da81f5bf96",
+								"exec": [
+									"pm.test(\"Cenario009 - Marcador excluido\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "marcadores",
+									"value": "{{Marcador2}}",
+									"description": "Enviar a lista de id's separados por ','",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/marcador/excluir",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"marcador",
+								"excluir"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Excluir Marcador",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "marcadores",
+											"value": "2,1",
+											"description": "Enviar a lista de id's separados por ','",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/marcador/excluir",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"marcador",
+										"excluir"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "72",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 19:47:40 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"mensagem\":\"Marcador(es) exclu\\u00eddo(s) com sucesso.\"}"
+						}
+					]
+				},
+				{
+					"name": "Marcar Processo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8a5d4e0c-0d1f-4092-ab84-f501d9c27168",
+								"exec": [
+									"pm.test(\"Cenario009 - Processo Marcado\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "marcador",
+									"value": "{{Marcador1}}",
+									"description": "id do marcador",
+									"type": "text"
+								},
+								{
+									"key": "texto",
+									"value": "marquei proc",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/marcador/processo/:protocolo/marcar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"marcador",
+								"processo",
+								":protocolo",
+								"marcar"
+							],
+							"variable": [
+								{
+									"key": "protocolo",
+									"value": "{{idProcedimento_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Marcar Processo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "marcador",
+											"value": "6",
+											"description": "id do marcador",
+											"type": "text"
+										},
+										{
+											"key": "texto",
+											"value": "Teste marcação",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/marcador/processo/:protocolo/marcar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"marcador",
+										"processo",
+										":protocolo",
+										"marcar"
+									],
+									"variable": [
+										{
+											"key": "protocolo",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "59",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 20:33:37 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"mensagem\":\"Processo marcado com sucesso.\"}"
+						}
+					]
+				},
+				{
+					"name": "Retornar Marcador Processo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cdf7ab1c-3648-4260-8a51-4875a502609c",
+								"exec": [
+									"pm.test(\"Cenario009 - Verifica se retornou dados do marcador\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"marquei proc\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/marcador/processo/:protocolo/consultar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"marcador",
+								"processo",
+								":protocolo",
+								"consultar"
+							],
+							"variable": [
+								{
+									"key": "protocolo",
+									"value": "{{idProcedimento_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Retornar Marcador Processo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/marcador/processo/:protocolo/consultar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"marcador",
+										"processo",
+										":protocolo",
+										"consultar"
+									],
+									"variable": [
+										{
+											"key": "protocolo",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "170",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 20:50:31 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=99",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idMarcador\":\"6\",\"idProtocolo\":\"9\",\"texto\":\"Teste marca\\u00e7\\u00e3o\",\"idCor\":\"3\",\"descricaoCor\":\"Vermelho\",\"arquivoCor\":\"marcador_vermelho.png\"}}"
+						}
+					]
+				},
+				{
+					"name": "Marcar Processo Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8a5d4e0c-0d1f-4092-ab84-f501d9c27168",
+								"exec": [
+									"pm.test(\"Cenario009 - Processo Marcado\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "marcador",
+									"value": "{{Marcador1}}",
+									"description": "id do marcador",
+									"type": "text"
+								},
+								{
+									"key": "texto",
+									"value": "alterado marcacaoOOO",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/marcador/processo/:protocolo/marcar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"marcador",
+								"processo",
+								":protocolo",
+								"marcar"
+							],
+							"variable": [
+								{
+									"key": "protocolo",
+									"value": "{{idProcedimento_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Marcar Processo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "marcador",
+											"value": "6",
+											"description": "id do marcador",
+											"type": "text"
+										},
+										{
+											"key": "texto",
+											"value": "Teste marcação",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/marcador/processo/:protocolo/marcar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"marcador",
+										"processo",
+										":protocolo",
+										"marcar"
+									],
+									"variable": [
+										{
+											"key": "protocolo",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "59",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 20:33:37 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"mensagem\":\"Processo marcado com sucesso.\"}"
+						}
+					]
+				},
+				{
+					"name": "Retornar Histórico Marcador Processo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "14ad9bf2-a1a9-47ab-a94c-40fd671b5abf",
+								"exec": [
+									"pm.test(\"Cenario009 - Verifica historico do marcador no processo\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"alterado marcacaoOOO\");",
+									"    ",
+									"    pm.expect(pm.response.text()).to.include(\"marquei proc\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/marcador/processo/:protocolo/historico/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"marcador",
+								"processo",
+								":protocolo",
+								"historico",
+								"listar"
+							],
+							"variable": [
+								{
+									"key": "protocolo",
+									"value": "{{idProcedimento_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Retornar Histórico Marcador Processo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/marcador/processo/:protocolo/historico/listar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"marcador",
+										"processo",
+										":protocolo",
+										"historico",
+										"listar"
+									],
+									"variable": [
+										{
+											"key": "protocolo",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "483",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 21:05:35 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":[{\"marcadorAtivo\":\"S\",\"data\":\"19\\/08\\/2019 18:04\",\"texto\":\"\",\"nomeMarcador\":\"a\",\"nomeUsuario\":\"Usu\\u00e1rio de Testes\",\"siglaUsuario\":\"teste\"},{\"marcadorAtivo\":\"\",\"data\":\"19\\/08\\/2019 18:04\",\"texto\":\"\",\"nomeMarcador\":\"[REMOVIDO]\",\"nomeUsuario\":\"Usu\\u00e1rio de Testes\",\"siglaUsuario\":\"teste\"},{\"marcadorAtivo\":\"S\",\"data\":\"19\\/08\\/2019 17:33\",\"texto\":\"Teste marca\\u00e7\\u00e3o\",\"nomeMarcador\":\"v\",\"nomeUsuario\":\"Usu\\u00e1rio de Testes\",\"siglaUsuario\":\"teste\"}]}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Cenario009.1 - Marcadores Flood",
+			"item": [
+				{
+					"name": "usu/alterar-altera unidade para TESTE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario009.1 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.globals.set(\"iLoop\", \"0\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Marcador Loop",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c8e99ff-eada-4b6e-af15-7a8f8368576c",
+								"exec": [
+									"var idMarcador=0;",
+									"",
+									"pm.test(\"Cenario009.1 - Retornou Sucesso na criação do Marcador\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.sucesso).to.eql(true);",
+									"    ",
+									"    idMarcador = jsonData.data.id;",
+									"});",
+									"",
+									"pm.test(\"Cenario009.1 - Criou Marcador Verifica nome\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"New\");",
+									"});",
+									"",
+									"pm.globals.set(\"Marcador1\", idMarcador);",
+									"",
+									"var i=Number(pm.globals.get(\"iLoop\"));",
+									"i = i+1;",
+									"pm.globals.set(\"iLoop\", i);",
+									"",
+									"if(i<30){",
+									"",
+									"    postman.setNextRequest('Cadastrar Marcador Loop');",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nome",
+									"value": "New {{$randomAdjective}} {{$randomNoun}} {{$timestamp}}",
+									"type": "text"
+								},
+								{
+									"key": "idCor",
+									"value": "5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/marcador/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"marcador",
+								"criar"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Marcador",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "nome",
+											"value": "Branco",
+											"type": "text"
+										},
+										{
+											"key": "idCor",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/marcador/criar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"marcador",
+										"criar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "179",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 19:11:08 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"mensagem\":\"Marcador cadastrado com sucesso.\",\"data\":{\"id\":\"2\",\"nome\":\"Branco\",\"ativo\":\"S\",\"idCor\":\"1\",\"descricaoCor\":\"Branco\",\"arquivoCor\":\"marcador_branco.png\"}}"
+						}
+					]
+				},
+				{
+					"name": "proc/criar-Segundo Proc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"\r",
+									"pm.test(\"Cenario009.1 - Existe ProtocoloFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idProcedimento_2\", jsonData.data.IdProcedimento);\r",
+									"pm.globals.set(\"ProtocoloFormatado_2\", jsonData.data.ProtocoloFormatado);\r",
+									"\r",
+									"pm.globals.set(\"iLoop\", \"0\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "tipoProcesso",
+									"value": "100000349",
+									"type": "text"
+								},
+								{
+									"key": "especificacao",
+									"value": "descricao teste",
+									"type": "text"
+								},
+								{
+									"key": "observacoes",
+									"value": "observacao teste",
+									"type": "text"
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "hipoteseLegal",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "[{\"id\": 79}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"criar"
+							]
+						},
+						"description": "Criar um processo simples"
+					},
+					"response": []
+				},
+				{
+					"name": "Marcar Processo Loop",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8a5d4e0c-0d1f-4092-ab84-f501d9c27168",
+								"exec": [
+									"\r",
+									"pm.test(\"Cenario009.1 - Processo Marcado\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"var i=Number(pm.globals.get(\"iLoop\"));\r",
+									"i = i+1;\r",
+									"pm.globals.set(\"iLoop\", i);\r",
+									"\r",
+									"\r",
+									"if(i<30){\r",
+									"\r",
+									"    postman.setNextRequest('Marcar Processo Loop');\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "marcador",
+									"value": "{{Marcador1}}",
+									"description": "id do marcador",
+									"type": "text"
+								},
+								{
+									"key": "texto",
+									"value": "marquei proc {{$randomAdjective}} {{$randomNoun}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/marcador/processo/:protocolo/marcar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"marcador",
+								"processo",
+								":protocolo",
+								"marcar"
+							],
+							"variable": [
+								{
+									"key": "protocolo",
+									"value": "{{idProcedimento_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Marcar Processo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "marcador",
+											"value": "6",
+											"description": "id do marcador",
+											"type": "text"
+										},
+										{
+											"key": "texto",
+											"value": "Teste marcação",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/marcador/processo/:protocolo/marcar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"marcador",
+										"processo",
+										":protocolo",
+										"marcar"
+									],
+									"variable": [
+										{
+											"key": "protocolo",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "59",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 20:33:37 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"mensagem\":\"Processo marcado com sucesso.\"}"
+						}
+					]
+				},
+				{
+					"name": "Retornar Histórico Marcador Processo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "14ad9bf2-a1a9-47ab-a94c-40fd671b5abf",
+								"exec": [
+									"",
+									"pm.test(\"Cenario009.1 - Verificar Historico\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.length).to.eql(30);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/marcador/processo/:protocolo/historico/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"marcador",
+								"processo",
+								":protocolo",
+								"historico",
+								"listar"
+							],
+							"variable": [
+								{
+									"key": "protocolo",
+									"value": "{{idProcedimento_2}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Retornar Histórico Marcador Processo",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/marcador/processo/:protocolo/historico/listar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"marcador",
+										"processo",
+										":protocolo",
+										"historico",
+										"listar"
+									],
+									"variable": [
+										{
+											"key": "protocolo",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "483",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Aug 2019 21:05:35 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":[{\"marcadorAtivo\":\"S\",\"data\":\"19\\/08\\/2019 18:04\",\"texto\":\"\",\"nomeMarcador\":\"a\",\"nomeUsuario\":\"Usu\\u00e1rio de Testes\",\"siglaUsuario\":\"teste\"},{\"marcadorAtivo\":\"\",\"data\":\"19\\/08\\/2019 18:04\",\"texto\":\"\",\"nomeMarcador\":\"[REMOVIDO]\",\"nomeUsuario\":\"Usu\\u00e1rio de Testes\",\"siglaUsuario\":\"teste\"},{\"marcadorAtivo\":\"S\",\"data\":\"19\\/08\\/2019 17:33\",\"texto\":\"Teste marca\\u00e7\\u00e3o\",\"nomeMarcador\":\"v\",\"nomeUsuario\":\"Usu\\u00e1rio de Testes\",\"siglaUsuario\":\"teste\"}]}"
+						}
+					]
+				}
+			]
 		}
 	],
 	"event": [
@@ -23696,13 +27557,13 @@
 	],
 	"variable": [
 		{
-			"id": "76a636de-6249-48a2-a58b-01cae87b918c",
+			"id": "e965dd03-0acf-4ad4-b643-0a0053c3135a",
 			"key": "{{token}}",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "1f6d0534-4604-4ccb-88ba-a17a1d1983c4",
+			"id": "3b6946a5-17b9-4af8-9ffa-e795cc1cbc5b",
 			"key": "{{baseurl}}",
 			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
 			"type": "string"
