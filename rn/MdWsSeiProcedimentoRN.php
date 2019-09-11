@@ -1034,10 +1034,10 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $pesquisaPendenciaDTO->setStrSinInicial('N');
             } else if ($mdWsSeiProtocoloDTOParam->getStrSinTipoBusca() == MdWsSeiProtocoloDTO::SIN_TIPO_BUSCA_G) {
                 $pesquisaPendenciaDTO->setStrSinInicial('S');
-            } /* else {
-                throw new InfraException('O tipo de busca deve ser (R)ecebidos ou (G)erados');
-            }*/
+            }
+            /** Chama o componente SEI para retorno da lista de processos */
             $ret = $atividadeRN->listarPendencias($pesquisaPendenciaDTO);
+            /** Chama método para padronização e montagem de resultado */
             $result = $this->montaRetornoListagemProcessos($ret, $usuarioAtribuicaoAtividade, $mdWsSeiProtocoloDTOParam->getStrSinTipoBusca());
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $pesquisaPendenciaDTO->getNumTotalRegistros());
@@ -1096,6 +1096,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $protocoloDTO->retStrStaNivelAcessoGlobal();
                 $protocoloDTO->retStrSinCienciaProcedimento();
                 $protocoloDTO->retStrStaEstado();
+                /** Chama o componente SEI para retorno dos dados do processo */
                 $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
             } else {
                 $protocoloDTO = $dto;
@@ -1134,6 +1135,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $pesquisaPendenciaDTO->setStrSinSituacoes('S');
                 $pesquisaPendenciaDTO->setStrSinMarcadores('S');
                 $pesquisaPendenciaDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+                /** Chama o componente SEI para retorno de dados complementares (nivel de acesso, etc) do processo */
                 $arrProcedimentoDTO = $atividadeRN->listarPendencias($pesquisaPendenciaDTO);
                 if ($arrProcedimentoDTO) {
                     $procedimentoDTO = $arrProcedimentoDTO[0];
@@ -1141,24 +1143,13 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 }
             }
 
-            /*$arrAtividades = $procedimentoDTO ? $procedimentoDTO->getArrObjAtividadeDTO() : null;
-            if ($arrAtividades) {
-                $atividadeDTO = $arrAtividades[0];
-
-                $numTipoVisualizacao=$atividadeDTO->getNumTipoVisualizacao();
-
-                if ($numTipoVisualizacao != AtividadeRN::$TV_NAO_VISUALIZADO &&
-                    $protocoloDTO->getStrStaNivelAcessoGlobal() != ProtocoloRN::$NA_SIGILOSO){
-                    $usuarioVisualizacao = 'S';
-                }
-            }*/
-
             $objAtividadesAbertasDTO = new AtividadeDTO();
             $objAtividadesAbertasDTO->retNumIdAtividade();
             $objAtividadesAbertasDTO->retNumTipoVisualizacao();
             $objAtividadesAbertasDTO->setDthConclusao(null);
             $objAtividadesAbertasDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
             $objAtividadesAbertasDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            /** CHama o componente SEI para retorno das permissões de acesso do usuário */
             $arrObjAtividadesAbertasDTO = $atividadeRN->listarRN0036($objAtividadesAbertasDTO);
 
             if ($arrObjAtividadesAbertasDTO) {
@@ -1213,6 +1204,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $documentoDTOConsulta = new DocumentoDTO();
             $documentoDTOConsulta->setDblIdProcedimento($protocoloDTO->getDblIdProtocolo());
             $documentoDTOConsulta->retDblIdDocumento();
+            /** Chama o componente SEI para retorno dos documentos do processo */
             $arrDocumentos = $documentoRN->listarRN0008($documentoDTOConsulta);
             if ($arrDocumentos) {
                 $arrIdDocumentos = array();
@@ -1229,6 +1221,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     array(InfraDTO::$OPER_IN),
                     array($arrIdDocumentos)
                 );
+                /** Chama o componente SEI para verificação de documentos publicados */
                 $arrPublicacaoDTO = $publiacaoRN->listarRN1045($publicacaoDTO);
                 $documentoPublicado = count($arrPublicacaoDTO) ? 'S' : 'N';
             }
@@ -1245,6 +1238,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $anotacaoDTOConsulta->retNumIdAnotacao();
             $anotacaoDTOConsulta->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
             $anotacaoDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            /** Chama o componente SEI para verificação de anotações no processo */
             $arrAnotacao = $anotacaoRN->listar($anotacaoDTOConsulta);
             $possuiAnotacao = count($arrAnotacao) ? 'S' : 'N';
             foreach ($arrAnotacao as $anotacaoDTO) {
@@ -1270,6 +1264,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $procedimentoDTOParam = new ProcedimentoDTO();
                 $procedimentoDTOParam->setDblIdProcedimento($protocoloDTO->getDblIdProtocolo());
                 $procedimentoDTOParam->setStrStaNivelAcessoGlobalProtocolo($protocoloDTO->getStrStaNivelAcessoGlobal());
+                /** Chama o componente SEI para verificação de unidades em que se encontra aberto */
                 $arrDadosAbertura = $this->listarUnidadeAberturaProcedimento($procedimentoDTOParam);
             }
 
@@ -1284,6 +1279,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $pesquisaPendenciaDTO->setStrSinMontandoArvore('S');
             $pesquisaPendenciaDTO->setStrSinRetornoProgramado('S');
 
+            /** Chama o componente SEI para verificar se existe retorno programado para o processo */
             $processoEmTramitacao = $processoAberto = count($atividadeRN->listarPendenciasRN0754($pesquisaPendenciaDTO)) == 1;
             if ($protocoloDTO->getNumIdUnidadeGeradora() == SessaoSEI::getInstance()->getNumIdUnidadeAtual()){
                 $processoEmTramitacao = true;
@@ -1295,6 +1291,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $atividadeDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
                 $atividadeDTO->setNumMaxRegistrosRetorno(1);
 
+                /** Chama o componente SEI para verificação de tramitação de processo */
                 if ($atividadeRN->consultarRN0033($atividadeDTO)!=null){
                     $processoEmTramitacao = true;
                 }
