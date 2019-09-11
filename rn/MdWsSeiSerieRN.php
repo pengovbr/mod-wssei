@@ -31,6 +31,7 @@ class MdWsSeiSerieRN extends InfraRN {
             }
 
             $serieRN = new SerieRN();
+            /** Chamada ao componente SEI para retorno da lista de Series do Documento */
             $ret = $serieRN->listarRN0646($serieDTOParam);
 
             /** @var SerieDTO $serieDTO */
