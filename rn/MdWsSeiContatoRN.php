@@ -24,6 +24,7 @@ class MdWsSeiContatoRN extends InfraRN
             $objPesquisaTipoContatoDTO->setStrStaAcesso(TipoContatoRN::$TA_CONSULTA_RESUMIDA);
 
             $objTipoContatoRN = new TipoContatoRN();
+            /** Chamada ao componente SEI para verificação de tipos de contato com acesso a unidade */
             $arrIdTipoContatoAcesso = $objTipoContatoRN->pesquisarAcessoUnidade($objPesquisaTipoContatoDTO);
 
             if (count($arrIdTipoContatoAcesso)) {
@@ -41,6 +42,7 @@ class MdWsSeiContatoRN extends InfraRN
                 $contatoDTOParam->setOrdStrNome(InfraDTO::$TIPO_ORDENACAO_ASC);
 
                 $contatoRN = new ContatoRN();
+                /** Chama o componente SEI para retorno da busca de contatos */
                 $ret = $contatoRN->pesquisarRN0471($contatoDTOParam);
 
                 /** @var ContatoDTO $contatoDTO */
