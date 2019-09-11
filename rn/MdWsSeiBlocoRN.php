@@ -586,6 +586,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $blocoDTO->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
             $blocoDTO->retTodos();
             $blocoRN = new BlocoRN();
+            /** Chama o componente SEI para validação do tipo de bloco de assinatura */
             $blocoDTO = $blocoRN->consultarRN1276($blocoDTO);
             if(!$blocoDTO){
                 throw new Exception('Bloco não encontrado.');
