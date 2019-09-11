@@ -1527,6 +1527,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             }
 
             $tipoConferenciaRN = new TipoConferenciaRN();
+            /** Chamando componente SEI para retorno da pesquisa de tipo conferência */
             $ret = $tipoConferenciaRN->listar($tipoConferenciaDTOParam);
 
             /** @var SerieDTO $tipoConferenciaDTO */
