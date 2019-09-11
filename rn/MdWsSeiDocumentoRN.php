@@ -93,6 +93,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $documentoDTOConsulta->setObjInfraSessao(SessaoSEI::getInstance());
                 $documentoDTOConsulta->setStrLinkDownload('controlador.php?acao=documento_download_anexo');
 
+                /** Chamada a componente SEI para retorno do HTML do documento */
                 $result = $documentoRN->consultarHtmlFormulario($documentoDTOConsulta);
 
                 $auditoriaProtocoloDTO = new AuditoriaProtocoloDTO();
