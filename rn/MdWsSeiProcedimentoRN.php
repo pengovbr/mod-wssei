@@ -1883,6 +1883,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $objRelProtocoloProtocoloDTO->setDblIdProtocolo1($pesquisaProtocoloSolrDTO->getDblIdProcedimento());
 
                 $objRelProtocoloProtocoloRN = new RelProtocoloProtocoloRN();
+                /** Chama o componente SEI para retorno da lista de processos anexados */
                 $arrIdProcessosAnexados = InfraArray::converterArrInfraDTO($objRelProtocoloProtocoloRN->listarRN0187($objRelProtocoloProtocoloDTO), 'IdProtocolo2');
 
                 if (count($arrIdProcessosAnexados) == 0) {
@@ -1905,6 +1906,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $objAssuntoProxyDTO->setNumIdAssunto($pesquisaProtocoloSolrDTO->getNumIdAssunto());
 
                 $objAssuntoProxyRN = new AssuntoProxyRN();
+                /** Chama o componente SEI para o retorno da lista de assuntos */
                 $arrObjAssuntoProxyDTO = $objAssuntoProxyRN->listar($objAssuntoProxyDTO);
 
                 if ($partialfields != '') {
@@ -1984,6 +1986,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $objUnidadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
 
             $objUnidadeRN = new UnidadeRN();
+            /** Chama o componente SEI para retorno de dados da unidade atual */
             $objUnidadeDTOAtual = $objUnidadeRN->consultarRN0125($objUnidadeDTO);
 
             if ($objUnidadeDTOAtual->getStrSinProtocolo() == 'N') {
@@ -2001,6 +2004,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $mdWsSeiProtocoloDTO->setNumIdGrupoAcompanhamentoProcedimento($pesquisaProtocoloSolrDTO->getNumIdGrupoAcompanhamentoProcedimento());
                 $mdWsSeiProtocoloDTO->retDblIdProtocolo();
 
+                /** Chama o componente SEI para retorno de dados de consulta de acompanhamento de processos */
                 $ret = $protocoloRN->listarRN0668($mdWsSeiProtocoloDTO);
                 if(!$ret){
                     return MdWsSeiRest::formataRetornoSucessoREST(null, array(), 0);
@@ -2040,6 +2044,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $parametros->rows = $limit;
             $parametros->sort = 'dta_ger desc, id_prot desc';
 
+            /** Executa consulta no SOLR para retorno de metadados indexados de processos e documentos da busca */
             $urlBusca = ConfiguracaoSEI::getInstance()->getValor('Solr', 'Servidor') . '/' . ConfiguracaoSEI::getInstance()->getValor('Solr', 'CoreProtocolos') . '/select?' . http_build_query($parametros) . '&hl=true&hl.snippets=2&hl.fl=content&hl.fragsize=100&hl.maxAnalyzedChars=1048576&hl.alternateField=content&hl.maxAlternateFieldLength=100&fl=id,id_proc,id_doc,id_tipo_proc,id_serie,id_anexo,id_uni_ger,prot_doc,prot_proc,numero,id_usu_ger,dta_ger';
 
             try {
@@ -2105,6 +2110,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     $protocoloDTO->retStrProtocoloFormatado();
                     $protocoloDTO->retNumIdSerieDocumento();
                     $protocoloDTO->retStrNomeSerieDocumento();
+                    /** Chama componente SEI para retorno de dados do documento */
                     $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
                     $arrDadosProcedimento['documento'] = array(
                         'idDocumento' => $protocoloDTO->getDblIdProtocolo(),
