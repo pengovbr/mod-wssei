@@ -509,6 +509,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $unidadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
 
                 $unidadeRN = new UnidadeRN();
+                /** Chamada ao componente SEI para verificação de parametros do documento */
                 $unidadeDTO = $unidadeRN->consultarRN0125($unidadeDTO);
                 $bolFlagProtocolo = ($unidadeDTO->getStrSinProtocolo() == 'S');
 
