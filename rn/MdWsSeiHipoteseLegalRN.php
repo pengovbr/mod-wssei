@@ -88,6 +88,7 @@ class MdWsSeiHipoteseLegalRN extends InfraRN
             }
 
             $hipoteseLegalRN = new HipoteseLegalRN();
+            /** Chamada do componente SEI para pesquisa de hipóteses legais */
             $ret = $hipoteseLegalRN->listar($hipoteseLegalDTOParam);
 
             /** @var HipoteseLegalDTO $hipoteseLegalDTO */
