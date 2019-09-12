@@ -579,6 +579,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $objProtocoloDTO->setDblIdProtocolo($relProtocoloProtocoloDTO->getDblIdProtocolo2());
                 $objProtocoloDTO->retStrDescricao();
                 $objTempProtocoloRN = new ProtocoloRN();
+                /** Chamada ao componente SEI para retorno da descricao do protocolo */
                 $objProtocoloDTO = $objTempProtocoloRN->consultarRN0186($objProtocoloDTO);
                 $informacao = $objProtocoloDTO->getStrDescricao();
 
