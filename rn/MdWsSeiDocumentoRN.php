@@ -1058,6 +1058,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             }
             $documentoDTO = new DocumentoDTO();
             $documentoDTO->setDblIdDocumento($request->getAttribute('route')->getArgument('documento'));
+            $documentoDTO->setNumIdUnidadeResponsavel(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
             $documentoDTO->retTodos(true);
             /** Chamada no componente SEI para consulta de documento */
             $documentoDTO = $this->consultarRN0005($documentoDTO);
@@ -1093,6 +1094,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             }
             $documentoDTO = new DocumentoDTO();
             $documentoDTO->setDblIdDocumento($request->getAttribute('route')->getArgument('documento'));
+            $documentoDTO->setNumIdUnidadeResponsavel(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
             $documentoDTO->retTodos(true);
             /** Chamada no componente SEI para consulta de documento */
             $documentoDTO = $this->consultarRN0005($documentoDTO);
