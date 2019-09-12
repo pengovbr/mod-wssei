@@ -267,6 +267,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
             $andamentoMarcadorDTOParam->setOrdNumIdAndamentoMarcador(InfraDTO::$TIPO_ORDENACAO_DESC);
 
             $andamentoMarcadorRN = new AndamentoMarcadorRN();
+            /** Chamada ao componente SEI para retorno da lista de histórico de marcador */
             $ret = $andamentoMarcadorRN->listar($andamentoMarcadorDTOParam);
 
             foreach($ret as $andamentoMarcadorDTO) {
