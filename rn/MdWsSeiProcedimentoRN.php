@@ -2112,6 +2112,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     $protocoloDTO->retNumIdSerieDocumento();
                     $protocoloDTO->retStrNomeSerieDocumento();
                     $protocoloDTO->retStrNumeroDocumento();
+                    $protocoloDTO->retStrStaDocumentoDocumento();
                     /** Chama componente SEI para retorno de dados do documento */
                     $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
                     $arrDadosProcedimento['documento'] = array(
@@ -2120,6 +2121,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         'nomeSerieDocumento' => $protocoloDTO->getStrNomeSerieDocumento(),
                         'protocoloFormatadoDocumento' => $protocoloDTO->getStrProtocoloFormatado(),
                         'numeroDocumento' => $protocoloDTO->getStrNumeroDocumento(),
+                        'staDocumento' => $protocoloDTO->getStrStaDocumentoDocumento(),
                     );
                 }
 
