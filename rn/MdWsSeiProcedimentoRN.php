@@ -2069,6 +2069,14 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $protocoloRN = new ProtocoloRN();
             $procedimentoRN = new ProcedimentoRN();
             $usuarioRN = new UsuarioRN();
+            $anexoRN = new AnexoRN();
+            $arrDocHtml = array(
+                DocumentoRN::$TD_EDITOR_EDOC,
+                DocumentoRN::$TD_FORMULARIO_AUTOMATICO,
+                DocumentoRN::$TD_FORMULARIO_GERADO,
+                DocumentoRN::$TD_EDITOR_INTERNO
+            );
+
             for ($i = 0; $i < $numRegistros; $i++) {
                 $procedimentoDTO = new ProcedimentoDTO();
                 $procedimentoDTO->setDblIdProcedimento(SolrUtil::obterTag($registros[$i], 'id_proc', 'long'));
@@ -2116,6 +2124,31 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     $protocoloDTO->retDtaGeracao();
                     /** Chama componente SEI para retorno de dados do documento */
                     $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
+                    $arrDadosAnexo = null;
+
+                    if (!in_array($protocoloDTO->getStrStaDocumentoDocumento(), $arrDocHtml)) {
+                        $anexoDTOConsulta = new AnexoDTO();
+                        $anexoDTOConsulta->retStrNome();
+                        $anexoDTOConsulta->retNumTamanho();
+                        $anexoDTOConsulta->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+                        $anexoDTOConsulta->setStrSinAtivo('S');
+                        $anexoDTOConsulta->setNumMaxRegistrosRetorno(1);
+                        /** Chama o componente SEI para recuperar o anexo no documento */
+                        $resultAnexo = $anexoRN->listarRN0218($anexoDTOConsulta);
+                        if ($resultAnexo) {
+                            /** @var AnexoDTO $anexoDTO */
+                            $anexoDTO = $resultAnexo[0];
+                            $mimetype = $anexoDTO->getStrNome();
+                            $mimetype = substr($mimetype, strrpos($mimetype, '.') + 1);
+                            $nomeAnexo = $anexoDTO->getStrNome();
+                            $tamanhoAnexo = $anexoDTO->getNumTamanho();
+                            $arrDadosAnexo = array(
+                                'nome' => $nomeAnexo,
+                                'mimetype' => $mimetype,
+                                'tamanho' => $tamanhoAnexo
+                            );
+                        }
+                    }
                     $arrDadosProcedimento['documento'] = array(
                         'idDocumento' => $protocoloDTO->getDblIdProtocolo(),
                         'idSerieDocumento' => $protocoloDTO->getNumIdSerieDocumento(),
@@ -2124,6 +2157,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         'numeroDocumento' => $protocoloDTO->getStrNumeroDocumento(),
                         'staDocumento' => $protocoloDTO->getStrStaDocumentoDocumento(),
                         'dtaGeracao' => $protocoloDTO->getDtaGeracao(),
+                        'dadosAnexo' => $arrDadosAnexo
                     );
                 }
 
