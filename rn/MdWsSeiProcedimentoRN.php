@@ -340,6 +340,58 @@ class MdWsSeiProcedimentoRN extends InfraRN
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
+
+    /**
+     * Método que consulta o processo realizando todas as validações de permissão de acesso
+     * @param $idProtocolo
+     * @return array
+     */
+    protected function consultarConectado($idProtocolo)
+    {
+        try{
+            $protocoloRN = new ProtocoloRN();
+            $protocoloDTO = new MdWsSeiProtocoloDTO();
+            $protocoloDTO->setDblIdProtocolo($idProtocolo);
+            $protocoloDTO->retDblIdProtocolo();
+            $protocoloDTO->retNumIdUnidadeGeradora();
+            $protocoloDTO->retStrStaProtocolo();
+            $protocoloDTO->retStrProtocoloFormatado();
+            $protocoloDTO->retStrNomeTipoProcedimentoProcedimento();
+            $protocoloDTO->retStrDescricao();
+            $protocoloDTO->retStrSiglaUnidadeGeradora();
+            $protocoloDTO->retStrStaGrauSigilo();
+            $protocoloDTO->retStrStaNivelAcessoLocal();
+            $protocoloDTO->retStrStaNivelAcessoGlobal();
+            $protocoloDTO->retStrSinCienciaProcedimento();
+            $protocoloDTO->retStrStaEstado();
+
+            /** Chama o componente SEI para validação de existencia de Processo e retorno dos dados*/
+            $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
+
+            if(!$protocoloDTO){
+                throw new InfraException('Processo não encontrado.');
+            }
+
+            $pesquisaProtocoloDTO = new PesquisaProtocoloDTO();
+            $pesquisaProtocoloDTO->setStrStaTipo(ProtocoloRN::$TPP_PROCEDIMENTOS);
+            $pesquisaProtocoloDTO->setStrStaAcesso(ProtocoloRN::$TAP_AUTORIZADO);
+            $pesquisaProtocoloDTO->setDblIdProtocolo($idProtocolo);
+
+            /** Chama o componente SEI para verificação de permissão de acesso ao processo */
+            $arrProtocoloDTO = $protocoloRN->pesquisarRN0967($pesquisaProtocoloDTO);
+
+            if(empty($arrProtocoloDTO)){
+                throw new InfraException("Acesso ao processo " . $idProtocolo . " não autorizado.");
+            }
+
+            /** Realiza montagem e enriquecimento de informações do processo */
+            $result = $this->montaRetornoListagemProcessos(array($protocoloDTO));
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result[0]);
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
     
      /**
      * Realiza a consulta dos metadados de um processo especifico.

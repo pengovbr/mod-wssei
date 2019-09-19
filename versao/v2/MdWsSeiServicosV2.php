@@ -804,6 +804,13 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                         )
                     );
                 });
+                $this->get('/{protocolo:[0-9]+}', function ($request, $response, $args) {
+                    $rn = new MdWsSeiProcedimentoRN();
+                    return $response->withJSON(
+                        $rn->consultar($request->getAttribute('route')->getArgument('protocolo'))
+                    );
+                });
+
                 $this->post('/cancelar/sobrestar', function ($request, $response, $args) {
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiProcedimentoRN();
@@ -825,8 +832,6 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                         $rn->apiConsultarProcessoDigitado($request->getParam('protocoloFormatado'))
                     );
                 });
-
-
                 $this->get('/tipo/listar', function ($request, $response, $args) {
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiProcedimentoRN();
