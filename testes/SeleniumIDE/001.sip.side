@@ -1,11 +1,11 @@
 {
   "id": "565c3481-f0b6-42f6-a947-d7514d57929f",
   "version": "2.0",
-  "name": "SEI-ModWssei-SIP",
-  "url": "http://sei3.nuvem.gov.br",
+  "name": "SEI-Gestao-Documental-Config-SIP",
+  "url": "http://seigd.nuvem.gov.br",
   "tests": [{
     "id": "35f98682-f3ae-496d-8cc0-3168c83c7399",
-    "name": "Unidades Cadastrar Montar Hierarquia",
+    "name": "SIP",
     "commands": [{
       "id": "2da76f13-39e2-4148-8725-7c20fb5a8d85",
       "comment": "",
@@ -85,342 +85,161 @@
       ],
       "value": ""
     }, {
-      "id": "44a08723-8444-405c-a359-ab182acc7f77",
-      "comment": "",
-      "command": "times",
-      "target": "40",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "ec98f6e9-c790-4e6d-a8c8-568aa62ab531",
+      "id": "58c3bf9a-c0aa-4d33-bff0-9e953b24fa01",
       "comment": "",
       "command": "click",
-      "target": "//*[@id=\"main-menu\"]/li[8]/a",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "3af5aa1a-3260-42ad-a9f6-b71aafd8ac34",
-      "comment": "",
-      "command": "click",
-      "target": "linkText=Nova",
+      "target": "xpath=//ul[@id='main-menu']/li[11]/a",
       "targets": [
-        ["linkText=Nova", "linkText"],
-        ["css=li:nth-child(8) li:nth-child(1) > a", "css:finder"],
-        ["xpath=(//a[contains(text(),'Nova')])[3]", "xpath:link"],
-        ["xpath=//ul[@id='main-menu']/li[8]/ul/li/a", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, 'controlador.php?acao=unidade_cadastrar&infra_sistema=100000099&infra_unidade_atual=110000001&infra_hash=d87237ed36be93a78009892620503ddf31035c6be9a526eaf220091f5f311b6b')]", "xpath:href"],
-        ["xpath=//li[8]/ul/li/a", "xpath:position"]
+        ["css=.highlighted", "css:finder"],
+        ["xpath=//ul[@id='main-menu']/li[11]/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '#')])[12]", "xpath:href"],
+        ["xpath=//li[11]/a", "xpath:position"]
       ],
       "value": ""
     }, {
-      "id": "6fb63a09-ab6e-44e6-836f-623c6fe7d440",
+      "id": "ab0776f3-5c61-4276-92b7-7b05915b8a6d",
       "comment": "",
       "command": "click",
-      "target": "id=selOrgao",
+      "target": "linkText=Listar",
       "targets": [
-        ["id=selOrgao", "id"],
-        ["name=selOrgao", "name"],
-        ["css=#selOrgao", "css:finder"],
-        ["xpath=//select[@id='selOrgao']", "xpath:attributes"],
-        ["xpath=//div[@id='divInfraAreaDados']/select", "xpath:idRelative"],
-        ["xpath=//div[2]/select", "xpath:position"],
-        ["xpath=//select[contains(.,' \nME')]", "xpath:innerText"]
+        ["linkText=Listar", "linkText"],
+        ["css=li:nth-child(11) li:nth-child(2) > a", "css:finder"],
+        ["xpath=(//a[contains(text(),'Listar')])[11]", "xpath:link"],
+        ["xpath=//ul[@id='main-menu']/li[11]/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'controlador.php?acao=perfil_listar&infra_sistema=100000099&infra_unidade_atual=110000001&infra_hash=430418ff6862dc02a608a9de5a744bb052eea986e5c1da6cae0f1517ae0e3fbc')]", "xpath:href"],
+        ["xpath=//li[11]/ul/li[2]/a", "xpath:position"]
       ],
       "value": ""
     }, {
-      "id": "fcfaa7ca-f907-4bdf-9991-c8cc30720ae7",
+      "id": "0e6139fe-5761-4306-9887-45d08c0e1756",
+      "comment": "",
+      "command": "click",
+      "target": "id=selSistema",
+      "targets": [
+        ["id=selSistema", "id"],
+        ["name=selSistema", "name"],
+        ["css=#selSistema", "css:finder"],
+        ["xpath=//select[@id='selSistema']", "xpath:attributes"],
+        ["xpath=//div[@id='divInfraAreaDados']/select[2]", "xpath:idRelative"],
+        ["xpath=//select[2]", "xpath:position"],
+        ["xpath=//select[contains(.,' \nSEI\nSIP')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "67743393-81a7-486d-bb7d-d09a7dbed1c2",
       "comment": "",
       "command": "select",
-      "target": "id=selOrgao",
-      "targets": [],
-      "value": "label=ME"
-    }, {
-      "id": "06e9726b-a306-4775-879a-8d27cc5feada",
-      "comment": "",
-      "command": "click",
-      "target": "id=selOrgao",
-      "targets": [
-        ["id=selOrgao", "id"],
-        ["name=selOrgao", "name"],
-        ["css=#selOrgao", "css:finder"],
-        ["xpath=//select[@id='selOrgao']", "xpath:attributes"],
-        ["xpath=//div[@id='divInfraAreaDados']/select", "xpath:idRelative"],
-        ["xpath=//div[2]/select", "xpath:position"],
-        ["xpath=//select[contains(.,' \nME')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "cdc23733-07d8-45dd-909f-8a3fae52e35c",
-      "comment": "",
-      "command": "click",
-      "target": "id=txtSigla",
-      "targets": [
-        ["id=txtSigla", "id"],
-        ["name=txtSigla", "name"],
-        ["css=#txtSigla", "css:finder"],
-        ["xpath=//input[@id='txtSigla']", "xpath:attributes"],
-        ["xpath=//div[@id='divInfraAreaDados']/input", "xpath:idRelative"],
-        ["xpath=//div[2]/input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "7e960293-374d-48c2-b990-39b0cb803cba",
-      "comment": "",
-      "command": "executeScript",
-      "target": "var d= new Date(); var m=((d.getMonth()+1)<10)?'0'+(d.getMonth()+1):(d.getMonth()+1); return d.getFullYear()+\"-\"+m+\"-\"+d.getDate();",
-      "targets": [],
-      "value": "data"
-    }, {
-      "id": "802003f4-9fbd-4f33-8857-7d60cad4bfb2",
-      "comment": "",
-      "command": "echo",
-      "target": "valor ${data}",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "21af01c9-f19e-473f-8020-2bb74b9e5b2e",
-      "comment": "",
-      "command": "executeScript",
-      "target": "return (new Date().getHours()+\"-\" + new Date().getMinutes() + \"-\" + new Date().getSeconds())",
-      "targets": [],
-      "value": "hora"
-    }, {
-      "id": "20f038d4-decb-4bbf-a794-8c4b2f16a637",
-      "comment": "",
-      "command": "echo",
-      "target": "value ${hora}",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "c5b88efe-42c1-4228-9b9b-1290c79f8cd1",
-      "comment": "",
-      "command": "type",
-      "target": "id=txtSigla",
-      "targets": [
-        ["id=txtSigla", "id"],
-        ["name=txtSigla", "name"],
-        ["css=#txtSigla", "css:finder"],
-        ["xpath=//input[@id='txtSigla']", "xpath:attributes"],
-        ["xpath=//div[@id='divInfraAreaDados']/input", "xpath:idRelative"],
-        ["xpath=//div[2]/input", "xpath:position"]
-      ],
-      "value": "Un-${data}-${hora}"
-    }, {
-      "id": "3b953851-37f9-40dc-adf2-d1d06c3848cb",
-      "comment": "",
-      "command": "click",
-      "target": "id=divInfraAreaDados",
-      "targets": [
-        ["id=divInfraAreaDados", "id"],
-        ["css=#divInfraAreaDados", "css:finder"],
-        ["xpath=//div[@id='divInfraAreaDados']", "xpath:attributes"],
-        ["xpath=//form[@id='frmUnidadeCadastro']/div[2]", "xpath:idRelative"],
-        ["xpath=//form/div[2]", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "13c2abea-3303-4b49-87bc-3edaeecdf2bf",
-      "comment": "",
-      "command": "click",
-      "target": "id=txtDescricao",
-      "targets": [
-        ["id=txtDescricao", "id"],
-        ["name=txtDescricao", "name"],
-        ["css=#txtDescricao", "css:finder"],
-        ["xpath=//input[@id='txtDescricao']", "xpath:attributes"],
-        ["xpath=//div[@id='divInfraAreaDados']/input[2]", "xpath:idRelative"],
-        ["xpath=//input[2]", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "ac3b66c7-1c4e-48a1-8b4c-1b61fbe531f6",
-      "comment": "",
-      "command": "type",
-      "target": "id=txtDescricao",
-      "targets": [
-        ["id=txtDescricao", "id"],
-        ["name=txtDescricao", "name"],
-        ["css=#txtDescricao", "css:finder"],
-        ["xpath=//input[@id='txtDescricao']", "xpath:attributes"],
-        ["xpath=//div[@id='divInfraAreaDados']/input[2]", "xpath:idRelative"],
-        ["xpath=//input[2]", "xpath:position"]
-      ],
-      "value": "Unidade ${data} ${hora}"
-    }, {
-      "id": "8f624bab-e10e-4eec-b40a-13b51818a024",
-      "comment": "",
-      "command": "click",
-      "target": "name=sbmCadastrarUnidade",
-      "targets": [
-        ["name=sbmCadastrarUnidade", "name"],
-        ["css=.infraButton:nth-child(1)", "css:finder"],
-        ["xpath=//button[@name='sbmCadastrarUnidade']", "xpath:attributes"],
-        ["xpath=//div[@id='divInfraBarraComandosSuperior']/button", "xpath:idRelative"],
-        ["xpath=//button", "xpath:position"],
-        ["xpath=//button[contains(.,'Salvar')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "936cf845-2f7c-406b-b464-74e6510a95da",
-      "comment": "",
-      "command": "click",
-      "target": "//*[@id=\"main-menu\"]/li[7]/a",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "a8765278-dd0d-4452-8ff5-0c9cbb5c9116",
-      "comment": "",
-      "command": "click",
-      "target": "linkText=Montar",
-      "targets": [
-        ["linkText=Montar", "linkText"],
-        ["css=.sm-nowrap > li:nth-child(4) > a", "css:finder"],
-        ["xpath=//a[contains(text(),'Montar')]", "xpath:link"],
-        ["xpath=//ul[@id='main-menu']/li[7]/ul/li[4]/a", "xpath:idRelative"],
-        ["xpath=//a[contains(@href, 'controlador.php?acao=rel_hierarquia_unidade_listar&infra_sistema=100000099&infra_unidade_atual=110000001&infra_hash=f876b144d888b256eef140467a59ae686f076029c29e3f415eb9514fea1d90b3')]", "xpath:href"],
-        ["xpath=//li[7]/ul/li[4]/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Montar')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "2bae6c20-bd48-4f10-ac0a-c2c973095862",
-      "comment": "",
-      "command": "click",
-      "target": "id=selHierarquia",
-      "targets": [
-        ["id=selHierarquia", "id"],
-        ["name=selHierarquia", "name"],
-        ["css=#selHierarquia", "css:finder"],
-        ["xpath=//select[@id='selHierarquia']", "xpath:attributes"],
-        ["xpath=//div[@id='divInfraAreaDados']/select", "xpath:idRelative"],
-        ["xpath=//div[2]/select", "xpath:position"],
-        ["xpath=//select[contains(.,' \nSEI')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "cf136906-f24f-439b-9717-a66e6628499c",
-      "comment": "",
-      "command": "select",
-      "target": "id=selHierarquia",
+      "target": "id=selSistema",
       "targets": [],
       "value": "label=SEI"
     }, {
-      "id": "f3120585-506c-4cb6-9967-a6ed104e238a",
+      "id": "e36dfaf9-7cf2-4250-bac3-4b6a5d657dae",
       "comment": "",
       "command": "click",
-      "target": "id=selHierarquia",
+      "target": "id=selSistema",
       "targets": [
-        ["id=selHierarquia", "id"],
-        ["name=selHierarquia", "name"],
-        ["css=#selHierarquia", "css:finder"],
-        ["xpath=//select[@id='selHierarquia']", "xpath:attributes"],
-        ["xpath=//div[@id='divInfraAreaDados']/select", "xpath:idRelative"],
-        ["xpath=//div[2]/select", "xpath:position"],
-        ["xpath=//select[contains(.,' \nSEI')]", "xpath:innerText"]
+        ["id=selSistema", "id"],
+        ["name=selSistema", "name"],
+        ["css=#selSistema", "css:finder"],
+        ["xpath=//select[@id='selSistema']", "xpath:attributes"],
+        ["xpath=//div[@id='divInfraAreaDados']/select[2]", "xpath:idRelative"],
+        ["xpath=//select[2]", "xpath:position"],
+        ["xpath=//select[contains(.,' \nSEI\nSIP')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
-      "id": "306fc39b-d6c7-486b-8d7c-828e20d7bde4",
+      "id": "130b33e2-6515-45bb-9563-72f8537f08ad",
       "comment": "",
       "command": "click",
-      "target": "id=btnNova",
+      "target": "xpath=(//img[@alt='Montar Perfil'])[2]",
       "targets": [
-        ["id=btnNova", "id"],
-        ["css=#btnNova", "css:finder"],
-        ["xpath=//input[@id='btnNova']", "xpath:attributes"],
-        ["xpath=//div[@id='divInfraBarraComandosSuperior']/input[2]", "xpath:idRelative"],
-        ["xpath=//input[2]", "xpath:position"]
+        ["css=.infraTrSelecionada a:nth-child(2) > .infraImg", "css:finder"],
+        ["xpath=(//img[@alt='Montar Perfil'])[2]", "xpath:img"],
+        ["xpath=//div[@id='divInfraAreaTabela']/table/tbody/tr[3]/td[6]/a[2]/img", "xpath:idRelative"],
+        ["xpath=//tr[3]/td[6]/a[2]/img", "xpath:position"]
       ],
       "value": ""
     }, {
-      "id": "c36d3ef8-4524-4b3f-8d7d-04e0ed6b442d",
+      "id": "9d54cc31-c472-44ab-9c0e-aadac0944ee8",
       "comment": "",
       "command": "click",
-      "target": "id=selUnidade",
+      "target": "id=txtNomeRecurso",
       "targets": [
-        ["id=selUnidade", "id"],
-        ["name=selUnidade", "name"],
-        ["css=#selUnidade", "css:finder"],
-        ["xpath=//select[@id='selUnidade']", "xpath:attributes"],
-        ["xpath=//div[@id='divInfraAreaDados']/select[4]", "xpath:idRelative"],
-        ["xpath=//select[4]", "xpath:position"],
-        ["xpath=//select[contains(.,' \nUn1\nUn-2019-09-18-{hora}\nUn-2019-09-18-15-6-42')]", "xpath:innerText"]
+        ["id=txtNomeRecurso", "id"],
+        ["name=txtNomeRecurso", "name"],
+        ["css=#txtNomeRecurso", "css:finder"],
+        ["xpath=//input[@id='txtNomeRecurso']", "xpath:attributes"],
+        ["xpath=//div[@id='divInfraAreaDados']/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
       ],
       "value": ""
     }, {
-      "id": "16db29cb-312e-4772-964e-4f238877b672",
+      "id": "b130b7ce-8922-4306-b331-8c532c67b862",
       "comment": "",
-      "command": "select",
-      "target": "id=selUnidade",
-      "targets": [],
-      "value": "label=Un-${data}-${hora}"
-    }, {
-      "id": "d2eead87-f756-4c21-bb33-26f935d35bf2",
-      "comment": "",
-      "command": "click",
-      "target": "id=selUnidade",
+      "command": "type",
+      "target": "id=txtNomeRecurso",
       "targets": [
-        ["id=selUnidade", "id"],
-        ["name=selUnidade", "name"],
-        ["css=#selUnidade", "css:finder"],
-        ["xpath=//select[@id='selUnidade']", "xpath:attributes"],
-        ["xpath=//div[@id='divInfraAreaDados']/select[4]", "xpath:idRelative"],
-        ["xpath=//select[4]", "xpath:position"],
-        ["xpath=//select[contains(.,' \nUn1\nUn-2019-09-18-{hora}\nUn-2019-09-18-15-6-42')]", "xpath:innerText"]
+        ["id=txtNomeRecurso", "id"],
+        ["name=txtNomeRecurso", "name"],
+        ["css=#txtNomeRecurso", "css:finder"],
+        ["xpath=//input[@id='txtNomeRecurso']", "xpath:attributes"],
+        ["xpath=//div[@id='divInfraAreaDados']/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
       ],
-      "value": ""
+      "value": "gestao"
     }, {
-      "id": "688796e9-f65c-45ab-8df6-2b28a6621cc0",
+      "id": "170a8110-379e-46f5-9e0c-e7c219941d66",
       "comment": "",
       "command": "click",
-      "target": "id=imgCalDataInicio",
+      "target": "id=btnPesquisar",
       "targets": [
-        ["id=imgCalDataInicio", "id"],
-        ["css=#imgCalDataInicio", "css:finder"],
-        ["xpath=//img[@alt='Selecionar Data Inicial']", "xpath:img"],
-        ["xpath=//img[@id='imgCalDataInicio']", "xpath:attributes"],
-        ["xpath=//div[@id='divInfraAreaDados']/img", "xpath:idRelative"],
-        ["xpath=//form/div[2]/img", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "6b8c9c09-aef4-4d4a-bea6-03dca78b603e",
-      "comment": "",
-      "command": "click",
-      "target": "css=.activeDay",
-      "targets": [
-        ["css=.activeDay", "css:finder"],
-        ["xpath=//div[@id='infraCalendario']/div[7]/table/tbody/tr[5]/td[4]", "xpath:idRelative"],
-        ["xpath=//tr[5]/td[4]", "xpath:position"],
-        ["xpath=//td[contains(.,'18')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "8650022f-7dc9-475b-bf8b-bdcb3afeaf6e",
-      "comment": "",
-      "command": "click",
-      "target": "name=sbmCadastrarHierarquiaUnidade",
-      "targets": [
-        ["name=sbmCadastrarHierarquiaUnidade", "name"],
-        ["css=.infraButton:nth-child(1)", "css:finder"],
-        ["xpath=//input[@name='sbmCadastrarHierarquiaUnidade']", "xpath:attributes"],
+        ["id=btnPesquisar", "id"],
+        ["css=#divInfraBarraComandosSuperior > #btnPesquisar", "css:finder"],
+        ["xpath=//input[@id='btnPesquisar']", "xpath:attributes"],
         ["xpath=//div[@id='divInfraBarraComandosSuperior']/input", "xpath:idRelative"],
         ["xpath=//div/input", "xpath:position"]
       ],
       "value": ""
     }, {
-      "id": "61353972-72fd-42c0-9d00-295c995087f1",
+      "id": "3eb08968-6094-48c9-a45d-bc5a0616b7a6",
       "comment": "",
-      "command": "pause",
-      "target": "1000",
-      "targets": [],
+      "command": "click",
+      "target": "id=imgInfraCheckRecursos",
+      "targets": [
+        ["id=imgInfraCheckRecursos", "id"],
+        ["css=#imgInfraCheckRecursos", "css:finder"],
+        ["xpath=//img[@alt='Selecionar Tudo']", "xpath:img"],
+        ["xpath=//img[@id='imgInfraCheckRecursos']", "xpath:attributes"],
+        ["xpath=//div[@id='divInfraAreaTabela']/table/tbody/tr/th[2]/div/div/a/img", "xpath:idRelative"],
+        ["xpath=//th[2]/div/div/a/img", "xpath:position"]
+      ],
       "value": ""
     }, {
-      "id": "39bc910d-c54e-46a8-ad42-2a963700984a",
+      "id": "16bdf9ff-ec91-4bb3-bd8b-7a7e52cb66f0",
       "comment": "",
-      "command": "end",
-      "target": "",
-      "targets": [],
+      "command": "click",
+      "target": "id=imgInfraCheckMenus",
+      "targets": [
+        ["id=imgInfraCheckMenus", "id"],
+        ["css=#imgInfraCheckMenus", "css:finder"],
+        ["xpath=//img[@alt='Selecionar Tudo']", "xpath:img"],
+        ["xpath=//img[@id='imgInfraCheckMenus']", "xpath:attributes"],
+        ["xpath=//div[@id='divInfraAreaTabela']/table/tbody/tr/th[3]/div/div/a/img", "xpath:idRelative"],
+        ["xpath=//th[3]/div/div/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "815d17cc-4f45-412b-a5fd-ee326baa2d46",
+      "comment": "",
+      "command": "click",
+      "target": "name=sbmMontarPerfil",
+      "targets": [
+        ["name=sbmMontarPerfil", "name"],
+        ["css=#divInfraBarraComandosSuperior > .infraButton:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='sbmMontarPerfil']", "xpath:attributes"],
+        ["xpath=//div[@id='divInfraBarraComandosSuperior']/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
       "value": ""
     }, {
       "id": "332037be-7a33-4173-928a-8006298c417f",
@@ -445,12 +264,12 @@
   }],
   "suites": [{
     "id": "a6936c4e-871c-42fa-9c4c-e2efd3bd3848",
-    "name": "SIP-Wssei",
+    "name": "Default Suite",
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
     "tests": ["35f98682-f3ae-496d-8cc0-3168c83c7399"]
   }],
-  "urls": ["http://seigd.nuvem.gov.br/", "http://sei3.nuvem.gov.br/"],
+  "urls": ["http://seigd.nuvem.gov.br/"],
   "plugins": []
 }
