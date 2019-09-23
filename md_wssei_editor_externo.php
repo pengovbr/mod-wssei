@@ -863,7 +863,7 @@ try {
         <?}?>
         //]]></script>
 </head>
-<body onload="inicializar();" style="margin: 5px;overflow: hidden">
+<body onload="inicializar();" style="margin: 5px;">
 <div id='divCarregando'><h2>Carregando...</h2></div>
 <form id="frmEditor" style="hidden:true;margin: 0px;" method="post" target="ifrEditorSalvar" action="<?=SessaoSEI::getInstance()->assinarLink('editor/editor_processar.php?acao=editor_salvar&acao_origem='.$_GET['acao'].$strParametros)?>">
     <div id="divComandos" style="margin:0px;"></div>
