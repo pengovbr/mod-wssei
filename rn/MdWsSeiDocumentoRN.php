@@ -515,6 +515,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
                 $documentoDTOConsulta = new DocumentoDTO();
                 $documentoDTOConsulta->retStrStaNivelAcessoLocalProtocolo();
+                $documentoDTOConsulta->retStrSinBloqueado();
                 $documentoDTOConsulta->retDblIdDocumento();
                 $documentoDTOConsulta->retStrStaProtocoloProtocolo();
                 $documentoDTOConsulta->retDblIdProcedimento();
@@ -529,10 +530,11 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $documentoDTOConsulta->retStrCrcAssinatura();
                 $documentoDTOConsulta->retStrStaEstadoProtocolo();
                 $documentoDTOConsulta->retNumIdTipoConferencia();
+                $documentoDTOConsulta->retArrObjAssinaturaDTO();
                 $documentoDTOConsulta->setDblIdDocumento(array_keys(InfraArray::indexarArrInfraDTO($ret, 'IdProtocolo2')), InfraDTO::$OPER_IN);
-                $documentoBD = new DocumentoBD($this->getObjInfraIBanco());
+                $documentoRN = new DocumentoRN();
                 /** Chama o componente SEI para retorno das informações dos documentos do processo */
-                $retDocumentos = $documentoBD->listar($documentoDTOConsulta);
+                $retDocumentos = $documentoRN->listarRN0008($documentoDTOConsulta);
 
                 /** @var DocumentoDTO $documentoDTOOrd */
                 foreach ($retDocumentos as $documentoDTOOrd) {
@@ -619,7 +621,9 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $strSinDisponibilizadoParaOutraUnidade = $disponibilizado;
 
                 $permiteAssinatura = false;
+                $permiteAlterar = false;
                 $hasBloco = false;
+                $assinadoPorOutraUnidade = false;
 
                 //recupera blocos disponibilizados para a unidade atual
                 $objRelBlocoUnidadeDTO = new RelBlocoUnidadeDTO();
@@ -655,11 +659,25 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                     }
                 }
 
+                /** @var AssinaturaDTO $assinaturaDTO */
+                foreach ($documentoDTO->getArrObjAssinaturaDTO() as $assinaturaDTO) {
+                    if($assinaturaDTO->getNumIdUnidade() != SessaoSEI::getInstance()->getNumIdUnidadeAtual()){
+                        $assinadoPorOutraUnidade = true;
+                    }
+                }
+
 
                 if ((($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO || $strStaDocumento == DocumentoRN::$TD_FORMULARIO_GERADO) &&
                         ($numIdUnidadeGeradoraProtocolo == $numIdUnidadeAtual && $strSinDisponibilizadoParaOutraUnidade == 'N')) || $hasBloco
                 ) {
                     $permiteAssinatura = true;
+                }
+
+                if ($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO && $documentoDTO->getStrSinBloqueado() == 'N' &&
+                    (($numIdUnidadeGeradoraProtocolo == $numIdUnidadeAtual && $strSinDisponibilizadoParaOutraUnidade == 'N') ||
+                        (($hasBloco || $permiteAssinatura) && !$assinadoPorOutraUnidade)) && !$documentoPublicado == 'N'
+                ) {
+                    $permiteAlterar = true;
                 }
 
 
@@ -689,7 +707,8 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                             'ciencia' => $ciencia,
                             'documentoCancelado' => $documentoCancelado,
                             'podeVisualizarDocumento' => $podeVisualizarDocumento ? 'S' : 'N',
-                            'permiteAssinatura' => $permiteAssinatura
+                            'permiteAssinatura' => $permiteAssinatura,
+                            'permiteAlterar' => $permiteAlterar
                         )
                     )
                 );
