@@ -1392,6 +1392,32 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 );
             }
 
+            $atividadeDTO = new AtividadeDTO();
+            $atividadeDTO->retNumIdUsuarioAtribuicao();
+            $atividadeDTO->retNumIdAtividade();
+            $atividadeDTO->retNumIdTarefa();
+            $atividadeDTO->retStrSiglaUsuarioAtribuicao();
+            $atividadeDTO->retStrNomeUsuarioAtribuicao();
+            $atividadeDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+            $atividadeDTO->setNumIdTarefa(
+                array(TarefaRN::$TI_REMOCAO_ATRIBUICAO, TarefaRN::$TI_PROCESSO_ATRIBUIDO),
+                InfraDTO::$OPER_IN
+            );
+            $atividadeDTO->setNumMaxRegistrosRetorno(1);
+            $atividadeDTO->setOrdNumIdAtividade(InfraDTO::$TIPO_ORDENACAO_DESC);
+            $atividadeRN = new AtividadeRN();
+            /** Consulta o componente SEI para retornar a atividade referente a atribuição do usuário */
+            $ret = $atividadeRN->listarRN0036($atividadeDTO);
+            if(!empty($ret) && $ret[0]->getNumIdTarefa() != TarefaRN::$TI_REMOCAO_ATRIBUICAO){
+                $usuarioAtribuido = array(
+                    'idAtividade' => $ret[0]->getNumIdAtividade(),
+                    'idUsuario' => $ret[0]->getNumIdUsuarioAtribuicao(),
+                    'sigla' => $ret[0]->getStrSiglaUsuarioAtribuicao(),
+                    'nome' => $ret[0]->getStrNomeUsuarioAtribuicao(),
+                    'nomeformatado' => $ret[0]->getStrSiglaUsuarioAtribuicao().' - '.$ret[0]->getStrNomeUsuarioAtribuicao()
+                );
+            }
+
             $result[] = array(
                 'id' => $protocoloDTO->getDblIdProtocolo(),
                 'status' => $protocoloDTO->getStrStaProtocolo(),
