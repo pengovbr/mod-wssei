@@ -666,7 +666,6 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                     }
                 }
 
-
                 if ((($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO || $strStaDocumento == DocumentoRN::$TD_FORMULARIO_GERADO) &&
                         ($numIdUnidadeGeradoraProtocolo == $numIdUnidadeAtual && $strSinDisponibilizadoParaOutraUnidade == 'N')) || $hasBloco
                 ) {
@@ -675,7 +674,8 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
                 if ($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO && $documentoDTO->getStrSinBloqueado() == 'N' &&
                     (($numIdUnidadeGeradoraProtocolo == $numIdUnidadeAtual && $strSinDisponibilizadoParaOutraUnidade == 'N') ||
-                        (($hasBloco || $permiteAssinatura) && !$assinadoPorOutraUnidade)) && !$documentoPublicado == 'N'
+                        (($hasBloco || $permiteAssinatura) && !$assinadoPorOutraUnidade))
+                    && $documentoPublicado == 'N' && $documentoCancelado == 'N'
                 ) {
                     $permiteAlterar = true;
                 }
