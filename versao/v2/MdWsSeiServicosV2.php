@@ -427,7 +427,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     $rn = new MdWsSeiBlocoRN();
                     return $response->withJSON($rn->salvarAnotacaoBloco($dto));
                 });
-                $this->post('/assinatura/{bloco:[0-9]+}/processos/retirar', function ($request, $response, $args) {
+                $this->post('/interno/{bloco:[0-9]+}/processos/retirar', function ($request, $response, $args) {
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiBlocoRN();
                     return $response->withJSON($rn->apiRetirarProcessos(
