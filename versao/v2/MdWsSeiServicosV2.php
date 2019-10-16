@@ -22,6 +22,16 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
          */
         $this->slimApp->group('/api/v2', function () {
 
+            $this->post('/notificar', function ($request, $response, $args) {
+                return $response->withJSON(MdWsSeiRest::formataRetornoSucessoREST(
+                    null,
+                    [
+                        'sei' => SEI_VERSAO,
+                        'wssei' => MdWsSeiRest::getVersao()
+                    ]
+                )
+                );
+            });
             $this->get('/versao', function ($request, $response, $args) {
                 return $response->withJSON(MdWsSeiRest::formataRetornoSucessoREST(
                     null,
