@@ -119,10 +119,10 @@ class MdWsSeiVersaoRN extends InfraRN
         $numVersaoMudancaAgendamento = array_map(function($item){ return str_pad($item, 2, '0', STR_PAD_LEFT); }, $numVersaoMudancaAgendamento);
         $numVersaoMudancaAgendamento = intval(join($numVersaoMudancaAgendamento));
         if($numVersaoMudancaAgendamento >= $numVersaoAtualSEI){
-            $infraAgemdanemtoTarefaDTO->setStrStaPeriodicidadeExecucao(InfraAgendamentoTarefaRN::$PERIODICIDADE_EXECUCAO_MINUTO);
+            $infraAgemdanemtoTarefaDTO->setStrStaPeriodicidadeExecucao('N');
             $infraAgemdanemtoTarefaDTO->setStrPeriodicidadeComplemento('0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55');
         } else {
-            $infraAgemdanemtoTarefaDTO->setStrStaPeriodicidadeExecucao(InfraAgendamentoTarefaRN::$PERIODICIDADEEXECUCAO_DIA);
+            $infraAgemdanemtoTarefaDTO->setStrStaPeriodicidadeExecucao('D');
             $infraAgemdanemtoTarefaDTO->setStrPeriodicidadeComplemento('0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23');
         }
 
