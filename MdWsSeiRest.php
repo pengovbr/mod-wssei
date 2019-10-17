@@ -361,6 +361,19 @@ class MdWsSeiRest extends SeiIntegracao
 
         return $htmlQrCode;
     }
+
+
+    /**
+     * Gera Identificador único do usuário logado
+     * @return String
+     */
+    public static function geraIdentificadorUsuario($siglaUsuario, $siglaOrgao)
+    {
+        $arrDados[] = ConfiguracaoSEI::getInstance()->getValor('SEI', 'URL');
+        $arrDados[] = $siglaOrgao;
+        $arrDados[] = $siglaUsuario;
+        return md5(implode(':', $arrDados));
+    }
 }
 
 ?>

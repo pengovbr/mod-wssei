@@ -218,20 +218,15 @@ class MdWsSeiUsuarioRN extends InfraRN {
             }
 
             $retPerfis = $this->listarPerfisUsuario($ret->IdSistema, $ret->IdUsuario);
-
-          /* ANTIGA
-
-              if($retPerfis && $retPerfis['data']){
-                $arrPerfis = $retPerfis['data'];
-            }*/
+            $objSessao = SessaoSEI::getInstance();
 
             return MdWsSeiRest::formataRetornoSucessoREST(
                 null,
                 array(
                     'loginData'=> $ret,
-                    // ANTIGA 'perfis' => $arrPerfis,
                     'perfis' => $retPerfis,
                     'unidades' => $arrUnidades,
+                    'identificador' => MdWsSeiRest::geraIdentificadorUsuario($objSessao->getStrSiglaUsuario(), $objSessao->getStrSiglaOrgaoUsuario()),
                     'token' => $token
                 )
             );
