@@ -1376,7 +1376,9 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $andamentoMarcadorDTO->setStrSinUltimo('S');
             $andamentoMarcadorDTO->retNumIdMarcador();
             $andamentoMarcadorDTO->retStrStaIconeMarcador();
+            $andamentoMarcadorDTO->retStrNomeMarcador();
             $andamentoMarcadorDTO->retStrTexto();
+            $andamentoMarcadorDTO->retStrNomeMarcador();
             /** Consulta o componente SEI para retorno do marcador do Processo **/
             $andamentoMarcadorDTO = $andamentoMarcadorRN->consultar($andamentoMarcadorDTO);
             $marcadorRN = new MarcadorRN();
@@ -1385,6 +1387,8 @@ class MdWsSeiProcedimentoRN extends InfraRN
             if($andamentoMarcadorDTO && $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]){
                 $arrDadosMarcador = array(
                     'idMarcador' => $andamentoMarcadorDTO->getNumIdMarcador(),
+                    'nome' => $andamentoMarcadorDTO->getStrNomeMarcador(),
+                    'nome' => $andamentoMarcadorDTO->getStrNomeMarcador(),
                     'texto' => $andamentoMarcadorDTO->getStrTexto(),
                     'idCor' => $andamentoMarcadorDTO->getStrStaIconeMarcador(),
                     'descricaoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrDescricao(),
