@@ -21,6 +21,7 @@ class MdWsSeiPesquisaProtocoloSolrDTO extends InfraDTO{
         $this->adicionarAtributo(InfraDTO::$PREFIXO_NUM, 'IdGrupoAcompanhamentoProcedimento');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_NUM, 'IdUnidadeGeradora');
         $this->adicionarAtributo(InfraDTO::$PREFIXO_NUM, 'IdAssunto');
+        $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'buscaRapida');
     }
 }
 

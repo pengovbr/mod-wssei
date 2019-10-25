@@ -1925,6 +1925,213 @@ class MdWsSeiProcedimentoRN extends InfraRN
     }
 
     /**
+     * Método que monta a estrutura de pesquisa no solr
+     * @param MdWsSeiPesquisaProtocoloSolrDTO $pesquisaProtocoloSolrDTO
+     */
+    private function montaConsultaSolr(MdWsSeiPesquisaProtocoloSolrDTO $pesquisaProtocoloSolrDTO)
+    {
+        $partialfields = '';
+
+        if ($pesquisaProtocoloSolrDTO->isSetStrDescricao() && $pesquisaProtocoloSolrDTO->getStrDescricao() != null) {
+            if ($partialfields != '') {
+                $partialfields .= ' AND ';
+            }
+            $partialfields .= '(' . SolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrDescricao(), 'desc') . ')';
+        }
+
+        if ($pesquisaProtocoloSolrDTO->isSetNumIdUnidadeGeradora() && $pesquisaProtocoloSolrDTO->getNumIdUnidadeGeradora() != null) {
+            if ($partialfields != '') {
+                $partialfields .= ' AND ';
+            }
+            $partialfields .= '(id_uni_ger:' . $pesquisaProtocoloSolrDTO->getNumIdUnidadeGeradora() . ')';
+        }
+
+        if ($pesquisaProtocoloSolrDTO->isSetStrObservacao() && $pesquisaProtocoloSolrDTO->getStrObservacao() != null) {
+            if ($partialfields != '') {
+                $partialfields .= ' AND ';
+            }
+            $partialfields .= '(' . SolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrObservacao(), 'obs_' . SessaoSEI::getInstance()->getNumIdUnidadeAtual()) . ')';
+        }
+
+        if ($pesquisaProtocoloSolrDTO->isSetDblIdProcedimento() && $pesquisaProtocoloSolrDTO->getDblIdProcedimento() != null) {
+            if ($partialfields != '') {
+                $partialfields .= ' AND ';
+            }
+
+            $objRelProtocoloProtocoloDTO = new RelProtocoloProtocoloDTO();
+            $objRelProtocoloProtocoloDTO->retDblIdProtocolo2();
+            $objRelProtocoloProtocoloDTO->setStrStaAssociacao(RelProtocoloProtocoloRN::$TA_PROCEDIMENTO_ANEXADO);
+            $objRelProtocoloProtocoloDTO->setDblIdProtocolo1($pesquisaProtocoloSolrDTO->getDblIdProcedimento());
+
+            $objRelProtocoloProtocoloRN = new RelProtocoloProtocoloRN();
+            /** Chama o componente SEI para retorno da lista de processos anexados */
+            $arrIdProcessosAnexados = InfraArray::converterArrInfraDTO($objRelProtocoloProtocoloRN->listarRN0187($objRelProtocoloProtocoloDTO), 'IdProtocolo2');
+
+            if (count($arrIdProcessosAnexados) == 0) {
+                $partialfields .= '(id_proc:' . $pesquisaProtocoloSolrDTO->getDblIdProcedimento() . ')';
+            } else {
+
+                $strProcessos = 'id_proc:' . $pesquisaProtocoloSolrDTO->getDblIdProcedimento();
+                foreach ($arrIdProcessosAnexados as $dblIdProcessoAnexado) {
+                    $strProcessos .= ' OR id_proc:' . $dblIdProcessoAnexado;
+                }
+
+                $partialfields .= '(' . $strProcessos . ')';
+            }
+        }
+
+        if ($pesquisaProtocoloSolrDTO->isSetNumIdAssunto() && $pesquisaProtocoloSolrDTO->getNumIdAssunto() != null) {
+
+            $objAssuntoProxyDTO = new AssuntoProxyDTO();
+            $objAssuntoProxyDTO->retNumIdAssuntoProxy();
+            $objAssuntoProxyDTO->setNumIdAssunto($pesquisaProtocoloSolrDTO->getNumIdAssunto());
+
+            $objAssuntoProxyRN = new AssuntoProxyRN();
+            /** Chama o componente SEI para o retorno da lista de assuntos */
+            $arrObjAssuntoProxyDTO = $objAssuntoProxyRN->listar($objAssuntoProxyDTO);
+
+            if ($partialfields != '') {
+                $partialfields .= ' AND ';
+            }
+
+            $arrAssuntos = array();
+            foreach($arrObjAssuntoProxyDTO as $objAssuntoProxyDTO){
+                array_push($arrAssuntos, 'id_assun:*;' . $objAssuntoProxyDTO->getNumIdAssuntoProxy() . ';*');
+            }
+
+            $partialfields .= '(' . implode(" OR ", $arrAssuntos) . ')';
+        }
+
+        if ($pesquisaProtocoloSolrDTO->isSetStrProtocoloPesquisa() && $pesquisaProtocoloSolrDTO->getStrProtocoloPesquisa() != null) {
+            if ($partialfields != '') {
+                $partialfields .= ' AND ';
+            }
+            $partialfields .= '(prot_pesq:*' . InfraUtil::retirarFormatacao($pesquisaProtocoloSolrDTO->getStrProtocoloPesquisa(), false) . '*)';
+        }
+
+        if ($pesquisaProtocoloSolrDTO->isSetNumIdTipoProcedimento() && $pesquisaProtocoloSolrDTO->getNumIdTipoProcedimento() != null) {
+            if ($partialfields != '') {
+                $partialfields .= ' AND ';
+            }
+            $partialfields .= '(id_tipo_proc:' . $pesquisaProtocoloSolrDTO->getNumIdTipoProcedimento() . ')';
+        }
+
+        if ($pesquisaProtocoloSolrDTO->isSetNumIdSerie() && $pesquisaProtocoloSolrDTO->getNumIdSerie() != null) {
+            if ($partialfields != '') {
+                $partialfields .= ' AND ';
+            }
+            $partialfields .= '(id_serie:' . $pesquisaProtocoloSolrDTO->getNumIdSerie() . ')';
+        }
+
+        if ($pesquisaProtocoloSolrDTO->isSetStrNumero() && $pesquisaProtocoloSolrDTO->getStrNumero() != null) {
+            if ($partialfields != '') {
+                $partialfields .= ' AND ';
+            }
+            $partialfields .= '(numero:*' . $pesquisaProtocoloSolrDTO->getStrNumero() . '*)';
+        }
+
+        $dtaInicio = null;
+        $dtaFim = null;
+        if($pesquisaProtocoloSolrDTO->isSetStrStaTipoData()){
+            if ($pesquisaProtocoloSolrDTO->getStrStaTipoData() == '0') {
+                $dtaInicio = $pesquisaProtocoloSolrDTO->getDtaInicio();
+                $dtaFim = $pesquisaProtocoloSolrDTO->getDtaFim();
+            } else if ($pesquisaProtocoloSolrDTO->getStrStaTipoData() == '30') {
+                $dtaInicio = InfraData::calcularData(30, InfraData::$UNIDADE_DIAS, InfraData::$SENTIDO_ATRAS);
+                $dtaFim = InfraData::getStrDataAtual();
+            } else if ($pesquisaProtocoloSolrDTO->getStrStaTipoData() == '60') {
+                $dtaInicio = InfraData::calcularData(60, InfraData::$UNIDADE_DIAS, InfraData::$SENTIDO_ATRAS);
+                $dtaFim = InfraData::getStrDataAtual();
+            }
+        }
+
+        if ($dtaInicio != null && $dtaFim != null) {
+            $dia1 = substr($dtaInicio, 0, 2);
+            $mes1 = substr($dtaInicio, 3, 2);
+            $ano1 = substr($dtaInicio, 6, 4);
+
+            $dia2 = substr($dtaFim, 0, 2);
+            $mes2 = substr($dtaFim, 3, 2);
+            $ano2 = substr($dtaFim, 6, 4);
+
+            if ($partialfields != '') {
+                $partialfields .= ' AND ';
+            }
+
+            $partialfields .= 'dta_ger:[' . $ano1 . '-' . $mes1 . '-' . $dia1 . 'T00:00:00Z TO ' . $ano2 . '-' . $mes2 . '-' . $dia2 . 'T00:00:00Z]';
+        }
+
+        $objUnidadeDTO = new UnidadeDTO();
+        $objUnidadeDTO->setBolExclusaoLogica(false);
+        $objUnidadeDTO->retStrSinProtocolo();
+        $objUnidadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+
+        $objUnidadeRN = new UnidadeRN();
+        /** Chama o componente SEI para retorno de dados da unidade atual */
+        $objUnidadeDTOAtual = $objUnidadeRN->consultarRN0125($objUnidadeDTO);
+
+        if ($objUnidadeDTOAtual->getStrSinProtocolo() == 'N') {
+
+            if ($partialfields != '') {
+                $partialfields .= ' AND ';
+            }
+
+            $partialfields .= '(tipo_aces:P OR id_uni_aces:*;' . SessaoSEI::getInstance()->getNumIdUnidadeAtual() . ';*)';
+        }
+
+        if($pesquisaProtocoloSolrDTO->isSetNumIdGrupoAcompanhamentoProcedimento() && $pesquisaProtocoloSolrDTO->getNumIdGrupoAcompanhamentoProcedimento()) {
+            $protocoloRN = new ProtocoloRN();
+            $mdWsSeiProtocoloDTO = new MdWsSeiProtocoloDTO();
+            $mdWsSeiProtocoloDTO->setNumIdGrupoAcompanhamentoProcedimento($pesquisaProtocoloSolrDTO->getNumIdGrupoAcompanhamentoProcedimento());
+            $mdWsSeiProtocoloDTO->retDblIdProtocolo();
+
+            /** Chama o componente SEI para retorno de dados de consulta de acompanhamento de processos */
+            $ret = $protocoloRN->listarRN0668($mdWsSeiProtocoloDTO);
+            if(!$ret){
+                return MdWsSeiRest::formataRetornoSucessoREST(null, array(), 0);
+            }
+            if ($partialfields != '') {
+                $partialfields .= ' AND ';
+            }
+            $arrIdProcessosAcompanhamento = array();
+            /** @var ProtocoloDTO $protocoloDTO */
+            foreach($ret as $protocoloDTO){
+                $arrIdProcessosAcompanhamento[] = 'id_proc:' . $protocoloDTO->getDblIdProtocolo();
+            }
+            $partialfields .= '(' . implode(' OR ', $arrIdProcessosAcompanhamento) . ')';
+        }
+
+        $parametros = new stdClass();
+        if($pesquisaProtocoloSolrDTO->isSetStrPalavrasChave()){
+            $parametros->q = SolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrPalavrasChave());
+        }
+        if ($pesquisaProtocoloSolrDTO->isSetStrPalavrasChave() && is_numeric($pesquisaProtocoloSolrDTO->getStrPalavrasChave()) && !$pesquisaProtocoloSolrDTO->isSetStrProtocoloPesquisa()){
+            $parametros->q = '('.$parametros->q.' OR prot_pesq:*'.$pesquisaProtocoloSolrDTO->getStrPalavrasChave().'*)';
+        }
+
+        if ($parametros->q != '' && $partialfields != '') {
+            $parametros->q = '(' . $parametros->q . ') AND ' . $partialfields;
+        } else if ($partialfields != '') {
+            $parametros->q = $partialfields;
+        }
+
+        $parametros->q = utf8_encode($parametros->q);
+        $start = 0;
+        $limit = 100;
+        if($pesquisaProtocoloSolrDTO->getNumPaginaAtual()){
+            $start = $pesquisaProtocoloSolrDTO->getNumPaginaAtual();
+        }
+        if($pesquisaProtocoloSolrDTO->getNumMaxRegistrosRetorno()){
+            $limit = $pesquisaProtocoloSolrDTO->getNumMaxRegistrosRetorno();
+        }
+        $parametros->start = $start;
+        $parametros->rows = $limit;
+        $parametros->sort = 'dta_ger desc, id_prot desc';
+
+        return $parametros;
+    }
+
+    /**
      * Método que consulta os processos no Solar
      * @param MdWsSeiPesquisaProtocoloSolrDTO $pesquisaProtocoloSolrDTO
      * @return array
@@ -1932,201 +2139,111 @@ class MdWsSeiProcedimentoRN extends InfraRN
     protected function pesquisarProcessosSolarConectado(MdWsSeiPesquisaProtocoloSolrDTO $pesquisaProtocoloSolrDTO)
     {
         try {
-            $partialfields = '';
+            $protocoloRN = new ProtocoloRN();
+            $relProtocoloProtocoloRN = new RelProtocoloProtocoloRN();
+            $unidadeRN = new UnidadeRN();
+            $arrIdBusca = array();
 
-            if ($pesquisaProtocoloSolrDTO->isSetStrDescricao() && $pesquisaProtocoloSolrDTO->getStrDescricao() != null) {
-                if ($partialfields != '') {
-                    $partialfields .= ' AND ';
-                }
-                $partialfields .= '(' . SolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrDescricao(), 'desc') . ')';
+            $arrProtocoloDTOPesquisado = array();
+            if($pesquisaProtocoloSolrDTO->isSetStrbuscaRapida()) {
+                $protocoloDTOPesquisa = new ProtocoloDTO();
+                $protocoloDTOPesquisa->setStrProtocoloFormatadoPesquisa($pesquisaProtocoloSolrDTO->getStrbuscaRapida());
+                /** Consulta componente SEI para pesquisa rápida de processo */
+                $arrProtocoloDTOPesquisado = $protocoloRN->pesquisarProtocoloFormatado($protocoloDTOPesquisa);
+
             }
+            if (count($arrProtocoloDTOPesquisado)==1){
+                $bolAcesso = true;
+                $protocoloDTO = $arrProtocoloDTOPesquisado[0];
 
-            if ($pesquisaProtocoloSolrDTO->isSetNumIdUnidadeGeradora() && $pesquisaProtocoloSolrDTO->getNumIdUnidadeGeradora() != null) {
-                if ($partialfields != '') {
-                    $partialfields .= ' AND ';
-                }
-                $partialfields .= '(id_uni_ger:' . $pesquisaProtocoloSolrDTO->getNumIdUnidadeGeradora() . ')';
-            }
+                $idProcesso = null;
+                $idDocumento = null;
+                if ($protocoloDTO->getStrStaNivelAcessoGlobal()==ProtocoloRN::$NA_SIGILOSO || $protocoloDTO->getStrStaNivelAcessoGlobal()==ProtocoloRN::$NA_RESTRITO) {
 
-            if ($pesquisaProtocoloSolrDTO->isSetStrObservacao() && $pesquisaProtocoloSolrDTO->getStrObservacao() != null) {
-                if ($partialfields != '') {
-                    $partialfields .= ' AND ';
-                }
-                $partialfields .= '(' . SolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrObservacao(), 'obs_' . SessaoSEI::getInstance()->getNumIdUnidadeAtual()) . ')';
-            }
+                    $pesquisaProtocoloDTO = new PesquisaProtocoloDTO();
 
-            if ($pesquisaProtocoloSolrDTO->isSetDblIdProcedimento() && $pesquisaProtocoloSolrDTO->getDblIdProcedimento() != null) {
-                if ($partialfields != '') {
-                    $partialfields .= ' AND ';
-                }
-
-                $objRelProtocoloProtocoloDTO = new RelProtocoloProtocoloDTO();
-                $objRelProtocoloProtocoloDTO->retDblIdProtocolo2();
-                $objRelProtocoloProtocoloDTO->setStrStaAssociacao(RelProtocoloProtocoloRN::$TA_PROCEDIMENTO_ANEXADO);
-                $objRelProtocoloProtocoloDTO->setDblIdProtocolo1($pesquisaProtocoloSolrDTO->getDblIdProcedimento());
-
-                $objRelProtocoloProtocoloRN = new RelProtocoloProtocoloRN();
-                /** Chama o componente SEI para retorno da lista de processos anexados */
-                $arrIdProcessosAnexados = InfraArray::converterArrInfraDTO($objRelProtocoloProtocoloRN->listarRN0187($objRelProtocoloProtocoloDTO), 'IdProtocolo2');
-
-                if (count($arrIdProcessosAnexados) == 0) {
-                    $partialfields .= '(id_proc:' . $pesquisaProtocoloSolrDTO->getDblIdProcedimento() . ')';
-                } else {
-
-                    $strProcessos = 'id_proc:' . $pesquisaProtocoloSolrDTO->getDblIdProcedimento();
-                    foreach ($arrIdProcessosAnexados as $dblIdProcessoAnexado) {
-                        $strProcessos .= ' OR id_proc:' . $dblIdProcessoAnexado;
+                    if ($protocoloDTO->getStrStaProtocolo() == ProtocoloRN::$TP_PROCEDIMENTO) {
+                        $pesquisaProtocoloDTO->setStrStaTipo(ProtocoloRN::$TPP_PROCEDIMENTOS);
+                    } else if ($protocoloDTO->getStrStaProtocolo() == ProtocoloRN::$TP_DOCUMENTO_GERADO) {
+                        $pesquisaProtocoloDTO->setStrStaTipo(ProtocoloRN::$TPP_DOCUMENTOS_GERADOS);
+                    } else if ($protocoloDTO->getStrStaProtocolo() == ProtocoloRN::$TP_DOCUMENTO_RECEBIDO) {
+                        $pesquisaProtocoloDTO->setStrStaTipo(ProtocoloRN::$TPP_DOCUMENTOS_RECEBIDOS);
+                    } else {
+                        $pesquisaProtocoloDTO->setStrStaTipo(ProtocoloRN::$TPP_TODOS);
                     }
 
-                    $partialfields .= '(' . $strProcessos . ')';
+                    $pesquisaProtocoloDTO->setStrStaAcesso(ProtocoloRN::$TAP_AUTORIZADO);
+                    $pesquisaProtocoloDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+
+                    /** Acessa componente SEI para verificação dos tipos de processo ou documento */
+                    $arrProtocoloDTO = $protocoloRN->pesquisarRN0967($pesquisaProtocoloDTO);
+                    
+                    if($arrProtocoloDTO[0]->getStrStaProtocolo() == ProtocoloRN::$TPP_PROCEDIMENTOS){
+                        $idProcesso = $protocoloDTO->getDblIdProtocolo();
+                    }else{
+                        $idDocumento = $protocoloDTO->getDblIdProtocolo();
+
+                        $relProtocoloProtocoloConsulta = new RelProtocoloProtocoloDTO();
+                        $relProtocoloProtocoloConsulta->retDblIdProtocolo1();
+                        $relProtocoloProtocoloConsulta->setDblIdProtocolo2($protocoloDTO->getDblIdProtocolo());
+
+                        /** Acessa o componente SEI para retornar o processo pai do documento */
+                        $protocoloDTOConsulta = $relProtocoloProtocoloRN->consultarRN0841($relProtocoloProtocoloConsulta);
+                        $idProcesso = $protocoloDTOConsulta->getDblIdProtocolo1();
+                    }
+
+                    if (count($arrProtocoloDTO) == 0) {
+                        if ($arrProtocoloDTO->getStrStaNivelAcessoGlobal() == ProtocoloRN::$NA_SIGILOSO) {
+                            $bolAcesso = false;
+                        } else {
+                            $unidadeDTO = new UnidadeDTO();
+                            $unidadeDTO->retStrSinProtocolo();
+                            $unidadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+
+                            /** Acessa o componente SEI para retornar dados da unidade logada */
+                            $unidadeDTO = $unidadeRN->consultarRN0125($unidadeDTO);
+
+
+                            $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
+                            $numTipoPesquisaRestrito = $objInfraParametro->getValor('SEI_EXIBIR_ARVORE_RESTRITO_SEM_ACESSO', false);
+
+                            if ($unidadeDTO->getStrSinProtocolo() == 'N' && $numTipoPesquisaRestrito != '1') {
+                                throw new InfraException('Unidade atual não possui acesso ao ' . ($protocoloDTO->getStrStaProtocolo() == ProtocoloRN::$TP_PROCEDIMENTO ? 'processo' : 'documento') . ' restrito ' . $protocoloDTO->getStrProtocoloFormatado() . '.');
+                                $bolAcesso = false;
+                            }
+                        }
+                    } else {
+                        $protocoloDTO = $arrProtocoloDTO[0];
+
+                        if ($protocoloDTO->getStrStaProtocolo() == ProtocoloRN::$TP_DOCUMENTO_GERADO &&
+                            $protocoloDTO->getStrSinPublicado() == 'S'
+                        ) {
+                            //$strLinkVisualizarSigilosoPublicado = SessaoSEI::getInstance()->assinarLink('controlador.php?acao=documento_visualizar&acao_origem=' . $_GET['acao'] . '&id_documento=' . $objProtocoloDTO->getDblIdProtocolo());
+                            $bolAcesso = false;
+                        }
+                    }
                 }
-            }
-
-            if ($pesquisaProtocoloSolrDTO->isSetNumIdAssunto() && $pesquisaProtocoloSolrDTO->getNumIdAssunto() != null) {
-
-                $objAssuntoProxyDTO = new AssuntoProxyDTO();
-                $objAssuntoProxyDTO->retNumIdAssuntoProxy();
-                $objAssuntoProxyDTO->setNumIdAssunto($pesquisaProtocoloSolrDTO->getNumIdAssunto());
-
-                $objAssuntoProxyRN = new AssuntoProxyRN();
-                /** Chama o componente SEI para o retorno da lista de assuntos */
-                $arrObjAssuntoProxyDTO = $objAssuntoProxyRN->listar($objAssuntoProxyDTO);
-
-                if ($partialfields != '') {
-                    $partialfields .= ' AND ';
+                if($bolAcesso){
+                    return MdWsSeiRest::formataRetornoSucessoREST(
+                        null,
+                        /** Chamada para consulta da indexação do Solr */
+                        $this->montaRetornoPesquisaSolr(
+                            array(
+                                0 => array(
+                                    'idProcesso' => $idProcesso,
+                                    'idDocumento' => $idDocumento
+                                )
+                            )
+                        ),
+                        1
+                    );
                 }
-
-                $arrAssuntos = array();
-                foreach($arrObjAssuntoProxyDTO as $objAssuntoProxyDTO){
-                    array_push($arrAssuntos, 'id_assun:*;' . $objAssuntoProxyDTO->getNumIdAssuntoProxy() . ';*');
-                }
-
-                $partialfields .= '(' . implode(" OR ", $arrAssuntos) . ')';
+            }else if(count($arrProtocoloDTOPesquisado) > 1){
+                $pesquisaProtocoloSolrDTO->setStrProtocoloPesquisa($pesquisaProtocoloSolrDTO->getStrbuscaRapida());
             }
 
-            if ($pesquisaProtocoloSolrDTO->isSetStrProtocoloPesquisa() && $pesquisaProtocoloSolrDTO->getStrProtocoloPesquisa() != null) {
-                if ($partialfields != '') {
-                    $partialfields .= ' AND ';
-                }
-                $partialfields .= '(prot_pesq:*' . InfraUtil::retirarFormatacao($pesquisaProtocoloSolrDTO->getStrProtocoloPesquisa(), false) . '*)';
-            }
-
-            if ($pesquisaProtocoloSolrDTO->isSetNumIdTipoProcedimento() && $pesquisaProtocoloSolrDTO->getNumIdTipoProcedimento() != null) {
-                if ($partialfields != '') {
-                    $partialfields .= ' AND ';
-                }
-                $partialfields .= '(id_tipo_proc:' . $pesquisaProtocoloSolrDTO->getNumIdTipoProcedimento() . ')';
-            }
-
-            if ($pesquisaProtocoloSolrDTO->isSetNumIdSerie() && $pesquisaProtocoloSolrDTO->getNumIdSerie() != null) {
-                if ($partialfields != '') {
-                    $partialfields .= ' AND ';
-                }
-                $partialfields .= '(id_serie:' . $pesquisaProtocoloSolrDTO->getNumIdSerie() . ')';
-            }
-
-            if ($pesquisaProtocoloSolrDTO->isSetStrNumero() && $pesquisaProtocoloSolrDTO->getStrNumero() != null) {
-                if ($partialfields != '') {
-                    $partialfields .= ' AND ';
-                }
-                $partialfields .= '(numero:*' . $pesquisaProtocoloSolrDTO->getStrNumero() . '*)';
-            }
-
-            $dtaInicio = null;
-            $dtaFim = null;
-            if($pesquisaProtocoloSolrDTO->isSetStrStaTipoData()){
-                if ($pesquisaProtocoloSolrDTO->getStrStaTipoData() == '0') {
-                    $dtaInicio = $pesquisaProtocoloSolrDTO->getDtaInicio();
-                    $dtaFim = $pesquisaProtocoloSolrDTO->getDtaFim();
-                } else if ($pesquisaProtocoloSolrDTO->getStrStaTipoData() == '30') {
-                    $dtaInicio = InfraData::calcularData(30, InfraData::$UNIDADE_DIAS, InfraData::$SENTIDO_ATRAS);
-                    $dtaFim = InfraData::getStrDataAtual();
-                } else if ($pesquisaProtocoloSolrDTO->getStrStaTipoData() == '60') {
-                    $dtaInicio = InfraData::calcularData(60, InfraData::$UNIDADE_DIAS, InfraData::$SENTIDO_ATRAS);
-                    $dtaFim = InfraData::getStrDataAtual();
-                }
-            }
-
-            if ($dtaInicio != null && $dtaFim != null) {
-                $dia1 = substr($dtaInicio, 0, 2);
-                $mes1 = substr($dtaInicio, 3, 2);
-                $ano1 = substr($dtaInicio, 6, 4);
-
-                $dia2 = substr($dtaFim, 0, 2);
-                $mes2 = substr($dtaFim, 3, 2);
-                $ano2 = substr($dtaFim, 6, 4);
-
-                if ($partialfields != '') {
-                    $partialfields .= ' AND ';
-                }
-                
-                $partialfields .= 'dta_ger:[' . $ano1 . '-' . $mes1 . '-' . $dia1 . 'T00:00:00Z TO ' . $ano2 . '-' . $mes2 . '-' . $dia2 . 'T00:00:00Z]';
-            }
-
-            $objUnidadeDTO = new UnidadeDTO();
-            $objUnidadeDTO->setBolExclusaoLogica(false);
-            $objUnidadeDTO->retStrSinProtocolo();
-            $objUnidadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-
-            $objUnidadeRN = new UnidadeRN();
-            /** Chama o componente SEI para retorno de dados da unidade atual */
-            $objUnidadeDTOAtual = $objUnidadeRN->consultarRN0125($objUnidadeDTO);
-
-            if ($objUnidadeDTOAtual->getStrSinProtocolo() == 'N') {
-
-                if ($partialfields != '') {
-                    $partialfields .= ' AND ';
-                }
-
-                $partialfields .= '(tipo_aces:P OR id_uni_aces:*;' . SessaoSEI::getInstance()->getNumIdUnidadeAtual() . ';*)';
-            }
-
-            if($pesquisaProtocoloSolrDTO->isSetNumIdGrupoAcompanhamentoProcedimento() && $pesquisaProtocoloSolrDTO->getNumIdGrupoAcompanhamentoProcedimento()) {
-                $protocoloRN = new ProtocoloRN();
-                $mdWsSeiProtocoloDTO = new MdWsSeiProtocoloDTO();
-                $mdWsSeiProtocoloDTO->setNumIdGrupoAcompanhamentoProcedimento($pesquisaProtocoloSolrDTO->getNumIdGrupoAcompanhamentoProcedimento());
-                $mdWsSeiProtocoloDTO->retDblIdProtocolo();
-
-                /** Chama o componente SEI para retorno de dados de consulta de acompanhamento de processos */
-                $ret = $protocoloRN->listarRN0668($mdWsSeiProtocoloDTO);
-                if(!$ret){
-                    return MdWsSeiRest::formataRetornoSucessoREST(null, array(), 0);
-                }
-                if ($partialfields != '') {
-                    $partialfields .= ' AND ';
-                }
-                $arrIdProcessosAcompanhamento = array();
-                /** @var ProtocoloDTO $protocoloDTO */
-                foreach($ret as $protocoloDTO){
-                    $arrIdProcessosAcompanhamento[] = 'id_proc:' . $protocoloDTO->getDblIdProtocolo();
-                }
-                $partialfields .= '(' . implode(' OR ', $arrIdProcessosAcompanhamento) . ')';
-            }
-
-            $parametros = new stdClass();
-            if($pesquisaProtocoloSolrDTO->isSetStrPalavrasChave()){
-                $parametros->q = SolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrPalavrasChave());
-            }
-
-            if ($parametros->q != '' && $partialfields != '') {
-                $parametros->q = '(' . $parametros->q . ') AND ' . $partialfields;
-            } else if ($partialfields != '') {
-                $parametros->q = $partialfields;
-            }
-
-            $parametros->q = utf8_encode($parametros->q);
-            $start = 0;
-            $limit = 100;
-            if($pesquisaProtocoloSolrDTO->getNumPaginaAtual()){
-                $start = $pesquisaProtocoloSolrDTO->getNumPaginaAtual();
-            }
-            if($pesquisaProtocoloSolrDTO->getNumMaxRegistrosRetorno()){
-                $limit = $pesquisaProtocoloSolrDTO->getNumMaxRegistrosRetorno();
-            }
-            $parametros->start = $start;
-            $parametros->rows = $limit;
-            $parametros->sort = 'dta_ger desc, id_prot desc';
-
+            /** Chama o método para montagem da estrutura da pesquisa no solr */
+            $parametros = $this->montaConsultaSolr($pesquisaProtocoloSolrDTO);
             /** Executa consulta no SOLR para retorno de metadados indexados de processos e documentos da busca */
             $urlBusca = ConfiguracaoSEI::getInstance()->getValor('Solr', 'Servidor') . '/' . ConfiguracaoSEI::getInstance()->getValor('Solr', 'CoreProtocolos') . '/select?' . http_build_query($parametros) . '&hl=true&hl.snippets=2&hl.fl=content&hl.fragsize=100&hl.maxAnalyzedChars=1048576&hl.alternateField=content&hl.maxAlternateFieldLength=100&fl=id,id_proc,id_doc,id_tipo_proc,id_serie,id_anexo,id_uni_ger,prot_doc,prot_proc,numero,id_usu_ger,dta_ger';
 
@@ -2143,113 +2260,127 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $xml = simplexml_load_string($resultados);
             $arrRet = $xml->xpath('/response/result/@numFound');
             $total = array_shift($arrRet)->__toString();
-            $arrIdProcessos = array();
             $registros = $xml->xpath('/response/result/doc');
             $numRegistros = sizeof($registros);
             
-            $result = array();
-            $protocoloRN = new ProtocoloRN();
-            $procedimentoRN = new ProcedimentoRN();
-            $usuarioRN = new UsuarioRN();
-            $anexoRN = new AnexoRN();
-            $arrDocHtml = array(
-                DocumentoRN::$TD_EDITOR_EDOC,
-                DocumentoRN::$TD_FORMULARIO_AUTOMATICO,
-                DocumentoRN::$TD_FORMULARIO_GERADO,
-                DocumentoRN::$TD_EDITOR_INTERNO
-            );
-
             for ($i = 0; $i < $numRegistros; $i++) {
-                $procedimentoDTO = new ProcedimentoDTO();
-                $procedimentoDTO->setDblIdProcedimento(SolrUtil::obterTag($registros[$i], 'id_proc', 'long'));
-                $procedimentoDTO->retDblIdProcedimento();
-                $procedimentoDTO->retNumIdTipoProcedimento();
-                $procedimentoDTO->retStrNomeTipoProcedimento();
-                $procedimentoDTO->retStrSiglaUnidadeGeradoraProtocolo();
-                $procedimentoDTO->retNumIdUnidadeGeradoraProtocolo();
-                $procedimentoDTO->retStrProtocoloProcedimentoFormatado();
-                $procedimentoDTO->retNumIdUsuarioGeradorProtocolo();
-                $procedimentoDTO->retDtaGeracaoProtocolo();
-
-                /** Consulta o componente SEI para retornar os dados do Processo */
-                $procedimentoDTO = $procedimentoRN->consultarRN0201($procedimentoDTO);
-                $usuarioDTO = new UsuarioDTO();
-                $usuarioDTO->setNumIdUsuario($procedimentoDTO->getNumIdUsuarioGeradorProtocolo());
-                $usuarioDTO->retStrSigla();
-                $usuarioDTO->retStrNome();
-                /** Consulta o componente SEI para consulta do Usuário Gerador do Processo */
-                $usuarioDTO = $usuarioRN->consultarRN0489($usuarioDTO);
-
-                $arrDadosProcedimento = array(
-                    'idProcedimento' => $procedimentoDTO->getDblIdProcedimento(),
-                    'idTipoProcedimento' => $procedimentoDTO->getNumIdTipoProcedimento(),
-                    'nomeTipoProcedimento' => $procedimentoDTO->getStrNomeTipoProcedimento(),
-                    'siglaUnidadeGeradora' => $procedimentoDTO->getStrSiglaUnidadeGeradoraProtocolo(),
-                    'idUnidadeGeradora' => $procedimentoDTO->getNumIdUnidadeGeradoraProtocolo(),
-                    'protocoloFormatadoProcedimento' => $procedimentoDTO->getStrProtocoloProcedimentoFormatado(),
-                    'idUsuarioGerador' => $procedimentoDTO->getNumIdUsuarioGeradorProtocolo(),
-                    'nomeUsuarioGerador' => $usuarioDTO->getStrNome(),
-                    'siglaUsuarioGerador' => $usuarioDTO->getStrSigla(),
-                    'dataGeracao' => $procedimentoDTO->getDtaGeracaoProtocolo(),
-                    'documento' => array()
-                );
-
-                if(SolrUtil::obterTag($registros[$i], 'id_doc', 'long')){
-                    $protocoloDTO = new ProtocoloDTO();
-                    $protocoloDTO->setDblIdProtocolo(SolrUtil::obterTag($registros[$i], 'id_doc', 'long'));
-                    $protocoloDTO->retDblIdProtocolo();
-                    $protocoloDTO->retStrProtocoloFormatado();
-                    $protocoloDTO->retNumIdSerieDocumento();
-                    $protocoloDTO->retStrNomeSerieDocumento();
-                    $protocoloDTO->retStrNumeroDocumento();
-                    $protocoloDTO->retStrStaDocumentoDocumento();
-                    $protocoloDTO->retDtaGeracao();
-                    /** Chama componente SEI para retorno de dados do documento */
-                    $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
-                    $arrDadosAnexo = null;
-
-                    if (!in_array($protocoloDTO->getStrStaDocumentoDocumento(), $arrDocHtml)) {
-                        $anexoDTOConsulta = new AnexoDTO();
-                        $anexoDTOConsulta->retStrNome();
-                        $anexoDTOConsulta->retNumTamanho();
-                        $anexoDTOConsulta->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
-                        $anexoDTOConsulta->setStrSinAtivo('S');
-                        $anexoDTOConsulta->setNumMaxRegistrosRetorno(1);
-                        /** Chama o componente SEI para recuperar o anexo no documento */
-                        $resultAnexo = $anexoRN->listarRN0218($anexoDTOConsulta);
-                        if ($resultAnexo) {
-                            /** @var AnexoDTO $anexoDTO */
-                            $anexoDTO = $resultAnexo[0];
-                            $mimetype = $anexoDTO->getStrNome();
-                            $mimetype = substr($mimetype, strrpos($mimetype, '.') + 1);
-                            $nomeAnexo = $anexoDTO->getStrNome();
-                            $tamanhoAnexo = $anexoDTO->getNumTamanho();
-                            $arrDadosAnexo = array(
-                                'nome' => $nomeAnexo,
-                                'mimetype' => $mimetype,
-                                'tamanho' => $tamanhoAnexo
-                            );
-                        }
-                    }
-                    $arrDadosProcedimento['documento'] = array(
-                        'idDocumento' => $protocoloDTO->getDblIdProtocolo(),
-                        'idSerieDocumento' => $protocoloDTO->getNumIdSerieDocumento(),
-                        'nomeSerieDocumento' => $protocoloDTO->getStrNomeSerieDocumento(),
-                        'protocoloFormatadoDocumento' => $protocoloDTO->getStrProtocoloFormatado(),
-                        'numeroDocumento' => $protocoloDTO->getStrNumeroDocumento(),
-                        'staDocumento' => $protocoloDTO->getStrStaDocumentoDocumento(),
-                        'dtaGeracao' => $protocoloDTO->getDtaGeracao(),
-                        'dadosAnexo' => $arrDadosAnexo
-                    );
-                }
-
-                $result[] = $arrDadosProcedimento;
+                $arrIdBusca[$i]['idProcesso'] = SolrUtil::obterTag($registros[$i], 'id_proc', 'long');
+                $arrIdBusca[$i]['idDocumento'] = SolrUtil::obterTag($registros[$i], 'id_doc', 'long') ?: null;
             }
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $total);
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $this->montaRetornoPesquisaSolr($arrIdBusca), $total);
         } catch (Exception $e) {
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
+    }
+
+    /**
+     * Método que formata o retorno da busca de protocolo no solr
+     * @param $arrIdBusca
+     * @return array
+     */
+    private function montaRetornoPesquisaSolr($arrIdBusca){
+        $result = array();
+        $protocoloRN = new ProtocoloRN();
+        $procedimentoRN = new ProcedimentoRN();
+        $usuarioRN = new UsuarioRN();
+        $anexoRN = new AnexoRN();
+        $arrDocHtml = array(
+            DocumentoRN::$TD_EDITOR_EDOC,
+            DocumentoRN::$TD_FORMULARIO_AUTOMATICO,
+            DocumentoRN::$TD_FORMULARIO_GERADO,
+            DocumentoRN::$TD_EDITOR_INTERNO
+        );
+
+        foreach($arrIdBusca as $dadosBusca) {
+
+            $procedimentoDTO = new ProcedimentoDTO();
+            $procedimentoDTO->setDblIdProcedimento($dadosBusca['idProcesso']);
+            $procedimentoDTO->retDblIdProcedimento();
+            $procedimentoDTO->retNumIdTipoProcedimento();
+            $procedimentoDTO->retStrNomeTipoProcedimento();
+            $procedimentoDTO->retStrSiglaUnidadeGeradoraProtocolo();
+            $procedimentoDTO->retNumIdUnidadeGeradoraProtocolo();
+            $procedimentoDTO->retStrProtocoloProcedimentoFormatado();
+            $procedimentoDTO->retNumIdUsuarioGeradorProtocolo();
+            $procedimentoDTO->retDtaGeracaoProtocolo();
+
+            /** Consulta o componente SEI para retornar os dados do Processo */
+            $procedimentoDTO = $procedimentoRN->consultarRN0201($procedimentoDTO);
+            $usuarioDTO = new UsuarioDTO();
+            $usuarioDTO->setNumIdUsuario($procedimentoDTO->getNumIdUsuarioGeradorProtocolo());
+            $usuarioDTO->retStrSigla();
+            $usuarioDTO->retStrNome();
+            /** Consulta o componente SEI para consulta do Usuário Gerador do Processo */
+            $usuarioDTO = $usuarioRN->consultarRN0489($usuarioDTO);
+
+            $arrDadosProcedimento = array(
+                'idProcedimento' => $procedimentoDTO->getDblIdProcedimento(),
+                'idTipoProcedimento' => $procedimentoDTO->getNumIdTipoProcedimento(),
+                'nomeTipoProcedimento' => $procedimentoDTO->getStrNomeTipoProcedimento(),
+                'siglaUnidadeGeradora' => $procedimentoDTO->getStrSiglaUnidadeGeradoraProtocolo(),
+                'idUnidadeGeradora' => $procedimentoDTO->getNumIdUnidadeGeradoraProtocolo(),
+                'protocoloFormatadoProcedimento' => $procedimentoDTO->getStrProtocoloProcedimentoFormatado(),
+                'idUsuarioGerador' => $procedimentoDTO->getNumIdUsuarioGeradorProtocolo(),
+                'nomeUsuarioGerador' => $usuarioDTO->getStrNome(),
+                'siglaUsuarioGerador' => $usuarioDTO->getStrSigla(),
+                'dataGeracao' => $procedimentoDTO->getDtaGeracaoProtocolo(),
+                'documento' => array()
+            );
+
+            if($dadosBusca['idDocumento']){
+                $protocoloDTO = new ProtocoloDTO();
+                $protocoloDTO->setDblIdProtocolo($dadosBusca['idDocumento']);
+                $protocoloDTO->retDblIdProtocolo();
+                $protocoloDTO->retStrProtocoloFormatado();
+                $protocoloDTO->retNumIdSerieDocumento();
+                $protocoloDTO->retStrNomeSerieDocumento();
+                $protocoloDTO->retStrNumeroDocumento();
+                $protocoloDTO->retStrStaDocumentoDocumento();
+                $protocoloDTO->retDtaGeracao();
+                /** Chama componente SEI para retorno de dados do documento */
+                $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
+                $arrDadosAnexo = null;
+
+                if (!in_array($protocoloDTO->getStrStaDocumentoDocumento(), $arrDocHtml)) {
+                    $anexoDTOConsulta = new AnexoDTO();
+                    $anexoDTOConsulta->retStrNome();
+                    $anexoDTOConsulta->retNumTamanho();
+                    $anexoDTOConsulta->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+                    $anexoDTOConsulta->setStrSinAtivo('S');
+                    $anexoDTOConsulta->setNumMaxRegistrosRetorno(1);
+                    /** Chama o componente SEI para recuperar o anexo no documento */
+                    $resultAnexo = $anexoRN->listarRN0218($anexoDTOConsulta);
+                    if ($resultAnexo) {
+                        /** @var AnexoDTO $anexoDTO */
+                        $anexoDTO = $resultAnexo[0];
+                        $mimetype = $anexoDTO->getStrNome();
+                        $mimetype = substr($mimetype, strrpos($mimetype, '.') + 1);
+                        $nomeAnexo = $anexoDTO->getStrNome();
+                        $tamanhoAnexo = $anexoDTO->getNumTamanho();
+                        $arrDadosAnexo = array(
+                            'nome' => $nomeAnexo,
+                            'mimetype' => $mimetype,
+                            'tamanho' => $tamanhoAnexo
+                        );
+                    }
+                }
+                $arrDadosProcedimento['documento'] = array(
+                    'idDocumento' => $protocoloDTO->getDblIdProtocolo(),
+                    'idSerieDocumento' => $protocoloDTO->getNumIdSerieDocumento(),
+                    'nomeSerieDocumento' => $protocoloDTO->getStrNomeSerieDocumento(),
+                    'protocoloFormatadoDocumento' => $protocoloDTO->getStrProtocoloFormatado(),
+                    'numeroDocumento' => $protocoloDTO->getStrNumeroDocumento(),
+                    'staDocumento' => $protocoloDTO->getStrStaDocumentoDocumento(),
+                    'dtaGeracao' => $protocoloDTO->getDtaGeracao(),
+                    'dadosAnexo' => $arrDadosAnexo
+                );
+            }
+
+            $result[] = $arrDadosProcedimento;
+        }
+
+        return $result;
     }
 
     /**

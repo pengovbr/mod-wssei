@@ -977,8 +977,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('grupo')) {
                         $dto->setNumIdGrupoAcompanhamentoProcedimento($request->getParam('grupo'));
                     }
-                    if ($request->getParam('protocoloPesquisa')) {
-                        $dto->setStrProtocoloPesquisa(InfraUtil::retirarFormatacao($request->getParam('protocoloPesquisa'), false));
+                    if ($request->getParam('palavrasChave')) {
+                        $dto->setStrPalavrasChave($request->getParam('palavrasChave'));
                     }
                     if ($request->getParam('descricao')) {
                         $dto->setStrDescricao($request->getParam('descricao'));
@@ -1003,6 +1003,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     }
                     if (!is_null($request->getParam('idAssunto')) && $request->getParam('idAssunto') != '') {
                         $dto->setNumIdAssunto($request->getParam('idAssunto'));
+                    }
+                    if ($request->getParam('buscaRapida')) {
+                        $dto->setStrbuscaRapida(InfraUtil::retirarFormatacao($request->getParam('buscaRapida'), false));
                     }
 
                     return $response->withJSON($rn->pesquisarProcessosSolar($dto));
