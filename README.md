@@ -30,16 +30,16 @@ Exemplo:
 ```bash
 public function getArrConfiguracoes(){
     return array(
-    'SEI' => array(
+        'SEI' => array(
+            (...)
+        ),
+        'WSSEI' => array(
+            'UrlServicoNotificacao' => '{URL do serviço de notificação}', 
+            'IdApp' => '{ID do app registrado no serviço de notificação}', 
+            'ChaveAutorizacao' => '{Chave de autorização do serviço de notificação}' 
+        ),
+    
         (...)
-    ),
-    'WSSEI' => array(
-        'UrlServicoNotificacao' => '{URL do serviço de notificação}', 
-        'IdApp' => '{ID do app registrado no serviço de notificação}', 
-        'ChaveAutorizacao' => '{Chave de autorização do serviço de notificação}' 
-    ),
-
-    (...)
 ```
 **1.5.** Realizar o procedimento de verificação e atualização de scripts de banco de dados conforme os seguintes passos:
 
