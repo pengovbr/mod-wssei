@@ -27,20 +27,20 @@ Exemplo:
 **1.4.** Adicionar no arquivo de configuração do sistema (ConfiguracaoSEI.php), no Array de configurações, a chave com as configurações abaixo para que seja realizada o envio de notificações:
 
 Exemplo:
-
+```bash
 public function getArrConfiguracoes(){
-return array(
-&#39;SEI&#39; =\&gt; ARRAY(
-( ...)
-),
+    return array(
+    'SEI' => array(
+        (...)
+    ),
+    'WSSEI' => array(
+        'UrlServicoNotificacao' => '{URL do serviço de notificação}', 
+        'IdApp' => '{ID do app registrado no serviço de notificação}', 
+        'ChaveAutorizacao' => '{Chave de autorização do serviço de notificação}' 
+    ),
 
-&#39;WSSEI&#39; =\&gt; ARRAY(
-&#39;UrlServicoNotificacao&#39; =\&gt; &#39;{URL do serviço de notificação}&#39;, 
-&#39;IdApp&#39; =\&gt; &#39;{ID do app registrado no serviço de notificação}&#39;, 
-&#39;ChaveAutorizacao&#39; =\&gt; &#39;{Chave de autorização do serviço de notificação}&#39; 
-)
-( ...)
-
+    (...)
+```
 **1.5.** Realizar o procedimento de verificação e atualização de scripts de banco de dados conforme os seguintes passos:
 
 **1.5.1.** Mover o arquivo de instalação do módulo no SEI sei_atualizar_versao_modulo_wssei.php para a pasta sei/scripts.
