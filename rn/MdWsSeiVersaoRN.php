@@ -102,11 +102,11 @@ class MdWsSeiVersaoRN extends InfraRN
                 mensagem ' . $objInfraMetaBD->tipoTextoGrande() . '  NOT NULL ,
                 dth_notificacao ' . $objInfraMetaBD->tipoDataHora() . '  NOT NULL)'
         );
-        BancoSEI::getInstance()->criarSequencialNativa('seq_md_wssei_notificacao_atividade',1);
-        $objInfraMetaBD->criarIndice('md_wssei_notificacao_atividade','i01_md_wssei_notificacao_atividade',array('id_notificacao_atividade'));
-        $objInfraMetaBD->criarIndice('md_wssei_notificacao_atividade','i02_md_wssei_notificacao_atividade',array('id_atividade'));
-        $objInfraMetaBD->criarIndice('md_wssei_notificacao_atividade','i03_md_wssei_notificacao_atividade',array('id_notificacao_atividade','id_atividade'));
-        BancoSEI::getInstance()->executarSql('alter table md_wssei_notificacao_atividade add constraint fk_md_wssei_not_ativ_id_atividade foreign key (id_atividade) references atividade (id_atividade) on delete cascade');
+        BancoSEI::getInstance()->criarSequencialNativa('seq_md_wssei_notificacao_ativ',1);
+        $objInfraMetaBD->criarIndice('md_wssei_notificacao_atividade','i01_md_wssei_notificacao_ativ',array('id_notificacao_atividade'));
+        $objInfraMetaBD->criarIndice('md_wssei_notificacao_atividade','i02_md_wssei_notificacao_ativ',array('id_atividade'));
+        $objInfraMetaBD->criarIndice('md_wssei_notificacao_atividade','i03_md_wssei_notificacao_ativ',array('id_notificacao_atividade','id_atividade'));
+        BancoSEI::getInstance()->executarSql('alter table md_wssei_notificacao_atividade add constraint fk_md_wssei_not_ativ_id_ativ foreign key (id_atividade) references atividade (id_atividade) on delete cascade');
 
         $infraAgemdanemtoTarefaDTO = new InfraAgendamentoTarefaDTO();
         $infraAgemdanemtoTarefaDTO->setStrDescricao('Agendamento para notificação de atividades.');
