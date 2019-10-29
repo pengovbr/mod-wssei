@@ -8,7 +8,7 @@
 
 **1.2.** Copiar a pasta contendo o módulo wssei para o diretório de módulos do SEI,localizado em \&lt;caminho/do/projeto\&gt;/sei/web/modulos. Certifique-se de que a pasta contenha os arquivos do módulo está com o nome **wssei**.
 
-**1.3.** Adicionar no arquivo de configuração do sistema (ConfiguracaoSEI.php), na chave Módulos, a referência para a pasta do módulo copiado no passo anterior, utilizando a chave de identificação MdWsSeiRest. O sistema procura pelo módulo a partir da pasta de módulos do SEI.
+**1.3.** Adicionar no arquivo de configuração do sistema (ConfiguracaoSEI.php), na chave Módulos, a referência para a pasta do módulo copiado no passo anterior, utilizando a chave de identificação MdWsSeiRest. O sistema procura pelo módulo a partir da pasta de módulos do SEI. 
 
 Exemplo:
 
@@ -24,11 +24,37 @@ Exemplo:
 
 ),
 
-**1.4.** Necessário habilitar/instalar a extensão PHP &quot;mbstring&quot;. Verificar se todos os requisitos para utilização do SEI 3.0 estão sendo atendidos, entre eles, a versãoo do PHP 5.6.
+**1.4.** Adicionar no arquivo de configuração do sistema (ConfiguracaoSEI.php), no Array de configurações, a chave com as configurações abaixo para que seja realizada o envio de notificações:
 
-**1.5.** Verificar se o módulo foi carregado por meio do menu Infra/Módulos do SEI.
+Exemplo:
 
-**1.6.** Verificar se o QR Code foi criado na parte inferior do menu lateral esquerdo doSEI. Esse código contém os dados de acesso ao ambiente do órgão.
+public function getArrConfiguracoes(){
+return array(
+&#39;SEI&#39; =\&gt; ARRAY(
+( ...)
+),
+
+&#39;WSSEI&#39; =\&gt; ARRAY(
+&#39;UrlServicoNotificacao&#39; =\&gt; &#39;{URL do serviço de notificação}&#39;, 
+&#39;IdApp&#39; =\&gt; &#39;{ID do app registrado no serviço de notificação}&#39;, 
+&#39;ChaveAutorizacao&#39; =\&gt; &#39;{Chave de autorização do serviço de notificação}&#39; 
+)
+( ...)
+
+**1.5.** Realizar o procedimento de verificação e atualização de scripts de banco de dados conforme os seguintes passos:
+
+**1.5.1.** Mover o arquivo de instalação do módulo no SEI sei_atualizar_versao_modulo_wssei.php para a pasta sei/scripts.
+ 
+**1.5.2.** Executar o script **sei_atualizar_versao_modulo_wssei.php** para inserção de dados no banco do SEI referente ao módulo. 
+```bash
+php -c /etc/php.ini [DIRETORIO_RAIZ_INSTALAÇÃO]/sei/scripts/sei_atualizar_versao_modulo_wssei.php
+```
+
+**1.6.** Necessário habilitar/instalar a extensão PHP &quot;mbstring&quot;. Verificar se todos os requisitos para utilização do SEI 3.0 estão sendo atendidos, entre eles, a versãoo do PHP 5.6.
+
+**1.7.** Verificar se o módulo foi carregado por meio do menu Infra/Módulos do SEI.
+
+**1.8.** Verificar se o QR Code foi criado na parte inferior do menu lateral esquerdo doSEI. Esse código contém os dados de acesso ao ambiente do órgão.
 
 
 
