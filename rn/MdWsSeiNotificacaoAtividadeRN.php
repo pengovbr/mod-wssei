@@ -14,7 +14,7 @@ class MdWsSeiNotificacaoAtividadeRN extends InfraRN {
      */
     protected function cadastrarNotificacaoControlado(MdWsSeiNotificacaoAtividadeDTO $mdWsSeiNotificacaoAtividadeDTO){
         try{
-            $mdWsSeiNotificacaoAtividadeDB = new MdWsSeiNotificacaoAtividadeDB();
+            $mdWsSeiNotificacaoAtividadeDB = new MdWsSeiNotificacaoAtividadeBD();
             /** Realiza a chamada ao banco de dados para armazenamento da notificação **/
             $mdWsSeiNotificacaoAtividadeDB->cadastrar($mdWsSeiNotificacaoAtividadeDTO);
         }catch (Exception $e){
