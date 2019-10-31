@@ -56,7 +56,7 @@ class MdWsSeiAgendamentoRN extends InfraRN
                             $notificacaoDTO->setStrTitulo('Atribuição de Processo');
                             $mensagem = 'Olá '.$atividadeDTO->getStrNomeUsuarioAtribuicao().', ';
                             $mensagem .= 'O processo '.$atividadeDTO->getStrProtocoloFormatadoProtocolo().' foi atribuído a você. ';
-                            $mensagem .= 'Clique na notificação para abrir o processo !!!';
+
                             $notificacaoDTO->setStrMensagem($mensagem);
                             $notificacaoDTO->setStrResumo($mensagem);
                             /** Gera identificador único do usuário para notificação **/
