@@ -506,16 +506,19 @@ class MdWsSeiBlocoRN extends InfraRN {
             }
             $blocoRN = new BlocoRN();
             $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
+
+            $relBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
+            $relBlocoProtocoloDTO->setNumMaxRegistrosRetorno(1);
+            $relBlocoProtocoloDTO->setNumIdBloco($arrIdBlocos, InfraDTO::$OPER_IN);
+            $relBlocoProtocoloDTO->retDblIdProtocolo();
+
+            /** Consultando componente SEI para verificar existencia de documentos/processos dentro do bloco */
+            if($relBlocoProtocoloRN->listarRN1291($relBlocoProtocoloDTO)){
+                throw new Exception('Não é permitido excluir um bloco com processos/documentos dentro.');
+            }
+
             $arrBlocosExclusao = array();
             foreach($arrIdBlocos as $idBloco) {
-                $relBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
-                $relBlocoProtocoloDTO->setNumMaxRegistrosRetorno(1);
-                $relBlocoProtocoloDTO->setNumIdBloco($idBloco);
-                $relBlocoProtocoloDTO->retDblIdProtocolo();
-                if($relBlocoProtocoloRN->listarRN1291($relBlocoProtocoloDTO)){
-                    throw new Exception('Não é permitido excluir um bloco com processos/documentos dentro.');
-                }
-
                 $blocoDTO = new BlocoDTO();
                 $blocoDTO->setNumIdBloco($idBloco);
                 $arrBlocosExclusao[] = $blocoDTO;
