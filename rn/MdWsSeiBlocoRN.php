@@ -140,6 +140,15 @@ class MdWsSeiBlocoRN extends InfraRN {
             if(!$arrIdProtocolos){
                 return MdWsSeiRest::formataRetornoSucessoREST('Nenhum processo foi informado.');
             }
+            $blocoDTOConsulta = new BlocoDTO();
+            $blocoDTOConsulta->retTodos();
+            $blocoDTOConsulta->setNumIdBloco($idBloco);
+            $blocoRN = new BlocoRN();
+            /** Chamando componente SEI para consulta de dados do bloco para validação **/
+            $blocoDTOConsulta = $blocoRN->consultarRN1276($blocoDTOConsulta);
+            if(!$blocoDTOConsulta || $blocoDTOConsulta->getNumIdUnidade() != SessaoSEI::getInstance()->getNumIdOrgaoUnidadeAtual()){
+                throw new Exception('Bloco não encontrado.');
+            }
             $arrObjRelBlocoProtocoloDTO = array();
             foreach($arrIdProtocolos as $idProtocolo) {
                 $relBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
