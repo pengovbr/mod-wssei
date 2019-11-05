@@ -47,11 +47,12 @@ class MdWsSeiNotificacaoRN extends InfraRN {
         $response = curl_exec($ch);
         if(!curl_errno($ch)){
             $info = curl_getinfo($ch);
-            if($info['http_code'] == 200){
-                return true;
+            if($info['http_code'] != 200){
+                throw new InfraException(MdWsSeiRest::dataToIso88591($response));
             }
+        }else{
+            throw new InfraException(MdWsSeiRest::dataToIso88591($response));
         }
-        return false;
     }
 
 

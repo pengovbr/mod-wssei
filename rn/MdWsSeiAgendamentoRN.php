@@ -71,10 +71,9 @@ class MdWsSeiAgendamentoRN extends InfraRN
                             $notificacaoDTO->setStrChaveAutorizacao($ChaveAutorizacao);
 
                             $notificacaoRN = new MdWsSeiNotificacaoRN();
+                            $mensagemErro = null;
                             /** Realiza a chamada da classe de notificação **/
-                            if(!$notificacaoRN->notificar($notificacaoDTO)){
-                                throw new Exception('FALHA AO ENVIAR NOTIFICAÇÃO AO SERVIÇO DE MENSAGERIA.');
-                            };
+                            $notificacaoRN->notificar($notificacaoDTO);
                             $notificacaoAtividadeDTO = new MdWsSeiNotificacaoAtividadeDTO();
                             $notificacaoAtividadeDTO->setNumIdAtividade($atividadeDTO->getNumIdAtividade());
                             $notificacaoAtividadeDTO->setDthNotificacao(InfraData::getStrDataHoraAtual());
@@ -83,6 +82,10 @@ class MdWsSeiAgendamentoRN extends InfraRN
                             /** Realiza o Cadastro da notificação para controle de atividades notificadas **/
                             $notificacaoAtividadeRN->cadastrar($notificacaoAtividadeDTO);
                             InfraDebug::getInstance()->gravar('NOTIFICAÇÃO DA ATIVIDADE ID: '.$atividadeDTO->getNumIdAtividade().' PARA IDENTIFICADOR: ['.$identificador.'] REALIZADA COM SUCESSO!');
+                        }catch (InfraException $e) {
+                            $bolErro = true;
+                            InfraDebug::getInstance()->gravar('ERRO AO REALIZAR NOTIFICAÇÃO PARA O ID USUÁRIO: '.$atividadeDTO->getNumIdUsuarioAtribuicao(). ', ATIVIDADE: '.$atividadeDTO->getNumIdAtividade().'.');
+                            InfraDebug::getInstance()->gravar('MENSAGEM DE ERRO: '.$e->getStrDescricao());
                         }catch (Exception $e) {
                             $bolErro = true;
                             InfraDebug::getInstance()->gravar('ERRO AO REALIZAR NOTIFICAÇÃO PARA O ID USUÁRIO: '.$atividadeDTO->getNumIdUsuarioAtribuicao(). ', ATIVIDADE: '.$atividadeDTO->getNumIdAtividade().'.');
