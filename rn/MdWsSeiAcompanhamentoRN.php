@@ -10,24 +10,24 @@ class MdWsSeiAcompanhamentoRN extends InfraRN {
     public function encapsulaAcompanhamento(array $post){
         $acompanhamentoDTO = new AcompanhamentoDTO();
 
-        if (isset($post['protocolo'])){
+        if (!empty($post['protocolo'])){
             $acompanhamentoDTO->setDblIdProtocolo($post['protocolo']);
         }
-        if (isset($post['unidade'])){
+        if (!empty($post['unidade'])){
             $acompanhamentoDTO->setNumIdUnidade($post['unidade']);
         }else{
             $acompanhamentoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
         }
 
-        if (isset($post['grupo'])){
+        if (!empty($post['grupo'])){
             $acompanhamentoDTO->setNumIdGrupoAcompanhamento($post['grupo']);
         }
-        if (isset($post['usuario'])){
+        if (!empty($post['usuario'])){
             $acompanhamentoDTO->setNumIdUsuarioGerador($post['usuario']);
         }else{
             $acompanhamentoDTO->setNumIdUsuarioGerador(SessaoSEI::getInstance()->getNumIdUsuario());
         }
-        if (isset($post['observacao'])){
+        if (!empty($post['observacao'])){
             $acompanhamentoDTO->setStrObservacao($post['observacao']);
         }
         $acompanhamentoDTO->setDthGeracao(InfraData::getStrDataHoraAtual());
@@ -40,6 +40,18 @@ class MdWsSeiAcompanhamentoRN extends InfraRN {
 
     protected function cadastrarAcompanhamentoControlado(AcompanhamentoDTO $acompanhamentoDTO){
         try{
+            if($acompanhamentoDTO->isSetDblIdProtocolo() && $acompanhamentoDTO->isSetNumIdUnidade()){
+                $protocoloRN = new ProtocoloRN();
+                $protocoloDTO = new ProtocoloDTO();
+                
+                $protocoloDTO->setDblIdProtocolo($acompanhamentoDTO->getDblIdProtocolo());
+                $protocoloDTO->retNumIdUnidadeGeradora();
+                /** Consulta o componente SEI para retorno dos dados do protocolo para validação **/
+                $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
+                if(!$protocoloDTO || $protocoloDTO->getNumIdUnidadeGeradora() != $acompanhamentoDTO->getNumIdUnidade()){
+                    throw new Exception('Protocolo não encontrado.');
+                }
+            }
             $acompanhamentoRN = new AcompanhamentoRN();
             $acompanhamentoRN->cadastrar($acompanhamentoDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Acompanhamento realizado com sucesso!');
