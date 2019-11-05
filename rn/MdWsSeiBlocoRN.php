@@ -505,8 +505,17 @@ class MdWsSeiBlocoRN extends InfraRN {
                 throw new Exception('Bloco não informado.');
             }
             $blocoRN = new BlocoRN();
+            $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
             $arrBlocosExclusao = array();
             foreach($arrIdBlocos as $idBloco) {
+                $relBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
+                $relBlocoProtocoloDTO->setNumMaxRegistrosRetorno(1);
+                $relBlocoProtocoloDTO->setNumIdBloco($idBloco);
+                $relBlocoProtocoloDTO->retDblIdProtocolo();
+                if($relBlocoProtocoloRN->listarRN1291($relBlocoProtocoloDTO)){
+                    throw new Exception('Não é permitido excluir um bloco com processos/documentos dentro.');
+                }
+
                 $blocoDTO = new BlocoDTO();
                 $blocoDTO->setNumIdBloco($idBloco);
                 $arrBlocosExclusao[] = $blocoDTO;
