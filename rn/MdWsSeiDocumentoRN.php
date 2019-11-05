@@ -1078,12 +1078,13 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             if (!$this->verificarAcessoProtocolo($request->getAttribute('route')->getArgument('documento'))) {
                 throw new InfraException("Acesso ao documento " . $request->getAttribute('route')->getArgument('documento') . " não autorizado.");
             }
+
             $documentoDTO = new DocumentoDTO();
             $documentoDTO->setDblIdDocumento($request->getAttribute('route')->getArgument('documento'));
             $documentoDTO->retTodos(true);
             /** Chamada no componente SEI para consulta de documento */
             $documentoDTO = $this->consultarRN0005($documentoDTO);
-            if(!$documentoDTO){
+            if(!$documentoDTO || $documentoDTO->getNumIdUnidadeResponsavel() != SessaoSEI::getInstance()->getNumIdUnidadeAtual()){
                 throw new Exception('Documento não encontrado.');
             }
             $post = $request->getParams();
