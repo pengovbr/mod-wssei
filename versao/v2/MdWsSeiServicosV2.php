@@ -1330,13 +1330,10 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
              * Grupo de controlador de Grupo de Acompanhamento
              */
             $this->group('/grupoacompanhamento', function () {
-                $this->get('/listar/{unidade}', function ($request, $response, $args) {
+                $this->get('/listar', function ($request, $response, $args) {
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiGrupoAcompanhamentoRN();
                     $dto = new GrupoAcompanhamentoDTO();
-                    if ($request->getAttribute('route')->getArgument('unidade')) {
-                        $dto->setNumIdUnidade($request->getAttribute('route')->getArgument('unidade'));
-                    }
                     if ($request->getParam('limit')) {
                         $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
                     }

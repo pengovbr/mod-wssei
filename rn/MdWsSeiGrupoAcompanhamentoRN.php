@@ -20,11 +20,8 @@ class MdWsSeiGrupoAcompanhamentoRN extends InfraRN {
             $grupoAcompanhamentoDTOConsulta->retNumIdGrupoAcompanhamento();
             $grupoAcompanhamentoDTOConsulta->retStrNome();
             $grupoAcompanhamentoDTOConsulta->setOrdStrNome(InfraDTO::$TIPO_ORDENACAO_ASC);
-            if(!$grupoAcompanhamentoDTOParam->isSetNumIdUnidade()){
-                $grupoAcompanhamentoDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-            }else{
-                $grupoAcompanhamentoDTOConsulta->setNumIdUnidade($grupoAcompanhamentoDTOParam->getNumIdUnidade());
-            }
+            $grupoAcompanhamentoDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+
             if($grupoAcompanhamentoDTOParam->getNumMaxRegistrosRetorno()){
                 $grupoAcompanhamentoDTOConsulta->setNumMaxRegistrosRetorno($grupoAcompanhamentoDTOParam->getNumMaxRegistrosRetorno());
             }else{
