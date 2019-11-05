@@ -683,7 +683,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $blocoDTOConsulta->setNumIdBloco($blocoDTO->getNumIdBloco());
             $blocoRN = new BlocoRN();
             $blocoDTOConsulta = $blocoRN->consultarRN1276($blocoDTOConsulta);
-            if(!$blocoDTOConsulta){
+            if(!$blocoDTOConsulta || $blocoDTOConsulta->getNumIdUnidade() != SessaoSEI::getInstance()->getNumIdOrgaoUnidadeAtual()){
                 throw new Exception('Bloco não encontrado.');
             }
             if($blocoDTOConsulta->getStrStaTipo() != BlocoRN::$TB_INTERNO){
