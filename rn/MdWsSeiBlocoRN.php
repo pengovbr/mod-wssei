@@ -146,7 +146,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $blocoRN = new BlocoRN();
             /** Chamando componente SEI para consulta de dados do bloco para validação **/
             $blocoDTOConsulta = $blocoRN->consultarRN1276($blocoDTOConsulta);
-            if(!$blocoDTOConsulta || $blocoDTOConsulta->getNumIdUnidade() != SessaoSEI::getInstance()->getNumIdOrgaoUnidadeAtual()){
+            if(!$blocoDTOConsulta || $blocoDTOConsulta->getNumIdUnidade() != SessaoSEI::getInstance()->getNumIdUnidadeAtual()){
                 throw new Exception('Bloco não encontrado.');
             }
             $arrObjRelBlocoProtocoloDTO = array();
