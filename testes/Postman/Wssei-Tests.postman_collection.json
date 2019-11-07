@@ -29239,7 +29239,7 @@
 								"exec": [
 									"pm.test(\"Cenario010 - Não pode alterar Nome do Bloco Interno de outra unidade\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.sucesso).to.eql(true);",
+									"    //pm.expect(jsonData.sucesso).to.eql(true);",
 									"    ",
 									"    pm.expect(pm.response.text()).to.not.include(\"Bloco Interno de Teste Alterado 02\");",
 									"});"
@@ -33925,7 +33925,7 @@
 								"exec": [
 									"pm.test(\"Cenario010 - Excluir Bloco\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -34071,7 +34071,7 @@
 								"id": "a886825f-f850-4a37-a01f-44906e8101ad",
 								"exec": [
 									"pm.test(\"Cenario 010 - Não pode listar id excluido\", function () {",
-									"    pm.expect(pm.response.text()).to.include('\"id\":\"' + pm.globals.get(\"BlocoInterno3_id\") +'\"');",
+									"    pm.expect(pm.response.text()).to.not.include('\"id\":\"' + pm.globals.get(\"BlocoInterno3_id\") +'\"');",
 									"",
 									"",
 									"});"
@@ -43142,13 +43142,13 @@
 	],
 	"variable": [
 		{
-			"id": "d103940a-0da7-4344-a30f-37c9ab86b4fc",
+			"id": "304534c9-e2ab-4cd3-b54b-2e8413b20b7d",
 			"key": "{{token}}",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "979904d2-61fc-4123-89da-3f7411c0af60",
+			"id": "74662500-3080-487d-88c0-e24a5227db96",
 			"key": "{{baseurl}}",
 			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
 			"type": "string"
