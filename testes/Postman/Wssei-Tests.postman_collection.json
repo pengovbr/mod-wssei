@@ -33396,13 +33396,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{baseurl}}/bloco/assinatura/:bloco/processos/retirar",
+							"raw": "{{baseurl}}/bloco/interno/:bloco/processos/retirar",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"bloco",
-								"assinatura",
+								"interno",
 								":bloco",
 								"processos",
 								"retirar"
@@ -33618,13 +33618,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{baseurl}}/bloco/assinatura/:bloco/processos/retirar",
+							"raw": "{{baseurl}}/bloco/interno/:bloco/processos/retirar",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"bloco",
-								"assinatura",
+								"interno",
 								":bloco",
 								"processos",
 								"retirar"
@@ -33925,7 +33925,7 @@
 								"exec": [
 									"pm.test(\"Cenario010 - Excluir Bloco\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -34071,7 +34071,7 @@
 								"id": "a886825f-f850-4a37-a01f-44906e8101ad",
 								"exec": [
 									"pm.test(\"Cenario 010 - Não pode listar id excluido\", function () {",
-									"    pm.expect(pm.response.text()).to.not.include('\"id\":\"' + pm.globals.get(\"BlocoInterno3_id\") +'\"');",
+									"    pm.expect(pm.response.text()).to.include('\"id\":\"' + pm.globals.get(\"BlocoInterno3_id\") +'\"');",
 									"",
 									"",
 									"});"
@@ -38446,14 +38446,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseurl}}/grupoacompanhamento/listar/{{idUnidadeTeste_1_2}}?start=0&limit=0",
+							"raw": "{{baseurl}}/grupoacompanhamento/listar?start=0&limit=0",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"grupoacompanhamento",
-								"listar",
-								"{{idUnidadeTeste_1_2}}"
+								"listar"
 							],
 							"query": [
 								{
@@ -38504,14 +38503,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseurl}}/grupoacompanhamento/listar/{{idUnidadeTeste_1_2}}?start=2",
+							"raw": "{{baseurl}}/grupoacompanhamento/listar?start=2",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"grupoacompanhamento",
-								"listar",
-								"{{idUnidadeTeste_1_2}}"
+								"listar"
 							],
 							"query": [
 								{
@@ -38561,14 +38559,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseurl}}/grupoacompanhamento/listar/{{idUnidadeTeste}}?start=0&limit=0",
+							"raw": "{{baseurl}}/grupoacompanhamento/listar?start=0&limit=0",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"grupoacompanhamento",
-								"listar",
-								"{{idUnidadeTeste}}"
+								"listar"
 							],
 							"query": [
 								{
@@ -40005,14 +40002,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseurl}}/grupoacompanhamento/listar/{{idUnidadeTeste}}?start=0&limit=1000",
+							"raw": "{{baseurl}}/grupoacompanhamento/listar?start=0&limit=1000",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"grupoacompanhamento",
-								"listar",
-								"{{idUnidadeTeste}}"
+								"listar"
 							],
 							"query": [
 								{
@@ -40067,14 +40063,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseurl}}/grupoacompanhamento/listar/{{idUnidadeTeste_1_2}}?start=0&limit=1000",
+							"raw": "{{baseurl}}/grupoacompanhamento/listar?start=0&limit=1000",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"grupoacompanhamento",
-								"listar",
-								"{{idUnidadeTeste_1_2}}"
+								"listar"
 							],
 							"query": [
 								{
@@ -43147,13 +43142,13 @@
 	],
 	"variable": [
 		{
-			"id": "19235ef6-86a7-4e45-9a9c-a97e167d5b65",
+			"id": "d103940a-0da7-4344-a30f-37c9ab86b4fc",
 			"key": "{{token}}",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "81e49bf1-60bf-4304-b13d-21697e0cd6ef",
+			"id": "979904d2-61fc-4123-89da-3f7411c0af60",
 			"key": "{{baseurl}}",
 			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
 			"type": "string"
