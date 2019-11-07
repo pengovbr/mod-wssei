@@ -392,6 +392,17 @@ class MdWsSeiBlocoRN extends InfraRN {
             if (!$relBlocoProtocoloDTOParam->isSetStrAnotacao()) {
                 throw new InfraException('A anotação deve ser informada.');
             }
+
+            $blocoDTOConsulta = new BlocoDTO();
+            $blocoDTOConsulta->retTodos();
+            $blocoDTOConsulta->setNumIdBloco($relBlocoProtocoloDTOParam->getNumIdBloco());
+            $blocoRN = new BlocoRN();
+            /** Acessando o componente SEI para retorno de dados do bloco para validação de permissão de acesso **/
+            $blocoDTOConsulta = $blocoRN->consultarRN1276($blocoDTOConsulta);
+            if(!$blocoDTOConsulta || $blocoDTOConsulta->getNumIdUnidade() != SessaoSEI::getInstance()->getNumIdUnidadeAtual()){
+                throw new Exception('Bloco não encontrado.');
+            }
+
             $relBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
             $relBlocoProtocoloDTO->setNumIdBloco($relBlocoProtocoloDTOParam->getNumIdBloco());
             $relBlocoProtocoloDTO->setDblIdProtocolo($relBlocoProtocoloDTOParam->getDblIdProtocolo());
