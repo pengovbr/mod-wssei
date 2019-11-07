@@ -469,7 +469,7 @@ class MdWsSeiBlocoRN extends InfraRN {
     {
         try{
             $result = array();
-            if(!$blocoDTO->isSetStrDescricao() || !trim($blocoDTO->getStrDescricao())){
+            if(!$blocoDTO->isSetStrDescricao()){
                 throw new Exception('Descrição não informada.');
             }
             $blocoDTO->setStrStaTipo(BlocoRN::$TB_INTERNO);
