@@ -1086,6 +1086,12 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     $dto = $rn->encapsulaAcompanhamento($request->getParams());
                     return $response->withJSON($rn->cadastrarAcompanhamento($dto));
                 });
+                $this->post('/acompanhamento/alterar', function ($request, $response, $args) {
+                    /** @var $request Slim\Http\Request */
+                    $rn = new MdWsSeiAcompanhamentoRN();
+                    $dto = $rn->encapsulaAcompanhamento($request->getParams());
+                    return $response->withJSON($rn->alterarAcompanhamento($dto));
+                });
                 $this->post('/agendar/retorno/programado', function ($request, $response, $args) {
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiRetornoProgramadoRN();

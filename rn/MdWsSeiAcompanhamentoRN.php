@@ -27,9 +27,14 @@ class MdWsSeiAcompanhamentoRN extends InfraRN {
 
     }
 
+    /**
+     * Método que realiza o cadastro de um acompanhamento especial
+     * @param AcompanhamentoDTO $acompanhamentoDTO
+     * @return array
+     */
     protected function cadastrarAcompanhamentoControlado(AcompanhamentoDTO $acompanhamentoDTO){
         try{
-            if($acompanhamentoDTO->isSetDblIdProtocolo() && $acompanhamentoDTO->isSetNumIdUnidade()){
+            if($acompanhamentoDTO->isSetDblIdProtocolo()){
                 $protocoloRN = new ProtocoloRN();
                 $protocoloDTO = new ProtocoloDTO();
                 
@@ -44,6 +49,40 @@ class MdWsSeiAcompanhamentoRN extends InfraRN {
             $acompanhamentoRN = new AcompanhamentoRN();
             $acompanhamentoRN->cadastrar($acompanhamentoDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Acompanhamento realizado com sucesso!');
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
+     * Método que altera um acompanhamento especial
+     * @param AcompanhamentoDTO $acompanhamentoDTO
+     * @return array
+     */
+    protected function alterarAcompanhamentoControlado(AcompanhamentoDTO $acompanhamentoDTO){
+        try{
+            if(!$acompanhamentoDTO->isSetDblIdProtocolo()) {
+                throw new Exception('Protocolo não encontrado.');
+            }
+            $acompanhamentoRN = new AcompanhamentoRN();
+
+            $acompanhamentoConsultaDTO = new AcompanhamentoDTO();
+            $acompanhamentoConsultaDTO->retNumIdAcompanhamento();
+            $acompanhamentoConsultaDTO->setDblIdProtocolo($acompanhamentoDTO->getDblIdProtocolo());
+            $acompanhamentoConsultaDTO->setNumIdUnidade($acompanhamentoDTO->getNumIdUnidade());
+
+            $acompanhamentoConsultaDTO = $acompanhamentoRN->consultar($acompanhamentoConsultaDTO);
+
+            if(!$acompanhamentoConsultaDTO){
+                throw new Exception('Acompanhamento não encontrado.');
+            }
+
+            $acompanhamentoDTO->setNumIdAcompanhamento($acompanhamentoConsultaDTO->getNumIdAcompanhamento());
+            //Prevendo bug do SEI no arquivo AcompanhamentoRN::174
+            $acompanhamentoDTO->unSetNumTipoVisualizacao();
+
+            $acompanhamentoRN->alterar($acompanhamentoDTO);
+            return MdWsSeiRest::formataRetornoSucessoREST('Acompanhamento alterado com sucesso!');
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
