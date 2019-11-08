@@ -87,4 +87,34 @@ class MdWsSeiAcompanhamentoRN extends InfraRN {
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
+
+    /**
+     * Método que excluir um acompanhamento especial
+     * @param AcompanhamentoDTO $acompanhamentoDTO
+     * @return array
+     */
+    protected function excluirAcompanhamentoControlado(AcompanhamentoDTO $acompanhamentoDTO){
+        try{
+            if(!$acompanhamentoDTO->isSetNumIdAcompanhamento()) {
+                throw new Exception('Acompanhamento não informado.');
+            }
+            $acompanhamentoRN = new AcompanhamentoRN();
+
+            $acompanhamentoConsultaDTO = new AcompanhamentoDTO();
+            $acompanhamentoConsultaDTO->retNumIdAcompanhamento();
+            $acompanhamentoConsultaDTO->setNumIdAcompanhamento($acompanhamentoDTO->getNumIdAcompanhamento());
+            $acompanhamentoConsultaDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+
+            $acompanhamentoConsultaDTO = $acompanhamentoRN->consultar($acompanhamentoConsultaDTO);
+
+            if(!$acompanhamentoConsultaDTO){
+                throw new Exception('Acompanhamento não encontrado.');
+            }
+
+            $acompanhamentoRN->excluir(array($acompanhamentoConsultaDTO));
+            return MdWsSeiRest::formataRetornoSucessoREST('Acompanhamento excluido com sucesso!');
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
 }
