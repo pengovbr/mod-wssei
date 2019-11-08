@@ -95,7 +95,7 @@ class MdWsSeiVersaoRN extends InfraRN
         $this->logar("CRIANDO TABELA PARA NOTIFICAÇÃO DE ATIVIDADES.");
         $objInfraMetaBD = new InfraMetaBD(BancoSEI::getInstance());
         BancoSEI::getInstance()->executarSql(
-            'CREATE TABLE md_wssei_notificacao_atividade (
+            'CREATE TABLE md_wssei_notificacao_ativ (
                 id_notificacao_atividade ' . $objInfraMetaBD->tipoNumero() . '  NOT NULL ,
                 id_atividade ' . $objInfraMetaBD->tipoNumero() . '  NOT NULL ,
                 titulo ' . $objInfraMetaBD->tipoTextoFixo(150) . '  NOT NULL ,
@@ -103,10 +103,10 @@ class MdWsSeiVersaoRN extends InfraRN
                 dth_notificacao ' . $objInfraMetaBD->tipoDataHora() . '  NOT NULL)'
         );
         BancoSEI::getInstance()->criarSequencialNativa('seq_md_wssei_notificacao_ativ',1);
-        $objInfraMetaBD->criarIndice('md_wssei_notificacao_atividade','i01_md_wssei_notificacao_ativ',array('id_notificacao_atividade'));
-        $objInfraMetaBD->criarIndice('md_wssei_notificacao_atividade','i02_md_wssei_notificacao_ativ',array('id_atividade'));
-        $objInfraMetaBD->criarIndice('md_wssei_notificacao_atividade','i03_md_wssei_notificacao_ativ',array('id_notificacao_atividade','id_atividade'));
-        BancoSEI::getInstance()->executarSql('alter table md_wssei_notificacao_atividade add constraint fk_md_wssei_not_ativ_id_ativ foreign key (id_atividade) references atividade (id_atividade) on delete cascade');
+        $objInfraMetaBD->criarIndice('md_wssei_notificacao_ativ','i01_md_wssei_notificacao_ativ',array('id_notificacao_atividade'));
+        $objInfraMetaBD->criarIndice('md_wssei_notificacao_ativ','i02_md_wssei_notificacao_ativ',array('id_atividade'));
+        $objInfraMetaBD->criarIndice('md_wssei_notificacao_ativ','i03_md_wssei_notificacao_ativ',array('id_notificacao_atividade','id_atividade'));
+        BancoSEI::getInstance()->executarSql('alter table md_wssei_notificacao_ativ add constraint fk_md_wssei_not_ativ_id_ativ foreign key (id_atividade) references atividade (id_atividade) on delete cascade');
 
         $infraAgemdanemtoTarefaDTO = new InfraAgendamentoTarefaDTO();
         $infraAgemdanemtoTarefaDTO->setStrDescricao('Agendamento para notificação de atividades.');

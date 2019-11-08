@@ -11,7 +11,7 @@ class MdWsSeiNotificacaoAtividadeDTO extends InfraDTO
 
     public function getStrNomeTabela()
     {
-        return 'md_wssei_notificacao_atividade';
+        return 'md_wssei_notificacao_ativ';
     }
 
     public function montar()
