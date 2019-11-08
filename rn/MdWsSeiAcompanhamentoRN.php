@@ -13,23 +13,12 @@ class MdWsSeiAcompanhamentoRN extends InfraRN {
         if (!empty($post['protocolo'])){
             $acompanhamentoDTO->setDblIdProtocolo($post['protocolo']);
         }
-        if (!empty($post['unidade'])){
-            $acompanhamentoDTO->setNumIdUnidade($post['unidade']);
-        }else{
-            $acompanhamentoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-        }
 
-        if (!empty($post['grupo'])){
-            $acompanhamentoDTO->setNumIdGrupoAcompanhamento($post['grupo']);
-        }
-        if (!empty($post['usuario'])){
-            $acompanhamentoDTO->setNumIdUsuarioGerador($post['usuario']);
-        }else{
-            $acompanhamentoDTO->setNumIdUsuarioGerador(SessaoSEI::getInstance()->getNumIdUsuario());
-        }
-        if (!empty($post['observacao'])){
-            $acompanhamentoDTO->setStrObservacao($post['observacao']);
-        }
+        $acompanhamentoDTO->setNumIdGrupoAcompanhamento($post['grupo']);
+        $acompanhamentoDTO->setStrObservacao($post['observacao']);
+
+        $acompanhamentoDTO->setNumIdUsuarioGerador(SessaoSEI::getInstance()->getNumIdUsuario());
+        $acompanhamentoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
         $acompanhamentoDTO->setDthGeracao(InfraData::getStrDataHoraAtual());
         $acompanhamentoDTO->setNumTipoVisualizacao(AtividadeRN::$TV_VISUALIZADO);
         $acompanhamentoDTO->setNumIdAcompanhamento(null);
