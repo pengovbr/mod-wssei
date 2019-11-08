@@ -117,4 +117,42 @@ class MdWsSeiAcompanhamentoRN extends InfraRN {
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
+
+    /**
+     * Método que consulta um acompanhamento de um processo por protocolo
+     * @param AcompanhamentoDTO $acompanhamentoDTO
+     * @return array
+     */
+    protected function consultarAcompanhamentoPorProtocoloControlado(AcompanhamentoDTO $acompanhamentoDTO){
+        try{
+            $result = array();
+            if(!$acompanhamentoDTO->isSetDblIdProtocolo()) {
+                throw new Exception('Protocolo não informado.');
+            }
+            $acompanhamentoRN = new AcompanhamentoRN();
+
+            $acompanhamentoDTO->retTodos(true);
+            $acompanhamentoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+
+            $acompanhamentoDTO = $acompanhamentoRN->consultar($acompanhamentoDTO);
+            
+
+            if($acompanhamentoDTO){
+                $result = array(
+                    'idAcompanhamento' => $acompanhamentoDTO->getNumIdAcompanhamento(),
+                    'idProtocolo' => $acompanhamentoDTO->getDblIdProtocolo(),
+                    'idUnidade' => $acompanhamentoDTO->getNumIdUnidade(),
+                    'observacao' => $acompanhamentoDTO->getStrObservacao(),
+                    'visualizacao' => $acompanhamentoDTO->getNumTipoVisualizacao(),
+                    'idGrupoAcompanhamento' => $acompanhamentoDTO->getNumIdGrupoAcompanhamento(),
+                    'nomeGrupo' => $acompanhamentoDTO->getStrNomeGrupo()
+                );
+            }
+
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
 }

@@ -1092,6 +1092,13 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     $dto = $rn->encapsulaAcompanhamento($request->getParams());
                     return $response->withJSON($rn->alterarAcompanhamento($dto));
                 });
+                $this->get('/acompanhamento/consultar', function ($request, $response, $args) {
+                    /** @var $request Slim\Http\Request */
+                    $rn = new MdWsSeiAcompanhamentoRN();
+                    $dto = new AcompanhamentoDTO();
+                    $dto->setDblIdProtocolo($request->getParam('protocolo'));
+                    return $response->withJSON($rn->consultarAcompanhamentoPorProtocolo($dto));
+                });
                 $this->post('/acompanhamento/{acompanhamento:[0-9]+}/excluir', function ($request, $response, $args) {
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiAcompanhamentoRN();
