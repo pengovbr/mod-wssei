@@ -1403,6 +1403,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $atividadeDTO->retStrSiglaUsuarioAtribuicao();
             $atividadeDTO->retStrNomeUsuarioAtribuicao();
             $atividadeDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+            $atividadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
             $atividadeDTO->setNumIdTarefa(
                 array(TarefaRN::$TI_REMOCAO_ATRIBUICAO, TarefaRN::$TI_PROCESSO_ATRIBUIDO),
                 InfraDTO::$OPER_IN
