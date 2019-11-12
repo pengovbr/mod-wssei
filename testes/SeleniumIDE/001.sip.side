@@ -1399,7 +1399,14 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["c4fced14-da20-4237-a496-912edf538b89", "0f082610-ef25-4a62-8c1d-8504f30e05de", "35f98682-f3ae-496d-8cc0-3168c83c7399"]
+    "tests": ["c4fced14-da20-4237-a496-912edf538b89", "0f082610-ef25-4a62-8c1d-8504f30e05de"]
+  }, {
+    "id": "af989fac-39a7-4151-b1eb-a484255f871d",
+    "name": "SIP-Wssei-Flood",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["35f98682-f3ae-496d-8cc0-3168c83c7399"]
   }],
   "urls": ["http://seigd.nuvem.gov.br/", "http://sei3.nuvem.gov.br/"],
   "plugins": []
