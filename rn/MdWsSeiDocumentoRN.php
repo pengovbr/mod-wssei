@@ -501,6 +501,39 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             $arrDocumentos = array();
             if ($ret) {
+                $bolAcaoAlterarDocumento = SessaoSEI::getInstance()->verificarPermissao('documento_alterar');
+                $bolAcaoAlterarDocumentoRecebido = SessaoSEI::getInstance()->verificarPermissao('documento_alterar_recebido');
+                $bolAcaoConsultarDocumento = SessaoSEI::getInstance()->verificarPermissao('documento_consultar');
+                $bolAcaoConsultarDocumentoRecebido = SessaoSEI::getInstance()->verificarPermissao('documento_consultar_recebido');
+                $bolFlagAberto = false;
+                $bolFlagAnexado = false;
+                $bolFlagAbertoAnexado = false;
+                $bolFlagProtocolo = false;
+                $bolFlagArquivo = false;
+                $bolFlagTramitacao = false;
+                $bolFlagSobrestado = false;
+                $bolFlagBloqueado = false;
+                $bolErro = false;
+                $numCodigoAcesso = 0;
+
+                /** Acessando componente SEI para retorno de validação de permissões **/
+                $procedimentoDTOAcoes = ProcedimentoINT::montarAcoesArvore($documentoDTOParam->getDblIdProcedimento(),
+                    SessaoSEI::getInstance()->getNumIdUnidadeAtual(),
+                    $bolFlagAberto,
+                    $bolFlagAnexado,
+                    $bolFlagAbertoAnexado,
+                    $bolFlagProtocolo,
+                    $bolFlagArquivo,
+                    $bolFlagTramitacao,
+                    $bolFlagSobrestado,
+                    $bolFlagBloqueado,
+                    $numCodigoAcesso,
+                    $numNo, $strNos,
+                    $numNoAcao, $strNosAcao,
+                    $bolErro);
+
+
+
                 $unidadeDTO = new UnidadeDTO();
                 $unidadeDTO->setBolExclusaoLogica(false);
                 $unidadeDTO->retStrSinProtocolo();
@@ -680,6 +713,24 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                     $permiteAlterar = true;
                 }
 
+                $podeVisualizarMetadados = 'N';
+                $podeAlterarMetadados = 'N';
+
+                if($documentoDTO->getStrStaProtocoloProtocolo() == ProtocoloRN::$TP_DOCUMENTO_GERADO){
+                    if ($bolAcaoAlterarDocumento && !$bolFlagBloqueado &&
+                        (($bolFlagAberto || $bolFlagAbertoAnexado || ($bolFlagProtocolo && $numIdUnidadeGeradoraProtocolo == $numIdUnidadeAtual)) ||
+                            ($permiteAssinatura && $assinadoPorOutraUnidade == false)) &&
+                        $documentoPublicado == 'N'
+                    ) {
+                        $podeAlterarMetadados = 'S';
+                        $podeVisualizarMetadados = $bolAcaoConsultarDocumento ? 'S' : 'N';
+                    }
+                }else if($documentoDTO->getStrStaProtocoloProtocolo() == ProtocoloRN::$TP_DOCUMENTO_RECEBIDO){
+                    if ($bolAcaoAlterarDocumentoRecebido && !$bolFlagBloqueado && ($bolFlagAberto || $bolFlagAbertoAnexado || ($bolFlagProtocolo && $numIdUnidadeGeradoraProtocolo == $numIdUnidadeAtual))) {
+                        $podeAlterarMetadados = 'S';
+                        $podeVisualizarMetadados = $bolAcaoConsultarDocumentoRecebido ? 'S' : 'N';
+                    }
+                }
 
                 $result[] = array(
                     'id' => $documentoDTO->getDblIdDocumento(),
@@ -708,7 +759,9 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                             'documentoCancelado' => $documentoCancelado,
                             'podeVisualizarDocumento' => $podeVisualizarDocumento ? 'S' : 'N',
                             'permiteAssinatura' => $permiteAssinatura,
-                            'permiteAlterar' => $permiteAlterar
+                            'permiteAlterar' => $permiteAlterar,
+                            'podeVisualizarMetadados' => $podeVisualizarMetadados,
+                            'podeAlterarMetadados' => $podeAlterarMetadados,
                         )
                     )
                 );
