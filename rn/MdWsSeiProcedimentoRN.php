@@ -2262,8 +2262,8 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             $xml = simplexml_load_string($resultados);
             $arrRet = $xml->xpath('/response/result/@numFound');
-            $total = array_shift($arrRet)->__toString();
             $registros = $xml->xpath('/response/result/doc');
+            $total = array_shift($arrRet);
             $numRegistros = sizeof($registros);
             $arrDadosSolr = array();
             
