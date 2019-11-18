@@ -1137,8 +1137,15 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             $documentoDTO->retTodos(true);
             /** Chamada no componente SEI para consulta de documento */
             $documentoDTO = $this->consultarRN0005($documentoDTO);
-            if(!$documentoDTO || $documentoDTO->getNumIdUnidadeResponsavel() != SessaoSEI::getInstance()->getNumIdUnidadeAtual()){
+            if(!$documentoDTO){
                 throw new Exception('Documento não encontrado.');
+            }
+            if($documentoDTO->getNumIdUnidadeResponsavel() != SessaoSEI::getInstance()->getNumIdUnidadeAtual()){
+                /** Validando se o procedimento do documento está aberto na unidade logada **/
+                $procedimentoRN = new MdWsSeiProcedimentoRN();
+                if(!$procedimentoRN->processoAbertoUnidadeAtual($documentoDTO->getDblIdProcedimento())){
+                    throw new InfraException('Documento não encontrado.');
+                }
             }
             $post = $request->getParams();
             /** Realiza o encapsulamento das informações vindas da requisiçao */
@@ -1155,7 +1162,6 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         /** Processo de alteração de documento do tipo externo */
         return $this->documentoExternoAlterar($documentoDTO);
     }
-
 
     /**
      * Método que altera um documento interno atraves de uma requisição do Slim

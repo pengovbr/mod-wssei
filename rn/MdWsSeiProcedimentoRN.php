@@ -2540,4 +2540,24 @@ class MdWsSeiProcedimentoRN extends InfraRN
         }
     }
 
+    /**
+     * Verifica se o processo está aberto na unidade logada
+     * @param $idProcedimento
+     * @return bool
+     */
+    protected function processoAbertoUnidadeAtualConectado($idProcedimento){
+        $objAtividadeRN = new AtividadeRN();
+        $objAtividadeDTO = new AtividadeDTO();
+        $objAtividadeDTO->setDistinct(true);
+        $objAtividadeDTO->retStrSiglaUnidade();
+        $objAtividadeDTO->retStrDescricaoUnidade();
+
+        $objAtividadeDTO->setOrdStrSiglaUnidade(InfraDTO::$TIPO_ORDENACAO_ASC);
+        $objAtividadeDTO->setDblIdProtocolo($idProcedimento);
+        $objAtividadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+        $arrObjAtividadeDTO = $objAtividadeRN->listarRN0036($objAtividadeDTO);
+
+        return empty($arrObjAtividadeDTO) ? false : true;
+    }
+
 }
