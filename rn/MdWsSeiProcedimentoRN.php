@@ -2117,8 +2117,9 @@ class MdWsSeiProcedimentoRN extends InfraRN
         }
 
         $parametros->q = utf8_encode($parametros->q);
+        
         $start = 0;
-        $limit = 100;
+        $limit = 10;
         if($pesquisaProtocoloSolrDTO->getNumPaginaAtual()){
             $start = $pesquisaProtocoloSolrDTO->getNumPaginaAtual();
         }
@@ -2263,7 +2264,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $xml = simplexml_load_string($resultados);
             $arrRet = $xml->xpath('/response/result/@numFound');
             $registros = $xml->xpath('/response/result/doc');
-            $total = array_shift($arrRet);
+            $total = (int) array_shift($arrRet);
             $numRegistros = sizeof($registros);
             $arrDadosSolr = array();
             
