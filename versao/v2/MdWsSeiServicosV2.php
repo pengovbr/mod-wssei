@@ -406,9 +406,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('protocolo')) {
                         $dto->setDblIdProtocolo($request->getParam('protocolo'));
                     }
-                    if ($request->getParam('anotacao') != '') {
-                        $dto->setStrAnotacao($request->getParam('anotacao'));
-                    }
+                    $dto->setStrAnotacao($request->getParam('anotacao'));
                     $rn = new MdWsSeiBlocoRN();
                     return $response->withJSON($rn->salvarAnotacaoBloco($dto));
                 });

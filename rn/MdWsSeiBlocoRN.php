@@ -389,9 +389,6 @@ class MdWsSeiBlocoRN extends InfraRN {
             if (!$relBlocoProtocoloDTOParam->isSetDblIdProtocolo()) {
                 throw new InfraException('O protocolo deve ser informado.');
             }
-            if (!$relBlocoProtocoloDTOParam->isSetStrAnotacao()) {
-                throw new InfraException('A anotação deve ser informada.');
-            }
 
             $blocoDTOConsulta = new BlocoDTO();
             $blocoDTOConsulta->retTodos();
