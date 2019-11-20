@@ -989,22 +989,22 @@
       "comment": "",
       "command": "type",
       "target": "id=txtUsuario",
-      "targets": [
-        ["id=txtUsuario", "id"],
-        ["name=txtUsuario", "name"],
-        ["css=#txtUsuario", "css:finder"],
-        ["xpath=//input[@id='txtUsuario']", "xpath:attributes"],
-        ["xpath=//div[@id='divInfraAreaDados']/input", "xpath:idRelative"],
-        ["xpath=//div[2]/input", "xpath:position"]
-      ],
+      "targets": [],
       "value": "usuario1"
+    }, {
+      "id": "92117a0e-1d9f-4b59-aa19-99217e1827be",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=txtUsuario",
+      "targets": [],
+      "value": "usuario 1"
     }, {
       "id": "bc1db961-ef0e-4e63-8c6b-5c0214789111",
       "comment": "",
-      "command": "pause",
-      "target": "2000",
+      "command": "waitForElementVisible",
+      "target": "css=#divInfraAjaxtxtUsuario a",
       "targets": [],
-      "value": ""
+      "value": "3000"
     }, {
       "id": "8a19a497-333a-4619-aa20-88871b34dbe7",
       "comment": "",
@@ -1166,12 +1166,19 @@
       ],
       "value": "usuario1"
     }, {
-      "id": "ee549129-fc1a-430a-b8b8-9d84cc443f85",
+      "id": "6ba52948-cfcd-4f2e-bf96-5a6177298b1a",
       "comment": "",
-      "command": "pause",
-      "target": "2000",
+      "command": "sendKeys",
+      "target": "id=txtUsuario",
       "targets": [],
-      "value": ""
+      "value": "usuario1"
+    }, {
+      "id": "61d76b19-335a-4c59-9f39-2d0c1333f00f",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=#divInfraAjaxtxtUsuario a",
+      "targets": [],
+      "value": "3000"
     }, {
       "id": "b2e88e43-68df-43ea-bcf4-1782b6951c83",
       "comment": "",
@@ -1319,12 +1326,19 @@
       ],
       "value": "usuario2"
     }, {
-      "id": "6aae4995-9dad-45ba-b384-cdef71779c00",
+      "id": "a9799fcb-eeea-46ad-8335-9bab50c61ba8",
       "comment": "",
-      "command": "pause",
-      "target": "2000",
+      "command": "sendKeys",
+      "target": "id=txtUsuario",
       "targets": [],
-      "value": ""
+      "value": "usuario2"
+    }, {
+      "id": "2f2a034d-c298-4964-bdcf-88f69d0b72a5",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=#divInfraAjaxtxtUsuario a",
+      "targets": [],
+      "value": "3000"
     }, {
       "id": "48f6eddf-e088-4cd8-b0f3-5e2010b0940e",
       "comment": "",

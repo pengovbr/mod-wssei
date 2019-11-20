@@ -1,7 +1,7 @@
 {
   "id": "565c3481-f0b6-42f6-a947-d7514d57929f",
   "version": "2.0",
-  "name": "SEI-ModWssei-SIP",
+  "name": "SEI-ModWssei-SEI",
   "url": "http://sei3.nuvem.gov.br/sei",
   "tests": [{
     "id": "21b6e331-61a0-481c-b833-15ee0c1bb02e",
@@ -169,6 +169,20 @@
       "target": "id=txtUnidade",
       "targets": [],
       "value": "teste"
+    }, {
+      "id": "2ab4545c-8656-45b9-987b-cdea19fe5d0f",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=txtUnidade",
+      "targets": [],
+      "value": "teste"
+    }, {
+      "id": "62ad7684-63f0-4cad-829b-eea050d9cc04",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=#divInfraAjaxtxtUnidade li:nth-child(1) > a",
+      "targets": [],
+      "value": "5000"
     }, {
       "id": "398e8fe2-aa4d-499f-89b3-33dcae5941e7",
       "comment": "",
