@@ -252,6 +252,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $assuntoDTOParam->retStrDescricao();
             $assuntoDTOParam->setStrSinEstrutural('N');
             $assuntoDTOParam->setStrSinAtualTabelaAssuntos('S');
+            $assuntoDTOParam->setOrdStrCodigoEstruturado(InfraDTO::$TIPO_ORDENACAO_ASC);
             $assuntoRN = new AssuntoRN();
             /** Chamando componente SEI para pesquisa de assuntos */
             $ret = $assuntoRN->pesquisarRN0246($assuntoDTOParam);
