@@ -342,9 +342,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('documento')) {
                         $dto->setDblIdProtocolo($request->getParam('documento'));
                     }
-                    if ($request->getParam('anotacao') != '') {
-                        $dto->setStrAnotacao($request->getParam('anotacao'));
-                    }
+                    $dto->setStrAnotacao($request->getParam('anotacao'));
                     $rn = new MdWsSeiBlocoRN();
                     return $response->withJSON($rn->salvarAnotacaoBloco($dto));
                 });
@@ -357,9 +355,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('documento')) {
                         $dto->setDblIdProtocolo($request->getParam('documento'));
                     }
-                    if ($request->getParam('anotacao') != '') {
-                        $dto->setStrAnotacao($request->getParam('anotacao'));
-                    }
+                    $dto->setStrAnotacao($request->getParam('anotacao'));
                     $rn = new MdWsSeiBlocoRN();
                     return $response->withJSON($rn->salvarAnotacaoBloco($dto));
                 });
