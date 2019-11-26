@@ -1181,6 +1181,13 @@
       "targets": [],
       "value": ""
     }, {
+      "id": "5625d40f-d738-4232-a4ba-b33bfd88e720",
+      "comment": "",
+      "command": "select",
+      "target": "id=selPerfil",
+      "targets": [],
+      "value": "label=Básico"
+    }, {
       "id": "a46284c0-f73f-4883-86fa-dbc4fabe70d8",
       "comment": "",
       "command": "click",
@@ -1194,13 +1201,6 @@
         ["xpath=//select[6]", "xpath:position"]
       ],
       "value": ""
-    }, {
-      "id": "5625d40f-d738-4232-a4ba-b33bfd88e720",
-      "comment": "",
-      "command": "select",
-      "target": "id=selPerfil",
-      "targets": [],
-      "value": "label=Básico"
     }, {
       "id": "de34549c-2017-428b-9448-969794d58a45",
       "comment": "",
@@ -1342,6 +1342,13 @@
       "targets": [],
       "value": ""
     }, {
+      "id": "71c687e3-abb3-42db-a19b-5139eb863e89",
+      "comment": "",
+      "command": "select",
+      "target": "id=selPerfil",
+      "targets": [],
+      "value": "label=Básico"
+    }, {
       "id": "90d1e5e5-a33b-49ac-a015-ca2622b542dc",
       "comment": "",
       "command": "click",
@@ -1355,13 +1362,6 @@
         ["xpath=//select[6]", "xpath:position"]
       ],
       "value": ""
-    }, {
-      "id": "71c687e3-abb3-42db-a19b-5139eb863e89",
-      "comment": "",
-      "command": "select",
-      "target": "id=selPerfil",
-      "targets": [],
-      "value": "label=Básico"
     }, {
       "id": "c94728b5-8f22-4fa5-9624-f6b48eaf0967",
       "comment": "",
