@@ -994,43 +994,30 @@
     }, {
       "id": "92117a0e-1d9f-4b59-aa19-99217e1827be",
       "comment": "",
-      "command": "sendKeys",
+      "command": "//sendKeys",
       "target": "id=txtUsuario",
       "targets": [],
       "value": "usuario 1"
     }, {
       "id": "bc1db961-ef0e-4e63-8c6b-5c0214789111",
       "comment": "",
-      "command": "waitForElementVisible",
+      "command": "//waitForElementVisible",
       "target": "css=#divInfraAjaxtxtUsuario a",
       "targets": [],
       "value": "3000"
     }, {
       "id": "8a19a497-333a-4619-aa20-88871b34dbe7",
       "comment": "",
-      "command": "mouseDown",
+      "command": "//mouseDown",
       "target": "css=#divInfraAjaxtxtUsuario a",
-      "targets": [
-        ["css=#divInfraAjaxtxtUsuario a", "css:finder"],
-        ["xpath=//div[@id='divInfraAjaxtxtUsuario']/ul/li/a", "xpath:idRelative"],
-        ["xpath=(//a[contains(@href, '#')])[14]", "xpath:href"],
-        ["xpath=//div[3]/ul/li/a", "xpath:position"],
-        ["xpath=//a[contains(.,'usuario1 - Usuario de Teste 1')]", "xpath:innerText"]
-      ],
+      "targets": [],
       "value": ""
     }, {
-      "id": "34ef0dc6-75c3-49a7-b637-d4dc15c4dc61",
+      "id": "d50f758d-728a-42b2-882d-9361c695537e",
       "comment": "",
-      "command": "click",
-      "target": "id=selPerfil",
-      "targets": [
-        ["id=selPerfil", "id"],
-        ["name=selPerfil", "name"],
-        ["css=#selPerfil", "css:finder"],
-        ["xpath=//select[@id='selPerfil']", "xpath:attributes"],
-        ["xpath=//div[@id='divInfraAreaDados']/select[6]", "xpath:idRelative"],
-        ["xpath=//select[6]", "xpath:position"]
-      ],
+      "command": "mouseDown",
+      "target": "css=b",
+      "targets": [],
       "value": ""
     }, {
       "id": "39e28021-870d-4e1e-b7a6-f8d124801f06",
@@ -1168,29 +1155,30 @@
     }, {
       "id": "6ba52948-cfcd-4f2e-bf96-5a6177298b1a",
       "comment": "",
-      "command": "sendKeys",
+      "command": "//sendKeys",
       "target": "id=txtUsuario",
       "targets": [],
       "value": "usuario1"
     }, {
       "id": "61d76b19-335a-4c59-9f39-2d0c1333f00f",
       "comment": "",
-      "command": "waitForElementVisible",
+      "command": "//waitForElementVisible",
       "target": "css=#divInfraAjaxtxtUsuario a",
       "targets": [],
       "value": "3000"
     }, {
       "id": "b2e88e43-68df-43ea-bcf4-1782b6951c83",
       "comment": "",
-      "command": "mouseDown",
+      "command": "//mouseDown",
       "target": "css=#divInfraAjaxtxtUsuario a",
-      "targets": [
-        ["css=#divInfraAjaxtxtUsuario a", "css:finder"],
-        ["xpath=//div[@id='divInfraAjaxtxtUsuario']/ul/li/a", "xpath:idRelative"],
-        ["xpath=(//a[contains(@href, '#')])[14]", "xpath:href"],
-        ["xpath=//div[3]/ul/li/a", "xpath:position"],
-        ["xpath=//a[contains(.,'usuario1 - Usuario de Teste 1')]", "xpath:innerText"]
-      ],
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "93e3a37b-c02a-4d87-ba82-419367c21506",
+      "comment": "",
+      "command": "mouseDown",
+      "target": "css=b",
+      "targets": [],
       "value": ""
     }, {
       "id": "a46284c0-f73f-4883-86fa-dbc4fabe70d8",
@@ -1328,29 +1316,30 @@
     }, {
       "id": "a9799fcb-eeea-46ad-8335-9bab50c61ba8",
       "comment": "",
-      "command": "sendKeys",
+      "command": "//sendKeys",
       "target": "id=txtUsuario",
       "targets": [],
       "value": "usuario2"
     }, {
       "id": "2f2a034d-c298-4964-bdcf-88f69d0b72a5",
       "comment": "",
-      "command": "waitForElementVisible",
+      "command": "//waitForElementVisible",
       "target": "css=#divInfraAjaxtxtUsuario a",
       "targets": [],
       "value": "3000"
     }, {
       "id": "48f6eddf-e088-4cd8-b0f3-5e2010b0940e",
       "comment": "",
-      "command": "mouseDown",
+      "command": "//mouseDown",
       "target": "css=#divInfraAjaxtxtUsuario a",
-      "targets": [
-        ["css=#divInfraAjaxtxtUsuario a", "css:finder"],
-        ["xpath=//div[@id='divInfraAjaxtxtUsuario']/ul/li/a", "xpath:idRelative"],
-        ["xpath=(//a[contains(@href, '#')])[14]", "xpath:href"],
-        ["xpath=//div[3]/ul/li/a", "xpath:position"],
-        ["xpath=//a[contains(.,'usuario1 - Usuario de Teste 1')]", "xpath:innerText"]
-      ],
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0a2c0b55-34ca-44d0-a9c1-afaf387bf288",
+      "comment": "",
+      "command": "mouseDown",
+      "target": "css=b",
+      "targets": [],
       "value": ""
     }, {
       "id": "90d1e5e5-a33b-49ac-a015-ca2622b542dc",

@@ -170,54 +170,46 @@
       "targets": [],
       "value": "teste"
     }, {
+      "id": "5688f44f-698b-4d05-aaff-88bcedc85727",
+      "comment": "",
+      "command": "mouseDown",
+      "target": "css=b",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "2ab4545c-8656-45b9-987b-cdea19fe5d0f",
       "comment": "",
-      "command": "sendKeys",
+      "command": "//sendKeys",
       "target": "id=txtUnidade",
       "targets": [],
       "value": "teste"
     }, {
       "id": "62ad7684-63f0-4cad-829b-eea050d9cc04",
       "comment": "",
-      "command": "waitForElementVisible",
+      "command": "//waitForElementVisible",
       "target": "css=#divInfraAjaxtxtUnidade li:nth-child(1) > a",
       "targets": [],
       "value": "5000"
     }, {
       "id": "398e8fe2-aa4d-499f-89b3-33dcae5941e7",
       "comment": "",
-      "command": "mouseDown",
+      "command": "//mouseDown",
       "target": "css=#divInfraAjaxtxtUnidade li:nth-child(1) > a",
-      "targets": [
-        ["css=#divInfraAjaxtxtUnidade li:nth-child(1) > a", "css:finder"],
-        ["xpath=//div[@id='divInfraAjaxtxtUnidade']/ul/li/a", "xpath:idRelative"],
-        ["xpath=(//a[contains(@href, '#')])[38]", "xpath:href"],
-        ["xpath=//div[3]/ul/li/a", "xpath:position"],
-        ["xpath=//a[contains(.,'TESTE - Unidade de Teste 1')]", "xpath:innerText"]
-      ],
+      "targets": [],
       "value": ""
     }, {
       "id": "8554f884-ab90-4994-8b49-98ee1d123275",
       "comment": "",
-      "command": "mouseUp",
+      "command": "//mouseUp",
       "target": "css=#selUnidades > option",
-      "targets": [
-        ["css=#selUnidades > option", "css:finder"],
-        ["xpath=(//option[@value='110000001'])[2]", "xpath:attributes"],
-        ["xpath=//select[@id='selUnidades']/option", "xpath:idRelative"],
-        ["xpath=//div[2]/select/option", "xpath:position"],
-        ["xpath=//option[contains(.,'TESTE - Unidade de Teste 1')]", "xpath:innerText"]
-      ],
+      "targets": [],
       "value": ""
     }, {
       "id": "085cf7e4-17c6-435a-abfb-3e3ddbd4a0f2",
       "comment": "",
-      "command": "click",
+      "command": "//click",
       "target": "css=body",
-      "targets": [
-        ["css=body", "css:finder"],
-        ["xpath=//body", "xpath:position"]
-      ],
+      "targets": [],
       "value": ""
     }, {
       "id": "791674c0-f26b-4e80-9309-911d7fc9d5b1",
