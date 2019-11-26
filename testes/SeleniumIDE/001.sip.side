@@ -893,6 +893,13 @@
       ],
       "value": ""
     }, {
+      "id": "9cad76c4-9add-4e6a-8105-7dea175ae97c",
+      "comment": "",
+      "command": "waitForElementEditable",
+      "target": "id=selOrgaoSistema",
+      "targets": [],
+      "value": "5000"
+    }, {
       "id": "546aed26-dc10-473c-9af3-fb71a3aac3c6",
       "comment": "",
       "command": "click",
@@ -915,6 +922,13 @@
       "targets": [],
       "value": "label=ME"
     }, {
+      "id": "ead52ef3-8185-4c6a-82e4-af0b2d02d2ce",
+      "comment": "",
+      "command": "waitForElementEditable",
+      "target": "id=selSistema",
+      "targets": [],
+      "value": "5000"
+    }, {
       "id": "3c72784e-5391-4b14-9247-7e5e21dc6adb",
       "comment": "",
       "command": "click",
@@ -936,6 +950,13 @@
       "targets": [],
       "value": "label=SEI"
     }, {
+      "id": "c9329cce-2b88-45c0-878c-420f9b8edd67",
+      "comment": "",
+      "command": "waitForElementEditable",
+      "target": "id=selOrgaoUnidade",
+      "targets": [],
+      "value": "5000"
+    }, {
       "id": "af00d35c-2504-4926-a882-aaf88f060ec9",
       "comment": "",
       "command": "click",
@@ -950,10 +971,17 @@
       "targets": [],
       "value": "ME"
     }, {
+      "id": "286e89f1-e805-4ade-a187-7059ea5e978a",
+      "comment": "",
+      "command": "waitForElementEditable",
+      "target": "id=selUnidade",
+      "targets": [],
+      "value": "5000"
+    }, {
       "id": "d5a9dbfb-0fb1-4cf9-b2d2-b3196ba24d37",
       "comment": "",
       "command": "click",
-      "target": "xpath=//select[@id='selUnidade']",
+      "target": "id=selUnidade",
       "targets": [
         ["id=selUnidade", "id"],
         ["name=selUnidade", "name"],
@@ -970,6 +998,13 @@
       "target": "id=selUnidade",
       "targets": [],
       "value": "value=110000002"
+    }, {
+      "id": "04a3d691-f464-4b9e-9f45-277678bb6ae8",
+      "comment": "",
+      "command": "waitForElementEditable",
+      "target": "id=txtUsuario",
+      "targets": [],
+      "value": "5000"
     }, {
       "id": "95094acd-1f9d-423f-aa91-1be0043be0f8",
       "comment": "",
@@ -992,40 +1027,19 @@
       "targets": [],
       "value": "usuario1"
     }, {
-      "id": "bb1534a8-007c-460e-ad6a-d99b8f76b379",
-      "comment": "",
-      "command": "waitForElementVisible",
-      "target": "css=b",
-      "targets": [],
-      "value": "10000"
-    }, {
-      "id": "92117a0e-1d9f-4b59-aa19-99217e1827be",
-      "comment": "",
-      "command": "//sendKeys",
-      "target": "id=txtUsuario",
-      "targets": [],
-      "value": "usuario 1"
-    }, {
-      "id": "bc1db961-ef0e-4e63-8c6b-5c0214789111",
-      "comment": "",
-      "command": "//waitForElementVisible",
-      "target": "css=#divInfraAjaxtxtUsuario a",
-      "targets": [],
-      "value": "3000"
-    }, {
-      "id": "8a19a497-333a-4619-aa20-88871b34dbe7",
-      "comment": "",
-      "command": "//mouseDown",
-      "target": "css=#divInfraAjaxtxtUsuario a",
-      "targets": [],
-      "value": ""
-    }, {
       "id": "d50f758d-728a-42b2-882d-9361c695537e",
       "comment": "",
       "command": "mouseDown",
       "target": "css=b",
       "targets": [],
       "value": ""
+    }, {
+      "id": "10f24205-cd3d-447c-842e-0c8bb50ff905",
+      "comment": "",
+      "command": "waitForElementEditable",
+      "target": "id=selPerfil",
+      "targets": [],
+      "value": "5000"
     }, {
       "id": "39e28021-870d-4e1e-b7a6-f8d124801f06",
       "comment": "",
@@ -1111,6 +1125,13 @@
       "targets": [],
       "value": "label=SEI"
     }, {
+      "id": "66988320-5cc3-4c13-a177-cdb5fb373b3f",
+      "comment": "",
+      "command": "waitForElementEditable",
+      "target": "id=selUnidade",
+      "targets": [],
+      "value": "5000"
+    }, {
       "id": "f5812a25-1527-44a4-beaa-bdbd58fca589",
       "comment": "",
       "command": "click",
@@ -1131,6 +1152,13 @@
       "target": "id=selUnidade",
       "targets": [],
       "value": "value=110000001"
+    }, {
+      "id": "d18421f4-4542-4895-a2bd-4ce1df91d48b",
+      "comment": "",
+      "command": "waitForElementEditable",
+      "target": "id=txtUsuario",
+      "targets": [],
+      "value": "5000"
     }, {
       "id": "9e3656f7-aaf9-49e1-814a-712110edcc8b",
       "comment": "",
@@ -1160,40 +1188,19 @@
       ],
       "value": "usuario1"
     }, {
-      "id": "6ba52948-cfcd-4f2e-bf96-5a6177298b1a",
-      "comment": "",
-      "command": "//sendKeys",
-      "target": "id=txtUsuario",
-      "targets": [],
-      "value": "usuario1"
-    }, {
-      "id": "61d76b19-335a-4c59-9f39-2d0c1333f00f",
-      "comment": "",
-      "command": "//waitForElementVisible",
-      "target": "css=#divInfraAjaxtxtUsuario a",
-      "targets": [],
-      "value": "3000"
-    }, {
-      "id": "b2e88e43-68df-43ea-bcf4-1782b6951c83",
-      "comment": "",
-      "command": "//mouseDown",
-      "target": "css=#divInfraAjaxtxtUsuario a",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "b53cc023-832f-447b-86fb-52b706646b99",
-      "comment": "",
-      "command": "waitForElementVisible",
-      "target": "css=b",
-      "targets": [],
-      "value": "10000"
-    }, {
       "id": "93e3a37b-c02a-4d87-ba82-419367c21506",
       "comment": "",
       "command": "mouseDown",
       "target": "css=b",
       "targets": [],
       "value": ""
+    }, {
+      "id": "0ec24fe3-c570-484c-a074-e149c8b1d261",
+      "comment": "",
+      "command": "waitForElementEditable",
+      "target": "id=selPerfil",
+      "targets": [],
+      "value": "5000"
     }, {
       "id": "5625d40f-d738-4232-a4ba-b33bfd88e720",
       "comment": "",
@@ -1279,6 +1286,13 @@
       "targets": [],
       "value": "label=SEI"
     }, {
+      "id": "40caedf4-01c4-46fa-bd5d-7d1dfbde4866",
+      "comment": "",
+      "command": "waitForElementEditable",
+      "target": "id=selUnidade",
+      "targets": [],
+      "value": "5000"
+    }, {
       "id": "62a1dbce-286e-4171-aaca-78a3fc9cd516",
       "comment": "",
       "command": "click",
@@ -1299,6 +1313,13 @@
       "target": "id=selUnidade",
       "targets": [],
       "value": "value=110000003"
+    }, {
+      "id": "d0e9bc30-a97a-4aeb-98a2-ae7c57f5f9d2",
+      "comment": "",
+      "command": "waitForElementEditable",
+      "target": "id=txtUsuario",
+      "targets": [],
+      "value": "5000"
     }, {
       "id": "e0da511d-60e5-43d2-9335-8097aa556338",
       "comment": "",
@@ -1328,40 +1349,19 @@
       ],
       "value": "usuario2"
     }, {
-      "id": "a9799fcb-eeea-46ad-8335-9bab50c61ba8",
-      "comment": "",
-      "command": "//sendKeys",
-      "target": "id=txtUsuario",
-      "targets": [],
-      "value": "usuario2"
-    }, {
-      "id": "2f2a034d-c298-4964-bdcf-88f69d0b72a5",
-      "comment": "",
-      "command": "//waitForElementVisible",
-      "target": "css=#divInfraAjaxtxtUsuario a",
-      "targets": [],
-      "value": "3000"
-    }, {
-      "id": "48f6eddf-e088-4cd8-b0f3-5e2010b0940e",
-      "comment": "",
-      "command": "//mouseDown",
-      "target": "css=#divInfraAjaxtxtUsuario a",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "e78e83a7-39c2-45d1-b1c7-830eb1954685",
-      "comment": "",
-      "command": "waitForElementVisible",
-      "target": "css=b",
-      "targets": [],
-      "value": "10000"
-    }, {
       "id": "0a2c0b55-34ca-44d0-a9c1-afaf387bf288",
       "comment": "",
       "command": "mouseDown",
       "target": "css=b",
       "targets": [],
       "value": ""
+    }, {
+      "id": "e1bb8c97-e97f-4c5a-8e50-1103a8503e96",
+      "comment": "",
+      "command": "waitForElementEditable",
+      "target": "id=selPerfil",
+      "targets": [],
+      "value": "5000"
     }, {
       "id": "71c687e3-abb3-42db-a19b-5139eb863e89",
       "comment": "",
