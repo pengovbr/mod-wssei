@@ -992,6 +992,13 @@
       "targets": [],
       "value": "usuario1"
     }, {
+      "id": "bb1534a8-007c-460e-ad6a-d99b8f76b379",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=b",
+      "targets": [],
+      "value": "10000"
+    }, {
       "id": "92117a0e-1d9f-4b59-aa19-99217e1827be",
       "comment": "",
       "command": "//sendKeys",
@@ -1174,6 +1181,13 @@
       "targets": [],
       "value": ""
     }, {
+      "id": "b53cc023-832f-447b-86fb-52b706646b99",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=b",
+      "targets": [],
+      "value": "10000"
+    }, {
       "id": "93e3a37b-c02a-4d87-ba82-419367c21506",
       "comment": "",
       "command": "mouseDown",
@@ -1334,6 +1348,13 @@
       "target": "css=#divInfraAjaxtxtUsuario a",
       "targets": [],
       "value": ""
+    }, {
+      "id": "e78e83a7-39c2-45d1-b1c7-830eb1954685",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=b",
+      "targets": [],
+      "value": "10000"
     }, {
       "id": "0a2c0b55-34ca-44d0-a9c1-afaf387bf288",
       "comment": "",
