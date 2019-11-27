@@ -6780,14 +6780,14 @@
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
 									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
-									"});"
+									"});*/"
 								],
 								"type": "text/javascript"
 							}
@@ -7037,14 +7037,14 @@
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
 									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
-									"});"
+									"});*/"
 								],
 								"type": "text/javascript"
 							}
@@ -7306,14 +7306,14 @@
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
 									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
-									"});"
+									"});*/"
 								],
 								"type": "text/javascript"
 							}
@@ -7575,14 +7575,14 @@
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
 									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
-									"});"
+									"});*/"
 								],
 								"type": "text/javascript"
 							}
@@ -7834,7 +7834,7 @@
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero primeiro doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\");\r",
 									"    \r",
@@ -7849,7 +7849,7 @@
 									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
-									"});"
+									"});*/"
 								],
 								"type": "text/javascript"
 							}
@@ -8104,14 +8104,14 @@
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
 									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
-									"});"
+									"});*/"
 								],
 								"type": "text/javascript"
 							}
@@ -8366,14 +8366,14 @@
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
 									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
-									"});"
+									"});*/"
 								],
 								"type": "text/javascript"
 							}
@@ -8628,14 +8628,14 @@
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
 									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
-									"});"
+									"});*/"
 								],
 								"type": "text/javascript"
 							}
@@ -9131,14 +9131,14 @@
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
 									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
-									"});"
+									"});*/"
 								],
 								"type": "text/javascript"
 							}
@@ -9393,14 +9393,14 @@
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
 									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
-									"});"
+									"});*/"
 								],
 								"type": "text/javascript"
 							}
@@ -9641,10 +9641,11 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
-									"});"
+									"});*/"
 								],
 								"type": "text/javascript"
 							}
@@ -9697,7 +9698,7 @@
 							"script": {
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
@@ -9706,7 +9707,7 @@
 									"    pm.expect(pm.response.text()).to.not.include(p);\r",
 									"    \r",
 									"});\r",
-									""
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -9941,12 +9942,13 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
 									"\r",
-									""
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -9999,11 +10001,12 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Enviou o Processo\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
-									"});"
+									"});\r",
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -10103,10 +10106,12 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
-									"});"
+									"});\r",
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -10159,7 +10164,7 @@
 							"script": {
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
@@ -10168,7 +10173,7 @@
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
-									""
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -10403,11 +10408,12 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Enviou o Processo\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
-									"});"
+									"});\r",
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -10507,7 +10513,7 @@
 							"script": {
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
@@ -10516,7 +10522,7 @@
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
-									""
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -10751,12 +10757,13 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
 									"\r",
-									""
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -10809,7 +10816,7 @@
 							"script": {
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
@@ -10833,7 +10840,8 @@
 									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
-									"});"
+									"});\r",
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -11066,7 +11074,7 @@
 							"script": {
 								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002 - Existe ProtocoloFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
@@ -11075,7 +11083,7 @@
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"protocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
-									""
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -11159,7 +11167,7 @@
 							"script": {
 								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
@@ -11168,7 +11176,7 @@
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
-									""
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -11458,7 +11466,7 @@
 							"script": {
 								"id": "6f968e61-66e7-41cd-b7f2-040b7606aeba",
 								"exec": [
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
@@ -11467,7 +11475,7 @@
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoExterno_1_2\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoExterno_1_2\", jsonData.data.protocoloDocumentoFormatado);\r",
-									""
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -11789,6 +11797,7 @@
 							"script": {
 								"id": "bbcf0866-752f-4304-8f5f-1a4537689560",
 								"exec": [
+									"/*",
 									"function sleep(ms) {",
 									"    var unixtime_ms = new Date().getTime();",
 									"    while(new Date().getTime() < unixtime_ms + ms) {}",
@@ -11802,7 +11811,7 @@
 									"  pm.expect(jsonData).to.have.property('data');",
 									"  ",
 									"});",
-									""
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -11838,7 +11847,7 @@
 							"script": {
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
@@ -11862,7 +11871,8 @@
 									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
-									"});"
+									"});\r",
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -12095,7 +12105,7 @@
 							"script": {
 								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
-									"\r",
+									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
 									"\r",
@@ -12119,7 +12129,8 @@
 									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
-									"});"
+									"});\r",
+									"*/"
 								],
 								"type": "text/javascript"
 							}
@@ -52175,13 +52186,13 @@
 	],
 	"variable": [
 		{
-			"id": "25f94944-6a44-47e4-97b1-e545fafd8331",
+			"id": "c133d645-e374-43a5-ac4e-f3ae0a782b55",
 			"key": "{{token}}",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "59423d4a-eb8f-47cc-be6c-302c379d5c4f",
+			"id": "0c266e00-5f60-436e-bce9-9107d54962c0",
 			"key": "{{baseurl}}",
 			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
 			"type": "string"
