@@ -396,15 +396,31 @@ class MdWsSeiBlocoRN extends InfraRN {
             $blocoRN = new BlocoRN();
             /** Acessando o componente SEI para retorno de dados do bloco para validação de permissão de acesso **/
             $blocoDTOConsulta = $blocoRN->consultarRN1276($blocoDTOConsulta);
-            if(!$blocoDTOConsulta || $blocoDTOConsulta->getNumIdUnidade() != SessaoSEI::getInstance()->getNumIdUnidadeAtual()){
+            if(!$blocoDTOConsulta){
                 throw new Exception('Bloco não encontrado.');
             }
 
+            $relBlocoUnidadeDTO = new RelBlocoUnidadeDTO();
+            $relBlocoUnidadeDTO->retNumIdBloco();
+            $relBlocoUnidadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $relBlocoUnidadeDTO->setNumIdBloco($blocoDTOConsulta->getNumIdBloco());
+            $relBlocoUnidadeDTO->setStrSinRetornado('N');
+
+            $relBlocoUnidadeRN = new RelBlocoUnidadeRN();
+
+            /** Acessando o componente SEI para verificação de disponibilização de bloco */
+            $relBlocoUnidadeDTO = $relBlocoUnidadeRN->consultarRN1303($relBlocoUnidadeDTO);
+
+            if($blocoDTOConsulta->getNumIdUnidade() != SessaoSEI::getInstance()->getNumIdUnidadeAtual() && !$relBlocoUnidadeDTO){
+                throw new Exception('Bloco não encontrado.');
+            }
+
+            $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
             $relBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
             $relBlocoProtocoloDTO->setNumIdBloco($relBlocoProtocoloDTOParam->getNumIdBloco());
             $relBlocoProtocoloDTO->setDblIdProtocolo($relBlocoProtocoloDTOParam->getDblIdProtocolo());
             $relBlocoProtocoloDTO->retTodos();
-            $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
+
             /** Acessando o componente SEI para consulta de Documento no Bloco */
             $relBlocoProtocoloDTO = $relBlocoProtocoloRN->consultarRN1290($relBlocoProtocoloDTO);
             if (!$relBlocoProtocoloDTO) {
