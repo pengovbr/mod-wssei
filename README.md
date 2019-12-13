@@ -46,7 +46,7 @@
    **Importante:** 
    * para ativar as notificações, será necessário informar o endereço/credenciais do serviço push de mensagens
    * pode usar o serviço push disponibilizado pelo Ministério da Economia. Para tanto, abra 
-chamado na Central de Atendimento do  PEN([https://portaldeservicos.planejamento.gov.br/citsmart/login/login.load](https://www.google.com/url?q=https://portaldeservicos.planejamento.gov.br/citsmart/login/login.load&sa=D&source=hangouts&ust=1576333188310000&usg=AFQjCNFo4ErHNsg7p65YJEJiKLIjdfMM5Q)). **A categoria do chamado é PEN** ** - ** **WSSEI** ** - ** **INSTALAÇÃO.**
+chamado na Central de Atendimento do  PEN([https://portaldeservicos.planejamento.gov.br/citsmart/login/login.load](https://www.google.com/url?q=https://portaldeservicos.planejamento.gov.br/citsmart/login/login.load&sa=D&source=hangouts&ust=1576333188310000&usg=AFQjCNFo4ErHNsg7p65YJEJiKLIjdfMM5Q)). **A categoria do chamado é PEN - WSSEI - INSTALAÇÃO.**
    * verifique se o nó do SEI responsável por executar os agendamentos tenha acesso a URL/Porta acima
 
 5. Realizar o procedimento de verificação e atualização de scripts de banco de dados conforme abaixo:
