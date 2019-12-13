@@ -7,7 +7,7 @@
 
 **1.2.** Copiar a pasta contendo o módulo wssei para o diretório de módulos do SEI, localizado em:
 ```
-<caminho do projeto>/sei/web/modulos
+[DIRETORIO_RAIZ_INSTALAÇÃO]/sei/web/modulos
 ```
 Certifique-se de que a pasta contenha os arquivos do módulo.  Nome padrão **mod-wssei**
 
@@ -45,7 +45,7 @@ public function getArrConfiguracoes(){
 
 **1.5.** Realizar o procedimento de verificação e atualização de scripts de banco de dados conforme os seguintes passos:
 
-**1.5.1.** Mover o arquivo de instalação do módulo no SEI sei_atualizar_versao_modulo_wssei.php para a pasta sei/scripts
+**1.5.1.** Mover o arquivo de instalação do módulo no SEI sei_atualizar_versao_modulo_wssei.php para a pasta [DIRETORIO_RAIZ_INSTALAÇÃO]/sei/scripts
  
 **1.5.2.** Executar o script **sei_atualizar_versao_modulo_wssei.php** para inserção de dados no banco do SEI referente ao módulo
 
@@ -58,7 +58,9 @@ php -c /etc/php.ini [DIRETORIO_RAIZ_INSTALAÇÃO]/sei/scripts/sei_atualizar_vers
 
 **1.7.** Verificar se o módulo foi carregado por meio do menu Infra/Módulos do SEI
 
-**1.8.** Verificar se o QR Code foi criado na parte inferior do menu lateral esquerdo do SEI. Esse código contém os dados de acesso ao ambiente do órgão
+**1.8.** Verificar se o banco de dados foi corretamente atualizado por meio do menu Infra/Parâmetros do SEI (chave VERSAO_MODULO_WSSEI)
+
+**1.9.** Verificar se o QR Code foi criado na parte inferior do menu lateral esquerdo do SEI. Esse código contém os dados de acesso ao ambiente do órgão
 
 
 
