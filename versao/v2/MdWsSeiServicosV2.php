@@ -802,14 +802,6 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                         $rn->consultar($request->getAttribute('route')->getArgument('protocolo'))
                     );
                 });
-
-                $this->post('/cancelar/sobrestar', function ($request, $response, $args) {
-                    /** @var $request Slim\Http\Request */
-                    $rn = new MdWsSeiProcedimentoRN();
-                    $dto = new ProcedimentoDTO();
-                    $dto->setDblIdProcedimento($request->getParam('procedimento'));
-                    return $response->withJSON($rn->removerSobrestamentoProcesso($dto));
-                });
                 $this->get('/listar/ciencia/{protocolo}', function ($request, $response, $args) {
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiProcedimentoRN();
@@ -900,6 +892,13 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     }
 
                     return $response->withJSON($rn->sobrestamentoProcesso($dto));
+                });
+                $this->post('/{protocolo:[0-9]+}/cancelar/sobrestamento', function ($request, $response, $args) {
+                    /** @var $request Slim\Http\Request */
+                    $rn = new MdWsSeiProcedimentoRN();
+                    $dto = new ProcedimentoDTO();
+                    $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('protocolo'));
+                    return $response->withJSON($rn->removerSobrestamentoProcesso($dto));
                 });
                 $this->post('/{procedimento}/ciencia', function ($request, $response, $args) {
                     /** @var $request Slim\Http\Request */
