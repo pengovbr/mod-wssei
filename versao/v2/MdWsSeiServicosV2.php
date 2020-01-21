@@ -758,7 +758,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                         $dto->setStrDescricao($request->getParam('filter'));
                     }
                     /** @var $request Slim\Http\Request */
-                    $rn = new MdWsSeiDocumentoRN();//o-
+                    $rn = new MdWsSeiDocumentoRN();
                     return $response->withJSON($rn->pesquisarTipoConferencia($dto));
                 });
 
@@ -1346,13 +1346,41 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiGrupoAcompanhamentoRN();
                     $dto = new GrupoAcompanhamentoDTO();
-                    if ($request->getParam('limit')) {
+                    if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
                         $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
                     }
-                    if (!is_null($request->getParam('start'))) {
+                    if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
-                    return $response->withJSON($rn->listarGrupoAcompanhamento($dto));
+                    if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
+                        $dto->setNumIdGrupoAcompanhamento($request->getParam('id'));
+                    }
+                    if ($request->getParam('filter') != '') {
+                        $dto->setStrNome($request->getParam('filter'));
+                    }
+                    return $response->withJSON($rn->listar($dto));
+                });
+
+            })->add(new TokenValidationMiddleware());
+
+            /**
+             * Grupo de controlador de Acompanhamento Especial
+             */
+            $this->group('/acompanhamentoespecial', function () {
+                $this->get('/listar', function ($request, $response, $args) {
+                    /** @var $request Slim\Http\Request */
+                    $rn = new MdWsSeiAcompanhamentoRN();
+                    $dto = new AcompanhamentoDTO();
+                    if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
+                        $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                    }
+                    if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
+                        $dto->setNumPaginaAtual($request->getParam('start'));
+                    }
+                    if ($request->getParam('grupoAcompanhamento') != '') {
+                        $dto->setNumIdGrupoAcompanhamento($request->getParam('grupoAcompanhamento'));
+                    }
+                    return $response->withJSON($rn->listaAcompanhamentosUnidade($dto));
                 });
 
             })->add(new TokenValidationMiddleware());
