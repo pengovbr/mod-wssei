@@ -1666,6 +1666,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
         $objDocumentoDTO->setNumIdTextoPadraoInterno($post['idTextoPadraoInterno']);
         $objDocumentoDTO->setNumIdTipoConferencia($post['idTipoConferencia']);
+        $objDocumentoDTO->setStrProtocoloDocumentoTextoBase($post['protocoloDocumentoModelo']);
         if(!$objDocumentoDTO){
             $objDocumentoDTO->setStrSinBloqueado('N');
         }

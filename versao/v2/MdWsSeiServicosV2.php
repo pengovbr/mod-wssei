@@ -1361,6 +1361,53 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                 });
 
             })->add(new TokenValidationMiddleware());
+            /**
+             * Grupo de controlador de Grupo de Modelo de documentos
+             */
+            $this->group('/protocolomodelo', function () {
+                $this->get('/grupo/listar', function ($request, $response, $args) {
+                    /** @var $request Slim\Http\Request */
+                    $rn = new MdWsSeiGrupoProtocoloModeloRN();
+                    $dto = new GrupoProtocoloModeloDTO();
+                    if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
+                        $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                    }
+                    if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
+                        $dto->setNumPaginaAtual($request->getParam('start'));
+                    }
+                    if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
+                        $dto->setNumIdGrupoProtocoloModelo($request->getParam('id'));
+                    }
+                    if ($request->getParam('filter') != '') {
+                        $dto->setStrNome($request->getParam('filter'));
+                    }
+                    return $response->withJSON($rn->listar($dto));
+                });
+                $this->get('/listar', function ($request, $response, $args) {
+                    /** @var $request Slim\Http\Request */
+                    $rn = new MdWsSeiProtocoloModeloRN();
+                    $dto = new ProtocoloModeloDTO();
+                    if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
+                        $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                    }
+                    if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
+                        $dto->setNumPaginaAtual($request->getParam('start'));
+                    }
+                    if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
+                        $dto->setNumIdProtocoloModelo($request->getParam('id'));
+                    }
+                    if (!is_null($request->getParam('grupoProtocoloModelo')) && $request->getParam('grupoProtocoloModelo') != '') {
+                        $dto->setNumIdGrupoProtocoloModelo($request->getParam('grupoProtocoloModelo'));
+                    }
+                    if (!is_null($request->getParam('tipoFiltro')) && $request->getParam('tipoFiltro') != '') {
+                        $dto->setStrStaTipoFiltro($request->getParam('tipoFiltro'));
+                    }else{
+                        $dto->setStrStaTipoFiltro(ProtocoloModeloRN::$TF_TODOS);
+                    }
+                    return $response->withJSON($rn->listar($dto));
+                });
+
+            })->add(new TokenValidationMiddleware());
 
             /**
              * Grupo de controlador de Acompanhamento Especial
