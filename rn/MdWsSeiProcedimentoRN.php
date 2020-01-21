@@ -1126,6 +1126,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $processoAberto = false;
             $acaoReabrirProcesso = SessaoSEI::getInstance()->verificarPermissao('procedimento_reabrir');
             $acaoRegistrarAnotacao = SessaoSEI::getInstance()->verificarPermissao('anotacao_registrar');
+            $acaoRemoverSobrestamento = SessaoSEI::getInstance()->verificarPermissao('procedimento_remover_sobrestamento');
             $processoEmTramitacao = false;
             $processoSobrestado = false;
             $processoAnexado = false;
@@ -1365,6 +1366,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $podeRegistrarAnotacao = true;
             }
 
+            $podeRemoverSobrestamento = (
+                !$processoBloqueado
+                && count($atividadeRN->listarPendenciasRN0754($pesquisaPendenciaDTO)) == 1
+                && $processoSobrestado && $acaoRemoverSobrestamento
+            );
+
             $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
             $processoGeradoRecebido = $protocoloDTO->getNumIdUnidadeGeradora() == SessaoSEI::getInstance()->getNumIdUnidadeAtual() ? 'G' : 'R';
 
@@ -1461,12 +1468,13 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         'processoPublicado' => $processoPublicado,
                         'nivelAcessoGlobal' => $protocoloDTO->getStrStaNivelAcessoGlobal(),
                         'podeGerenciarCredenciais' => $podeGerenciarCredenciais,
-                        'processoAberto' => $processoAberto ? 'S' : 'N',
+                        'process5oAberto' => $processoAberto ? 'S' : 'N',
                         'processoEmTramitacao' => $processoEmTramitacao ? 'S' : 'N',
                         'processoSobrestado' => $processoSobrestado ? 'S' : 'N',
                         'processoAnexado' => $processoAnexado ? 'S' : 'N',
                         'podeReabrirProcesso' => $podeReabrirProcesso ? 'S' : 'N',
                         'podeRegistrarAnotacao' => $podeRegistrarAnotacao ? 'S' : 'N',
+                        'podeRemoverSobrestamento' => $podeRemoverSobrestamento,
                         'tipo' => $typeSource,
                         'processoGeradoRecebido' => $processoGeradoRecebido
                     )
