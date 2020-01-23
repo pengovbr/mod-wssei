@@ -16,6 +16,12 @@ class MdWsSeiGrupoProtocoloModeloRN extends InfraRN {
     {
         try{
             $result = array();
+            if($grupoProtocoloModeloDTOConsulta->isSetStrNome()){
+                $grupoProtocoloModeloDTOConsulta->setStrNome(
+                    '%'.$grupoProtocoloModeloDTOConsulta->getStrNome().'%',
+                    InfraDTO::$OPER_LIKE
+                );
+            }
             $grupoProtocoloModeloDTOConsulta->retNumIdGrupoProtocoloModelo();
             $grupoProtocoloModeloDTOConsulta->retStrNome();
             $grupoProtocoloModeloDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
