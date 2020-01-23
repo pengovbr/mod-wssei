@@ -1303,18 +1303,21 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
              * Grupo de controlador de Assinante
              */
             $this->group('/assinante', function () {
-                $this->get('/listar/{unidade}', function ($request, $response, $args) {
+                $this->get('/listar', function ($request, $response, $args) {
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiAssinanteRN();
                     $dto = new AssinanteDTO();
-                    if ($request->getAttribute('route')->getArgument('unidade')) {
-                        $dto->setNumIdUnidade($request->getAttribute('route')->getArgument('unidade'));
-                    }
-                    if ($request->getParam('limit')) {
+                    if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
                         $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
                     }
-                    if (!is_null($request->getParam('start'))) {
+                    if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
                         $dto->setNumPaginaAtual($request->getParam('start'));
+                    }
+                    if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
+                        $dto->setNumIdAssinante($request->getParam('id'));
+                    }
+                    if ($request->getParam('filter') != '') {
+                        $dto->setStrCargoFuncao('%'.$request->getParam('filter').'%', InfraDTO::$OPER_LIKE);
                     }
                     return $response->withJSON($rn->listarAssinante($dto));
                 });

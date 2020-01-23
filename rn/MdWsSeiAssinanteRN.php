@@ -12,35 +12,59 @@ class MdWsSeiAssinanteRN extends InfraRN {
      * @param AssinanteDTO $assinanteDTO
      * @return array
      */
-    protected function listarAssinanteConectado(AssinanteDTO $assinanteDTOParam){
+    protected function listarAssinanteConectado(AssinanteDTO $assinanteDTOConsulta){
         try{
             $result = array();
-            $assinanteDTOConsulta = new AssinanteDTO();
-            if(!$assinanteDTOParam->isSetNumIdUnidade()){
-                $assinanteDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-            }else{
-                $assinanteDTOConsulta->setNumIdUnidade($assinanteDTOParam->getNumIdUnidade());
-            }
-            if($assinanteDTOParam->getNumMaxRegistrosRetorno()){
-                $assinanteDTOConsulta->setNumMaxRegistrosRetorno($assinanteDTOParam->getNumMaxRegistrosRetorno());
-            }else{
-                $assinanteDTOConsulta->setNumMaxRegistrosRetorno(10);
-            }
-            if(!is_null($assinanteDTOParam->getNumPaginaAtual())){
-                $assinanteDTOConsulta->setNumPaginaAtual($assinanteDTOParam->getNumPaginaAtual());
-            }else{
-                $assinanteDTOConsulta->setNumPaginaAtual(0);
-            }
-            $assinanteDTOConsulta->retNumIdAssinante();
-            $assinanteDTOConsulta->retStrCargoFuncao();
-            $assinanteDTOConsulta->setOrdStrCargoFuncao(InfraDTO::$TIPO_ORDENACAO_ASC);
-            $assinanteRN = new AssinanteRN();
-            $ret = $assinanteRN->pesquisar($assinanteDTOConsulta);
-            /** @var AssinanteDTO $assinanteDTO */
-            foreach($ret as $assinanteDTO){
+
+            $usuarioRN = new UsuarioRN();
+            $usuarioDTO = new UsuarioDTO();
+            $usuarioDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
+            $usuarioDTO->retNumIdUsuario();
+            $usuarioDTO->retStrStaTipo();
+            $usuarioDTO->retStrExpressaoCargoContato();
+            /** Chama o componente SEI para retorno de complemento de dados de usuário **/
+            $usuarioDTO = $usuarioRN->consultarRN0489($usuarioDTO);
+
+            if($usuarioDTO->getStrStaTipo() == UsuarioRN::$TU_SIP){
+                $relAssinanteUnidadeDTO = new RelAssinanteUnidadeDTO();
+                $relAssinanteUnidadeDTO->retNumIdAssinante();
+                if($assinanteDTOConsulta->isSetNumIdAssinante() && $assinanteDTOConsulta->getNumIdAssinante() != ''){
+                    $relAssinanteUnidadeDTO->setNumIdAssinante($assinanteDTOConsulta->getNumIdAssinante());
+                }
+                $relAssinanteUnidadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+
+                $relAssinanteUnidadeRN = new RelAssinanteUnidadeRN();
+                /** Chama o componente SEI para consulta dos assinantes relacionados a unidade **/
+                $arrObjRelAssinanteUnidadeDTO = $relAssinanteUnidadeRN->listarRN1380($relAssinanteUnidadeDTO);
+
+                if (count($arrObjRelAssinanteUnidadeDTO) > 0) {
+                    $assinanteDTOConsulta->retStrCargoFuncao();
+                    $assinanteDTOConsulta->retNumIdAssinante();
+                    $assinanteDTOConsulta->setNumIdAssinante(InfraArray::converterArrInfraDTO($arrObjRelAssinanteUnidadeDTO, 'IdAssinante'), InfraDTO::$OPER_IN);
+
+                    $assinanteRN = new AssinanteRN();
+                    /** Chama o componente SEI para retorno dos assinantes **/
+                    $arrAssinanteDTO = $assinanteRN->listarRN1339($assinanteDTOConsulta);
+
+                    foreach($arrAssinanteDTO as $assinanteDTO) {
+                        $result[] = array(
+                            'id' => $assinanteDTO->getNumIdAssinante(),
+                            'nome' => $assinanteDTO->getStrCargoFuncao()
+                        );
+                    }
+                }
+
+            } else if ($usuarioDTO->getStrStaTipo() == UsuarioRN::$TU_EXTERNO) {
                 $result[] = array(
-                    'id' => $assinanteDTO->getNumIdAssinante(),
-                    'nome' => $assinanteDTO->getStrCargoFuncao(),
+                    'id' => null,
+                    'nome' => 'Usuário Externo'
+                );
+            }
+
+            if ($usuarioDTO->getStrExpressaoCargoContato() != null) {
+                $result[] = array(
+                    'id' => null,
+                    'nome' => $usuarioDTO->getStrExpressaoCargoContato()
                 );
             }
 
