@@ -1317,7 +1317,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                         $dto->setNumIdAssinante($request->getParam('id'));
                     }
                     if ($request->getParam('filter') != '') {
-                        $dto->setStrCargoFuncao('%'.$request->getParam('filter').'%', InfraDTO::$OPER_LIKE);
+                        $dto->setStrCargoFuncao($request->getParam('filter'));
                     }
                     return $response->withJSON($rn->listarAssinante($dto));
                 });

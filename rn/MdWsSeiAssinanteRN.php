@@ -16,6 +16,13 @@ class MdWsSeiAssinanteRN extends InfraRN {
         try{
             $result = array();
 
+            if($assinanteDTOConsulta->isSetStrCargoFuncao()){
+                $assinanteDTOConsulta->setStrCargoFuncao(
+                    '%'.$assinanteDTOConsulta->getStrCargoFuncao().'%',
+                    InfraDTO::$OPER_LIKE
+                );
+            }
+
             $usuarioRN = new UsuarioRN();
             $usuarioDTO = new UsuarioDTO();
             $usuarioDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
