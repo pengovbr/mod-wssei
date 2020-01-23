@@ -161,9 +161,6 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiTextoPadraoInternoRN();
                     $dto = new TextoPadraoInternoDTO();
-                    if (!is_null($request->getParam('idUnidade')) && $request->getParam('idUnidade') != '') {
-                        $dto->setNumIdUnidade($request->getParam('idUnidade'));
-                    }
                     if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
                         $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
                     }

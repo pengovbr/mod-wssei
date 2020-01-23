@@ -16,10 +16,7 @@ class MdWsSeiTextoPadraoInternoRN extends TextoPadraoInternoRN {
     protected function pesquisarConectado(TextoPadraoInternoDTO $textoPadraoInternoDTOParam)
     {
         try{
-            if(!$textoPadraoInternoDTOParam->isSetNumIdUnidade()){
-                /** Acessa o componente SEI para retornar o id da unidade logada */
-                $textoPadraoInternoDTOParam->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-            }
+            $textoPadraoInternoDTOParam->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
             $result = array();
             $textoPadraoInternoDTOParam->retNumIdTextoPadraoInterno();
             $textoPadraoInternoDTOParam->retNumIdUnidade();
