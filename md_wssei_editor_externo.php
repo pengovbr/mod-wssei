@@ -26,6 +26,7 @@ try {
     SessaoSEI::getInstance()->validarAuditarPermissao(str_replace('md_wssei_', '', str_replace('externo_', '', $_GET['acao'])));
 
     $strParametros = '';
+    $modoAssinatura = 'Default';
 
     if (isset($_GET['id_procedimento'])){
         $strParametros .= '&id_procedimento='.$_GET['id_procedimento'];
@@ -37,6 +38,10 @@ try {
 
     if (SessaoSEI::getInstance()->verificarPermissao('documento_assinar')){
         $strLinkAssinatura=SessaoSEI::getInstance()->assinarLink('controlador.php?acao=documento_assinar&acao_origem=editor_montar&acao_retorno=editor_montar&id_documento='.$_GET['id_documento']);
+    }
+
+    if (isset($_GET['modo_assinatura'])){
+        $modoAssinatura = $_GET['modo_assinatura'];
     }
 
     if (isset($_GET['id_base_conhecimento'])){
@@ -219,7 +224,7 @@ try {
         .cke_button__assinatura_label {display:inline !important;}
         .cke_combopanel__styles {width:500px !important;}
         /** desabilitando botoes do SEI para versao externa */
-        .cke_button__assinatura, .cke_button__source, .cke_button__base64image,
+        .cke_button__source, .cke_button__base64image,
         .cke_button__subscript, .cke_button__superscript, .cke_button__maiuscula,
         .cke_button__minuscula, .cke_button__find, .cke_button__replace, .cke_toolbar_separator,
         .cke_button__removeformat, .cke_button__autotexto, .cke_combo__styles,
@@ -688,11 +693,22 @@ try {
 
         function  inicializar(){
 
+            var modoAssinatura = '<?=$modoAssinatura?>';
             document.getElementById('divEditores').style.overflow='scroll';
 
             CKEDITOR.config.zoom = infraLerCookie('<?=PaginaSEI::getInstance()->getStrPrefixoCookie()?>_zoom_editor');
-            if (CKEDITOR.config.zoom==null) CKEDITOR.config.zoom=100;
+            if (CKEDITOR.config.zoom==null) CKEDITOR.config.zoom=50;
             CKEDITOR.on('instanceReady', function( evt ) {
+                switch(modoAssinatura){
+                    case 'evento':
+                        for (inst in CKEDITOR.instances) {
+                            CKEDITOR.instances[inst].getCommand('assinatura').exec = function (a) {
+                                CKEDITOR.instances[inst].getCommand("save").state == CKEDITOR.TRISTATE_ENABLED ? 1 == confirm("Deseja salvar as alterações e assinar?") &&
+                                (CKEDITOR.instances[inst].execCommand("save"), window.bolAssinar = !0) : window.parent.postMessage('assinar', '*');
+                            }
+                        }
+                        break;
+                }
                 redimensionar();
 
                 if (INFRA_IE<9 && INFRA_IE>0){evt.editor.document.$.body.ondrop=function(){var evt={name:'drop'};habilitaSalvar(evt);}}

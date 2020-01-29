@@ -48,11 +48,13 @@ $protocoloDTO->retDblIdProcedimento();
 $protocoloRN = new DocumentoRN();
 $protocoloDTO = $protocoloRN->consultarRN0005($protocoloDTO);
 
+$modoAssinatura = $_REQUEST['modo_assinatura'] ?: 'Default';
+
 if(empty($protocoloDTO))
     return new InfraException('Documento não encontrado');
 
 
-$linkassinado = SessaoSEI::getInstance()->assinarLink('/sei/controlador.php?acao=md_wssei_editor_externo_montar&acao_origem=md_wssei_editor_externo_montar&id_procedimento=' . $protocoloDTO->getDblIdProcedimento() . '&id_documento=' . $_REQUEST['id_documento']);
+$linkassinado = SessaoSEI::getInstance()->assinarLink('/sei/controlador.php?acao=md_wssei_editor_externo_montar&acao_origem=md_wssei_editor_externo_montar&id_procedimento=' . $protocoloDTO->getDblIdProcedimento() . '&id_documento=' . $_REQUEST['id_documento']. '&modo_assinatura='.$modoAssinatura);
 
  header('Location: ' . $linkassinado);
 
