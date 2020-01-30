@@ -1431,6 +1431,19 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 );
             }
 
+            $atividadeDTOCiencia = new AtividadeDTO();
+            $atividadeDTOCiencia->setNumPaginaAtual(0);
+            $atividadeDTOCiencia->setNumMaxRegistrosRetorno(10);
+            $atividadeDTOCiencia->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
+
+            /** Chamando serviço para retorno das ciencias do processo **/
+            $arrDadosCiencias = MdWsSeiRest::dataToIso88591($this->listarCienciaProcesso($atividadeDTOCiencia));
+            if(!$arrDadosCiencias['sucesso']){
+                throw new Exception($arrDadosCiencias['mensagem'], $arrDadosCiencias['exception']);
+            }
+
+            $arrCiencias = $arrDadosCiencias['data'];
+
             $result[] = array(
                 'id' => $protocoloDTO->getDblIdProtocolo(),
                 'status' => $protocoloDTO->getStrStaProtocolo(),
@@ -1446,6 +1459,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         'idUnidade' => $protocoloDTO->getNumIdUnidadeGeradora(),
                         'sigla' => $protocoloDTO->getStrSiglaUnidadeGeradora()
                     ),
+                    'ciencias' => $arrCiencias,
                     'marcador' => $arrDadosMarcador,
                     'dadosAbertura' => $arrDadosAbertura,
                     'anotacoes' => $resultAnotacao,
@@ -1598,43 +1612,53 @@ class MdWsSeiProcedimentoRN extends InfraRN
     }
 
     /**
-     * Metodo que retorna as ciencias nos processos
-     * @param ProtocoloDTO $protocoloDTOParam
+     * Metodo que retorna a lista de ciencias do processo
+     * @param AtividadeDTO $atividadeDTOConsulta
      * @return array
      */
-    protected function listarCienciaProcessoConectado(ProtocoloDTO $protocoloDTOParam)
+    protected function listarCienciaProcessoConectado(AtividadeDTO $atividadeDTOConsulta)
     {
         try {
-            if (!$protocoloDTOParam->isSetDblIdProtocolo()) {
-                throw new InfraException('Protocolo não informado.');
-            }
-
             $result = array();
-            $mdWsSeiProcessoRN = new MdWsSeiProcessoRN();
-            $atividadeDTOConsulta = new AtividadeDTO();
-            $atividadeDTOConsulta->setDblIdProtocolo($protocoloDTOParam->getDblIdProtocolo());
-            $atividadeDTOConsulta->setNumIdTarefa(TarefaRN::$TI_PROCESSO_CIENCIA);
-            $atividadeDTOConsulta->retDthAbertura();
-            $atividadeDTOConsulta->retStrSiglaUnidade();
-            $atividadeDTOConsulta->retStrNomeTarefa();
-            $atividadeDTOConsulta->retStrSiglaUsuarioOrigem();
+            $atividadeDTOConsulta->retDblIdProtocolo();
             $atividadeDTOConsulta->retNumIdAtividade();
+            $atividadeDTOConsulta->retNumIdUnidade();
+            $atividadeDTOConsulta->retStrDescricaoUnidade();
+            $atividadeDTOConsulta->retStrSiglaUnidade();
+            $atividadeDTOConsulta->retDthAbertura();
+            $atividadeDTOConsulta->retNumIdTarefa();
+            $atividadeDTOConsulta->retStrNomeTarefa();
+            $atividadeDTOConsulta->retNumIdUsuarioOrigem();
+            $atividadeDTOConsulta->retStrSiglaUnidadeOrigem();
+            $atividadeDTOConsulta->retStrSiglaUsuarioOrigem();
+            $atividadeDTOConsulta->retStrNomeUsuarioOrigem();
+
+            $atividadeDTOConsulta->setNumIdTarefa(
+                array(TarefaRN::$TI_PROCESSO_CIENCIA,TarefaRN::$TI_PROCESSO_ANEXADO_CIENCIA,TarefaRN::$TI_DOCUMENTO_CIENCIA),
+                InfraDTO::$OPER_IN
+            );
+            $atividadeDTOConsulta->setOrdNumIdAtividade(InfraDTO::$TIPO_ORDENACAO_DESC);
+
             $atividadeRN = new AtividadeRN();
-            $ret = $atividadeRN->listarRN0036($atividadeDTOConsulta);
-            /** @var AtividadeDTO $atividadeDTO */
-            foreach ($ret as $atividadeDTO) {
-                $mdWsSeiProcessoDTO = new MdWsSeiProcessoDTO();
-                $mdWsSeiProcessoDTO->setStrTemplate($atividadeDTO->getStrNomeTarefa());
-                $mdWsSeiProcessoDTO->setNumIdAtividade($atividadeDTO->getNumIdAtividade());
+            /** Acessa o componente SEI para retorno da lista de ciencias no processo **/
+            $arrAtividadeDTO = $atividadeRN->listarRN0036($atividadeDTOConsulta);
+
+            foreach($arrAtividadeDTO as $atividadeDTO) {
                 $result[] = array(
+                    'idProtocolo' => $atividadeDTO->getDblIdProtocolo(),
+                    'idAtividade' => $atividadeDTO->getNumIdAtividade(),
                     'data' => $atividadeDTO->getDthAbertura(),
-                    'unidade' => $atividadeDTO->getStrSiglaUnidade(),
-                    'nome' => $atividadeDTO->getStrSiglaUsuarioOrigem(),
-                    'descricao' => $mdWsSeiProcessoRN->traduzirTemplate($mdWsSeiProcessoDTO)
+                    'idUnidade' => $atividadeDTO->getNumIdUnidade(),
+                    'unidade' => $atividadeDTO->getStrDescricaoUnidade(),
+                    'siglaUnidade' => $atividadeDTO->getStrSiglaUnidade(),
+                    'idUsuario' => $atividadeDTO->getNumIdUsuarioOrigem(),
+                    'siglaUsuario' => $atividadeDTO->getStrNomeUsuarioOrigem(),
+                    'nomeUsuario' => $atividadeDTO->getStrSiglaUsuarioOrigem(),
+                    'descricao' => $atividadeDTO->getStrNomeTarefa(),
                 );
             }
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $atividadeDTOConsulta->getNumMaxRegistrosRetorno());
         } catch (Exception $e) {
             return MdWsSeiRest::formataRetornoErroREST($e);
         }

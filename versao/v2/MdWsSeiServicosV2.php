@@ -799,13 +799,6 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                         $rn->consultar($request->getAttribute('route')->getArgument('protocolo'))
                     );
                 });
-                $this->get('/listar/ciencia/{protocolo}', function ($request, $response, $args) {
-                    /** @var $request Slim\Http\Request */
-                    $rn = new MdWsSeiProcedimentoRN();
-                    $dto = new ProtocoloDTO();
-                    $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
-                    return $response->withJSON($rn->listarCienciaProcesso($dto));
-                });
                 $this->get('/consultar', function ($request, $response, $args) {
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiProcedimentoRN();
@@ -1266,6 +1259,19 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     }
 
                     return $response->withJSON($rn->sugestaoAssunto($dto));
+                });
+                $this->get('/{protocolo}/ciencia/listar', function ($request, $response, $args) {
+                    /** @var $request Slim\Http\Request */
+                    $rn = new MdWsSeiProcedimentoRN();
+                    $dto = new AtividadeDTO();
+                    $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
+                    if ($request->getParam('limit')) {
+                        $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                    }
+                    if (!is_null($request->getParam('start'))) {
+                        $dto->setNumPaginaAtual($request->getParam('start'));
+                    }
+                    return $response->withJSON($rn->listarCienciaProcesso($dto));
                 });
 
             })->add(new TokenValidationMiddleware());
