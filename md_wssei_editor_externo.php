@@ -691,7 +691,7 @@ try {
             document.getElementById('divEditores').style.overflow='scroll';
 
             CKEDITOR.config.zoom = infraLerCookie('<?=PaginaSEI::getInstance()->getStrPrefixoCookie()?>_zoom_editor');
-            if (CKEDITOR.config.zoom==null) CKEDITOR.config.zoom=100;
+            if (CKEDITOR.config.zoom==null) CKEDITOR.config.zoom=50;
             CKEDITOR.on('instanceReady', function( evt ) {
                 redimensionar();
 
