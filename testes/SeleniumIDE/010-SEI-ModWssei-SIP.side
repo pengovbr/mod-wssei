@@ -1,7 +1,7 @@
 {
   "id": "565c3481-f0b6-42f6-a947-d7514d57929f",
   "version": "2.0",
-  "name": "SEI-ModWssei-SIP",
+  "name": "010-SEI-ModWssei-SIP",
   "url": "http://sei3.nuvem.gov.br",
   "tests": [{
     "id": "35f98682-f3ae-496d-8cc0-3168c83c7399",
@@ -173,8 +173,8 @@
     }, {
       "id": "802003f4-9fbd-4f33-8857-7d60cad4bfb2",
       "comment": "",
-      "command": "echo",
-      "target": "valor ${data}",
+      "command": "//echo",
+      "target": "valor \"${data}\"",
       "targets": [],
       "value": ""
     }, {
@@ -187,7 +187,7 @@
     }, {
       "id": "20f038d4-decb-4bbf-a794-8c4b2f16a637",
       "comment": "",
-      "command": "echo",
+      "command": "//echo",
       "target": "value ${hora}",
       "targets": [],
       "value": ""
@@ -1029,7 +1029,7 @@
     }, {
       "id": "d50f758d-728a-42b2-882d-9361c695537e",
       "comment": "",
-      "command": "mouseDown",
+      "command": "//mouseDown",
       "target": "css=b",
       "targets": [],
       "value": ""
@@ -1190,7 +1190,7 @@
     }, {
       "id": "93e3a37b-c02a-4d87-ba82-419367c21506",
       "comment": "",
-      "command": "mouseDown",
+      "command": "//mouseDown",
       "target": "css=b",
       "targets": [],
       "value": ""
@@ -1351,7 +1351,7 @@
     }, {
       "id": "0a2c0b55-34ca-44d0-a9c1-afaf387bf288",
       "comment": "",
-      "command": "mouseDown",
+      "command": "//mouseDown",
       "target": "css=b",
       "targets": [],
       "value": ""
@@ -1431,6 +1431,13 @@
     "parallel": false,
     "timeout": 300,
     "tests": ["35f98682-f3ae-496d-8cc0-3168c83c7399"]
+  }, {
+    "id": "53ef963e-f3f0-4f1d-a2e6-4d2cd588e5d3",
+    "name": "010-SEI-ModWssei-SIP",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["c4fced14-da20-4237-a496-912edf538b89", "35f98682-f3ae-496d-8cc0-3168c83c7399"]
   }],
   "urls": ["http://seigd.nuvem.gov.br/", "http://sei3.nuvem.gov.br/"],
   "plugins": []
