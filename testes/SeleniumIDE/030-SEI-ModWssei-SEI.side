@@ -620,6 +620,13 @@
       "targets": [],
       "value": ""
     }, {
+      "id": "3c9cabd1-10e6-4348-867a-8f6b0f24f10f",
+      "comment": "",
+      "command": "waitForElementPresent",
+      "target": "linkText=Acompanhamento Especial",
+      "targets": [],
+      "value": "30000"
+    }, {
       "id": "5e52804a-7228-4592-ae9a-8bd39ad45399",
       "comment": "",
       "command": "click",
