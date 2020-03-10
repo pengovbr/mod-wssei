@@ -64,12 +64,10 @@ class Test010SEIModWsseiSIP():
       self.driver.find_element(By.ID, "txtSigla").click()
       self.vars["data"] = self.driver.execute_script("var d= new Date(); var m=((d.getMonth()+1)<10)?\'0\'+(d.getMonth()+1):(d.getMonth()+1); return d.getFullYear()+\'-\'+m+\'-\'+d.getDate();")
       self.vars["hora"] = self.driver.execute_script("return (new Date().getHours()+\'-\' + new Date().getMinutes() + \'-\' + new Date().getSeconds())")
-      sigla = "Un-" + self.vars["data"] + "-" + self.vars['hora']
-      desc = "Unidade " + self.vars["data"] + " " + self.vars['hora']
-      self.driver.find_element(By.ID, "txtSigla").send_keys(sigla)
+      self.driver.find_element(By.ID, "txtSigla").send_keys("Un-" + self.vars["data"] + "-" + self.vars["hora"])
       self.driver.find_element(By.ID, "divInfraAreaDados").click()
       self.driver.find_element(By.ID, "txtDescricao").click()
-      self.driver.find_element(By.ID, "txtDescricao").send_keys(desc)
+      self.driver.find_element(By.ID, "txtDescricao").send_keys("Unidade " + self.vars["data"] + self.vars["hora"])
       self.driver.find_element(By.NAME, "sbmCadastrarUnidade").click()
       self.driver.find_element(By.XPATH, "//*[@id=\"main-menu\"]/li[7]/a").click()
       self.driver.find_element(By.LINK_TEXT, "Montar").click()

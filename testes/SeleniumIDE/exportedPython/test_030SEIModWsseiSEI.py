@@ -58,8 +58,7 @@ class Test030SEIModWsseiSEI():
       self.driver.find_element(By.CSS_SELECTOR, "#btnNovo > .infraTeclaAtalho").click()
       self.vars["data"] = self.driver.execute_script("var d= new Date(); var m=((d.getMonth()+1)<10)?\'0\'+(d.getMonth()+1):(d.getMonth()+1); return d.getFullYear()+\'-\'+m+\'-\'+d.getDate();")
       self.vars["hora"] = self.driver.execute_script("return (new Date().getHours()+\'-\' + new Date().getMinutes() + \'-\' + new Date().getSeconds())")
-      nome = "Grupo " + self.vars["data"] + "-" + self.vars['hora']
-      self.driver.find_element(By.ID, "txtNome").send_keys(nome)
+      self.driver.find_element(By.ID, "txtNome").send_keys("Grupo "  + self.vars["data"] + "-" + self.vars["hora"])
       self.driver.find_element(By.NAME, "sbmCadastrarGrupoAcompanhamento").click()
       time.sleep(1)
     self.driver.find_element(By.CSS_SELECTOR, "#lnkSairSistema > .infraImg").click()
@@ -77,7 +76,7 @@ class Test030SEIModWsseiSEI():
       self.driver.find_element(By.ID, "btnAdicionar").click()
       self.vars["data"] = self.driver.execute_script("var d= new Date(); var m=((d.getMonth()+1)<10)?\'0\'+(d.getMonth()+1):(d.getMonth()+1); return d.getFullYear()+\'-\'+m+\'-\'+d.getDate();")
       self.vars["hora"] = self.driver.execute_script("return (new Date().getHours()+\'-\' + new Date().getMinutes() + \'-\' + new Date().getSeconds())")
-      self.driver.find_element(By.ID, "txtCargoFuncao").send_keys("Cargo " + self.vars["data"] + "-" + self.vars['hora'])
+      self.driver.find_element(By.ID, "txtCargoFuncao").send_keys("Cargo " + self.vars["data"] + "-" + self.vars["hora"])
       self.driver.find_element(By.ID, "txtUnidade").click()
       WebDriverWait(self.driver, 30000).until(expected_conditions.element_to_be_clickable((By.ID, "txtUnidade")))
       self.driver.find_element(By.ID, "txtUnidade").send_keys("teste")
