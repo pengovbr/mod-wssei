@@ -71,6 +71,7 @@ class Test030SEIModWsseiSEI():
     self.driver.find_element(By.ID, "pwdSenha").send_keys("teste")
     self.driver.find_element(By.ID, "sbmLogin").click()
     for i in range(0, 40):
+      time.sleep(1)
       self.driver.find_element(By.XPATH, "//*[@id=\"main-menu\"]/li[1]/a").click()
       self.driver.find_element(By.LINK_TEXT, "Assinaturas das Unidades").click()
       self.driver.find_element(By.ID, "btnAdicionar").click()
