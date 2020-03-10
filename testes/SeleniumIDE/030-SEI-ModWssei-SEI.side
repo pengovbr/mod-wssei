@@ -635,6 +635,13 @@
       ],
       "value": ""
     }, {
+      "id": "72fa9f6c-0ff6-47fb-9492-1fd44cd1ea41",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "id=btnGrupo",
+      "targets": [],
+      "value": "30000"
+    }, {
       "id": "bd666e6c-3209-472b-a538-2080b18b8660",
       "comment": "",
       "command": "click",
@@ -648,6 +655,13 @@
         ["xpath=//button[contains(.,'Grupos')]", "xpath:innerText"]
       ],
       "value": ""
+    }, {
+      "id": "6bf18994-39db-4764-b7f2-deb8d7d1ef1f",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=#btnNovo > .infraTeclaAtalho",
+      "targets": [],
+      "value": "30000"
     }, {
       "id": "8cb6219f-fcba-4cf8-9310-fa817b399b04",
       "comment": "",
@@ -673,6 +687,13 @@
       "target": "return (new Date().getHours()+\"-\" + new Date().getMinutes() + \"-\" + new Date().getSeconds())",
       "targets": [],
       "value": "hora"
+    }, {
+      "id": "9a539100-be6c-42a0-a6f5-a3da8eb361e1",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "id=txtNome",
+      "targets": [],
+      "value": "30000"
     }, {
       "id": "a3dd64cf-9b77-4bbf-9083-ac3426278b07",
       "comment": "",

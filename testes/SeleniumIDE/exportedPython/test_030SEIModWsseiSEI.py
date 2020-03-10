@@ -54,11 +54,14 @@ class Test030SEIModWsseiSEI():
     dropdown.find_element(By.XPATH, "//option[. = 'TESTE_1_2']").click()
     for i in range(0, 40):
       self.driver.find_element(By.LINK_TEXT, "Acompanhamento Especial").click()
+      WebDriverWait(self.driver, 30000).until(expected_conditions.visibility_of_element_located((By.ID, "btnGrupo")))
       self.driver.find_element(By.ID, "btnGrupo").click()
+      WebDriverWait(self.driver, 30000).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, "#btnNovo > .infraTeclaAtalho")))
       self.driver.find_element(By.CSS_SELECTOR, "#btnNovo > .infraTeclaAtalho").click()
       self.vars["data"] = self.driver.execute_script("var d= new Date(); var m=((d.getMonth()+1)<10)?\'0\'+(d.getMonth()+1):(d.getMonth()+1); return d.getFullYear()+\'-\'+m+\'-\'+d.getDate();")
       self.vars["hora"] = self.driver.execute_script("return (new Date().getHours()+\'-\' + new Date().getMinutes() + \'-\' + new Date().getSeconds())")
-      self.driver.find_element(By.ID, "txtNome").send_keys("Grupo "  + self.vars["data"] + "-" + self.vars["hora"])
+      WebDriverWait(self.driver, 30000).until(expected_conditions.visibility_of_element_located((By.ID, "txtNome")))
+      self.driver.find_element(By.ID, "txtNome").send_keys("Grupo " + self.vars["data"] + "-" + self.vars["hora"])
       self.driver.find_element(By.NAME, "sbmCadastrarGrupoAcompanhamento").click()
       time.sleep(1)
     self.driver.find_element(By.CSS_SELECTOR, "#lnkSairSistema > .infraImg").click()
@@ -71,7 +74,6 @@ class Test030SEIModWsseiSEI():
     self.driver.find_element(By.ID, "pwdSenha").send_keys("teste")
     self.driver.find_element(By.ID, "sbmLogin").click()
     for i in range(0, 40):
-      time.sleep(1)
       self.driver.find_element(By.XPATH, "//*[@id=\"main-menu\"]/li[1]/a").click()
       self.driver.find_element(By.LINK_TEXT, "Assinaturas das Unidades").click()
       self.driver.find_element(By.ID, "btnAdicionar").click()
