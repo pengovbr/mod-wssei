@@ -61,4 +61,67 @@ class MdWsSeiGrupoAcompanhamentoRN extends InfraRN {
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
+
+    /**
+     * Método que realiza a edição do grupo de acompanhamento
+     * @param GrupoAcompanhamentoDTO $grupoAcompanhamentoDTO
+     * @return array
+     */
+    protected function alterarControlado(GrupoAcompanhamentoDTO $grupoAcompanhamentoDTOParam)
+    {
+        try{
+            /** Validação de parametro recebido **/
+            if(!$grupoAcompanhamentoDTOParam->isSetNumIdGrupoAcompanhamento() || !$grupoAcompanhamentoDTOParam->getNumIdGrupoAcompanhamento()){
+                throw new Exception('Grupo de Acompanhamento não informado.');
+            }
+            $grupoAcompanhamentoRN = new GrupoAcompanhamentoRN();
+            $grupoAcompanhamentoDTO = new GrupoAcompanhamentoDTO();
+            $grupoAcompanhamentoDTO->retTodos();
+            $grupoAcompanhamentoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $grupoAcompanhamentoDTO->setNumIdGrupoAcompanhamento($grupoAcompanhamentoDTOParam->getNumIdGrupoAcompanhamento());
+            /** Acessa o componente SEI para retorno dos dados do grupo de acompanhamento **/
+            $grupoAcompanhamentoDTOConsulta = $grupoAcompanhamentoRN->consultar($grupoAcompanhamentoDTO);
+
+            if(!$grupoAcompanhamentoDTO){
+                throw new Exception('Grupo de Acompanhamento não encontrado.');
+            }
+            $grupoAcompanhamentoDTO->setStrNome($grupoAcompanhamentoDTOParam->getStrNome());
+            /** Acessando o componente SEI para cadastro de grupo de acompanhamento **/
+            $grupoAcompanhamentoRN->alterar($grupoAcompanhamentoDTO);
+            return MdWsSeiRest::formataRetornoSucessoREST(
+                'Grupo de Acompanhamento '
+                .$grupoAcompanhamentoDTO->getNumIdGrupoAcompanhamento()
+                .' alterado com sucesso.'
+            );
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+    /**
+     * Método que realiza a exclusão de grupos de acompanhamento
+     * @param array $arrIdGrupos
+     * @return array
+     */
+    protected function excluirControlado(array $arrIdGrupos)
+    {
+        try{
+            if(empty($arrIdGrupos)){
+                throw new Exception('Grupo de Acompanhamento não informado.');
+            }
+            $grupoAcompanhamentoRN = new GrupoAcompanhamentoRN();
+            $arrGrupoAcompanhamentoDTOExclusao = array();
+            foreach($arrIdGrupos as $idGrupoAcompanhamento) {
+                $grupoAcompanhamentoDTO = new GrupoAcompanhamentoDTO();
+                $grupoAcompanhamentoDTO->setNumIdGrupoAcompanhamento($idGrupoAcompanhamento);
+                $arrGrupoAcompanhamentoDTOExclusao[] = $grupoAcompanhamentoDTO;
+            }
+            /** Chama o componente SEI para exclusão de grupos de acompanhamento */
+            $grupoAcompanhamentoRN->excluir($arrGrupoAcompanhamentoDTOExclusao);
+
+            return MdWsSeiRest::formataRetornoSucessoREST('Grupo(s) de Acompanhamento excluído(s) com sucesso.', null);
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
 }

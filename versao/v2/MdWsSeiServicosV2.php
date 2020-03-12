@@ -1374,6 +1374,25 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->cadastrar($dto));
                 });
 
+                $this->post('/excluir', function ($request, $response, $args) {
+                    /** @var $request Slim\Http\Request */
+                    $rn = new MdWsSeiGrupoAcompanhamentoRN();
+                    $arrIdGrupos = array();
+                    if ($request->getParam('grupos')) {
+                        $arrIdGrupos = explode(',', $request->getParam('grupos'));
+                    }
+                    return $response->withJSON($rn->excluir($arrIdGrupos));
+                });
+
+                $this->post('/{grupoacompanhamento:[0-9]+}/alterar', function ($request, $response, $args) {
+                    /** @var $request Slim\Http\Request */
+                    $rn = new MdWsSeiGrupoAcompanhamentoRN();
+                    $dto = new GrupoAcompanhamentoDTO();
+                    $dto->setNumIdGrupoAcompanhamento($request->getAttribute('route')->getArgument('grupoacompanhamento'));
+                    $dto->setStrNome($request->getParam('nome'));
+                    return $response->withJSON($rn->alterar($dto));
+                });
+
             })->add(new TokenValidationMiddleware());
             /**
              * Grupo de controlador de Grupo de Modelo de documentos
