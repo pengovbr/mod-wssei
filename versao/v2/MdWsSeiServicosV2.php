@@ -1366,6 +1366,14 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->listar($dto));
                 });
 
+                $this->post('/cadastrar', function ($request, $response, $args) {
+                    /** @var $request Slim\Http\Request */
+                    $rn = new MdWsSeiGrupoAcompanhamentoRN();
+                    $dto = new GrupoAcompanhamentoDTO();
+                    $dto->setStrNome($request->getParam('nome'));
+                    return $response->withJSON($rn->cadastrar($dto));
+                });
+
             })->add(new TokenValidationMiddleware());
             /**
              * Grupo de controlador de Grupo de Modelo de documentos

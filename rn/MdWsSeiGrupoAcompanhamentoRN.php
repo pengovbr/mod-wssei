@@ -37,6 +37,28 @@ class MdWsSeiGrupoAcompanhamentoRN extends InfraRN {
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
+    }
 
+    /**
+     * Método que realiza o cadastro do grupo de acompanhamento
+     * @param GrupoAcompanhamentoDTO $grupoAcompanhamentoDTO
+     * @return array
+     */
+    protected function cadastrarControlado(GrupoAcompanhamentoDTO $grupoAcompanhamentoDTO)
+    {
+        try{
+            $grupoAcompanhamentoRN = new GrupoAcompanhamentoRN();
+            /** Acessa o componente SEI para retorno da unidade da sessão do usuário */
+            $grupoAcompanhamentoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            /** Acessando o componente SEI para cadastro de grupo de acompanhamento **/
+            $grupoAcompanhamentoRN->cadastrar($grupoAcompanhamentoDTO);
+            return MdWsSeiRest::formataRetornoSucessoREST(
+                'Grupo de Acompanhamento '
+                .$grupoAcompanhamentoDTO->getNumIdGrupoAcompanhamento()
+                .' cadastrado com sucesso.'
+            );
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
     }
 }
