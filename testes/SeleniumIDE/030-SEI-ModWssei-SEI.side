@@ -71,6 +71,13 @@
       ],
       "value": ""
     }, {
+      "id": "349d0252-9d7a-4996-a36d-ea9c1c8d6c18",
+      "comment": "",
+      "command": "executeScript",
+      "target": "return 0",
+      "targets": [],
+      "value": "iLoop"
+    }, {
       "id": "eb8b6c53-b31b-47fd-a6c9-cb5e73ce1031",
       "comment": "",
       "command": "times",
@@ -114,16 +121,23 @@
       ],
       "value": ""
     }, {
-      "id": "763af27c-d778-40da-ac5c-0e2a6162a4ca",
+      "id": "16ea3204-692f-4877-96ae-f23f47f1c087",
       "comment": "",
       "command": "executeScript",
+      "target": "return ${iLoop} + 1",
+      "targets": [],
+      "value": "iLoop"
+    }, {
+      "id": "763af27c-d778-40da-ac5c-0e2a6162a4ca",
+      "comment": "",
+      "command": "//executeScript",
       "target": "var d= new Date(); var m=((d.getMonth()+1)<10)?'0'+(d.getMonth()+1):(d.getMonth()+1); return d.getFullYear()+\"-\"+m+\"-\"+d.getDate();",
       "targets": [],
       "value": "data"
     }, {
       "id": "d036e2cb-1da6-456a-99f7-33c451cad451",
       "comment": "",
-      "command": "executeScript",
+      "command": "//executeScript",
       "target": "return (new Date().getHours()+\"-\" + new Date().getMinutes() + \"-\" + new Date().getSeconds())",
       "targets": [],
       "value": "hora"
@@ -140,7 +154,7 @@
         ["xpath=//div[@id='divInfraAreaDados']/input", "xpath:idRelative"],
         ["xpath=//div[2]/input", "xpath:position"]
       ],
-      "value": "Cargo ${data}-${hora}"
+      "value": "Cargo ${iLoop}"
     }, {
       "id": "a329484f-e3e8-4e03-9c43-ee8a34d50df4",
       "comment": "",
