@@ -784,7 +784,7 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["16b38ee3-c5df-4703-be9f-680ea4dca97d", "a4f021ee-4026-4801-868b-0703d2350aed", "21b6e331-61a0-481c-b833-15ee0c1bb02e"]
+    "tests": ["21b6e331-61a0-481c-b833-15ee0c1bb02e"]
   }],
   "urls": ["http://seigd.nuvem.gov.br/", "http://sei3.nuvem.gov.br/", "http://sei3.nuvem.gov.br/sei"],
   "plugins": []
