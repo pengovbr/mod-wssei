@@ -30,7 +30,7 @@ class Test030SEIModWsseiSEI():
       self.driver.find_element(By.LINK_TEXT, "Assinaturas das Unidades").click()
       self.driver.find_element(By.ID, "btnAdicionar").click()
       self.vars["iLoop"] = self.driver.execute_script("return arguments[0] + 1", self.vars["iLoop"])
-      self.driver.find_element(By.ID, "txtCargoFuncao").send_keys("Cargo self.vars["iLoop"]")
+      self.driver.find_element(By.ID, "txtCargoFuncao").send_keys("Cargo " + self.vars["iLoop"])
       self.driver.find_element(By.ID, "txtUnidade").click()
       WebDriverWait(self.driver, 30000).until(expected_conditions.element_to_be_clickable((By.ID, "txtUnidade")))
       self.driver.find_element(By.ID, "txtUnidade").send_keys("teste")
