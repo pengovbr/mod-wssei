@@ -20,6 +20,12 @@ class MdWsSeiGrupoAcompanhamentoRN extends InfraRN {
             $grupoAcompanhamentoDTOConsulta->retStrNome();
             $grupoAcompanhamentoDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
             $grupoAcompanhamentoDTOConsulta->setOrdStrNome(InfraDTO::$TIPO_ORDENACAO_ASC);
+            if($grupoAcompanhamentoDTOConsulta->isSetStrNome() && $grupoAcompanhamentoDTOConsulta->getStrNome()){
+                $grupoAcompanhamentoDTOConsulta->setStrNome(
+                    '%' . $grupoAcompanhamentoDTOConsulta->getStrNome() . '%',
+                    InfraDTO::$OPER_LIKE
+                );
+            }
             $grupoAcompanhamentoRN = new GrupoAcompanhamentoRN();
             /** Acessa o componente SEI para consulta de grupos de acompanhamento **/
             $arrGrupoAcompanhamentoDTO = $grupoAcompanhamentoRN->listar($grupoAcompanhamentoDTOConsulta);
