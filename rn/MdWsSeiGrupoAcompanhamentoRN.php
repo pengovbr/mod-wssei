@@ -55,7 +55,11 @@ class MdWsSeiGrupoAcompanhamentoRN extends InfraRN {
             return MdWsSeiRest::formataRetornoSucessoREST(
                 'Grupo de Acompanhamento '
                 .$grupoAcompanhamentoDTO->getNumIdGrupoAcompanhamento()
-                .' cadastrado com sucesso.'
+                .' cadastrado com sucesso.',
+                array(
+                    'id' => $grupoAcompanhamentoDTO->getNumIdGrupoAcompanhamento(),
+                    'nome' => $grupoAcompanhamentoDTO->getStrNome()
+                )
             );
         }catch (Exception $e){
             return MdWsSeiRest::formataRetornoErroREST($e);
