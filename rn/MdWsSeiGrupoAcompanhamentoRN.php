@@ -84,7 +84,7 @@ class MdWsSeiGrupoAcompanhamentoRN extends InfraRN {
             $grupoAcompanhamentoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
             $grupoAcompanhamentoDTO->setNumIdGrupoAcompanhamento($grupoAcompanhamentoDTOParam->getNumIdGrupoAcompanhamento());
             /** Acessa o componente SEI para retorno dos dados do grupo de acompanhamento **/
-            $grupoAcompanhamentoDTOConsulta = $grupoAcompanhamentoRN->consultar($grupoAcompanhamentoDTO);
+            $grupoAcompanhamentoDTO = $grupoAcompanhamentoRN->consultar($grupoAcompanhamentoDTO);
 
             if(!$grupoAcompanhamentoDTO){
                 throw new Exception('Grupo de Acompanhamento não encontrado.');
@@ -114,12 +114,17 @@ class MdWsSeiGrupoAcompanhamentoRN extends InfraRN {
                 throw new Exception('Grupo de Acompanhamento não informado.');
             }
             $grupoAcompanhamentoRN = new GrupoAcompanhamentoRN();
-            $arrGrupoAcompanhamentoDTOExclusao = array();
-            foreach($arrIdGrupos as $idGrupoAcompanhamento) {
-                $grupoAcompanhamentoDTO = new GrupoAcompanhamentoDTO();
-                $grupoAcompanhamentoDTO->setNumIdGrupoAcompanhamento($idGrupoAcompanhamento);
-                $arrGrupoAcompanhamentoDTOExclusao[] = $grupoAcompanhamentoDTO;
+            $grupoAcompanhamentoDTO = new GrupoAcompanhamentoDTO();
+            $grupoAcompanhamentoDTO->retTodos();
+            $grupoAcompanhamentoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            $grupoAcompanhamentoDTO->setNumIdGrupoAcompanhamento($arrIdGrupos, InfraDTO::$OPER_IN);
+            /** Acessa o componente SEI para retorno dos grupos de acompanhamento **/
+            $arrGrupoAcompanhamentoDTOExclusao = $grupoAcompanhamentoRN->listar($grupoAcompanhamentoDTO);
+            
+            if(!$arrGrupoAcompanhamentoDTOExclusao){
+                throw new Exception('Grupo de Acompanhamento não informado.');
             }
+
             /** Chama o componente SEI para exclusão de grupos de acompanhamento */
             $grupoAcompanhamentoRN->excluir($arrGrupoAcompanhamentoDTOExclusao);
 
