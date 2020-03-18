@@ -1658,7 +1658,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 );
             }
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $atividadeDTOConsulta->getNumMaxRegistrosRetorno());
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $atividadeDTOConsulta->getNumTotalRegistros());
         } catch (Exception $e) {
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
