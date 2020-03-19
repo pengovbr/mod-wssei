@@ -171,7 +171,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                         $dto->setNumIdTextoPadraoInterno($request->getParam('id'));
                     }
                     if ($request->getParam('filter')) {
-                        $dto->setStrSigla($request->getParam('filter'));
+                        $dto->setStrNome($request->getParam('filter'));
                     }
                     return $response->withJSON($rn->pesquisar($dto));
                 });
