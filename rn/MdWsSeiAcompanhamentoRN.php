@@ -175,6 +175,7 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
             $acompanhamentoDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
             $acompanhamentoDTOConsulta->setOrd('IdProtocolo', InfraDTO::$TIPO_ORDENACAO_DESC);
             $acompanhamentoRN = new AcompanhamentoRN();
+            /** Acessando componente SEI para retorna da lista de acompanhamentos da unidade **/
             $arrAcompanhamentoDTO = $acompanhamentoRN->listarAcompanhamentosUnidade($acompanhamentoDTOConsulta);
 
             foreach($arrAcompanhamentoDTO as $acompanhamentoDTO) {
