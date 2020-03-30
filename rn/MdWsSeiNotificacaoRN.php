@@ -33,7 +33,8 @@ class MdWsSeiNotificacaoRN extends InfraRN {
             'dsResume' => $notificacaoDTO->getStrResumo(),
             'dsTitle' => $notificacaoDTO->getStrTitulo(),
             'dsIdentities' => array($notificacaoDTO->getStrIdentificadorUsuario()),
-            'stNotify' => $notificacaoDTO->getBolNotificar() ? 1 : 0
+            'stNotify' => $notificacaoDTO->getBolNotificar() ? 1 : 0,
+            'data' => $notificacaoDTO->getStrData()
         );
 
         curl_setopt(

@@ -69,6 +69,7 @@ class MdWsSeiAgendamentoRN extends InfraRN
                             $notificacaoDTO->setStrUrlServicoNotificacao($UrlServicoNotificacao);
                             $notificacaoDTO->setNumIdApp($IdApp);
                             $notificacaoDTO->setStrChaveAutorizacao($ChaveAutorizacao);
+                            $notificacaoDTO->setArrData(array('idProcesso' => $atividadeDTO->getDblIdProtocolo()));
 
                             $notificacaoRN = new MdWsSeiNotificacaoRN();
                             $mensagemErro = null;
