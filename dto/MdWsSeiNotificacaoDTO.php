@@ -41,6 +41,10 @@ class MdWsSeiNotificacaoDTO extends InfraDTO
             'ChaveAutorizacao'
         );
         $this->adicionarAtributo(
+            InfraDTO::$PREFIXO_ARR,
+            'Data'
+        );
+        $this->adicionarAtributo(
             InfraDTO::$PREFIXO_BOL,
             'Notificar'
         );
