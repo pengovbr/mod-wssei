@@ -1482,7 +1482,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         'processoPublicado' => $processoPublicado,
                         'nivelAcessoGlobal' => $protocoloDTO->getStrStaNivelAcessoGlobal(),
                         'podeGerenciarCredenciais' => $podeGerenciarCredenciais,
-                        'process5oAberto' => $processoAberto ? 'S' : 'N',
+                        'processoAberto' => $processoAberto ? 'S' : 'N',
                         'processoEmTramitacao' => $processoEmTramitacao ? 'S' : 'N',
                         'processoSobrestado' => $processoSobrestado ? 'S' : 'N',
                         'processoAnexado' => $processoAnexado ? 'S' : 'N',
