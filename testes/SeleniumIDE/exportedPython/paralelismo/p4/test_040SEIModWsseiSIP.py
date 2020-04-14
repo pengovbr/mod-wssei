@@ -26,7 +26,7 @@ class Test040SEIModWsseiSIP():
     self.driver.find_element(By.ID, "pwdSenha").send_keys("teste")
     self.driver.find_element(By.ID, "sbmLogin").click()
     self.vars["iLoop"] = self.driver.execute_script("return 0")
-    for i in range(0, 2000):
+    for i in range(0, 2001):
       self.vars["iLoop"] = self.driver.execute_script("return arguments[0] +1", self.vars["iLoop"])
       WebDriverWait(self.driver, 30000).until(expected_conditions.visibility_of_element_located((By.XPATH, "//*[@id=\"main-menu\"]/li[8]/a")))
       self.driver.find_element(By.XPATH, "//*[@id=\"main-menu\"]/li[8]/a").click()
