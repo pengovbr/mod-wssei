@@ -1263,8 +1263,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                 $this->get('/{protocolo}/ciencia/listar', function ($request, $response, $args) {
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiProcedimentoRN();
-                    $dto = new AtividadeDTO();
-                    $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
+                    $dto = new ProcedimentoHistoricoDTO();
+                    $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('protocolo'));
                     if ($request->getParam('limit')) {
                         $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
                     }
