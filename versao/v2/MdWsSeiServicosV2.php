@@ -12,6 +12,18 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
     }
 
     /**
+     * Método que valida os parametros da paginação
+     * @param InfraDTO $dto
+     */
+    protected static function validaPaginacao(InfraDTO $dto)
+    {
+        if (!$dto->isSetNumMaxRegistrosRetorno() && !is_null($dto->getNumPaginaAtual())) {
+            throw new InfraException('O parametro "limit" é obrigatório no uso de paginação.');
+        }
+
+    }
+
+    /**
      * Método que registra os serviços a serem disponibilizados
      * @return Slim\App
      */
@@ -92,6 +104,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('start'))) {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+                    self::validaPaginacao($dto);
+
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiUsuarioRN();
                     return $response->withJSON($rn->listarUsuarios($dto));
@@ -132,6 +146,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('filter')) {
                         $dto->setStrSigla($request->getParam('filter'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->pesquisarUnidade($dto));
                 });
                 $this->get('/outras/pesquisar', function ($request, $response, $args) {
@@ -154,6 +170,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('filter') && $request->getParam('filter') != '') {
                         $dto->setStrPalavrasPesquisa($request->getParam('filter'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->pesquisarOutras($dto));
                 });
 
@@ -173,6 +191,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('filter')) {
                         $dto->setStrNome($request->getParam('filter'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->pesquisar($dto));
                 });
 
@@ -217,6 +237,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                             InfraDTO::$OPER_IN
                         );
                     }
+                    self::validaPaginacao($dto);
 
                     return $response->withJSON($rn->pesquisarBlocoAssinatura($dto));
                 });
@@ -287,6 +308,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+                    self::validaPaginacao($dto);
                     return $response->withJSON($rn->listarDocumentosBlocoAssinatura($dto));
                 });
                 $this->post('/{bloco:[0-9]+}/anotacao', function ($request, $response, $args) {
@@ -450,6 +472,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->listarProcessosBlocoInterno($dto));
                 });
                 $this->get('/interno/pesquisar', function ($request, $response, $args) {
@@ -474,6 +498,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                             InfraDTO::$OPER_IN
                         );
                     }
+                    self::validaPaginacao($dto);
 
                     return $response->withJSON($rn->pesquisarBlocoInterno($dto));
                 });
@@ -517,6 +542,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('filter') != '') {
                         $dto->setStrDescricaoAssunto($request->getParam('filter'));
                     }
+
+                    self::validaPaginacao($dto);
 
                     return $response->withJSON(
                         $rn->sugestaoAssunto($dto)
@@ -612,6 +639,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     } else {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->listarDocumentosProcesso($dto));
                 });
                 $this->get('/secao/listar', function ($request, $response, $args) {
@@ -636,6 +665,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     $dto->setArrAplicabilidade($arrAplicabilidade);
                     $dto->setNumStart($request->getParam('start'));
                     $dto->setNumLimit($request->getParam('limit'));
+
+                    self::validaPaginacao($dto);
 
                     return $response->withJSON($rn->pesquisarTipoDocumento($dto));
                 });
@@ -754,6 +785,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('filter') != '') {
                         $dto->setStrDescricao($request->getParam('filter'));
                     }
+                    self::validaPaginacao($dto);
+
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiDocumentoRN();
                     return $response->withJSON($rn->pesquisarTipoConferencia($dto));
@@ -817,6 +850,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     $objGetMdWsSeiTipoProcedimentoDTO->setNumStart($request->getParam('start'));
                     $objGetMdWsSeiTipoProcedimentoDTO->setNumLimit($request->getParam('limit'));
 
+                    self::validaPaginacao($objGetMdWsSeiTipoProcedimentoDTO);
+
                     return $response->withJSON(
                         $rn->listarTipoProcedimento($objGetMdWsSeiTipoProcedimentoDTO)
                     );
@@ -851,6 +886,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+
+                    self::validaPaginacao($dto);
 
                     return $response->withJSON(
                         $rn->pesquisarAssunto($dto)
@@ -948,6 +985,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('start'))) {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->listarProcessos($dto));
                 });
 
@@ -988,6 +1027,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('buscaRapida')) {
                         $dto->setStrbuscaRapida(InfraUtil::retirarFormatacao($request->getParam('buscaRapida'), false));
                     }
+                    self::validaPaginacao($dto);
 
                     return $response->withJSON($rn->pesquisarProcessosSolar($dto));
                 });
@@ -1007,6 +1047,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('start'))) {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->listarProcedimentoAcompanhamentoUsuario($dto));
                 });
                 $this->get('/listar/acompanhamentos', function ($request, $response, $args) {
@@ -1022,6 +1064,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('start'))) {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->listarProcedimentoAcompanhamentoUnidade($dto));
                 });
 
@@ -1174,6 +1218,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
                     $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
+                    self::validaPaginacao($dto);
 
                     return $response->withJSON($rn->listarCredenciaisProcesso($dto));
                 });
@@ -1236,6 +1281,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+                    self::validaPaginacao($dto);
 
                     return $response->withJSON($rn->processoInteressadosListar($dto));
                 });
@@ -1257,6 +1303,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('filter') != '') {
                         $dto->setStrDescricaoAssunto($request->getParam('filter'));
                     }
+                    self::validaPaginacao($dto);
 
                     return $response->withJSON($rn->sugestaoAssunto($dto));
                 });
@@ -1271,6 +1318,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('start'))) {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->listarCienciaProcesso($dto));
                 });
 
@@ -1293,6 +1342,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('start'))) {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->listarAtividadesProcesso($dto));
                 });
                 $this->post('/lancar/andamento/processo', function ($request, $response, $args) {
@@ -1325,6 +1376,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('filter') != '') {
                         $dto->setStrCargoFuncao($request->getParam('filter'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->listarAssinante($dto));
                 });
 
@@ -1338,6 +1391,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('start'))) {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->listarOrgao($dto));
                 });
 
@@ -1363,6 +1418,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('filter') != '') {
                         $dto->setStrNome($request->getParam('filter'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->listar($dto));
                 });
 
@@ -1414,6 +1471,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('filter') != '') {
                         $dto->setStrNome($request->getParam('filter'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->listar($dto));
                 });
                 $this->get('/listar', function ($request, $response, $args) {
@@ -1437,6 +1496,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     }else{
                         $dto->setStrStaTipoFiltro(ProtocoloModeloRN::$TF_TODOS);
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->listar($dto));
                 });
 
@@ -1459,6 +1520,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('grupoAcompanhamento') != '') {
                         $dto->setNumIdGrupoAcompanhamento($request->getParam('grupoAcompanhamento'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->listaAcompanhamentosUnidade($dto));
                 });
 
@@ -1488,6 +1551,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+                    self::validaPaginacao($dto);
 
                     $rn = new MdWsSeiContatoRN();
                     return $response->withJSON($rn->listarContato($dto));
@@ -1535,6 +1599,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+                    self::validaPaginacao($dto);
 
                     $rn = new MdWsSeiHipoteseLegalRN();
                     return $response->withJSON($rn->pesquisar($dto));
@@ -1593,6 +1658,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('filter') != '') {
                         $dto->setStrNome($request->getParam('filter'));
                     }
+                    self::validaPaginacao($dto);
+
                     /** @var $request Slim\Http\Request */
                     $rn = new MdWsSeiSerieRN();
                     return $response->withJSON($rn->pesquisarExterno($dto));
@@ -1626,6 +1693,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('ativo') != '') {
                         $dto->setStrSinAtivo($request->getParam('ativo'));
                     }
+                    self::validaPaginacao($dto);
+
                     $rn = new MdWsSeiMarcadorRN();
                     return $response->withJSON($rn->pesquisar($dto));
                 });
@@ -1705,6 +1774,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('start'))) {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+                    self::validaPaginacao($dto);
+
                     return $response->withJSON($rn->listarHistoricoProcesso($dto));
                 });
             })->add(new TokenValidationMiddleware());
