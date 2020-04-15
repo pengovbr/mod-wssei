@@ -561,6 +561,261 @@
 			"protocolProfileBehavior": {}
 		},
 		{
+			"name": "Cenario001.5 - Autenticar-Flood",
+			"item": [
+				{
+					"name": "usu/alterar-altera unidade para TESTE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"\r",
+									"pm.globals.set(\"iLoop\", \"3\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "General-Autenticar - User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e4b5b26c-f632-4923-b43a-59fca91be5aa",
+								"exec": [
+									"pm.test(\"Cenario001 - Existe token na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"token\");\r",
+									"});\r",
+									"\r",
+									"var i=Number(pm.globals.get(\"iLoop\"));\r",
+									"\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"tokenUsuario\" + i, jsonData.data.token);\r",
+									"pm.globals.set(\"idUsuario\" +i, jsonData.data.loginData.IdUsuario);\r",
+									"\r",
+									"i = i+1;\r",
+									"pm.globals.set(\"iLoop\", i);\r",
+									"\r",
+									"\r",
+									"if(i<53){\r",
+									"    postman.setNextRequest('General-Autenticar - User');\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "017d31a1-cf22-4189-955a-41c630fd1174",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "usuario",
+									"value": "usuario{{iLoop}}",
+									"type": "text"
+								},
+								{
+									"key": "senha",
+									"value": "usuario{{iLoop}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/autenticar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"autenticar"
+							]
+						},
+						"description": "Autenticar o usuário"
+					},
+					"response": [
+						{
+							"name": "Exemplo Autenticação",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "usuario",
+											"value": "teste",
+											"type": "text"
+										},
+										{
+											"key": "senha",
+											"value": "teste",
+											"type": "text"
+										},
+										{
+											"key": "contexto",
+											"value": "null",
+											"type": "text"
+										},
+										{
+											"key": "orgao",
+											"value": "0",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/autenticar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"autenticar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1196",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 24 Jul 2019 13:45:32 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [],
+							"body": "{\"sucesso\":true,\"data\":{\"loginData\":{\"IdSistema\":\"100000100\",\"IdContexto\":\"\",\"IdUsuario\":\"100000001\",\"IdLogin\":\"c16ad95a55363578fc421308fcd5cb829361408b5995b0ba6a3933e10ff0a3c59601232312bc12015cb9ec946208e27a53d94250141a7f4e26768fa25a15a798\",\"HashAgente\":\"4e2622cd26cbb6a556c25f686187e32dea01bf8e2957d84a8e567eac09f5a4f7b7aaf1ed2f24583ded1a3f1a375743c0f492f910b5d4696065ff64ab7dcb6870\",\"IdUnidadeAtual\":\"110000001\",\"sigla\":\"teste\",\"nome\":\"Usu\\u00e1rio de Testes\",\"idUltimoCargoAssinatura\":\"4\",\"ultimoCargoAssinatura\":\"Presidente\"},\"perfis\":[{\"idPerfil\":\"100000938\",\"nome\":\"B\\u00e1sico\",\"stAtivo\":\"S\"},{\"idPerfil\":\"100000939\",\"nome\":\"Administrador\",\"stAtivo\":\"S\"},{\"idPerfil\":\"100000940\",\"nome\":\"Inform\\u00e1tica\",\"stAtivo\":\"S\"},{\"idPerfil\":\"100000941\",\"nome\":\"Arquivamento\",\"stAtivo\":\"S\"},{\"idPerfil\":\"100000945\",\"nome\":\"Inspe\\u00e7\\u00e3o\",\"stAtivo\":\"S\"}],\"unidades\":[{\"id\":\"110000001\",\"sigla\":\"TESTE\",\"descricao\":\"Unidade de Teste 1\"},{\"id\":\"110000002\",\"sigla\":\"TESTE_1_1\",\"descricao\":\"Unidade de Testes 1.1\"},{\"id\":\"110000003\",\"sigla\":\"TESTE_1_2\",\"descricao\":\"Unidade de Testes 1.2\"}],\"token\":\"NWY3NjRlOTA5ZjMzMmJjNjBiMzBjMzZmNmQzMGI2YWJiNjExYWNlYmFUVnhUV2sxYnoxOGZHazFjVTFwTlc4OWZId3dmSHc9\"}}"
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5d02dcf0-ff72-4b01-b2e9-81d6c241bd45",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "34e6fef4-c858-480a-bba7-58503d676050",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "Cenario002 - Processo-Pesquisar",
 			"item": [
 				{
@@ -7818,7 +8073,7 @@
 					]
 				},
 				{
-					"name": "Pesquisar - Proc por Assunto",
+					"name": "Pesquisar - Numero primeira parte Copy",
 					"event": [
 						{
 							"listen": "test",
@@ -21156,14 +21411,13 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{baseurl}}/assinante/listar/{{idUnidadeTeste}}?limit=1000",
+							"raw": "{{baseurl}}/assinante/listar?limit=1000",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"assinante",
-								"listar",
-								"{{idUnidadeTeste}}"
+								"listar"
 							],
 							"query": [
 								{
@@ -45327,6 +45581,2334 @@
 			"protocolProfileBehavior": {}
 		},
 		{
+			"name": "Cenario016 - AcompanhamentoGrupo",
+			"item": [
+				{
+					"name": "Unidade Teste",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Cadastrar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nome",
+									"value": "Acompanhamento Grupo 1_0",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unidade Teste_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Cadastrar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"var j = pm.response.json();\r",
+									"\r",
+									"pm.globals.set(\"idGrupoAcompanhamento\", j.data.id );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nome",
+									"value": "Acompanhamento Grupo 1_2",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Cadastrar Duplicar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário tenta cadastrar o mesmo acompanhamento tem q dar erro\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nome",
+									"value": "Acompanhamento Grupo 1_2",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-ListarUnico",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"    \r",
+									"    \r",
+									"});\r",
+									"pm.test(\"Nao pode vir resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(\"idGrupoAcompanhamento\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Nao pode vir resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(\"nome\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "{{idGrupoAcompanhamento}}",
+									"type": "text"
+								},
+								{
+									"key": "start",
+									"value": "0",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "asdf",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-ListarUnico-User2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"    \r",
+									"    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tem q vir o id\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data[0].idGrupoAcompanhamento).to.eql(pm.globals.get(\"idGrupoAcompanhamento\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tem q vir o nome\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Acompanhamento Grupo 1_2\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "{{idGrupoAcompanhamento}}",
+									"type": "text"
+								},
+								{
+									"key": "start",
+									"value": "0",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "asdf",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Cadastrar-U2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nome",
+									"value": "grupotesteun1_2",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Cadastrar user1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nome",
+									"value": "grupotesteun1_2",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Cadastrar user1 Mais de 50",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário tentou cadastrar grupo com mais de 50 chars\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nome",
+									"value": "grupotesteun1_200000000000000000000000000000000000000000000000000000000000000",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9f13662d-6612-4188-b88a-b5346eaf329d",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "651104ca-b97d-4c5c-a671-cc05941b52fb",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Cenario017 - AcompanhamentoGrupo Flood",
+			"item": [
+				{
+					"name": "Unidade Teste_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.globals.set(\"iLoop\", \"0\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Cadastrar Loop1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"var i=Number(pm.globals.get(\"iLoop\"));\r",
+									"i = i+1;\r",
+									"pm.globals.set(\"iLoop\", i);\r",
+									"\r",
+									"if(i<=40){\r",
+									"    postman.setNextRequest('grupoAcompanhamento-Cadastrar Loop1');\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nome",
+									"value": "AGF{{iLoop}} {{$randomAdjective}} {{$randomNoun}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "822290e3-dc6f-486e-a1b9-0b8ff9311db4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0d14cb8c-1bb6-41c8-9d48-0c9e8cf812fd",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Cenario018 - AcompanhamentoGrupoAlterar",
+			"item": [
+				{
+					"name": "Unidade Teste",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario018 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Cadastrar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario018 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    a=jsonData.data.id;\r",
+									"    \r",
+									"    \r",
+									"    pm.globals.set(\"idGrupoAcompanhamento\", a);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nome",
+									"value": "Acompanhamento Grupo Error",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Alterar1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nome",
+									"value": "Acompanhamento Grupo Correto",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/{{idGrupoAcompanhamento}}/alterar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"{{idGrupoAcompanhamento}}",
+								"alterar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-ListarUnico Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"    \r",
+									"    \r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Acompanhamento Grupo Correto\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "{{idGrupoAcompanhamento}}",
+									"type": "text"
+								},
+								{
+									"key": "start",
+									"value": "0",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "asdf",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Alterar1 Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nome",
+									"value": "Acompanhamento Grupo Errado",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/{{idGrupoAcompanhamento}}/alterar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"{{idGrupoAcompanhamento}}",
+								"alterar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unidade Teste_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Alterar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario018 - Usuário de outra unidade não pode alterar o grupo\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nome",
+									"value": "Acompanhamento Grupo Correto Novo",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/{{idGrupoAcompanhamento}}/alterar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"{{idGrupoAcompanhamento}}",
+								"alterar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-ListarUnico Copy Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).not.to.include(\"Acompanhamento Grupo Correto Novo\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "{{idGrupoAcompanhamento}}",
+									"type": "text"
+								},
+								{
+									"key": "start",
+									"value": "0",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "asdf",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9f13662d-6612-4188-b88a-b5346eaf329d",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "651104ca-b97d-4c5c-a671-cc05941b52fb",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Cenario019 - AcompanhamentoGrupo Listar",
+			"item": [
+				{
+					"name": "Unidade Teste",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Listar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"    \r",
+									"    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Cenario019 - Conta quantidade de itens\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.length).to.eql(3);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "43",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "0",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "asdf",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Listar2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"    \r",
+									"    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Cenario019 - Conta quantidade de itens\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.length).to.eql(3);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "43",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "0",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "Grupo",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Listar3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"    \r",
+									"    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Cenario019 - Conta quantidade de itens\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.length).to.eql(3);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "43",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "limit",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "filter",
+									"value": "asdf",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Listar4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Acompanhamento Grupo 1_0\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "43",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "limit",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "filter",
+									"value": "asdf",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unidade Teste_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Listar5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario019 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Cenario019 - Conta quantidade de itens\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.length).to.eql(43);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "43",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "0",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "asdf",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Listar6",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"    \r",
+									"    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Cenario019 - Verifica se vieram 10\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.length).to.eql(10);\r",
+									"});\r",
+									"pm.test(\"Cenario019 - Verifica se veio primeiro id desse user\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include('idGrupoAcompanhamento\":\"2\"');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Cenario019 - Verifica se nao veio primeiro id do usuario1\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include('idGrupoAcompanhamento\":\"1\"');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "43",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "0\n",
+									"type": "text"
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "filter",
+									"value": "asdf",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Listar7",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Cenario019 - Verifica se vieram 10\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.length).to.eql(10);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Cenario019 - Verifica se veio primeiro id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include('\"idGrupoAcompanhamento\":\"22\"');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "43",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "1\n",
+									"type": "text"
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "filter",
+									"value": "asdf",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Listar8",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Cenario019 - Verifica se vieram 10\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.length).to.eql(43);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Cenario019 - Verifica se veio primeiro id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include('\"idGrupoAcompanhamento\":\"18\"');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "43",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "0\n",
+									"type": "text"
+								},
+								{
+									"key": "limit",
+									"value": "43",
+									"type": "text"
+								},
+								{
+									"key": "filter",
+									"value": "asdf",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Listar9",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Cenario019 - Verifica se vieram 3\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.length).to.eql(3);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "43",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "2\n",
+									"type": "text"
+								},
+								{
+									"key": "limit",
+									"value": "20",
+									"type": "text"
+								},
+								{
+									"key": "filter",
+									"value": "asdf",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9f13662d-6612-4188-b88a-b5346eaf329d",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "651104ca-b97d-4c5c-a671-cc05941b52fb",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "Cenario011 - Acompanhamento",
 			"item": [
 				{
@@ -45494,7 +48076,7 @@
 								},
 								{
 									"key": "limit",
-									"value": "20",
+									"value": "",
 									"disabled": true
 								}
 							]
@@ -45836,6 +48418,7 @@
 							],
 							"variable": [
 								{
+									"id": "563bde51-c977-4f6c-a211-140bc46dff12",
 									"key": "procedimento",
 									"value": "{{idProcedimento_1}}",
 									"type": "string"
@@ -46300,6 +48883,7 @@
 							],
 							"variable": [
 								{
+									"id": "e4ca090c-b31a-4c14-818a-d69eb07055a8",
 									"key": "procedimento",
 									"value": "{{idProcedimento_1}}",
 									"type": "string"
@@ -46764,6 +49348,7 @@
 							],
 							"variable": [
 								{
+									"id": "16558ed3-8a57-4caf-ad3b-afae37f82f84",
 									"key": "procedimento",
 									"value": "{{idProcedimento_1}}",
 									"type": "string"
@@ -46951,7 +49536,7 @@
 									"const adata = pm.response.json();",
 									"",
 									"const g = adata.data.find(u => u.nome === 'Acompanhamento Grupo 1_0');",
-									"const gid = g ? g.id : 'not found';",
+									"const gid = g ? g.idGrupoAcompanhamento : 'not found';",
 									"",
 									"console.log(g);",
 									"console.log(gid);",
@@ -47012,7 +49597,7 @@
 									"const adata = pm.response.json();",
 									"",
 									"const g = adata.data.find(u => u.nome === 'Acompanhamento Grupo 1_2');",
-									"const gid = g ? g.id : 'not found';",
+									"const gid = g ? g.idGrupoAcompanhamento : 'not found';",
 									"",
 									"console.log(g);",
 									"console.log(gid);",
@@ -47585,6 +50170,7 @@
 							],
 							"variable": [
 								{
+									"id": "cea18d32-7745-4a68-b5ab-5776b814a5ff",
 									"key": "procedimento",
 									"value": "{{idProcedimento_1}}",
 									"type": "string"
@@ -48169,6 +50755,7 @@
 							],
 							"variable": [
 								{
+									"id": "5f683930-9aa1-43e2-b17a-279aa38a779c",
 									"key": "procedimento",
 									"value": "{{idProcedimento_1}}",
 									"type": "string"
@@ -48905,6 +51492,7 @@
 							],
 							"variable": [
 								{
+									"id": "72009ee0-6cd6-41d5-9f28-b52be1d75c47",
 									"key": "procedimento",
 									"value": "{{idProcedimento_1}}",
 									"type": "string"
@@ -49948,7 +52536,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseurl}}/processo/listar/acompanhamentos?grupo={{acompanhamentoGrupo_Unidade2}}&limit=1000&start=0",
+							"raw": "{{baseurl}}/processo/listar/acompanhamentos?grupo=2&limit=1000&start=0",
 							"host": [
 								"{{baseurl}}"
 							],
@@ -49960,7 +52548,7 @@
 							"query": [
 								{
 									"key": "grupo",
-									"value": "{{acompanhamentoGrupo_Unidade2}}"
+									"value": "2"
 								},
 								{
 									"key": "limit",
@@ -50372,6 +52960,7 @@
 							],
 							"variable": [
 								{
+									"id": "e2be8ff1-29c7-4478-9db6-105847a2e07f",
 									"key": "procedimento",
 									"value": "{{idProcedimento_1}}",
 									"type": "string"
@@ -50742,6 +53331,7 @@
 							],
 							"variable": [
 								{
+									"id": "9a70d3c5-10e7-4105-8a9f-ff14c1c278c5",
 									"key": "protocolo",
 									"value": "{{idProcedimento_1}}",
 									"type": "string"
@@ -51036,6 +53626,7 @@
 							],
 							"variable": [
 								{
+									"id": "b99f3fe0-3f57-497b-b514-189e0102e2fb",
 									"key": "protocolo",
 									"value": "{{idProcedimento_1}}",
 									"type": "string"
@@ -51178,6 +53769,7 @@
 							],
 							"variable": [
 								{
+									"id": "64760891-a3f2-4d48-b263-2acb0c2deb8c",
 									"key": "protocolo",
 									"value": "{{idProcedimento_1}}",
 									"type": "string"
@@ -51317,6 +53909,7 @@
 							],
 							"variable": [
 								{
+									"id": "89cbfd69-b59b-4e35-b665-3aca8c0ecaa1",
 									"key": "protocolo",
 									"value": "{{idProcedimento_1}}",
 									"type": "string"
@@ -51689,6 +54282,7 @@
 							],
 							"variable": [
 								{
+									"id": "5f00a6fa-7fbd-4b9f-a3b4-8ef3adb8d0da",
 									"key": "procedimento",
 									"value": "{{idProcedimento_1}}",
 									"type": "string"
@@ -52059,6 +54653,7 @@
 							],
 							"variable": [
 								{
+									"id": "c2d843fc-3318-4ab2-af99-1ad16aa944d8",
 									"key": "protocolo",
 									"value": "{{idProcedimento_1}}",
 									"type": "string"
@@ -52160,6 +54755,3875 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Cenario020 - Acompanhamento Excluir",
+			"item": [
+				{
+					"name": "Unidade Teste",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Cadastrar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"    a=jsonData.data.id;\r",
+									"    \r",
+									"    pm.globals.set(\"idGrupoAcompanhamento\", a);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nome",
+									"value": "Acompanhamento Grupo Excluir",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"cadastrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unidade Teste_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Excluir",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario020 - Não pode excluir grupo de outra unidade\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grupos",
+									"value": "{{idGrupoAcompanhamento}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/excluir",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"excluir"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Listar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Não pode listar\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(\"Acompanhamento Grupo Excluir\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "43",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "0",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "asdf",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-ExcluirNumInexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grupos",
+									"value": "4888",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/excluir",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"excluir"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-ExcluirNumInexistente2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grupos",
+									"value": "488,489,490",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/excluir",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"excluir"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unidade Teste Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Excluir Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario020 - Excluir grupo\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grupos",
+									"value": "{{idGrupoAcompanhamento}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/excluir",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"excluir"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupoAcompanhamento-Listar Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(\"Acompanhamento Grupo Excluir\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "43",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "0",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "3",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "asdf",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/grupoacompanhamento/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"grupoacompanhamento",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Cenario021 - Acompanhamento Especial",
+			"item": [
+				{
+					"name": "Unidade Teste_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuarioAdmin}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Processo-Criar-Publico",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"\r",
+									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
+									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{tokenUsuarioAdmin}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "tipoProcesso",
+									"value": "100000349",
+									"type": "text"
+								},
+								{
+									"key": "especificacao",
+									"value": "descricao teste",
+									"type": "text"
+								},
+								{
+									"key": "observacoes",
+									"value": "observacao teste",
+									"type": "text"
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "hipoteseLegal",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "[{\"id\": 79}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"criar"
+							]
+						},
+						"description": "Criar um processo simples"
+					},
+					"response": []
+				},
+				{
+					"name": "Documento - Cadastrar Documento Interno",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
+								"exec": [
+									"\r",
+									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
+									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{tokenUsuarioAdmin}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idSerie",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text"
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "descricao",
+									"value": "descricao documento interno",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "2,3",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "destinatarios",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "observacao",
+									"value": "observação teste acentuação",
+									"type": "text"
+								},
+								{
+									"key": "idUnidadeGeradoraProtocolo",
+									"value": "110000001",
+									"type": "text"
+								},
+								{
+									"key": "idTextoPadraoInterno",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/:procedimento/interno/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								":procedimento",
+								"interno",
+								"criar"
+							],
+							"variable": [
+								{
+									"key": "procedimento",
+									"value": "{{idProcedimento_1}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Documento Interno",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "idSerie",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "descrição documento interno",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "2,3",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "observação teste acentuação",
+											"type": "text"
+										},
+										{
+											"key": "idUnidadeGeradoraProtocolo",
+											"value": "110000001",
+											"type": "text"
+										},
+										{
+											"key": "idTextoPadraoInterno",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/:procedimento/interno/criar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										":procedimento",
+										"interno",
+										"criar"
+									],
+									"variable": [
+										{
+											"key": "procedimento",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 29 Jul 2019 20:35:03 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idDocumento\":\"25\",\"protocoloDocumentoFormatado\":\"0000023\"}}"
+						}
+					]
+				},
+				{
+					"name": "Criar Acompanhamento com Grupo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e10ca96a-c658-43ea-8593-01fe3c65bb62",
+								"exec": [
+									"",
+									"pm.test(\"Cenario012 - Criou acompanhamento com grupo\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Acompanhamento realizado com sucesso\");",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{tokenUsuarioAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "protocolo",
+									"value": "{{idProcedimento_1}}",
+									"type": "text"
+								},
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								},
+								{
+									"key": "grupo",
+									"value": "{{acompanhamentoGrupo_Unidade1}}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "usuario",
+									"value": "{{idUsuarioAdmin}}",
+									"type": "text"
+								},
+								{
+									"key": "observacao",
+									"value": "Observacao sem grupo",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/acompanhar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"acompanhar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "acompanhamentoespecial-listar Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuarioAdmin}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "limit",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "start",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "grupoAcompanhamento",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/acompanhamentoespecial/listar?limit=10&start=0",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"acompanhamentoespecial",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "start",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bbb8188a-692b-4800-b69d-362b3ba54302",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c2a6d766-6c96-4894-9d3b-094ff124a7d1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Cenario022 - ConsultarModeloDocumento",
+			"item": [
+				{
+					"name": "u2_teste_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u2-protmod-gr-listar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuarioAdmin}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/protocolomodelo/grupo/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"protocolomodelo",
+								"grupo",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Cenario023 - TextoPadrao",
+			"item": [
+				{
+					"name": "u2_teste_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u2_textopadrao_listar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/unidade/textopadrao/interno/pesquisar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"unidade",
+								"textopadrao",
+								"interno",
+								"pesquisar"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Cenario024 - Assinante",
+			"item": [
+				{
+					"name": "u2_teste_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u2_textopadrao_listar Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/assinante/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"assinante",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Cenario025 - Ciencia",
+			"item": [
+				{
+					"name": "u1_teste_1_2 Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_1}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Processo-Criar-Publico Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"\r",
+									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
+									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{tokenUsuario1}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "tipoProcesso",
+									"value": "100000349",
+									"type": "text"
+								},
+								{
+									"key": "especificacao",
+									"value": "descricao teste",
+									"type": "text"
+								},
+								{
+									"key": "observacoes",
+									"value": "observacao teste",
+									"type": "text"
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "hipoteseLegal",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "[{\"id\": 79}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"criar"
+							]
+						},
+						"description": "Criar um processo simples"
+					},
+					"response": []
+				},
+				{
+					"name": "Documento - Cadastrar Documento Interno Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
+								"exec": [
+									"\r",
+									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
+									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{tokenUsuario1}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idSerie",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text"
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "descricao",
+									"value": "descricao documento interno",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "2,3",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "destinatarios",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "observacao",
+									"value": "observação teste acentuação",
+									"type": "text"
+								},
+								{
+									"key": "idUnidadeGeradoraProtocolo",
+									"value": "110000001",
+									"type": "text"
+								},
+								{
+									"key": "idTextoPadraoInterno",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/:procedimento/interno/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								":procedimento",
+								"interno",
+								"criar"
+							],
+							"variable": [
+								{
+									"key": "procedimento",
+									"value": "{{idProcedimento_1}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Documento Interno",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "idSerie",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "descrição documento interno",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "2,3",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "observação teste acentuação",
+											"type": "text"
+										},
+										{
+											"key": "idUnidadeGeradoraProtocolo",
+											"value": "110000001",
+											"type": "text"
+										},
+										{
+											"key": "idTextoPadraoInterno",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/:procedimento/interno/criar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										":procedimento",
+										"interno",
+										"criar"
+									],
+									"variable": [
+										{
+											"key": "procedimento",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 29 Jul 2019 20:35:03 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idDocumento\":\"25\",\"protocoloDocumentoFormatado\":\"0000023\"}}"
+						}
+					]
+				},
+				{
+					"name": "u1-Ciencia Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario025 - Usuário 1 ciencia\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"{{idProcedimento_1}}",
+								"ciencia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u1-CienciaDoc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario025 - Usuário 1 ciencia n pode em doc nao assinado\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "documento",
+									"value": "{{idDocumentoInterno_1_1}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/ciencia",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"ciencia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u2-Ciencia Copy Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario025 - Usuário 2 n pode dar ciencia\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"{{idProcedimento_1}}",
+								"ciencia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u2_teste_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Processo-Criar-Publico",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"\r",
+									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
+									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{tokenUsuario2}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "tipoProcesso",
+									"value": "100000349",
+									"type": "text"
+								},
+								{
+									"key": "especificacao",
+									"value": "descricao teste",
+									"type": "text"
+								},
+								{
+									"key": "observacoes",
+									"value": "observacao teste",
+									"type": "text"
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "hipoteseLegal",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "[{\"id\": 79}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"criar"
+							]
+						},
+						"description": "Criar um processo simples"
+					},
+					"response": []
+				},
+				{
+					"name": "Documento - Cadastrar Documento Interno",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
+								"exec": [
+									"\r",
+									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"//postman.setEnvironmentVariable(\"token\", );\r",
+									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
+									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{tokenUsuario2}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idSerie",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "flagProtocolo",
+									"value": "",
+									"description": "Para reabertura de processo enviar 'S'",
+									"type": "text"
+								},
+								{
+									"key": "unidadesReabertura",
+									"value": "",
+									"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "descricao",
+									"value": "descricao documento interno",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "2,3",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "destinatarios",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "observacao",
+									"value": "observação teste acentuação",
+									"type": "text"
+								},
+								{
+									"key": "idUnidadeGeradoraProtocolo",
+									"value": "110000001",
+									"type": "text"
+								},
+								{
+									"key": "idTextoPadraoInterno",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/:procedimento/interno/criar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								":procedimento",
+								"interno",
+								"criar"
+							],
+							"variable": [
+								{
+									"key": "procedimento",
+									"value": "{{idProcedimento_1}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Documento Interno",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "idSerie",
+											"value": "8",
+											"type": "text"
+										},
+										{
+											"key": "flagProtocolo",
+											"value": "",
+											"description": "Para reabertura de processo enviar 'S'",
+											"type": "text"
+										},
+										{
+											"key": "unidadesReabertura",
+											"value": "",
+											"description": "Para reabertura de processo enviar idUnidade separado por ','. OBS: No código não foi encontrado o local para salvar, logo pode ser somente para exibição.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nivelAcesso",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idHipoteseLegal",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "grauSigilo",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "descricao",
+											"value": "descrição documento interno",
+											"type": "text"
+										},
+										{
+											"key": "assuntos",
+											"value": "2,3",
+											"description": "Enviar idAssunto separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "interessados",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "destinatarios",
+											"value": "100000010,100000006",
+											"description": "Enviar idContato separado por ','",
+											"type": "text"
+										},
+										{
+											"key": "observacao",
+											"value": "observação teste acentuação",
+											"type": "text"
+										},
+										{
+											"key": "idUnidadeGeradoraProtocolo",
+											"value": "110000001",
+											"type": "text"
+										},
+										{
+											"key": "idTextoPadraoInterno",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/:procedimento/interno/criar",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										":procedimento",
+										"interno",
+										"criar"
+									],
+									"variable": [
+										{
+											"key": "procedimento",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 29 Jul 2019 20:35:03 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100",
+									"name": "Keep-Alive",
+									"description": "Custom header"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
+									"key": "PHPSESSID"
+								}
+							],
+							"body": "{\"sucesso\":true,\"data\":{\"idDocumento\":\"25\",\"protocoloDocumentoFormatado\":\"0000023\"}}"
+						}
+					]
+				},
+				{
+					"name": "u2-Ciencia",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"{{idProcedimento_1}}",
+								"ciencia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u2-Ciencia Listar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario025 ciencia no processo\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"ncia no processo\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"usuario2\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"{{idProcedimento_1}}",
+								"ciencia",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u2-Ciencia Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario025 - nao pode dar ciencia novamente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"{{idProcedimento_1}}",
+								"ciencia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u2-DocAssinar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "documento",
+									"value": "{{idDocumentoInterno_1_1}}",
+									"type": "text"
+								},
+								{
+									"key": "orgao",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "cargo",
+									"value": " Fiscal de Contrato - Administrativo",
+									"type": "text"
+								},
+								{
+									"key": "login",
+									"value": "{{usuario2}}",
+									"type": "text"
+								},
+								{
+									"key": "senha",
+									"value": "{{usuario2Senha}}",
+									"type": "text"
+								},
+								{
+									"key": "usuario",
+									"value": "{{idUsuario2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/assinar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"assinar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u2-CienciaDoc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario025 - Usuário deu ciencia no doc assinado\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "documento",
+									"value": "{{idDocumentoInterno_1_1}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/ciencia",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"ciencia"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Cenario026 - Ciencia Flood",
+			"item": [
+				{
+					"name": "u2_teste_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.globals.set(\"iLoop\", \"3\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "fdb296c9-8b46-4cdf-9b5e-ecad6adfd4b7",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u2-CienciaDoc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario026 - Usuário deu ciencia no doc assinado\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "daf468f9-4dc4-4407-b518-a1ccd5c0311a",
+								"exec": [
+									"var un = pm.globals.get(\"tokenUsuario\" + pm.globals.get(\"iLoop\") );",
+									"//console.log(pm.globals.get(\"iLoop\"));",
+									"pm.globals.set(\"tmpUser\", un);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tmpUser}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "documento",
+									"value": "{{idDocumentoInterno_1_1}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/ciencia",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"ciencia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u2-DocAssinar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario026 - Assinou\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "78085479-1c32-4207-9c53-e341d615297c",
+								"exec": [
+									"var un = pm.globals.get(\"tokenUsuario\" + pm.globals.get(\"iLoop\") );",
+									"//console.log(pm.globals.get(\"iLoop\"));",
+									"pm.globals.set(\"tmpUser\", un);",
+									"pm.globals.set(\"tmpUserName\", \"usuario\" + pm.globals.get(\"iLoop\") );",
+									"",
+									"var v = pm.globals.get(\"idUsuario\" + pm.globals.get(\"iLoop\"));",
+									"pm.globals.set(\"tmpUserId\", v );",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tmpUser}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "documento",
+									"value": "{{idDocumentoInterno_1_1}}",
+									"type": "text"
+								},
+								{
+									"key": "orgao",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "cargo",
+									"value": " Fiscal de Contrato - Administrativo",
+									"type": "text"
+								},
+								{
+									"key": "login",
+									"value": "{{tmpUserName}}",
+									"type": "text"
+								},
+								{
+									"key": "senha",
+									"value": "{{tmpUserName}}",
+									"type": "text"
+								},
+								{
+									"key": "usuario",
+									"value": "{{tmpUserId}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/assinar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"assinar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u2-Ciencia",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario026 - Cientificou proc\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"var i=Number(pm.globals.get(\"iLoop\"));\r",
+									"i = i+1;\r",
+									"pm.globals.set(\"iLoop\", i);\r",
+									"\r",
+									"if(i<53){\r",
+									"    postman.setNextRequest('u2-CienciaDoc');\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "31d595c3-acc5-4f47-80a1-47ff47a44c18",
+								"exec": [
+									"var un = pm.globals.get(\"tokenUsuario\" + pm.globals.get(\"iLoop\") );",
+									"//console.log(pm.globals.get(\"iLoop\"));",
+									"pm.globals.set(\"tmpUser\", un);",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tmpUser}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"{{idProcedimento_1}}",
+								"ciencia"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Cenario027 - Ciencia Listar",
+			"item": [
+				{
+					"name": "u2_teste_1_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/usuario/alterar/unidade",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"usuario",
+								"alterar",
+								"unidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u2-Ciencia Listar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario025 ciencia no processo tem 102 ciencias\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"    \r",
+									"    pm.expect(jsonData.data.length).to.eql(102);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"usuario2\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"usuario30\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"usuario52\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia/listar",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"{{idProcedimento_1}}",
+								"ciencia",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u2-Ciencia Listar Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario025 ciencia no processo tem 10 ciencias\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"    \r",
+									"    pm.expect(jsonData.data.length).to.eql(10);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"usuario52\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia/listar?limit=10&start=0",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"{{idProcedimento_1}}",
+								"ciencia",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "start",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "u2-Ciencia Listar Copy Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
+								"exec": [
+									"pm.test(\"Cenario025 ciencia no processo tem 10 ciencias\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"    \r",
+									"    pm.expect(jsonData.data.length).to.eql(10);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"usuario47\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"usuario43\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{tokenUsuario2}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "unidade",
+									"value": "{{idUnidadeTeste_1_2}}",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia/listar?limit=10&start=1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"{{idProcedimento_1}}",
+								"ciencia",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "start",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"event": [
@@ -52186,13 +58650,13 @@
 	],
 	"variable": [
 		{
-			"id": "c133d645-e374-43a5-ac4e-f3ae0a782b55",
+			"id": "84df0009-4876-46a8-a543-5edb9c5dfb62",
 			"key": "{{token}}",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "0c266e00-5f60-436e-bce9-9107d54962c0",
+			"id": "311cf4fe-f339-4fed-8214-da3e648d6477",
 			"key": "{{baseurl}}",
 			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
 			"type": "string"
