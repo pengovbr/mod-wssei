@@ -1740,7 +1740,6 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $objProtocoloDTO->setArrObjObservacaoDTO(array($objObservacaoDTO));
         $objDocumentoDTO->setObjProtocoloDTO($objProtocoloDTO);
         $objDocumentoDTO->setNumIdTextoPadraoInterno($post['idTextoPadraoInterno']);
-        $objDocumentoDTO->setStrProtocoloDocumentoTextoBase($post['protocoloDocumentoTextoBase']);
 
         return $objDocumentoDTO;
     }
