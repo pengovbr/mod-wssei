@@ -880,6 +880,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 throw new InfraException('O Documento precisa ser assinado.');
             }
 
+            /** Acessa o componente SEI para cadastro de ciencia em documento **/
             $documentoRN->darCiencia($documentoDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Ciência documento realizado com sucesso.');
         } catch (Exception $e) {
