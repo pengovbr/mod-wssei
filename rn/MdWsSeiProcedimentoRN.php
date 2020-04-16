@@ -1628,6 +1628,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $procedimentoHistoricoDTO->setNumIdTarefa(array(TarefaRN::$TI_PROCESSO_CIENCIA,TarefaRN::$TI_PROCESSO_ANEXADO_CIENCIA,TarefaRN::$TI_DOCUMENTO_CIENCIA));
 
             $procedimentoRN = new ProcedimentoRN();
+            /** Acessa o componente SEI para retorno das ciencias do processo **/
             $procedimentoDTO = $procedimentoRN->consultarHistoricoRN1025($procedimentoHistoricoDTO);
 
             if($procedimentoDTO){
