@@ -863,6 +863,22 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             if (!$documentoDTO->isSetDblIdDocumento()) {
                 throw new InfraException('O documento não foi informado.');
             }
+
+            $documentoDTOConsulta = new DocumentoDTO();
+            $documentoDTOConsulta->setDblIdDocumento($documentoDTO->getDblIdDocumento());
+            $documentoDTOConsulta->retDblIdDocumento();
+            $documentoDTOConsulta->retArrObjAssinaturaDTO();
+
+            $documentoDTOConsulta = $documentoRN->consultarRN0005($documentoDTOConsulta);
+
+            if(!$documentoDTOConsulta){
+                throw new InfraException('Documento não encontrado.');
+            }
+
+            if(!$documentoDTOConsulta->getArrObjAssinaturaDTO()){
+                throw new InfraException('O Documento precisa ser assinado.');
+            }
+
             $documentoRN->darCiencia($documentoDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Ciência documento realizado com sucesso.');
         } catch (Exception $e) {
