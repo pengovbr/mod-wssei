@@ -869,6 +869,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             $documentoDTOConsulta->retDblIdDocumento();
             $documentoDTOConsulta->retArrObjAssinaturaDTO();
 
+            /** Acessa componente SEI para retorno de dados do documento **/
             $documentoDTOConsulta = $documentoRN->consultarRN0005($documentoDTOConsulta);
 
             if(!$documentoDTOConsulta){
