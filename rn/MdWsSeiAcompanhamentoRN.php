@@ -43,11 +43,23 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
                 $protocoloDTO = new ProtocoloDTO();
 
                 $protocoloDTO->setDblIdProtocolo($acompanhamentoDTO->getDblIdProtocolo());
-                $protocoloDTO->retNumIdUnidadeGeradora();
+                $protocoloDTO->retStrStaEstadoProtocolo();
+                $protocoloDTO->retStrStaNivelAcessoGlobalProtocolo();
+
                 /** Consulta o componente SEI para retorno dos dados do protocolo para validação **/
                 $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
-                if (!$protocoloDTO || $protocoloDTO->getNumIdUnidadeGeradora() != $acompanhamentoDTO->getNumIdUnidade()) {
+                if (!$protocoloDTO) {
                     throw new Exception('Protocolo não encontrado.');
+                }
+                $bolAcaoAcompanhamentoCadastrar = SessaoSEI::getInstance()->verificarPermissao('acompanhamento_cadastrar');
+                if(!$bolAcaoAcompanhamentoCadastrar){
+                    throw new InfraException('O usuário não possuí permissão para realizar acompanhamento.');
+                }
+                if($protocoloDTO->getStrStaEstadoProtocolo() == ProtocoloRN::$TE_PROCEDIMENTO_ANEXADO){
+                    throw new InfraException('Não é possível acompanhar um Processo anexado.');
+                }
+                if($protocoloDTO->getStrStaNivelAcessoGlobalProtocolo() == ProtocoloRN::$NA_SIGILOSO){
+                    throw new InfraException('Não é possível acompanhar um Processo sigiloso.');
                 }
             }
             $acompanhamentoRN = new AcompanhamentoRN();
