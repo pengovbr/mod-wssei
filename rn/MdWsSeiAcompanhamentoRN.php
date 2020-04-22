@@ -39,26 +39,27 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
     {
         try {
             if ($acompanhamentoDTO->isSetDblIdProtocolo()) {
-                $protocoloRN = new ProtocoloRN();
-                $protocoloDTO = new ProtocoloDTO();
+                $procedimentoRN = new ProcedimentoRN();
+                $procedimentoDTO = new ProcedimentoDTO();
 
-                $protocoloDTO->setDblIdProtocolo($acompanhamentoDTO->getDblIdProtocolo());
-                $protocoloDTO->retStrStaEstadoProtocolo();
-                $protocoloDTO->retStrStaNivelAcessoGlobalProtocolo();
+                $procedimentoDTO->setDblIdProcedimento($acompanhamentoDTO->getDblIdProtocolo());
+                $procedimentoDTO->retStrStaEstadoProtocolo();
+                $procedimentoDTO->retStrStaNivelAcessoGlobalProtocolo();
 
-                /** Consulta o componente SEI para retorno dos dados do protocolo para validação **/
-                $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
-                if (!$protocoloDTO) {
+                /** Consulta o componente SEI para retorno dos dados do procedimento para validação **/
+                $arrProcedimentoDTO = $procedimentoRN->listarCompleto($procedimentoDTO);
+                if (!$arrProcedimentoDTO) {
                     throw new Exception('Protocolo não encontrado.');
                 }
+                $procedimentoDTO = $arrProcedimentoDTO[0];
                 $bolAcaoAcompanhamentoCadastrar = SessaoSEI::getInstance()->verificarPermissao('acompanhamento_cadastrar');
                 if(!$bolAcaoAcompanhamentoCadastrar){
                     throw new InfraException('O usuário não possuí permissão para realizar acompanhamento.');
                 }
-                if($protocoloDTO->getStrStaEstadoProtocolo() == ProtocoloRN::$TE_PROCEDIMENTO_ANEXADO){
+                if($procedimentoDTO->getStrStaEstadoProtocolo() == ProtocoloRN::$TE_PROCEDIMENTO_ANEXADO){
                     throw new InfraException('Não é possível acompanhar um Processo anexado.');
                 }
-                if($protocoloDTO->getStrStaNivelAcessoGlobalProtocolo() == ProtocoloRN::$NA_SIGILOSO){
+                if($procedimentoDTO->getStrStaNivelAcessoGlobalProtocolo() == ProtocoloRN::$NA_SIGILOSO){
                     throw new InfraException('Não é possível acompanhar um Processo sigiloso.');
                 }
             }
