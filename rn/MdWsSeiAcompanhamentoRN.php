@@ -193,6 +193,10 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
 
             $bolAcaoRegistrarAnotacao = SessaoSEI::getInstance()->verificarPermissao('anotacao_registrar');
 
+            $marcadorRN = new MarcadorRN();
+            /** Chama o componente SEI para retornar as cores disponíveis para o Marcador */
+            $arrIconeMarcadorDTO = $marcadorRN->listarValoresIcone();
+
             foreach($arrAcompanhamentoDTO as $acompanhamentoDTO) {
                 $arrAnotacao = array();
                 $arrRetornoProgramado = array();
@@ -256,12 +260,17 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
                     );
                 }
                 if($andamentoMarcadorDTO){
+
                     $arrAndamentoMarcador = array(
                         'marcador' => MarcadorINT::formatarMarcadorDesativado(
                             $andamentoMarcadorDTO->getStrNomeMarcador(),
                             $andamentoMarcadorDTO->getStrSinAtivoMarcador()
                         ),
-                        'gerenciarMarcador' => SessaoSEI::getInstance()->verificarPermissao('andamento_marcador_gerenciar')
+                        'idCor' => $andamentoMarcadorDTO->getStrStaIconeMarcador(),
+                        'ativo' => $andamentoMarcadorDTO->getStrSinAtivoMarcador(),
+                        'descricaoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrDescricao(),
+                        'gerenciarMarcador' => SessaoSEI::getInstance()->verificarPermissao('andamento_marcador_gerenciar'),
+                        'arquivoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrArquivo()
                     );
                 }
 
