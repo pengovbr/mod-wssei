@@ -66,12 +66,14 @@ chamado na Central de Atendimento do  PEN([https://portaldeservicos.planejamento
 
 8. Verificar se o banco de dados foi corretamente atualizado por meio do menu Infra/Parâmetros do SEI (chave VERSAO_MODULO_WSSEI)
 
-9. Verificar se o agendamento para as notificações foi corretamente criado (tela Infra/Agendamentos):
+9. Atenção a versão que aparece em VERSAO_MODULO_WSSEI é a 0.8.12. Esse número está correto
+
+10. Verificar se o agendamento para as notificações foi corretamente criado (tela Infra/Agendamentos):
    ```bash
    MdWsSeiAgendamentoRN :: notificacaoAtividades 
    ```
 
-10. Verificar se o QR Code foi criado na parte inferior do menu lateral esquerdo do SEI. Esse código contém os dados de acesso ao ambiente do órgão
+11. Verificar se o QR Code foi criado na parte inferior do menu lateral esquerdo do SEI. Esse código contém os dados de acesso ao ambiente do órgão
 
  
 ### Segunda Etapa: Instalar o aplicativo no telefone celular
