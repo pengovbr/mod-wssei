@@ -60,7 +60,7 @@ chamado na Central de Atendimento do  PEN([https://portaldeservicos.planejamento
       ```
    * importante: o usuário de banco, no momento da execução, deverá ser capaz de criar tabelas
    
-   * importante: recentemente (25/05/2020) foi descoberto um bug, que ao atualizar da versão v0.8.12 para a v1.0.0 o script apresenta um erro de "Versão não identificada". Nesse caso basta ignorar o erro. Não há nenhuma atualização de banco necessária da v0.8.12 para a v1.0.0
+   * importante: recentemente (25/05/2020) foi descoberto um bug, que ao atualizar da versão v0.8.12 para a v1.0.0 o script apresenta um erro de "Versão não identificada". Caso você esteja na v0.8.12 não precisa rodar o script. Porém se você já rodou ou quer rodar mesmo assim, basta ignorar o erro. Não há nenhuma atualização de banco necessária da v0.8.12 para a v1.0.0
 
 6. Necessário habilitar/instalar a extensão PHP &quot;mbstring&quot;. Verificar se todos os requisitos para utilização do SEI 3.0 estão sendo atendidos, entre eles, a versãoo do PHP 5.6
 
