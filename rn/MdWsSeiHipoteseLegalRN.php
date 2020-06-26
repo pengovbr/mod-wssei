@@ -64,7 +64,48 @@ class MdWsSeiHipoteseLegalRN extends InfraRN
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
-    
+
+    /**
+     * Pesquisa as hitóteses legais
+     * @param HipoteseLegalDTO $hipoteseLegalDTOParam
+     * @return array
+     */
+    protected function pesquisarConectado(HipoteseLegalDTO $hipoteseLegalDTOParam)
+    {
+        try {
+            $result = array();
+            $hipoteseLegalDTOParam->retNumIdHipoteseLegal();
+            $hipoteseLegalDTOParam->retStrNome();
+            $hipoteseLegalDTOParam->retStrBaseLegal();
+            $hipoteseLegalDTOParam->setOrdStrNome(InfraDTO::$TIPO_ORDENACAO_ASC);
+            $hipoteseLegalDTOParam->setOrdStrBaseLegal(InfraDTO::$TIPO_ORDENACAO_ASC);
+
+            if ($hipoteseLegalDTOParam->isSetStrNome()){
+                $hipoteseLegalDTOParam->setStrNome(
+                    '%' . $hipoteseLegalDTOParam->getStrNome() . '%',
+                    InfraDTO::$OPER_LIKE
+                );
+            }
+
+            $hipoteseLegalRN = new HipoteseLegalRN();
+            /** Chamada do componente SEI para pesquisa de hipóteses legais */
+            $ret = $hipoteseLegalRN->listar($hipoteseLegalDTOParam);
+
+            /** @var HipoteseLegalDTO $hipoteseLegalDTO */
+            foreach($ret as $hipoteseLegalDTO){
+                $result[] = array(
+                    'id' => $hipoteseLegalDTO->getNumIdHipoteseLegal(),
+                    'nome' => $hipoteseLegalDTO->getStrNome(),
+                    'baselegal' => $hipoteseLegalDTO->getStrBaseLegal(),
+                );
+            }
+
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $hipoteseLegalDTOParam->getNumMaxRegistrosRetorno());
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
     
      /**
      * Realiza a inclusão de um contato no SEI.

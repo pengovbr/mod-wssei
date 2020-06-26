@@ -11,75 +11,52 @@ class MdWsSeiContatoRN extends InfraRN
 
     
      /**
-     * Retorna todos tipos de procedimentos filtrados
-     * @param MdWsSeiTipoProcedimentoDTO $objGetMdWsSeiTipoProcedimentoDTO
+     * Pesquisa os contatos
+     * @param ContatoDTO $contatoDTOParam
      * @return array
      */
-    protected function listarContatoConectado(MdWsSeiContatoDTO $objGetMdWsSeiContatoDTO)
+    protected function listarContatoConectado(ContatoDTO $contatoDTOParam)
     {
         try {
-            
-            $id         = $objGetMdWsSeiContatoDTO->getNumIdContato();
-            $filter     = $objGetMdWsSeiContatoDTO->getStrFilter();
-            $start      = $objGetMdWsSeiContatoDTO->getNumStart();
-            $limit      = $objGetMdWsSeiContatoDTO->getNumLimit();
-            $bool       = false;
-            
-            $contatoDTO = new ContatoDTO();
+            $result = array();
 
-            if($id)
-                $contatoDTO->setNumIdContato($id);
+            $objPesquisaTipoContatoDTO = new PesquisaTipoContatoDTO();
+            $objPesquisaTipoContatoDTO->setStrStaAcesso(TipoContatoRN::$TA_CONSULTA_RESUMIDA);
 
-            if($filter) {
-                $contatoDTO->adicionarCriterio(array('Nome', 'Nome'),
-                    array(InfraDTO::$OPER_LIKE, InfraDTO::$OPER_LIKE),
-                    array('%' . utf8_decode(str_replace("-"," ", $filter)) . '%', '%' . utf8_decode(str_replace(" ","-", $filter)) . '%'),
-                    array(InfraDTO::$OPER_LOGICO_OR));
-            }
+            $objTipoContatoRN = new TipoContatoRN();
+            /** Chamada ao componente SEI para verificação de tipos de contato com acesso a unidade */
+            $arrIdTipoContatoAcesso = $objTipoContatoRN->pesquisarAcessoUnidade($objPesquisaTipoContatoDTO);
+
+            if (count($arrIdTipoContatoAcesso)) {
+                $contatoDTOParam->retNumIdContato();
+                $contatoDTOParam->retStrSigla();
+                $contatoDTOParam->retStrNome();
 
 
-            $contatoCountDTO = new ContatoDTO();
-            $contatoCountDTO->retNumIdContato();
+                $contatoDTOParam->adicionarCriterio(array('StaAcessoTipoContato', 'IdTipoContato'),
+                    array(InfraDTO::$OPER_DIFERENTE, InfraDTO::$OPER_IN),
+                    array(TipoContatoRN::$TA_NENHUM, $arrIdTipoContatoAcesso),
+                    InfraDTO::$OPER_LOGICO_OR);
 
-            IF($limit) {
-                $contatoDTO->setNumMaxRegistrosRetorno($limit);
-                $bool = true;
-            }
+                $contatoDTOParam->setStrSinAtivoTipoContato('S');
+                $contatoDTOParam->setOrdStrNome(InfraDTO::$TIPO_ORDENACAO_ASC);
 
-            IF($start) {
-                $contatoDTO->setNumPaginaAtual($start);
-                $bool = true;
-            }
+                $contatoRN = new ContatoRN();
+                /** Chama o componente SEI para retorno da busca de contatos */
+                $ret = $contatoRN->pesquisarRN0471($contatoDTOParam);
 
-            $contatoDTO->retNumIdContato();
-            $contatoDTO->retStrSigla();
-            $contatoDTO->retStrNome();
-
-            $contatoRN = new ContatoRN();
-            $arrContatoDTO = $contatoRN->listarRN0325($contatoDTO);
-
-            $contatoCountDTO = $contatoRN->listarRN0325($contatoCountDTO);
-            
-            $arrayRetorno = array();
-            if($arrContatoDTO){
-                foreach ($arrContatoDTO as $obj) {
-                    $arrayRetorno[] = array(
-                                        "id"        => $obj->getNumIdContato(),
-                                        "sigla"     => $obj->getStrSigla(),
-                                        "nome"      => $obj->getStrNome()
-                                    );
+                /** @var ContatoDTO $contatoDTO */
+                foreach ($ret as $contatoDTO) {
+                    $result[] = array(
+                        'nomeformatado' => ContatoINT::formatarNomeSiglaRI1224($contatoDTO->getStrNome(), $contatoDTO->getStrSigla()),
+                        'nome' => $contatoDTO->getStrNome(),
+                        'sigla' => $contatoDTO->getStrSigla(),
+                        'id' => $contatoDTO->getNumIdContato()
+                    );
                 }
             }
-            
-            $total = 0;
-            $total = count($arrayRetorno);
 
-            if($bool){
-                 $total = count($contatoCountDTO);
-            }
-
-            
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno, $total);    
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $contatoDTOParam->getNumTotalRegistros());
         } catch (Exception $e) {
             return MdWsSeiRest::formataRetornoErroREST($e);
         }

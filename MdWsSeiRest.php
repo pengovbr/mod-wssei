@@ -150,7 +150,7 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function getVersao()
     {
-        return '0.7.12';
+        return '1.0.0';
     }
 
     public function getInstituicao()
@@ -242,6 +242,12 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function processarControlador($strAcao)
     {
+        switch($strAcao){
+            case 'md_wssei_editor_externo_montar':
+            case 'md_wssei_editor_externo_imagem_upload':
+                require_once dirname(__FILE__) . '/md_wssei_editor_externo.php';
+                return true;
+        }
         return false;
     }
 
@@ -277,22 +283,28 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function adicionarElementoMenu()
     {
-        $nomeArquivo = 'QRCODE_'
-            . self::NOME_MODULO
-            . "_"
-            . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
-            . "_"
-            . SessaoSEI::getInstance()->getNumIdContextoUsuario()
-            . "_"
-            . self::getVersao();
-        $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
+        try{
+            $nomeArquivo = 'QRCODE_'
+                . self::NOME_MODULO
+                . "_"
+                . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
+                . "_"
+                . SessaoSEI::getInstance()->getNumIdContextoUsuario()
+                . "_"
+                . self::getVersao();
+            $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
 
-        if ($html) {
-            return $html;
+            if ($html) {
+                return $html;
+            }
+
+            $html = $this->montaCorpoHTMLQRCode($nomeArquivo);
+            CacheSEI::getInstance()->setAtributo($nomeArquivo, $html, CacheSEI::getInstance()->getNumTempo());
         }
-
-        $html = $this->montaCorpoHTMLQRCode($nomeArquivo);
-        CacheSEI::getInstance()->setAtributo($nomeArquivo, $html, CacheSEI::getInstance()->getNumTempo());
+        catch(Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
+            throw $e;            
+        }
 
         return $html;
     }
@@ -308,7 +320,7 @@ class MdWsSeiRest extends SeiIntegracao
         $caminhoAtual = explode("/sei/web", __DIR__);
         $urlSEI = ConfiguracaoSEI::getInstance()->getValor('SEI', 'URL')
             . $caminhoAtual[1]
-            . '/controlador_ws.php/api/v1';
+            . '/controlador_ws.php/api/v2';
         $conteudoQrCode = 'url: ' . $urlSEI
             . ';'
             . 'siglaorgao: ' . SessaoSEI::getInstance()->getStrSiglaOrgaoUsuario()
@@ -348,6 +360,19 @@ class MdWsSeiRest extends SeiIntegracao
         $htmlQrCode .= '</div>';
 
         return $htmlQrCode;
+    }
+
+
+    /**
+     * Gera Identificador único do usuário logado
+     * @return String
+     */
+    public static function geraIdentificadorUsuario($siglaUsuario, $siglaOrgao)
+    {
+        $arrDados[] = ConfiguracaoSEI::getInstance()->getValor('SEI', 'URL');
+        $arrDados[] = $siglaOrgao;
+        $arrDados[] = $siglaUsuario;
+        return md5(implode(':', $arrDados));
     }
 }
 
