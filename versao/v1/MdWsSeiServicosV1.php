@@ -39,6 +39,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
              */
             $this->post('/autenticar', function($request, $response, $args){
                 /** @var $response Slim\Http\Response */
+                sleep(3);
                 $rn = new MdWsSeiUsuarioRN();
                 $usuarioDTO = new UsuarioDTO();
                 $contextoDTO = new ContextoDTO();
