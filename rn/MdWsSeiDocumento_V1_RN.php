@@ -1236,6 +1236,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
      */
     public function assinarDocumentoControlado(AssinaturaDTO $assinaturaDTO) {
         try {
+            sleep(3);
             $assinaturaDTO->setStrStaFormaAutenticacao(AssinaturaRN::$TA_SENHA);
             $assinaturaDTO->setNumIdContextoUsuario(null);
             $documentoRN = new DocumentoRN();

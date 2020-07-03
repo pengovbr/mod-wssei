@@ -4,7 +4,7 @@
 
 ### Orientações para Instalação
 
-Clique abaixo para orientações de instalação do Módulo Rest no SEI bem como acessar e registrar o APP do SEI
+Clique abaixo para orientações de instalação do Módulo Rest no SEI bem como para acessar e registrar o APP do SEI
 
 [Instruções de Instalação e Configuração](READMEprincipalInstrucoesWssei.md)
 

@@ -147,6 +147,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
      */
     public function apiAutenticar(UsuarioDTO $usuarioDTO, ContextoDTO $contextoDTO, OrgaoDTO $orgaoDTO){
         try{
+            sleep(3);
             $contexto = $contextoDTO->getNumIdContexto();
             $orgao = $orgaoDTO->getNumIdOrgao();
             $siglaOrgao = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema');

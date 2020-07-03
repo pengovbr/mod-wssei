@@ -14,7 +14,8 @@ Maiores informações do Postman:  [clique aqui](READMEPostman.md)
 
 ### SeleniumIDE
 
-Funcionalidades escritas em seleniumIDE para pré-carregar um ambiente zerado do SEI no intuito de rodar os testes completos
+Funcionalidades escritas em seleniumIDE para pré-carregar um ambiente zerado do SEI no intuito de rodar os testes completos. 
+Cria usuário, cargos e faz outros tipos de carga que não é possível fazer via API.
 
 ### PhpUnit
 
