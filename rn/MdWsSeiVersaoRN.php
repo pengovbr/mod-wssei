@@ -71,6 +71,9 @@ class MdWsSeiVersaoRN extends InfraRN
                 case '0.8.12':
                     $this->atualizaVersao_1_0_0();
                     break;
+                case '1.0.0':
+                    $this->atualizaVersao_1_0_1();
+                    break;
                 default:
                     if($strVersaoBanco == $modulo->getVersao()){
                         $this->finalizar('VERSAO JA CONSTA COMO ATUALIZADA', false);
@@ -144,6 +147,12 @@ class MdWsSeiVersaoRN extends InfraRN
     {
         $this->logar("ATUALIZANDO NÚMERO DE VERSÃO DO MÓDULO.");
         $this->atualizaVersaoInfraParametro('1.0.0');
+    }
+
+    private function atualizaVersao_1_0_1()
+    {
+        $this->logar("ATUALIZANDO NÚMERO DE VERSÃO DO MÓDULO.");
+        $this->atualizaVersaoInfraParametro('1.0.1');
     }
 
 }
