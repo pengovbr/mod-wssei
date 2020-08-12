@@ -900,13 +900,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             }
 
             $documentoDTOConsulta = new DocumentoDTO();
-            $documentoDTOConsulta->setDblIdProtocoloProtocolo($protocoloDTOParam->getDblIdProtocolo());
+            $documentoDTOConsulta->setDblIdDocumento($protocoloDTOParam->getDblIdProtocolo());
             $documentoDTOConsulta->retDblIdDocumento();
             $documentoDTOConsulta->retStrNomeSerie();
             $documentoDTOConsulta->retStrNumero();
             $documentoDTOConsulta->retStrSiglaUnidadeGeradoraProtocolo();
             $documentoDTOConsulta->retStrProtocoloDocumentoFormatado();
-            $documentoDTOConsulta->retStrProtocoloProcedimentoFormatado();
             $documentoDTOConsulta->retStrStaProtocoloProtocolo();
             $documentoDTOConsulta->retStrStaDocumento();
             $documentoDTOConsulta->retDblIdDocumentoEdoc();
