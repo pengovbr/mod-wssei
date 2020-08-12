@@ -19,6 +19,7 @@ class MdWsSeiVersaoRN extends InfraRN
 
     private function inicializar($strTitulo)
     {
+
         ini_set('max_execution_time', '0');
         ini_set('memory_limit', '-1');
         ini_set('mssql.timeout', '0');
@@ -62,12 +63,16 @@ class MdWsSeiVersaoRN extends InfraRN
             $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
             $strVersaoBanco = $objInfraParametro->getValor(self::ATRIBUTO_VERSAO_INFRA_PARAMETRO, '');
 
+            $modulo = new MdWsSeiRest();
+
             switch($strVersaoBanco) {
-                case '': $this->atualizaVersao_0_8_12();
-                //case '1.0.0': $this->atualizaVersao_1_0_1();
+                case '':
+                    $this->atualizaVersao_0_8_12();
+                case '0.8.12':
+                    $this->atualizaVersao_1_0_0();
                     break;
                 default:
-                    if($strVersaoBanco == MdWsSeiRest::getVersao()){
+                    if($strVersaoBanco == $modulo->getVersao()){
                         $this->finalizar('VERSAO JA CONSTA COMO ATUALIZADA', false);
                     } else {
                         $this->finalizar('VERSAO NAO IDENTIFICADA. VERIFIQUE COM OS RESPONSAVEIS', false);
@@ -133,6 +138,12 @@ class MdWsSeiVersaoRN extends InfraRN
         $infraAgemdanemtoTarefaBD->cadastrar($infraAgemdanemtoTarefaDTO);
 
         $this->atualizaVersaoInfraParametro('0.8.12');
+    }
+
+    private function atualizaVersao_1_0_0()
+    {
+        $this->logar("ATUALIZANDO NÚMERO DE VERSÃO DO MÓDULO.");
+        $this->atualizaVersaoInfraParametro('1.0.0');
     }
 
 }
