@@ -58,7 +58,7 @@ class MdWsSeiVersaoRN extends InfraRN
     protected function atualizarVersaoConectado()
     {
         try {
-            $this->inicializar('INICIANDO ATUALIZACAO VERSAO MÓDULO ('. strtoupper(MdWsSeiRest::getNome()). ') ' . MdWsSeiRest::getVersao());
+            $this->inicializar('INICIANDO ATUALIZACAO VERSAO MÃ“DULO ('. strtoupper(MdWsSeiRest::getNome()). ') ' . MdWsSeiRest::getVersao());
 
             $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
             $strVersaoBanco = $objInfraParametro->getValor(self::ATRIBUTO_VERSAO_INFRA_PARAMETRO, '');
@@ -70,6 +70,9 @@ class MdWsSeiVersaoRN extends InfraRN
                     $this->atualizaVersao_0_8_12();
                 case '0.8.12':
                     $this->atualizaVersao_1_0_0();
+                    break;
+                case '1.0.0':
+                    $this->atualizaVersao_1_0_1();
                     break;
                 default:
                     if($strVersaoBanco == $modulo->getVersao()){
@@ -84,7 +87,7 @@ class MdWsSeiVersaoRN extends InfraRN
             InfraDebug::getInstance()->setBolLigado(false);
             InfraDebug::getInstance()->setBolDebugInfra(false);
             InfraDebug::getInstance()->setBolEcho(false);
-            throw new InfraException('Erro atualizando versão.', $e);
+            throw new InfraException('Erro atualizando versÃ£o.', $e);
         }
 
     }
@@ -97,7 +100,7 @@ class MdWsSeiVersaoRN extends InfraRN
 
     private function atualizaVersao_0_8_12()
     {
-        $this->logar("CRIANDO TABELA PARA NOTIFICAÇÃO DE ATIVIDADES.");
+        $this->logar("CRIANDO TABELA PARA NOTIFICAÃ‡ÃƒO DE ATIVIDADES.");
         $objInfraMetaBD = new InfraMetaBD(BancoSEI::getInstance());
         BancoSEI::getInstance()->executarSql(
             'CREATE TABLE md_wssei_notificacao_ativ (
@@ -114,7 +117,7 @@ class MdWsSeiVersaoRN extends InfraRN
         BancoSEI::getInstance()->executarSql('alter table md_wssei_notificacao_ativ add constraint fk_md_wssei_not_ativ_id_ativ foreign key (id_atividade) references atividade (id_atividade) on delete cascade');
 
         $infraAgemdanemtoTarefaDTO = new InfraAgendamentoTarefaDTO();
-        $infraAgemdanemtoTarefaDTO->setStrDescricao('Agendamento para notificação de atividades.');
+        $infraAgemdanemtoTarefaDTO->setStrDescricao('Agendamento para notificaÃ§Ã£o de atividades.');
         $infraAgemdanemtoTarefaDTO->setStrComando('MdWsSeiAgendamentoRN::notificacaoAtividades');
 
         $numVersaoAtualSEI = explode('.', SEI_VERSAO);
@@ -142,8 +145,14 @@ class MdWsSeiVersaoRN extends InfraRN
 
     private function atualizaVersao_1_0_0()
     {
-        $this->logar("ATUALIZANDO NÚMERO DE VERSÃO DO MÓDULO.");
+        $this->logar("ATUALIZANDO NÃšMERO DE VERSÃƒO DO MÃ“DULO.");
         $this->atualizaVersaoInfraParametro('1.0.0');
+    }
+
+    private function atualizaVersao_1_0_1()
+    {
+        $this->logar("ATUALIZANDO NÃšMERO DE VERSÃƒO DO MÃ“DULO.");
+        $this->atualizaVersaoInfraParametro('1.0.1');
     }
 
 }
