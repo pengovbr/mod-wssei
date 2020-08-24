@@ -69,10 +69,13 @@ class MdWsSeiVersaoRN extends InfraRN
                 case '':
                     $this->atualizaVersao_0_8_12();
                 case '0.8.12':
-                    $this->atualizaVersao_1_0_0();
+                    $this->atualizaVersaoGenerico('1.0.0');
                     break;
                 case '1.0.0':
-                    $this->atualizaVersao_1_0_1();
+                    $this->atualizaVersaoGenerico('1.0.1');
+                    break;
+                case '1.0.1':
+                    $this->atualizaVersaoGenerico('1.0.2');
                     break;
                 default:
                     if($strVersaoBanco == $modulo->getVersao()){
@@ -143,16 +146,15 @@ class MdWsSeiVersaoRN extends InfraRN
         $this->atualizaVersaoInfraParametro('0.8.12');
     }
 
-    private function atualizaVersao_1_0_0()
+    /**
+     * Método que atualiza a versão do módulo quando não ha nenhuma alteração de banco.
+     * Apenas para manter a versão igual no código e no banco de dados.
+     * @param $versao
+     */
+    private function atualizaVersaoGenerico($versao)
     {
         $this->logar("ATUALIZANDO NÚMERO DE VERSÃO DO MÓDULO.");
-        $this->atualizaVersaoInfraParametro('1.0.0');
-    }
-
-    private function atualizaVersao_1_0_1()
-    {
-        $this->logar("ATUALIZANDO NÚMERO DE VERSÃO DO MÓDULO.");
-        $this->atualizaVersaoInfraParametro('1.0.1');
+        $this->atualizaVersaoInfraParametro($versao);
     }
 
 }
