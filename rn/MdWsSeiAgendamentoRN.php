@@ -20,9 +20,10 @@ class MdWsSeiAgendamentoRN extends InfraRN
             InfraDebug::getInstance()->setBolDebugInfra(false);
             InfraDebug::getInstance()->setBolEcho(false);
             InfraDebug::getInstance()->limpar();
-            $bolErro = false;
 
             $numSeg = InfraUtil::verificarTempoProcessamento();
+            $arrErroNotificacao = [];
+            $contSucessos = 0;
 
             InfraDebug::getInstance()->gravar('REALIZANDO NOTIFICAÇÃO DE ATIVIDADES');
 
@@ -45,7 +46,7 @@ class MdWsSeiAgendamentoRN extends InfraRN
                     if(!$ChaveAutorizacao){
                         $arrParamNaoSetados[] = 'WSSEI:ChaveAutorizacao';
                     }
-                    InfraDebug::getInstance()->gravar('AS NOTIFICAÇÕES NÃO SERÃO ENVIADAS PORQUE OS PARAMETROS A SEGUIR: '.implode(', ', $arrParamNaoSetados).'.');
+                    InfraDebug::getInstance()->gravar('AS NOTIFICAÇÕES NÃO SERÃO ENVIADAS PORQUE OS PARAMETROS A SEGUIR: '.implode(', ', $arrParamNaoSetados).'.', InfraLog::$ERRO);
                 }else{
                     $titulo = 'Atribuição de Processo';
                     /** @var MdWsSeiAtividadeDTO $atividadeDTO */
@@ -82,23 +83,28 @@ class MdWsSeiAgendamentoRN extends InfraRN
                             $notificacaoAtividadeDTO->setStrMensagem($mensagem);
                             /** Realiza o Cadastro da notificação para controle de atividades notificadas **/
                             $notificacaoAtividadeRN->cadastrar($notificacaoAtividadeDTO);
-                            InfraDebug::getInstance()->gravar('NOTIFICAÇÃO DA ATIVIDADE ID: '.$atividadeDTO->getNumIdAtividade().' PARA IDENTIFICADOR: ['.$identificador.'] REALIZADA COM SUCESSO!');
+                            $contSucessos = $contSucessos+1;
                         }catch (InfraException $e) {
-                            $bolErro = true;
-                            InfraDebug::getInstance()->gravar('ERRO AO REALIZAR NOTIFICAÇÃO PARA O ID USUÁRIO: '.$atividadeDTO->getNumIdUsuarioAtribuicao(). ', ATIVIDADE: '.$atividadeDTO->getNumIdAtividade().'.');
-                            InfraDebug::getInstance()->gravar('MENSAGEM DE ERRO: '.$e->getStrDescricao());
+                            $arrErroNotificacao[$e->getStrDescricao()] = isset($arrErroNotificacao[$e->getStrDescricao()])
+                                ? $arrErroNotificacao[$e->getStrDescricao()]+1
+                                : 1;
                         }catch (Exception $e) {
-                            $bolErro = true;
-                            InfraDebug::getInstance()->gravar('ERRO AO REALIZAR NOTIFICAÇÃO PARA O ID USUÁRIO: '.$atividadeDTO->getNumIdUsuarioAtribuicao(). ', ATIVIDADE: '.$atividadeDTO->getNumIdAtividade().'.');
-                            InfraDebug::getInstance()->gravar('MENSAGEM DE ERRO: '.$e->getMessage());
+                            $arrErroNotificacao[$e->getStrDescricao()] = isset($arrErroNotificacao[$e->getStrDescricao()])
+                                ? $arrErroNotificacao[$e->getStrDescricao()]+1
+                                : 1;
                         }
                     }
-                    if($bolErro){
-                        InfraDebug::getInstance()->gravar('ERRO AO NOTIFICAR UM OU MAIS USUÁRIO(S).');
+
+                    InfraDebug::getInstance()->gravar("$contSucessos NOTIFICAÇÕES ENVIADAS COM SUCESSO.", InfraLog::$INFORMACAO);
+
+                    if(!empty($arrErroNotificacao)){
+                        foreach ($arrErroNotificacao as $msgErro => $total) {
+                            InfraDebug::getInstance()->gravar("$total NOTIFICAÇÕES NÃO ENVIADAS COM A MENSAGEM DE ERRO: $msgErro", InfraLog::$ERRO);
+                        }
                     }
                 }
             }else{
-                InfraDebug::getInstance()->gravar('NENHUMA ATIVIDADE AGUARDANDO NOTIFICAÇÃO.');
+                InfraDebug::getInstance()->gravar('NENHUMA ATIVIDADE AGUARDANDO NOTIFICAÇÃO.', InfraLog::$INFORMACAO);
             }
             $numSeg = InfraUtil::verificarTempoProcessamento($numSeg);
             InfraDebug::getInstance()->gravar('TEMPO TOTAL DE EXECUCAO: ' . $numSeg . ' s');
