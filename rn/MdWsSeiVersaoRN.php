@@ -58,7 +58,7 @@ class MdWsSeiVersaoRN extends InfraRN
     protected function atualizarVersaoConectado()
     {
         try {
-            $this->inicializar('INICIANDO ATUALIZACAO VERSAO MÓDULO ('. strtoupper(MdWsSeiRest::getNome()). ') ' . MdWsSeiRest::getVersao());
+            $this->inicializar('INICIANDO ATUALIZACAO VERSAO MODULO ('. strtoupper(MdWsSeiRest::getNome()). ') ' . MdWsSeiRest::getVersao());
 
             $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
             $strVersaoBanco = $objInfraParametro->getValor(self::ATRIBUTO_VERSAO_INFRA_PARAMETRO, '');
@@ -87,7 +87,7 @@ class MdWsSeiVersaoRN extends InfraRN
             InfraDebug::getInstance()->setBolLigado(false);
             InfraDebug::getInstance()->setBolDebugInfra(false);
             InfraDebug::getInstance()->setBolEcho(false);
-            throw new InfraException('Erro atualizando versão.', $e);
+            throw new InfraException('Erro atualizando versao.', $e);
         }
 
     }
@@ -100,7 +100,7 @@ class MdWsSeiVersaoRN extends InfraRN
 
     private function atualizaVersao_0_8_12()
     {
-        $this->logar("CRIANDO TABELA PARA NOTIFICAÇÃO DE ATIVIDADES.");
+        $this->logar("CRIANDO TABELA PARA NOTIFICACAO DE ATIVIDADES.");
         $objInfraMetaBD = new InfraMetaBD(BancoSEI::getInstance());
         BancoSEI::getInstance()->executarSql(
             'CREATE TABLE md_wssei_notificacao_ativ (
@@ -117,7 +117,7 @@ class MdWsSeiVersaoRN extends InfraRN
         BancoSEI::getInstance()->executarSql('alter table md_wssei_notificacao_ativ add constraint fk_md_wssei_not_ativ_id_ativ foreign key (id_atividade) references atividade (id_atividade) on delete cascade');
 
         $infraAgemdanemtoTarefaDTO = new InfraAgendamentoTarefaDTO();
-        $infraAgemdanemtoTarefaDTO->setStrDescricao('Agendamento para notificação de atividades.');
+        $infraAgemdanemtoTarefaDTO->setStrDescricao('Agendamento para notificacao de atividades.');
         $infraAgemdanemtoTarefaDTO->setStrComando('MdWsSeiAgendamentoRN::notificacaoAtividades');
 
         $numVersaoAtualSEI = explode('.', SEI_VERSAO);
@@ -144,13 +144,13 @@ class MdWsSeiVersaoRN extends InfraRN
     }
 
     /**
-     * Método que atualiza a versão do módulo quando não ha nenhuma alteração de banco.
-     * Apenas para manter a versão igual no código e no banco de dados.
+     * Metodo que atualiza a versao do modulo quando nao ha nenhuma alteracao de banco.
+     * Apenas para manter a versao igual no codigo e no banco de dados.
      * @param $versao
      */
     private function atualizaVersaoGenerico($versao)
     {
-        $this->logar("ATUALIZANDO NÚMERO DE VERSÃO DO MÓDULO.");
+        $this->logar("ATUALIZANDO NUMERO DE VERSAO DO MODULO.");
         $this->atualizaVersaoInfraParametro($versao);
     }
 

@@ -147,6 +147,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
      */
     public function apiAutenticar(UsuarioDTO $usuarioDTO, ContextoDTO $contextoDTO, OrgaoDTO $orgaoDTO){
         try{
+            
             $contexto = $contextoDTO->getNumIdContexto();
             $orgao = $orgaoDTO->getNumIdOrgao();
             $siglaOrgao = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema');
@@ -178,6 +179,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
             ); 
 
             if(!$ret){
+                sleep(3);
                 throw new InfraException('Usuário ou senha inválido!');
             }
             $this->setaVariaveisAutenticacao(get_object_vars($ret));
