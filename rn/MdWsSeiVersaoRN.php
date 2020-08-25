@@ -74,6 +74,7 @@ class MdWsSeiVersaoRN extends InfraRN
                     $this->atualizaVersaoGenerico('1.0.1');
                 case '1.0.1':
                     $this->atualizaVersaoGenerico('1.0.2');
+                    break;
                 default:
                     if($strVersaoBanco == $modulo->getVersao()){
                         $this->finalizar('VERSAO JA CONSTA COMO ATUALIZADA', false);
