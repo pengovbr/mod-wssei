@@ -632,6 +632,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $objRelBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
                 $objRelBlocoProtocoloDTO->setDistinct(true);
                 $objRelBlocoProtocoloDTO->retDblIdProtocolo();
+                $objRelBlocoProtocoloDTO->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
                 $objRelBlocoProtocoloDTO->setNumIdUnidadeBloco(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
                 $objRelBlocoProtocoloDTO->setStrStaTipoBloco(BlocoRN::$TB_ASSINATURA);
                 $objRelBlocoProtocoloDTO->setStrStaEstadoBloco(BlocoRN::$TE_DISPONIBILIZADO);
@@ -642,7 +643,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $arrDocumentosDisponibilizados = InfraArray::indexarArrInfraDTO($objRelBlocoProtocoloRN->listarRN1291($objRelBlocoProtocoloDTO), 'IdProtocolo');
 
 
-                if (isset($arrDocumentosDisponibilizados[$documentoDTOParam->getDblIdProcedimento()])) {
+                if (!empty($arrDocumentosDisponibilizados)) {
                     $disponibilizado = "S";
                 } else {
                     $disponibilizado = "N";
@@ -708,7 +709,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 if ($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO && $documentoDTO->getStrSinBloqueado() == 'N' &&
                     (($numIdUnidadeGeradoraProtocolo == $numIdUnidadeAtual && $strSinDisponibilizadoParaOutraUnidade == 'N') ||
                         (($hasBloco || $permiteAssinatura) && !$assinadoPorOutraUnidade))
-                    && $documentoPublicado == 'N' && $documentoCancelado == 'N'
+                    && $documentoPublicado == 'N' && $documentoCancelado == 'N' //o-
                 ) {
                     $permiteAlterar = true;
                 }
