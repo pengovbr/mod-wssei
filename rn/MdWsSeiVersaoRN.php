@@ -89,9 +89,9 @@ class MdWsSeiVersaoRN extends InfraRN
             $this->finalizar('FIM', false);
 
         } catch (Exception $e) {
-            //InfraDebug::getInstance()->setBolLigado(false);
-            //InfraDebug::getInstance()->setBolDebugInfra(false);
-            //InfraDebug::getInstance()->setBolEcho(false);
+            InfraDebug::getInstance()->setBolLigado(false);
+            InfraDebug::getInstance()->setBolDebugInfra(false);
+            InfraDebug::getInstance()->setBolEcho(false);
             throw new InfraException('Erro atualizando versao.', $e);
         }
 
@@ -155,7 +155,7 @@ class MdWsSeiVersaoRN extends InfraRN
         $token = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
         if((!$token) || (strlen($token)<25)){
             $msg='Token Secret inexistente ou tamanho menor que o permitido! Verifique o manual de instalacao do modulo.';
-            $this->logar();
+            $this->logar($msg);
             throw new InfraException($msg);
         }
         
