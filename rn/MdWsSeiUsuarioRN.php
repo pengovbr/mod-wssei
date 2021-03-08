@@ -4,8 +4,6 @@ require_once dirname(__FILE__).'/../../../SEI.php';
 
 class MdWsSeiUsuarioRN extends InfraRN {
 
-    CONST TOKEN_SECRET = '<!RWR1YXJkbyBSb23Do28!>';
-
     protected function inicializarObjInfraIBanco(){
         return BancoSEI::getInstance();
     }
@@ -83,13 +81,28 @@ class MdWsSeiUsuarioRN extends InfraRN {
     }
 
     /**
+     * Retorna o token para criptografar descriptografar
+     * @return string
+     */
+    private function getTokenSecret(){
+        $token = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
+        return $token;
+    }
+
+    /**
      * Retorna a chave da criptografia
      * @return string
      */
     private function getSecret(){
+        
+        $token = $this->getTokenSecret();
+        if(!$token){
+            throw new InfraException('Token Secret inválido! Verifique o manual de instalação do módulo.');
+        }
+        
         $data = new DateTime();
         $strData = $data->format('Ymd');
-        $secret = sha1(self::TOKEN_SECRET.$strData);
+        $secret = sha1($token.$strData);
         return $secret;
     }
 
