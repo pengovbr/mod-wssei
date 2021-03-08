@@ -19,6 +19,26 @@ class MdWsSeiVersaoRN extends InfraRN
 
     private function inicializar($strTitulo)
     {
+        
+        if( strpos(SEI_VERSAO, '3.0.') === false){
+            BancoSEI::getInstance()->setBolScript(true);
+
+            if (!ConfiguracaoSEI::getInstance()->isSetValor('BancoSEI','UsuarioScript')){
+                throw new InfraException('Chave BancoSEI/UsuarioScript não encontrada.');
+            }
+
+            if (InfraString::isBolVazia(ConfiguracaoSEI::getInstance()->getValor('BancoSEI','UsuarioScript'))){
+                throw new InfraException('Chave BancoSEI/UsuarioScript não possui valor.');
+            }
+
+            if (!ConfiguracaoSEI::getInstance()->isSetValor('BancoSEI','SenhaScript')){
+                throw new InfraException('Chave BancoSEI/SenhaScript não encontrada.');
+            }
+
+            if (InfraString::isBolVazia(ConfiguracaoSEI::getInstance()->getValor('BancoSEI','SenhaScript'))){
+                throw new InfraException('Chave BancoSEI/SenhaScript não possui valor.');
+            }
+        }
 
         ini_set('max_execution_time', '0');
         ini_set('memory_limit', '-1');
@@ -154,7 +174,7 @@ class MdWsSeiVersaoRN extends InfraRN
         
         $token = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
         if((!$token) || (strlen($token)<25)){
-            $msg = 'TokenSecret inexistente ou tamanho menor que o permitido! Verifique o manual de instalacao do modulo. ';
+            $msg = 'Token Secret inexistente ou tamanho menor que o permitido! Verifique o manual de instalacao do modulo. ';
             $msg = $msg . 'O script de instalacao foi interrompido. Modulo nao instalado corretamente. ';
             $msg = $msg . 'Ajuste a chave e rode novamente o script.';
             $this->logar($msg);

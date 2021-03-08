@@ -38,7 +38,8 @@
            'WSSEI' => array(
                'UrlServicoNotificacao' => '{URL do serviço de notificação}',
                'IdApp' => '{ID do app registrado no serviço de notificação}',
-               'ChaveAutorizacao' => '{Chave de autorização do serviço de notificação}'
+               'ChaveAutorizacao' => '{Chave de autorização do serviço de notificação}',
+               'TokenSecret' => '{chave unica com pelo menos 25 chars. Pode usar o comando uuidgen para gerar}'
            ),
 
            (...)
@@ -49,6 +50,7 @@
    * pode usar o serviço push disponibilizado pelo Ministério da Economia. Para tanto, abra
 chamado na Central de Atendimento do  PEN([https://portaldeservicos.planejamento.gov.br/citsmart/login/login.load](https://www.google.com/url?q=https://portaldeservicos.planejamento.gov.br/citsmart/login/login.load&sa=D&source=hangouts&ust=1576333188310000&usg=AFQjCNFo4ErHNsg7p65YJEJiKLIjdfMM5Q)). **A categoria do chamado é PEN - WSSEI - INSTALAÇÃO.**
    * verifique se o nó do SEI responsável por executar os agendamentos tenha acesso a URL/Porta acima
+   * a partir da versão 1.0.4 do módulo, a variável "TokenSecret" é obrigatória. Trata-se de uma chave para criptografar e descriptografar o token. Além de sua presença obrigatória, ela precisa ter no mínimo 25 chars de tamanho. Uma dica é usar o seguinte comando linux para gerar a chave: uuidgen. Basta rodar o comando e copiar o resultado que é um uuid para a variável
 
 5. Realizar o procedimento de verificação e atualização de scripts de banco de dados conforme abaixo:
 
@@ -59,7 +61,7 @@ chamado na Central de Atendimento do  PEN([https://portaldeservicos.planejamento
       ```bash
       php -c /etc/php.ini       [DIRETORIO_RAIZ_INSTALAÇÃO]/sei/scripts/sei_atualizar_versao_modulo_wssei.php
       ```
-   * importante: o usuário de banco, no momento da execução, deverá ser capaz de criar tabelas
+   * importante: o usuário de banco, no momento da execução, deverá ser capaz de criar tabelas. Caso esteja na versão 3.1.x do SEI o script vai usar o usuário indicado na variável de script (UsuarioScript), conforme manual de instalação do sei 3.1.x
 
 6. Necessário habilitar/instalar a extensão PHP &quot;mbstring&quot;. Verificar se todos os requisitos para utilização do SEI 3.0 estão sendo atendidos, entre eles, a versãoo do PHP 5.6
 
