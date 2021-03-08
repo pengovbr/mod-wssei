@@ -74,9 +74,10 @@ class MdWsSeiVersaoRN extends InfraRN
                     $this->atualizaVersaoGenerico('1.0.1');
                 case '1.0.1':
                     $this->atualizaVersaoGenerico('1.0.2');
-                    break;
                 case '1.0.2':
                     $this->atualizaVersaoGenerico('1.0.3');
+                case '1.0.3':
+                    $this->atualizaVersao_1_0_4();
                     break;
                 default:
                     if($strVersaoBanco == $modulo->getVersao()){
@@ -88,9 +89,9 @@ class MdWsSeiVersaoRN extends InfraRN
             $this->finalizar('FIM', false);
 
         } catch (Exception $e) {
-            InfraDebug::getInstance()->setBolLigado(false);
-            InfraDebug::getInstance()->setBolDebugInfra(false);
-            InfraDebug::getInstance()->setBolEcho(false);
+            //InfraDebug::getInstance()->setBolLigado(false);
+            //InfraDebug::getInstance()->setBolDebugInfra(false);
+            //InfraDebug::getInstance()->setBolEcho(false);
             throw new InfraException('Erro atualizando versao.', $e);
         }
 
@@ -145,6 +146,20 @@ class MdWsSeiVersaoRN extends InfraRN
         $infraAgemdanemtoTarefaBD->cadastrar($infraAgemdanemtoTarefaDTO);
 
         $this->atualizaVersaoInfraParametro('0.8.12');
+    }
+    
+    private function atualizaVersao_1_0_4()
+    {
+        $this->logar("VERIFICANDO SE A CHAVE: TokenSecret ESTA PRESENTE NO ARQUIVO DE CONFIGURACOES.");
+        
+        $token = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
+        if((!$token) || (strlen($token)<25)){
+            $msg='Token Secret inexistente ou tamanho menor que o permitido! Verifique o manual de instalacao do modulo.';
+            $this->logar();
+            throw new InfraException($msg);
+        }
+        
+        $this->atualizaVersaoInfraParametro('1.0.4');
     }
 
     /**
