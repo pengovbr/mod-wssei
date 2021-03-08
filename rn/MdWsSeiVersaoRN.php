@@ -154,7 +154,7 @@ class MdWsSeiVersaoRN extends InfraRN
         
         $token = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
         if((!$token) || (strlen($token)<25)){
-            $msg = 'Token Secret inexistente ou tamanho menor que o permitido! Verifique o manual de instalacao do modulo. ';
+            $msg = 'TokenSecret inexistente ou tamanho menor que o permitido! Verifique o manual de instalacao do modulo. ';
             $msg = $msg . 'O script de instalacao foi interrompido. Modulo nao instalado corretamente. ';
             $msg = $msg . 'Ajuste a chave e rode novamente o script.';
             $this->logar($msg);
