@@ -96,7 +96,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
     private function getSecret(){
         
         $token = $this->getTokenSecret();
-        if((!$token) || (strlen($token)<25)){
+        if((!$token) || (strlen($token)<32)){
             throw new InfraException('Token Secret inexistente ou tamanho menor que o permitido! Verifique o manual de instalação do módulo.');
         }
         
