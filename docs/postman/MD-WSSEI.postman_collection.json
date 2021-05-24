@@ -577,6 +577,7 @@
 							"path": [
 								"documento",
 								"interno",
+								"formatado",
 								"consultar",
 								":protocolo_formatado"
 							],
@@ -622,13 +623,14 @@
 									"path": [
 										"documento",
 										"interno",
+                                        "formatado",
 										"consultar",
 										":protocolo_formatado"
 									],
 									"variable": [
 										{
 											"key": "protocolo_formatado",
-											"value": "67",
+											"value": "0000047",
 											"description": "[obrigatório][string] Recebe o número do documento formatado"
 										}
 									]
