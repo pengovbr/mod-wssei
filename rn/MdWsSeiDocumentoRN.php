@@ -1954,10 +1954,10 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             $objProtocoloDTO->setStrProtocoloFormatado($numProtocoloFormatado);
             $objTempProtocoloRN = new ProtocoloRN();
             $objProtocoloDTO = $objTempProtocoloRN->consultarRN0186($objProtocoloDTO);
-            $numIdDocumento = $objProtocoloDTO->getDblIdProtocolo();
+            $numIdDocumento = isset($objProtocoloDTO) && count($objProtocoloDTO) ? $objProtocoloDTO->getDblIdProtocolo() : null;
 
-            if(!$this->verificarAcessoProtocolo($numIdDocumento)){
-                throw new InfraException("Acesso ao documento " . $numIdDocumento . " não autorizado.");
+            if(!$numIdDocumento || !$this->verificarAcessoProtocolo($numIdDocumento)){
+                throw new InfraException("Acesso ao documento " . $numProtocoloFormatado . " não autorizado.");
             }
 
             $result = array();
