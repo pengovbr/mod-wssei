@@ -541,6 +541,138 @@
 					]
 				},
 				{
+					"name": "Consultar Documento Interno Formatado",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "[obrigatório][string] Recebe o token de autenticação",
+								"key": "token",
+								"type": "text",
+								"value": "{{{{token}}}}"
+							},
+							{
+								"description": "[opcional][int] Recebe o id da unidade para manter ou alterar a unidade da sessão",
+								"key": "unidade",
+								"type": "text",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/interno/formatado/consultar/:protocolo_formatado",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"interno",
+								"consultar",
+								":protocolo_formatado"
+							],
+							"variable": [
+								{
+									"key": "protocolo_formatado",
+									"value": "",
+									"description": "[obrigatório][int] Recebe o id do documento"
+								}
+							]
+						},
+						"description": "Retorna os metadados do Documento Interno"
+					},
+					"response": [
+						{
+							"name": "Visualizar Documento Copy",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "[obrigatório][string] Recebe o token de autenticação",
+										"key": "token",
+										"type": "text",
+										"value": "{{{{token}}}}"
+									},
+									{
+										"description": "[opcional][int] Recebe o id da unidade para manter ou alterar a unidade da sessão",
+										"key": "unidade",
+										"type": "text",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{baseurl}}/documento/interno/formatado/consultar/:protocolo_formatado",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"interno",
+										"consultar",
+										":protocolo_formatado"
+									],
+									"variable": [
+										{
+											"key": "protocolo_formatado",
+											"value": "67",
+											"description": "[obrigatório][string] Recebe o número do documento formatado"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 27 May 2020 19:12:20 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1459"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"sucesso\": true,\n    \"data\": {\n        \"nomeDocumento\": \"Acórdão 668 (0000047)\",\n        \"protocolo\": \"65\",\n        \"idDocumento\": \"67\",\n        \"idSerie\": \"8\",\n        \"nomeSerie\": \"Acórdão\",\n        \"numero\": \"668\",\n        \"idTipoConferencia\": \"\",\n        \"descricaoTipoConferencia\": \"\",\n        \"nivelAcesso\": \"1\",\n        \"idHipoteseLegal\": \"4\",\n        \"nomeHipoteseLegal\": \"Informação Pessoal\",\n        \"baseLegal\": \"Art. 31 da Lei nº 12.527/2011\",\n        \"grauSigilo\": \"\",\n        \"descricao\": \"\",\n        \"dataElaboracao\": \"03/05/2020\",\n        \"observacao\": \"Observação 2!\",\n        \"assuntos\": [\n            {\n                \"id\": \"5\",\n                \"codigoestruturadoformatado\": \"004\",\n                \"descricao\": \"004 - ACORDOS. AJUSTES. CONTRATOS. CONVÊNIOS (Inclusive formalização, execução, acompanhamento, fiscalização, prestação de contas, tomada de contas e tomada de contas especial de convênios, contratos de repasse, termos de parceria e termos de cooperação)\",\n                \"sequencia\": \"\"\n            },\n            {\n                \"id\": \"6\",\n                \"codigoestruturadoformatado\": \"010\",\n                \"descricao\": \"010 - ORGANIZAÇÃO E FUNCIONAMENTO (inclusive Normas, Regulamentações, Diretrizes, Procedimentos, Estudos e/ou Decisões de Caráter Geral)\",\n                \"sequencia\": \"\"\n            }\n        ],\n        \"interessados\": [\n            {\n                \"id\": \"100000011\",\n                \"nome\": \"Romão (romao)\",\n                \"nomeformatado\": \"Romão (romao) (romao)\",\n                \"sigla\": \"romao\"\n            },\n            {\n                \"id\": \"100000002\",\n                \"nome\": \"Sistema Eletrônico de Informações (SEI)\",\n                \"nomeformatado\": \"Sistema Eletrônico de Informações (SEI) (SEI)\",\n                \"sigla\": \"SEI\"\n            }\n        ],\n        \"destinatarios\": [],\n        \"observacoesUnidades\": []\n    }\n}"
+						}
+					]
+				},
+				{
 					"name": "[@Deprecated] Link Edição",
 					"request": {
 						"auth": {
