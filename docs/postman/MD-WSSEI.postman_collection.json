@@ -623,7 +623,7 @@
 									"path": [
 										"documento",
 										"interno",
-                                        "formatado",
+                                        					"formatado",
 										"consultar",
 										":protocolo_formatado"
 									],
