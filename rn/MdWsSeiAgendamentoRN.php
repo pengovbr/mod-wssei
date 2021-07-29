@@ -89,8 +89,8 @@ class MdWsSeiAgendamentoRN extends InfraRN
                                 ? $arrErroNotificacao[$e->getStrDescricao()]+1
                                 : 1;
                         }catch (Exception $e) {
-                            $arrErroNotificacao[$e->getStrDescricao()] = isset($arrErroNotificacao[$e->getStrDescricao()])
-                                ? $arrErroNotificacao[$e->getStrDescricao()]+1
+                            $arrErroNotificacao[$e->getMessage()] = isset($arrErroNotificacao[$e->getMessage()])
+                                ? $arrErroNotificacao[$e->getMessage()]+1
                                 : 1;
                         }
                     }

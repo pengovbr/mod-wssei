@@ -99,7 +99,7 @@ class TesteDocumento {
         $dto->setStrSenhaUsuario('teste');
         $dto->setStrSiglaUsuario('teste');
         $dto->setNumIdUsuario(100000001);
-        $dto->setNumIdContextoUsuario(null);
+        // $dto->setNumIdContextoUsuario(null);
         $dto->setStrStaFormaAutenticacao(AssinaturaRN::$TA_SENHA);
         $dto->setStrCargoFuncao('Fiscal de Contrato - Administrativo');
         $dto->setNumIdOrgaoUsuario(0);
@@ -172,7 +172,7 @@ class TesteProcedimento {
         $dto = new MdWsSeiProtocoloDTO();
         $dto->setNumIdUsuarioAtribuicaoAtividade('100000001');
         $dto->setNumIdUnidadeAtividade('110000001');
-        $dto->setStrSinTipoBusca(MdWsSeiProtocoloDTO::SIN_TIPO_BUSCA_M);
+        $dto->setStrSinTipoBusca(MdWsSeiProtocoloDTO::SIN_TIPO_BUSCA_G);
         $dto->setNumPaginaAtual(0);
         $dto->setNumMaxRegistrosRetorno(10);
 

@@ -1238,7 +1238,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
         try {
             sleep(3);
             $assinaturaDTO->setStrStaFormaAutenticacao(AssinaturaRN::$TA_SENHA);
-            $assinaturaDTO->setNumIdContextoUsuario(null);
+            // $assinaturaDTO->setNumIdContextoUsuario(null);
             $documentoRN = new DocumentoRN();
             $documentoRN->assinarInterno($assinaturaDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Documento em bloco assinado com sucesso.');

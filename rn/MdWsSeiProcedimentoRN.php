@@ -1231,12 +1231,13 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     $processoPublicado = 'S';
                 }
                 $retornoProgramadoDTOConsulta = new RetornoProgramadoDTO();
-                $retornoProgramadoDTOConsulta->retDblIdProtocoloAtividadeEnvio();
-                $retornoProgramadoDTOConsulta->retStrSiglaUnidadeOrigemAtividadeEnvio();
-                $retornoProgramadoDTOConsulta->retStrSiglaUnidadeAtividadeEnvio();
+                $retornoProgramadoDTOConsulta->retDblIdProtocolo();
+                
+                $retornoProgramadoDTOConsulta->retStrSiglaUnidadeRetorno();
+                $retornoProgramadoDTOConsulta->retStrSiglaUnidadeEnvio();
                 $retornoProgramadoDTOConsulta->retDtaProgramada();
-                $retornoProgramadoDTOConsulta->setNumIdUnidadeAtividadeEnvio(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-                $retornoProgramadoDTOConsulta->setDblIdProtocoloAtividadeEnvio(array_unique(InfraArray::converterArrInfraDTO($arrAtividadePendenciaDTO, 'IdProtocolo')), InfraDTO::$OPER_IN);
+                $retornoProgramadoDTOConsulta->setNumIdUnidadeEnvio(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+                $retornoProgramadoDTOConsulta->setDblIdProtocolo(array_unique(InfraArray::converterArrInfraDTO($arrAtividadePendenciaDTO, 'IdProtocolo')), InfraDTO::$OPER_IN);
                 $retornoProgramadoDTOConsulta->setNumIdAtividadeRetorno(null);
                 $objRetornoProgramadoRN = new RetornoProgramadoRN();
                 $arrRetornoProgramadoDTO = $objRetornoProgramadoRN->listar($retornoProgramadoDTOConsulta);
@@ -1250,7 +1251,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                         }
                         $retornoData = array(
                             'dataProgramada' => $retornoProgramadoDTO->getDtaProgramada(),
-                            'unidade' => $retornoProgramadoDTO->getStrSiglaUnidadeOrigemAtividadeEnvio()
+                            'unidade' => $retornoProgramadoDTO->getStrSiglaUnidadeEnvio(),
                         );
                     }
                 }
@@ -1961,7 +1962,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             if ($partialfields != '') {
                 $partialfields .= ' AND ';
             }
-            $partialfields .= '(' . SolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrDescricao(), 'desc') . ')';
+            $partialfields .= '(' . InfraSolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrDescricao(), 'desc') . ')';
         }
 
         if ($pesquisaProtocoloSolrDTO->isSetNumIdUnidadeGeradora() && $pesquisaProtocoloSolrDTO->getNumIdUnidadeGeradora() != null) {
@@ -1975,7 +1976,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             if ($partialfields != '') {
                 $partialfields .= ' AND ';
             }
-            $partialfields .= '(' . SolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrObservacao(), 'obs_' . SessaoSEI::getInstance()->getNumIdUnidadeAtual()) . ')';
+            $partialfields .= '(' . InfraSolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrObservacao(), 'obs_' . SessaoSEI::getInstance()->getNumIdUnidadeAtual()) . ')';
         }
 
         if ($pesquisaProtocoloSolrDTO->isSetDblIdProcedimento() && $pesquisaProtocoloSolrDTO->getDblIdProcedimento() != null) {
@@ -2128,7 +2129,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
         $parametros = new stdClass();
         if($pesquisaProtocoloSolrDTO->isSetStrPalavrasChave()){
-            $parametros->q = SolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrPalavrasChave());
+            $parametros->q = InfraSolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrPalavrasChave());
         }
         if ($pesquisaProtocoloSolrDTO->isSetStrPalavrasChave() && is_numeric($pesquisaProtocoloSolrDTO->getStrPalavrasChave()) && !$pesquisaProtocoloSolrDTO->isSetStrProtocoloPesquisa()){
             $parametros->q = '('.$parametros->q.' OR prot_pesq:*'.$pesquisaProtocoloSolrDTO->getStrPalavrasChave().'*)';
@@ -2294,18 +2295,18 @@ class MdWsSeiProcedimentoRN extends InfraRN
             
             for ($i = 0; $i < $numRegistros; $i++) {
                 $arrDadosSolr[$i] = array(
-                    'id' => SolrUtil::obterTag($registros[$i], 'id', 'str'),
-                    'id_proc' => SolrUtil::obterTag($registros[$i], 'id_proc', 'long'),
-                    'id_doc' => SolrUtil::obterTag($registros[$i], 'id_doc', 'long'),
-                    'id_anexo' => SolrUtil::obterTag($registros[$i], 'id_anexo', 'int'),
-                    'id_uni_ger' => SolrUtil::obterTag($registros[$i], 'id_uni_ger', 'int'),
-                    'id_usu_ger' => SolrUtil::obterTag($registros[$i], 'id_usu_ger', 'int'),
-                    'id_tipo_proc' => SolrUtil::obterTag($registros[$i], 'id_tipo_proc', 'int'),
-                    'id_serie' => SolrUtil::obterTag($registros[$i], 'id_serie', 'int'),
-                    'numero' => SolrUtil::obterTag($registros[$i], 'numero', 'str'),
-                    'prot_doc' => SolrUtil::obterTag($registros[$i], 'prot_doc', 'str'),
-                    'prot_proc' => SolrUtil::obterTag($registros[$i], 'prot_proc', 'str'),
-                    'dta_ger' => SolrUtil::obterTag($registros[$i], 'dta_ger', 'date'),
+                    'id' => InfraSolrUtil::obterTag($registros[$i], 'id', 'str'),
+                    'id_proc' => InfraSolrUtil::obterTag($registros[$i], 'id_proc', 'long'),
+                    'id_doc' => InfraSolrUtil::obterTag($registros[$i], 'id_doc', 'long'),
+                    'id_anexo' => InfraSolrUtil::obterTag($registros[$i], 'id_anexo', 'int'),
+                    'id_uni_ger' => InfraSolrUtil::obterTag($registros[$i], 'id_uni_ger', 'int'),
+                    'id_usu_ger' => InfraSolrUtil::obterTag($registros[$i], 'id_usu_ger', 'int'),
+                    'id_tipo_proc' => InfraSolrUtil::obterTag($registros[$i], 'id_tipo_proc', 'int'),
+                    'id_serie' => InfraSolrUtil::obterTag($registros[$i], 'id_serie', 'int'),
+                    'numero' => InfraSolrUtil::obterTag($registros[$i], 'numero', 'str'),
+                    'prot_doc' => InfraSolrUtil::obterTag($registros[$i], 'prot_doc', 'str'),
+                    'prot_proc' => InfraSolrUtil::obterTag($registros[$i], 'prot_proc', 'str'),
+                    'dta_ger' => InfraSolrUtil::obterTag($registros[$i], 'dta_ger', 'date'),
                 );
             }
             

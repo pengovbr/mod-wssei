@@ -137,7 +137,7 @@ class MdWsSeiRest extends SeiIntegracao
      */
     public function verificaCompatibilidade($strVersaoSEI)
     {
-        if ((substr($strVersaoSEI, 0, 2) != '3.') and ($strVersaoSEI != '4.0.0') ) {
+        if (substr($strVersaoSEI, 0, 3) != '4.0') {
             return false;
         }
         return true;
@@ -289,9 +289,9 @@ class MdWsSeiRest extends SeiIntegracao
                 . "_"
                 . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
                 . "_"
-                . SessaoSEI::getInstance()->getNumIdContextoUsuario()
+                . 0 //SessaoSEI::getInstance()->getNumIdContextoUsuario()
                 . "_"
-                . self::getVersao();
+                . $this->getVersao();
             $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
 
             if ($html) {
@@ -327,7 +327,7 @@ class MdWsSeiRest extends SeiIntegracao
             . ';'
             . 'orgao: ' . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
             . ';'
-            . 'contexto: ' . SessaoSEI::getInstance()->getNumIdContextoUsuario();
+            . 'contexto: ' .  0;//SessaoSEI::getInstance()->getNumIdContextoUsuario();
         $caminhoFisicoQrCode = DIR_SEI_TEMP . '/' . $nomeArquivo;
 
         InfraQRCode::gerar($conteudoQrCode, $caminhoFisicoQrCode, 'L', 2, 1);

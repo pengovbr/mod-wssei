@@ -1126,16 +1126,26 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
                 if ($atividadePendenciaDTO->getNumTipoVisualizacao() & AtividadeRN::$TV_PUBLICACAO) {
                     $processoPublicado = 'S';
                 }
-                $retornoProgramadoDTOConsulta = new RetornoProgramadoDTO();
-                $retornoProgramadoDTOConsulta->retDblIdProtocoloAtividadeEnvio();
-                $retornoProgramadoDTOConsulta->retStrSiglaUnidadeOrigemAtividadeEnvio();
-                $retornoProgramadoDTOConsulta->retStrSiglaUnidadeAtividadeEnvio();
-                $retornoProgramadoDTOConsulta->retDtaProgramada();
-                $retornoProgramadoDTOConsulta->setNumIdUnidadeAtividadeEnvio(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-                $retornoProgramadoDTOConsulta->setDblIdProtocoloAtividadeEnvio(array_unique(InfraArray::converterArrInfraDTO($arrAtividadePendenciaDTO, 'IdProtocolo')), InfraDTO::$OPER_IN);
-                $retornoProgramadoDTOConsulta->setNumIdAtividadeRetorno(null);
+
+                $objRetornoProgramadoDTO = new RetornoProgramadoDTO();
+                $objRetornoProgramadoDTO->retDblIdProtocolo();
+                $objRetornoProgramadoDTO->retNumIdUnidadeEnvio();
+                $objRetornoProgramadoDTO->retStrSiglaUnidadeEnvio();
+                $objRetornoProgramadoDTO->retNumIdUnidadeRetorno();
+                $objRetornoProgramadoDTO->retStrSiglaUnidadeRetorno();
+                $objRetornoProgramadoDTO->retDtaProgramada();
+                $objRetornoProgramadoDTO->retDthAberturaAtividadeRetorno();
+                $objRetornoProgramadoDTO->retNumIdAtividadeRetorno();
+                $objRetornoProgramadoDTO->retNumIdAtividadeEnvio();
+                
+                $objRetornoProgramadoDTO->retDtaProgramada();
+                $objRetornoProgramadoDTO->setNumIdUnidadeEnvio(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+                $objRetornoProgramadoDTO->setDblIdProtocolo(array_unique(InfraArray::converterArrInfraDTO($arrAtividadePendenciaDTO, 'IdProtocolo')), InfraDTO::$OPER_IN);
+                $objRetornoProgramadoDTO->setNumIdAtividadeRetorno(null);
+                $objRetornoProgramadoDTO->setOrdDtaProgramada(InfraDTO::$TIPO_ORDENACAO_ASC);
+
                 $objRetornoProgramadoRN = new RetornoProgramadoRN();
-                $arrRetornoProgramadoDTO = $objRetornoProgramadoRN->listar($retornoProgramadoDTOConsulta);
+                $arrRetornoProgramadoDTO = $objRetornoProgramadoRN->listar($objRetornoProgramadoDTO);
                 if ($arrRetornoProgramadoDTO) {
                     $retornoProgramado = 'S';
                     $strDataAtual = InfraData::getStrDataAtual();
@@ -1146,7 +1156,7 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
                         }
                         $retornoData = array(
                             'dataProgramada' => $retornoProgramadoDTO->getDtaProgramada(),
-                            'unidade' => $retornoProgramadoDTO->getStrSiglaUnidadeOrigemAtividadeEnvio()
+                            'unidade' => $retornoProgramadoDTO->getStrSiglaUnidadeEnvio(),
                         );
                     }
                 }
@@ -1707,14 +1717,14 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
                 if ($partialfields != '') {
                     $partialfields .= ' AND ';
                 }
-                $partialfields .= '(' . SolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrDescricao(), 'desc') . ')';
+                $partialfields .= '(' . InfraSolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrDescricao(), 'desc') . ')';
             }
 
             if ($pesquisaProtocoloSolrDTO->isSetStrObservacao() && $pesquisaProtocoloSolrDTO->getStrObservacao() != null) {
                 if ($partialfields != '') {
                     $partialfields .= ' AND ';
                 }
-                $partialfields .= '(' . SolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrObservacao(), 'obs_' . SessaoSEI::getInstance()->getNumIdUnidadeAtual()) . ')';
+                $partialfields .= '(' . InfraSolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrObservacao(), 'obs_' . SessaoSEI::getInstance()->getNumIdUnidadeAtual()) . ')';
             }
 
             //o- verificar lógica do solar
@@ -1843,7 +1853,7 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
 
             $parametros = new stdClass();
             if($pesquisaProtocoloSolrDTO->isSetStrPalavrasChave()){
-                $parametros->q = SolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrPalavrasChave());
+                $parametros->q = InfraSolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrPalavrasChave());
             }
 
             if ($parametros->q != '' && $partialfields != '') {
@@ -1886,7 +1896,7 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
 
             $result = array();
             for ($i = 0; $i < $numRegistros; $i++) {
-                $arrIdProcessos[] = SolrUtil::obterTag($registros[$i], 'id_proc', 'long');
+                $arrIdProcessos[] = InfraSolrUtil::obterTag($registros[$i], 'id_proc', 'long');
             }
 
             if($arrIdProcessos){

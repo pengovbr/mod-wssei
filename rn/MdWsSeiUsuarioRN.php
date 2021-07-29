@@ -137,9 +137,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
             $usuarioDTO->setStrSenha($tokenData[1]);
             $orgaoDTO = new OrgaoDTO();
             $orgaoDTO->setNumIdOrgao($tokenData[2]);
-            $contextoDTO = new ContextoDTO();
-            $contextoDTO->setNumIdContexto($tokenData[3]);
-            $result = $this->apiAutenticar($usuarioDTO, $contextoDTO, $orgaoDTO);
+            $result = $this->apiAutenticar($usuarioDTO, $orgaoDTO);
             if(!$result['sucesso']){
                 return $result;
             }
@@ -158,13 +156,13 @@ class MdWsSeiUsuarioRN extends InfraRN {
      * @param OrgaoDTO $orgaoDTO
      * @return array
      */
-    public function apiAutenticar(UsuarioDTO $usuarioDTO, ContextoDTO $contextoDTO, OrgaoDTO $orgaoDTO){
+    public function apiAutenticar(UsuarioDTO $usuarioDTO, OrgaoDTO $orgaoDTO){
         try{
             
-            $contexto = $contextoDTO->getNumIdContexto();
+            $contexto = null;
             $orgao = $orgaoDTO->getNumIdOrgao();
             $siglaOrgao = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema');
-
+            $strChaveAcesso = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI','ChaveAcesso');
             $orgaoRN = new OrgaoRN();
 
             if(is_null($orgao)){
@@ -183,6 +181,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
 
             $objSipWs = $this->retornaServicoSip();
             $ret = $objSipWs->autenticarCompleto(
+                $strChaveAcesso,
                 $orgao,
                 $contexto,
                 $usuarioDTO->getStrSigla(),
@@ -195,10 +194,11 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 sleep(3);
                 throw new InfraException('Usuário ou senha inválido!');
             }
+            
             $this->setaVariaveisAutenticacao(get_object_vars($ret));
-
+            session_start();
             $objInfraDadoUsuario = new InfraDadoUsuario(SessaoSEI::getInstance());
-
+            
             //Obtem os dados do carto da assinatura
             $numIdCargoAssinatura = null;
             $strNomeCargoAssinatura = $objInfraDadoUsuario->getValor('ASSINATURA_CARGO_FUNCAO_'.SessaoSEI::getInstance()->getNumIdUnidadeAtual());
@@ -213,7 +213,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 $objAssinanteDTO = $objAssinanteRN->consultarRN1338($objAssinanteDTO);
                 $numIdCargoAssinatura = $objAssinanteDTO->getNumIdAssinante();
             }
-
+            
             //dados usuário
             $ret->IdUnidadeAtual = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
             $ret->sigla = $usuarioDTO->getStrSigla();
@@ -234,7 +234,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
 
             $retPerfis = $this->listarPerfisUsuario($ret->IdSistema, $ret->IdUsuario);
             $objSessao = SessaoSEI::getInstance();
-
+            
             return MdWsSeiRest::formataRetornoSucessoREST(
                 null,
                 array(

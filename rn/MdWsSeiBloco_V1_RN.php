@@ -56,7 +56,7 @@ class MdWsSeiBloco_V1_RN extends InfraRN {
             $assinaturaDTO->setNumIdOrgaoUsuario($idOrgao);
             $assinaturaDTO->setStrCargoFuncao($strCargoFuncao);
             $assinaturaDTO->setStrStaFormaAutenticacao(AssinaturaRN::$TA_SENHA);
-            $assinaturaDTO->setNumIdContextoUsuario(null);
+            // $assinaturaDTO->setNumIdContextoUsuario(null);
             $assinaturaDTO->setArrObjDocumentoDTO(InfraArray::gerarArrInfraDTO('DocumentoDTO','IdDocumento',$arrIdDocumentos));
             $documentoRN = new DocumentoRN();
             $documentoRN->assinarInterno($assinaturaDTO);

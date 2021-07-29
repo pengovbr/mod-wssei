@@ -308,16 +308,26 @@ class MdWsSeiAtividadeRN extends AtividadeRN {
 
                 $arrObjRetornoProgramadoDTO = null;
                 if ($objPesquisaPendenciaDTO->getStrSinRetornoProgramado() == 'S') {
+
                     $objRetornoProgramadoDTO = new RetornoProgramadoDTO();
-                    $objRetornoProgramadoDTO->retDblIdProtocoloAtividadeEnvio();
-                    $objRetornoProgramadoDTO->retStrSiglaUnidadeOrigemAtividadeEnvio();
+                    $objRetornoProgramadoDTO->retDblIdProtocolo();
+                    $objRetornoProgramadoDTO->retNumIdUnidadeEnvio();
+                    $objRetornoProgramadoDTO->retStrSiglaUnidadeEnvio();
+                    $objRetornoProgramadoDTO->retNumIdUnidadeRetorno();
+                    $objRetornoProgramadoDTO->retStrSiglaUnidadeRetorno();
                     $objRetornoProgramadoDTO->retDtaProgramada();
-                    $objRetornoProgramadoDTO->setNumIdUnidadeAtividadeEnvio($objPesquisaPendenciaDTO->getNumIdUnidade());
-                    $objRetornoProgramadoDTO->setDblIdProtocoloAtividadeEnvio($arrProtocolosAtividades, InfraDTO::$OPER_IN);
+                    $objRetornoProgramadoDTO->retDthAberturaAtividadeRetorno();
+                    $objRetornoProgramadoDTO->retNumIdAtividadeRetorno();
+                    $objRetornoProgramadoDTO->retNumIdAtividadeEnvio();
+                                        
+                    $objRetornoProgramadoDTO->retDtaProgramada();
+                    $objRetornoProgramadoDTO->setNumIdUnidadeEnvio($objPesquisaPendenciaDTO->getNumIdUnidade());
+                    $objRetornoProgramadoDTO->setDblIdProtocolo($arrProtocolosAtividades, InfraDTO::$OPER_IN);
                     $objRetornoProgramadoDTO->setNumIdAtividadeRetorno(null);
+                    $objRetornoProgramadoDTO->setOrdDtaProgramada(InfraDTO::$TIPO_ORDENACAO_ASC);
 
                     $objRetornoProgramadoRN = new RetornoProgramadoRN();
-                    $arrObjRetornoProgramadoDTO = InfraArray::indexarArrInfraDTO($objRetornoProgramadoRN->listar($objRetornoProgramadoDTO), 'IdProtocoloAtividadeEnvio', true);
+                    $arrObjRetornoProgramadoDTO = InfraArray::indexarArrInfraDTO($objRetornoProgramadoRN->listar($objRetornoProgramadoDTO), 'IdProtocolo', true);
                 }
 
 
