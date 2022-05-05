@@ -137,7 +137,7 @@ class MdWsSeiRest extends SeiIntegracao
      */
     public function verificaCompatibilidade($strVersaoSEI)
     {
-        if ((substr($strVersaoSEI, 0, 2) != '3.') and ($strVersaoSEI != '4.0.0') ) {
+        if ((substr($strVersaoSEI, 0, 2) != '3.') and ($strVersaoSEI != '4.0.0') and ($strVersaoSEI != '4.0.3.1')) {
             return false;
         }
         return true;
