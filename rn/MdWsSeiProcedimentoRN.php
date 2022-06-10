@@ -2094,6 +2094,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
         $objUnidadeRN = new UnidadeRN();
         /** Chama o componente SEI para retorno de dados da unidade atual */
+        // TODO: 
         $objUnidadeDTOAtual = $objUnidadeRN->consultarRN0125($objUnidadeDTO);
 
         if ($objUnidadeDTOAtual->getStrSinProtocolo() == 'N') {
@@ -2102,7 +2103,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $partialfields .= ' AND ';
             }
 
-            $partialfields .= '(tipo_aces:P OR id_uni_aces:*;' . SessaoSEI::getInstance()->getNumIdUnidadeAtual() . ';*)';
+            $partialfields .= '(tipo_aces_g:P OR id_uni_aces:*;' . SessaoSEI::getInstance()->getNumIdUnidadeAtual() . ';*)';
         }
 
         if($pesquisaProtocoloSolrDTO->isSetNumIdGrupoAcompanhamentoProcedimento() && $pesquisaProtocoloSolrDTO->getNumIdGrupoAcompanhamentoProcedimento()) {
