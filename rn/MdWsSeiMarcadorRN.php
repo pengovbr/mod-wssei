@@ -382,7 +382,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
 
             $andamentoMarcadorRN = new AndamentoMarcadorRN();
             /** Chamando componente SEI para marcar processo */
-            $andamentoMarcadorRN->gerenciar($andamentoMarcadorDTO);
+            $andamentoMarcadorRN->cadastrar($andamentoMarcadorDTO);
 
             return MdWsSeiRest::formataRetornoSucessoREST('Processo marcado com sucesso.', null);
         }catch (Exception $e){
