@@ -73,7 +73,7 @@ class MdWsSeiCredenciamentoRN extends InfraRN {
             if(!$procedimentoDTOParam->isSetDblIdProcedimento() || !$procedimentoDTOParam->getDblIdProcedimento()){
                 throw new Exception('Atividade não informado!');
             }
-            if(is_null($procedimentoDTOParam->getNumPaginaAtual())){
+            if(empty($procedimentoDTOParam->getNumPaginaAtual())){
                 $procedimentoDTOParam->setNumPaginaAtual(0);
             }
             if (!$procedimentoDTOParam->isSetNumMaxRegistrosRetorno()) {

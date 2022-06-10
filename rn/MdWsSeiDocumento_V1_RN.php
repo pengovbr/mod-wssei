@@ -943,7 +943,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
             } else {
                 $relProtocoloProtocoloDTOConsulta->setNumMaxRegistrosRetorno(10);
             }
-            if (is_null($documentoDTOParam->getNumPaginaAtual())) {
+            if (empty($documentoDTOParam->getNumPaginaAtual())) {
                 $relProtocoloProtocoloDTOConsulta->setNumPaginaAtual(0);
             } else {
                 $relProtocoloProtocoloDTOConsulta->setNumPaginaAtual($documentoDTOParam->getNumPaginaAtual());

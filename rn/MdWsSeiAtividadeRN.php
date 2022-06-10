@@ -23,7 +23,7 @@ class MdWsSeiAtividadeRN extends AtividadeRN {
                 throw new InfraException('O procedimento deve ser informado!');
             }
             $procedimentoHistoricoDTO->setDblIdProcedimento($atividadeDTOParam->getDblIdProtocolo());
-            if(is_null($atividadeDTOParam->getNumPaginaAtual())){
+            if(empty($atividadeDTOParam->getNumPaginaAtual())){
                 $procedimentoHistoricoDTO->setNumPaginaAtual(0);
             }else{
                 $procedimentoHistoricoDTO->setNumPaginaAtual($atividadeDTOParam->getNumPaginaAtual());

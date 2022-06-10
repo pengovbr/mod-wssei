@@ -27,10 +27,10 @@ class MdWsSeiOrgaoRN extends InfraRN {
             }else{
                 $orgaoDTO->setNumMaxRegistrosRetorno(10);
             }
-            if(!is_null($orgaoDTOParam->getNumPaginaAtual())){
-                $orgaoDTO->setNumPaginaAtual($orgaoDTOParam->getNumPaginaAtual());
-            }else{
+            if(empty($orgaoDTOParam->getNumPaginaAtual())){
                 $orgaoDTO->setNumPaginaAtual(0);
+            }else{
+                $orgaoDTO->setNumPaginaAtual($orgaoDTOParam->getNumPaginaAtual());
             }
 
             $orgaoBD = new OrgaoBD($this->getObjInfraIBanco());

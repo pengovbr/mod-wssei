@@ -81,7 +81,7 @@ class MdWsSeiBloco_V1_RN extends InfraRN {
             }else{
                 $blocoDTOConsulta->setNumMaxRegistrosRetorno($blocoDTO->getNumMaxRegistrosRetorno());
             }
-            if(is_null($blocoDTO->getNumPaginaAtual())){
+            if(empty($blocoDTO->getNumPaginaAtual())){
                 $blocoDTOConsulta->setNumPaginaAtual(0);
             }else{
                 $blocoDTOConsulta->setNumPaginaAtual($blocoDTO->getNumPaginaAtual());
@@ -160,10 +160,10 @@ class MdWsSeiBloco_V1_RN extends InfraRN {
             }else{
                 $relBlocoProtocoloDTOConsulta->setNumMaxRegistrosRetorno(10000000);
             }
-            if(!is_null($blocoDTOConsulta->getNumPaginaAtual())){
-                $relBlocoProtocoloDTOConsulta->setNumPaginaAtual($blocoDTOConsulta->getNumPaginaAtual());
-            }else{
+            if(empty($blocoDTOConsulta->getNumPaginaAtual())){
                 $relBlocoProtocoloDTOConsulta->setNumPaginaAtual(0);
+            }else{
+                $relBlocoProtocoloDTOConsulta->setNumPaginaAtual($blocoDTOConsulta->getNumPaginaAtual());
             }
             $result = array();
             $relBlocoProtocoloDTOConsulta->setNumIdBloco($blocoDTOConsulta->getNumIdBloco());

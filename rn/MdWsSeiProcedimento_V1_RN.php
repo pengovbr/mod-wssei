@@ -735,7 +735,7 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
                 $mdWsSeiProtocoloDTOConsulta->setNumIdUsuarioGeradorAcompanhamento($mdWsSeiProtocoloDTOParam->getNumIdUsuarioGeradorAcompanhamento());
             }
 
-            if (is_null($mdWsSeiProtocoloDTOParam->getNumPaginaAtual())) {
+            if (empty($mdWsSeiProtocoloDTOParam->getNumPaginaAtual())) {
                 $mdWsSeiProtocoloDTOConsulta->setNumPaginaAtual(0);
             } else {
                 $mdWsSeiProtocoloDTOConsulta->setNumPaginaAtual($mdWsSeiProtocoloDTOParam->getNumPaginaAtual());
@@ -781,7 +781,7 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
             }else{
                 $acompanhamentoDTO->setNumIdGrupoAcompanhamento($mdWsSeiProtocoloDTOParam->getNumIdGrupoAcompanhamentoProcedimento());
             }
-            if (is_null($mdWsSeiProtocoloDTOParam->getNumPaginaAtual())) {
+            if (empty($mdWsSeiProtocoloDTOParam->getNumPaginaAtual())) {
                 $acompanhamentoDTO->setNumPaginaAtual(0);
             } else {
                 $acompanhamentoDTO->setNumPaginaAtual($mdWsSeiProtocoloDTOParam->getNumPaginaAtual());
@@ -824,10 +824,10 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
                 $usuarioAtribuicaoAtividade = $mdWsSeiProtocoloDTOParam->getNumIdUsuarioAtribuicaoAtividade();
             }
 
-            if (!is_null($mdWsSeiProtocoloDTOParam->getNumPaginaAtual())) {
-                $pesquisaPendenciaDTO->setNumPaginaAtual($mdWsSeiProtocoloDTOParam->getNumPaginaAtual());
-            } else {
+            if (empty($mdWsSeiProtocoloDTOParam->getNumPaginaAtual())) {
                 $pesquisaPendenciaDTO->setNumPaginaAtual(0);
+            } else {
+                $pesquisaPendenciaDTO->setNumPaginaAtual($mdWsSeiProtocoloDTOParam->getNumPaginaAtual());
             }
 
             if ($mdWsSeiProtocoloDTOParam->isSetNumMaxRegistrosRetorno()) {
@@ -883,10 +883,10 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
                 $usuarioAtribuicaoAtividade = $mdWsSeiProtocoloDTOParam->getNumIdUsuarioAtribuicaoAtividade();
             }
 
-            if (!is_null($mdWsSeiProtocoloDTOParam->getNumPaginaAtual())) {
-                $pesquisaPendenciaDTO->setNumPaginaAtual($mdWsSeiProtocoloDTOParam->getNumPaginaAtual());
-            } else {
+            if (empty($mdWsSeiProtocoloDTOParam->getNumPaginaAtual())) {
                 $pesquisaPendenciaDTO->setNumPaginaAtual(0);
+            } else {
+                $pesquisaPendenciaDTO->setNumPaginaAtual($mdWsSeiProtocoloDTOParam->getNumPaginaAtual());
             }
 
             if ($mdWsSeiProtocoloDTOParam->isSetNumMaxRegistrosRetorno()) {
@@ -943,10 +943,10 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
                 $usuarioAtribuicaoAtividade = $mdWsSeiProtocoloDTOParam->getNumIdUsuarioAtribuicaoAtividade();
             }
 
-            if (!is_null($mdWsSeiProtocoloDTOParam->getNumPaginaAtual())) {
-                $pesquisaPendenciaDTO->setNumPaginaAtual($mdWsSeiProtocoloDTOParam->getNumPaginaAtual());
-            } else {
+            if (empty($mdWsSeiProtocoloDTOParam->getNumPaginaAtual())) {
                 $pesquisaPendenciaDTO->setNumPaginaAtual(0);
+            } else {
+                $pesquisaPendenciaDTO->setNumPaginaAtual($mdWsSeiProtocoloDTOParam->getNumPaginaAtual());
             }
 
             if($mdWsSeiProtocoloDTOParam->isSetDblIdProtocolo()) {

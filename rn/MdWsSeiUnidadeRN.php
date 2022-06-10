@@ -19,10 +19,10 @@ class MdWsSeiUnidadeRN extends InfraRN {
             }else{
                 $unidadeDTO->setNumMaxRegistrosRetorno(10);
             }
-            if(!is_null($unidadeDTOParam->getNumPaginaAtual())){
-                $unidadeDTO->setNumPaginaAtual($unidadeDTOParam->getNumPaginaAtual());
-            }else{
+            if(empty($unidadeDTOParam->getNumPaginaAtual())){
                 $unidadeDTO->setNumPaginaAtual(0);
+            }else{
+                $unidadeDTO->setNumPaginaAtual($unidadeDTOParam->getNumPaginaAtual());
             }
             if($unidadeDTOParam->isSetStrSigla()){
                 $filter = '%'.$unidadeDTOParam->getStrSigla().'%';
