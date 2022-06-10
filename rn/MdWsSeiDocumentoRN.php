@@ -1943,6 +1943,35 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         }
     }
 
+
+    /**
+     * Método que consulta um documento interno pelo protocolo formatadao
+     * @return array
+     * @param int $numProtocoloFormatado
+     */
+    public function consultarDocumentoInternoFormatado($numProtocoloFormatado)
+    {
+        try {
+            $objProtocoloDTO = new MdWsSeiProtocoloDTO();
+            $objProtocoloDTO->retDblIdProtocolo();
+            $objProtocoloDTO->setStrProtocoloFormatado($numProtocoloFormatado);
+            $objTempProtocoloRN = new ProtocoloRN();
+            $objProtocoloDTO = $objTempProtocoloRN->consultarRN0186($objProtocoloDTO);
+            $numIdDocumento = isset($objProtocoloDTO) ? $objProtocoloDTO->getDblIdProtocolo() : null;
+
+            if(!$numIdDocumento){
+                throw new InfraException("Documento " . $numProtocoloFormatado . " não encontrado.");
+            }
+
+            return $this->consultarDocumentoInterno($numIdDocumento);
+        } catch (Exception $e) {
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+    }
+
+
+
+
     /**
      * Método para verificação de permissões de acesso ao documento pelo usuário ativo
      */
