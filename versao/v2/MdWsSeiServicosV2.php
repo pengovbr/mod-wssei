@@ -704,6 +704,12 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->consultarDocumentoInterno($request->getAttribute('route')->getArgument('protocolo')));
                 });
 
+                $this->get('/interno/formatado/consultar/{protocolo_formatado}', function ($request, $response, $args) {
+                    /** @var $request Slim\Http\Request */
+                    $rn = new MdWsSeiDocumentoRN();
+                    return $response->withJSON($rn->consultarDocumentoInternoFormatado($request->getAttribute('route')->getArgument('protocolo_formatado')));
+                });
+
                 $this->post('/incluir', function ($request, $response, $args) {
                     try {
                         /** @var Slim\Http\Request $request */
