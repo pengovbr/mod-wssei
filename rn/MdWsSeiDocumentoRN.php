@@ -513,6 +513,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $bolFlagTramitacao = false;
                 $bolFlagSobrestado = false;
                 $bolFlagBloqueado = false;
+                $bolFlagLinhaDireta = false;
                 $bolErro = false;
                 $numCodigoAcesso = 0;
 
@@ -527,6 +528,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                     $bolFlagTramitacao,
                     $bolFlagSobrestado,
                     $bolFlagBloqueado,
+                    $bolFlagLinhaDireta,
                     $numCodigoAcesso,
                     $numNo, $strNos,
                     $numNoAcao, $strNosAcao,
@@ -844,7 +846,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         try {
             sleep(3);
             $assinaturaDTO->setStrStaFormaAutenticacao(AssinaturaRN::$TA_SENHA);
-            $assinaturaDTO->setNumIdContextoUsuario(null);
+            // $assinaturaDTO->setNumIdContextoUsuario(null);
             $documentoRN = new DocumentoRN();
             $documentoRN->assinarInterno($assinaturaDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Documento em bloco assinado com sucesso.');

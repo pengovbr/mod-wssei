@@ -243,7 +243,7 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
                         }
 
                         $arrRetornoProgramado['lista'][] = array(
-                            'siglaUnidade' => $retornoProgramadoDTO->getStrSiglaUnidadeOrigemAtividadeEnvio(),
+                            'siglaUnidade' => $retornoProgramadoDTO->getStrSiglaUnidadeEnvio(),
                             'dataProgramada' => $retornoProgramadoDTO->getDtaProgramada(),
                             'descriaoPrazo' => $descricaoPrazo
                         );

@@ -23,13 +23,14 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
          * Grupo para a versao v1 de servicos REST
          */
         $this->slimApp->group('/api/v1',function(){
-
+            /** @var Slim/App $this */
             $this->get('/versao', function ($request, $response, $args) {
+                $MdWsSeiRest = new MdWsSeiRest();
                 return $response->withJSON(MdWsSeiRest::formataRetornoSucessoREST(
                     null,
                     [
                         'sei' => SEI_VERSAO,
-                        'wssei' => MdWsSeiRest::getVersao()
+                        'wssei' => $MdWsSeiRest->getVersao()
                     ]
                 )
                 );
@@ -42,21 +43,20 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                 sleep(3);
                 $rn = new MdWsSeiUsuarioRN();
                 $usuarioDTO = new UsuarioDTO();
-                $contextoDTO = new ContextoDTO();
                 $usuarioDTO->setStrSigla($request->getParam('usuario'));
                 $usuarioDTO->setStrSenha($request->getParam('senha'));
-                $contextoDTO->setNumIdContexto($request->getParam('contexto'));
                 $orgaoDTO = new OrgaoDTO();
                 $orgaoDTO->setNumIdOrgao($request->getParam('orgao'));
 
-                return $response->withJSON($rn->apiAutenticar($usuarioDTO, $contextoDTO, $orgaoDTO));
+                return $response->withJSON($rn->apiAutenticar($usuarioDTO, $orgaoDTO));
             });
             /**
              * Grupo de controlador de Órgão <publico>
              */
             $this->group('/orgao', function(){
+                /** @var Slim/App $this */
                 $this->get('/listar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiOrgaoRN();
                     $dto = new OrgaoDTO();
                     return $response->withJSON($rn->listarOrgao($dto));
@@ -66,8 +66,9 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
              * Grupo de controlador de Contexto <publico>
              */
             $this->group('/contexto', function(){
+                /** @var Slim/App $this */
                 $this->get('/listar/{orgao}', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiContextoRN();
                     $dto = new OrgaoDTO();
                     $dto->setNumIdOrgao($request->getAttribute('route')->getArgument('orgao'));
@@ -79,8 +80,9 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
              * Grupo de controlador de Usuário
              */
             $this->group('/usuario', function(){
+                /** @var Slim/App $this */
                 $this->post('/alterar/unidade', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiUsuarioRN();
                     return $response->withJSON($rn->alterarUnidadeAtual($request->getParam('unidade')));
                 });
@@ -95,12 +97,12 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     if(!is_null($request->getParam('start'))){
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiUsuarioRN();
                     return $response->withJSON($rn->listarUsuarios($dto));
                 });
                 $this->get('/pesquisar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiUsuarioRN();
                     return $response->withJSON(
                         $rn->apiPesquisarUsuario(
@@ -109,7 +111,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     );
                 });
                 $this->get('/unidades', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $dto = new UsuarioDTO();
                     $dto->setNumIdUsuario($request->getParam('usuario'));
                     $rn = new MdWsSeiUsuarioRN();
@@ -122,8 +124,9 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
              * Grupo de controlador de Unidades
              */
             $this->group('/unidade', function(){
+                /** @var Slim/App $this */
                 $this->get('/pesquisar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiUnidadeRN();
                     $dto = new UnidadeDTO();
                     if($request->getParam('limit')){
@@ -144,8 +147,9 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
              * Grupo de controlador de anotacao
              */
             $this->group('/anotacao', function(){
+                /** @var Slim/App $this */
                 $this->post('/', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiAnotacaoRN();
                     $dto = $rn->encapsulaAnotacao(MdWsSeiRest::dataToIso88591($request->getParams()));
                     return $response->withJSON($rn->cadastrarAnotacao($dto));
@@ -157,8 +161,9 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
              * Grupo de controlador de bloco
              */
             $this->group('/bloco', function(){
+                /** @var Slim/App $this */
                 $this->get('/listar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiBloco_V1_RN();
                     $dto = new BlocoDTO();
                     $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
@@ -166,14 +171,14 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->listarBloco($dto));
                 });
                 $this->post('/{bloco}/retornar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiBloco_V1_RN();
                     $dto = new BlocoDTO();
                     $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
                     return $response->withJSON($rn->retornar($dto));
                 });
                 $this->get('/listar/{bloco}/documentos', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiBloco_V1_RN();
                     $dto = new BlocoDTO();
                     $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
@@ -182,7 +187,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->listarDocumentosBloco($dto));
                 });
                 $this->post('/{bloco}/anotacao', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiBloco_V1_RN();
                     $dto = new RelBlocoProtocoloDTO();
                     $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
@@ -192,7 +197,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                 });
 
                 $this->post('/assinar/{bloco}', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiBloco_V1_RN();
                     return $response->withJSON($rn->apiAssinarBloco(
                         $request->getAttribute('route')->getArgument('bloco'),
@@ -210,28 +215,29 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
              * Grupo de controlador de documentos
              */
             $this->group('/documento', function(){
-
+                
+                /** @var Slim/App $this */
                 $this->get('/consultar/{protocolo}', function($request, $response, $args){
                     $rn = new MdWsSeiDocumento_V1_RN();
                     return $response->withJSON($rn->consultarDocumento($request->getAttribute('route')->getArgument('protocolo')));
                 });
 
                 $this->get('/listar/ciencia/{protocolo}', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiDocumento_V1_RN();
                     $dto = new MdWsSeiProcessoDTO();
                     $dto->setStrValor($request->getAttribute('route')->getArgument('protocolo'));
                     return $response->withJSON($rn->listarCienciaDocumento($dto));
                 });
                 $this->get('/listar/assinaturas/{documento}', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiDocumento_V1_RN();
                     $dto = new DocumentoDTO();
                     $dto->setDblIdDocumento($request->getAttribute('route')->getArgument('documento'));
                     return $response->withJSON($rn->listarAssinaturasDocumento($dto));
                 });
                 $this->post('/assinar/bloco', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiDocumento_V1_RN();
                     return $response->withJSON($rn->apiAssinarDocumentos(
                         $request->getParam('arrDocumento'),
@@ -252,7 +258,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     $binarioFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('conteudoDocumento'));
                     $numeroFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('numero'));
 
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $dados["documento"]         = $request->getParam('documento');
                     $dados["numero"]            = $numeroFormatado;
                     $dados["idTipoDocumento"]            = $request->getParam('idTipoDocumento');
@@ -290,7 +296,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     $descricaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('descricao'));
                     $observacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacao'));
 
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $dados["documento"]         = $request->getParam('documento');
                     $dados["assuntos"]          = json_decode($request->getParam('assuntos'), TRUE);
                     $dados["interessados"]      = json_decode($request->getParam('interessados'), TRUE);
@@ -309,7 +315,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     );
                 });
                 $this->post('/secao/alterar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $dados["documento"] = $request->getParam('documento');
                     $dados["secoes"]    = json_decode($request->getParam('secoes'), TRUE);
                     $dados["versao"]    = $request->getParam('versao');
@@ -326,14 +332,14 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     );
                 });
                 $this->post('/ciencia', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiDocumento_V1_RN();
                     $dto = new DocumentoDTO();
                     $dto->setDblIdDocumento($request->getParam('documento'));
                     return $response->withJSON($rn->darCiencia($dto));
                 });
                 $this->post('/assinar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiDocumento_V1_RN();
                     return $response->withJSON($rn->apiAssinarDocumento(
                         $request->getParam('documento'),
@@ -345,7 +351,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     ));
                 });
                 $this->get('/listar/{procedimento}', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiDocumento_V1_RN();
                     $dto = new DocumentoDTO();
                     if($request->getAttribute('route')->getArgument('procedimento')){
@@ -362,7 +368,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->listarDocumentosProcesso($dto));
                 });
                 $this->get('/secao/listar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiDocumento_V1_RN();
                     $dto = new DocumentoDTO();
                     $dto->setDblIdDocumento($request->getParam('id'));
@@ -370,7 +376,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->listarSecaoDocumento($dto));
                 });
                 $this->get('/tipo/pesquisar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiDocumento_V1_RN();
                     $dto = new MdWsSeiDocumentoDTO();
 
@@ -387,7 +393,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->pesquisarTipoDocumento($dto));
                 });
                 $this->get('/tipo/template', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiDocumento_V1_RN();
                     $dto = new MdWsSeiDocumentoDTO();
                     $dto->setNumIdTipoDocumento($request->getParam('id'));
@@ -397,7 +403,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->pesquisarTemplateDocumento($dto));
                 });
                 $this->get('/baixar/anexo/{protocolo}', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiDocumento_V1_RN();
                     $dto = new ProtocoloDTO();
                     if($request->getAttribute('route')->getArgument('protocolo')){
@@ -407,7 +413,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                 });
                 $this->post('/interno/criar', function($request, $response, $args){
 
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
 
                     setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
 
@@ -444,7 +450,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     $binarioFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('conteudoDocumento'));
                     $numeroFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('numero'));
 
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $dto = new MdWsSeiDocumentoDTO();
                     $dto->setNumIdProcesso($request->getParam('processo'));
                     $dto->setNumIdTipoDocumento($request->getParam('tipoDocumento'));
@@ -472,7 +478,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                 });
                 $this->post('/incluir', function($request, $response, $args){
                     try{
-                        /** @var $request Slim\Http\Request */
+                        /** @var Slim\Http\Request $request */
                         $objDocumentoAPI = new DocumentoAPI();
                         //Se o ID do processo é conhecido utilizar setIdProcedimento no lugar de
                         //setProtocoloProcedimento
@@ -525,8 +531,9 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
              * Grupo de controlador de processos
              */
             $this->group('/processo', function(){
+                /** @var Slim/App $this */
                 $this->get('/debug/{protocolo}', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new ProtocoloRN();
                     $dto = new ProtocoloDTO();
                     $dto->retTodos();
@@ -553,21 +560,21 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     );
                 });
                 $this->post('/cancelar/sobrestar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     $dto = new ProcedimentoDTO();
                     $dto->setDblIdProcedimento($request->getParam('procedimento'));
                     return $response->withJSON($rn->removerSobrestamentoProcesso($dto));
                 });
                 $this->get('/listar/ciencia/{protocolo}', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     $dto = new ProtocoloDTO();
                     $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
                     return $response->withJSON($rn->listarCienciaProcesso($dto));
                 });
                 $this->get('/consultar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     return $response->withJSON(
                         $rn->apiConsultarProcessoDigitado(MdWsSeiRest::dataToIso88591($request->getParam('protocoloFormatado')))
@@ -576,7 +583,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
 
 
                 $this->get('/tipo/listar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
 
                     $objGetMdWsSeiTipoProcedimentoDTO = new MdWsSeiTipoProcedimentoDTO();
@@ -593,7 +600,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                 });
 
                 $this->get('/consultar/{id}', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
 
                     $dto    = new MdWsSeiProcedimentoDTO();
@@ -606,7 +613,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                 });
 
                 $this->get('/assunto/pesquisar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     $objGetMdWsSeiAssuntoDTO = new MdWsSeiAssuntoDTO();
                     $objGetMdWsSeiAssuntoDTO->setNumIdAssunto($request->getParam('id'));
@@ -620,7 +627,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                 });
 
                 $this->get('/tipo/template', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
 
                     $dto = new MdWsSeiTipoProcedimentoDTO();
@@ -636,7 +643,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
 
 
                 $this->post('/{protocolo}/sobrestar/processo', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     $dto = new RelProtocoloProtocoloDTO();
                     if($request->getAttribute('route')->getArgument('protocolo')){
@@ -650,7 +657,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->sobrestamentoProcesso($dto));
                 });
                 $this->post('/{procedimento}/ciencia', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     $dto = new ProcedimentoDTO();
                     if($request->getAttribute('route')->getArgument('procedimento')){
@@ -659,7 +666,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->darCiencia($dto));
                 });
                 $this->get('/listar/sobrestamento/{protocolo}', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     $dto = new AtividadeDTO();
                     if($request->getParam('unidade')){
@@ -671,7 +678,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->listarSobrestamentoProcesso($dto));
                 });
                 $this->get('/listar/unidades/{protocolo}', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     $dto = new ProtocoloDTO();
                     if($request->getAttribute('route')->getArgument('protocolo')){
@@ -680,7 +687,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->listarUnidadesProcesso($dto));
                 });
                 $this->get('/listar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     $dto = new MdWsSeiProtocoloDTO();
 
@@ -711,7 +718,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                 });
 
                 $this->get('/pesquisar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     $dto = new MdWsSeiPesquisaProtocoloSolrDTO();
                     if($request->getParam('grupo')){
@@ -730,7 +737,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->pesquisarProcessosSolar($dto));
                 });
                 $this->get('/listar/meus/acompanhamentos', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     $dto = new MdWsSeiProtocoloDTO();
                     if($request->getParam('grupo')){
@@ -748,7 +755,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->listarProcedimentoAcompanhamentoUsuario($dto));
                 });
                 $this->get('/listar/acompanhamentos', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     $dto = new MdWsSeiProtocoloDTO();
                     if($request->getParam('grupo')){
@@ -778,13 +785,13 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                  *  }
                  */
                 $this->post('/enviar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     $dto = $rn->encapsulaEnviarProcessoEntradaEnviarProcessoAPI(MdWsSeiRest::dataToIso88591($request->getParams()));
                     return $response->withJSON($rn->enviarProcesso($dto));
                 });
                 $this->post('/concluir', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     $dto = new EntradaConcluirProcessoAPI();
                     if($request->getParam('numeroProcesso')){
@@ -793,26 +800,26 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->concluirProcesso($dto));
                 });
                 $this->post('/reabrir/{procedimento}', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     $dto = new EntradaReabrirProcessoAPI();
                     $dto->setIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
                     return $response->withJSON($rn->reabrirProcesso($dto));
                 });
                 $this->post('/acompanhar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiAcompanhamentoRN();
                     $dto = $rn->encapsulaAcompanhamento(MdWsSeiRest::dataToIso88591($request->getParams()));
                     return $response->withJSON($rn->cadastrarAcompanhamento($dto));
                 });
                 $this->post('/agendar/retorno/programado', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiRetornoProgramadoRN();
                     $dto = $rn->encapsulaRetornoProgramado(MdWsSeiRest::dataToIso88591($request->getParams()));
                     return $response->withJSON($rn->agendarRetornoProgramado($dto));
                 });
                 $this->post('/atribuir', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $api = new EntradaAtribuirProcessoAPI();
 
                     if($request->getParam('numeroProcesso')) {
@@ -825,14 +832,14 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->atribuirProcesso($api));
                 });
                 $this->get('/verifica/acesso/{protocolo}', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimento_V1_RN();
                     $dto = new ProtocoloDTO();
                     $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
                     return $response->withJSON($rn->verificaAcesso($dto));
                 });
                 $this->post('/identificacao/acesso', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $usuarioDTO = new UsuarioDTO();
                     $usuarioDTO->setStrSenha($request->getParam('senha'));
                     $protocoloDTO = new ProtocoloDTO();
@@ -842,7 +849,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->apiIdentificacaoAcesso($usuarioDTO, $protocoloDTO));
                 });
                 $this->post('/{procedimento}/credenciamento/conceder', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiCredenciamentoRN();
                     $dto = new ConcederCredencialDTO();
                     $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
@@ -852,7 +859,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->concederCredenciamento($dto));
                 });
                 $this->post('/{procedimento}/credenciamento/renunciar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiCredenciamentoRN();
                     $dto = new ProcedimentoDTO();
                     $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
@@ -860,7 +867,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->renunciarCredencial($dto));
                 });
                 $this->post('/{procedimento}/credenciamento/cassar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiCredenciamentoRN();
                     $dto = new AtividadeDTO();
                     $dto->setNumIdAtividade($request->getParam('atividade'));
@@ -868,7 +875,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->cassarCredencial($dto));
                 });
                 $this->get('/{procedimento}/credenciamento/listar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiCredenciamentoRN();
                     $dto = new ProcedimentoDTO();
                     if($request->getParam('limit')){
@@ -883,7 +890,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                 });
 
                 $this->post('/criar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     //Assunto  explode lista de objetos
                     $assuntos   = array();
                     $assuntos = json_decode($request->getParam('assuntos'), TRUE);
@@ -920,7 +927,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                 });
 
                 $this->post('/alterar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
 
                     //Assunto  explode lista de objetos
                     $assuntos   = array();
@@ -972,8 +979,9 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
              * Grupo de controlador de atividade
              */
             $this->group('/atividade', function(){
+                /** @var Slim/App $this */
                 $this->get('/listar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiAtividadeRN();
                     $dto = new AtividadeDTO();
                     if($request->getParam('procedimento')){
@@ -988,7 +996,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                     return $response->withJSON($rn->listarAtividadesProcesso($dto));
                 });
                 $this->post('/lancar/andamento/processo', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiAtividadeRN();
                     $dto = $rn->encapsulaLancarAndamentoProcesso(MdWsSeiRest::dataToIso88591($request->getParams()));
 
@@ -1001,8 +1009,9 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
              * Grupo de controlador de Assinante
              */
             $this->group('/assinante', function(){
+                /** @var Slim/App $this */
                 $this->get('/listar/{unidade}', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiAssinanteRN();
                     $dto = new AssinanteDTO();
                     if($request->getAttribute('route')->getArgument('unidade')){
@@ -1018,7 +1027,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                 });
 
                 $this->get('/orgao', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiOrgaoRN();
                     $dto = new OrgaoDTO();
                     if($request->getParam('limit')){
@@ -1036,8 +1045,9 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
              * Grupo de controlador de Grupo de Acompanhamento
              */
             $this->group('/grupoacompanhamento', function(){
+                /** @var Slim/App $this */
                 $this->get('/listar/{unidade}', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiGrupoAcompanhamentoRN();
                     $dto = new GrupoAcompanhamentoDTO();
                     if($request->getAttribute('route')->getArgument('unidade')){
@@ -1059,8 +1069,9 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
              * Grupo de controlador contato
              */
             $this->group('/contato', function(){
+                /** @var Slim/App $this */
                 $this->get('/pesquisar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
 
                     $dto = new MdWsSeiContatoDTO();
                     $dto->setNumIdContato($request->getParam('id'));
@@ -1073,7 +1084,7 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
                 });
 
                 $this->post('/criar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
 
                     $dto = new MdWsSeiContatoDTO();
 
@@ -1095,8 +1106,9 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
              * Grupo de controlador HipoteseLegal
              */
             $this->group('/hipoteseLegal', function(){
+                /** @var Slim/App $this */
                 $this->get('/pesquisar', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
 
                     $dto = new MdWsSeiHipoteseLegalDTO();
                     $dto->setNumIdHipoteseLegal($request->getParam('id'));
@@ -1112,8 +1124,9 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
 
 
             $this->group('/debug', function() {
+                /** @var Slim/App $this */
                 $this->get('/', function ($request, $response, $args) {
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiDebugRN(BancoSEI::getInstance());
                     if($request->getParam('avancado')){
                         $sql = strtolower(base64_decode($request->getParam('xyz')));
@@ -1138,8 +1151,9 @@ class MdWsSeiServicosV1 extends MdWsSeiVersaoServicos
              * Grupo de controlador de Observação
              */
             $this->group('/observacao', function(){
+                /** @var Slim/App $this */
                 $this->post('/', function($request, $response, $args){
-                    /** @var $request Slim\Http\Request */
+                    /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiObservacaoRN();
                     $dto = $rn->encapsulaObservacao(MdWsSeiRest::dataToIso88591($request->getParams()));
                     return $response->withJSON($rn->criarObservacao($dto));

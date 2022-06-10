@@ -33,13 +33,11 @@ $tokenData = $rn->tokenDecode($token);
 
 $rn = new MdWsSeiUsuarioRN();
 $usuarioDTO = new UsuarioDTO();
-$contextoDTO = new ContextoDTO();
 $usuarioDTO->setStrSigla($tokenData[0]);
 $usuarioDTO->setStrSenha($tokenData[1]);
-$contextoDTO->setNumIdContexto(null);
 $orgaoDTO = new OrgaoDTO();
 $orgaoDTO->setNumIdOrgao(null);
-$return = $rn->apiAutenticar($usuarioDTO, $contextoDTO, $orgaoDTO);
+$return = $rn->apiAutenticar($usuarioDTO, $orgaoDTO);
 
 // Recupera o id do procedimento
 $protocoloDTO = new DocumentoDTO();

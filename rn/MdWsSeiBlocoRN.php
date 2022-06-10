@@ -57,7 +57,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $assinaturaDTO->setNumIdOrgaoUsuario($idOrgao);
             $assinaturaDTO->setStrCargoFuncao($strCargoFuncao);
             $assinaturaDTO->setStrStaFormaAutenticacao(AssinaturaRN::$TA_SENHA);
-            $assinaturaDTO->setNumIdContextoUsuario(null);
+            // $assinaturaDTO->setNumIdContextoUsuario(null);
             $assinaturaDTO->setArrObjDocumentoDTO(InfraArray::gerarArrInfraDTO('DocumentoDTO','IdDocumento',$arrIdDocumentos));
             $documentoRN = new DocumentoRN();
             /** Chama o componente SEI para assinar os documentos */
@@ -91,7 +91,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $assinaturaDTO->setNumIdOrgaoUsuario($idOrgao);
             $assinaturaDTO->setStrCargoFuncao($strCargoFuncao);
             $assinaturaDTO->setStrStaFormaAutenticacao(AssinaturaRN::$TA_SENHA);
-            $assinaturaDTO->setNumIdContextoUsuario(null);
+            // $assinaturaDTO->setNumIdContextoUsuario(null);
             $assinaturaDTO->setArrObjDocumentoDTO(InfraArray::gerarArrInfraDTO('DocumentoDTO','IdDocumento',$arrIdDocumentos));
             $documentoRN = new DocumentoRN();
             /** Chama o componente SEI para realizar a assinatura dos documentos */
