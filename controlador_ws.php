@@ -5,7 +5,6 @@
 
 require_once dirname(__FILE__).'/../../SEI.php';
 require_once dirname(__FILE__).'/vendor/autoload.php';
-require_once dirname(__FILE__) . '/versao/v1/MdWsSeiServicosV1.php';
 require_once dirname(__FILE__) . '/versao/v2/MdWsSeiServicosV2.php';
 
 class TokenValidationMiddleware {
@@ -94,6 +93,5 @@ $config = array(
 );
 
 $app = new \Slim\App($config);
-MdWsSeiServicosV1::getInstance($app)->registrarServicos();
 MdWsSeiServicosV2::getInstance($app)->registrarServicos();
 $app->run();

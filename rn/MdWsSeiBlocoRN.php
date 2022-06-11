@@ -840,7 +840,6 @@ class MdWsSeiBlocoRN extends InfraRN {
             $blocoDTOConsulta->retStrTipoDescricao();
             $blocoDTOConsulta->retStrSiglaUnidade();
             $blocoDTOConsulta->retStrDescricaoUnidade();
-            $blocoDTOConsulta->retStrSinVazio();
             $blocoDTOConsulta->retArrObjRelBlocoUnidadeDTO();
             $blocoDTOConsulta->setOrdNumIdBloco(InfraDTO::$TIPO_ORDENACAO_DESC);
 

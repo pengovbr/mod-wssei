@@ -1373,13 +1373,13 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiGrupoAcompanhamentoRN();
                     $dto = new GrupoAcompanhamentoDTO();
-                    if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
+                    if (!empty($request->getParam('limit'))) {
                         $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
                     }
-                    if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
+                    if (!empty($request->getParam('start'))) {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
-                    if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
+                    if (!empty($request->getParam('id'))) {
                         $dto->setNumIdGrupoAcompanhamento($request->getParam('id'));
                     }
                     if ($request->getParam('filter') != '') {
@@ -1392,8 +1392,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiGrupoAcompanhamentoRN();
                     $dto = new GrupoAcompanhamentoDTO();
-                    $dto->setNumIdGrupoAcompanhamento(null);
                     $dto->setStrNome($request->getParam('nome'));
+                    $dto->setNumIdGrupoAcompanhamento(null);
                     return $response->withJSON($rn->cadastrar($dto));
                 });
 
