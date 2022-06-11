@@ -20,9 +20,9 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
         $acompanhamentoDTO->setNumIdGrupoAcompanhamento($post['grupo']);
         $acompanhamentoDTO->setStrObservacao($post['observacao']);
 
-        $acompanhamentoDTO->setNumIdUsuarioGerador(SessaoSEI::getInstance()->getNumIdUsuario());
+        $acompanhamentoDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
         $acompanhamentoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-        $acompanhamentoDTO->setDthGeracao(InfraData::getStrDataHoraAtual());
+        $acompanhamentoDTO->setDthAlteracao(InfraData::getStrDataHoraAtual());
         $acompanhamentoDTO->setNumTipoVisualizacao(AtividadeRN::$TV_VISUALIZADO);
         $acompanhamentoDTO->setNumIdAcompanhamento(null);
 

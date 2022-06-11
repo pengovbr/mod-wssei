@@ -187,7 +187,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $blocoDTOConsulta->retStrTipoDescricao();
             $blocoDTOConsulta->retStrSiglaUnidade();
             $blocoDTOConsulta->retStrDescricaoUnidade();
-            $blocoDTOConsulta->retStrSinVazio();
+            // $blocoDTOConsulta->retStrSinVazio();
             $blocoDTOConsulta->retArrObjRelBlocoUnidadeDTO();
             $blocoDTOConsulta->setOrdNumIdBloco(InfraDTO::$TIPO_ORDENACAO_DESC);
 
@@ -284,6 +284,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $relBlocoProtocoloDTOConsulta->retStrStaProtocoloProtocolo();
             $relBlocoProtocoloDTOConsulta->retStrAnotacao();
             $relBlocoProtocoloDTOConsulta->retDblIdProcedimentoDocumento();
+            $relBlocoProtocoloDTOConsulta->retArrObjAssinaturaDTO();
 
             /** Acessa o componente SEI para consulta dos documentos de um bloco */
             $ret = $relBlocoProtocoloRN->listarProtocolosBloco($relBlocoProtocoloDTOConsulta);

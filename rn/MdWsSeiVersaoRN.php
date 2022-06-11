@@ -45,7 +45,7 @@ class MdWsSeiVersaoRN extends InfraRN
         ini_set('mssql.timeout', '0');
 
         InfraDebug::getInstance()->setBolLigado(false);
-        InfraDebug::getInstance()->setBolDebugInfra(true);
+        InfraDebug::getInstance()->setBolDebugInfra(false);
         InfraDebug::getInstance()->setBolEcho(true);
         InfraDebug::getInstance()->limpar();
 
