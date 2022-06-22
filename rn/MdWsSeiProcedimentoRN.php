@@ -1236,7 +1236,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                 $retornoProgramadoDTOConsulta->retStrSiglaUnidadeRetorno();
                 $retornoProgramadoDTOConsulta->retStrSiglaUnidadeEnvio();
                 $retornoProgramadoDTOConsulta->retDtaProgramada();
-                $retornoProgramadoDTOConsulta->setNumIdUnidadeEnvio(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+                $retornoProgramadoDTOConsulta->setNumIdUnidadeRetorno(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
                 $retornoProgramadoDTOConsulta->setDblIdProtocolo(array_unique(InfraArray::converterArrInfraDTO($arrAtividadePendenciaDTO, 'IdProtocolo')), InfraDTO::$OPER_IN);
                 $retornoProgramadoDTOConsulta->setNumIdAtividadeRetorno(null);
                 $objRetornoProgramadoRN = new RetornoProgramadoRN();
