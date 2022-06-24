@@ -873,6 +873,14 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             $documentoDTOConsulta->retDblIdDocumento();
             $documentoDTOConsulta->retArrObjAssinaturaDTO();
 
+            $objAssinaturaDTO = new AssinaturaDTO();
+            $objAssinaturaDTO->setDblIdDocumento($documentoDTO->getDblIdDocumento());
+            $objAssinaturaDTO->retDblIdDocumento();
+
+            $objAssinaturaRN = new AssinaturaRN();
+            $objAssinaturaDTO = $objAssinaturaRN->listarRN1323($objAssinaturaDTO);
+
+
             /** Acessa componente SEI para retorno de dados do documento **/
             $documentoDTOConsulta = $documentoRN->consultarRN0005($documentoDTOConsulta);
 
@@ -880,7 +888,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 throw new InfraException('Documento não encontrado.');
             }
 
-            if(!$documentoDTOConsulta->getArrObjAssinaturaDTO()){
+            if(!$objAssinaturaDTO){
                 throw new InfraException('O Documento precisa ser assinado.');
             }
 

@@ -206,7 +206,7 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
                 $procedimentoDTO = $acompanhamentoDTO->getObjProcedimentoDTO();
                 $anotacaoDTO = $procedimentoDTO->getObjAnotacaoDTO();
                 $andamentoSituacaoDTO = $procedimentoDTO->getObjAndamentoSituacaoDTO();
-                $andamentoMarcadorDTO = $procedimentoDTO->getObjAndamentoMarcadorDTO();
+                $andamentoMarcadorDTO = $procedimentoDTO->getArrObjAndamentoMarcadorDTO();
 
 
 
@@ -279,8 +279,8 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
                     'idGrupoAcompanhamento' => $acompanhamentoDTO->getNumIdGrupoAcompanhamento(),
                     'nomeGrupoAcompanhamento' => $acompanhamentoDTO->getStrNomeGrupo(),
                     'idProtocolo' => $acompanhamentoDTO->retDblIdProtocolo(),
-                    'idUsuarioGerador' => $acompanhamentoDTO->getNumIdUsuarioGerador(),
-                    'dataGeracao' => $acompanhamentoDTO->getDthGeracao(),
+                    'idUsuarioGerador' => $acompanhamentoDTO->getNumIdUsuario(),
+                    'dataGeracao' => $acompanhamentoDTO->getDthAlteracao(),
                     'observacao' => $acompanhamentoDTO->getStrObservacao(),
                     'siglaUsuario' => $acompanhamentoDTO->getStrSiglaUsuario(),
                     'nomeUsuario' => $acompanhamentoDTO->getStrNomeUsuario(),

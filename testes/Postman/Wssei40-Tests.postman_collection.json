@@ -47535,7 +47535,7 @@
 								"exec": [
 									"pm.test(\"Cenario011 - Conta a quantidade de grupos na unidade TESTE_1_2. Tem q ser maior que 39. Observe se o teste no Selenium IDE rodou antes dessa chamada\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    var i = Number(jsonData.total);",
+									"    var i = Number(jsonData.data.length);",
 									"    ",
 									"    pm.expect(i).to.be.gt(39);",
 									"});"
@@ -55681,7 +55681,7 @@
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"    pm.expect(jsonData.data).to.eql(undefined);\r",
 									"});\r",
 									"\r",
 									""
@@ -55826,7 +55826,7 @@
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"    pm.expect(jsonData.data).to.eql(undefined);\r",
 									"});\r",
 									"\r",
 									""
@@ -57213,7 +57213,7 @@
 								},
 								{
 									"key": "cargo",
-									"value": " Fiscal de Contrato - Administrativo",
+									"value": "Fiscal de Contrato - Administrativo",
 									"type": "text"
 								},
 								{
@@ -57501,7 +57501,7 @@
 								},
 								{
 									"key": "cargo",
-									"value": " Fiscal de Contrato - Administrativo",
+									"value": "Fiscal de Contrato - Administrativo",
 									"type": "text"
 								},
 								{
