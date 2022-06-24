@@ -145,7 +145,7 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function getNome()
     {
-        return 'Módulo de provisionamento de serviços REST do SEI';
+        return 'Módulo de serviços REST';
     }
 
     public function getVersao()
@@ -155,7 +155,7 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function getInstituicao()
     {
-        return 'wssei';
+        return 'ME - Ministério da Economia';
     }
 
     public function inicializar($strVersaoSEI)
@@ -283,30 +283,30 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function adicionarElementoMenu()
     {
-        // try{
-        //     $nomeArquivo = 'QRCODE_'
-        //         . self::NOME_MODULO
-        //         . "_"
-        //         . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
-        //         . "_"
-        //         . 0 //SessaoSEI::getInstance()->getNumIdContextoUsuario()
-        //         . "_"
-        //         . $this->getVersao();
-        //     $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
+        try{
+            $nomeArquivo = 'QRCODE_'
+                . self::NOME_MODULO
+                . "_"
+                . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
+                . "_"
+                . 0 //SessaoSEI::getInstance()->getNumIdContextoUsuario()
+                . "_"
+                . $this->getVersao();
+            $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
 
-        //     if ($html) {
-        //         return $html;
-        //     }
+            if ($html) {
+                return $html;
+            }
 
-        //     $html = $this->montaCorpoHTMLQRCode($nomeArquivo);
-        //     CacheSEI::getInstance()->setAtributo($nomeArquivo, $html, CacheSEI::getInstance()->getNumTempo());
-        // }
-        // catch(Exception $e){
-        //     LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        //     throw $e;            
-        // }
+            $html = $this->montaCorpoHTMLQRCode($nomeArquivo);
+            CacheSEI::getInstance()->setAtributo($nomeArquivo, $html, CacheSEI::getInstance()->getNumTempo());
+        }
+        catch(Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
+            throw $e;            
+        }
 
-        // return $html;
+        return $html;
     }
 
     /**
@@ -316,50 +316,50 @@ class MdWsSeiRest extends SeiIntegracao
      */
     private function montaCorpoHTMLQRCode($nomeArquivo)
     {
-        // $htmlQrCode = '';
-        // $caminhoAtual = explode("/sei/web", __DIR__);
-        // $urlSEI = ConfiguracaoSEI::getInstance()->getValor('SEI', 'URL')
-        //     . $caminhoAtual[1]
-        //     . '/controlador_ws.php/api/v2';
-        // $conteudoQrCode = 'url: ' . $urlSEI
-        //     . ';'
-        //     . 'siglaorgao: ' . SessaoSEI::getInstance()->getStrSiglaOrgaoUsuario()
-        //     . ';'
-        //     . 'orgao: ' . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
-        //     . ';'
-        //     . 'contexto: ' .  0;//SessaoSEI::getInstance()->getNumIdContextoUsuario();
-        // $caminhoFisicoQrCode = DIR_SEI_TEMP . '/' . $nomeArquivo;
+        $htmlQrCode = '';
+        $caminhoAtual = explode("/sei/web", __DIR__);
+        $urlSEI = ConfiguracaoSEI::getInstance()->getValor('SEI', 'URL')
+            . $caminhoAtual[1]
+            . '/controlador_ws.php/api/v2';
+        $conteudoQrCode = 'url: ' . $urlSEI
+            . ';'
+            . 'siglaorgao: ' . SessaoSEI::getInstance()->getStrSiglaOrgaoUsuario()
+            . ';'
+            . 'orgao: ' . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
+            . ';'
+            . 'contexto: ' .  0;//SessaoSEI::getInstance()->getNumIdContextoUsuario();
+        $caminhoFisicoQrCode = DIR_SEI_TEMP . '/' . $nomeArquivo;
 
-        // InfraQRCode::gerar($conteudoQrCode, $caminhoFisicoQrCode, 'L', 2, 1);
+        InfraQRCode::gerar($conteudoQrCode, $caminhoFisicoQrCode, 'L', 2, 1);
 
-        // $infraException = new InfraException();
-        // if (!file_exists($caminhoFisicoQrCode)) {
-        //     $infraException->lancarValidacao('Arquivo do QRCode não encontrado.');
-        // }
-        // if (filesize($caminhoFisicoQrCode) == 0) {
-        //     $infraException->lancarValidacao('Arquivo do QRCode vazio.');
-        // }
-        // if (($binQrCode = file_get_contents($caminhoFisicoQrCode)) === false) {
-        //     $infraException->lancarValidacao('Não foi possível ler o arquivo do QRCode.');
-        // }
+        $infraException = new InfraException();
+        if (!file_exists($caminhoFisicoQrCode)) {
+            $infraException->lancarValidacao('Arquivo do QRCode não encontrado.');
+        }
+        if (filesize($caminhoFisicoQrCode) == 0) {
+            $infraException->lancarValidacao('Arquivo do QRCode vazio.');
+        }
+        if (($binQrCode = file_get_contents($caminhoFisicoQrCode)) === false) {
+            $infraException->lancarValidacao('Não foi possível ler o arquivo do QRCode.');
+        }
 
-        // $htmlQrCode .= '<div style="font-size: 12px; text-align: center;">';
-        // $htmlQrCode .= '<div style="height: 12px; margin-bottom: 22px; background-color: #01A5DA; border-bottom: 4px solid #AFCF2C;"></div>';
+        $htmlQrCode .= '<div style="font-size: 12px; text-align: center;">';
+        $htmlQrCode .= '<div style="height: 12px; margin-bottom: 22px; background-color: #01A5DA; border-bottom: 4px solid #AFCF2C;"></div>';
         // $htmlQrCode .= '<p style="text-align: left; margin: 5px;">';
         // $htmlQrCode .= '<strong style="font-weight: bolder">';
         // $htmlQrCode .= 'Acesse as lojas App Store ou Google Play e instale o aplicativo do SEI! no seu celular.';
         // $htmlQrCode .= '</strong>';
         // $htmlQrCode .= '</p>';
-        // $htmlQrCode .= '<p style="text-align: left; margin: 15px 5px 5px 5px;">';
-        // $htmlQrCode .= '<strong style="font-weight: bolder">';
-        // $htmlQrCode .= 'Abra o aplicativo do SEI! e faça a leitura do código abaixo para sincronizá-lo com sua conta.';
-        // $htmlQrCode .= '</strong>';
-        // $htmlQrCode .= '</p>';
-        // $htmlQrCode .= '<img style="margin: 20px auto 6px;" align="center" src="data:image/png;base64, '
-        //     . base64_encode($binQrCode) . '" />';
-        // $htmlQrCode .= '</div>';
+        $htmlQrCode .= '<p style="text-align: left; margin: 15px 5px 5px 5px;">';
+        $htmlQrCode .= '<strong style="font-weight: bolder">';
+        $htmlQrCode .= 'Abra o aplicativo do SEI! e faça a leitura do código abaixo para sincronizá-lo com sua conta.';
+        $htmlQrCode .= '</strong>';
+        $htmlQrCode .= '</p>';
+        $htmlQrCode .= '<img style="margin: 20px auto 6px;" align="center" src="data:image/png;base64, '
+            . base64_encode($binQrCode) . '" />';
+        $htmlQrCode .= '</div>';
 
-        // return $htmlQrCode;
+        return $htmlQrCode;
     }
 
 

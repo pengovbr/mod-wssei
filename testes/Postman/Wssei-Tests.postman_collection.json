@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "9b60490f-9526-4e84-8a4b-1124763aaaac",
-		"name": "Wssei-Tests",
+		"_postman_id": "761f0a72-059b-4c77-b38d-309aa0c41525",
+		"name": "Wssei-Tests_Super",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -14,7 +14,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bbcf0866-752f-4304-8f5f-1a4537689560",
 								"exec": [
 									"",
 									"pm.test('Retornar Versão sem login', function() {",
@@ -49,7 +48,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e4b5b26c-f632-4923-b43a-59fca91be5aa",
 								"exec": [
 									"pm.test(\"Cenario001 - Existe token na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"token\");\r",
@@ -199,7 +197,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e4b5b26c-f632-4923-b43a-59fca91be5aa",
 								"exec": [
 									"pm.test(\"Cenario001 - Existe token na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"token\");\r",
@@ -350,7 +347,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e4b5b26c-f632-4923-b43a-59fca91be5aa",
 								"exec": [
 									"pm.test(\"Cenario001 - Existe token na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"token\");\r",
@@ -500,7 +496,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bbcf0866-752f-4304-8f5f-1a4537689560",
 								"exec": [
 									"",
 									"pm.test('Cenario001 - Retornar Versão - Login Efetuado', function() {",
@@ -540,7 +535,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "5d02dcf0-ff72-4b01-b2e9-81d6c241bd45",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -550,15 +544,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "34e6fef4-c858-480a-bba7-58503d676050",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario001.5 - Autenticar-Flood",
@@ -569,7 +561,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.globals.set(\"iLoop\", \"3\");"
@@ -623,7 +614,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e4b5b26c-f632-4923-b43a-59fca91be5aa",
 								"exec": [
 									"pm.test(\"Cenario001 - Existe token na resposta\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"token\");\r",
@@ -653,7 +643,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "017d31a1-cf22-4189-955a-41c630fd1174",
 								"exec": [
 									""
 								],
@@ -795,7 +784,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "5d02dcf0-ff72-4b01-b2e9-81d6c241bd45",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -805,15 +793,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "34e6fef4-c858-480a-bba7-58503d676050",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario002 - Processo-Pesquisar",
@@ -824,7 +810,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario002 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -882,7 +867,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -974,7 +958,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -1092,8 +1075,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -1272,7 +1254,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6f968e61-66e7-41cd-b7f2-040b7606aeba",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -1411,8 +1392,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -1602,7 +1582,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bbcf0866-752f-4304-8f5f-1a4537689560",
 								"exec": [
 									"function sleep(ms) {",
 									"    var unixtime_ms = new Date().getTime();",
@@ -1651,14 +1630,11 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se pesquisou na mesma unidade\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
-									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
-									" \r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"});\r",
 									"\r",
@@ -1680,7 +1656,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseurl}}/processo/pesquisar?grupo&protocoloPesquisa=&limit&start&staTipoData=&dataInicio=&dataFim=&descricao=&idUnidadeGeradora=&idAssunto=",
+							"raw": "{{baseurl}}/processo/pesquisar?grupo&protocoloPesquisa=&limit=2000&start&staTipoData=&dataInicio=&dataFim=&descricao=&idUnidadeGeradora=&idAssunto=",
 							"host": [
 								"{{baseurl}}"
 							],
@@ -1699,7 +1675,7 @@
 								},
 								{
 									"key": "limit",
-									"value": "200"
+									"value": "2000"
 								},
 								{
 									"key": "start",
@@ -1866,7 +1842,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "91fc82fe-baa3-4e33-8a2e-4b8a095fbdc2",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se Listou na mesma unidade\", function () {\r",
@@ -1943,7 +1918,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario002 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -1999,7 +1973,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se não pesquisou o protocolo na outra unidade\", function () {\r",
@@ -2214,7 +2187,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "91fc82fe-baa3-4e33-8a2e-4b8a095fbdc2",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se Não Listou processo Restrito na outra unidade\", function () {\r",
@@ -2291,7 +2263,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -2384,7 +2355,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -2503,8 +2473,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -2683,7 +2652,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6f968e61-66e7-41cd-b7f2-040b7606aeba",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -2823,8 +2791,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -3014,7 +2981,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bbcf0866-752f-4304-8f5f-1a4537689560",
 								"exec": [
 									"function sleep(ms) {",
 									"    var unixtime_ms = new Date().getTime();",
@@ -3063,7 +3029,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se pesquisou na mesma unidade\", function () {\r",
@@ -3092,7 +3057,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseurl}}/processo/pesquisar?grupo&protocoloPesquisa=&limit&start&staTipoData=&dataInicio=&dataFim=&descricao=&idUnidadeGeradora=&idAssunto=",
+							"raw": "{{baseurl}}/processo/pesquisar?grupo&protocoloPesquisa=&limit=1000&start&staTipoData=&dataInicio=&dataFim=&descricao=&idUnidadeGeradora=&idAssunto=",
 							"host": [
 								"{{baseurl}}"
 							],
@@ -3111,7 +3076,7 @@
 								},
 								{
 									"key": "limit",
-									"value": "200"
+									"value": "1000"
 								},
 								{
 									"key": "start",
@@ -3278,7 +3243,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "91fc82fe-baa3-4e33-8a2e-4b8a095fbdc2",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se Listou na mesma unidade\", function () {\r",
@@ -3355,7 +3319,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario002 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -3413,7 +3376,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se pesquisou na mesma unidade\", function () {\r",
@@ -3442,7 +3404,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseurl}}/processo/pesquisar?grupo&protocoloPesquisa=&limit&start&staTipoData=&dataInicio=&dataFim=&descricao=&idUnidadeGeradora=&idAssunto=",
+							"raw": "{{baseurl}}/processo/pesquisar?grupo&protocoloPesquisa=&limit=2000&start&staTipoData=&dataInicio=&dataFim=&descricao=&idUnidadeGeradora=&idAssunto=",
 							"host": [
 								"{{baseurl}}"
 							],
@@ -3461,7 +3423,7 @@
 								},
 								{
 									"key": "limit",
-									"value": "200"
+									"value": "2000"
 								},
 								{
 									"key": "start",
@@ -3628,7 +3590,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "91fc82fe-baa3-4e33-8a2e-4b8a095fbdc2",
 								"exec": [
 									"//desabilita temporariamente\r",
 									"//pm.test(\"Cenario002 - Verifica se Listou na mesma unidade\", function () {\r",
@@ -3706,7 +3667,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se pesquisou na mesma unidade\", function () {\r",
@@ -3735,7 +3695,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseurl}}/processo/pesquisar?grupo&protocoloPesquisa=999&limit&start&staTipoData=&dataInicio=&dataFim=&descricao=&idUnidadeGeradora=&idAssunto=",
+							"raw": "{{baseurl}}/processo/pesquisar?grupo&protocoloPesquisa=999&limit=1000&start&staTipoData=&dataInicio=&dataFim=&descricao=&idUnidadeGeradora=&idAssunto=",
 							"host": [
 								"{{baseurl}}"
 							],
@@ -3754,7 +3714,7 @@
 								},
 								{
 									"key": "limit",
-									"value": "200"
+									"value": "1000"
 								},
 								{
 									"key": "start",
@@ -3921,7 +3881,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se não pesquisou na unidade Teste\", function () {\r",
@@ -4138,7 +4097,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se pesquisou na unidade Teste_1_2\", function () {\r",
@@ -4353,7 +4311,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se pesquisou na unidade Teste_1_2 com periodo de 30 dias\", function () {\r",
@@ -4570,7 +4527,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se pesquisou na unidade Teste_1_2 com periodo de 60 dias\", function () {\r",
@@ -4785,7 +4741,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se não pesquisou na unidade Teste_1_2 com data bem antiga\", function () {\r",
@@ -5000,7 +4955,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se pesquisou na unidade Teste_1_2 com data fixa ini e fim\", function () {\r",
@@ -5019,7 +4973,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "3d2517fb-4625-414b-9b87-837372bdf293",
 								"exec": [
 									"var moment = require('moment');\r",
 									"\r",
@@ -5234,7 +5187,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se não pesquisou na unidade Teste_1_2 com descricao nao existente\", function () {\r",
@@ -5253,7 +5205,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "3d2517fb-4625-414b-9b87-837372bdf293",
 								"exec": [
 									"var moment = require('moment');\r",
 									"\r",
@@ -5468,7 +5419,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se pesquisou na unidade Teste_1_2 com descricao\", function () {\r",
@@ -5487,7 +5437,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "3d2517fb-4625-414b-9b87-837372bdf293",
 								"exec": [
 									"var moment = require('moment');\r",
 									"\r",
@@ -5702,7 +5651,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se pesquisou na unidade Teste_1_2 com assunto\", function () {\r",
@@ -5721,7 +5669,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "3d2517fb-4625-414b-9b87-837372bdf293",
 								"exec": [
 									"var moment = require('moment');\r",
 									"\r",
@@ -5936,7 +5883,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002 - Verifica se não pesquisou na unidade Teste_1_2 com assunto inválido\", function () {\r",
@@ -5955,7 +5901,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "3d2517fb-4625-414b-9b87-837372bdf293",
 								"exec": [
 									"var moment = require('moment');\r",
 									"\r",
@@ -6164,8 +6109,7 @@
 						}
 					]
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario002.1 - Processo-Pesquisar",
@@ -6176,7 +6120,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario002.1 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -6234,7 +6177,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002.1 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -6339,7 +6281,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002.1 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -6457,8 +6398,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -6637,7 +6577,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6f968e61-66e7-41cd-b7f2-040b7606aeba",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002.1 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -6776,8 +6715,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -6967,7 +6905,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bbcf0866-752f-4304-8f5f-1a4537689560",
 								"exec": [
 									"function sleep(ms) {",
 									"    var unixtime_ms = new Date().getTime();",
@@ -7016,7 +6953,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
@@ -7273,14 +7209,11 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
-									"\r",
 									"    p = p.replace('/', '\\\\/');\r",
-									" \r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
@@ -7307,7 +7240,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c31fac44-6c47-45b5-b53c-6907f930781f",
 								"exec": [
 									""
 								],
@@ -7367,7 +7299,7 @@
 								},
 								{
 									"key": "limit",
-									"value": null,
+									"value": "1000",
 									"disabled": true
 								},
 								{
@@ -7542,7 +7474,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
@@ -7576,7 +7507,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c31fac44-6c47-45b5-b53c-6907f930781f",
 								"exec": [
 									""
 								],
@@ -7811,7 +7741,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
@@ -7845,7 +7774,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c31fac44-6c47-45b5-b53c-6907f930781f",
 								"exec": [
 									""
 								],
@@ -8078,7 +8006,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
@@ -8112,7 +8039,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c31fac44-6c47-45b5-b53c-6907f930781f",
 								"exec": [
 									""
 								],
@@ -8340,7 +8266,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
@@ -8374,7 +8299,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c31fac44-6c47-45b5-b53c-6907f930781f",
 								"exec": [
 									""
 								],
@@ -8602,7 +8526,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
@@ -8636,7 +8559,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c31fac44-6c47-45b5-b53c-6907f930781f",
 								"exec": [
 									""
 								],
@@ -8864,7 +8786,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
@@ -8898,7 +8819,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c31fac44-6c47-45b5-b53c-6907f930781f",
 								"exec": [
 									""
 								],
@@ -9126,7 +9046,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"pm.test(\"Cenario002.1 - Pesquisa período antigo. Não pode retornar\", function () {\r",
 									"    \r",
@@ -9141,7 +9060,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c31fac44-6c47-45b5-b53c-6907f930781f",
 								"exec": [
 									""
 								],
@@ -9367,7 +9285,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
@@ -9401,7 +9318,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c31fac44-6c47-45b5-b53c-6907f930781f",
 								"exec": [
 									"//vamos pegar a data de hoje",
 									"const moment = require('moment');",
@@ -9629,7 +9545,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
@@ -9663,7 +9578,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c31fac44-6c47-45b5-b53c-6907f930781f",
 								"exec": [
 									"//vamos pegar a data de hoje",
 									"const moment = require('moment');",
@@ -9894,7 +9808,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"/*\r",
 									"pm.test(\"Cenario002.1 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
@@ -9951,7 +9864,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade\", function () {\r",
@@ -10195,7 +10107,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"/*\r",
 									"pm.test(\"Cenario002.1 - Usuário trocou de Unidade para TESTE\", function () {\r",
@@ -10254,7 +10165,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"/*\r",
 									"pm.test(\"Cenario002.1 - Enviou o Processo\", function () {\r",
@@ -10359,7 +10269,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"/*\r",
 									"pm.test(\"Cenario002.1 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
@@ -10417,7 +10326,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade\", function () {\r",
@@ -10661,7 +10569,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"/*\r",
 									"pm.test(\"Cenario002.1 - Enviou o Processo\", function () {\r",
@@ -10766,7 +10673,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade\", function () {\r",
@@ -11010,7 +10916,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"/*\r",
 									"pm.test(\"Cenario002.1 - Usuário trocou de Unidade para TESTE\", function () {\r",
@@ -11069,7 +10974,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
@@ -11327,7 +11231,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"/*\r",
 									"pm.test(\"Cenario002 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -11420,7 +11323,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"/*\r",
 									"pm.test(\"Cenario002 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -11539,8 +11441,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -11719,7 +11620,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6f968e61-66e7-41cd-b7f2-040b7606aeba",
 								"exec": [
 									"/*\r",
 									"pm.test(\"Cenario002 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -11859,8 +11759,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -12050,7 +11949,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bbcf0866-752f-4304-8f5f-1a4537689560",
 								"exec": [
 									"/*",
 									"function sleep(ms) {",
@@ -12100,7 +11998,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
@@ -12358,7 +12255,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
@@ -12610,8 +12506,7 @@
 						}
 					]
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario002.2 - Processo-Assunto-Pesquisar",
@@ -12622,13 +12517,21 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario002 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
 									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
 									""
 								],
 								"type": "text/javascript"
@@ -12680,7 +12583,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario 002.2 - Verifica se listou mais de 400 assuntos\", function () {\r",
@@ -12914,7 +12816,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6befb40d-bddb-423d-845c-53b1d52fe8b9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario 002.2 - Verifica se voltou pensão alimentícia no resultado\", function () {\r",
@@ -13140,8 +13041,7 @@
 						}
 					]
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario003 - Processo-Andamento",
@@ -13152,7 +13052,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario003 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -13210,7 +13109,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario003 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -13303,7 +13201,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario003 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -13422,8 +13319,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -13602,7 +13498,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c9640cad-d78b-4487-971b-558fbc6e34a0",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario003 - Voltou chave data\", function () {\r",
@@ -13760,7 +13655,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario003 - Enviou o Processo\", function () {\r",
@@ -13863,7 +13757,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d216eafc-ca4d-4d1a-bba0-f98c79fee571",
 								"exec": [
 									"pm.test(\"Cenario003 - Voltou chave data\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"data\");\r",
@@ -14019,7 +13912,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "abff82e1-7641-4151-96d4-557c008994ed",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -14029,15 +13921,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "714324c1-0280-4ba6-9864-e0d4b1984b10",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario004 - Processo-Docs",
@@ -14048,7 +13938,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario004 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -14106,7 +13995,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -14198,7 +14086,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -14290,7 +14177,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4610ef13-333e-4f41-b03e-710f003fc992",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se retornou chave DATA\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"data\");\r",
@@ -14463,7 +14349,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4610ef13-333e-4f41-b03e-710f003fc992",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se retornou chave DATA\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"data\");\r",
@@ -14634,7 +14519,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4610ef13-333e-4f41-b03e-710f003fc992",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se retornou chave DATA\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"data\");\r",
@@ -14807,7 +14691,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -14925,8 +14808,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -15105,7 +14987,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "eccd6ce6-a905-4834-bd6f-3b22815eabfd",
 								"exec": [
 									"",
 									"pm.test(\"Cenario004 - Verifica se a descrição retornou\", function () {",
@@ -15141,8 +15022,122 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idDocumentoInterno_1_1}}",
-									"type": "string"
+									"value": "{{idDocumentoInterno_1_1}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Consultar Documento Interno",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/documento/interno/consultar/:protocolo",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"documento",
+										"interno",
+										"consultar",
+										":protocolo"
+									],
+									"variable": [
+										{
+											"key": "protocolo",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 24 Aug 2019 12:08:29 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.15 (CentOS)"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.6.31"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1239"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=15, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=utf-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"sucesso\": true,\n    \"data\": {\n        \"nomeDocumento\": \"Abertura de Procedimento Licitatório 1 (0000001)\",\n        \"protocolo\": \"1\",\n        \"idDocumento\": \"2\",\n        \"idSerie\": \"260\",\n        \"nomeSerie\": \"Abertura de Procedimento Licitatório\",\n        \"numero\": \"1\",\n        \"idTipoConferencia\": \"\",\n        \"descricaoTipoConferencia\": \"\",\n        \"nivelAcesso\": \"1\",\n        \"idHipoteseLegal\": \"10\",\n        \"nomeHipoteseLegal\": \"Proteção da Propriedade Intelectual de Software\",\n        \"baseLegal\": \"Art. 2º da Lei nº 9.609/1998\",\n        \"grauSigilo\": \"\",\n        \"descricao\": \"desc documento\",\n        \"dataElaboracao\": \"24/08/2019\",\n        \"observacao\": \"Observação\",\n        \"assuntos\": [\n            {\n                \"id\": \"2\",\n                \"codigoestruturadoformatado\": \"001\",\n                \"descricao\": \"001 - MODERNIZAÇÃO E REFORMA ADMINISTRATIVA (inclusive Projetos, Estudos e Normas)\",\n                \"sequencia\": \"\"\n            },\n            {\n                \"id\": \"4\",\n                \"codigoestruturadoformatado\": \"003\",\n                \"descricao\": \"003 - RELATÓRIOS DE ATIVIDADES\",\n                \"sequencia\": \"\"\n            }\n        ],\n        \"interessados\": [\n            {\n                \"id\": \"100000004\",\n                \"nome\": \"INTRANET (INTRANET)\",\n                \"nomeformatado\": \"INTRANET (INTRANET) (INTRANET)\",\n                \"sigla\": \"INTRANET\"\n            },\n            {\n                \"id\": \"100000010\",\n                \"nome\": \"ORGAO ABC (ABC)\",\n                \"nomeformatado\": \"ORGAO ABC (ABC) (ABC)\",\n                \"sigla\": \"ABC\"\n            }\n        ],\n        \"destinatarios\": [\n            {\n                \"id\": \"100000004\",\n                \"nome\": \"INTRANET (INTRANET)\",\n                \"nomeformatado\": \"INTRANET (INTRANET) (INTRANET)\",\n                \"sigla\": \"INTRANET\"\n            }\n        ],\n        \"observacoesUnidades\": []\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Consultar Documento Interno Formatado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Cenario004 - Verifica se a descrição retornou\", function () {",
+									"    pm.expect(pm.response.text()).to.include('descricao documento interno');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{tokenUsuario1}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/documento/interno/formatado/consultar/:protocolo",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								"interno",
+								"formatado",
+								"consultar",
+								":protocolo"
+							],
+							"variable": [
+								{
+									"key": "protocolo",
+									"value": "{{protocoloDocumentoFormatadoInterno_1_1}}"
 								}
 							]
 						}
@@ -15221,7 +15216,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f15203ef-7894-4071-8e25-46e939781c2b",
 								"exec": [
 									"pm.test(\"Cenario004 - Executou visualizar com sucesso\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -15264,8 +15258,7 @@
 							"variable": [
 								{
 									"key": "documento",
-									"value": "{{idDocumentoInterno_1_1}}",
-									"type": "string"
+									"value": "{{idDocumentoInterno_1_1}}"
 								}
 							]
 						}
@@ -15368,7 +15361,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b76390ef-8824-4012-bf90-a239139191c9",
 								"exec": [
 									"pm.test(\"Cenario004 - Voltou com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -15479,8 +15471,7 @@
 							"variable": [
 								{
 									"key": "documento",
-									"value": "{{idDocumentoInterno_1_1}}",
-									"type": "string"
+									"value": "{{idDocumentoInterno_1_1}}"
 								}
 							]
 						}
@@ -15649,7 +15640,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "eccd6ce6-a905-4834-bd6f-3b22815eabfd",
 								"exec": [
 									"",
 									"pm.test(\"Cenario004 - Verifica se a descrição retornou\", function () {",
@@ -15689,8 +15679,7 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idDocumentoInterno_1_1}}",
-									"type": "string"
+									"value": "{{idDocumentoInterno_1_1}}"
 								}
 							]
 						}
@@ -15769,7 +15758,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c2f7817c-0f83-44ff-974f-c880c045b11b",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se listou tipos de conf\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"data\");",
@@ -15929,7 +15917,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5d1c829b-a97c-43ac-8052-dee5667518d0",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se retornou descrica\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"descricao\");",
@@ -16089,7 +16076,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6f968e61-66e7-41cd-b7f2-040b7606aeba",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -16228,8 +16214,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -16419,7 +16404,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ca10038a-436c-4dbc-b3e6-13c1bf9157e1",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se retornou nome documento\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"nomeDocumento\");",
@@ -16461,8 +16445,7 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idDocumentoExterno_1_2}}",
-									"type": "string"
+									"value": "{{idDocumentoExterno_1_2}}"
 								}
 							]
 						}
@@ -16565,7 +16548,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bf5aa386-7062-4d00-b06a-78772119b9d7",
 								"exec": [
 									"pm.test(\"Cenario004 - Content-Type is present\", function () {",
 									"    pm.response.to.have.header(\"Content-Type\");",
@@ -16615,7 +16597,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se retornou sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -16755,8 +16736,7 @@
 							"variable": [
 								{
 									"key": "documento",
-									"value": "{{idDocumentoExterno_1_2}}",
-									"type": "string"
+									"value": "{{idDocumentoExterno_1_2}}"
 								}
 							]
 						}
@@ -16952,7 +16932,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ca10038a-436c-4dbc-b3e6-13c1bf9157e1",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se alteração da série\", function () {",
 									"    pm.expect(pm.response.text()).to.include('\"idSerie\":\"7\"');",
@@ -17003,8 +16982,7 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idDocumentoExterno_1_2}}",
-									"type": "string"
+									"value": "{{idDocumentoExterno_1_2}}"
 								}
 							]
 						}
@@ -17107,7 +17085,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se retornou sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -17243,8 +17220,7 @@
 							"variable": [
 								{
 									"key": "documento",
-									"value": "{{idDocumentoExterno_1_2}}",
-									"type": "string"
+									"value": "{{idDocumentoExterno_1_2}}"
 								}
 							]
 						}
@@ -17440,7 +17416,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ca10038a-436c-4dbc-b3e6-13c1bf9157e1",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se alteração da série\", function () {",
 									"    pm.expect(pm.response.text()).to.include('\"idSerie\":\"7\"');",
@@ -17516,8 +17491,7 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idDocumentoExterno_1_2}}",
-									"type": "string"
+									"value": "{{idDocumentoExterno_1_2}}"
 								}
 							]
 						}
@@ -17620,7 +17594,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bf5aa386-7062-4d00-b06a-78772119b9d7",
 								"exec": [
 									"pm.test(\"Cenario004 - Content-Type is present\", function () {",
 									"    pm.response.to.have.header(\"Content-Type\");",
@@ -17669,7 +17642,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario004 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -17725,7 +17697,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ca10038a-436c-4dbc-b3e6-13c1bf9157e1",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se não retornou nome documento\", function () {",
 									"    pm.expect(pm.response.text()).to.not.include(\"nomeDocumento\");",
@@ -17767,8 +17738,7 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idDocumentoExterno_1_2}}",
-									"type": "string"
+									"value": "{{idDocumentoExterno_1_2}}"
 								}
 							]
 						}
@@ -17871,7 +17841,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "eccd6ce6-a905-4834-bd6f-3b22815eabfd",
 								"exec": [
 									"",
 									"pm.test(\"Cenario004 - Verifica se a descrição não retornou\", function () {",
@@ -17907,8 +17876,7 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idDocumentoInterno_1_1}}",
-									"type": "string"
+									"value": "{{idDocumentoInterno_1_1}}"
 								}
 							]
 						}
@@ -17987,7 +17955,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bf5aa386-7062-4d00-b06a-78772119b9d7",
 								"exec": [
 									"pm.test(\"Cenario004 - Content-Type is present\", function () {",
 									"    pm.response.to.have.header(\"Content-Type\");",
@@ -18033,7 +18000,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b76390ef-8824-4012-bf90-a239139191c9",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se não pode alterar o doc\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -18144,8 +18110,7 @@
 							"variable": [
 								{
 									"key": "documento",
-									"value": "{{idDocumentoInterno_1_1}}",
-									"type": "string"
+									"value": "{{idDocumentoInterno_1_1}}"
 								}
 							]
 						}
@@ -18314,7 +18279,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se retornou sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -18450,8 +18414,7 @@
 							"variable": [
 								{
 									"key": "documento",
-									"value": "{{idDocumentoExterno_1_2}}",
-									"type": "string"
+									"value": "{{idDocumentoExterno_1_2}}"
 								}
 							]
 						}
@@ -18647,7 +18610,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se retornou sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -18785,8 +18747,7 @@
 							"variable": [
 								{
 									"key": "documento",
-									"value": "{{idDocumentoExterno_1_2}}",
-									"type": "string"
+									"value": "{{idDocumentoExterno_1_2}}"
 								}
 							]
 						}
@@ -18982,7 +18943,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario004 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -19040,7 +19000,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f8575168-2f1c-43b0-aedf-368e76b9a38e",
 								"exec": [
 									"pm.test(\"Cenario004 - Alterou o processo\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -19129,8 +19088,7 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -19279,7 +19237,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario004 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -19335,7 +19292,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ca10038a-436c-4dbc-b3e6-13c1bf9157e1",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se retornou nome documento\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"nomeDocumento\");",
@@ -19377,8 +19333,7 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idDocumentoExterno_1_2}}",
-									"type": "string"
+									"value": "{{idDocumentoExterno_1_2}}"
 								}
 							]
 						}
@@ -19481,7 +19436,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "eccd6ce6-a905-4834-bd6f-3b22815eabfd",
 								"exec": [
 									"",
 									"pm.test(\"Cenario004 - Verifica se a descrição não retornou\", function () {",
@@ -19517,8 +19471,7 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idDocumentoInterno_1_1}}",
-									"type": "string"
+									"value": "{{idDocumentoInterno_1_1}}"
 								}
 							]
 						}
@@ -19597,7 +19550,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bf5aa386-7062-4d00-b06a-78772119b9d7",
 								"exec": [
 									"pm.test(\"Cenario004 - Content-Type is present\", function () {",
 									"    pm.response.to.have.header(\"Content-Type\");",
@@ -19643,7 +19595,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b76390ef-8824-4012-bf90-a239139191c9",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se não pode alterar o doc\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -19754,8 +19705,7 @@
 							"variable": [
 								{
 									"key": "documento",
-									"value": "{{idDocumentoInterno_1_1}}",
-									"type": "string"
+									"value": "{{idDocumentoInterno_1_1}}"
 								}
 							]
 						}
@@ -19924,7 +19874,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se não retornou sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -20060,8 +20009,7 @@
 							"variable": [
 								{
 									"key": "documento",
-									"value": "{{idDocumentoExterno_1_2}}",
-									"type": "string"
+									"value": "{{idDocumentoExterno_1_2}}"
 								}
 							]
 						}
@@ -20257,7 +20205,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e8c8ccb2-a88e-423b-bf2c-7e0a0360a019",
 								"exec": [
 									"pm.test(\"Cenario004 - Verifica se não retornou sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -20395,8 +20342,7 @@
 							"variable": [
 								{
 									"key": "documento",
-									"value": "{{idDocumentoExterno_1_2}}",
-									"type": "string"
+									"value": "{{idDocumentoExterno_1_2}}"
 								}
 							]
 						}
@@ -20586,8 +20532,7 @@
 						}
 					]
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario005 - Processo-Documento-Assinar",
@@ -20598,7 +20543,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario005 - Usuário trocou de Unidade para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -20656,7 +20600,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario005 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -20748,7 +20691,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario005 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -20866,8 +20808,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -21046,7 +20987,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6f968e61-66e7-41cd-b7f2-040b7606aeba",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario005 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -21185,8 +21125,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -21376,7 +21315,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "71c88fde-eb52-4a17-b010-27c3385e70c9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario005 - Verifica se executou com sucesso\", function () {\r",
@@ -21555,7 +21493,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "71c88fde-eb52-4a17-b010-27c3385e70c9",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario005 - Verifica Assinatura\", function () {\r",
@@ -21763,7 +21700,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9022e936-4e3c-41b6-9a10-0c047a770ad7",
 								"exec": [
 									"\r",
 									"pm.test('Cenario005 - Retornou Documentos', function() {\r",
@@ -21818,8 +21754,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						},
@@ -21932,7 +21867,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9022e936-4e3c-41b6-9a10-0c047a770ad7",
 								"exec": [
 									"\r",
 									"pm.test('Cenario005 - Retornou Documentos', function() {\r",
@@ -21987,8 +21921,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						},
@@ -22101,7 +22034,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9022e936-4e3c-41b6-9a10-0c047a770ad7",
 								"exec": [
 									"\r",
 									"pm.test('Cenario005 - Retornou Documento', function() {\r",
@@ -22156,8 +22088,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						},
@@ -22270,7 +22201,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9022e936-4e3c-41b6-9a10-0c047a770ad7",
 								"exec": [
 									"\r",
 									"pm.test('Cenario005 - Retornou Documento', function() {\r",
@@ -22325,8 +22255,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						},
@@ -22438,7 +22367,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "f9f93885-7ed2-47c6-978b-7134de2c5694",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -22448,15 +22376,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "c038639d-e911-473d-a9b3-1d1ffde21680",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario006 - Processo-Enviar",
@@ -22467,7 +22393,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario006 - Enviou o Processo\", function () {\r",
@@ -22570,7 +22495,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
 								"exec": [
 									"pm.test('Cenario006 - Verifica se processo permanece na unidade', function() {",
 									"  var jsonData = pm.response.json();",
@@ -22644,7 +22568,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario006 - Usuário trocou de unidade\", function () {\r",
@@ -22703,7 +22626,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
 								"exec": [
 									"pm.test('Cenario006 - Verifica se o Processo é listado na Unidade', function() {",
 									"  var jsonData = pm.response.json();",
@@ -22776,7 +22698,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario006 - Usuário Trocou de Unidade Para TESTE\", function () {\r",
@@ -22835,7 +22756,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario006 - Usuário Trocou de Unidade para TESTE_1_1\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -22936,7 +22856,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
 								"exec": [
 									"pm.test('Cenario006 - Processo não deve constar na listagem', function() {",
 									"  var jsonData = pm.response.json();",
@@ -23009,7 +22928,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario006 - Usuário trocou de Unidade\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -23067,7 +22985,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
 								"exec": [
 									"pm.test('Cenario006 - Verificar se o Processo é Listado', function() {",
 									"  var jsonData = pm.response.json();",
@@ -23134,8 +23051,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario007 - Processo-Enviar-Retorno-Programado",
@@ -23146,7 +23062,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario007 - Processo com Data de Retorno Programado Enviado para Unidade TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -23246,7 +23161,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
 								"exec": [
 									"pm.test('Cenario007 - Verificar se o Processo é Listado', function() {",
 									"  var jsonData = pm.response.json();",
@@ -23319,7 +23233,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario007 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -23377,7 +23290,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
 								"exec": [
 									"pm.test('Cenario007 - Verificar se o Processo é Listado', function() {",
 									"  var jsonData = pm.response.json();",
@@ -23454,7 +23366,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario007 - Processo com Dias de Retorno Programado Enviado para Unidade TESTE_1_1\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -23554,7 +23465,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario007 - Usuário trocou de Unidade para TESTE_1_1\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -23612,7 +23522,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
 								"exec": [
 									"function FormataStringData(data) {",
 									"  var dia  = data.split(\"/\")[0];",
@@ -23724,7 +23633,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario007 - Processo com Dias uteis de Retorno Programado Enviado para Unidade TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -23823,7 +23731,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario007 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -23881,7 +23788,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d4d1e912-ff85-40e4-a25c-0bce4ef23e4d",
 								"exec": [
 									"function FormataStringData(data) {",
 									"  var dia  = data.split(\"/\")[0];",
@@ -23988,8 +23894,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario008 - Bloco de Assinatura",
@@ -24000,7 +23905,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario008 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -24056,7 +23960,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario008 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -24149,7 +24052,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario008 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -24270,8 +24172,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_2}}",
-									"type": "string"
+									"value": "{{idProcedimento_2}}"
 								}
 							]
 						}
@@ -24450,7 +24351,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario008 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -24571,8 +24471,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_2}}",
-									"type": "string"
+									"value": "{{idProcedimento_2}}"
 								}
 							]
 						}
@@ -24751,7 +24650,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario008 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -24844,7 +24742,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario008 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -24964,8 +24861,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_3}}",
-									"type": "string"
+									"value": "{{idProcedimento_3}}"
 								}
 							]
 						}
@@ -25144,7 +25040,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ca533ae4-6645-45ad-9162-f61c41e09b58",
 								"exec": [
 									"pm.test(\"Cenario008 - Bloco 1 Criado com Sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -25304,7 +25199,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ca533ae4-6645-45ad-9162-f61c41e09b58",
 								"exec": [
 									"pm.test(\"Cenario008 - Bloco 2 Criado com Sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -25464,7 +25358,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ca533ae4-6645-45ad-9162-f61c41e09b58",
 								"exec": [
 									"pm.test(\"Cenario008 - Bloco 3 Criado com Sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -25622,7 +25515,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5f6f11e2-c0ec-43d2-a58c-fbeb4c21d97e",
 								"exec": [
 									"pm.test('Cenario008 - Retornou Blocos', function() {",
 									"  var jsonData = pm.response.json();",
@@ -25654,7 +25546,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseurl}}/bloco/assinatura/pesquisar?limit=&start=&id=&filter=&estado=",
+							"raw": "{{baseurl}}/bloco/assinatura/pesquisar?limit=1000&start=&id=&filter=&estado=",
 							"host": [
 								"{{baseurl}}"
 							],
@@ -25666,7 +25558,7 @@
 							"query": [
 								{
 									"key": "limit",
-									"value": ""
+									"value": "1000"
 								},
 								{
 									"key": "start",
@@ -25801,7 +25693,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5f6f11e2-c0ec-43d2-a58c-fbeb4c21d97e",
 								"exec": [
 									"pm.test('Cenario008 - Retornou Blocos', function() {",
 									"  var jsonData = pm.response.json();",
@@ -25976,7 +25867,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b793c542-4029-45fb-b4f9-d1cc015e16e3",
 								"exec": [
 									"pm.test(\"Cenario008 - Excluiu Blocos com Sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -26123,7 +26013,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ca533ae4-6645-45ad-9162-f61c41e09b58",
 								"exec": [
 									"pm.test(\"Cenario008 - Bloco 1 Criado com Sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -26283,7 +26172,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ca533ae4-6645-45ad-9162-f61c41e09b58",
 								"exec": [
 									"pm.test(\"Cenario008 - Bloco Criado com Sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -26443,7 +26331,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b793c542-4029-45fb-b4f9-d1cc015e16e3",
 								"exec": [
 									"pm.test(\"Cenario008 - Excluiu Bloco 2 com Sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -26590,7 +26477,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5f6f11e2-c0ec-43d2-a58c-fbeb4c21d97e",
 								"exec": [
 									"",
 									"pm.test(\"Cenario008 - Pesquisou com Sucesso\", function () {",
@@ -26768,7 +26654,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5f6f11e2-c0ec-43d2-a58c-fbeb4c21d97e",
 								"exec": [
 									"",
 									"pm.test(\"Cenario008 - Pesquisou com Sucesso\", function () {",
@@ -26946,7 +26831,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "80e30a2e-1a50-4f6c-8132-ee99ff1b24bd",
 								"exec": [
 									"pm.test(\"Cenario008 - Pesquisou com Sucesso\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -27009,8 +26893,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -27129,7 +27012,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "13e390a8-d4aa-4be9-9703-8b5ae393a620",
 								"exec": [
 									"pm.test(\"Cenario008 - Verificar se incluiu com sucesso!\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -27183,8 +27065,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -27299,7 +27180,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "13e390a8-d4aa-4be9-9703-8b5ae393a620",
 								"exec": [
 									"pm.test(\"Cenario008 - Verificar se resposta foi negativa\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -27353,8 +27233,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -27508,8 +27387,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -27624,7 +27502,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "55be7d71-f6b4-4bf4-896c-d3ae15352af2",
 								"exec": [
 									"pm.test(\"Verificar se primeiro documento está listado no bloco\", function () {",
 									"    pm.expect(pm.response.text()).to.include(pm.variables.get(\"protocoloDocumentoFormatadoInterno_2_2\"));",
@@ -27678,8 +27555,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -27793,7 +27669,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "13e390a8-d4aa-4be9-9703-8b5ae393a620",
 								"exec": [
 									"pm.test(\"Verificar se incluiu com sucesso!\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -27847,8 +27722,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -27963,7 +27837,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "89c6b2cd-4bd4-4cba-9b63-96f360e80c6a",
 								"exec": [
 									"pm.test(\"Criou anotação com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -28136,7 +28009,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "55be7d71-f6b4-4bf4-896c-d3ae15352af2",
 								"exec": [
 									"pm.test(\"Verificar se anotação está listado no bloco\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"Nota do doc1\");",
@@ -28183,8 +28055,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -28298,7 +28169,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "89c6b2cd-4bd4-4cba-9b63-96f360e80c6a",
 								"exec": [
 									"pm.test(\"Alterou anotação com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -28471,7 +28341,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "55be7d71-f6b4-4bf4-896c-d3ae15352af2",
 								"exec": [
 									"pm.test(\"Verificar se anotação está listado no bloco\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"Nota alterada do doc1\");",
@@ -28518,8 +28387,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -28633,7 +28501,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -28689,7 +28556,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "71c88fde-eb52-4a17-b010-27c3385e70c9",
 								"exec": [
 									"pm.test(\"Verifica se não Conseguiu Assinar\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -28894,7 +28760,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -28950,7 +28815,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "eac2861d-0c03-483c-b6cc-15a14c119ad1",
 								"exec": [
 									"pm.test(\"Verifica se Disponibilizou\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -28986,8 +28850,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -29090,7 +28953,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -29146,7 +29008,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "71c88fde-eb52-4a17-b010-27c3385e70c9",
 								"exec": [
 									"pm.test(\"Verifica se Conseguiu Assinar\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -29351,7 +29212,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -29407,7 +29267,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ef80f2cf-9151-47b9-821d-819ca520d154",
 								"exec": [
 									"pm.test(\"Verifica se cancelou a disponibilização\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -29444,8 +29303,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -29549,7 +29407,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "aa3eb505-6283-42aa-89b7-a388a3890a05",
 								"exec": [
 									"pm.test(\"Retirou doc assinado com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -29603,8 +29460,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -29719,7 +29575,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -29775,7 +29630,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0e8209f1-19b9-4380-bef1-79893f2ce56d",
 								"exec": [
 									"pm.test(\"Verifica se não conseguiu assinar\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -29847,8 +29701,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -29981,7 +29834,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -30037,7 +29889,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b6aee2bc-f7a4-4ef6-a75b-291069211cba",
 								"exec": [
 									"pm.test(\"Verifica se concluiu\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -30190,7 +30041,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -30246,7 +30096,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0e8209f1-19b9-4380-bef1-79893f2ce56d",
 								"exec": [
 									"pm.test(\"Verifica se não conseguiu assinar\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -30318,8 +30167,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -30452,7 +30300,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -30508,7 +30355,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "223d368c-ce50-42f0-b6d9-4072063fe931",
 								"exec": [
 									"pm.test(\"Verifica se Reabriu\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -30544,8 +30390,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -30648,7 +30493,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fece0267-0de0-4bc7-83df-decbf0d35cce",
 								"exec": [
 									"pm.test(\"Verifica se Disponibilizou\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -30684,8 +30528,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -30788,7 +30631,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -30844,7 +30686,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d9f4c79f-7d1d-4180-99b3-68cf1cccdcff",
 								"exec": [
 									"pm.test(\"Verifica se conseguiu Retornar\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -30880,8 +30721,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -30988,7 +30828,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -31044,7 +30883,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fece0267-0de0-4bc7-83df-decbf0d35cce",
 								"exec": [
 									"pm.test(\"Verifica se Disponibilizou\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -31079,10 +30917,8 @@
 							],
 							"variable": [
 								{
-									"id": "2b179fe3-a26d-49f7-96b6-0b1e6def8e06",
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -31185,7 +31021,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -31241,7 +31076,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0e8209f1-19b9-4380-bef1-79893f2ce56d",
 								"exec": [
 									"pm.test(\"Verifica se conseguiu assinar\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -31313,8 +31147,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -31441,8 +31274,7 @@
 						}
 					]
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario008.1 - Blocos Flood",
@@ -31453,7 +31285,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario008.1 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -31511,7 +31342,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ca533ae4-6645-45ad-9162-f61c41e09b58",
 								"exec": [
 									"pm.test(\"Cenario008.1 - Bloco Criado com Sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -31680,7 +31510,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario008.1 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -31774,7 +31603,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario008.1 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -31897,8 +31725,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_2}}",
-									"type": "string"
+									"value": "{{idProcedimento_2}}"
 								}
 							]
 						}
@@ -32077,7 +31904,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "13e390a8-d4aa-4be9-9703-8b5ae393a620",
 								"exec": [
 									"pm.test(\"Cenario008.1 - Verificar se incluiu com sucesso!\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -32139,8 +31965,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{blocoAssinatura_1}}",
-									"type": "string"
+									"value": "{{blocoAssinatura_1}}"
 								}
 							]
 						}
@@ -32254,7 +32079,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "3042bf1a-bba6-42a7-91c9-c93c18ce17fb",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -32264,15 +32088,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "bcab73a7-6c77-4607-86e1-3ae3675361ce",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario009 - Marcadores",
@@ -32283,7 +32105,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario008 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -32339,7 +32160,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario009 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -32432,7 +32252,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario009 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -32553,8 +32372,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_2}}",
-									"type": "string"
+									"value": "{{idProcedimento_2}}"
 								}
 							]
 						}
@@ -32733,7 +32551,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "41a83699-97e1-47a1-9f28-099dbfba269e",
 								"exec": [
 									"pm.test(\"Cenário009 - Retornou dados de cores\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"Verde\");",
@@ -32858,7 +32675,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0c8e99ff-eada-4b6e-af15-7a8f8368576c",
 								"exec": [
 									"var idMarcador=0;",
 									"",
@@ -33022,7 +32838,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0c8e99ff-eada-4b6e-af15-7a8f8368576c",
 								"exec": [
 									"var idMarcador=0;",
 									"",
@@ -33186,7 +33001,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a8f63da4-5a11-4c4a-b3b0-18dbb71c9361",
 								"exec": [
 									"pm.test(\"Cenario009 - Verifica se pesquisou marcadores criados\", function () {",
 									"    var id1 = pm.globals.get(\"Marcador1\");",
@@ -33354,7 +33168,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a66588db-d1e0-49df-aff3-4ff4a37e8f27",
 								"exec": [
 									"pm.test(\"Cenario009 - Marcador alterado\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -33404,8 +33217,7 @@
 							"variable": [
 								{
 									"key": "marcador",
-									"value": "{{Marcador2}}",
-									"type": "string"
+									"value": "{{Marcador2}}"
 								}
 							]
 						}
@@ -33522,7 +33334,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "97319b79-36d6-4341-bc68-2fa87815ac11",
 								"exec": [
 									"pm.test(\"Cenario009 - Marcador desativado\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -33667,7 +33478,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5134a54c-aba1-45cc-8a5a-99013bcc5464",
 								"exec": [
 									"pm.test(\"Cenario009 - Marcador reativado\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -33812,7 +33622,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6d08d002-bb39-4a7b-8c7e-64da81f5bf96",
 								"exec": [
 									"pm.test(\"Cenario009 - Marcador excluido\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -33957,7 +33766,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8a5d4e0c-0d1f-4092-ab84-f501d9c27168",
 								"exec": [
 									"pm.test(\"Cenario009 - Processo Marcado\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -34009,8 +33817,7 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idProcedimento_2}}",
-									"type": "string"
+									"value": "{{idProcedimento_2}}"
 								}
 							]
 						}
@@ -34129,7 +33936,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "cdf7ab1c-3648-4260-8a51-4875a502609c",
 								"exec": [
 									"pm.test(\"Cenario009 - Verifica se retornou dados do marcador\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"marquei proc\");\r",
@@ -34165,8 +33971,7 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idProcedimento_2}}",
-									"type": "string"
+									"value": "{{idProcedimento_2}}"
 								}
 							]
 						}
@@ -34269,7 +34074,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8a5d4e0c-0d1f-4092-ab84-f501d9c27168",
 								"exec": [
 									"pm.test(\"Cenario009 - Processo Marcado\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -34321,8 +34125,7 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idProcedimento_2}}",
-									"type": "string"
+									"value": "{{idProcedimento_2}}"
 								}
 							]
 						}
@@ -34441,7 +34244,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "14ad9bf2-a1a9-47ab-a94c-40fd671b5abf",
 								"exec": [
 									"pm.test(\"Cenario009 - Verifica historico do marcador no processo\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"alterado marcacaoOOO\");",
@@ -34479,8 +34281,7 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idProcedimento_2}}",
-									"type": "string"
+									"value": "{{idProcedimento_2}}"
 								}
 							]
 						}
@@ -34578,8 +34379,7 @@
 						}
 					]
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario009.1 - Marcadores Flood",
@@ -34590,7 +34390,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario009.1 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -34648,7 +34447,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0c8e99ff-eada-4b6e-af15-7a8f8368576c",
 								"exec": [
 									"var idMarcador=0;",
 									"",
@@ -34820,7 +34618,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario009.1 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -34914,7 +34711,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8a5d4e0c-0d1f-4092-ab84-f501d9c27168",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario009.1 - Processo Marcado\", function () {\r",
@@ -34977,8 +34773,7 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idProcedimento_2}}",
-									"type": "string"
+									"value": "{{idProcedimento_2}}"
 								}
 							]
 						}
@@ -35097,7 +34892,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "14ad9bf2-a1a9-47ab-a94c-40fd671b5abf",
 								"exec": [
 									"",
 									"pm.test(\"Cenario009.1 - Verificar Historico\", function () {",
@@ -35135,8 +34929,7 @@
 							"variable": [
 								{
 									"key": "protocolo",
-									"value": "{{idProcedimento_2}}",
-									"type": "string"
+									"value": "{{idProcedimento_2}}"
 								}
 							]
 						}
@@ -35234,8 +35027,7 @@
 						}
 					]
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario010 - Blocos Internos",
@@ -35246,7 +35038,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario010 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -35304,7 +35095,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "20aaf70c-6db8-4759-bf5e-07cd89ab4aaa",
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"",
@@ -35455,7 +35245,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1c598407-69c5-40aa-a616-f7de6c2c55e1",
 								"exec": [
 									"pm.test(\"Cenario010 - Alterou Nome do Bloco Interno com Sucesso\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -35503,8 +35292,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno1_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno1_id}}"
 								}
 							]
 						}
@@ -35617,7 +35405,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "20aaf70c-6db8-4759-bf5e-07cd89ab4aaa",
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"",
@@ -35768,7 +35555,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "20aaf70c-6db8-4759-bf5e-07cd89ab4aaa",
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"",
@@ -35919,7 +35705,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a886825f-f850-4a37-a01f-44906e8101ad",
 								"exec": [
 									"pm.test(\"Cenario 010 - listar blocos na pesquisa\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"Bloco Interno de Teste 02\");",
@@ -36090,7 +35875,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario010 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -36148,7 +35932,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a886825f-f850-4a37-a01f-44906e8101ad",
 								"exec": [
 									"pm.test(\"Cenario 010 - Não pode listar bloco de outra unidade\", function () {",
 									"    pm.expect(pm.response.text()).to.not.include(\"Bloco Interno de Teste 02\");",
@@ -36318,7 +36101,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9939373c-48f2-4b6c-93e2-90ebcb49ef5e",
 								"exec": [
 									"pm.test(\"Cenario010 - Nao pode excluir bloco de outra unidade\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -36465,7 +36247,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1c598407-69c5-40aa-a616-f7de6c2c55e1",
 								"exec": [
 									"pm.test(\"Cenario010 - Não pode alterar Nome do Bloco Interno de outra unidade\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -36513,8 +36294,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno2_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno2_id}}"
 								}
 							]
 						}
@@ -36627,7 +36407,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario010 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -36719,7 +36498,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario010 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -36837,8 +36615,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -37017,7 +36794,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c1c5d79c-9308-461f-87c2-33967c7e5a45",
 								"exec": [
 									"pm.test(\"Cenario010 - Não pode incluir processo restrito em Bloco Interno de outra unidade\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -37065,8 +36841,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno1_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno1_id}}"
 								}
 							]
 						}
@@ -37181,7 +36956,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario010 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -37274,7 +37048,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario010 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -37392,8 +37165,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_2}}",
-									"type": "string"
+									"value": "{{idProcedimento_2}}"
 								}
 							]
 						}
@@ -37572,7 +37344,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c1c5d79c-9308-461f-87c2-33967c7e5a45",
 								"exec": [
 									"pm.test(\"Cenario010 - Não pode incluir processo publico em Bloco Interno de outra unidade\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -37620,8 +37391,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno1_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno1_id}}"
 								}
 							]
 						}
@@ -37736,7 +37506,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario010 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -37794,7 +37563,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c1c5d79c-9308-461f-87c2-33967c7e5a45",
 								"exec": [
 									"pm.test(\"Cenario010 - Não pode incluir processo de outra unidade em Bloco Interno\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -37842,8 +37610,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno1_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno1_id}}"
 								}
 							]
 						}
@@ -37958,7 +37725,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9939373c-48f2-4b6c-93e2-90ebcb49ef5e",
 								"exec": [
 									"pm.test(\"Cenario010 - Excluiu os blocos\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -38105,7 +37871,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9939373c-48f2-4b6c-93e2-90ebcb49ef5e",
 								"exec": [
 									"pm.test(\"Cenario010 - Não excluiu inexistente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -38252,7 +38017,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "20aaf70c-6db8-4759-bf5e-07cd89ab4aaa",
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"",
@@ -38403,7 +38167,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "20aaf70c-6db8-4759-bf5e-07cd89ab4aaa",
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"",
@@ -38554,7 +38317,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario010 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -38646,7 +38408,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario010 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -38764,8 +38525,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -38944,7 +38704,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario010 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -39036,7 +38795,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario010 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -39154,8 +38912,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_2}}",
-									"type": "string"
+									"value": "{{idProcedimento_2}}"
 								}
 							]
 						}
@@ -39334,7 +39091,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario010 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -39426,7 +39182,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario010 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -39544,8 +39299,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_3}}",
-									"type": "string"
+									"value": "{{idProcedimento_3}}"
 								}
 							]
 						}
@@ -39724,7 +39478,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c1c5d79c-9308-461f-87c2-33967c7e5a45",
 								"exec": [
 									"pm.test(\"Cenario010 - Incluir Processos de Outra Unidade\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -39772,8 +39525,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno1_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno1_id}}"
 								}
 							]
 						}
@@ -39888,7 +39640,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b80b42ec-ab1b-4967-8bda-d5386e53a97f",
 								"exec": [
 									"pm.test(\"Cenario010 - Verifica se listou os protocolos\", function () {",
 									"    var p = pm.globals.get(\"ProtocoloFormatado_1\");",
@@ -39944,8 +39695,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno1_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno1_id}}"
 								}
 							]
 						}
@@ -40059,7 +39809,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c1c5d79c-9308-461f-87c2-33967c7e5a45",
 								"exec": [
 									"pm.test(\"Cenario010 - Incluir Processos de Outra Unidade\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -40107,8 +39856,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno2_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno2_id}}"
 								}
 							]
 						}
@@ -40223,7 +39971,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c1c5d79c-9308-461f-87c2-33967c7e5a45",
 								"exec": [
 									"pm.test(\"Cenario010 - Incluir Processos no bloco\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -40271,8 +40018,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno3_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno3_id}}"
 								}
 							]
 						}
@@ -40387,7 +40133,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9939373c-48f2-4b6c-93e2-90ebcb49ef5e",
 								"exec": [
 									"pm.test(\"Cenario010 - Nao pode excluir bloco com processos\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -40534,7 +40279,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario010 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -40592,7 +40336,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3c8b6953-a1d1-4990-ace9-c8aa5245a012",
 								"exec": [
 									"pm.test(\"Cenario010 - Nao pode remover processos de bloco que não sejam da unidade\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -40640,8 +40383,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno3_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno3_id}}"
 								}
 							]
 						}
@@ -40756,7 +40498,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario010 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -40814,7 +40555,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3c8b6953-a1d1-4990-ace9-c8aa5245a012",
 								"exec": [
 									"pm.test(\"Cenario010 - Pode remover processos de bloco da mesma unidade\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -40862,8 +40602,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno3_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno3_id}}"
 								}
 							]
 						}
@@ -40978,7 +40717,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b80b42ec-ab1b-4967-8bda-d5386e53a97f",
 								"exec": [
 									"pm.test(\"Cenario010 - Verifica se listou os protocolos\", function () {",
 									"    ",
@@ -41036,8 +40774,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno3_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno3_id}}"
 								}
 							]
 						}
@@ -41151,7 +40888,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9939373c-48f2-4b6c-93e2-90ebcb49ef5e",
 								"exec": [
 									"pm.test(\"Cenario010 - Excluir Bloco\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -41298,7 +41034,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a886825f-f850-4a37-a01f-44906e8101ad",
 								"exec": [
 									"pm.test(\"Cenario 010 - Não pode listar id excluido\", function () {",
 									"    pm.expect(pm.response.text()).to.not.include('\"id\":\"' + pm.globals.get(\"BlocoInterno3_id\") +'\"');",
@@ -41470,7 +41205,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario010 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -41528,7 +41262,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8ce68e9d-a2f1-4f20-ba1f-3a1d920d57dd",
 								"exec": [
 									"pm.test(\"Cenario010 - Não pode anotar em bloco de outra unidade\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -41696,7 +41429,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "92484153-ea29-4ee7-8dc6-4947a9871dbd",
 								"exec": [
 									"pm.test(\"Cenario010 - Não pode alterar anotação em bloco de outra unidade\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -41864,7 +41596,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario010 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -41922,7 +41653,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8ce68e9d-a2f1-4f20-ba1f-3a1d920d57dd",
 								"exec": [
 									"pm.test(\"Cenario010 - anotar em bloco de outra unidade\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -42090,7 +41820,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b80b42ec-ab1b-4967-8bda-d5386e53a97f",
 								"exec": [
 									"pm.test(\"Cenario010 - Verifica se listou anotações\", function () {",
 									"    var s=\"Minhas Anotacoes vao aqui \" + pm.globals.get(\"idProcedimento_1\") + \" \" + pm.globals.get(\"BlocoInterno1_id\")",
@@ -42138,8 +41867,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno1_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno1_id}}"
 								}
 							]
 						}
@@ -42253,7 +41981,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "92484153-ea29-4ee7-8dc6-4947a9871dbd",
 								"exec": [
 									"pm.test(\"Cenario010 - Alterar anotação em bloco de outra unidade\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -42421,7 +42148,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b80b42ec-ab1b-4967-8bda-d5386e53a97f",
 								"exec": [
 									"pm.test(\"Cenario010 - Verifica se listou anotações\", function () {",
 									"    var s=\"Minhas Anotacoes Alteradas vao aqui \" + pm.globals.get(\"idProcedimento_1\") + \" \" + pm.globals.get(\"BlocoInterno1_id\")",
@@ -42469,8 +42195,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno1_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno1_id}}"
 								}
 							]
 						}
@@ -42584,7 +42309,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario010 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -42641,7 +42365,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "dd97a0e9-3034-4422-8636-31cbad27ab5a",
 								"exec": [
 									"pm.test(\"Cenario010 - não pode Concluir Bloco de outra unidade\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -42789,7 +42512,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario010 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -42847,7 +42569,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "dd97a0e9-3034-4422-8636-31cbad27ab5a",
 								"exec": [
 									"pm.test(\"Cenario010 - Concluir Bloco\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -42995,7 +42716,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7452650f-402c-40b1-b796-660a8770df93",
 								"exec": [
 									"pm.test(\"Cenario010 - Concluir Bloco inexistente deve retornar erro\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -43143,7 +42863,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a886825f-f850-4a37-a01f-44906e8101ad",
 								"exec": [
 									"pm.test(\"Cenario 010 - Não pode listar id excluido\", function () {",
 									"    ",
@@ -43317,7 +43036,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario010 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -43374,7 +43092,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b59b3914-4f9a-4a90-84e8-baa063cca765",
 								"exec": [
 									"pm.test(\"Cenario010 - não pode Reabrir Bloco de outra unidade\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -43411,8 +43128,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno2_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno2_id}}"
 								}
 							]
 						}
@@ -43515,7 +43231,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario010 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -43573,7 +43288,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b59b3914-4f9a-4a90-84e8-baa063cca765",
 								"exec": [
 									"pm.test(\"Cenario010 - Reabrir Bloco\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -43609,10 +43323,8 @@
 							],
 							"variable": [
 								{
-									"id": "1ba23928-9a58-4899-82a5-e0267d841dd9",
 									"key": "bloco",
-									"value": "{{BlocoInterno2_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno2_id}}"
 								}
 							]
 						}
@@ -43715,7 +43427,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a886825f-f850-4a37-a01f-44906e8101ad",
 								"exec": [
 									"pm.test(\"Cenario 010 - Não pode listar id excluido\", function () {",
 									"    ",
@@ -43889,7 +43600,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "dd97a0e9-3034-4422-8636-31cbad27ab5a",
 								"exec": [
 									"pm.test(\"Cenario010 - Concluir Bloco\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -44037,7 +43747,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9939373c-48f2-4b6c-93e2-90ebcb49ef5e",
 								"exec": [
 									"pm.test(\"Cenario010 - não pode Excluir Bloco concluido com processos\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -44178,8 +43887,7 @@
 						}
 					]
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario010.1 - Blocos Internos Flood",
@@ -44190,7 +43898,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario010.1 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -44248,7 +43955,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "20aaf70c-6db8-4759-bf5e-07cd89ab4aaa",
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"",
@@ -44401,7 +44107,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario010.1 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -44493,7 +44198,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario010.1 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -44611,8 +44315,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_3}}",
-									"type": "string"
+									"value": "{{idProcedimento_3}}"
 								}
 							]
 						}
@@ -44791,7 +44494,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c1c5d79c-9308-461f-87c2-33967c7e5a45",
 								"exec": [
 									"pm.test(\"Cenario010.1 - Incluir Processos no bloco\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -44847,8 +44549,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno1_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno1_id}}"
 								}
 							]
 						}
@@ -44963,7 +44664,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario010.1 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -45021,7 +44721,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario010.1 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -45113,7 +44812,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario010.1 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -45231,8 +44929,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_3}}",
-									"type": "string"
+									"value": "{{idProcedimento_3}}"
 								}
 							]
 						}
@@ -45411,7 +45108,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c1c5d79c-9308-461f-87c2-33967c7e5a45",
 								"exec": [
 									"pm.test(\"Cenario010 - Incluir Processos no bloco\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -45467,8 +45163,7 @@
 							"variable": [
 								{
 									"key": "bloco",
-									"value": "{{BlocoInterno1_id}}",
-									"type": "string"
+									"value": "{{BlocoInterno1_id}}"
 								}
 							]
 						}
@@ -45577,8 +45272,7 @@
 						}
 					]
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario016 - AcompanhamentoGrupo",
@@ -45589,7 +45283,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -45625,10 +45318,7 @@
 									"value": "{{idUnidadeTeste}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -45650,7 +45340,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -45684,10 +45373,7 @@
 									"value": "Acompanhamento Grupo 1_0",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
@@ -45708,7 +45394,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -45744,10 +45429,7 @@
 									"value": "{{idUnidadeTeste_1_2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -45769,16 +45451,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
-									"});\r",
 									"\r",
 									"var j = pm.response.json();\r",
-									"\r",
-									"pm.globals.set(\"idGrupoAcompanhamento\", j.data.id );"
+									"pm.globals.set(\"idGrupoAcompanhamento\", j.data.id );    \r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -45807,10 +45488,7 @@
 									"value": "Acompanhamento Grupo 1_2",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
@@ -45831,7 +45509,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário tenta cadastrar o mesmo acompanhamento tem q dar erro\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -45867,10 +45544,7 @@
 									"value": "Acompanhamento Grupo 1_2",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
@@ -45891,7 +45565,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -45955,10 +45628,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/listar",
@@ -45979,7 +45649,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -46045,10 +45714,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/listar",
@@ -46069,7 +45735,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -46103,10 +45768,7 @@
 									"value": "grupotesteun1_2",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
@@ -46127,7 +45789,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -46161,10 +45822,7 @@
 									"value": "grupotesteun1_2",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
@@ -46185,7 +45843,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário tentou cadastrar grupo com mais de 50 chars\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -46219,10 +45876,7 @@
 									"value": "grupotesteun1_20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
@@ -46242,7 +45896,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "9f13662d-6612-4188-b88a-b5346eaf329d",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -46252,15 +45905,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "651104ca-b97d-4c5c-a671-cc05941b52fb",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario017 - AcompanhamentoGrupo Flood",
@@ -46271,7 +45922,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -46307,10 +45957,7 @@
 									"value": "{{idUnidadeTeste_1_2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -46332,7 +45979,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -46374,10 +46020,7 @@
 									"value": "AGF{{iLoop}} {{$randomAdjective}} {{$randomNoun}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
@@ -46397,7 +46040,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "822290e3-dc6f-486e-a1b9-0b8ff9311db4",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -46407,15 +46049,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "0d14cb8c-1bb6-41c8-9d48-0c9e8cf812fd",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario018 - AcompanhamentoGrupoAlterar",
@@ -46426,7 +46066,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario018 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -46462,10 +46101,7 @@
 									"value": "{{idUnidadeTeste}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -46487,7 +46123,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario018 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -46530,10 +46165,7 @@
 									"value": "Acompanhamento Grupo Error",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
@@ -46554,7 +46186,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -46588,10 +46219,7 @@
 									"value": "Acompanhamento Grupo Correto",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/{{idGrupoAcompanhamento}}/alterar",
@@ -46613,7 +46241,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -46673,10 +46300,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/listar",
@@ -46697,7 +46321,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -46731,10 +46354,7 @@
 									"value": "Acompanhamento Grupo Errado",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/{{idGrupoAcompanhamento}}/alterar",
@@ -46756,7 +46376,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -46792,10 +46411,7 @@
 									"value": "{{idUnidadeTeste_1_2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -46817,7 +46433,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario018 - Usuário de outra unidade não pode alterar o grupo\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -46851,10 +46466,7 @@
 									"value": "Acompanhamento Grupo Correto Novo",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/{{idGrupoAcompanhamento}}/alterar",
@@ -46876,7 +46488,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -46936,10 +46547,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/listar",
@@ -46959,7 +46567,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "9f13662d-6612-4188-b88a-b5346eaf329d",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -46969,15 +46576,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "651104ca-b97d-4c5c-a671-cc05941b52fb",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario019 - AcompanhamentoGrupo Listar",
@@ -46988,7 +46593,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -47024,10 +46628,7 @@
 									"value": "{{idUnidadeTeste}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -47049,7 +46650,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -47113,10 +46713,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/listar",
@@ -47137,7 +46734,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -47200,10 +46796,7 @@
 									"value": "Grupo",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/listar",
@@ -47224,7 +46817,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -47286,10 +46878,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/listar",
@@ -47310,7 +46899,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -47368,10 +46956,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/listar",
@@ -47392,7 +46977,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -47428,10 +47012,7 @@
 									"value": "{{idUnidadeTeste_1_2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -47453,7 +47034,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario019 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -47515,10 +47095,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/listar",
@@ -47539,7 +47116,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -47607,10 +47183,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/listar",
@@ -47631,7 +47204,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -47694,10 +47266,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/listar",
@@ -47718,7 +47287,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -47781,10 +47349,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/listar",
@@ -47805,7 +47370,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -47865,10 +47429,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/listar",
@@ -47888,7 +47449,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "9f13662d-6612-4188-b88a-b5346eaf329d",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -47898,15 +47458,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "651104ca-b97d-4c5c-a671-cc05941b52fb",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario011 - Acompanhamento",
@@ -47917,7 +47475,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario011 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -47975,11 +47532,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bb7f4c14-cd9e-4436-9b39-313c1f805715",
 								"exec": [
 									"pm.test(\"Cenario011 - Conta a quantidade de grupos na unidade TESTE_1_2. Tem q ser maior que 39. Observe se o teste no Selenium IDE rodou antes dessa chamada\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    var i = Number(jsonData.total);",
+									"    var i = Number(jsonData.data.length);",
 									"    ",
 									"    pm.expect(i).to.be.gt(39);",
 									"});"
@@ -48032,7 +47588,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bb7f4c14-cd9e-4436-9b39-313c1f805715",
 								"exec": [
 									"pm.test(\"Cenario011 - Conta a quantidade de grupos na unidade TESTE_1_2. Tem q ser maior que 39. Observe se o teste no Selenium IDE rodou antes dessa chamada\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -48061,7 +47616,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseurl}}/grupoacompanhamento/listar?start=2",
+							"raw": "{{baseurl}}/grupoacompanhamento/listar?start=2&limit=10",
 							"host": [
 								"{{baseurl}}"
 							],
@@ -48076,8 +47631,7 @@
 								},
 								{
 									"key": "limit",
-									"value": "",
-									"disabled": true
+									"value": "10"
 								}
 							]
 						}
@@ -48090,7 +47644,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bb7f4c14-cd9e-4436-9b39-313c1f805715",
 								"exec": [
 									"",
 									"pm.test(\"Cenario011 - Não pode listar grupo em outra unidade\", function () {",
@@ -48139,8 +47692,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario012 - Acompanhamento - Processos",
@@ -48151,7 +47703,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario012 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -48209,7 +47760,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -48301,7 +47851,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -48418,10 +47967,8 @@
 							],
 							"variable": [
 								{
-									"id": "563bde51-c977-4f6c-a211-140bc46dff12",
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -48600,7 +48147,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e10ca96a-c658-43ea-8593-01fe3c65bb62",
 								"exec": [
 									"pm.test(\"Cenario012 - Criou acompanhamento vazio\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"Acompanhamento realizado com sucesso\");",
@@ -48674,7 +48220,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -48766,7 +48311,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -48883,10 +48427,8 @@
 							],
 							"variable": [
 								{
-									"id": "e4ca090c-b31a-4c14-818a-d69eb07055a8",
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -49065,7 +48607,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e10ca96a-c658-43ea-8593-01fe3c65bb62",
 								"exec": [
 									"pm.test(\"Cenario012 - Crou acompanhamento sem grupo\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"Acompanhamento realizado com sucesso\");",
@@ -49139,7 +48680,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -49231,7 +48771,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -49348,10 +48887,8 @@
 							],
 							"variable": [
 								{
-									"id": "16558ed3-8a57-4caf-ad3b-afae37f82f84",
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -49530,7 +49067,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bb7f4c14-cd9e-4436-9b39-313c1f805715",
 								"exec": [
 									"",
 									"const adata = pm.response.json();",
@@ -49591,7 +49127,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bb7f4c14-cd9e-4436-9b39-313c1f805715",
 								"exec": [
 									"",
 									"const adata = pm.response.json();",
@@ -49652,7 +49187,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e10ca96a-c658-43ea-8593-01fe3c65bb62",
 								"exec": [
 									"",
 									"pm.test(\"Cenario012 - Criou acompanhamento com grupo\", function () {",
@@ -49730,7 +49264,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e10ca96a-c658-43ea-8593-01fe3c65bb62",
 								"exec": [
 									"",
 									"pm.test(\"Cenario012 - Permitiu alterar o acompanhamento\", function () {",
@@ -49807,7 +49340,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e10ca96a-c658-43ea-8593-01fe3c65bb62",
 								"exec": [
 									"",
 									"pm.test(\"Cenario012 - Permitiu alterar o acompanhamento\", function () {",
@@ -49884,7 +49416,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e10ca96a-c658-43ea-8593-01fe3c65bb62",
 								"exec": [
 									"",
 									"pm.test(\"Cenario012 - Permitiu alterar o acompanhamento\", function () {",
@@ -49961,7 +49492,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -50053,7 +49583,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -50170,10 +49699,8 @@
 							],
 							"variable": [
 								{
-									"id": "cea18d32-7745-4a68-b5ab-5776b814a5ff",
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -50352,7 +49879,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario011 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -50410,7 +49936,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e10ca96a-c658-43ea-8593-01fe3c65bb62",
 								"exec": [
 									"",
 									"pm.test(\"Cenario012 - Criou acompanhamento com grupo\", function () {",
@@ -50488,7 +50013,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario012 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -50546,7 +50070,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -50638,7 +50161,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -50755,10 +50277,8 @@
 							],
 							"variable": [
 								{
-									"id": "5f683930-9aa1-43e2-b17a-279aa38a779c",
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -50937,7 +50457,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e10ca96a-c658-43ea-8593-01fe3c65bb62",
 								"exec": [
 									"",
 									"pm.test(\"Cenario012 - Criou acompanhamento com grupo\", function () {",
@@ -51015,7 +50534,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario011 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -51073,7 +50591,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e10ca96a-c658-43ea-8593-01fe3c65bb62",
 								"exec": [
 									"",
 									"pm.test(\"Cenario012 - Não Permitiu alterar o acompanhamento\", function () {",
@@ -51149,7 +50666,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario012 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -51207,7 +50723,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e10ca96a-c658-43ea-8593-01fe3c65bb62",
 								"exec": [
 									"",
 									"pm.test(\"Cenario012 - Não permite criar acompanhamento com outro grupo\", function () {",
@@ -51283,7 +50798,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -51375,7 +50889,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -51492,10 +51005,8 @@
 							],
 							"variable": [
 								{
-									"id": "72009ee0-6cd6-41d5-9f28-b52be1d75c47",
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -51674,7 +51185,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e10ca96a-c658-43ea-8593-01fe3c65bb62",
 								"exec": [
 									"",
 									"pm.test(\"Cenario012 - Criou acompanhamento com grupo\", function () {",
@@ -51752,7 +51262,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario006 - Enviou o Processo\", function () {\r",
@@ -51855,7 +51364,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2d8a7ec1-64de-41c4-af0a-69c8f443d4ed",
 								"exec": [
 									"pm.test(\"Lista Dados de Acompanhamento para apenas 1 processo. Tem que implementar o get de acompanhamento para processo\", function () {",
 									"    //pm.response.to.have.body(\"xxxxx\");",
@@ -51904,8 +51412,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario013 - Acompanhamentos Flood",
@@ -51916,7 +51423,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario013 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -51974,7 +51480,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -52066,7 +51571,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -52184,8 +51688,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -52364,7 +51867,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e10ca96a-c658-43ea-8593-01fe3c65bb62",
 								"exec": [
 									"",
 									"pm.test(\"Cenario012 - Criou acompanhamento com grupo\", function () {",
@@ -52442,8 +51944,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario014 - Acompanhamento Listar",
@@ -52454,7 +51955,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario014 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -52512,7 +52012,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2d8a7ec1-64de-41c4-af0a-69c8f443d4ed",
 								"exec": [
 									"",
 									"pm.test(\"Cenario014 - Conta a quantidade de acompanhamentos na unidade TESTE_1_2. Tem q ser maior que 39. Pre requisito Cenario013\", function () {",
@@ -52569,7 +52068,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2d8a7ec1-64de-41c4-af0a-69c8f443d4ed",
 								"exec": [
 									"",
 									"pm.test(\"Cenario014 - Conta a quantidade de acompanhamentos na unidade TESTE_1_2. Paginamento em 5\", function () {",
@@ -52628,7 +52126,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2d8a7ec1-64de-41c4-af0a-69c8f443d4ed",
 								"exec": [
 									"",
 									"pm.test(\"Cenario014 - Conta a quantidade de acompanhamentos na unidade TESTE_1_2. Paginamento em 5\", function () {",
@@ -52681,8 +52178,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario015 - Atribuir",
@@ -52693,7 +52189,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario015 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -52751,7 +52246,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario015 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -52843,7 +52337,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario015 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -52960,10 +52453,8 @@
 							],
 							"variable": [
 								{
-									"id": "e2be8ff1-29c7-4478-9db6-105847a2e07f",
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -53142,7 +52633,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bba97a81-7641-4ff2-88f4-6ea8f9bd91ba",
 								"exec": [
 									"pm.test(\"Cenario015 - Não pode atribuir a usuario de outra area\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -53297,7 +52787,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ef894e60-1f27-4fe4-af26-03f52f7a19f9",
 								"exec": [
 									"pm.test(\"Cenario015 - Consulta atribuição. Não pode atribuir para user de outra area\", function () {",
 									"    pm.expect(pm.response.text()).to.not.include(\"sigla\");",
@@ -53331,10 +52820,8 @@
 							],
 							"variable": [
 								{
-									"id": "9a70d3c5-10e7-4105-8a9f-ff14c1c278c5",
 									"key": "protocolo",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -53437,7 +52924,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bba97a81-7641-4ff2-88f4-6ea8f9bd91ba",
 								"exec": [
 									"pm.test(\"Cenario015 - Atribuiu\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -53592,7 +53078,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "94dc6191-57d6-496b-8b11-ddc48f2fa1c6",
 								"exec": [
 									"pm.test(\"Cenario015 - Consulta atribuição. Tem que ter atribuído\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"sigla\");",
@@ -53626,10 +53111,8 @@
 							],
 							"variable": [
 								{
-									"id": "b99f3fe0-3f57-497b-b514-189e0102e2fb",
 									"key": "protocolo",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -53732,7 +53215,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c0828f7b-ec83-4547-9344-6b28ea85a5a2",
 								"exec": [
 									"pm.test(\"Cenario015 - Removeu atribuicao\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -53769,10 +53251,8 @@
 							],
 							"variable": [
 								{
-									"id": "64760891-a3f2-4d48-b263-2acb0c2deb8c",
 									"key": "protocolo",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -53875,7 +53355,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "94dc6191-57d6-496b-8b11-ddc48f2fa1c6",
 								"exec": [
 									"pm.test(\"Cenario015 - Consulta atribuição. Não pode ser listada\", function () {",
 									"    pm.expect(pm.response.text()).to.not.include(\"sigla\");",
@@ -53909,10 +53388,8 @@
 							],
 							"variable": [
 								{
-									"id": "89cbfd69-b59b-4e35-b665-3aca8c0ecaa1",
 									"key": "protocolo",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -54015,7 +53492,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario015 - Usuário trocou de Unidade e foi para TESTE\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -54073,7 +53549,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario015 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -54165,7 +53640,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario015 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -54282,10 +53756,8 @@
 							],
 							"variable": [
 								{
-									"id": "5f00a6fa-7fbd-4b9f-a3b4-8ef3adb8d0da",
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -54464,7 +53936,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bba97a81-7641-4ff2-88f4-6ea8f9bd91ba",
 								"exec": [
 									"pm.test(\"Cenario015 - Não pode atribuir a usuario de outra area\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -54619,7 +54090,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ef894e60-1f27-4fe4-af26-03f52f7a19f9",
 								"exec": [
 									"pm.test(\"Cenario015 - Consulta atribuição. Não pode atribuir para user de outra area\", function () {",
 									"    pm.expect(pm.response.text()).to.not.include(\"sigla\");",
@@ -54653,10 +54123,8 @@
 							],
 							"variable": [
 								{
-									"id": "c2d843fc-3318-4ab2-af99-1ad16aa944d8",
 									"key": "protocolo",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -54753,8 +54221,7 @@
 						}
 					]
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario020 - Acompanhamento Excluir",
@@ -54765,7 +54232,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -54801,10 +54267,7 @@
 									"value": "{{idUnidadeTeste}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -54826,7 +54289,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -54867,10 +54329,7 @@
 									"value": "Acompanhamento Grupo Excluir",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/cadastrar",
@@ -54891,7 +54350,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -54927,10 +54385,7 @@
 									"value": "{{idUnidadeTeste_1_2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -54952,7 +54407,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario020 - Não pode excluir grupo de outra unidade\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -54987,10 +54441,7 @@
 									"value": "{{idGrupoAcompanhamento}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/excluir",
@@ -55011,7 +54462,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -55071,10 +54521,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/listar",
@@ -55095,7 +54542,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -55130,10 +54576,7 @@
 									"value": "4888",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/excluir",
@@ -55154,7 +54597,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -55189,10 +54631,7 @@
 									"value": "488,489,490",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/excluir",
@@ -55213,7 +54652,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -55249,10 +54687,7 @@
 									"value": "{{idUnidadeTeste}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -55274,7 +54709,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario020 - Excluir grupo\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -55309,10 +54743,7 @@
 									"value": "{{idGrupoAcompanhamento}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/excluir",
@@ -55333,7 +54764,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Verifica se listou acompanhamento cadastrado anteriormente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -55393,10 +54823,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/grupoacompanhamento/listar",
@@ -55411,8 +54838,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario021 - Acompanhamento Especial",
@@ -55423,7 +54849,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -55459,10 +54884,7 @@
 									"value": "{{idUnidadeTeste_1_2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -55484,7 +54906,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -55577,7 +54998,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -55696,8 +55116,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -55876,7 +55295,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e10ca96a-c658-43ea-8593-01fe3c65bb62",
 								"exec": [
 									"",
 									"pm.test(\"Cenario012 - Criou acompanhamento com grupo\", function () {",
@@ -55955,7 +55373,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário Cadastrou Grupo com sucesso\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -56004,10 +55421,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/acompanhamentoespecial/listar?limit=10&start=0",
@@ -56037,7 +55451,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "bbb8188a-692b-4800-b69d-362b3ba54302",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -56047,15 +55460,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "c2a6d766-6c96-4894-9d3b-094ff124a7d1",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario022 - ConsultarModeloDocumento",
@@ -56066,7 +55477,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -56102,10 +55512,7 @@
 									"value": "{{idUnidadeTeste_1_2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -56127,7 +55534,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -56166,10 +55572,7 @@
 									"value": "{{idUnidadeTeste_1_2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/protocolomodelo/grupo/listar",
@@ -56207,8 +55610,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario023 - TextoPadrao",
@@ -56219,7 +55621,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -56255,10 +55656,7 @@
 									"value": "{{idUnidadeTeste_1_2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -56280,11 +55678,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"    pm.expect(jsonData.data).to.eql(undefined);\r",
 									"});\r",
 									"\r",
 									""
@@ -56319,10 +55716,7 @@
 									"value": "{{idUnidadeTeste_1_2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/unidade/textopadrao/interno/pesquisar",
@@ -56361,8 +55755,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario024 - Assinante",
@@ -56373,7 +55766,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -56409,10 +55801,7 @@
 									"value": "{{idUnidadeTeste_1_2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -56434,11 +55823,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.sucesso).to.eql(false);\r",
+									"    pm.expect(jsonData.data).to.eql(undefined);\r",
 									"});\r",
 									"\r",
 									""
@@ -56473,10 +55861,7 @@
 									"value": "{{idUnidadeTeste_1_2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/assinante/listar",
@@ -56513,8 +55898,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario025 - Ciencia",
@@ -56525,7 +55909,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -56561,10 +55944,7 @@
 									"value": "{{idUnidadeTeste_1_1}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -56586,7 +55966,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -56679,7 +56058,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -56798,8 +56176,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -56978,7 +56355,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario025 - Usuário 1 ciencia\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -57015,10 +56391,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia",
@@ -57040,7 +56413,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario025 - Usuário 1 ciencia n pode em doc nao assinado\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -57076,10 +56448,7 @@
 									"value": "{{idDocumentoInterno_1_1}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/documento/ciencia",
@@ -57100,7 +56469,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario025 - Usuário 2 n pode dar ciencia\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -57137,10 +56505,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia",
@@ -57162,7 +56527,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -57198,10 +56562,7 @@
 									"value": "{{idUnidadeTeste_1_2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -57223,7 +56584,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe ProtocoloFormatado na resposta\", function () {\r",
@@ -57316,7 +56676,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4777e3b9-66cb-4f43-8191-619f5ab2ae69",
 								"exec": [
 									"\r",
 									"pm.test(\"Cenario004 - Existe protocoloDocumentoFormatado na resposta\", function () {\r",
@@ -57435,8 +56794,7 @@
 							"variable": [
 								{
 									"key": "procedimento",
-									"value": "{{idProcedimento_1}}",
-									"type": "string"
+									"value": "{{idProcedimento_1}}"
 								}
 							]
 						}
@@ -57615,7 +56973,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -57652,10 +57009,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia",
@@ -57677,7 +57031,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario025 ciencia no processo\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -57725,10 +57078,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia/listar",
@@ -57763,7 +57113,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario025 - nao pode dar ciencia novamente\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -57800,10 +57149,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia",
@@ -57825,7 +57171,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -57868,7 +57213,7 @@
 								},
 								{
 									"key": "cargo",
-									"value": " Fiscal de Contrato - Administrativo",
+									"value": "Fiscal de Contrato - Administrativo",
 									"type": "text"
 								},
 								{
@@ -57886,10 +57231,7 @@
 									"value": "{{idUsuario2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/documento/assinar",
@@ -57910,7 +57252,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario025 - Usuário deu ciencia no doc assinado\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -57946,10 +57287,7 @@
 									"value": "{{idDocumentoInterno_1_1}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/documento/ciencia",
@@ -57964,8 +57302,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario026 - Ciencia Flood",
@@ -57976,7 +57313,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.globals.set(\"iLoop\", \"3\");"
 								],
@@ -57986,7 +57322,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "fdb296c9-8b46-4cdf-9b5e-ecad6adfd4b7",
 								"exec": [
 									""
 								],
@@ -58017,10 +57352,7 @@
 									"value": "{{idUnidadeTeste_1_2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -58042,7 +57374,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario026 - Usuário deu ciencia no doc assinado\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -58057,7 +57388,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "daf468f9-4dc4-4407-b518-a1ccd5c0311a",
 								"exec": [
 									"var un = pm.globals.get(\"tokenUsuario\" + pm.globals.get(\"iLoop\") );",
 									"//console.log(pm.globals.get(\"iLoop\"));",
@@ -58091,10 +57421,7 @@
 									"value": "{{idDocumentoInterno_1_1}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/documento/ciencia",
@@ -58115,7 +57442,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario026 - Assinou\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -58130,7 +57456,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "78085479-1c32-4207-9c53-e341d615297c",
 								"exec": [
 									"var un = pm.globals.get(\"tokenUsuario\" + pm.globals.get(\"iLoop\") );",
 									"//console.log(pm.globals.get(\"iLoop\"));",
@@ -58176,7 +57501,7 @@
 								},
 								{
 									"key": "cargo",
-									"value": " Fiscal de Contrato - Administrativo",
+									"value": "Fiscal de Contrato - Administrativo",
 									"type": "text"
 								},
 								{
@@ -58194,10 +57519,7 @@
 									"value": "{{tmpUserId}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/documento/assinar",
@@ -58218,7 +57540,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario026 - Cientificou proc\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -58241,7 +57562,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "31d595c3-acc5-4f47-80a1-47ff47a44c18",
 								"exec": [
 									"var un = pm.globals.get(\"tokenUsuario\" + pm.globals.get(\"iLoop\") );",
 									"//console.log(pm.globals.get(\"iLoop\"));",
@@ -58277,10 +57597,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia",
@@ -58296,8 +57613,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Cenario027 - Ciencia Listar",
@@ -58308,7 +57624,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario016 - Usuário trocou de Unidade e foi para TESTE_1_2\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -58344,10 +57659,7 @@
 									"value": "{{idUnidadeTeste_1_2}}",
 									"type": "text"
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/usuario/alterar/unidade",
@@ -58369,7 +57681,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario025 ciencia no processo tem 102 ciencias\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -58423,10 +57734,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia/listar",
@@ -58461,7 +57769,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario025 ciencia no processo tem 10 ciencias\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -58508,10 +57815,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia/listar?limit=10&start=0",
@@ -58544,7 +57848,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64d64b56-fc5d-46de-a11c-9b46ba9de4de",
 								"exec": [
 									"pm.test(\"Cenario025 ciencia no processo tem 10 ciencias\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -58592,10 +57895,7 @@
 									"type": "text",
 									"disabled": true
 								}
-							],
-							"options": {
-								"urlencoded": {}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{baseurl}}/processo/{{idProcedimento_1}}/ciencia/listar?limit=10&start=1",
@@ -58622,15 +57922,13 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		}
 	],
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "494844dd-7739-4e70-b03c-07cf4c38ce67",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -58640,7 +57938,6 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "c01c9eb2-2c71-4574-b3ad-e12b12bbe539",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -58650,17 +57947,14 @@
 	],
 	"variable": [
 		{
-			"id": "84df0009-4876-46a8-a543-5edb9c5dfb62",
 			"key": "{{token}}",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "311cf4fe-f339-4fed-8214-da3e648d6477",
 			"key": "{{baseurl}}",
 			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
 			"type": "string"
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
