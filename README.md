@@ -6,9 +6,8 @@
 
 Clique abaixo para orientações de instalação do Módulo Rest no SEI bem como para acessar e registrar o APP do SEI
 
-[Instruções de Instalação e Configuração](READMEprincipalInstrucoesWssei.md)
+[Instruções de Instalação e Configuração](docs/instalacao.md)
 
-&nbsp;
 
 ## Profissionais Desenvolvedores
 
@@ -16,9 +15,9 @@ Clique abaixo para orientações de instalação do Módulo Rest no SEI bem como
 
 Clique abaixo para acessar a documentação disponível da API Rest 
 
-[Documentação da API](docs/README.md)
+[Documentação da API](docs/api.md)
 
-&nbsp;
+
 
 ## Profissionais Testers e Integradores
 

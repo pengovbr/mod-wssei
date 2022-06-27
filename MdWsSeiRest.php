@@ -10,6 +10,24 @@ class MdWsSeiRest extends SeiIntegracao
 {
     const NOME_MODULO = "MdWsSeiRest";
 
+
+
+    public function getNome()
+    {
+        return 'Módulo de serviços REST';
+    }
+
+    public function getVersao()
+    {
+        return '2.0.0';
+    }
+
+    public function getInstituicao()
+    {
+        return 'ME - Ministério da Economia';
+    }
+
+
     /**
      * Converte os dados para UTF8 para ser compativel com json_encode
      * @param $item
@@ -141,21 +159,6 @@ class MdWsSeiRest extends SeiIntegracao
             return false;
         }
         return true;
-    }
-
-    public function getNome()
-    {
-        return 'Módulo de serviços REST';
-    }
-
-    public function getVersao()
-    {
-        return '2.0.0';
-    }
-
-    public function getInstituicao()
-    {
-        return 'ME - Ministério da Economia';
     }
 
     public function inicializar($strVersaoSEI)
