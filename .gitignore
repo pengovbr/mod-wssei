@@ -1,5 +1,9 @@
 # Arquivos temporários gerados pelo sistema
 *~
+.env
+.modulo.env
+.testselenium.env
+dist/
 
 # Arquivos temporários criados pelo ambiente de desenvolvimento Vagrant
 .vagrant/
