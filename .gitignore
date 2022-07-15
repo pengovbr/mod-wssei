@@ -13,3 +13,10 @@ Vagrantfile
 *.sublime-project
 *.sublime-workspace
 .phpintel/
+
+# Arquivos de configuração e variáveis do ambiente local  
+.env
+.modulo.env
+.testselenium.env
+.vscode/
+

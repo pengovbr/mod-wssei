@@ -12,14 +12,14 @@ ifndef HOST_URL
 HOST_URL=http://localhost:8000
 endif
 
-MODULO_NOME = mod-wssei
-MODULO_PASTAS_CONFIG = $(MODULO_NOME)
+MODULO_NOME = wssei
+MODULO_PASTAS_CONFIG = mod-$(MODULO_NOME)
 MODULO_PASTA_NOME = $(notdir $(shell pwd))
 VERSAO_MODULO := $(shell grep 'const VERSAO_MODULO' ./src/MdWsSeiRest.php | cut -d'"' -f2)
-SEI_SCRIPTS_DIR = dist/sei/scripts/$(MODULO_PASTAS_CONFIG)
-SEI_CONFIG_DIR = dist/sei/config/$(MODULO_PASTAS_CONFIG)
+SEI_SCRIPTS_DIR = dist/sei/scripts/mod-$(MODULO_PASTAS_CONFIG)
+SEI_CONFIG_DIR = dist/sei/config/mod-$(MODULO_PASTAS_CONFIG)
+SIP_SCRIPTS_DIR = dist/sip/scripts/mod-$(MODULO_PASTAS_CONFIG)
 SEI_MODULO_DIR = dist/sei/web/modulos/$(MODULO_NOME)
-SIP_SCRIPTS_DIR = dist/sip/scripts/$(MODULO_PASTAS_CONFIG)
 
 ARQUIVO_CONFIG_SEI=$(SEI_PATH)/sei/config/ConfiguracaoSEI.php
 ARQUIVO_ENV_ASSINATURA=.modulo.env
@@ -32,7 +32,7 @@ NC=\033[0m
 YELLOW=\033[1;33m
 
 MENSAGEM_AVISO_MODULO = $(RED)[ATENÇÃO]:$(NC)$(YELLOW) Necessário configurar a chave de configuração do módulo no arquivo de configuração do SEI (ConfiguracaoSEI.php) e prover o modulo na pasta correta $(NC)\n               $(YELLOW)'Modulos' => array('MdWsSeiRest' => 'mod-wssei') $(NC)
-MENSAGEM_AVISO_ENV = $(RED)[ATENÇÃO]:$(NC)$(YELLOW) Configurar parâmetros de autenticação do ambiente de testes do módulo de Gestão Documental no arquivo .modulo.env $(NC)
+MENSAGEM_AVISO_ENV = $(RED)[ATENÇÃO]:$(NC)$(YELLOW) Configurar parâmetros de autenticação do ambiente de testes do módulo de WSSEI no arquivo .modulo.env $(NC)
 MENSAGEM_AVISO_FONTES = $(RED)[ATENÇÃO]:$(NC)$(YELLOW) Nao foi possivel localizar o fonte do Super. Verifique o valor SEI_PATH no arquivo .env $(NC)
 
 CMD_CURL_SUPER_LOGIN = curl -s -L $(HOST_URL)/sei | grep "txtUsuario"
@@ -42,9 +42,7 @@ Leia o arquivo README relacionado aos testes.
 O arquivo encontra-se nesse repositorio na pasta de testes funcionais.
 
 Existem orientacoes para o teste que estao definidas no README que se nao forem
-obedecidas o teste falhará.
-
-Entre elas, por ex, vc deve ter permissao de sudo para alterar datas por ex
+obedecidas, o teste falhará.
 
 Pressione y para continuar [y/n]...
 endef
@@ -60,8 +58,7 @@ dist:
 	@mkdir -p $(SEI_MODULO_DIR)
 	@mkdir -p $(SIP_SCRIPTS_DIR)
 	@cp -Rf src/* $(SEI_MODULO_DIR)/
-	@cp docs/INSTALL.md dist/INSTALACAO.md
-	@cp docs/UPGRADE.md dist/ATUALIZACAO.md
+	@cp docs/INSTALL.md dist/instalacao.md
 	@cp docs/changelogs/CHANGELOG-$(VERSAO_MODULO).md dist/NOTAS_VERSAO.md
 	@mv $(SEI_MODULO_DIR)/scripts/sei_atualizar_versao_modulo_wssei.php $(SEI_SCRIPTS_DIR)/
 	@mv $(SEI_MODULO_DIR)/scripts/sip_atualizar_versao_modulo_wssei.php $(SIP_SCRIPTS_DIR)/
