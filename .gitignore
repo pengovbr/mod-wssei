@@ -16,3 +16,5 @@ Vagrantfile
 .testselenium.env
 .vscode/
 
+dist/
+src/config/ConfiguracaoMdWSSEI.php

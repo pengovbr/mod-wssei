@@ -58,7 +58,8 @@ dist:
 	@mkdir -p $(SEI_MODULO_DIR)
 	@mkdir -p $(SIP_SCRIPTS_DIR)
 	@cp -Rf src/* $(SEI_MODULO_DIR)/
-	@cp docs/INSTALL.md dist/instalacao.md
+	@cp docs/instalacao.md dist/INSTALACAO.md
+	@cp docs/atualizacao.md dist/ATUALIZACAO.md
 	@cp docs/changelogs/CHANGELOG-$(VERSAO_MODULO).md dist/NOTAS_VERSAO.md
 	@mv $(SEI_MODULO_DIR)/scripts/sei_atualizar_versao_modulo_wssei.php $(SEI_SCRIPTS_DIR)/
 	@mv $(SEI_MODULO_DIR)/scripts/sip_atualizar_versao_modulo_wssei.php $(SIP_SCRIPTS_DIR)/
@@ -148,6 +149,7 @@ up: prerequisites-up
 
 config:
 	@cp -f envs/$(base).env .env
+	@cp -f src/config/ConfiguracaoMdWSSEI.exemplo.php src/config/ConfiguracaoMdWSSEI.php
 	@echo "Ambiente configurado para utilizar a base de dados $(base). (base=[mysql|oracle|sqlserver])"
 
 
