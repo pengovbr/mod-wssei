@@ -163,6 +163,9 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function inicializar($strVersaoSEI)
     {
+        define('DIR_SEI_WEB', realpath(DIR_SEI_CONFIG.'/../web'));
+        $this->carregarArquivoConfiguracaoModulo(DIR_SEI_CONFIG);
+
         if (!$this->verificaCompatibilidade($strVersaoSEI)) {
             die('Módulo "' . $this->getNome() . '" (' . $this->getVersao() . ') não e compatível com esta versão do SEI (' . $strVersaoSEI . ').');
         }
@@ -377,6 +380,15 @@ class MdWsSeiRest extends SeiIntegracao
         $arrDados[] = $siglaUsuario;
         return md5(implode(':', $arrDados));
     }
+
+    private function carregarArquivoConfiguracaoModulo($strDiretorioSeiWeb){
+        try{
+            $strArquivoConfiguracao = $strDiretorioSeiWeb . '/mod-wssei/ConfiguracaoMdWSSEI.php';
+            include_once $strArquivoConfiguracao;       
+        } catch(Exception $e){
+            LogSEI::getInstance()->gravar("Arquivo de configuração do módulo WSSEI não pode ser localizado em " . $strArquivoConfiguracao);
+        }
+    }   
 }
 
 ?>
