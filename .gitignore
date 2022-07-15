@@ -20,3 +20,12 @@ Vagrantfile
 .testselenium.env
 .vscode/
 
+dist/
+node_modules/
+src/config/ConfiguracaoMdWSSEI.php
+tests/Postman/SEI.postman_environment_substituido.json
+tests/Postman/newman/
+
+#testes funcionais
+.p3/
+.pytest_cache/

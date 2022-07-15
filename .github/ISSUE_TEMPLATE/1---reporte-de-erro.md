@@ -44,4 +44,4 @@ Adicione qualquer outro contexto sobre o problema aqui.
 
 -----
 **Log de Erros**
-Adicione o log de erros registrado pelo sistema.
+Adicione o log de erros registrado pelo sistema. Verifique o log registrado no servidor, através da funcionalidade Infra > Log

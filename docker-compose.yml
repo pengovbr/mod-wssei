@@ -1,57 +1,56 @@
 version: '2'
 services:
-  #jod:  
-  #  image: processoeletronico/vagrant_sei4_jod:${ENVIRONMENT_VERSION}
-  #  container_name: jod
+  jod:  
+   image: processoeletronico/vagrant_sei4_jod:${ENVIRONMENT_VERSION}
 
-  #smtp:
-  #  image: processoeletronico/vagrant_sei4_mailcatcher:${ENVIRONMENT_VERSION}
-  #  container_name: smtp
-  #  ports:
-  #    - "1080:1080"
+  smtp:
+   image: processoeletronico/vagrant_sei4_mailcatcher:${ENVIRONMENT_VERSION}
+   ports:
+     - "1080:1080"
 
   memcached:
     image: processoeletronico/vagrant_sei4_memcached:${ENVIRONMENT_VERSION}
-    container_name: memcached
     ports:
       - "11211:11211"
 
   database:
     image: ${DATABASE_IMAGE}
-    container_name: ${DATABASE_HOST}
     environment:
       MYSQL_ROOT_PASSWORD: P@ssword
     volumes:
-      - ${DATABASE_HOST}:${DATABASE_DATA_DIR}
+      - ${DATABASE_TYPE}:${DATABASE_DATA_DIR}
       - /var/sei/backup/${DATABASE_HOST}:/backup
     ports:
       - ${DATABASE_PORT}:${DATABASE_PORT}
 
   solr:
     image: processoeletronico/vagrant_sei4_solr:${ENVIRONMENT_VERSION}
-    container_name: solr
     ports:
       - "8983:8983"
 
   httpd:
     image: processoeletronico/vagrant_sei4_httpd:${ENVIRONMENT_VERSION}
-    container_name: httpd
     restart: always
     env_file:
       - .modulo.env    
     ports:
       - "80:8000"
       - "8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"      
     depends_on: 
       - database
     volumes:
+      - .:/project
       - ${SEI_PATH}/sei:/opt/sei
       - ${SEI_PATH}/sip:/opt/sip
       - ${SEI_PATH}/infra:/opt/infra
-      - ./src:/opt/sei/web/modulos/mod-wssei
+      - ./src:/opt/sei/web/modulos/wssei
       - ./src/config:/opt/sei/config/mod-wssei
       - ./src/scripts:/opt/sei/scripts/mod-wssei
       - ./src/scripts:/opt/sip/scripts/mod-wssei
+      - ./src/config/ConfiguracaoSEI.php:/opt/sei/config/ConfiguracaoSEI.php
+      - ./src/config/ConfiguracaoSip.php:/opt/sip/config/ConfiguracaoSip.php      
 
     environment:
       - LANG=pt_BR.ISO-8859-1
@@ -76,10 +75,10 @@ services:
       - database:${DATABASE_HOST}
       - memcached:memcached
       - solr:solr
-      #- smtp:smtp
-      #- jod:jod
+      - smtp:smtp
+      - jod:jod
 
 volumes:
-  mysql:
-  oracle:
-  sqlserver:
+  MySql:
+  Oracle:
+  SqlServer:

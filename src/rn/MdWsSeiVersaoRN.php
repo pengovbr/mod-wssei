@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../SEI.php';
+require_once DIR_SEI_WEB . '/SEI.php';
 
 class MdWsSeiVersaoRN extends InfraScriptVersao
 {
@@ -121,7 +121,7 @@ class MdWsSeiVersaoRN extends InfraScriptVersao
     {
         $this->logar("VERIFICANDO SE A CHAVE: TokenSecret ESTA PRESENTE NO ARQUIVO DE CONFIGURACOES.");
         
-        $token = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
+        $token = ConfiguracaoMdWSSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
         if((!$token) || (strlen($token)<25)){
             $msg = 'Token Secret inexistente ou tamanho menor que o permitido! Verifique o manual de instalacao do modulo. ';
             $msg = $msg . 'O script de instalacao foi interrompido. Modulo nao instalado corretamente. ';

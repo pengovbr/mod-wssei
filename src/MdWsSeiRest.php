@@ -9,7 +9,7 @@
 class MdWsSeiRest extends SeiIntegracao
 {
     const NOME_MODULO = "MdWsSeiRest";
-    const VERSAO_MODULO = "2.0.0";
+    const VERSAO_MODULO = "2.0.2";
 
     public function getNome()
     {

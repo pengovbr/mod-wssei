@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../../../SEI.php';
+require_once DIR_SEI_WEB . '/SEI.php';
 
 
 class MdWsSeiUsuarioRN extends InfraRN {
@@ -85,7 +85,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
      * @return string
      */
     private function getTokenSecret(){
-        $token = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
+        $token = ConfiguracaoMdWSSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
         return $token;
     }
 

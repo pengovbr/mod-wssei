@@ -2,10 +2,19 @@
 
 Este documento descreve as principais mudanças aplicadas nesta atualização de versão do **SUPER.GOV.BR**.
 
-Para instruções sobre como realizar a atualização do sistema, acesse a seção **[Atualização de Versão](#atualização-de-versão)** no final deste documento. Outras informações sobre procedimentos de **instalação** ou **migração** de versões anteriores, acesse os seguintes documentos:
+Para instruções sobre como realizar a atualização do sistema, acesse a seção **[Atualização de Versão](#atualização-de-versão)** no final deste documento. Outras informações sobre procedimentos de **instalação** ou **atualização** de versões anteriores, acesse os seguintes documentos:
 
 * [Instalação](../<VERSAO>/docs/INSTALACAO.md) - Procedimento de instalação do SUPER.GOV.BR
-* [Migração](../<VERSAO>/docs/MIGRACAO.md) - Procedimento específicos para migração de uma versão anterior do SEI 3.1
+* [Atualização](../<VERSAO>/docs/ATUALIZACAO.md) - Procedimento detalhados para atualização de uma versão anterior compatível com SUPER/SEI 4.0.x
+
+## Compatibilidade de versões
+
+O módulo é compatível com as seguintes versões do SUPER/SEI:
+
+| Versão SEI/SUPER | Versão módulo mod-wssei |
+| ---              | ---                     |
+| 3.1.x            | mod-wssei 1.0.x         |
+| 4.0.x            | mod-wssei 2.0.x         |
 
 
 ### Lista de melhorias e correções de problemas
@@ -13,9 +22,10 @@ Para instruções sobre como realizar a atualização do sistema, acesse a seç�
 Todas as atualizações podem incluir itens referentes à segurança, requisito em permanente monitoramento e evolução, motivo pelo qual a atualização com a maior brevidade possível é sempre recomendada.
 
 
-#### Descrição da melhoria 001 (#00)
+#### Reestruturação dos arquivos de instalação e procedimentos para instalação
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Nesta versão foram revisados os procedimentos de instalação do módulo, assim como o organização dos arquivos do projeto. Estas modificações foram feitas com o objetivo de simplificar os procedimentos para instalação do módulo no SUPER ou SEI 4.0.x.
+
 
 #### Descrição da melhoria 002 (#00)
 
@@ -37,7 +47,7 @@ Versão 4.0.x do **SEI** ou **SUPER.GOV.BR** ou superior instaladas (verificar v
 
 3. Descompactar o pacote de instalação `mod-wssei-[VERSÃO].zip`;
 
-4. Copiar os diretórios descompactados "sei", "sip" e "infra" para os servidores, sobrescrevendo os arquivos existentes;
+4. Copiar os diretórios descompactados "sei", "sip" para os servidores, sobrescrevendo os arquivos existentes;
 
 5. Executar o script para atualização dos recursos do mod-wssei no SIP em linha de comando:
 

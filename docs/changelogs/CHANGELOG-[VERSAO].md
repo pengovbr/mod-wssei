@@ -1,12 +1,20 @@
 ## Novidades da versão <VERSAO>
 
-Este documento descreve as principais mudanças aplicadas nesta atualização de versão do **SUPER.GOV.BR**.
+Este documento descreve as principais mudanças aplicadas nesta atualização de versão do **MOD-WSSEI**.
 
 Para instruções sobre como realizar a atualização do sistema, acesse a seção **[Atualização de Versão](#atualização-de-versão)** no final deste documento. Outras informações sobre procedimentos de **instalação** ou **migração** de versões anteriores, acesse os seguintes documentos:
 
 * [Instalação](../<VERSAO>/docs/INSTALACAO.md) - Procedimento de instalação do SUPER.GOV.BR
-* [Migração](../<VERSAO>/docs/MIGRACAO.md) - Procedimento específicos para migração de uma versão anterior do SEI 3.1
+* [Atualização](../<VERSAO>/docs/ATUALIZACAO.md) - Procedimento detalhados para atualização de uma versão anterior compatível com SUPER/SEI 4.0.x
 
+## Compatibilidade de versões
+
+O módulo é compatível com as seguintes versões do SUPER/SEI:
+
+| Versão SEI/SUPER | Versão módulo mod-wssei |
+| ---              | ---                     |
+| 3.1.x            | mod-wssei 1.0.x         |
+| 4.0.x            | mod-wssei 2.0.x         |
 
 ### Lista de melhorias e correções de problemas
 
