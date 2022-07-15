@@ -85,7 +85,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
      * @return string
      */
     private function getTokenSecret(){
-        $token = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
+        $token = ConfiguracaoMdWSSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
         return $token;
     }
 

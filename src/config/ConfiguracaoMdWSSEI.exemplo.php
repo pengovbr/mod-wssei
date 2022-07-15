@@ -36,16 +36,16 @@ class ConfiguracaoMdWSSEI extends InfraConfiguracao  {
 
             'WSSEI' => array(
                 // URL do serviço de notificação PUSH
-                'UrlServicoNotificacao' => '',
+                'UrlServicoNotificacao' => getenv('MOD_WSSEI_URL_SERVICO_NOTIFICACAO'),
 
                 // ID do app registrado no serviço de notificação
-                'IdApp' => '',
+                'IdApp' => getenv('MOD_WSSEI_ID_APP'),
 
                 // Chave de autorização do serviço de notificação
-                'ChaveAutorizacao' => '',
+                'ChaveAutorizacao' => getenv('MOD_WSSEI_CHAVE_AUTORIZACAO'),
 
                 // Chave unica com pelo menos 32 chars. Pode usar o comando uuidgen para gerar
-                'TokenSecret' => ''
+                'TokenSecret' => getenv('MOD_WSSEI_TOKEN_SECRET')
             ),
         );
     }

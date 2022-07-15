@@ -32,9 +32,9 @@ class MdWsSeiAgendamentoRN extends InfraRN
             $arrAtividadeDTO = $notificacaoAtividadeRN->listarNotificacoesParaAgendamento();
             if($arrAtividadeDTO){
                 InfraDebug::getInstance()->gravar(count($arrAtividadeDTO).' ATIVIDADES A SEREM NOTIFICADAS.');
-                $UrlServicoNotificacao = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'UrlServicoNotificacao', false);
-                $IdApp = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'IdApp', false);
-                $ChaveAutorizacao = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'ChaveAutorizacao', false);
+                $UrlServicoNotificacao = ConfiguracaoMdWSSEI::getInstance()->getValor('WSSEI', 'UrlServicoNotificacao', false);
+                $IdApp = ConfiguracaoMdWSSEI::getInstance()->getValor('WSSEI', 'IdApp', false);
+                $ChaveAutorizacao = ConfiguracaoMdWSSEI::getInstance()->getValor('WSSEI', 'ChaveAutorizacao', false);
                 if(!$UrlServicoNotificacao || !$IdApp || !$ChaveAutorizacao){
                     $arrParamNaoSetados = array();
                     if(!$UrlServicoNotificacao){
