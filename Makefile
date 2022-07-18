@@ -195,3 +195,15 @@ tests-functional: tests-functional-prerequisites check-super-isalive
 tests-functional-loop: tests-functional-prerequisites
 	@echo "Vamos iniciar a execucao completa com loop"
 	@cd tests/functional && ./testes-completo-loop.sh
+
+# Executa testes no postman. Necessário a variável NEWMAN_BASEURL apontando
+# para ambiente correto exemplo: 
+# export NEWMAN_BASEURL=https://sei.economia.gov.br ; make tests-api
+tests-api:
+	@echo "Substituindo as envs para o Newman"
+	@envsubst < tests/Postman/SEI.postman_environment.json > tests/Postman/SEI.postman_environment_substituido.json
+	@echo "Vamos iniciar a execução do postman/newman"
+	@docker run --network="host" -t -v $(shell pwd)/tests/Postman:/etc/newman dannydainton/htmlextra run Wssei-Tests.postman_collection.json\
+	        --environment SEI.postman_environment_substituido.json\
+            --working-dir .\
+            -r cli,htmlextra
