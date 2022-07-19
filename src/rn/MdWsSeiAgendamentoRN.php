@@ -1,7 +1,7 @@
 
 
 <?
-require_once dirname(__FILE__) . '/../../../SEI.php';
+require_once DIR_SEI_WEB . '/SEI.php';
 
 class MdWsSeiAgendamentoRN extends InfraRN
 {
