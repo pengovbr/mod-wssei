@@ -21,6 +21,16 @@ class MdWsSeiAgendamentoRN extends InfraRN
             InfraDebug::getInstance()->setBolEcho(false);
             InfraDebug::getInstance()->limpar();
 
+            $desabilitarServicoNotificacao = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'DesabilitarServicoNotificacao', false, false);
+            if($desabilitarServicoNotificacao){
+                InfraDebug::getInstance()->gravar("NOTIFICAÇÃO NÃO SERÁ REALIZADA POIS DE ATIVIDADES 'DesabilitarServicoNotificacao = false'");
+                InfraDebug::getInstance()->gravar('FIM');
+                InfraDebug::getInstance()->setBolLigado(false);
+                InfraDebug::getInstance()->setBolDebugInfra(false);
+                InfraDebug::getInstance()->setBolEcho(false);
+                return;
+            }
+
             $numSeg = InfraUtil::verificarTempoProcessamento();
             $arrErroNotificacao = [];
             $contSucessos = 0;
