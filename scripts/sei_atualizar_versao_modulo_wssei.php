@@ -85,7 +85,13 @@ require_once dirname(__FILE__) . '/../web/SEI.php';
                     $infraAgemdanemtoTarefaDTO->setStrPeriodicidadeComplemento('0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23');
                 }
         
-                $infraAgemdanemtoTarefaDTO->setStrSinAtivo('S');
+                $desabilitarServicoNotificacao = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'DesabilitarServicoNotificacao', false, false);
+                if($desabilitarServicoNotificacao){
+                    $infraAgemdanemtoTarefaDTO->setStrSinAtivo('N');
+                }else{
+                    $infraAgemdanemtoTarefaDTO->setStrSinAtivo('S');
+                }
+                
                 $infraAgemdanemtoTarefaDTO->setStrSinSucesso('S');
         
                 $infraAgemdanemtoTarefaBD = new InfraAgendamentoTarefaBD(BancoSEI::getInstance());
@@ -116,9 +122,10 @@ require_once dirname(__FILE__) . '/../web/SEI.php';
             public function versao_1_0_4($strVersaoAtual)
             {
                 $this->logar("VERIFICANDO SE A CHAVE: TokenSecret ESTA PRESENTE NO ARQUIVO DE CONFIGURACOES.");
+                $desabilitarServicoNotificacao = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'DesabilitarServicoNotificacao', false, false);
                 
                 $token = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
-                if((!$token) || (strlen($token)<25)){
+                if(!$desabilitarServicoNotificacao && ((!$token) || (strlen($token)<25))){
                     $msg = 'Token Secret inexistente ou tamanho menor que o permitido! Verifique o manual de instalacao do módulo. ';
                     $msg = $msg . 'O script de instalacao foi interrompido. Módulo nao instalado corretamente. ';
                     $msg = $msg . 'Ajuste a chave e rode novamente o script.';

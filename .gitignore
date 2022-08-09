@@ -9,3 +9,4 @@ Vagrantfile
 *.sublime-project
 *.sublime-workspace
 .phpintel/
+vendor/autoload.php

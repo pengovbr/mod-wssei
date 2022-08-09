@@ -285,6 +285,13 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function adicionarElementoMenu()
     {
+
+        $desabilitarQrCodeAplicativo = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'DesabilitarQrCodeAplicativo', false, false);
+
+        if($desabilitarQrCodeAplicativo){
+            return '';
+        }
+
         try{
             $nomeArquivo = 'QRCODE_'
                 . self::NOME_MODULO

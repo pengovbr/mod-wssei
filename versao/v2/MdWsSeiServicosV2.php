@@ -1743,6 +1743,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
             })->add(new TokenValidationMiddleware());
 
         })
+            ->add(new ServicePermissionsMiddleware())
             ->add(new ModuleVerificationMiddleware())
             ->add(new EncodingMiddleware());
 

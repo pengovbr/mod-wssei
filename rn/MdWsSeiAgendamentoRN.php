@@ -13,6 +13,14 @@ class MdWsSeiAgendamentoRN extends InfraRN
 
     protected function notificacaoAtividadesControlado()
     {
+
+        $desabilitarServicoNotificacao = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'DesabilitarServicoNotificacao', false, false);
+
+        if($desabilitarServicoNotificacao){
+            LogSEI::getInstance()->gravar('Notificações não realizadas pois "DesabilitarServicoNotificacao = true". ', InfraLog::$INFORMACAO);
+            return;
+        }
+
         try {
             ini_set('max_execution_time', '0');
             ini_set('memory_limit', '1024M');
