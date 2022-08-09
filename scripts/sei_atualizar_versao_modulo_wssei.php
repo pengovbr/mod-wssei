@@ -50,56 +50,46 @@ require_once dirname(__FILE__) . '/../web/SEI.php';
         
             public function versao_0_8_12($strVersaoAtual)
             {
-                $desabilitarServicoNotificacao = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'DesabilitarServicoNotificacao', false, false);
-
-                if($desabilitarServicoNotificacao){
-
-                    $this->logar("Serviço de notificação não será instalado pois 'DesabilitarServicoNotificacao = false'.");
-                    
-                }else{
-
-                    $this->logar("CRIANDO TABELA PARA NOTIFICACAO DE ATIVIDADES.");
-                    $objInfraMetaBD = new InfraMetaBD(BancoSEI::getInstance());
-                    BancoSEI::getInstance()->executarSql(
-                        'CREATE TABLE md_wssei_notificacao_ativ (
-                            id_notificacao_atividade ' . $objInfraMetaBD->tipoNumero() . '  NOT NULL ,
-                            id_atividade ' . $objInfraMetaBD->tipoNumero() . '  NOT NULL ,
-                            titulo ' . $objInfraMetaBD->tipoTextoFixo(150) . '  NOT NULL ,
-                            mensagem ' . $objInfraMetaBD->tipoTextoGrande() . '  NOT NULL ,
-                            dth_notificacao ' . $objInfraMetaBD->tipoDataHora() . '  NOT NULL)'
-                    );
-                    BancoSEI::getInstance()->criarSequencialNativa('seq_md_wssei_notificacao_ativ',1);
-                    $objInfraMetaBD->criarIndice('md_wssei_notificacao_ativ','i01_md_wssei_notificacao_ativ',array('id_notificacao_atividade'));
-                    $objInfraMetaBD->criarIndice('md_wssei_notificacao_ativ','i02_md_wssei_notificacao_ativ',array('id_atividade'));
-                    $objInfraMetaBD->criarIndice('md_wssei_notificacao_ativ','i03_md_wssei_notificacao_ativ',array('id_notificacao_atividade','id_atividade'));
-                    BancoSEI::getInstance()->executarSql('alter table md_wssei_notificacao_ativ add constraint fk_md_wssei_not_ativ_id_ativ foreign key (id_atividade) references atividade (id_atividade) on delete cascade');
-            
-                    $infraAgemdanemtoTarefaDTO = new InfraAgendamentoTarefaDTO();
-                    $infraAgemdanemtoTarefaDTO->setStrDescricao('Agendamento para notificacao de atividades.');
-                    $infraAgemdanemtoTarefaDTO->setStrComando('MdWsSeiAgendamentoRN::notificacaoAtividades');
-            
-                    //Obtem valor do SEI.php
-                    $numVersaoAtualSEI = explode('.', SEI_VERSAO);
-                    $numVersaoAtualSEI = array_map(function($item){ return str_pad($item, 2, '0', STR_PAD_LEFT); }, $numVersaoAtualSEI);
-                    $numVersaoAtualSEI = intval(join($numVersaoAtualSEI));
-                    $numVersaoMudancaAgendamento = explode('.', '3.1.0');
-                    $numVersaoMudancaAgendamento = array_map(function($item){ return str_pad($item, 2, '0', STR_PAD_LEFT); }, $numVersaoMudancaAgendamento);
-                    $numVersaoMudancaAgendamento = intval(join($numVersaoMudancaAgendamento));
-                    if($numVersaoMudancaAgendamento >= $numVersaoAtualSEI){
-                        $infraAgemdanemtoTarefaDTO->setStrStaPeriodicidadeExecucao('N');
-                        $infraAgemdanemtoTarefaDTO->setStrPeriodicidadeComplemento('0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55');
-                    } else {
-                        $infraAgemdanemtoTarefaDTO->setStrStaPeriodicidadeExecucao('D');
-                        $infraAgemdanemtoTarefaDTO->setStrPeriodicidadeComplemento('0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23');
-                    }
-            
-                    $infraAgemdanemtoTarefaDTO->setStrSinAtivo('S');
-                    $infraAgemdanemtoTarefaDTO->setStrSinSucesso('S');
-            
-                    $infraAgemdanemtoTarefaBD = new InfraAgendamentoTarefaBD(BancoSEI::getInstance());
-                    $infraAgemdanemtoTarefaBD->cadastrar($infraAgemdanemtoTarefaDTO);
+                $this->logar("CRIANDO TABELA PARA NOTIFICACAO DE ATIVIDADES.");
+                $objInfraMetaBD = new InfraMetaBD(BancoSEI::getInstance());
+                BancoSEI::getInstance()->executarSql(
+                    'CREATE TABLE md_wssei_notificacao_ativ (
+                        id_notificacao_atividade ' . $objInfraMetaBD->tipoNumero() . '  NOT NULL ,
+                        id_atividade ' . $objInfraMetaBD->tipoNumero() . '  NOT NULL ,
+                        titulo ' . $objInfraMetaBD->tipoTextoFixo(150) . '  NOT NULL ,
+                        mensagem ' . $objInfraMetaBD->tipoTextoGrande() . '  NOT NULL ,
+                        dth_notificacao ' . $objInfraMetaBD->tipoDataHora() . '  NOT NULL)'
+                );
+                BancoSEI::getInstance()->criarSequencialNativa('seq_md_wssei_notificacao_ativ',1);
+                $objInfraMetaBD->criarIndice('md_wssei_notificacao_ativ','i01_md_wssei_notificacao_ativ',array('id_notificacao_atividade'));
+                $objInfraMetaBD->criarIndice('md_wssei_notificacao_ativ','i02_md_wssei_notificacao_ativ',array('id_atividade'));
+                $objInfraMetaBD->criarIndice('md_wssei_notificacao_ativ','i03_md_wssei_notificacao_ativ',array('id_notificacao_atividade','id_atividade'));
+                BancoSEI::getInstance()->executarSql('alter table md_wssei_notificacao_ativ add constraint fk_md_wssei_not_ativ_id_ativ foreign key (id_atividade) references atividade (id_atividade) on delete cascade');
+        
+                $infraAgemdanemtoTarefaDTO = new InfraAgendamentoTarefaDTO();
+                $infraAgemdanemtoTarefaDTO->setStrDescricao('Agendamento para notificacao de atividades.');
+                $infraAgemdanemtoTarefaDTO->setStrComando('MdWsSeiAgendamentoRN::notificacaoAtividades');
+        
+                //Obtem valor do SEI.php
+                $numVersaoAtualSEI = explode('.', SEI_VERSAO);
+                $numVersaoAtualSEI = array_map(function($item){ return str_pad($item, 2, '0', STR_PAD_LEFT); }, $numVersaoAtualSEI);
+                $numVersaoAtualSEI = intval(join($numVersaoAtualSEI));
+                $numVersaoMudancaAgendamento = explode('.', '3.1.0');
+                $numVersaoMudancaAgendamento = array_map(function($item){ return str_pad($item, 2, '0', STR_PAD_LEFT); }, $numVersaoMudancaAgendamento);
+                $numVersaoMudancaAgendamento = intval(join($numVersaoMudancaAgendamento));
+                if($numVersaoMudancaAgendamento >= $numVersaoAtualSEI){
+                    $infraAgemdanemtoTarefaDTO->setStrStaPeriodicidadeExecucao('N');
+                    $infraAgemdanemtoTarefaDTO->setStrPeriodicidadeComplemento('0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55');
+                } else {
+                    $infraAgemdanemtoTarefaDTO->setStrStaPeriodicidadeExecucao('D');
+                    $infraAgemdanemtoTarefaDTO->setStrPeriodicidadeComplemento('0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23');
                 }
-                
+        
+                $infraAgemdanemtoTarefaDTO->setStrSinAtivo('S');
+                $infraAgemdanemtoTarefaDTO->setStrSinSucesso('S');
+        
+                $infraAgemdanemtoTarefaBD = new InfraAgendamentoTarefaBD(BancoSEI::getInstance());
+                $infraAgemdanemtoTarefaBD->cadastrar($infraAgemdanemtoTarefaDTO);
                 $this->logar("VERSÃO 0.8.12 atualizada.");
             }
         
@@ -125,24 +115,16 @@ require_once dirname(__FILE__) . '/../web/SEI.php';
         
             public function versao_1_0_4($strVersaoAtual)
             {
-
-                $desabilitarServicoNotificacao = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'DesabilitarServicoNotificacao', false, false);
-
-                if($desabilitarServicoNotificacao){
-                    $this->logar("Serviço de notificação não será instalado pois 'DesabilitarServicoNotificacao = false'.");
-                }else{
-                    $this->logar("VERIFICANDO SE A CHAVE: TokenSecret ESTA PRESENTE NO ARQUIVO DE CONFIGURACOES.");
+                $this->logar("VERIFICANDO SE A CHAVE: TokenSecret ESTA PRESENTE NO ARQUIVO DE CONFIGURACOES.");
                 
-                    $token = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
-                    if((!$token) || (strlen($token)<25)){
-                        $msg = 'Token Secret inexistente ou tamanho menor que o permitido! Verifique o manual de instalacao do módulo. ';
-                        $msg = $msg . 'O script de instalacao foi interrompido. Módulo nao instalado corretamente. ';
-                        $msg = $msg . 'Ajuste a chave e rode novamente o script.';
-                        $this->logar($msg);
-                        throw new InfraException($msg);
-                    }
+                $token = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
+                if((!$token) || (strlen($token)<25)){
+                    $msg = 'Token Secret inexistente ou tamanho menor que o permitido! Verifique o manual de instalacao do módulo. ';
+                    $msg = $msg . 'O script de instalacao foi interrompido. Módulo nao instalado corretamente. ';
+                    $msg = $msg . 'Ajuste a chave e rode novamente o script.';
+                    $this->logar($msg);
+                    throw new InfraException($msg);
                 }
-                
         
                 $this->logar("VERSÃO 1.0.4 atualizada.");
             }
