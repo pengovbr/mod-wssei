@@ -22,13 +22,13 @@ class PaginaIncluirDocumento extends PaginaTeste
     {
         try{
             $this->test->byId('txtFiltro')->value($tipoDocumento);
-            sleep(2);
+            sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 2));
             $this->test->byLinkText($tipoDocumento)->click();
         }
         catch (Exception $e){
             $this->test->byId("imgExibirSeries")->click();
             $this->test->byId('txtFiltro')->value($tipoDocumento);
-            sleep(2);
+            sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 2));
             $this->test->byLinkText($tipoDocumento)->click();
         }
     }
@@ -90,7 +90,7 @@ class PaginaIncluirDocumento extends PaginaTeste
 		$this->test->keys(Keys::ENTER);
 		$this->test->acceptAlert();
 
-		sleep(2);
+		sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 2));
     }
 
     public function salvarDocumento()
@@ -124,7 +124,7 @@ class PaginaIncluirDocumento extends PaginaTeste
         $this->test->frame(null);
         $this->test->frame("ifrVisualizacao");
         $this->test->byXPath("//img[@alt='Incluir Documento']")->click();
-        sleep(2);
+        sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 2));
 
         $dadosDocumento = $dadosDocumento ?: array();
         $dadosDocumento["TIPO_DOCUMENTO"] = @$dadosDocumento["TIPO_DOCUMENTO"] ?: "Ofício";
@@ -162,7 +162,7 @@ class PaginaIncluirDocumento extends PaginaTeste
         $this->test->frame(null);
         $this->test->frame("ifrVisualizacao");
         $this->test->byXPath("//img[@alt='Incluir Documento']")->click();
-        sleep(2);
+        sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 2));
 
         $dadosDocumento = $dadosDocumento ?: array();
         $dadosDocumento["TIPO_DOCUMENTO"] = @$dadosDocumento["TIPO_DOCUMENTO"] ?: "Ofício";
@@ -175,9 +175,9 @@ class PaginaIncluirDocumento extends PaginaTeste
         $dadosDocumento["HIPOTESE_LEGAL"] = @$dadosDocumento["HIPOTESE_LEGAL"] ?: "";
 
         $this->selecionarTipoDocumentoExterno();
-        sleep(2);
+        sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 2));
         $this->tipoDocumento($dadosDocumento["TIPO_DOCUMENTO"]);
-        sleep(2);        
+        sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 2));        
         
         $this->dataElaboracao($dadosDocumento["DATA_ELABORACAO"]);
         $this->formato($dadosDocumento["FORMATO_DOCUMENTO"]);

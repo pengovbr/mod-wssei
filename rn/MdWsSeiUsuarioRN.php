@@ -191,7 +191,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
             ); 
 
             if(!$ret){
-                sleep(3);
+                sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 3));
                 throw new InfraException('Usuário ou senha inválido!');
             }
             

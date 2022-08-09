@@ -39,7 +39,7 @@ class MdWsSeiBloco_V1_RN extends InfraRN {
     public function apiAssinarBloco($idBloco, $idOrgao, $strCargoFuncao, $siglaUsuario, $senhaUsuario, $idUsuario)
     {
         try{
-            sleep(3);
+            sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 3));
             $objRelBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
             $objRelBlocoProtocoloDTO->setNumIdBloco($idBloco);
             $objRelBlocoProtocoloDTO->setOrdNumSequencia(InfraDTO::$TIPO_ORDENACAO_ASC);

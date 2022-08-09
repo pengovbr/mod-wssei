@@ -39,7 +39,7 @@ class MdWsSeiBlocoRN extends InfraRN {
     public function apiAssinarBloco($idBloco, $idOrgao, $strCargoFuncao, $siglaUsuario, $senhaUsuario, $idUsuario)
     {
         try{
-            sleep(3);
+            sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 3));
             $objRelBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
             $objRelBlocoProtocoloDTO->setNumIdBloco($idBloco);
             $objRelBlocoProtocoloDTO->setOrdNumSequencia(InfraDTO::$TIPO_ORDENACAO_ASC);
@@ -80,7 +80,7 @@ class MdWsSeiBlocoRN extends InfraRN {
     public function apiAssinarDocumentos($idOrgao, $strCargoFuncao, $siglaUsuario, $senhaUsuario, $idUsuario, $arrIdDocumentos)
     {
         try{
-            sleep(3);
+            sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 3));
             if(!$arrIdDocumentos){
                 return MdWsSeiRest::formataRetornoSucessoREST('Nenhum documento foi informado para ser assinado.');
             }

@@ -844,7 +844,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
     public function assinarDocumentoControlado(AssinaturaDTO $assinaturaDTO)
     {
         try {
-            sleep(3);
+            sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 3));
             $assinaturaDTO->setStrStaFormaAutenticacao(AssinaturaRN::$TA_SENHA);
             // $assinaturaDTO->setNumIdContextoUsuario(null);
             $documentoRN = new DocumentoRN();

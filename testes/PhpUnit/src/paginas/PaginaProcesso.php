@@ -58,7 +58,7 @@ class PaginaProcesso extends PaginaTeste
             $this->test->frame("ifrVisualizacao");  
             $this->editarProcessoButton = $this->test->byXPath("//img[@alt='Envio Externo de Processo']");   
             $this->editarProcessoButton->click();
-            sleep(2);
+            sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 2));
             $testCase->assertContains('Envio Externo de Processo', $testCase->byCssSelector('body')->text());
             return true;
         }, 100000);
@@ -73,7 +73,7 @@ class PaginaProcesso extends PaginaTeste
 
             $this->test->frame(null);
             $this->test->frame("ifrVisualizacao");  
-            sleep(2);              
+            sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 2));              
             $testCase->assertContains('Histórico do Processo', $testCase->byCssSelector('body')->text());
             return true;
         }, 100000);
@@ -89,7 +89,7 @@ class PaginaProcesso extends PaginaTeste
             $this->test->frame("ifrVisualizacao");  
             $this->editarProcessoButton = $this->test->byXPath("//img[@alt='Consultar Recibos']");   
             $this->editarProcessoButton->click();
-            sleep(2);
+            sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 2));
             $testCase->assertContains('Consultar Recibos', $testCase->byCssSelector('body')->text());
             return true;
         }, 100000);
@@ -147,7 +147,7 @@ class PaginaProcesso extends PaginaTeste
     public function selecionarProcesso()
     {
         $this->selecionarItemArvore($this->listarArvoreProcesso()[0]);
-        sleep(1);
+        sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 1));
     }
 
     public function listarDocumentos() 

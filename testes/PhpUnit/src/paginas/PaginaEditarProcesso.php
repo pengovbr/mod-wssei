@@ -76,7 +76,7 @@ class PaginaEditarProcesso extends PaginaTeste
                 $input->value($nomeInteressado);
                 $this->test->keys(Keys::ENTER);
                 $this->test->acceptAlert();
-                sleep(2);
+                sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 2));
             }
         }
     }
