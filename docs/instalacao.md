@@ -47,7 +47,11 @@
                'UrlServicoNotificacao' => '{URL do serviço de notificação}',
                'IdApp' => '{ID do app registrado no serviço de notificação}',
                'ChaveAutorizacao' => '{Chave de autorização do serviço de notificação}',
-               'TokenSecret' => '{chave unica com pelo menos 32 chars. Pode usar o comando uuidgen para gerar}'
+               'TokenSecret' => '{chave unica com pelo menos 32 chars. Pode usar o comando uuidgen para gerar}',
+               'DesabilitarQrCodeAplicativo' => '{(boolean) se true desabilita a visão do QrCode do aplicativo no menu do SEI. Padrão=false.}',
+               'DesabilitarServicoNotificacao' => '{(boolean) se true desabilita o serviço de autenticação. Padrão=false}',
+               'ServicosHabilitados' => '{(array|boolean) lista de expressões regulares para habilitar apenas os serviços que combinem com os padrões listados. Padrão=false. Exemplo "ServicosHabilitados" => ["hipoteseLegal.*"]}',
+               'ServicosDesabilitados' => '{(array|boolean) lista de expressões regulares para desabilitar apenas os serviços que combinem com os padrões listados. Padrão=false. Exemplo "ServicosDesabilitados" => ["bloco/assinatura.*","versao"]}',
            ),
 
            (...)
