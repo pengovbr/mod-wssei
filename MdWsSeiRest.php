@@ -344,8 +344,8 @@ class MdWsSeiRest extends SeiIntegracao
         if (($binQrCode = file_get_contents($caminhoFisicoQrCode)) === false) {
             $infraException->lancarValidacao('Não foi possível ler o arquivo do QRCode.');
         }
-
-        $htmlQrCode .= '<div style="font-size: 12px; text-align: center;">';
+        $htmlQrCode .= '<script>document.querySelector("div.infraSidebarMenu").style.overflowY = "visible";</script>';
+        $htmlQrCode .= '<div style="font-size: 12px; text-align: center; background-color: #f5f6f7">';
         $htmlQrCode .= '<div style="height: 12px; margin-bottom: 22px; background-color: #01A5DA; border-bottom: 4px solid #AFCF2C;"></div>';
         // $htmlQrCode .= '<p style="text-align: left; margin: 5px;">';
         // $htmlQrCode .= '<strong style="font-weight: bolder">';
