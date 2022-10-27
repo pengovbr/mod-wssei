@@ -15,7 +15,7 @@ class PaginaTeste
 
     public function alertTextAndClose($confirm = true)
     {
-        sleep(2);
+        sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 2));
         $result = $this->test->alertText();
         $result = (!is_array($result) ? $result : null);
 

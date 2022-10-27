@@ -18,13 +18,13 @@ class PaginaIniciarProcesso extends PaginaTeste
     {
         try{
             $this->test->byId('txtFiltro')->value($tipoProcesso);
-            sleep(2);
+            sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 2));
             $this->test->byLinkText($tipoProcesso)->click();
         }
         catch (Exception $e){
             $this->test->byId("imgExibirTiposProcedimento")->click();    
             $this->test->byId('txtFiltro')->value($tipoProcesso);
-            sleep(2);
+            sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 2));
             $this->test->byLinkText($tipoProcesso)->click();
         }
     }
@@ -96,7 +96,7 @@ class PaginaIniciarProcesso extends PaginaTeste
                 $input->value($nomeInteressado);
                 $this->test->keys(Keys::ENTER);
                 $this->test->acceptAlert();
-                sleep(2);
+                sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 2));
             }
         }
     }

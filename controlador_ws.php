@@ -66,6 +66,71 @@ class ModuleVerificationMiddleware {
     }
 }
 
+/**
+ * Classe com regra para verificar se existe permissão para execução dos serviços
+ */
+class ServicePermissionsMiddleware {
+
+    /**
+     * Aplica regra
+     *
+     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Response $response
+     * @param Closure $next
+     * @return \Slim\Http\Response
+     */
+    public function __invoke($request, $response, $next)
+    {
+
+        $servicosHabilitados = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'ServicosHabilitados', false, false);
+        $servicosDesabilitados = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'ServicosDesabilitados', false, false);
+
+        $servicoHabilitado = true;
+        $servicoDesabilitado = false;
+
+        if($servicosHabilitados){
+            $servicoHabilitado = $this->isRequestInPatternList($request, $servicosHabilitados);
+        }
+
+        if($servicosDesabilitados){
+            $servicoDesabilitado = $this->isRequestInPatternList($request, $servicosDesabilitados);            
+        }
+
+        if(!$servicoHabilitado || $servicoDesabilitado){
+            $response = $response->withJson(
+                array(
+                    "sucesso" => false,
+                    "mensagem" => utf8_encode('Serviço ' . $request->getMethod() . ':' . str_replace('api/v2/', '', $request->getUri()->getPath()) . ' não permitido'),                        
+                    "exception" => null
+                ),
+                405
+            );
+        }else{
+            $response = $next($request, $response);
+        }
+         
+        return $response;
+    }
+
+    /**
+     * verifica se path da requisição passa na espressão regular da lista
+     *
+     * @param \Slim\Http\Request $request
+     * @param array $lista
+     * @return boolean retorna true se $request->getUri()->getPath() combina com com algum $pattern, false se não der match em nenhum registro
+     */
+    private function isRequestInPatternList($request, $lista){
+        $result = false;
+        foreach ($lista as $pattern) {                                      
+            $pattern = '/^api\/v2\/' . $pattern . '$/m';
+            if(preg_match($pattern, $request->getUri()->getPath())){                                
+                $result = true;
+                break;
+            }
+        }
+        return $result;
+    }
+}
 
 $config = array(
     'settings' => array(

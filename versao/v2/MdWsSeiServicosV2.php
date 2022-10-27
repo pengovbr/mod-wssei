@@ -44,7 +44,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
              */
             $this->post('/autenticar', function ($request, $response, $args) {
                 /** @var $response Slim\Http\Response */
-                sleep(3);
+                sleep(ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'Sleep', false, 3));
                 $rn = new MdWsSeiUsuarioRN();
                 $usuarioDTO = new UsuarioDTO();
                 $usuarioDTO->setStrSigla($request->getParam('usuario'));
@@ -1742,9 +1742,10 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                 });
             })->add(new TokenValidationMiddleware());
 
-        })
-            ->add(new ModuleVerificationMiddleware())
-            ->add(new EncodingMiddleware());
+        })            
+            ->add(new ModuleVerificationMiddleware())            
+            ->add(new EncodingMiddleware())
+            ->add(new ServicePermissionsMiddleware());
 
         return $this->slimApp;
     }
