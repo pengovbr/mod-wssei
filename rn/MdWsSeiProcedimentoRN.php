@@ -1440,7 +1440,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             /** Chamando serviço para retorno das ciencias do processo **/
             $arrDadosCiencias = MdWsSeiRest::dataToIso88591($this->listarCienciaProcesso($procedimentoHistoricoDTO));
             if(!$arrDadosCiencias['sucesso']){
-                throw new Exception($arrDadosCiencias['mensagem'], $arrDadosCiencias['exception']);
+                throw new Exception($arrDadosCiencias['mensagem'], 0, $arrDadosCiencias['exception']);
             }
 
             $arrCiencias = $arrDadosCiencias['data'];
