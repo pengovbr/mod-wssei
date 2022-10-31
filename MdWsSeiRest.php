@@ -13,7 +13,7 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function getNome()
     {
-        return 'MÛdulo de serviÁos REST';
+        return 'M√≥dulo de servi√ßos REST';
     }
 
     public function getVersao()
@@ -23,7 +23,7 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function getInstituicao()
     {
-        return 'ME - MinistÈrio da Economia';
+        return 'ME - Minist√©rio da Economia';
     }
 
 
@@ -70,11 +70,11 @@ class MdWsSeiRest extends SeiIntegracao
     }
 
     /**
-     * Formata o retorno da mensagem para o padr„o do controlador de serviÁos REST
+     * Formata o retorno da mensagem para o padr√£o do controlador de servi√ßos REST
      * @param null $mensagem
      * @param null $result
      * @param null $total
-     * @param bool $jsonEncode - Se alterado para true retornar· como json_encode
+     * @param bool $jsonEncode - Se alterado para true retornar√° como json_encode
      * @return array
      */
     public static function formataRetornoSucessoREST($mensagem = null, $result = null, $total = null, $jsonEncode = false)
@@ -96,7 +96,7 @@ class MdWsSeiRest extends SeiIntegracao
     }
 
     /**
-     * Formata o retorno da mensagem para o padr„o do controlador de serviÁos REST
+     * Formata o retorno da mensagem para o padr√£o do controlador de servi√ßos REST
      * @param Exception $e
      * @return array
      */
@@ -132,7 +132,7 @@ class MdWsSeiRest extends SeiIntegracao
     }
 
     /**
-     * MÈtodo que verifica se o mÛdulo esta ativo nas configuraÁıes do SEI
+     * M√©todo que verifica se o m√≥dulo esta ativo nas configura√ß√µes do SEI
      */
     public static function moduloAtivo()
     {
@@ -148,7 +148,7 @@ class MdWsSeiRest extends SeiIntegracao
     }
 
     /**
-     * Retorna se È compativel com a vers„o atual do SEI instalado
+     * Retorna se √© compativel com a vers√£o atual do SEI instalado
      * @param $strVersaoSEI
      * @return bool
      */
@@ -163,7 +163,7 @@ class MdWsSeiRest extends SeiIntegracao
     public function inicializar($strVersaoSEI)
     {
         if (!$this->verificaCompatibilidade($strVersaoSEI)) {
-            die('MÛdulo "' . $this->getNome() . '" (' . $this->getVersao() . ') n„o e compatÌvel com esta vers„o do SEI (' . $strVersaoSEI . ').');
+            die('M√≥dulo "' . $this->getNome() . '" (' . $this->getVersao() . ') n√£o e compat√≠vel com esta vers√£o do SEI (' . $strVersaoSEI . ').');
         }
     }
 
@@ -301,7 +301,9 @@ class MdWsSeiRest extends SeiIntegracao
             }
 
             $html = $this->montaCorpoHTMLQRCode($nomeArquivo);
-            CacheSEI::getInstance()->setAtributo($nomeArquivo, $html, CacheSEI::getInstance()->getNumTempo());
+            try{
+              CacheSEI::getInstance()->setAtributo($nomeArquivo, $html, CacheSEI::getInstance()->getNumTempo());
+            }catch(Exception $e) { }
         }
         catch(Exception $e){
             LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
@@ -312,7 +314,7 @@ class MdWsSeiRest extends SeiIntegracao
     }
 
     /**
-     * FunÁ„o que monta o html do QRCode para o menu lateral do SEI
+     * Fun√ß√£o que monta o html do QRCode para o menu lateral do SEI
      * @param $nomeArquivo
      * @return string
      */
@@ -336,13 +338,13 @@ class MdWsSeiRest extends SeiIntegracao
 
         $infraException = new InfraException();
         if (!file_exists($caminhoFisicoQrCode)) {
-            $infraException->lancarValidacao('Arquivo do QRCode n„o encontrado.');
+            $infraException->lancarValidacao('Arquivo do QRCode n√£o encontrado.');
         }
         if (filesize($caminhoFisicoQrCode) == 0) {
             $infraException->lancarValidacao('Arquivo do QRCode vazio.');
         }
         if (($binQrCode = file_get_contents($caminhoFisicoQrCode)) === false) {
-            $infraException->lancarValidacao('N„o foi possÌvel ler o arquivo do QRCode.');
+            $infraException->lancarValidacao('N√£o foi poss√≠vel ler o arquivo do QRCode.');
         }
         $htmlQrCode .= '<script>document.querySelector("div.infraSidebarMenu").style.overflowY = "visible";</script>';
         $htmlQrCode .= '<div style="font-size: 12px; text-align: center; background-color: #f5f6f7">';
@@ -354,7 +356,7 @@ class MdWsSeiRest extends SeiIntegracao
         // $htmlQrCode .= '</p>';
         $htmlQrCode .= '<p style="text-align: left; margin: 15px 5px 5px 5px;">';
         $htmlQrCode .= '<strong style="font-weight: bolder">';
-        $htmlQrCode .= 'Abra o aplicativo do SEI! e faÁa a leitura do cÛdigo abaixo para sincroniz·-lo com sua conta.';
+        $htmlQrCode .= 'Abra o aplicativo do SEI! e fa√ßa a leitura do c√≥digo abaixo para sincroniz√°-lo com sua conta.';
         $htmlQrCode .= '</strong>';
         $htmlQrCode .= '</p>';
         $htmlQrCode .= '<img style="margin: 20px auto 6px;" align="center" src="data:image/png;base64, '
@@ -366,7 +368,7 @@ class MdWsSeiRest extends SeiIntegracao
 
 
     /**
-     * Gera Identificador ˙nico do usu·rio logado
+     * Gera Identificador √∫nico do usu√°rio logado
      * @return String
      */
     public static function geraIdentificadorUsuario($siglaUsuario, $siglaOrgao)
