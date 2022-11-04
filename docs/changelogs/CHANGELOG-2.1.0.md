@@ -1,4 +1,4 @@
-## Novidades da versão <VERSAO>
+## Novidades da versão 2.1.0
 
 Este documento descreve as principais mudanças aplicadas nesta atualização de versão do **SUPER.GOV.BR**.
 

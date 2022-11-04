@@ -1,5 +1,5 @@
 <?
-require_once dirname(__FILE__) . '/../web/SEI.php';
+require_once dirname(__FILE__) . '/../../web/SEI.php';
 
     try {
         
@@ -117,7 +117,8 @@ require_once dirname(__FILE__) . '/../web/SEI.php';
             {
                 $this->logar("VERIFICANDO SE A CHAVE: TokenSecret ESTA PRESENTE NO ARQUIVO DE CONFIGURACOES.");
                 
-                $token = ConfiguracaoSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
+                $token = ConfiguracaoMdWSSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
+                echo 'TOKEN: ' . $token;
                 if((!$token) || (strlen($token)<25)){
                     $msg = 'Token Secret inexistente ou tamanho menor que o permitido! Verifique o manual de instalacao do módulo. ';
                     $msg = $msg . 'O script de instalacao foi interrompido. Módulo nao instalado corretamente. ';
@@ -133,6 +134,11 @@ require_once dirname(__FILE__) . '/../web/SEI.php';
             {
                 $this->logar("VERSÃO 2.0.0 atualizada.");
             }
+
+            public function versao_2_1_0($strVersaoAtual)
+            {
+                $this->logar("VERSÃO $strVersaoAtual atualizada.");
+            }            
         }
 
         session_start();
@@ -154,6 +160,7 @@ require_once dirname(__FILE__) . '/../web/SEI.php';
                 '1.0.3' => 'versao_1_0_3',
                 '1.0.4' => 'versao_1_0_4',
                 '2.0.0' => 'versao_2_0_0',
+                '2.1.*' => 'versao_2_1_0',
             )
         );
 
