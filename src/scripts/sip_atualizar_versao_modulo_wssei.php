@@ -67,6 +67,11 @@ class VersaoSipRN extends InfraScriptVersao
     {
         $this->logar("VERSÃO 2.0.0 atualizada.");
     }
+
+    public function versao_2_1_0($strVersaoAtual)
+    {
+        $this->logar("VERSÃO $strVersaoAtual atualizada.");
+    }        
 }
 
 try {
@@ -89,6 +94,7 @@ try {
             '1.0.3' => 'versao_1_0_3',
             '1.0.4' => 'versao_1_0_4',
             '2.0.0' => 'versao_2_0_0',
+            '2.1.*' => 'versao_2_1_0',
         )
     );
     $objVersaoSipRN->setStrVersaoAtual(array_key_last($objVersaoSipRN->getArrVersoes()));

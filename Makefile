@@ -117,7 +117,7 @@ check-module-config:
 check-super-isalive: ## Target de apoio. Acessa o Super e verifica se esta respondendo a tela de login
 	@echo ""
 	@echo "$(WARNING)Aguardando inicialização do ambiente de desenvolvimento...$(NC)"
-	@for i in `seq 1 10`; do \
+	@for i in `seq 1 20`; do \
 	    echo "Tentativa $$i/10";  \
 		if $(CMD_CURL_SUPER_LOGIN); then \
 				echo 'Página de login carregada!' ; \

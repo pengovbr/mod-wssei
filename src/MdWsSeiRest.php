@@ -9,7 +9,7 @@
 class MdWsSeiRest extends SeiIntegracao
 {
     const NOME_MODULO = "MdWsSeiRest";
-    const VERSAO_MODULO = "2.0.2";
+    const VERSAO_MODULO = "2.1.0";
 
     public function getNome()
     {
@@ -18,7 +18,7 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function getVersao()
     {
-        return '2.0.0';
+        return self::VERSAO_MODULO;
     }
 
     public function getInstituicao()
@@ -349,7 +349,7 @@ class MdWsSeiRest extends SeiIntegracao
         }
         $htmlQrCode .= '<script>document.querySelector("div.infraSidebarMenu").style.overflowY = "visible";</script>';
         $htmlQrCode .= '<div style="font-size: 12px; text-align: center; background-color: #f5f6f7">';
-        $htmlQrCode .= '<div style="height: 12px; margin-bottom: 22px; background-color: #01A5DA; border-bottom: 4px solid #AFCF2C;"></div>';
+        $htmlQrCode .= '<div style="height: 12px; margin-bottom: 22px; background-color: var(--color-primary-default);"></div>';
         // $htmlQrCode .= '<p style="text-align: left; margin: 5px;">';
         // $htmlQrCode .= '<strong style="font-weight: bolder">';
         // $htmlQrCode .= 'Acesse as lojas App Store ou Google Play e instale o aplicativo do SEI! no seu celular.';
