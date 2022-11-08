@@ -38,7 +38,13 @@ class MdWsSeiAssinanteRN extends InfraRN {
                 if($assinanteDTOConsulta->isSetNumIdAssinante() && $assinanteDTOConsulta->getNumIdAssinante() != ''){
                     $relAssinanteUnidadeDTO->setNumIdAssinante($assinanteDTOConsulta->getNumIdAssinante());
                 }
-                $relAssinanteUnidadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+                
+                $idUnidade = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
+                if ($assinanteDTOConsulta->isSetNumIdUnidade()) {
+                    $idUnidade = $assinanteDTOConsulta->getNumIdUnidade();
+                }
+                
+                $relAssinanteUnidadeDTO->setNumIdUnidade($idUnidade);
 
                 $relAssinanteUnidadeRN = new RelAssinanteUnidadeRN();
                 /** Chama o componente SEI para consulta dos assinantes relacionados a unidade **/

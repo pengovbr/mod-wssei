@@ -18,7 +18,9 @@ class MdWsSeiGrupoAcompanhamentoRN extends InfraRN {
             $result = array();
             $grupoAcompanhamentoDTOConsulta->retNumIdGrupoAcompanhamento();
             $grupoAcompanhamentoDTOConsulta->retStrNome();
-            $grupoAcompanhamentoDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            if (!$grupoAcompanhamentoDTOConsulta->isSetNumIdUnidade()) {
+                $grupoAcompanhamentoDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            }
             $grupoAcompanhamentoDTOConsulta->setOrdStrNome(InfraDTO::$TIPO_ORDENACAO_ASC);
             if($grupoAcompanhamentoDTOConsulta->isSetStrNome() && $grupoAcompanhamentoDTOConsulta->getStrNome()){
                 $grupoAcompanhamentoDTOConsulta->setStrNome(
@@ -55,7 +57,9 @@ class MdWsSeiGrupoAcompanhamentoRN extends InfraRN {
         try{
             $grupoAcompanhamentoRN = new GrupoAcompanhamentoRN();
             /** Acessa o componente SEI para retorno da unidade da sessão do usuário */
-            $grupoAcompanhamentoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            if (!$grupoAcompanhamentoDTO->isSetNumIdUnidade()) {
+                $grupoAcompanhamentoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            }
             /** Acessando o componente SEI para cadastro de grupo de acompanhamento **/
             $grupoAcompanhamentoRN->cadastrar($grupoAcompanhamentoDTO);
             return MdWsSeiRest::formataRetornoSucessoREST(
@@ -122,7 +126,12 @@ class MdWsSeiGrupoAcompanhamentoRN extends InfraRN {
             $grupoAcompanhamentoRN = new GrupoAcompanhamentoRN();
             $grupoAcompanhamentoDTO = new GrupoAcompanhamentoDTO();
             $grupoAcompanhamentoDTO->retTodos();
-            $grupoAcompanhamentoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+
+            $idUnidade = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
+            if (isset($arrIdGrupos['unidade']) && !empty($arrIdGrupos['unidade'])) {
+                $idUnidade = $arrIdGrupos['unidade'];
+            }
+            $grupoAcompanhamentoDTO->setNumIdUnidade($idUnidade);
             $grupoAcompanhamentoDTO->setNumIdGrupoAcompanhamento($arrIdGrupos, InfraDTO::$OPER_IN);
             /** Acessa o componente SEI para retorno dos grupos de acompanhamento **/
             $arrGrupoAcompanhamentoDTOExclusao = $grupoAcompanhamentoRN->listar($grupoAcompanhamentoDTO);

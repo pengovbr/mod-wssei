@@ -251,6 +251,11 @@ class MdWsSeiBlocoRN extends InfraRN {
             $blocoDTO->retNumIdUnidade();
             $blocoDTO->setNumIdBloco($relBlocoProtocoloDTOConsulta->getNumIdBloco());
 
+            $idUnidade = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
+            if ($relBlocoProtocoloDTOConsulta->isSetNumIdUnidadeBloco()) { 
+                $idUnidade = $relBlocoProtocoloDTOConsulta->getNumIdUnidadeBloco();
+            }
+
             $blocoRN = new BlocoRN();
             $blocoDTO = $blocoRN->consultarRN1276($blocoDTO);
             if(!$blocoDTO){
@@ -260,12 +265,12 @@ class MdWsSeiBlocoRN extends InfraRN {
             $arrAtributos = array(
                 'assinar' => (
                     SessaoSEI::getInstance()->verificarPermissao('documento_assinar') &&
-                    !($blocoDTO->getNumIdUnidade()==SessaoSEI::getInstance()->getNumIdUnidadeAtual() && $blocoDTO->getStrStaEstado()==BlocoRN::$TE_DISPONIBILIZADO)
+                    !($blocoDTO->getNumIdUnidade() == $idUnidade && $blocoDTO->getStrStaEstado()==BlocoRN::$TE_DISPONIBILIZADO)
                 ),
                 'retirar' => (
                     SessaoSEI::getInstance()->verificarPermissao('rel_bloco_protocolo_excluir') &&
                     $blocoDTO->getStrStaEstado() != BlocoRN::$TE_DISPONIBILIZADO &&
-                    $blocoDTO->getNumIdUnidade() == SessaoSEI::getInstance()->getNumIdUnidadeAtual()
+                    $blocoDTO->getNumIdUnidade() == $idUnidade
                 ),
                 'anotar' => (
                     SessaoSEI::getInstance()->verificarPermissao('rel_bloco_protocolo_alterar')

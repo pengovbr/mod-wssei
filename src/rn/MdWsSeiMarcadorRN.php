@@ -19,7 +19,9 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
             $result = array();
             $marcadorDTOConsulta->retTodos();
             $marcadorDTOConsulta->setBolExclusaoLogica(false);
-            $marcadorDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            if (!$marcadorDTOConsulta->isSetNumIdUnidade()) {
+                $marcadorDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            }
             $marcadorDTOConsulta->setOrdStrNome(InfraDTO::$TIPO_ORDENACAO_ASC);
 
             if($marcadorDTOConsulta->isSetStrSinAtivo() && !in_array($marcadorDTOConsulta->getStrSinAtivo(), array('S', 'N'))){
@@ -199,6 +201,10 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
             $arrIconeMarcadorDTO = $marcadorRN->listarValoresIcone();
 
             $andamentoMarcadorRN = new AndamentoMarcadorRN();
+
+            if (!$andamentoMarcadorDTOParam->isSetNumIdUnidade()) {
+                $andamentoMarcadorDTOParam->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            }
             $andamentoMarcadorDTO = new AndamentoMarcadorDTO();
             $andamentoMarcadorDTO->setDistinct(true);
             $andamentoMarcadorDTO->retNumIdMarcador();
@@ -206,7 +212,6 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
             $andamentoMarcadorDTO->retDblIdProcedimento();
             $andamentoMarcadorDTO->retStrTexto();
             $andamentoMarcadorDTO->setDblIdProcedimento(array($andamentoMarcadorDTOParam->getDblIdProcedimento()),InfraDTO::$OPER_IN);
-            $andamentoMarcadorDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
             $andamentoMarcadorDTO->setStrSinUltimo('S');
             /** Chama o componente SEI para retornar o andamento do marcador */
             $arrObjAndamentoMarcadorDTO = $andamentoMarcadorRN->listar($andamentoMarcadorDTO);
@@ -252,6 +257,10 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
                 throw new InfraException("Processo não encontrado.");
             }
 
+            if (!$andamentoMarcadorDTOParam->isSetNumIdUnidade()) {
+                $andamentoMarcadorDTOParam->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            }
+
             $result = array();
 
             $andamentoMarcadorDTOParam->retNumIdMarcador();
@@ -263,7 +272,6 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
             $andamentoMarcadorDTOParam->retStrSiglaUsuario();
             $andamentoMarcadorDTOParam->retStrNomeUsuario();
             $andamentoMarcadorDTOParam->retNumIdAndamentoMarcador();
-            $andamentoMarcadorDTOParam->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
             $andamentoMarcadorDTOParam->setOrdNumIdAndamentoMarcador(InfraDTO::$TIPO_ORDENACAO_DESC);
 
             $andamentoMarcadorRN = new AndamentoMarcadorRN();

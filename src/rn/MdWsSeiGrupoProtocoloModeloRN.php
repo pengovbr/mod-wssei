@@ -24,7 +24,9 @@ class MdWsSeiGrupoProtocoloModeloRN extends InfraRN {
             }
             $grupoProtocoloModeloDTOConsulta->retNumIdGrupoProtocoloModelo();
             $grupoProtocoloModeloDTOConsulta->retStrNome();
-            $grupoProtocoloModeloDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            if (!$grupoProtocoloModeloDTOConsulta->isSetNumIdUnidade()) {
+                $grupoProtocoloModeloDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            }
             $grupoProtocoloModeloDTOConsulta->setOrdStrNome(InfraDTO::$TIPO_ORDENACAO_ASC);
             $grupoProtocoloModeloRN = new GrupoProtocoloModeloRN();
             /** Acessa o componente SEI para consulta de grupos de modelos de documento **/

@@ -498,6 +498,11 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             /** Chama o componente SEI para consulta inicial dos documentos do processo */
             $ret = $relProtocoloProtocoloRN->listarRN0187($relProtocoloProtocoloDTOConsulta);
 
+            $idUnidade = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
+            if ($documentoDTOParam->isSetNumIdUnidadeGeradoraProtocolo()) {
+                $idUnidade = $documentoDTOParam->getNumIdUnidadeGeradoraProtocolo();
+            }
+
 
             $arrDocumentos = array();
             if ($ret) {
@@ -519,7 +524,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
                 /** Acessando componente SEI para retorno de validação de permissões **/
                 $procedimentoDTOAcoes = ProcedimentoINT::montarAcoesArvore($documentoDTOParam->getDblIdProcedimento(),
-                    SessaoSEI::getInstance()->getNumIdUnidadeAtual(),
+                    $idUnidade,
                     $bolFlagAberto,
                     $bolFlagAnexado,
                     $bolFlagAbertoAnexado,
@@ -541,7 +546,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $unidadeDTO->retStrSinProtocolo();
                 $unidadeDTO->retStrSinOuvidoria();
                 $unidadeDTO->retStrSinArquivamento();
-                $unidadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+                $unidadeDTO->setNumIdUnidade($idUnidade);
 
                 $unidadeRN = new UnidadeRN();
                 /** Chamada ao componente SEI para verificação de parametros do documento */
@@ -653,7 +658,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
                 $strStaDocumento = $documentoDTO->getStrStaDocumento();
                 $numIdUnidadeGeradoraProtocolo = $documentoDTO->getNumIdUnidadeGeradoraProtocolo();
-                $numIdUnidadeAtual = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
+                $numIdUnidadeAtual = $idUnidade;
                 $strSinDisponibilizadoParaOutraUnidade = $disponibilizado;
 
                 $permiteAssinatura = false;
@@ -665,7 +670,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $objRelBlocoUnidadeDTO = new RelBlocoUnidadeDTO();
                 $objRelBlocoUnidadeDTO->retNumIdBloco();
                 $objRelBlocoUnidadeDTO->retStrStaTipoBloco();
-                $objRelBlocoUnidadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+                $objRelBlocoUnidadeDTO->setNumIdUnidade($idUnidade);
                 $objRelBlocoUnidadeDTO->setStrSinRetornado('N');
                 $objRelBlocoUnidadeDTO->setStrStaEstadoBloco(BlocoRN::$TE_DISPONIBILIZADO);
 
@@ -697,7 +702,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
                 /** @var AssinaturaDTO $assinaturaDTO */
                 foreach ($documentoDTO->getArrObjAssinaturaDTO() as $assinaturaDTO) {
-                    if($assinaturaDTO->getNumIdUnidade() != SessaoSEI::getInstance()->getNumIdUnidadeAtual()){
+                    if($assinaturaDTO->getNumIdUnidade() != $idUnidade){
                         $assinadoPorOutraUnidade = true;
                     }
                 }
@@ -775,6 +780,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
+
 
     /**
      * Metodo simplificado (abstraido) de assinatura de documentos

@@ -1075,8 +1075,15 @@ class MdWsSeiProcedimentoRN extends InfraRN
             }
 
             $atividadeRN = new MdWsSeiAtividadeRN();
+
+            $idUnidade = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
+            if ($mdWsSeiProtocoloDTOParam->isSetNumIdUnidadeGeradora()) {
+                $idUnidade = $mdWsSeiProtocoloDTOParam->getNumIdUnidadeGeradora();
+            }
+
+            $pesquisaPendenciaDTO->setNumIdUnidade($idUnidade);
             $pesquisaPendenciaDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
-            $pesquisaPendenciaDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
+            
             $pesquisaPendenciaDTO->setStrStaEstadoProcedimento(array(ProtocoloRN::$TE_NORMAL, ProtocoloRN::$TE_PROCEDIMENTO_BLOQUEADO));
             $pesquisaPendenciaDTO->setStrSinAnotacoes('S');
             $pesquisaPendenciaDTO->setStrSinRetornoProgramado('S');

@@ -7,12 +7,12 @@ require_once dirname(__FILE__) . '/../MdWsSeiVersaoServicos.php';
  * Undocumented class
  * @property SLim\App $slimApp
  */
-class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
+class MdWsSeiServicosV3 extends MdWsSeiVersaoServicos
 {
 
     public static function getInstance(Slim\App $slimApp)
     {
-        return new MdWsSeiServicosV2($slimApp);
+        return new MdWsSeiServicosV3($slimApp);
     }
 
     /**
@@ -24,7 +24,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
         /**
          * Grupo para a versao v2 de servicos REST
          */
-        $this->slimApp->group('/api/v2', function () {
+        $this->slimApp->group('/api/v3', function () {
             /**
              * @var Slim/App $this
              */
@@ -44,7 +44,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
              */
             $this->post('/autenticar', function ($request, $response, $args) {
                 /** @var $response Slim\Http\Response */
-                sleep(3);
+                // print_r($request->getParams()); die('aki');
+                // sleep(3);
                 $rn = new MdWsSeiUsuarioRN();
                 $usuarioDTO = new UsuarioDTO();
                 $usuarioDTO->setStrSigla($request->getParam('usuario'));
@@ -183,6 +184,10 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('filter')) {
                         $dto->setStrNome($request->getParam('filter'));
                     }
+                    if (!is_null($request->getParam('unidade'))) {
+                        $dto->setNumIdUnidade($request->getParam('unidade'));
+                    }
+
                     return $response->withJSON($rn->pesquisar($dto));
                 });
 
@@ -624,6 +629,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     } else {
                         $dto->setNumPaginaAtual($request->getParam('start'));
                     }
+                    if (!is_null($request->getParam('unidade'))) {
+                        $dto->setNumIdUnidadeGeradoraProtocolo($request->getParam('unidade'));
+                    }
                     return $response->withJSON($rn->listarDocumentosProcesso($dto));
                 });
                 $this->get('/secao/listar', function ($request, $response, $args) {
@@ -828,7 +836,6 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                 $this->get('/tipo/listar', function ($request, $response, $args) {
                     /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiProcedimentoRN();
-
                     $objGetMdWsSeiTipoProcedimentoDTO = new MdWsSeiTipoProcedimentoDTO();
                     $objGetMdWsSeiTipoProcedimentoDTO->setNumIdTipoProcedimento($request->getParam('id'));
                     $objGetMdWsSeiTipoProcedimentoDTO->setStrNome($request->getParam('filter'));
@@ -898,6 +905,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     $dto->setDblIdProtocolo1($request->getParam('protocoloDestino'));
                     if ($request->getParam('motivo')) {
                         $dto->setStrMotivo($request->getParam('motivo'));
+                    }
+                    if (!is_null($request->getParam('unidade'))) {
+                        $dto->setNumIdUnidade($request->getParam('unidade'));
                     }
 
                     return $response->withJSON($rn->sobrestamentoProcesso($dto));
@@ -970,6 +980,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('unidade'))) {
                         $dto->setNumIdUnidadeGeradora($request->getParam('unidade'));
                     }
+
                     return $response->withJSON($rn->listarProcessos($dto));
                 });
 
@@ -1099,6 +1110,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     /** @var Slim\Http\Request $request */
                     $rn = new MdWsSeiAcompanhamentoRN();
                     $dto = new AcompanhamentoDTO();
+                    if (!is_null($request->getParam('unidade'))) {
+                        $dto->setNumIdUnidade($request->getParam('unidade'));
+                    }
                     $dto->setDblIdProtocolo($request->getParam('protocolo'));
                     return $response->withJSON($rn->consultarAcompanhamentoPorProtocolo($dto));
                 });
@@ -1349,6 +1363,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('filter') != '') {
                         $dto->setStrCargoFuncao($request->getParam('filter'));
                     }
+                    if (!is_null($request->getParam('unidade'))) {
+                        $dto->setNumIdUnidade($request->getParam('unidade'));
+                    }
                     return $response->withJSON($rn->listarAssinante($dto));
                 });
 
@@ -1388,6 +1405,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('filter') != '') {
                         $dto->setStrNome($request->getParam('filter'));
                     }
+                    if (!is_null($request->getParam('unidade'))) {
+                        $dto->setNumIdUnidade($request->getParam('unidade'));
+                    }
                     return $response->withJSON($rn->listar($dto));
                 });
 
@@ -1396,6 +1416,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     $rn = new MdWsSeiGrupoAcompanhamentoRN();
                     $dto = new GrupoAcompanhamentoDTO();
                     $dto->setStrNome($request->getParam('nome'));
+                    if (!is_null($request->getParam('unidade'))) {
+                        $dto->setNumIdUnidade($request->getParam('unidade'));
+                    }
                     $dto->setNumIdGrupoAcompanhamento(null);
                     return $response->withJSON($rn->cadastrar($dto));
                 });
@@ -1407,6 +1430,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('grupos')) {
                         $arrIdGrupos = explode(',', $request->getParam('grupos'));
                     }
+                    $rn = new MdWsSeiGrupoAcompanhamentoRN();
+
                     return $response->withJSON($rn->excluir($arrIdGrupos));
                 });
 
@@ -1441,6 +1466,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('filter') != '') {
                         $dto->setStrNome($request->getParam('filter'));
                     }
+                    if (!is_null($request->getParam('unidade'))) {
+                        $dto->setNumIdUnidade($request->getParam('unidade'));
+                    }
                     return $response->withJSON($rn->listar($dto));
                 });
                 $this->get('/listar', function ($request, $response, $args) {
@@ -1459,11 +1487,14 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if (!is_null($request->getParam('grupoProtocoloModelo')) && $request->getParam('grupoProtocoloModelo') != '') {
                         $dto->setNumIdGrupoProtocoloModelo($request->getParam('grupoProtocoloModelo'));
                     }
-                    if (!is_null($request->getParam('tipoFiltro')) && $request->getParam('tipoFiltro') != '') {
-                        $dto->setStrStaTipoFiltro($request->getParam('tipoFiltro'));
-                    }else{
-                        $dto->setStrStaTipoFiltro(null);
-                        // $dto->setStrStaTipoFiltro(ProtocoloModeloRN::$TF_TODOS);
+                    // if (!is_null($request->getParam('tipoFiltro')) && $request->getParam('tipoFiltro') != '') {
+                    //     $dto->setStrStaTipoFiltro($request->getParam('tipoFiltro'));
+                    // }else{
+                    //     $dto->setStrStaTipoFiltro(null);
+                    //     // $dto->setStrStaTipoFiltro(ProtocoloModeloRN::$TF_TODOS);
+                    // }
+                    if (!is_null($request->getParam('unidade'))) {
+                        $dto->setNumIdUnidade($request->getParam('unidade'));
                     }
                     return $response->withJSON($rn->listar($dto));
                 });
@@ -1487,6 +1518,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     }
                     if ($request->getParam('grupoAcompanhamento') != '') {
                         $dto->setNumIdGrupoAcompanhamento($request->getParam('grupoAcompanhamento'));
+                    }
+                    if (!is_null($request->getParam('unidade'))) {
+                        $dto->setNumIdUnidade($request->getParam('unidade'));
                     }
                     return $response->withJSON($rn->listaAcompanhamentosUnidade($dto));
                 });
@@ -1662,6 +1696,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     if ($request->getParam('ativo') != '') {
                         $dto->setStrSinAtivo($request->getParam('ativo'));
                     }
+                    if (!is_null($request->getParam('unidade'))) {
+                        $dto->setNumIdUnidade($request->getParam('unidade'));
+                    }
                     $rn = new MdWsSeiMarcadorRN();
                     return $response->withJSON($rn->pesquisar($dto));
                 });
@@ -1740,6 +1777,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     }
                     if (!is_null($request->getParam('start'))) {
                         $dto->setNumPaginaAtual($request->getParam('start'));
+                    }
+                    if (!is_null($request->getParam('unidade'))) {
+                        $dto->setNumIdUnidade($request->getParam('unidade'));
                     }
                     return $response->withJSON($rn->listarHistoricoProcesso($dto));
                 });
