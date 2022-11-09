@@ -18,7 +18,7 @@ VERSAO_MODULO := $(shell grep 'const VERSAO_MODULO' ./src/MdWsSeiRest.php | cut 
 SEI_SCRIPTS_DIR = dist/sei/scripts/$(MODULO_PASTAS_CONFIG)
 SEI_CONFIG_DIR = dist/sei/config/$(MODULO_PASTAS_CONFIG)
 SIP_SCRIPTS_DIR = dist/sip/scripts/$(MODULO_PASTAS_CONFIG)
-SEI_MODULO_DIR = dist/sei/web/modulos/$(MODULO_NOME)
+SEI_MODULO_DIR = dist/sei/web/modulos/mod-$(MODULO_NOME)
 
 ARQUIVO_CONFIG_SEI=$(SEI_PATH)/sei/config/ConfiguracaoSEI.php
 ARQUIVO_ENV_ASSINATURA=.modulo.env
