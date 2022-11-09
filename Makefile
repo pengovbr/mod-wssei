@@ -15,9 +15,9 @@ MODULO_NOME = wssei
 MODULO_PASTAS_CONFIG = mod-$(MODULO_NOME)
 MODULO_PASTA_NOME = $(notdir $(shell pwd))
 VERSAO_MODULO := $(shell grep 'const VERSAO_MODULO' ./src/MdWsSeiRest.php | cut -d'"' -f2)
-SEI_SCRIPTS_DIR = dist/sei/scripts/mod-$(MODULO_PASTAS_CONFIG)
-SEI_CONFIG_DIR = dist/sei/config/mod-$(MODULO_PASTAS_CONFIG)
-SIP_SCRIPTS_DIR = dist/sip/scripts/mod-$(MODULO_PASTAS_CONFIG)
+SEI_SCRIPTS_DIR = dist/sei/scripts/$(MODULO_PASTAS_CONFIG)
+SEI_CONFIG_DIR = dist/sei/config/$(MODULO_PASTAS_CONFIG)
+SIP_SCRIPTS_DIR = dist/sip/scripts/$(MODULO_PASTAS_CONFIG)
 SEI_MODULO_DIR = dist/sei/web/modulos/$(MODULO_NOME)
 
 ARQUIVO_CONFIG_SEI=$(SEI_PATH)/sei/config/ConfiguracaoSEI.php
