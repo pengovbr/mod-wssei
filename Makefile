@@ -66,7 +66,7 @@ dist: ## Gera o pacote de distribuicao para o Super. Nao esquecer de gerar o Cha
 	@cp docs/changelogs/CHANGELOG-$(VERSAO_MODULO).md dist/NOTAS_VERSAO.md
 	@mv $(SEI_MODULO_DIR)/scripts/sei_atualizar_versao_modulo_wssei.php $(SEI_SCRIPTS_DIR)/
 	@mv $(SEI_MODULO_DIR)/scripts/sip_atualizar_versao_modulo_wssei.php $(SIP_SCRIPTS_DIR)/
-	@mv $(SEI_MODULO_DIR)/config/ConfiguracaoMdWSSEI.exemplo.php $(SEI_CONFIG_DIR)/
+	@mv $(SEI_MODULO_DIR)/config/ConfiguracaoMdWSSEI.php $(SEI_CONFIG_DIR)/ConfiguracaoMdWSSEI.prod.exemplo.php
 	@rm -rf $(SEI_MODULO_DIR)/config
 	@rm -rf $(SEI_MODULO_DIR)/scripts
 	@cd dist/ && zip -r $(MODULO_COMPACTADO) INSTALACAO.md ATUALIZACAO.md NOTAS_VERSAO.md sei/ sip/	
