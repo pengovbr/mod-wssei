@@ -27,10 +27,9 @@ Todas as atualizações podem incluir itens referentes à segurança, requisito 
 Nesta versão foram revisados os procedimentos de instalação do módulo, assim como o organização dos arquivos do projeto. Estas modificações foram feitas com o objetivo de simplificar os procedimentos para instalação do módulo no SUPER ou SEI 4.0.x.
 
 
-#### Descrição da melhoria 002 (#00)
+#### Erro ao consultar processo por tratamento de erro inválido (#29)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
+Correção de tratamento de erro na consulta de processos.
 
 
 ### Atualização de Versão

@@ -34,10 +34,10 @@ class ConfiguracaoMdWSSEI extends InfraConfiguracao  {
     {
         return array(
             'WSSEI' => array(
-                'UrlServicoNotificacao' => getenv('MODULO_WSSUPER_URL_NOTIFICACAO'),
-                'IdApp' => getenv('MODULO_WSSUPER_ID_APP'),
-                'ChaveAutorizacao' => getenv('MODULO_WSSUPER_CHAVE'),
-                'TokenSecret' => getenv('MODULO_WSSUPER_TOKEN_SECRET')
+                'UrlServicoNotificacao' => getenv('MOD_WSSEI_URL_SERVICO_NOTIFICACAO'),
+                'IdApp' => getenv('MOD_WSSEI_ID_APP'),
+                'ChaveAutorizacao' => getenv('MOD_WSSEI_CHAVE_AUTORIZACAO'),
+                'TokenSecret' => getenv('MOD_WSSEI_TOKEN_SECRET')
             ),
         );
     }

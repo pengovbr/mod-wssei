@@ -118,7 +118,6 @@ require_once dirname(__FILE__) . '/../../web/SEI.php';
                 $this->logar("VERIFICANDO SE A CHAVE: TokenSecret ESTA PRESENTE NO ARQUIVO DE CONFIGURACOES.");
                 
                 $token = ConfiguracaoMdWSSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
-                echo 'TOKEN: ' . $token;
                 if((!$token) || (strlen($token)<25)){
                     $msg = 'Token Secret inexistente ou tamanho menor que o permitido! Verifique o manual de instalacao do módulo. ';
                     $msg = $msg . 'O script de instalacao foi interrompido. Módulo nao instalado corretamente. ';

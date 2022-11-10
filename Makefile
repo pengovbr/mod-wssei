@@ -18,7 +18,7 @@ VERSAO_MODULO := $(shell grep 'const VERSAO_MODULO' ./src/MdWsSeiRest.php | cut 
 SEI_SCRIPTS_DIR = dist/sei/scripts/$(MODULO_PASTAS_CONFIG)
 SEI_CONFIG_DIR = dist/sei/config/$(MODULO_PASTAS_CONFIG)
 SIP_SCRIPTS_DIR = dist/sip/scripts/$(MODULO_PASTAS_CONFIG)
-SEI_MODULO_DIR = dist/sei/web/modulos/mod-$(MODULO_NOME)
+SEI_MODULO_DIR = dist/sei/web/modulos/$(MODULO_NOME)
 
 ARQUIVO_CONFIG_SEI=$(SEI_PATH)/sei/config/ConfiguracaoSEI.php
 ARQUIVO_ENV_WSSEI=.modulo.env
@@ -51,11 +51,23 @@ Pressione y para continuar [y/n]...
 endef
 export TESTS_MENSAGEM_ORIENTACAO
 
+ifeq (, $(shell groups |grep docker))
+ CMD_DOCKER_SUDO=sudo
+else
+ CMD_DOCKER_SUDO=
+endif
+
+ifeq (, $(shell which docker-compose))
+ CMD_DOCKER_COMPOSE=$(CMD_DOCKER_SUDO) docker compose
+else
+ CMD_DOCKER_COMPOSE=$(CMD_DOCKER_SUDO) docker-compose
+endif
+
 
 all: clean dist
 
 
-dist: ## Gera o pacote de distribuicao para o Super. Nao esquecer de gerar o Changelog antes, de acordo com a versao
+dist: clean ## Gera o pacote de distribuicao para o Super. Nao esquecer de gerar o Changelog antes, de acordo com a versao
 	@mkdir -p $(SEI_SCRIPTS_DIR)
 	@mkdir -p $(SEI_CONFIG_DIR)
 	@mkdir -p $(SEI_MODULO_DIR)
@@ -66,7 +78,7 @@ dist: ## Gera o pacote de distribuicao para o Super. Nao esquecer de gerar o Cha
 	@cp docs/changelogs/CHANGELOG-$(VERSAO_MODULO).md dist/NOTAS_VERSAO.md
 	@mv $(SEI_MODULO_DIR)/scripts/sei_atualizar_versao_modulo_wssei.php $(SEI_SCRIPTS_DIR)/
 	@mv $(SEI_MODULO_DIR)/scripts/sip_atualizar_versao_modulo_wssei.php $(SIP_SCRIPTS_DIR)/
-	@mv $(SEI_MODULO_DIR)/config/ConfiguracaoMdWSSEI.php $(SEI_CONFIG_DIR)/ConfiguracaoMdWSSEI.prod.exemplo.php
+	@mv $(SEI_MODULO_DIR)/config/ConfiguracaoMdWSSEI.exemplo.php $(SEI_CONFIG_DIR)/ConfiguracaoMdWSSEI.exemplo.php
 	@rm -rf $(SEI_MODULO_DIR)/config
 	@rm -rf $(SEI_MODULO_DIR)/scripts
 	@cd dist/ && zip -r $(MODULO_COMPACTADO) INSTALACAO.md ATUALIZACAO.md NOTAS_VERSAO.md sei/ sip/	
@@ -111,7 +123,7 @@ check-super-path:
 
 
 check-module-config:
-	@docker-compose exec -T httpd bash -c "php /project/utils/verificar_modulo.php" ; ret=$$?; echo "$$ret"; if [ ! $$ret -eq 0 ]; then echo "$(MENSAGEM_AVISO_MODULO)\n"; exit 1; fi
+	@$(CMD_DOCKER_COMPOSE) exec -T httpd bash -c "php /project/utils/verificar_modulo.php" ; ret=$$?; echo "$$ret"; if [ ! $$ret -eq 0 ]; then echo "$(MENSAGEM_AVISO_MODULO)\n"; exit 1; fi
 
 
 check-super-isalive: ## Target de apoio. Acessa o Super e verifica se esta respondendo a tela de login
@@ -136,21 +148,21 @@ prerequisites-modulo-instalar: check-super-path check-module-config check-super-
 
 
 install: prerequisites-modulo-instalar ## Instala e atualiza as tabelas do módulo na base de dados do sistema
-	docker-compose exec -T -w /opt/sei/scripts/$(MODULO_PASTAS_CONFIG) httpd bash -c "$(CMD_INSTALACAO_SEI_MODULO)";
-	docker-compose exec -T -w /opt/sip/scripts/$(MODULO_PASTAS_CONFIG) httpd bash -c "$(CMD_INSTALACAO_SIP_MODULO)";
+	$(CMD_DOCKER_COMPOSE) exec -T -w /opt/sei/scripts/$(MODULO_PASTAS_CONFIG) httpd bash -c "$(CMD_INSTALACAO_SEI_MODULO)";
+	$(CMD_DOCKER_COMPOSE) exec -T -w /opt/sip/scripts/$(MODULO_PASTAS_CONFIG) httpd bash -c "$(CMD_INSTALACAO_SIP_MODULO)";
 	@echo "==================================================================================================="
 	@echo ""
 	@echo "Fim da instalação do módulo"
 
 
 up: prerequisites-up  ## Inicia ambiente de desenvolvimento local (docker) no endereço http://localhost:8000
-	docker-compose up -d
+	$(CMD_DOCKER_COMPOSE) up -d
 	make check-super-isalive
 
 update: ## Atualiza banco de dados através dos scripts de atualização do sistema
-	docker-compose run --rm -w /opt/sei/scripts/ httpd bash -c "$(CMD_INSTALACAO_SEI)"; true
-	docker-compose run --rm -w /opt/sip/scripts/ httpd bash -c "$(CMD_INSTALACAO_SIP)"; true
-	docker-compose run --rm -w /opt/sip/scripts/ httpd bash -c "$(CMD_INSTALACAO_RECURSOS_SEI)"; true
+	$(CMD_DOCKER_COMPOSE) run --rm -w /opt/sei/scripts/ httpd bash -c "$(CMD_INSTALACAO_SEI)"; true
+	$(CMD_DOCKER_COMPOSE) run --rm -w /opt/sip/scripts/ httpd bash -c "$(CMD_INSTALACAO_SIP)"; true
+	$(CMD_DOCKER_COMPOSE) run --rm -w /opt/sip/scripts/ httpd bash -c "$(CMD_INSTALACAO_RECURSOS_SEI)"; true
 
 
 config: ## Configura o ambiente para outro banco de dados (mysql|sqlserver|oracle). Ex: make config base=oracle 
@@ -158,14 +170,14 @@ config: ## Configura o ambiente para outro banco de dados (mysql|sqlserver|oracl
 	@echo "Ambiente configurado para utilizar a base de dados $(base). (base=[mysql|oracle|sqlserver])"
 
 down:  ## Interrompe execução do ambiente de desenvolvimento local em docker
-	docker-compose down
+	$(CMD_DOCKER_COMPOSE) down
 
 
 restart: down up ## Reinicia execução do ambiente de desenvolvimento local em docker
 
 
 destroy:  ## Destrói ambiente de desenvolvimento local, junto com os dados armazenados em banco de dados
-	docker-compose down --volumes
+	$(CMD_DOCKER_COMPOSE) down --volumes
 
 
 # mensagens de orientacao para first time buccaneers
