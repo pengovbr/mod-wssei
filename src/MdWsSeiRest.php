@@ -118,12 +118,12 @@ class MdWsSeiRest extends SeiIntegracao
             }
 
         }
-        return MdWsSeiRest::dataToUtf8(
-            array(
+        
+        $strmensagemErro = InfraException::inspecionar($e);
+        return array(
                 "sucesso" => false,
-                "mensagem" => $mensagem,
-                "exception" => $e
-            )
+                "mensagem" => MdWsSeiRest::dataToUtf8($mensagem),
+                "exception" => MdWsSeiRest::dataToUtf8($strmensagemErro)
         );
     }
 

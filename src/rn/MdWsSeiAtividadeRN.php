@@ -55,6 +55,7 @@ class MdWsSeiAtividadeRN extends AtividadeRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $procedimentoHistoricoDTO->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -95,6 +96,7 @@ class MdWsSeiAtividadeRN extends AtividadeRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Observação cadastrada com sucesso!');
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

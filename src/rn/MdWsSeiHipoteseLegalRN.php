@@ -61,6 +61,7 @@ class MdWsSeiHipoteseLegalRN extends InfraRN
             
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno, $total);    
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -102,6 +103,7 @@ class MdWsSeiHipoteseLegalRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $hipoteseLegalDTOParam->getNumMaxRegistrosRetorno());
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -126,6 +128,7 @@ class MdWsSeiHipoteseLegalRN extends InfraRN
             
             return MdWsSeiRest::formataRetornoSucessoREST(null,array("id"=>$objContatoDTO->getNumIdContato()));    
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

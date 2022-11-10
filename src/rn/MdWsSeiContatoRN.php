@@ -58,6 +58,7 @@ class MdWsSeiContatoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $contatoDTOParam->getNumTotalRegistros());
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -82,6 +83,7 @@ class MdWsSeiContatoRN extends InfraRN
             
             return MdWsSeiRest::formataRetornoSucessoREST(null,array("id"=>$objContatoDTO->getNumIdContato()));    
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

@@ -18,6 +18,7 @@ class MdWsSeiNotificacaoAtividadeRN extends InfraRN {
             /** Realiza a chamada ao banco de dados para armazenamento da notificação **/
             $mdWsSeiNotificacaoAtividadeDB->cadastrar($mdWsSeiNotificacaoAtividadeDTO);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

@@ -67,6 +67,7 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
             $acompanhamentoRN->cadastrar($acompanhamentoDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Acompanhamento realizado com sucesso!');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -102,6 +103,7 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
             $acompanhamentoRN->alterar($acompanhamentoDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Acompanhamento alterado com sucesso!');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -133,6 +135,7 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
             $acompanhamentoRN->excluir(array($acompanhamentoConsultaDTO));
             return MdWsSeiRest::formataRetornoSucessoREST('Acompanhamento excluido com sucesso!');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -172,6 +175,7 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -304,6 +308,7 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $acompanhamentoDTOConsulta->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

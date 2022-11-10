@@ -40,6 +40,7 @@ class MdWsSeiCredenciamentoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST("Credencial concedida com sucesso!");
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -59,6 +60,7 @@ class MdWsSeiCredenciamentoRN extends InfraRN {
             $objAtividadeRN->cassarCredenciais(array($atividadeDTO));
             return MdWsSeiRest::formataRetornoSucessoREST("Credencial cassada com sucesso!");
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -105,6 +107,7 @@ class MdWsSeiCredenciamentoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $procedimentoDTOParam->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -127,6 +130,7 @@ class MdWsSeiCredenciamentoRN extends InfraRN {
             $atividadeRN->renunciarCredenciais($procedimentoDTO);
             return MdWsSeiRest::formataRetornoSucessoREST("Credencial renunciada com sucesso!");
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

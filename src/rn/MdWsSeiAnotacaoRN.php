@@ -47,6 +47,7 @@ class MdWsSeiAnotacaoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Anotação cadastrada com sucesso!');
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

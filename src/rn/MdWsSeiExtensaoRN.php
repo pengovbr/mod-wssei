@@ -52,6 +52,7 @@ class MdWsSeiExtensaoRN extends InfraRN {
             
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

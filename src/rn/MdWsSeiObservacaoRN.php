@@ -38,6 +38,7 @@ class MdWsSeiObservacaoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Observação cadastrada com sucesso!');
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

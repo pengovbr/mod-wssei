@@ -66,13 +66,6 @@ class ModuleVerificationMiddleware {
     }
 }
 
-
-$config = array(
-    'settings' => array(
-        'determineRouteBeforeAppMiddleware' => true,
-        'displayErrorDetails' => true
-    )
-);
 class EncodingMiddleware {
     /** @param \Slim\Http\Request $request */
     public function __invoke($request, $response, $next)

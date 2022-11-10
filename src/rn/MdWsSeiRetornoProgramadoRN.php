@@ -45,6 +45,7 @@ class MdWsSeiRetornoProgramadoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Retorno Programado agendado com sucesso!');
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

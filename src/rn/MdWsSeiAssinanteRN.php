@@ -77,6 +77,7 @@ class MdWsSeiAssinanteRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $assinanteDTOConsulta->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

@@ -40,6 +40,7 @@ class MdWsSeiProtocoloModeloRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $protocoloModeloDTOConsulta->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
 

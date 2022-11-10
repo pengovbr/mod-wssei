@@ -145,6 +145,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
 
             return $result;
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -246,6 +247,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 )
             );
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
 
@@ -277,6 +279,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
             return $arrPerfis;
 
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -320,6 +323,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $total);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -351,6 +355,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
             SessaoSEI::getInstance()->trocarUnidadeAtual();
             return MdWsSeiRest::formataRetornoSucessoREST('Unidade alterada com sucesso!');
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -377,6 +382,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
             }
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -403,6 +409,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

@@ -53,6 +53,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $numVersao);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -117,6 +118,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -186,6 +188,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno, $total);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -340,6 +343,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -513,6 +517,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(nulL);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -632,6 +637,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(nulL);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -745,6 +751,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -903,6 +910,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1167,6 +1175,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relProtocoloProtocoloDTOConsulta->getNumTotalRegistros());
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1243,6 +1252,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
             $documentoRN->assinarInterno($assinaturaDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Documento em bloco assinado com sucesso.');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1261,6 +1271,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
             $documentoRN->darCiencia($documentoDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Ciência documento realizado com sucesso.');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1343,6 +1354,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
                 exit;
             }
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1391,6 +1403,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1424,6 +1437,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1581,6 +1595,7 @@ class MdWsSeiDocumento_V1_RN extends DocumentoRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrDadosDocumento);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

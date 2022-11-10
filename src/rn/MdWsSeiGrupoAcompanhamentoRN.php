@@ -41,6 +41,7 @@ class MdWsSeiGrupoAcompanhamentoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $grupoAcompanhamentoDTOConsulta->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -68,6 +69,7 @@ class MdWsSeiGrupoAcompanhamentoRN extends InfraRN {
                 )
             );
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -104,6 +106,7 @@ class MdWsSeiGrupoAcompanhamentoRN extends InfraRN {
                 .' alterado com sucesso.'
             );
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -136,6 +139,7 @@ class MdWsSeiGrupoAcompanhamentoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Grupo(s) de Acompanhamento excluído(s) com sucesso.', null);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

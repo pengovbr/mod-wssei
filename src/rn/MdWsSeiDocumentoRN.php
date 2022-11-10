@@ -110,6 +110,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -158,6 +159,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $numVersao);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -223,6 +225,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -293,6 +296,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno, $total);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -447,6 +451,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -772,6 +777,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relProtocoloProtocoloDTOConsulta->getNumTotalRegistros());
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -851,6 +857,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             $documentoRN->assinarInterno($assinaturaDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Documento em bloco assinado com sucesso.');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -896,6 +903,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             $documentoRN->darCiencia($documentoDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Ciência documento realizado com sucesso.');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -983,6 +991,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 exit;
             }
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1032,6 +1041,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1066,6 +1076,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1120,6 +1131,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             $anexoDTO = MdWsSeiAnexoRN::processarUploadSlim($arrFiles['anexo']);
             $documentoDTO->getObjProtocoloDTO()->setArrObjAnexoDTO(array($anexoDTO));
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
         /** Processo de criação de documento do tipo externo */
@@ -1141,6 +1153,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             $documentoDTO = self::encapsulaDocumento($post);
             $documentoDTO->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
         /** Processo de criação de documento do tipo interno */
@@ -1186,6 +1199,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $documentoDTO->getObjProtocoloDTO()->setArrObjAnexoDTO(array($anexoDTO));
             }
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
         /** Processo de alteração de documento do tipo externo */
@@ -1217,6 +1231,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             /** Realiza o encapsulamento das informações vindas da requisiçao */
             $documentoDTO = self::encapsulaDocumento($post, $documentoDTO);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
         /** Processo de alteração de documento do tipo interno */
@@ -1243,6 +1258,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1269,6 +1285,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1291,6 +1308,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1313,6 +1331,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1473,6 +1492,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             );
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1657,6 +1677,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $tipoConferenciaDTOParam->getNumTotalRegistros());
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1814,6 +1835,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relSerieAssuntoDTOParam->getNumTotalRegistros());
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1947,6 +1969,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             );
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1973,6 +1996,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return $this->consultarDocumentoInterno($numIdDocumento);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -2044,6 +2068,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
