@@ -57,6 +57,7 @@ class MdWsSeiTextoPadraoInternoRN extends TextoPadraoInternoRN {
             
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $textoPadraoInternoDTOParam->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

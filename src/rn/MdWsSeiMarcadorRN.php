@@ -55,6 +55,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
             
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $marcadorDTOConsulta->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -81,6 +82,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, count($result));
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -115,6 +117,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Marcador cadastrado com sucesso.', $result);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -164,6 +167,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Marcador alterado com sucesso.', $result);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -224,6 +228,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -283,6 +288,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -310,6 +316,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Marcador(es) excluído(s) com sucesso.', null);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -337,6 +344,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Marcador(es) desativado(s) com sucesso.', null);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -364,6 +372,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Marcador(es) resativado(s) com sucesso.', null);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -386,6 +395,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Processo marcado com sucesso.', null);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

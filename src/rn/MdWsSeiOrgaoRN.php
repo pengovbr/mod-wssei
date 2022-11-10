@@ -47,6 +47,7 @@ class MdWsSeiOrgaoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $orgaoDTO->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

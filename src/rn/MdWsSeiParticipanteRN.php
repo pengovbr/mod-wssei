@@ -39,6 +39,7 @@ class MdWsSeiParticipanteRN extends ParticipanteRN {
             
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $participanteDTOParam->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

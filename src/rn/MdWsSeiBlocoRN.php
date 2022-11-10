@@ -23,6 +23,7 @@ class MdWsSeiBlocoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Bloco retornado com sucesso!');
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -64,6 +65,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $documentoRN->assinarInterno($assinaturaDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Bloco assinado com sucesso.');
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -98,6 +100,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $documentoRN->assinarInterno($assinaturaDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Documento(s) assinado(s) com sucesso.');
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -126,6 +129,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $relBlocoProtocoloRN->excluirRN1289($arrObjRelBlocoProtocoloDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Documento(s) removido(s) com sucesso.');
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -163,6 +167,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $relBlocoProtocoloRN->excluirRN1289($arrObjRelBlocoProtocoloDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Processo(s) removido(s) com sucesso.');
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -230,6 +235,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             }
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $blocoDTOConsulta->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -317,6 +323,7 @@ class MdWsSeiBlocoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relBlocoProtocoloDTOConsulta->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -337,6 +344,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $blocoRN->disponibilizar(array($blocoDTO));
             return MdWsSeiRest::formataRetornoSucessoREST('Bloco disponibilizado com sucesso.');
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -357,6 +365,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $blocoRN->cancelarDisponibilizacao(array($blocoDTO));
             return MdWsSeiRest::formataRetornoSucessoREST('Disponibilização cancelada com sucesso.');
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -438,6 +447,7 @@ class MdWsSeiBlocoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Operação realizada com sucesso.');
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -486,6 +496,7 @@ class MdWsSeiBlocoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Bloco de assinatura cadastrado com sucesso.', $result);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -519,6 +530,7 @@ class MdWsSeiBlocoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Bloco Interno cadastrado com sucesso.', $result);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -558,6 +570,7 @@ class MdWsSeiBlocoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Bloco(s) excluído(s) com sucesso.', null);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -585,6 +598,7 @@ class MdWsSeiBlocoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Bloco(s) concluído(s) com sucesso.', null);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -614,6 +628,7 @@ class MdWsSeiBlocoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Bloco reaberto com sucesso.', null);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -671,6 +686,7 @@ class MdWsSeiBlocoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Bloco de assinatura alterado com sucesso.', $result);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -710,6 +726,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $relBlocoProtocoloRN->cadastrarMultiplo($arrObjRelBlocoProtocoloDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Documento(s) incluído(s) com sucesso.');
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -750,6 +767,7 @@ class MdWsSeiBlocoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST('Bloco de interno alterado com sucesso.', $result);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -817,6 +835,7 @@ class MdWsSeiBlocoRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relBlocoProtocoloDTOConsulta->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -869,6 +888,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             }
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $blocoDTOConsulta->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -909,6 +929,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $relBlocoProtocoloRN->cadastrarMultiplo($arrObjRelBlocoProtocoloDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Processo(s) incluído(s) com sucesso.');
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

@@ -116,7 +116,7 @@ class ConfiguracaoSEI extends InfraConfiguracao
                 'CoreProtocolos' => 'sei-protocolos',
                 'CoreBasesConhecimento' => 'sei-bases-conhecimento',
                 'CorePublicacoes' => 'sei-publicacoes',
-                'TempoCommitProtocolos' => 300,
+                'TempoCommitProtocolos' => 5,
                 'TempoCommitBasesConhecimento' => 60,
                 'TempoCommitPublicacoes' => 60,
             ),

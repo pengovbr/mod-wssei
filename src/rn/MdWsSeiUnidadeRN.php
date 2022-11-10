@@ -53,6 +53,7 @@ class MdWsSeiUnidadeRN extends InfraRN {
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $unidadeDTO->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -87,6 +88,7 @@ class MdWsSeiUnidadeRN extends InfraRN {
             }
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $unidadeDTOParam->getNumTotalRegistros());
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }

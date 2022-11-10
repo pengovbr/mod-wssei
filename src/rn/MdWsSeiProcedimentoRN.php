@@ -20,6 +20,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -53,6 +54,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -146,6 +148,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno, $total);    
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -234,6 +237,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                                             
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno);    
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -269,6 +273,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $assuntoDTOParam->getNumTotalRegistros());
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -338,6 +343,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno, $total);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -390,6 +396,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result[0]);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -505,6 +512,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             
             return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno);    
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -608,6 +616,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
         
         } catch (InfraException $e) {
             //die($e->getStrDescricao());
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -635,6 +644,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $post = $request->getParams();
             $procedimentoDTO = self::encapsulaProcesso($post, $procedimentoDTO);
         }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
 
@@ -673,6 +683,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $procedimentoRN->alterarRN0202($procedimentoDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Procedimento alterado.');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -778,6 +789,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -801,6 +813,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST('Processo sobrestado com sucesso');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -823,6 +836,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST('Sobrestar cancelado com sucesso.');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -873,6 +887,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $mdWsSeiProtocoloDTOConsulta->getNumTotalRegistros());
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -917,6 +932,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $totalRegistros);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -975,6 +991,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $pesquisaPendenciaDTO->getNumTotalRegistros());
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1036,6 +1053,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $pesquisaPendenciaDTO->getNumTotalRegistros());
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1096,6 +1114,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $pesquisaPendenciaDTO->getNumTotalRegistros());
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
 
@@ -1438,10 +1457,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $procedimentoHistoricoDTO->setDblIdProcedimento($protocoloDTO->getDblIdProtocolo());
 
             /** Chamando serviço para retorno das ciencias do processo **/
-            $arrDadosCiencias = MdWsSeiRest::dataToIso88591($this->listarCienciaProcesso($procedimentoHistoricoDTO));
+            $arrDadosCiencias = $this->listarCienciaProcesso($procedimentoHistoricoDTO);
             if(!$arrDadosCiencias['sucesso']){
-                throw new Exception($arrDadosCiencias['mensagem'], $arrDadosCiencias['exception']);
+                throw new InfraException(MdWsSeiRest::dataToIso88591($arrDadosCiencias['mensagem']));
             }
+
+            $arrDadosCiencias = MdWsSeiRest::dataToIso88591($arrDadosCiencias);
 
             $arrCiencias = $arrDadosCiencias['data'];
 
@@ -1652,6 +1673,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $procedimentoHistoricoDTO->getNumTotalRegistros());
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1675,6 +1697,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST('Ciência processo realizado com sucesso!');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1697,6 +1720,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST('Processo concluído com sucesso!');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1717,6 +1741,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST('Processo reaberto com sucesso!');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1743,6 +1768,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST('Processo atribuído com sucesso!');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1766,6 +1792,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $atividadeRN->atribuirRN0985($atribuirDTO);
             return MdWsSeiRest::formataRetornoSucessoREST('Atribuição removida com sucesso!');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1810,6 +1837,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             /** Chamada ao componente SEI para consultar a atribuição */
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1869,6 +1897,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST('Processo enviado com sucesso!');
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1915,6 +1944,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             );
 
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -1946,6 +1976,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $eAuth = new Exception($infraValidacaoDTO->getStrDescricao(), $e->getCode(), $e);
             return MdWsSeiRest::formataRetornoErroREST($eAuth);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -2314,6 +2345,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $this->montaRetornoPesquisaSolr($arrDadosSolr), $total);
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -2518,6 +2550,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
 
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
@@ -2563,6 +2596,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relTipoProcedimentoAssuntoDTOParam->getNumTotalRegistros());
         } catch (Exception $e) {
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);
         }
     }
