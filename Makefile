@@ -21,7 +21,7 @@ SIP_SCRIPTS_DIR = dist/sip/scripts/$(MODULO_PASTAS_CONFIG)
 SEI_MODULO_DIR = dist/sei/web/modulos/mod-$(MODULO_NOME)
 
 ARQUIVO_CONFIG_SEI=$(SEI_PATH)/sei/config/ConfiguracaoSEI.php
-ARQUIVO_ENV_ASSINATURA=.modulo.env
+ARQUIVO_ENV_WSSEI=.modulo.env
 MODULO_COMPACTADO = mod-$(MODULO_NOME)-$(VERSAO_MODULO).zip
 
 CMD_INSTALACAO_SEI = echo -ne '$(SEI_DATABASE_USER)\n$(SEI_DATABASE_PASSWORD)\n' | php atualizar_versao_sei.php
