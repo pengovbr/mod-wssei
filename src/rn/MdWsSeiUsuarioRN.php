@@ -233,7 +233,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 );
             }
 
-            $retPerfis = $this->listarPerfisUsuario($ret->IdSistema, $ret->IdUsuario);
+            $retPerfis = $this->listarPerfisUsuario($strChaveAcesso, $ret->IdSistema, $ret->IdUsuario);
             $objSessao = SessaoSEI::getInstance();
             
             return MdWsSeiRest::formataRetornoSucessoREST(
@@ -255,15 +255,17 @@ class MdWsSeiUsuarioRN extends InfraRN {
 
     /**
      * Método que retorna os perfis do usuário
+     * @param $strChaveAcesso
      * @param $idSistema
      * @param $idUsuario
      * @return array
      */
-    private function listarPerfisUsuario($idSistema, $idUsuario){
+    private function listarPerfisUsuario($strChaveAcesso, $idSistema, $idUsuario){
         try{
             $arrPerfis = array();
             $objSipWs = $this->retornaServicoSip();
             $ret = $objSipWs->carregarPerfis(
+                $strChaveAcesso,
                 $idSistema,
                 $idUsuario
             );

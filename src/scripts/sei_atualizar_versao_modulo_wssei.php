@@ -137,7 +137,12 @@ require_once dirname(__FILE__) . '/../../web/SEI.php';
             public function versao_2_1_0($strVersaoAtual)
             {
                 $this->logar("VERSÃO $strVersaoAtual atualizada.");
-            }            
+            }
+            
+            public function versao_2_1_1($strVersaoAtual)
+            {
+                $this->logar("VERSÃO $strVersaoAtual atualizada.");
+            } 
         }
 
         session_start();
@@ -160,6 +165,7 @@ require_once dirname(__FILE__) . '/../../web/SEI.php';
                 '1.0.4' => 'versao_1_0_4',
                 '2.0.0' => 'versao_2_0_0',
                 '2.1.*' => 'versao_2_1_0',
+                '2.1.*' => 'versao_2_1_1',
             )
         );
 

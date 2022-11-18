@@ -1,4 +1,6 @@
 <?php
+// Identificação da versão do módulo mod-wssei. Este deve estar sempre sincronizado com a versão definida em MdWsSeiRest.php
+define("VERSAO_MODULO_WSSEI", "2.1.1");
 
 require_once dirname(__FILE__) . '/../../web/Sip.php';
 
@@ -71,7 +73,12 @@ class VersaoSipRN extends InfraScriptVersao
     public function versao_2_1_0($strVersaoAtual)
     {
         $this->logar("VERSÃO $strVersaoAtual atualizada.");
-    }        
+    }
+
+    public function versao_2_1_1($strVersaoAtual)
+    {
+        $this->logar("VERSÃO $strVersaoAtual atualizada.");
+    }  
 }
 
 try {
@@ -83,6 +90,7 @@ try {
     $objVersaoSipRN = new VersaoSipRN();
     $objVersaoSipRN->verificarVersaoInstalada();
     $objVersaoSipRN->setStrNome(VersaoSipRN::NOME_MODULO);
+    $objVersaoSipRN->setStrVersaoAtual(VERSAO_MODULO_WSSEI);
     $objVersaoSipRN->setStrParametroVersao(VersaoSipRN::PARAMETRO_VERSAO_MODULO);
     $objVersaoSipRN->setArrVersoes(
         array(
@@ -95,9 +103,10 @@ try {
             '1.0.4' => 'versao_1_0_4',
             '2.0.0' => 'versao_2_0_0',
             '2.1.*' => 'versao_2_1_0',
+            '2.1.*' => 'versao_2_1_1',
         )
     );
-    $objVersaoSipRN->setStrVersaoAtual(array_key_last($objVersaoSipRN->getArrVersoes()));
+    
     $objVersaoSipRN->setStrVersaoInfra('1.595.1');
     $objVersaoSipRN->setBolMySql(true);
     $objVersaoSipRN->setBolOracle(true);
