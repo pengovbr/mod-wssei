@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 /**
  * Controlador (API v1) de servicos REST usando o framework Slim
