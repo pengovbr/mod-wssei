@@ -294,16 +294,14 @@ class MdWsSeiRest extends SeiIntegracao
                 . 0 //SessaoSEI::getInstance()->getNumIdContextoUsuario()
                 . "_"
                 . $this->getVersao();
+
             $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
-
-            if ($html) {
-                return $html;
+            if (!$html) {
+                $html = $this->montaCorpoHTMLQRCode($nomeArquivo); 
+            } else {
+                $tempo = CacheSEI::getInstance()->getNumTempo();
+                CacheSEI::getInstance()->setAtributo($nomeArquivo, $this->montaCorpoHTMLQRCode($nomeArquivo), $tempo);
             }
-
-            $html = $this->montaCorpoHTMLQRCode($nomeArquivo);
-            try{
-              CacheSEI::getInstance()->setAtributo($nomeArquivo, $html, CacheSEI::getInstance()->getNumTempo());
-            }catch(Exception $e) { }
         }
         catch(Exception $e){
             LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
