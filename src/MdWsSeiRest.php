@@ -299,12 +299,13 @@ class MdWsSeiRest extends SeiIntegracao
                 . $this->getVersao();
 
             $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
+            
             if (!$html) {
-                $html = $this->montaCorpoHTMLQRCode($nomeArquivo); 
-            } else {
-                $tempo = CacheSEI::getInstance()->getNumTempo();
-                CacheSEI::getInstance()->setAtributo($nomeArquivo, $this->montaCorpoHTMLQRCode($nomeArquivo), $tempo);
+                return $html;
             }
+
+            $html = $this->montaCorpoHTMLQRCode($nomeArquivo); 
+            CacheSEI::getInstance()->setAtributo($nomeArquivo, $html, CacheSEI::getInstance()->getNumTempo());
         }
         catch(Exception $e){
             LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
@@ -339,30 +340,31 @@ class MdWsSeiRest extends SeiIntegracao
 
         $infraException = new InfraException();
         if (!file_exists($caminhoFisicoQrCode)) {
-            $infraException->lancarValidacao('Arquivo do QRCode nÃ£o encontrado.');
+            $infraException->lancarValidacao('Arquivo do QRCode não encontrado.');
         }
         if (filesize($caminhoFisicoQrCode) == 0) {
             $infraException->lancarValidacao('Arquivo do QRCode vazio.');
         }
         if (($binQrCode = file_get_contents($caminhoFisicoQrCode)) === false) {
-            $infraException->lancarValidacao('NÃ£o foi possÃ­vel ler o arquivo do QRCode.');
+            $infraException->lancarValidacao('Não foi possí­vel ler o arquivo do QRCode.');
         }
-        $htmlQrCode .= '<script>document.querySelector("div.infraSidebarMenu").style.overflowY = "visible";</script>';
-        $htmlQrCode .= '<div style="font-size: 12px; text-align: center; background-color: #f5f6f7">';
-        $htmlQrCode .= '<div style="height: 12px; margin-bottom: 22px; background-color: var(--color-primary-default);"></div>';
+
+        $qrCode = base64_encode($binQrCode);
+        $htmlQrCode .= "<script>document.querySelector('div.infraSidebarMenu').style.overflowY = 'visible';</script>";
+        $htmlQrCode .= "<div style='font-size: 12px; text-align: center; background-color: #f5f6f7'>";
+        $htmlQrCode .= "<div style='height: 12px; margin-bottom: 22px; background-color: var(--color-primary-default);'></div>";
         // $htmlQrCode .= '<p style="text-align: left; margin: 5px;">';
         // $htmlQrCode .= '<strong style="font-weight: bolder">';
         // $htmlQrCode .= 'Acesse as lojas App Store ou Google Play e instale o aplicativo do SEI! no seu celular.';
         // $htmlQrCode .= '</strong>';
         // $htmlQrCode .= '</p>';
-        $htmlQrCode .= '<p style="text-align: left; margin: 15px 5px 5px 5px;">';
-        $htmlQrCode .= '<strong style="font-weight: bolder">';
-        $htmlQrCode .= 'Abra o aplicativo do SEI! e faÃ§a a leitura do cÃ³digo abaixo para sincronizÃ¡-lo com sua conta.';
-        $htmlQrCode .= '</strong>';
-        $htmlQrCode .= '</p>';
-        $htmlQrCode .= '<img style="margin: 20px auto 6px;" align="center" src="data:image/png;base64, '
-            . base64_encode($binQrCode) . '" />';
-        $htmlQrCode .= '</div>';
+        $htmlQrCode .= "<p style='text-align: left; margin: 15px 5px 5px 5px;'>";
+        $htmlQrCode .= "<strong style='font-weight: bolder'>";
+        $htmlQrCode .= "Abra o aplicativo do SEI! e faça a leitura do código abaixo para sincronizálo com sua conta.";
+        $htmlQrCode .= "</strong>";
+        $htmlQrCode .= "</p>";
+        $htmlQrCode .= "<img style='margin: 20px auto 6px;' align='center' src='data:image/png;base64, $qrCode' />";
+        $htmlQrCode .= "</div>";
 
         return $htmlQrCode;
     }
