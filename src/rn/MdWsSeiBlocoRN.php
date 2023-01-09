@@ -291,6 +291,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $relBlocoProtocoloDTOConsulta->retStrAnotacao();
             $relBlocoProtocoloDTOConsulta->retDblIdProcedimentoDocumento();
             $relBlocoProtocoloDTOConsulta->retArrObjAssinaturaDTO();
+            $relBlocoProtocoloDTOConsulta->retObjProtocoloDTO();
 
             /** Acessa o componente SEI para consulta dos documentos de um bloco */
             $ret = $relBlocoProtocoloRN->listarProtocolosBloco($relBlocoProtocoloDTOConsulta);
@@ -308,7 +309,8 @@ class MdWsSeiBlocoRN extends InfraRN {
                 $result['dados'][] = array(
                     'sequencia' => $relBlocoProtocoloDTO->getNumSequencia(),
                     'id' => $relBlocoProtocoloDTO->getDblIdProtocolo(),
-                    'aberto' => $relBlocoProtocoloDTO->getObjProtocoloDTO()->getStrSinAberto(),
+                    'aberto' => $relBlocoProtocoloDTO->getObjProtocoloDTO()->isRetStrSinAberto() ?
+                            $relBlocoProtocoloDTO->getObjProtocoloDTO()->getStrSinAberto() : 'N',
                     'data' => $relBlocoProtocoloDTO->getObjProtocoloDTO()->getDtaGeracao(),
                     'idDocumento' => $relBlocoProtocoloDTO->getDblIdProtocolo(),
                     'idProcesso' => $relBlocoProtocoloDTO->getDblIdProcedimentoDocumento(),
