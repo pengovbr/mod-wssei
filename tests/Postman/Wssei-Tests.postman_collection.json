@@ -57953,7 +57953,7 @@
 		},
 		{
 			"key": "{{baseurl}}",
-			"value": "http://sei3.nuvem.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v1/",
+			"value": "http://sei3.nuvem.gov.br/sei/modulos/wssei/controlador_ws.php/api/v1/",
 			"type": "string"
 		}
 	]
