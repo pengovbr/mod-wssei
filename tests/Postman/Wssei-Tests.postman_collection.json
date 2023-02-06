@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "761f0a72-059b-4c77-b38d-309aa0c41525",
+		"_postman_id": "31e02106-5d35-4e3c-92fb-fb956e0757ba",
 		"name": "Wssei-Tests_Super",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4400847"
 	},
 	"item": [
 		{
@@ -1838,6 +1839,82 @@
 				},
 				{
 					"name": "Listar Processos - somente o criado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Cenario002 - Verifica se Listou na mesma unidade\", function () {\r",
+									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
+									"\r",
+									"    p = p.replace('/', '\\\\/');\r",
+									" \r",
+									"    pm.expect(pm.response.text()).to.include(p);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{tokenUsuario1}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/processo/listar?id={{idProcedimento_1}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"processo",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{idProcedimento_1}}"
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "usuario",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "tipo",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "apenasMeus",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "start",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Processos - Sem Filtro",
 					"event": [
 						{
 							"listen": "test",
@@ -8609,7 +8686,7 @@
 							"query": [
 								{
 									"key": "grupo",
-									"value": null,
+									"value": "",
 									"disabled": true
 								},
 								{
@@ -14387,7 +14464,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": null
+									"value": ""
 								},
 								{
 									"key": "filter",
