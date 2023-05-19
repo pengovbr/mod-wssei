@@ -19,7 +19,7 @@
 
 4. Copiar os diretórios descompactados "sei", "sip" para os servidores, sobrescrevendo os arquivos existentes;
    
-5. Adicionar ao arquivo de configuração do sistema (`<DIR_INSTALL_SEI>/config/ConfiguracaoSEI.php`), na chave Módulos, a referência para a pasta do módulo copiado no passo anterior. Utilizando a chave de identificação MdWsSeiRest.
+5. Adicionar ao arquivo de configuração do sistema (`<DIRETÓRIO RAIZ DE INSTALAÇÃO DO SEI>/config/ConfiguracaoSEI.php`), na chave Módulos, a referência para a pasta do módulo copiado no passo anterior. Utilizando a chave de identificação MdWsSeiRest.
 
    O sistema procura pelo módulo a partir da pasta de módulos do SEI.
 
@@ -30,8 +30,8 @@
                 'Modulos' => array('MdWsSeiRest' => 'wssei/')
         ),
    ```
-6. Copiar o arquivo ConfiguracaoMdWSSEI.exemplo.php (<DIRETÓRIO RAIZ DE INSTALAÇÃO DO SEI>/sei/config/mod-wssei/ConfiguracaoMdWSSEI.exemplo.php) para ConfiguracaoMdWSSEI.php (<DIRETÓRIO RAIZ DE INSTALAÇÃO DO SEI>/sei/config/mod-wssei/ConfiguracaoMdWSSEI.php)
-7. Alterar o arquivo de configuração do módulo (<DIRETÓRIO RAIZ DE INSTALAÇÃO DO SEI>/sei/config/mod-wssei/ConfiguracaoMdWSSEI.php), no Array de configurações, a chave com as configurações abaixo (serviço de envio de notificações):
+6. Copiar o arquivo ConfiguracaoMdWSSEI.exemplo.php (`<DIRETÓRIO RAIZ DE INSTALAÇÃO DO SEI>/sei/config/wssei/ConfiguracaoMdWSSEI.exemplo.php`) para ConfiguracaoMdWSSEI.php (`<DIRETÓRIO RAIZ DE INSTALAÇÃO DO SEI>/sei/config/wssei/ConfiguracaoMdWSSEI.php`)
+7. Alterar o arquivo de configuração do módulo (`<DIRETÓRIO RAIZ DE INSTALAÇÃO DO SEI>/sei/config/wssei/ConfiguracaoMdWSSEI.php`), no Array de configurações, a chave com as configurações abaixo (serviço de envio de notificações):
 
    Exemplo:
    ```bash
