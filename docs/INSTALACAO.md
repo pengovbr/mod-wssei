@@ -27,7 +27,7 @@
    ```
    'SEI' => ARRAY(
                 ( ...)
-                'Modulos' => array('MdWsSeiRest' => 'mod-wssei/')
+                'Modulos' => array('MdWsSeiRest' => 'wssei/')
         ),
    ```
 6. Copiar o arquivo ConfiguracaoMdWSSEI.exemplo.php (<DIRETÓRIO RAIZ DE INSTALAÇÃO DO SEI>/sei/config/mod-wssei/ConfiguracaoMdWSSEI.exemplo.php) para ConfiguracaoMdWSSEI.php (<DIRETÓRIO RAIZ DE INSTALAÇÃO DO SEI>/sei/config/mod-wssei/ConfiguracaoMdWSSEI.php)
