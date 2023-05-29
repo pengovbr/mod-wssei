@@ -943,7 +943,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             } else if (in_array($documentoDTO->getStrStaDocumento(), array(DocumentoRN::$TD_FORMULARIO_AUTOMATICO, DocumentoRN::$TD_FORMULARIO_GERADO))) {
                 $html = $documentoRN->consultarHtmlFormulario($documentoDTO);
 
-                return MdWsSeiRest::formataRetornoSucessoREST(null, array('html' => $html));
+                return MdWsSeiRest::formataRetornoSucessoREST(null, $html, null, false, true);
             } else if ($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO) {
                 $editorDTOConsulta = new EditorDTO();
                 $editorDTOConsulta->setDblIdDocumento($documentoDTO->getDblIdDocumento());
