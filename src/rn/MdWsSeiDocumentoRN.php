@@ -108,7 +108,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
                 $auditoriaProtocoloRN->auditarVisualizacao($auditoriaProtocoloDTO);
             }
 
-            return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+            return MdWsSeiRest::formataRetornoSucessoREST(null, $result, null, false, true);
         }catch (Exception $e){
             LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
             return MdWsSeiRest::formataRetornoErroREST($e);

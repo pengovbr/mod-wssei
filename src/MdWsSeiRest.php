@@ -77,7 +77,7 @@ class MdWsSeiRest extends SeiIntegracao
      * @param bool $jsonEncode - Se alterado para true retornará como json_encode
      * @return array
      */
-    public static function formataRetornoSucessoREST($mensagem = null, $result = null, $total = null, $jsonEncode = false)
+    public static function formataRetornoSucessoREST($mensagem = null, $result = null, $total = null, $jsonEncode = false, $base64Encode = false)
     {
         $data = array();
         $data['sucesso'] = true;
@@ -90,6 +90,10 @@ class MdWsSeiRest extends SeiIntegracao
         if (!is_null($total)) {
             $data['total'] = $total;
         }
+        if($base64Encode){
+            $data['data'] = base64_encode($result);
+        }
+
         $retorno = MdWsSeiRest::dataToUtf8($data);
 
         return !$jsonEncode ? $retorno : json_encode($retorno);
