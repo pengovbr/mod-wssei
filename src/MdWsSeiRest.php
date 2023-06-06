@@ -247,10 +247,13 @@ class MdWsSeiRest extends SeiIntegracao
 
     public function processarControlador($strAcao)
     {
-        switch($strAcao){
+        switch ($strAcao) {
             case 'md_wssei_editor_externo_montar':
             case 'md_wssei_editor_externo_imagem_upload':
                 require_once dirname(__FILE__) . '/md_wssei_editor_externo.php';
+                return true;
+            case 'md_wssei_qrcode':
+                require_once dirname(__FILE__) . '/md_wssei_qrcode.php';
                 return true;
         }
         return false;
@@ -286,87 +289,68 @@ class MdWsSeiRest extends SeiIntegracao
         return null;
     }
 
-    public function adicionarElementoMenu()
+    private static function getNomeArquivoQRCode()
     {
-        try{
-            $nomeArquivo = 'QRCODE_'
-                . self::NOME_MODULO
-                . "_"
-                . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
-                . "_"
-                . 0 //SessaoSEI::getInstance()->getNumIdContextoUsuario()
-                . "_"
-                . $this->getVersao();
-            $html = CacheSEI::getInstance()->getAtributo($nomeArquivo);
+        $nomeArquivoQRCode = 'QRCODE_'
+            . self::NOME_MODULO
+            . "_"
+            . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
+            . "_"
+            . 0 //SessaoSEI::getInstance()->getNumIdContextoUsuario()
+            . "_"
+            . self::VERSAO_MODULO;
 
-            if ($html) {
-                return $html;
+        return $nomeArquivoQRCode;
+    }
+
+    public static function getQRCodeBase64Img()
+    {
+        try {
+
+            $nomeArquivo = self::getNomeArquivoQRCode();
+            $binQrCode = CacheSEI::getInstance()->getAtributo($nomeArquivo);
+
+            if ($binQrCode) {
+                return base64_encode($binQrCode);
             }
 
-            $html = $this->montaCorpoHTMLQRCode($nomeArquivo);
-            CacheSEI::getInstance()->setAtributo($nomeArquivo, $html, CacheSEI::getInstance()->getNumTempo());
-        }
-        catch(Exception $e){
+            $caminhoAtual = explode("/sei/web", __DIR__);
+            $urlSEI = ConfiguracaoSEI::getInstance()->getValor('SEI', 'URL')
+                . $caminhoAtual[1]
+                . '/controlador_ws.php/api/v2';
+            $conteudoQrCode = 'url: ' . $urlSEI
+                . ';'
+                . 'siglaorgao: ' . SessaoSEI::getInstance()->getStrSiglaOrgaoUsuario()
+                . ';'
+                . 'orgao: ' . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
+                . ';'
+                . 'contexto: ' . 0; //SessaoSEI::getInstance()->getNumIdContextoUsuario();
+
+
+            $caminhoFisicoQrCode = DIR_SEI_TEMP . '/' . $nomeArquivo;
+
+            InfraQRCode::gerar($conteudoQrCode, $caminhoFisicoQrCode, 'L', 4, 2);
+
+            $infraException = new InfraException();
+            if (!file_exists($caminhoFisicoQrCode)) {
+                $infraException->lancarValidacao('Arquivo do QRCode não encontrado.');
+            }
+            if (filesize($caminhoFisicoQrCode) == 0) {
+                $infraException->lancarValidacao('Arquivo do QRCode vazio.');
+            }
+            if (($binQrCode = file_get_contents($caminhoFisicoQrCode)) === false) {
+                $infraException->lancarValidacao('Não foi possível ler o arquivo do QRCode.');
+            }
+
+            CacheSEI::getInstance()->setAtributo($nomeArquivo, $binQrCode, CacheSEI::getInstance()->getNumTempo());
+
+        } catch (Exception $e) {
             LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-            throw $e;            
+            throw $e;
         }
 
-        return $html;
+        return base64_encode($binQrCode);
     }
-
-    /**
-     * Função que monta o html do QRCode para o menu lateral do SEI
-     * @param $nomeArquivo
-     * @return string
-     */
-    private function montaCorpoHTMLQRCode($nomeArquivo)
-    {
-        $htmlQrCode = '';
-        $caminhoAtual = explode("/sei/web", __DIR__);
-        $urlSEI = ConfiguracaoSEI::getInstance()->getValor('SEI', 'URL')
-            . $caminhoAtual[1]
-            . '/controlador_ws.php/api/v2';
-        $conteudoQrCode = 'url: ' . $urlSEI
-            . ';'
-            . 'siglaorgao: ' . SessaoSEI::getInstance()->getStrSiglaOrgaoUsuario()
-            . ';'
-            . 'orgao: ' . SessaoSEI::getInstance()->getNumIdOrgaoUsuario()
-            . ';'
-            . 'contexto: ' .  0;//SessaoSEI::getInstance()->getNumIdContextoUsuario();
-        $caminhoFisicoQrCode = DIR_SEI_TEMP . '/' . $nomeArquivo;
-
-        InfraQRCode::gerar($conteudoQrCode, $caminhoFisicoQrCode, 'L', 2, 1);
-
-        $infraException = new InfraException();
-        if (!file_exists($caminhoFisicoQrCode)) {
-            $infraException->lancarValidacao('Arquivo do QRCode não encontrado.');
-        }
-        if (filesize($caminhoFisicoQrCode) == 0) {
-            $infraException->lancarValidacao('Arquivo do QRCode vazio.');
-        }
-        if (($binQrCode = file_get_contents($caminhoFisicoQrCode)) === false) {
-            $infraException->lancarValidacao('Não foi possível ler o arquivo do QRCode.');
-        }
-        $htmlQrCode .= '<script>document.querySelector("div.infraSidebarMenu").style.overflowY = "visible";</script>';
-        $htmlQrCode .= '<div style="font-size: 12px; text-align: center; background-color: #f5f6f7">';
-        $htmlQrCode .= '<div style="height: 12px; margin-bottom: 22px; background-color: var(--color-primary-default);"></div>';
-        // $htmlQrCode .= '<p style="text-align: left; margin: 5px;">';
-        // $htmlQrCode .= '<strong style="font-weight: bolder">';
-        // $htmlQrCode .= 'Acesse as lojas App Store ou Google Play e instale o aplicativo do SEI! no seu celular.';
-        // $htmlQrCode .= '</strong>';
-        // $htmlQrCode .= '</p>';
-        $htmlQrCode .= '<p style="text-align: left; margin: 15px 5px 5px 5px;">';
-        $htmlQrCode .= '<strong style="font-weight: bolder">';
-        $htmlQrCode .= 'Abra o aplicativo do SEI! e faça a leitura do código abaixo para sincronizá-lo com sua conta.';
-        $htmlQrCode .= '</strong>';
-        $htmlQrCode .= '</p>';
-        $htmlQrCode .= '<img style="margin: 20px auto 6px;" align="center" src="data:image/png;base64, '
-            . base64_encode($binQrCode) . '" />';
-        $htmlQrCode .= '</div>';
-
-        return $htmlQrCode;
-    }
-
 
     /**
      * Gera Identificador único do usuário logado
