@@ -9,7 +9,7 @@ jobs:
       - name: Fetch Pull Request branch
         uses: actions/checkout@v3
         with:
-            repository: my-org/my-private-tools
+            repository: supergovbr/super
             token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
             path: super
       - name: Checkout
