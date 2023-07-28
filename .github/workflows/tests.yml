@@ -1,4 +1,4 @@
-name: Unit and Functional Testing
+name: Testes da API
 
 on: [push, pull_request]
 env: # Or as an environment variable
