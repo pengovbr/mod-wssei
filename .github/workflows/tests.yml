@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-            path: super/src/web/modulos/mod-wssei
+            path: super/src/sei/web/modulos/mod-wssei
 
       - name: Run make test
         run: | 
