@@ -1,6 +1,8 @@
 name: Unit and Functional Testing
 
 on: [push, pull_request]
+env: # Or as an environment variable
+  NEWMAN_BASEURL: 'http://localhost:8000'
 
 jobs:
   test:
