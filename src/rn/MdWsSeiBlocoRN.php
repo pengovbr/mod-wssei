@@ -821,6 +821,7 @@ class MdWsSeiBlocoRN extends InfraRN {
             $relBlocoProtocoloDTOConsulta->retStrProtocoloFormatadoProtocolo();
             $relBlocoProtocoloDTOConsulta->retStrStaProtocoloProtocolo();
             $relBlocoProtocoloDTOConsulta->retStrAnotacao();
+            $relBlocoProtocoloDTOConsulta->retObjProtocoloDTO();
             /** Acessa o componente SEI para consulta dos processos de um bloco */
             $ret = $relBlocoProtocoloRN->listarProtocolosBloco($relBlocoProtocoloDTOConsulta);
             /** @var RelBlocoProtocoloDTO $relBlocoProtocoloDTO */
