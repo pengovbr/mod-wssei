@@ -2164,7 +2164,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             $parametros->q = InfraSolrUtil::formatarOperadores($pesquisaProtocoloSolrDTO->getStrPalavrasChave());
         }
         if ($pesquisaProtocoloSolrDTO->isSetStrPalavrasChave() && is_numeric($pesquisaProtocoloSolrDTO->getStrPalavrasChave()) && !$pesquisaProtocoloSolrDTO->isSetStrProtocoloPesquisa()){
-            $parametros->q = '('.$parametros->q.' OR prot_pesq:*'.$pesquisaProtocoloSolrDTO->getStrPalavrasChave().'*)';
+            $parametros->q = '(sta_prot:G OR sta_prot:R) AND (prot_pesq:*'. InfraSolrUtil::formatarCaracteresEspeciais(InfraUtil::retirarFormatacao($parametros->q,false)) .'* OR prot_proc:*'.$pesquisaProtocoloSolrDTO->getStrPalavrasChave().'*)';
         }
 
         if ($parametros->q != '' && $partialfields != '') {
