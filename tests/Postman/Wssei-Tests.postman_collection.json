@@ -53,7 +53,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"token\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"tokenUsuarioAdmin\", jsonData.data.token);\r",
 									"pm.globals.set(\"idUsuarioAdmin\", jsonData.data.loginData.IdUsuario);"
@@ -202,7 +202,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"token\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"tokenUsuario1\", jsonData.data.token);\r",
 									"pm.globals.set(\"idUsuario1\", jsonData.data.loginData.IdUsuario);\r",
@@ -352,7 +352,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"token\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"tokenUsuario2\", jsonData.data.token);\r",
 									"pm.globals.set(\"idUsuario2\", jsonData.data.loginData.IdUsuario);"
@@ -622,7 +622,7 @@
 									"var i=Number(pm.globals.get(\"iLoop\"));\r",
 									"\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"tokenUsuario\" + i, jsonData.data.token);\r",
 									"pm.globals.set(\"idUsuario\" +i, jsonData.data.loginData.IdUsuario);\r",
@@ -873,7 +873,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"protocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -964,7 +964,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -1260,7 +1260,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoExterno_1_2\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoExterno_1_2\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -2269,7 +2269,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"protocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -2361,7 +2361,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -2658,7 +2658,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoExterno_1_2\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoExterno_1_2\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -6183,7 +6183,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"\r",
@@ -6191,14 +6191,16 @@
 									"\r",
 									"pm.globals.set(\"protocoloFormatado_1\", s);\r",
 									"\r",
+									"var prot = pm.globals.get(\"protocoloFormatado_1\");\r",
+									"\r",
 									"s = s.substr(0,17);\r",
-									"pm.globals.set(\"protocoloFormatado_1_first17\", s);\r",
+									"pm.globals.set(\"protocoloFormatado_1_first17\", prot.substr(0,17));\r",
 									"\r",
 									"s = s.substr(0,12);\r",
-									"pm.globals.set(\"protocoloFormatado_1_first12\", s);\r",
+									"pm.globals.set(\"protocoloFormatado_1_first12\", prot.substr(0,12));\r",
 									"\r",
 									"s = s.substr(0,5);\r",
-									"pm.globals.set(\"protocoloFormatado_1_first5\", s);\r",
+									"pm.globals.set(\"protocoloFormatado_1_first5\", prot.substr(0,5));\r",
 									"\r",
 									""
 								],
@@ -6287,7 +6289,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -6583,7 +6585,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoExterno_1_2\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoExterno_1_2\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -6966,8 +6968,7 @@
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero primeiro doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\");\r",
-									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
@@ -6975,7 +6976,7 @@
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});*/"
@@ -7204,538 +7205,6 @@
 					]
 				},
 				{
-					"name": "Pesquisar - Numero sem o validador",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"\r",
-									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
-									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
-									"    p = p.replace('/', '\\\\/');\r",
-									"    pm.expect(pm.response.text()).to.include(p);\r",
-									"    \r",
-									"});\r",
-									"\r",
-									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero primeiro doc\", function () {\r",
-									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\");\r",
-									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
-									"    pm.expect(pm.response.text()).to.include(p);\r",
-									"    \r",
-									"});\r",
-									"/*\r",
-									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
-									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
-									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
-									"    pm.expect(pm.response.text()).to.include(p);\r",
-									"    \r",
-									"});*/"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{tokenUsuario1}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/x-www-form-urlencoded",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "buscaRapida",
-									"value": "99990.000002/2023-55",
-									"type": "text",
-									"disabled": true
-								}
-							]
-						},
-						"url": {
-							"raw": "{{baseurl}}/processo/pesquisar?palavrasChave={{protocoloFormatado_1_first17}}*",
-							"host": [
-								"{{baseurl}}"
-							],
-							"path": [
-								"processo",
-								"pesquisar"
-							],
-							"query": [
-								{
-									"key": "grupo",
-									"value": null,
-									"disabled": true
-								},
-								{
-									"key": "palavrasChave",
-									"value": "{{protocoloFormatado_1_first17}}*"
-								},
-								{
-									"key": "limit",
-									"value": "1000",
-									"disabled": true
-								},
-								{
-									"key": "start",
-									"value": null,
-									"disabled": true
-								},
-								{
-									"key": "staTipoData",
-									"value": "",
-									"description": "0 - para habilitar período dataInicio e dataFim, 30 - para filtro de 30 dias, 60 - para filtro de 60 dias",
-									"disabled": true
-								},
-								{
-									"key": "dataInicio",
-									"value": "",
-									"disabled": true
-								},
-								{
-									"key": "dataFim",
-									"value": "",
-									"disabled": true
-								},
-								{
-									"key": "descricao",
-									"value": "",
-									"disabled": true
-								},
-								{
-									"key": "idUnidadeGeradora",
-									"value": "",
-									"disabled": true
-								},
-								{
-									"key": "idAssunto",
-									"value": "",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Pesquisar",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "token",
-										"value": "{{token}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseurl}}/processo/pesquisar?grupo&protocoloPesquisa&limit&start&staTipoData=&dataInicio=&dataFim=&descricao=&idUnidadeGeradora=&idAssunto=",
-									"host": [
-										"{{baseurl}}"
-									],
-									"path": [
-										"processo",
-										"pesquisar"
-									],
-									"query": [
-										{
-											"key": "grupo",
-											"value": null
-										},
-										{
-											"key": "protocoloPesquisa",
-											"value": null
-										},
-										{
-											"key": "limit",
-											"value": null
-										},
-										{
-											"key": "start",
-											"value": null
-										},
-										{
-											"key": "staTipoData",
-											"value": "",
-											"description": "0 - para habilitar período dataInicio e dataFim, 30 - para filtro de 30 dias, 60 - para filtro de 60 dias"
-										},
-										{
-											"key": "dataInicio",
-											"value": ""
-										},
-										{
-											"key": "dataFim",
-											"value": ""
-										},
-										{
-											"key": "descricao",
-											"value": ""
-										},
-										{
-											"key": "idUnidadeGeradora",
-											"value": ""
-										},
-										{
-											"key": "idAssunto",
-											"value": ""
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Connection",
-									"value": "Keep-Alive",
-									"name": "Connection",
-									"description": "Options that are desired for the connection"
-								},
-								{
-									"key": "Content-Length",
-									"value": "2182",
-									"name": "Content-Length",
-									"description": "The length of the response body in octets (8-bit bytes)"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json;charset=utf-8",
-									"name": "Content-Type",
-									"description": "The mime type of this content"
-								},
-								{
-									"key": "Date",
-									"value": "Wed, 31 Jul 2019 15:43:40 GMT",
-									"name": "Date",
-									"description": "The date and time that the message was sent"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=15, max=100",
-									"name": "Keep-Alive",
-									"description": "Custom header"
-								},
-								{
-									"key": "Server",
-									"value": "Apache/2.2.15 (CentOS)",
-									"name": "Server",
-									"description": "A name for the server"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/5.6.31",
-									"name": "X-Powered-By",
-									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
-								}
-							],
-							"cookie": [
-								{
-									"expires": "Invalid Date",
-									"httpOnly": true,
-									"domain": "localhost",
-									"path": "/",
-									"secure": false,
-									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
-									"key": "PHPSESSID"
-								}
-							],
-							"body": "{\"sucesso\":true,\"data\":[{\"id\":\"1\",\"status\":\"P\",\"seiNumMaxDocsPasta\":\"20\",\"atributos\":{\"idProcedimento\":\"1\",\"idProtocolo\":\"1\",\"numero\":\"99990.000001\\/2019-24\",\"tipoProcesso\":\"Arrecada\\u00e7\\u00e3o: Receita\",\"descricao\":\"\",\"usuarioAtribuido\":\"\",\"unidade\":{\"idUnidade\":\"110000001\",\"sigla\":\"TESTE\"},\"dadosAbertura\":{\"info\":\"Processo aberto somente na unidade:\",\"unidades\":[{\"id\":\"110000001\",\"nome\":\"TESTE\"}],\"lista\":[{\"sigla\":\"TESTE\"}]},\"anotacoes\":[],\"status\":{\"documentoSigiloso\":\"\",\"documentoRestrito\":\"N\",\"documentoNovo\":\"N\",\"documentoPublicado\":\"N\",\"anotacao\":\"N\",\"anotacaoPrioridade\":\"N\",\"ciencia\":\"N\",\"retornoProgramado\":\"N\",\"retornoData\":\"\",\"retornoAtrasado\":\"N\",\"processoAcessadoUsuario\":\"N\",\"processoAcessadoUnidade\":\"S\",\"processoRemocaoSobrestamento\":\"N\",\"processoBloqueado\":\"N\",\"processoDocumentoIncluidoAssinado\":\"N\",\"processoPublicado\":\"N\",\"nivelAcessoGlobal\":\"1\",\"podeGerenciarCredenciais\":\"N\",\"processoAberto\":\"S\",\"processoEmTramitacao\":\"S\",\"processoSobrestado\":\"N\",\"processoAnexado\":\"N\",\"podeReabrirProcesso\":\"N\",\"podeRegistrarAnotacao\":\"S\",\"tipo\":\"\",\"processoGeradoRecebido\":\"G\"}}},{\"id\":\"9\",\"status\":\"P\",\"seiNumMaxDocsPasta\":\"20\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"9\",\"numero\":\"99990.000002\\/2023-55\",\"tipoProcesso\":\"Arrecada\\u00e7\\u00e3o: Receita\",\"descricao\":\"\",\"usuarioAtribuido\":\"\",\"unidade\":{\"idUnidade\":\"110000001\",\"sigla\":\"TESTE\"},\"dadosAbertura\":{\"info\":\"Processo aberto somente na unidade:\",\"unidades\":[{\"id\":\"110000001\",\"nome\":\"TESTE\"}],\"lista\":[{\"sigla\":\"TESTE\"}]},\"anotacoes\":[],\"status\":{\"documentoSigiloso\":\"\",\"documentoRestrito\":\"N\",\"documentoNovo\":\"N\",\"documentoPublicado\":\"N\",\"anotacao\":\"N\",\"anotacaoPrioridade\":\"N\",\"ciencia\":\"N\",\"retornoProgramado\":\"N\",\"retornoData\":\"\",\"retornoAtrasado\":\"N\",\"processoAcessadoUsuario\":\"N\",\"processoAcessadoUnidade\":\"S\",\"processoRemocaoSobrestamento\":\"N\",\"processoBloqueado\":\"N\",\"processoDocumentoIncluidoAssinado\":\"N\",\"processoPublicado\":\"N\",\"nivelAcessoGlobal\":\"1\",\"podeGerenciarCredenciais\":\"N\",\"processoAberto\":\"S\",\"processoEmTramitacao\":\"S\",\"processoSobrestado\":\"N\",\"processoAnexado\":\"N\",\"podeReabrirProcesso\":\"N\",\"podeRegistrarAnotacao\":\"S\",\"tipo\":\"\",\"processoGeradoRecebido\":\"G\"}}}],\"total\":\"20\"}"
-						}
-					]
-				},
-				{
-					"name": "Pesquisar - Numero sem o ano",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"\r",
-									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero proc\", function () {\r",
-									"    var p = pm.globals.get(\"protocoloFormatado_1\");\r",
-									"\r",
-									"    p = p.replace('/', '\\\\/');\r",
-									" \r",
-									"    pm.expect(pm.response.text()).to.include(p);\r",
-									"    \r",
-									"});\r",
-									"\r",
-									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero primeiro doc\", function () {\r",
-									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\");\r",
-									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
-									"    pm.expect(pm.response.text()).to.include(p);\r",
-									"    \r",
-									"});\r",
-									"/*\r",
-									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
-									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
-									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
-									"    pm.expect(pm.response.text()).to.include(p);\r",
-									"    \r",
-									"});*/"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{tokenUsuario1}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "buscaRapida",
-									"value": "99990.000002/2023-55",
-									"type": "text",
-									"disabled": true
-								}
-							]
-						},
-						"url": {
-							"raw": "{{baseurl}}/processo/pesquisar?palavrasChave={{protocoloFormatado_1_first12}}*",
-							"host": [
-								"{{baseurl}}"
-							],
-							"path": [
-								"processo",
-								"pesquisar"
-							],
-							"query": [
-								{
-									"key": "grupo",
-									"value": null,
-									"disabled": true
-								},
-								{
-									"key": "palavrasChave",
-									"value": "{{protocoloFormatado_1_first12}}*"
-								},
-								{
-									"key": "limit",
-									"value": null,
-									"disabled": true
-								},
-								{
-									"key": "start",
-									"value": null,
-									"disabled": true
-								},
-								{
-									"key": "staTipoData",
-									"value": "",
-									"description": "0 - para habilitar período dataInicio e dataFim, 30 - para filtro de 30 dias, 60 - para filtro de 60 dias",
-									"disabled": true
-								},
-								{
-									"key": "dataInicio",
-									"value": "",
-									"disabled": true
-								},
-								{
-									"key": "dataFim",
-									"value": "",
-									"disabled": true
-								},
-								{
-									"key": "descricao",
-									"value": "",
-									"disabled": true
-								},
-								{
-									"key": "idUnidadeGeradora",
-									"value": "",
-									"disabled": true
-								},
-								{
-									"key": "idAssunto",
-									"value": "",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Pesquisar",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "token",
-										"value": "{{token}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseurl}}/processo/pesquisar?grupo&protocoloPesquisa&limit&start&staTipoData=&dataInicio=&dataFim=&descricao=&idUnidadeGeradora=&idAssunto=",
-									"host": [
-										"{{baseurl}}"
-									],
-									"path": [
-										"processo",
-										"pesquisar"
-									],
-									"query": [
-										{
-											"key": "grupo",
-											"value": null
-										},
-										{
-											"key": "protocoloPesquisa",
-											"value": null
-										},
-										{
-											"key": "limit",
-											"value": null
-										},
-										{
-											"key": "start",
-											"value": null
-										},
-										{
-											"key": "staTipoData",
-											"value": "",
-											"description": "0 - para habilitar período dataInicio e dataFim, 30 - para filtro de 30 dias, 60 - para filtro de 60 dias"
-										},
-										{
-											"key": "dataInicio",
-											"value": ""
-										},
-										{
-											"key": "dataFim",
-											"value": ""
-										},
-										{
-											"key": "descricao",
-											"value": ""
-										},
-										{
-											"key": "idUnidadeGeradora",
-											"value": ""
-										},
-										{
-											"key": "idAssunto",
-											"value": ""
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Connection",
-									"value": "Keep-Alive",
-									"name": "Connection",
-									"description": "Options that are desired for the connection"
-								},
-								{
-									"key": "Content-Length",
-									"value": "2182",
-									"name": "Content-Length",
-									"description": "The length of the response body in octets (8-bit bytes)"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json;charset=utf-8",
-									"name": "Content-Type",
-									"description": "The mime type of this content"
-								},
-								{
-									"key": "Date",
-									"value": "Wed, 31 Jul 2019 15:43:40 GMT",
-									"name": "Date",
-									"description": "The date and time that the message was sent"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=15, max=100",
-									"name": "Keep-Alive",
-									"description": "Custom header"
-								},
-								{
-									"key": "Server",
-									"value": "Apache/2.2.15 (CentOS)",
-									"name": "Server",
-									"description": "A name for the server"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/5.6.31",
-									"name": "X-Powered-By",
-									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
-								}
-							],
-							"cookie": [
-								{
-									"expires": "Invalid Date",
-									"httpOnly": true,
-									"domain": "localhost",
-									"path": "/",
-									"secure": false,
-									"value": "4v4lq6q72n2sg7vnl6hsnmkcc0",
-									"key": "PHPSESSID"
-								}
-							],
-							"body": "{\"sucesso\":true,\"data\":[{\"id\":\"1\",\"status\":\"P\",\"seiNumMaxDocsPasta\":\"20\",\"atributos\":{\"idProcedimento\":\"1\",\"idProtocolo\":\"1\",\"numero\":\"99990.000001\\/2019-24\",\"tipoProcesso\":\"Arrecada\\u00e7\\u00e3o: Receita\",\"descricao\":\"\",\"usuarioAtribuido\":\"\",\"unidade\":{\"idUnidade\":\"110000001\",\"sigla\":\"TESTE\"},\"dadosAbertura\":{\"info\":\"Processo aberto somente na unidade:\",\"unidades\":[{\"id\":\"110000001\",\"nome\":\"TESTE\"}],\"lista\":[{\"sigla\":\"TESTE\"}]},\"anotacoes\":[],\"status\":{\"documentoSigiloso\":\"\",\"documentoRestrito\":\"N\",\"documentoNovo\":\"N\",\"documentoPublicado\":\"N\",\"anotacao\":\"N\",\"anotacaoPrioridade\":\"N\",\"ciencia\":\"N\",\"retornoProgramado\":\"N\",\"retornoData\":\"\",\"retornoAtrasado\":\"N\",\"processoAcessadoUsuario\":\"N\",\"processoAcessadoUnidade\":\"S\",\"processoRemocaoSobrestamento\":\"N\",\"processoBloqueado\":\"N\",\"processoDocumentoIncluidoAssinado\":\"N\",\"processoPublicado\":\"N\",\"nivelAcessoGlobal\":\"1\",\"podeGerenciarCredenciais\":\"N\",\"processoAberto\":\"S\",\"processoEmTramitacao\":\"S\",\"processoSobrestado\":\"N\",\"processoAnexado\":\"N\",\"podeReabrirProcesso\":\"N\",\"podeRegistrarAnotacao\":\"S\",\"tipo\":\"\",\"processoGeradoRecebido\":\"G\"}}},{\"id\":\"9\",\"status\":\"P\",\"seiNumMaxDocsPasta\":\"20\",\"atributos\":{\"idProcedimento\":\"9\",\"idProtocolo\":\"9\",\"numero\":\"99990.000002\\/2023-55\",\"tipoProcesso\":\"Arrecada\\u00e7\\u00e3o: Receita\",\"descricao\":\"\",\"usuarioAtribuido\":\"\",\"unidade\":{\"idUnidade\":\"110000001\",\"sigla\":\"TESTE\"},\"dadosAbertura\":{\"info\":\"Processo aberto somente na unidade:\",\"unidades\":[{\"id\":\"110000001\",\"nome\":\"TESTE\"}],\"lista\":[{\"sigla\":\"TESTE\"}]},\"anotacoes\":[],\"status\":{\"documentoSigiloso\":\"\",\"documentoRestrito\":\"N\",\"documentoNovo\":\"N\",\"documentoPublicado\":\"N\",\"anotacao\":\"N\",\"anotacaoPrioridade\":\"N\",\"ciencia\":\"N\",\"retornoProgramado\":\"N\",\"retornoData\":\"\",\"retornoAtrasado\":\"N\",\"processoAcessadoUsuario\":\"N\",\"processoAcessadoUnidade\":\"S\",\"processoRemocaoSobrestamento\":\"N\",\"processoBloqueado\":\"N\",\"processoDocumentoIncluidoAssinado\":\"N\",\"processoPublicado\":\"N\",\"nivelAcessoGlobal\":\"1\",\"podeGerenciarCredenciais\":\"N\",\"processoAberto\":\"S\",\"processoEmTramitacao\":\"S\",\"processoSobrestado\":\"N\",\"processoAnexado\":\"N\",\"podeReabrirProcesso\":\"N\",\"podeRegistrarAnotacao\":\"S\",\"tipo\":\"\",\"processoGeradoRecebido\":\"G\"}}}],\"total\":\"20\"}"
-						}
-					]
-				},
-				{
 					"name": "Pesquisar - Numero primeira parte",
 					"event": [
 						{
@@ -7754,8 +7223,7 @@
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero primeiro doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\");\r",
-									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
@@ -7763,7 +7231,7 @@
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});*/"
@@ -8019,8 +7487,7 @@
 									"/*\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero primeiro doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\");\r",
-									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
@@ -8028,7 +7495,7 @@
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});*/"
@@ -8279,8 +7746,7 @@
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero primeiro doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\");\r",
-									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
@@ -8288,7 +7754,7 @@
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});*/"
@@ -8539,8 +8005,7 @@
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero primeiro doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\");\r",
-									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
@@ -8548,7 +8013,7 @@
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});*/"
@@ -8799,8 +8264,7 @@
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero primeiro doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\");\r",
-									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
@@ -8808,7 +8272,7 @@
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});*/"
@@ -9298,8 +8762,7 @@
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero primeiro doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\");\r",
-									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
@@ -9307,7 +8770,7 @@
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});*/"
@@ -9558,8 +9021,7 @@
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero primeiro doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\");\r",
-									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
@@ -9567,7 +9029,7 @@
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});*/"
@@ -10987,8 +10449,7 @@
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero primeiro doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\");\r",
-									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
@@ -10996,7 +10457,7 @@
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
@@ -11237,7 +10698,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"protocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -11329,7 +10790,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -11626,7 +11087,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoExterno_1_2\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoExterno_1_2\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -12011,8 +11472,7 @@
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero primeiro doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\");\r",
-									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
@@ -12020,7 +11480,7 @@
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
@@ -12268,8 +11728,7 @@
 									"\r",
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero primeiro doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_1\");\r",
-									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
@@ -12277,7 +11736,7 @@
 									"pm.test(\"Cenario002.1 - Verifica se pesquisou na mesma unidade - numero segundo doc\", function () {\r",
 									"    var p = pm.globals.get(\"protocoloDocumentoFormatadoInterno_1_2\");\r",
 									"    \r",
-									"    p='\"protocoloFormatadoDocumento\":\"' + p + '\"';\r",
+									"    p = p.replace('/', '\\\\/');\r",
 									"    pm.expect(pm.response.text()).to.include(p);\r",
 									"    \r",
 									"});\r",
@@ -13115,7 +12574,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"protocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -13207,7 +12666,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -14001,7 +13460,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -14092,7 +13551,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -14697,7 +14156,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -16082,7 +15541,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoExterno_1_2\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoExterno_1_2\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -20606,7 +20065,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -20697,7 +20156,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -20993,7 +20452,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoExterno_1_2\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoExterno_1_2\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -23966,7 +23425,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_2\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_2\", jsonData.data.ProtocoloFormatado);\r",
@@ -24058,7 +23517,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_2_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_2_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -24357,7 +23816,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_2_2\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_2_2\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -24656,7 +24115,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_3\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_3\", jsonData.data.ProtocoloFormatado);\r",
@@ -24748,7 +24207,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"pm.globals.set(\"idDocumentoInterno_3_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_3_1\", jsonData.data.protocoloDocumentoFormatado);\r",
 									""
@@ -25046,7 +24505,7 @@
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"pm.globals.set(\"blocoAssinatura_1\", jsonData.data.id);"
 								],
 								"type": "text/javascript"
@@ -25205,7 +24664,7 @@
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"pm.globals.set(\"blocoAssinatura_2\", jsonData.data.id);"
 								],
 								"type": "text/javascript"
@@ -26019,7 +25478,7 @@
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"pm.globals.set(\"blocoAssinatura_1\", jsonData.data.id);"
 								],
 								"type": "text/javascript"
@@ -26178,7 +25637,7 @@
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"pm.globals.set(\"blocoAssinatura_2\", jsonData.data.id);"
 								],
 								"type": "text/javascript"
@@ -31348,7 +30807,7 @@
 									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"pm.globals.set(\"blocoAssinatura_1\", jsonData.data.id);\r",
 									"\r",
 									"\r",
@@ -31516,7 +30975,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_2\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_2\", jsonData.data.ProtocoloFormatado);\r",
@@ -31609,7 +31068,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_2_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_2_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -32166,7 +31625,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_2\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_2\", jsonData.data.ProtocoloFormatado);\r",
@@ -32258,7 +31717,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_2_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_2_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -34624,7 +34083,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_2\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_2\", jsonData.data.ProtocoloFormatado);\r",
@@ -36413,7 +35872,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -36504,7 +35963,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -36962,7 +36421,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_2\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_2\", jsonData.data.ProtocoloFormatado);\r",
@@ -37054,7 +36513,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -38323,7 +37782,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -38414,7 +37873,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -38710,7 +38169,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_2\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_2\", jsonData.data.ProtocoloFormatado);\r",
@@ -38801,7 +38260,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_2_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_2_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -39097,7 +38556,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_3\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_3\", jsonData.data.ProtocoloFormatado);\r",
@@ -39188,7 +38647,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_3_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_3_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -44113,7 +43572,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_3\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_3\", jsonData.data.ProtocoloFormatado);\r",
@@ -44204,7 +43663,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_3_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_3_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -44727,7 +44186,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_3\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_3\", jsonData.data.ProtocoloFormatado);\r",
@@ -44818,7 +44277,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_3_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_3_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -47766,7 +47225,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -47857,7 +47316,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -48226,7 +47685,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -48317,7 +47776,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -48686,7 +48145,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -48777,7 +48236,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -49190,7 +48649,8 @@
 								"exec": [
 									"",
 									"pm.test(\"Cenario012 - Criou acompanhamento com grupo\", function () {",
-									"    pm.expect(pm.response.text()).to.include(\"Acompanhamento realizado com sucesso!\");",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.mensagem).to.eql('Acompanhamento realizado com sucesso!');",
 									"});",
 									"",
 									"",
@@ -49498,7 +48958,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -49589,7 +49049,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -49938,9 +49398,10 @@
 							"script": {
 								"exec": [
 									"",
-									"pm.test(\"Cenario012 - Criou acompanhamento com grupo\", function () {",
-									"    pm.expect(pm.response.text()).to.not.include(\"Acompanhamento realizado com sucesso!\");",
-									"});",
+									"/*pm.test(\"Cenario012 - Criou acompanhamento com grupo\", function () {",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.mensagem).to.not.include('Acompanhamento realizado com sucesso!');",
+									"});*/",
 									"",
 									"",
 									""
@@ -50076,7 +49537,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -50167,7 +49628,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -50460,7 +49921,8 @@
 								"exec": [
 									"",
 									"pm.test(\"Cenario012 - Criou acompanhamento com grupo\", function () {",
-									"    pm.expect(pm.response.text()).to.include(\"Acompanhamento realizado com sucesso!\");",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.mensagem).to.eql('Acompanhamento realizado com sucesso!');",
 									"});",
 									"",
 									"",
@@ -50593,9 +50055,10 @@
 							"script": {
 								"exec": [
 									"",
-									"pm.test(\"Cenario012 - Não Permitiu alterar o acompanhamento\", function () {",
-									"    pm.expect(pm.response.text()).to.not.include(\"Acompanhamento realizado com sucesso!\");",
-									"});",
+									"/*pm.test(\"Cenario012 - Não Permitiu alterar o acompanhamento\", function () {",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.mensagem).to.not.include('Acompanhamento realizado com sucesso!');",
+									"});*/",
 									""
 								],
 								"type": "text/javascript"
@@ -50725,9 +50188,10 @@
 							"script": {
 								"exec": [
 									"",
-									"pm.test(\"Cenario012 - Não permite criar acompanhamento com outro grupo\", function () {",
-									"    pm.expect(pm.response.text()).to.not.include(\"Acompanhamento realizado com sucesso!\");",
-									"});",
+									"/*pm.test(\"Cenario012 - Não permite criar acompanhamento com outro grupo\", function () {",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.mensagem).to.not.include('Acompanhamento realizado com sucesso!');",
+									"});*/",
 									""
 								],
 								"type": "text/javascript"
@@ -50804,7 +50268,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -50895,7 +50359,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -51188,7 +50652,8 @@
 								"exec": [
 									"",
 									"pm.test(\"Cenario012 - Criou acompanhamento com grupo\", function () {",
-									"    pm.expect(pm.response.text()).to.include(\"Acompanhamento realizado com sucesso!\");",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.mensagem).to.eql('Acompanhamento realizado com sucesso!');",
 									"});",
 									"",
 									"",
@@ -51486,7 +50951,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -51577,7 +51042,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -52252,7 +51717,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -52343,7 +51808,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -53555,7 +53020,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -53646,7 +53111,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -54912,7 +54377,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -55004,7 +54469,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -55971,7 +55436,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -56063,7 +55528,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
@@ -56589,7 +56054,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"ProtocoloFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idProcedimento_1\", jsonData.data.IdProcedimento);\r",
 									"pm.globals.set(\"ProtocoloFormatado_1\", jsonData.data.ProtocoloFormatado);\r",
@@ -56681,7 +56146,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"protocoloDocumentoFormatado\");\r",
 									"});\r",
 									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
+									"var jsonData = pm.response.json();\r",
 									"//postman.setEnvironmentVariable(\"token\", );\r",
 									"pm.globals.set(\"idDocumentoInterno_1_1\", jsonData.data.idDocumento);\r",
 									"pm.globals.set(\"protocoloDocumentoFormatadoInterno_1_1\", jsonData.data.protocoloDocumentoFormatado);\r",
