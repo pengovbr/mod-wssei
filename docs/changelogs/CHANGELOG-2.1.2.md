@@ -14,7 +14,7 @@ O módulo é compatível com as seguintes versões do SUPER/SEI:
 | Versão SEI/SUPER | Versão módulo mod-wssei |
 | ---              | ---                     |
 | 3.1.x            | mod-wssei 1.0.x         |
-| 4.0.x            | mod-wssei 2.0.x         |
+| 4.0.x            | mod-wssei 2.x           |
 
 
 ### Lista de melhorias e correções de problemas
@@ -26,7 +26,13 @@ Todas as atualizações podem incluir itens referentes à segurança, requisito 
 
 Ao utilizar o serviço de controle_editar_externo.php ele retorna http 500 por tentar incluir o SEI.php após abrir uma session.
 
+#### Erros no execução dos testes (#62)
 
+Corrige testes automatizados da API.
+
+#### Erro ao obter documentos no serviço Listar Documentos Bloco de Assinatura (#33)
+
+Corrige erros de "Atributo [ProtocoloDTO] não recebeu valor." em vários endpoints.
 
 ### Atualização de Versão
 
