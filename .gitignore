@@ -4,6 +4,7 @@
 .modulo.env
 .testselenium.env
 dist/
+vendor/
 
 # Arquivos temporários criados pelo ambiente de desenvolvimento Vagrant
 .vagrant/

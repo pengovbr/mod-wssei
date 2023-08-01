@@ -15,9 +15,9 @@ try {
     InfraDebug::getInstance()->limpar();
     //////////////////////////////////////////////////////////////////////////////
 
-    if ($_GET['acao'] == 'editor_salvar' && (isset($_POST['hdnSiglaUnidade']) && $_POST['hdnSiglaUnidade']!=SessaoSEI::getInstance()->getStrSiglaUnidadeAtual())){
-        die("INFRA_VALIDACAO\nDetectada troca para a unidade ".SessaoSEI::getInstance()->getStrSiglaUnidadeAtual().".\\nPara salvar este documento é necessário retornar para a unidade ".$_POST['hdnSiglaUnidade'].".");
-    }
+  if ($_GET['acao'] == 'editor_salvar' && (isset($_POST['hdnSiglaUnidade']) && $_POST['hdnSiglaUnidade']!=SessaoSEI::getInstance()->getStrSiglaUnidadeAtual())){
+      die("INFRA_VALIDACAO\nDetectada troca para a unidade ".SessaoSEI::getInstance()->getStrSiglaUnidadeAtual().".\\nPara salvar este documento é necessário retornar para a unidade ".$_POST['hdnSiglaUnidade'].".");
+  }
 
     PaginaSEI::getInstance()->setTipoPagina(PaginaSEI::$TIPO_PAGINA_SIMPLES);
 
@@ -28,143 +28,140 @@ try {
     $strParametros = '';
     $modoAssinatura = 'Default';
 
-    if (isset($_GET['id_procedimento'])){
-        $strParametros .= '&id_procedimento='.$_GET['id_procedimento'];
-    }
+  if (isset($_GET['id_procedimento'])){
+      $strParametros .= '&id_procedimento='.$_GET['id_procedimento'];
+  }
 
-    if (isset($_GET['id_documento'])){
-        $strParametros .= '&id_documento='.$_GET['id_documento'];
-    }
+  if (isset($_GET['id_documento'])){
+      $strParametros .= '&id_documento='.$_GET['id_documento'];
+  }
 
-    if (SessaoSEI::getInstance()->verificarPermissao('documento_assinar')){
-        $strLinkAssinatura=SessaoSEI::getInstance()->assinarLink('controlador.php?acao=documento_assinar&acao_origem=editor_montar&acao_retorno=editor_montar&id_documento='.$_GET['id_documento']);
-    }
+  if (SessaoSEI::getInstance()->verificarPermissao('documento_assinar')){
+      $strLinkAssinatura=SessaoSEI::getInstance()->assinarLink('controlador.php?acao=documento_assinar&acao_origem=editor_montar&acao_retorno=editor_montar&id_documento='.$_GET['id_documento']);
+  }
 
-    if (isset($_GET['modo_assinatura'])){
-        $modoAssinatura = $_GET['modo_assinatura'];
-    }
+  if (isset($_GET['modo_assinatura'])){
+      $modoAssinatura = $_GET['modo_assinatura'];
+  }
 
-    if (isset($_GET['id_base_conhecimento'])){
-        $strParametros .= '&id_base_conhecimento='.$_GET['id_base_conhecimento'];
-    }
+  if (isset($_GET['id_base_conhecimento'])){
+      $strParametros .= '&id_base_conhecimento='.$_GET['id_base_conhecimento'];
+  }
     $strLinkAjaxProtocoloLinkEditor = SessaoSEI::getInstance()->assinarLink('controlador_ajax.php?acao_ajax=protocolo_link_editor');
-    switch($_GET['acao']){
-        case 'md_wssei_editor_externo_imagem_upload':
-            if (isset($_FILES['filArquivo'])){
-                PaginaSEI::getInstance()->processarUpload('filArquivo', DIR_SEI_TEMP, false);
-            }
-            die;
-        case 'md_wssei_editor_externo_montar':
+  switch($_GET['acao']){
+    case 'md_wssei_editor_externo_imagem_upload':
+      if (isset($_FILES['filArquivo'])){
+        PaginaSEI::getInstance()->processarUpload('filArquivo', DIR_SEI_TEMP, false);
+      }
+        die;
+    case 'md_wssei_editor_externo_montar':
+      if (isset($_GET['id_documento'])){
 
-            if (isset($_GET['id_documento'])){
+          $objDocumentoDTO = new DocumentoDTO();
+          $objDocumentoDTO->retDblIdDocumento();
+          $objDocumentoDTO->retStrProtocoloDocumentoFormatado();
+          $objDocumentoDTO->retStrNomeSerie();
+          $objDocumentoDTO->retNumIdConjuntoEstilos();
+          $objDocumentoDTO->retStrStaProtocoloProtocolo();
+          $objDocumentoDTO->setDblIdDocumento($_GET['id_documento']);
 
-                $objDocumentoDTO = new DocumentoDTO();
-                $objDocumentoDTO->retDblIdDocumento();
-                $objDocumentoDTO->retStrProtocoloDocumentoFormatado();
-                $objDocumentoDTO->retStrNomeSerie();
-                $objDocumentoDTO->retNumIdConjuntoEstilos();
-                $objDocumentoDTO->retStrStaProtocoloProtocolo();
-                $objDocumentoDTO->setDblIdDocumento($_GET['id_documento']);
+          $objDocumentoRN = new DocumentoRN();
+          $objDocumentoDTO = $objDocumentoRN->consultarRN0005($objDocumentoDTO);
 
-                $objDocumentoRN = new DocumentoRN();
-                $objDocumentoDTO = $objDocumentoRN->consultarRN0005($objDocumentoDTO);
+        if ($objDocumentoDTO==null){
+          throw new InfraException('Documento não encontrado.', null, null, false);
+        }
+        if($objDocumentoDTO->getStrStaProtocoloProtocolo()!=ProtocoloRN::$TP_DOCUMENTO_GERADO){
+            throw new InfraException('Tipo de Documento inválido.');
+        }
 
-                if ($objDocumentoDTO==null){
-                    throw new InfraException('Documento não encontrado.', null, null, false);
-                }
-                if($objDocumentoDTO->getStrStaProtocoloProtocolo()!=ProtocoloRN::$TP_DOCUMENTO_GERADO){
-                    throw new InfraException('Tipo de Documento inválido.');
-                }
+          $strTitulo = DocumentoINT::montarTitulo($objDocumentoDTO);
 
-                $strTitulo = DocumentoINT::montarTitulo($objDocumentoDTO);
+          $objEditorDTO = new EditorDTO();
+          $objEditorDTO->setDblIdDocumento($objDocumentoDTO->getDblIdDocumento());
+          $objEditorDTO->setNumIdConjuntoEstilos($objDocumentoDTO->getNumIdConjuntoEstilos());
+          $objEditorDTO->setNumIdBaseConhecimento(null);
+          $objEditorDTO->setStrSinMontandoEditor('S');
 
-                $objEditorDTO = new EditorDTO();
-                $objEditorDTO->setDblIdDocumento($objDocumentoDTO->getDblIdDocumento());
-                $objEditorDTO->setNumIdConjuntoEstilos($objDocumentoDTO->getNumIdConjuntoEstilos());
-                $objEditorDTO->setNumIdBaseConhecimento(null);
-                $objEditorDTO->setStrSinMontandoEditor('S');
+      }else if (isset($_GET['id_base_conhecimento'])){
 
-            }else if (isset($_GET['id_base_conhecimento'])){
+          $objBaseConhecimentoDTO = new BaseConhecimentoDTO();
+          $objBaseConhecimentoDTO->retNumIdBaseConhecimento();
+          $objBaseConhecimentoDTO->retStrDescricao();
+          $objBaseConhecimentoDTO->retStrSiglaUnidade();
+          $objBaseConhecimentoDTO->retNumIdConjuntoEstilos();
+          $objBaseConhecimentoDTO->setNumIdBaseConhecimento($_GET['id_base_conhecimento']);
 
-                $objBaseConhecimentoDTO = new BaseConhecimentoDTO();
-                $objBaseConhecimentoDTO->retNumIdBaseConhecimento();
-                $objBaseConhecimentoDTO->retStrDescricao();
-                $objBaseConhecimentoDTO->retStrSiglaUnidade();
-                $objBaseConhecimentoDTO->retNumIdConjuntoEstilos();
-                $objBaseConhecimentoDTO->setNumIdBaseConhecimento($_GET['id_base_conhecimento']);
+          $objBaseConhecimentoRN = new BaseConhecimentoRN();
+          $objBaseConhecimentoDTO = $objBaseConhecimentoRN->consultar($objBaseConhecimentoDTO);
 
-                $objBaseConhecimentoRN = new BaseConhecimentoRN();
-                $objBaseConhecimentoDTO = $objBaseConhecimentoRN->consultar($objBaseConhecimentoDTO);
+          $strTitulo = BaseConhecimentoINT::montarTitulo($objBaseConhecimentoDTO);
 
-                $strTitulo = BaseConhecimentoINT::montarTitulo($objBaseConhecimentoDTO);
+          $objEditorDTO = new EditorDTO();
+          $objEditorDTO->setDblIdDocumento(null);
+          $objEditorDTO->setNumIdConjuntoEstilos($objBaseConhecimentoDTO->getNumIdConjuntoEstilos());
+          $objEditorDTO->setNumIdBaseConhecimento($objBaseConhecimentoDTO->getNumIdBaseConhecimento());
+      }else{
+          throw new InfraException('Montagem do editor não recebeu documento ou base de conhecimento.');
+      }
 
-                $objEditorDTO = new EditorDTO();
-                $objEditorDTO->setDblIdDocumento(null);
-                $objEditorDTO->setNumIdConjuntoEstilos($objBaseConhecimentoDTO->getNumIdConjuntoEstilos());
-                $objEditorDTO->setNumIdBaseConhecimento($objBaseConhecimentoDTO->getNumIdBaseConhecimento());
-            }else{
-                throw new InfraException('Montagem do editor não recebeu documento ou base de conhecimento.');
-            }
+        $objEditorRN = new EditorRN();
+        $objEditorDTORetorno = $objEditorRN->montar($objEditorDTO);
 
-            $objEditorRN = new EditorRN();
-            $objEditorDTORetorno = $objEditorRN->montar($objEditorDTO);
+        break;
 
-            break;
+    case 'editor_salvar':
+      if (count($_POST) == 0){
+          die("INFRA_VALIDACAO\nNão foi possível salvar o documento.");
+      }
 
-        case 'editor_salvar':
+        $objEditorDTO = new EditorDTO();
 
+      if (!InfraString::isBolVazia($_GET['id_documento'])){
+          $objEditorDTO->setDblIdDocumento($_GET['id_documento']);
+          $objEditorDTO->setNumIdBaseConhecimento(null);
+      }else if (!InfraString::isBolVazia($_GET['id_base_conhecimento'])){
+          $objEditorDTO->setDblIdDocumento(null);
+          $objEditorDTO->setNumIdBaseConhecimento($_GET['id_base_conhecimento']);
+      }
+        $objEditorDTO->setNumVersao($_POST['hdnVersao']);
+        $objEditorDTO->setStrSinIgnorarNovaVersao($_POST['hdnIgnorarNovaVersao']);
 
-            if (count($_POST) == 0){
-                die("INFRA_VALIDACAO\nNão foi possível salvar o documento.");
-            }
+        $arrObjSecaoDocumentoDTO = array();
+        $numTamPrefixo = strlen('txaEditor_');
+      foreach($_POST as $chave => $valor){
+        if (substr($chave, 0, $numTamPrefixo)=='txaEditor_'){
+            $objSecaoDocumentoDTO = new SecaoDocumentoDTO();
+            $objSecaoDocumentoDTO->setNumIdSecaoModelo(substr($chave, $numTamPrefixo));
+            $objSecaoDocumentoDTO->setStrConteudo($valor);
+            $arrObjSecaoDocumentoDTO[] = $objSecaoDocumentoDTO;
+        }
+      }
 
-            $objEditorDTO = new EditorDTO();
+        $objEditorDTO->setArrObjSecaoDocumentoDTO($arrObjSecaoDocumentoDTO);
 
-            if (!InfraString::isBolVazia($_GET['id_documento'])){
-                $objEditorDTO->setDblIdDocumento($_GET['id_documento']);
-                $objEditorDTO->setNumIdBaseConhecimento(null);
-            }else if (!InfraString::isBolVazia($_GET['id_base_conhecimento'])){
-                $objEditorDTO->setDblIdDocumento(null);
-                $objEditorDTO->setNumIdBaseConhecimento($_GET['id_base_conhecimento']);
-            }
-            $objEditorDTO->setNumVersao($_POST['hdnVersao']);
-            $objEditorDTO->setStrSinIgnorarNovaVersao($_POST['hdnIgnorarNovaVersao']);
+      try{
 
-            $arrObjSecaoDocumentoDTO = array();
-            $numTamPrefixo = strlen('txaEditor_');
-            foreach($_POST as $chave => $valor){
-                if (substr($chave,0,$numTamPrefixo)=='txaEditor_'){
-                    $objSecaoDocumentoDTO = new SecaoDocumentoDTO();
-                    $objSecaoDocumentoDTO->setNumIdSecaoModelo(substr($chave,$numTamPrefixo));
-                    $objSecaoDocumentoDTO->setStrConteudo($valor);
-                    $arrObjSecaoDocumentoDTO[] = $objSecaoDocumentoDTO;
-                }
-            }
+          $objEditorRN = new EditorRN();
+          $numVersao = $objEditorRN->adicionarVersao($objEditorDTO);
 
-            $objEditorDTO->setArrObjSecaoDocumentoDTO($arrObjSecaoDocumentoDTO);
+          die('OK '.$numVersao);
 
-            try{
+      }catch(Exception $e){
 
-                $objEditorRN = new EditorRN();
-                $numVersao = $objEditorRN->adicionarVersao($objEditorDTO);
+        if ($e instanceof InfraException && $e->contemValidacoes()){
+            die("INFRA_VALIDACAO\n".$e->__toString()); //retorna para o iframe exibir o alert
+        }
 
-                die('OK '.$numVersao);
+          PaginaSEI::getInstance()->processarExcecao($e); //vai para a página de erro padrão
+      }
 
-            }catch(Exception $e){
-
-                if ($e instanceof InfraException && $e->contemValidacoes()){
-                    die("INFRA_VALIDACAO\n".$e->__toString()); //retorna para o iframe exibir o alert
-                }
-
-                PaginaSEI::getInstance()->processarExcecao($e); //vai para a página de erro padrão
-            }
-
-            break;
+        break;
 
 
-        default:
-            throw new InfraException("Ação '".$_GET['acao']."' não reconhecida.");
-    }
+    default:
+        throw new InfraException("Ação '".$_GET['acao']."' não reconhecida.");
+  }
     $objTextoPadraoInternoRN=new TextoPadraoInternoRN();
     $objTextoPadraoInternoDTO= new TextoPadraoInternoDTO();
     $objTextoPadraoInternoDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
@@ -175,19 +172,19 @@ try {
     $arrObjTextoPadraoInternoDTO=$objTextoPadraoInternoRN->listar($objTextoPadraoInternoDTO);
     $strItens='[  ';
     $strTextos='[  ';
-    if (count($arrObjTextoPadraoInternoDTO)>0){
+  if (count($arrObjTextoPadraoInternoDTO)>0){
 
-        foreach($arrObjTextoPadraoInternoDTO as $objTextoPadraoInternoDTO){
-            $strItens  .= '"'.str_replace('"', '\"', $objTextoPadraoInternoDTO->getStrNome()).'", ';
-            $strTexto=str_replace('"', '\"', $objTextoPadraoInternoDTO->getStrConteudo());
-            $strTexto=str_replace("\n",'',$strTexto);
-            $strTexto=str_replace("\r",'',$strTexto);
-            $strTextos .= '"'.$strTexto.'", ';
-        }
-
+    foreach($arrObjTextoPadraoInternoDTO as $objTextoPadraoInternoDTO){
+        $strItens  .= '"'.str_replace('"', '\"', $objTextoPadraoInternoDTO->getStrNome()).'", ';
+        $strTexto=str_replace('"', '\"', $objTextoPadraoInternoDTO->getStrConteudo());
+        $strTexto=str_replace("\n", '', $strTexto);
+        $strTexto=str_replace("\r", '', $strTexto);
+        $strTextos .= '"'.$strTexto.'", ';
     }
-    $strItens=substr($strItens, 0,strlen($strItens)-2)."]";
-    $strTextos=substr($strTextos, 0,strlen($strTextos)-2)."]";
+
+  }
+    $strItens=substr($strItens, 0, strlen($strItens)-2)."]";
+    $strTextos=substr($strTextos, 0, strlen($strTextos)-2)."]";
 
     $objImagemFormatoDTO = new ImagemFormatoDTO();
     $objImagemFormatoDTO->retStrFormato();
@@ -195,9 +192,10 @@ try {
 
     $objImagemFormatoRN = new ImagemFormatoRN();
 
-    $arrImagemPermitida = InfraArray::converterArrInfraDTO($objImagemFormatoRN->listar($objImagemFormatoDTO),'Formato');
-    if (in_array('jpg',$arrImagemPermitida) && !in_array('jpeg',$arrImagemPermitida)) $arrImagemPermitida[]='jpeg';
-    $strArrImgPermitida = "'".implode('\',\'',$arrImagemPermitida)."'";
+    $arrImagemPermitida = InfraArray::converterArrInfraDTO($objImagemFormatoRN->listar($objImagemFormatoDTO), 'Formato');
+  if (in_array('jpg', $arrImagemPermitida) && !in_array('jpeg', $arrImagemPermitida)) { $arrImagemPermitida[]='jpeg';
+  }
+    $strArrImgPermitida = "'".implode('\',\'', $arrImagemPermitida)."'";
     $strArrImgPermitida = 'var arrImgPermitida = Array('.InfraString::transformarCaixaBaixa($strArrImgPermitida).');'."\n";
 
 }catch(Exception $e){
@@ -283,7 +281,7 @@ try {
         }
         <?
             //se houver validações, só exibe as validações e descarta o resto do javascript
-          if ($objEditorDTORetorno->getStrValidacao()==true){
+        if ($objEditorDTORetorno->getStrValidacao()==true){
           ?>
         var verificarSalvamento=function(){};
         function  inicializar() {
@@ -294,10 +292,10 @@ try {
             }
             alert('<?=$objEditorDTORetorno->getStrMensagens();?>');
         }
-        <?
+          <?
         } else {
-        ?>
-        <?=$strArrImgPermitida;?>
+          ?>
+          <?=$strArrImgPermitida;?>
 
         function infraUploadCK(form,url,debug){
             var me = this;
@@ -431,7 +429,7 @@ try {
         var _procedimento='';
         var _idProtocolo='';
         var _protocoloFormatado='';
-        CKEDITOR.config.contentsCss="<?=str_replace('"','\"',$objEditorDTORetorno->getStrCss());?>";
+        CKEDITOR.config.contentsCss="<?=str_replace('"', '\"', $objEditorDTORetorno->getStrCss());?>";
         var toolbar=<?=$objEditorDTORetorno->getStrToolbar();?>;
         var timeoutExibirBotao = null;
 
@@ -520,8 +518,12 @@ try {
         var timer=0;
         var realceTimer=null;
         var timerAlertaSalvar=null;
-        var arrAutotextoItens=<?if($strTextos!=null) echo $strTextos; else echo '[]';?>;
-        var selAutotextoItens=<?if($strItens!=null) echo $strItens; else echo '[]';?>;
+        var arrAutotextoItens=<?if($strTextos!=null) { echo $strTextos;
+                              } else { echo '[]';
+                              }?>;
+        var selAutotextoItens=<?if($strItens!=null) { echo $strItens;
+                              } else { echo '[]';
+                              }?>;
         var strLinkAssinatura='<?=$strLinkAssinatura;?>';
         var readOnlyColor='#e5e5e5';
         var modificado=false;
@@ -884,7 +886,8 @@ try {
 <form id="frmEditor" style="hidden:true;margin: 0px;" method="post" target="ifrEditorSalvar" action="<?=SessaoSEI::getInstance()->assinarLink('editor/editor_processar.php?acao=editor_salvar&acao_origem='.$_GET['acao'].$strParametros)?>">
     <div id="divComandos" style="margin:0px;"></div>
     <?
-    if (PaginaSEI::getInstance()->getNumTipoBrowser()==InfraPagina::$TIPO_BROWSER_IE7 ) echo '<br style="margin:0;font-size:1px;"/>';
+    if (PaginaSEI::getInstance()->getNumTipoBrowser()==InfraPagina::$TIPO_BROWSER_IE7 ) { echo '<br style="margin:0;font-size:1px;"/>';
+    }
     ?>
     <div id="divEditores" style="overflow: auto;border-top:2px solid;border-bottom:0px;">
 

@@ -1,5 +1,19 @@
 {
-    "require": {
-        "slim/slim": "^3.7"
+  "config": {
+    "vendor-dir": "./vendor",
+    "platform": {
+      "php": "7.3.33"
     }
+  },
+ "require": {
+        "slim/slim": "^3.7"
+    },
+
+  "require-dev": {
+    "php": "7.3.33",
+    "phpunit/phpunit": "*",
+    "squizlabs/php_codesniffer": "*",
+    "phpcompatibility/php-compatibility": "^9.3",
+    "pheromone/phpcs-security-audit": "*"
+  }
 }

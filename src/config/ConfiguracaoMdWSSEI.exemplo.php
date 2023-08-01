@@ -9,7 +9,7 @@
 
 class ConfiguracaoMdWSSEI extends InfraConfiguracao  {
 
-	private static $instance = null;
+  private static $instance = null;
 
     /**
      * Obtém instância única (singleton) dos dados de configuração do módulo de integração
@@ -17,36 +17,36 @@ class ConfiguracaoMdWSSEI extends InfraConfiguracao  {
      *
      * @return ConfiguracaoMdWSSEI
      */
-    public static function getInstance()
+  public static function getInstance()
     {
-		if (ConfiguracaoMdWSSEI::$instance == null) {
-			ConfiguracaoMdWSSEI::$instance = new ConfiguracaoMdWSSEI();
-		}
-		return ConfiguracaoMdWSSEI::$instance;
-	}
+    if (ConfiguracaoMdWSSEI::$instance == null) {
+        ConfiguracaoMdWSSEI::$instance = new ConfiguracaoMdWSSEI();
+    }
+      return ConfiguracaoMdWSSEI::$instance;
+  }
 
     /**
      * Definição dos parâmetro de configuração do módulo
      *
      * @return array
      */
-    public function getArrConfiguracoes()
+  public function getArrConfiguracoes()
     {
-        return array(
+      return array(
 
-            'WSSEI' => array(
-                // URL do serviço de notificação PUSH
-                'UrlServicoNotificacao' => '{URL do serviço de notificação}',
+          'WSSEI' => array(
+              // URL do serviço de notificação PUSH
+              'UrlServicoNotificacao' => '{URL do serviço de notificação}',
 
-                // ID do app registrado no serviço de notificação
-                'IdApp' => '{ID do app registrado no serviço de notificação}',
+              // ID do app registrado no serviço de notificação
+              'IdApp' => '{ID do app registrado no serviço de notificação}',
 
-                // Chave de autorização do serviço de notificação
-                'ChaveAutorizacao' => '{Chave de autorização do serviço de notificação}',
+              // Chave de autorização do serviço de notificação
+              'ChaveAutorizacao' => '{Chave de autorização do serviço de notificação}',
 
-                // Chave unica com pelo menos 32 chars. Pode usar o comando uuidgen para gerar
-                'TokenSecret' => '{chave unica com pelo menos 32 chars. Pode usar o comando uuidgen para gerar}'
-            ),
-        );
-    }
+              // Chave unica com pelo menos 32 chars. Pode usar o comando uuidgen para gerar
+              'TokenSecret' => '{chave unica com pelo menos 32 chars. Pode usar o comando uuidgen para gerar}'
+          ),
+      );
+  }
 }

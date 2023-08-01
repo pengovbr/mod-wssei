@@ -9,7 +9,7 @@
 
 class ConfiguracaoMdWSSEI extends InfraConfiguracao  {
 
-	private static $instance = null;
+  private static $instance = null;
 
     /**
      * Obtém instância única (singleton) dos dados de configuração do módulo de integração
@@ -17,28 +17,28 @@ class ConfiguracaoMdWSSEI extends InfraConfiguracao  {
      *
      * @return ConfiguracaoMdWSSEI
      */
-    public static function getInstance()
+  public static function getInstance()
     {
-		if (ConfiguracaoMdWSSEI::$instance == null) {
-			ConfiguracaoMdWSSEI::$instance = new ConfiguracaoMdWSSEI();
-		}
-		return ConfiguracaoMdWSSEI::$instance;
-	}
+    if (ConfiguracaoMdWSSEI::$instance == null) {
+        ConfiguracaoMdWSSEI::$instance = new ConfiguracaoMdWSSEI();
+    }
+      return ConfiguracaoMdWSSEI::$instance;
+  }
 
     /**
      * Definição dos parâmetro de configuração do módulo
      *
      * @return array
      */
-    public function getArrConfiguracoes()
+  public function getArrConfiguracoes()
     {
-        return array(
-            'WSSEI' => array(
-                'UrlServicoNotificacao' => getenv('MOD_WSSEI_URL_SERVICO_NOTIFICACAO'),
-                'IdApp' => getenv('MOD_WSSEI_ID_APP'),
-                'ChaveAutorizacao' => getenv('MOD_WSSEI_CHAVE_AUTORIZACAO'),
-                'TokenSecret' => getenv('MOD_WSSEI_TOKEN_SECRET')
-            ),
-        );
-    }
+      return array(
+          'WSSEI' => array(
+              'UrlServicoNotificacao' => getenv('MOD_WSSEI_URL_SERVICO_NOTIFICACAO'),
+              'IdApp' => getenv('MOD_WSSEI_ID_APP'),
+              'ChaveAutorizacao' => getenv('MOD_WSSEI_CHAVE_AUTORIZACAO'),
+              'TokenSecret' => getenv('MOD_WSSEI_TOKEN_SECRET')
+          ),
+      );
+  }
 }

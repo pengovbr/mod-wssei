@@ -9,81 +9,81 @@ class VersaoSipRN extends InfraScriptVersao
     const PARAMETRO_VERSAO_MODULO = 'VERSAO_MODULO_WSSEI';
     const NOME_MODULO = 'Módulo de WSSEI - SIP';
 
-    public function __construct()
+  public function __construct()
     {
-        parent::__construct();
-    }
+      parent::__construct();
+  }
 
-    protected function inicializarObjInfraIBanco()
+  protected function inicializarObjInfraIBanco()
     {
-        return BancoSip::getInstance();
-    }
+      return BancoSip::getInstance();
+  }
 
-    protected function verificarVersaoInstaladaControlado()
+  protected function verificarVersaoInstaladaControlado()
     {
-        $objInfraParametroDTO = new InfraParametroDTO();
-        $objInfraParametroDTO->setStrNome(VersaoSipRN::PARAMETRO_VERSAO_MODULO);
-        $objInfraParametroDB = new InfraParametroBD(BancoSip::getInstance());
-        if ($objInfraParametroDB->contar($objInfraParametroDTO) == 0) {
-            $objInfraParametroDTO->setStrValor('0.0.0');
-            $objInfraParametroDB->cadastrar($objInfraParametroDTO);
-        }
+      $objInfraParametroDTO = new InfraParametroDTO();
+      $objInfraParametroDTO->setStrNome(VersaoSipRN::PARAMETRO_VERSAO_MODULO);
+      $objInfraParametroDB = new InfraParametroBD(BancoSip::getInstance());
+    if ($objInfraParametroDB->contar($objInfraParametroDTO) == 0) {
+        $objInfraParametroDTO->setStrValor('0.0.0');
+        $objInfraParametroDB->cadastrar($objInfraParametroDTO);
     }
+  }
 
-    public function versao_0_0_0($strVersaoAtual)
+  public function versao_0_0_0($strVersaoAtual)
     {
-        $this->logar("VERSÃO 0.0.0 atualizada.");
-    }
+      $this->logar("VERSÃO 0.0.0 atualizada.");
+  }
 
-    public function versao_0_8_12($strVersaoAtual)
+  public function versao_0_8_12($strVersaoAtual)
     {
-        $this->logar("VERSÃO 0.8.12 atualizada.");
-    }
+      $this->logar("VERSÃO 0.8.12 atualizada.");
+  }
 
-    public function versao_1_0_0($strVersaoAtual)
+  public function versao_1_0_0($strVersaoAtual)
     {
-        $this->logar("VERSÃO 1.0.0 atualizada.");
-    }
+      $this->logar("VERSÃO 1.0.0 atualizada.");
+  }
 
-    public function versao_1_0_1($strVersaoAtual)
+  public function versao_1_0_1($strVersaoAtual)
     {
-        $this->logar("VERSÃO 1.0.1 atualizada.");
-    }
+      $this->logar("VERSÃO 1.0.1 atualizada.");
+  }
 
-    public function versao_1_0_2($strVersaoAtual)
+  public function versao_1_0_2($strVersaoAtual)
     {
-        $this->logar("VERSÃO 1.0.2 atualizada.");
-    }
+      $this->logar("VERSÃO 1.0.2 atualizada.");
+  }
 
-    public function versao_1_0_3($strVersaoAtual)
+  public function versao_1_0_3($strVersaoAtual)
     {
-        $this->logar("VERSÃO 1.0.3 atualizada.");
-    }
+      $this->logar("VERSÃO 1.0.3 atualizada.");
+  }
 
-    public function versao_1_0_4($strVersaoAtual)
+  public function versao_1_0_4($strVersaoAtual)
     {
-        $this->logar("VERSÃO 1.0.4 atualizada.");
-    }
+      $this->logar("VERSÃO 1.0.4 atualizada.");
+  }
 
-    public function versao_2_0_0($strVersaoAtual)
+  public function versao_2_0_0($strVersaoAtual)
     {
-        $this->logar("VERSÃO 2.0.0 atualizada.");
-    }
+      $this->logar("VERSÃO 2.0.0 atualizada.");
+  }
 
-    public function versao_2_1_0($strVersaoAtual)
+  public function versao_2_1_0($strVersaoAtual)
     {
-        $this->logar("VERSÃO $strVersaoAtual atualizada.");
-    }
+      $this->logar("VERSÃO $strVersaoAtual atualizada.");
+  }
 
-    public function versao_2_1_1($strVersaoAtual)
+  public function versao_2_1_1($strVersaoAtual)
     {
-        $this->logar("VERSÃO $strVersaoAtual atualizada.");
-    }  
+      $this->logar("VERSÃO $strVersaoAtual atualizada.");
+  }  
 
-    public function versao_2_1_2($strVersaoAtual)
+  public function versao_2_1_2($strVersaoAtual)
     {
-        $this->logar("VERSÃO $strVersaoAtual atualizada.");
-    }
+      $this->logar("VERSÃO $strVersaoAtual atualizada.");
+  }
 }
 
 try {
@@ -123,9 +123,9 @@ try {
     $objVersaoSipRN->atualizarVersao();
 } catch (Exception $e) {
     echo (InfraException::inspecionar($e));
-    try {
-        LogSip::getInstance()->gravar(InfraException::inspecionar($e));
-    } catch (Exception $e) {
-    }
+  try {
+      LogSip::getInstance()->gravar(InfraException::inspecionar($e));
+  } catch (Exception $e) {
+  }
     exit(1);
 }

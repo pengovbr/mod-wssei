@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PHP_CodeSniffer" xsi:noNamespaceSchemaLocation="phpcs.xsd">
+    <description>Padrão de codificação para o projeto SEI, SIP e INFRA</description>
+    
+    <config name="installed_paths" value="vendor/pheromone/phpcs-security-audit,vendor/phpcompatibility/php-compatibility" />
+    <config name="minimum_supported_wp_version" value="4.4.0" />
+    <config name="testVersion" value="7.3-"/>
+
+    <file>src</file>
+
+    <exclude-pattern>*/tests/*</exclude-pattern>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>/infra_php/*</exclude-pattern>
+
+    <arg name="extensions" value="php"/>
+    <arg name="colors"/>
+    <arg name="parallel" value="75"/>
+    <arg value="np"/>
+
+    <!-- Configuração de regras de auditoria de segurança -->
+    <rule ref="vendor/pheromone/phpcs-security-audit/example_base_ruleset.xml"/>
+
+    <!-- Configuração de regras de compatibilidade do código PHP, versão 7.3.x -->
+    <rule ref="PHPCompatibility"/>
+
+    <!-- Inclui o padrão PSR12 como um todo, removendo regras incompatíveis com o padrão adotado pelo SEI -->
+    <rule ref="PSR12">
+        <!-- <exclude name="Generic.ControlStructures.InlineControlStructure"/> -->
+        <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine" />
+        <!-- <exclude name="Generic.Files.ByteOrderMark" /> -->
+        <!-- <exclude name="Generic.Files.LineEndings"/> -->
+        <!-- <exclude name="Generic.Files.LineLength"/> -->
+        <!-- <exclude name="Generic.Formatting.DisallowMultipleStatements" /> -->
+        <!-- <exclude name="Generic.Functions.FunctionCallArgumentSpacing" /> -->
+        <!-- <exclude name="Generic.NamingConventions.UpperCaseConstantName" /> -->
+        <!-- <exclude name="Generic.PHP.DisallowAlternativePHPTags" /> -->
+        <exclude name="Generic.PHP.DisallowShortOpenTag" />
+        <!-- <exclude name="Generic.PHP.LowerCaseConstant" /> -->
+        <!-- <exclude name="Generic.PHP.LowerCaseKeyword" /> -->
+        <!-- <exclude name="Generic.PHP.LowerCaseType" /> -->
+        <!-- <exclude name="Generic.WhiteSpace.DisallowTabIndent" /> -->
+        <!-- <exclude name="Generic.WhiteSpace.IncrementDecrementSpacing" /> -->
+        <!-- <exclude name="Generic.WhiteSpace.ScopeIndent" /> -->
+        <!-- <exclude name="PEAR.Functions.ValidDefaultValue" /> -->
+        <exclude name="PSR1.Classes.ClassDeclaration" />
+        <exclude name="PSR1.Files.SideEffects" />
+        <!-- <exclude name="PSR1.Methods.CamelCapsMethodName" /> -->
+        <!-- <exclude name="PSR12.Classes.AnonClassDeclaration" /> -->
+        <!-- <exclude name="PSR12.Classes.ClassInstantiation" /> -->
+        <!-- <exclude name="PSR12.Classes.ClosingBrace" /> -->
+        <exclude name="PSR12.Classes.OpeningBraceSpace" />
+        <!-- <exclude name="PSR12.ControlStructures.BooleanOperatorPlacement" /> -->
+        <!-- <exclude name="PSR12.ControlStructures.ControlStructureSpacing" /> -->
+        <!-- <exclude name="PSR12.Files.DeclareStatement" /> -->
+        <exclude name="PSR12.Files.FileHeader" />
+        <!-- <exclude name="PSR12.Files.ImportStatement" /> -->
+        <!-- <exclude name="PSR12.Files.OpenTag" /> -->
+        <!-- <exclude name="PSR12.Functions.NullableTypeDeclaration" /> -->
+        <!-- <exclude name="PSR12.Functions.ReturnTypeDeclaration" /> -->
+        <!-- <exclude name="PSR12.Keywords.ShortFormTypeKeywords" /> -->
+        <!-- <exclude name="PSR12.Namespaces.CompoundNamespaceDepth" /> -->
+        <!-- <exclude name="PSR12.Operators.OperatorSpacing" /> -->
+        <!-- <exclude name="PSR12.Properties.ConstantVisibility" /> -->
+        <!-- <exclude name="PSR12.Traits.UseDeclaration" /> -->
+        <exclude name="PSR2.Classes.ClassDeclaration" />
+        <!-- <exclude name="PSR2.Classes.PropertyDeclaration" /> -->
+        <!-- <exclude name="PSR2.ControlStructures.ElseIfDeclaration" /> -->
+        <!-- <exclude name="PSR2.ControlStructures.SwitchDeclaration" /> -->
+        <exclude name="PSR2.Files.ClosingTag" />
+        <exclude name="PSR2.Files.EndFileNewline" />
+        <!-- <exclude name="PSR2.Methods.FunctionCallSignature" /> -->
+        <!-- <exclude name="PSR2.Methods.FunctionClosingBrace" /> -->
+        <!-- <exclude name="PSR2.Methods.MethodDeclaration" /> -->
+        <!-- <exclude name="Squiz.Classes.ValidClassName" /> -->
+        <!-- <exclude name="Squiz.ControlStructures.ControlSignature" /> -->
+        <!-- <exclude name="Squiz.ControlStructures.ForEachLoopDeclaration" /> -->
+        <!-- <exclude name="Squiz.ControlStructures.ForLoopDeclaration" /> -->
+        <!-- <exclude name="Squiz.ControlStructures.LowercaseDeclaration" /> -->
+        <!-- <exclude name="Squiz.Functions.FunctionDeclaration" /> -->
+        <!-- <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing" /> -->
+        <!-- <exclude name="Squiz.Functions.LowercaseFunctionKeywords" /> -->
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration" />
+        <!-- <exclude name="Squiz.Scope.MethodScope" /> -->
+        <!-- <exclude name="Squiz.WhiteSpace.CastSpacing" /> -->
+        <!-- <exclude name="Squiz.WhiteSpace.ControlStructureSpacing" /> -->
+        <!-- <exclude name="Squiz.WhiteSpace.ScopeClosingBrace" /> -->
+        <!-- <exclude name="Squiz.WhiteSpace.ScopeKeywordSpacing" /> -->
+        <!-- <exclude name="Squiz.WhiteSpace.SuperfluousWhitespace" /> -->
+    </rule>    
+
+    <!-- Inclui algumas regras específicas não pertencentes ao PSR12, mas compatíveis com o padrão de codificação adotado pelo SEI -->
+    <!-- <rule ref="Generic.Classes.OpeningBraceSameLine" /> -->
+    <!-- <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie" /> -->
+    <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter" />  
+    <rule ref="Generic.Metrics.NestingLevel" />  
+    <rule ref="Generic.VersionControl.GitMergeConflict" />  
+    <rule ref="Generic.VersionControl.SubversionProperties" />  
+
+    <!-- TODO: Implementar sniffs específicos para validação de prefíxos obrigatórios em variáveis (obj, num, str, bol) -->
+    <!-- TODO: Implementar regra específica para validação de sufixos 'Controlado' e 'Conectado' nos métodos protegidos das RNs -->
+
+    <!-- Modificação dos padrões de determinadas regras, compatibilizando com o padrão de codificação adotado pelo SEI-->
+    <rule ref="Generic.Metrics.CyclomaticComplexity">
+        <properties>
+            <property name="complexity" value="10" />
+            <property name="absoluteComplexity" value="20"/>
+        </properties>
+    </rule>
+
+
+    <rule ref="Generic.ControlStructures.InlineControlStructure">
+        <properties>
+            <property name="error" value="true" />
+        </properties>
+    </rule>
+
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120" />
+            <property name="ignoreComments" value="true"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="indent" value="2" />
+            <property name="exact" value="false"/>
+        </properties>
+    </rule>
+
+    <rule ref="PSR1.Methods.CamelCapsMethodName">
+        <exclude-pattern>src/sei/scripts/*</exclude-pattern>
+        <exclude-pattern>src/sip/scripts/*</exclude-pattern>
+    </rule>
+
+    <rule ref="PSR12.ControlStructures.ControlStructureSpacing">
+        <severity>3</severity>
+        <type>warning</type>
+    </rule>
+
+    <rule ref="PSR12.Operators.OperatorSpacing">
+        <severity>3</severity>
+        <type>warning</type>
+    </rule>
+
+    <rule ref="PSR2.Methods.FunctionCallSignature">
+        <severity>3</severity>
+        <type>warning</type>
+    </rule>
+
+    <rule ref="PSR2.Methods.FunctionClosingBrace">
+        <severity>3</severity>
+        <type>warning</type>
+    </rule>
+
+    <rule ref="Squiz.ControlStructures.ControlSignature">
+        <severity>3</severity>
+        <type>warning</type>
+    </rule>
+
+    <rule ref="Squiz.WhiteSpace.ControlStructureSpacing">
+        <severity>3</severity>
+        <type>warning</type>
+    </rule>
+
+    <rule ref="Squiz.WhiteSpace.ScopeClosingBrace">
+        <severity>3</severity>
+    </rule>
+
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
+        <severity>3</severity>
+        <type>warning</type>
+    </rule>
+
+    <rule ref="Generic.Classes.OpeningBraceSameLine">
+        <severity>3</severity>
+        <type>warning</type>
+    </rule>
+
+    <rule ref="Internal.Tokenizer.Exception">
+        <type>error</type>
+    </rule>
+</ruleset>

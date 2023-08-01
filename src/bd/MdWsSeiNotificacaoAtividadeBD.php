@@ -7,10 +7,10 @@
 class MdWsSeiNotificacaoAtividadeBD extends InfraBD
 {
 
-    public function __construct(InfraIBanco $objInfraIBanco)
+  public function __construct(InfraIBanco $objInfraIBanco)
     {
-        parent::__construct($objInfraIBanco);
-    }
+      parent::__construct($objInfraIBanco);
+  }
 
 }
 
