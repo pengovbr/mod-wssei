@@ -22,7 +22,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 }
             }
         }catch(Exception $e){
-            throw new InfraException('Falha na conexção com o Sistema de Permissões.',$e);
+            throw new InfraException('Falha na conexï¿½ï¿½o com o Sistema de Permissï¿½es.', $e);
         }
 
         try{
@@ -35,7 +35,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
             );
             return $objSipWS;
         }catch(Exception $e){
-            throw new InfraException('Erro acessando o Sistema de Permissões.');
+            throw new InfraException('Erro acessando o Sistema de Permissï¿½es.');
         }
     }
 
@@ -59,7 +59,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
     }
 
     /**
-     * Método que criptografa o token
+     * Mï¿½todo que criptografa o token
      * @param $sigla
      * @param $senha
      * @param null $orgao
@@ -98,7 +98,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
         
         $token = $this->getTokenSecret();
         if((!$token) || (strlen($token)<32)){
-            throw new InfraException('Token Secret inexistente ou tamanho menor que o permitido! Verifique o manual de instalação do módulo.');
+            throw new InfraException('Token Secret inexistente ou tamanho menor que o permitido! Verifique o manual de instalaï¿½ï¿½o do mï¿½dulo.');
         }
         
         $data = new DateTime();
@@ -117,7 +117,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
         $_GET['id_usuario'] = $loginData['IdUsuario'];
         $_GET['hash_agente'] = SessaoSEI::gerarHashAgente();
         $_GET['infra_sip'] = true;
-        $_GET['id_contexto'] = $loginData['IdContexto'];;
+        $_GET['id_contexto'] = $loginData['IdContexto'];
     }
 
     /**
@@ -131,7 +131,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
 
             $tokenData = $this->tokenDecode($token);
             if(!$tokenData){
-                throw new InfraException('Token inválido!');
+                throw new InfraException('Token invï¿½lido!');
             }
             $usuarioDTO = new UsuarioDTO();
             $usuarioDTO->setStrSigla($tokenData[0]);
@@ -196,7 +196,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
 
             if(!$ret){
                 sleep(3);
-                throw new InfraException('Usuário ou senha inválido!');
+                throw new InfraException('Usuï¿½rio ou senha invï¿½lido!');
             }
 
             $this->setaVariaveisAutenticacao(get_object_vars($ret));
@@ -279,7 +279,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
             $contexto = null;
             $orgao = $orgaoDTO->getNumIdOrgao();
             $siglaOrgao = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema');
-            $strChaveAcesso = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI','ChaveAcesso');
+            $strChaveAcesso = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'ChaveAcesso');
             $orgaoRN = new OrgaoRN();
 
             if(is_null($orgao)){
@@ -309,7 +309,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
 
             if(!$ret){
                 sleep(3);
-                throw new InfraException('Usuário ou senha inválido!');
+                throw new InfraException('Usuï¿½rio ou senha invï¿½lido!');
             }
             
             $this->setaVariaveisAutenticacao(get_object_vars($ret));
@@ -331,7 +331,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
                 $numIdCargoAssinatura = $objAssinanteDTO->getNumIdAssinante();
             }
             
-            //dados usuário
+            //dados usuï¿½rio
             $ret->IdUnidadeAtual = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
             $ret->sigla = $usuarioDTO->getStrSigla();
             $ret->nome = SessaoSEI::getInstance()->getStrNomeUsuario();
@@ -370,7 +370,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
     }
 
     /**
-     * Método que retorna os perfis do usuário
+     * Mï¿½todo que retorna os perfis do usuï¿½rio
      * @param $strChaveAcesso
      * @param $idSistema
      * @param $idUsuario
@@ -427,7 +427,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
             $usuarioRN = new UsuarioRN();
             $arrUsuarioDTO = $usuarioRN->listarPorUnidadeRN0812($unidadeDTO);
 
-            //Paginação lógica pois o SIP não retorna os usuários paginados...
+            //Paginaï¿½ï¿½o lï¿½gica pois o SIP nï¿½o retorna os usuï¿½rios paginados...
             $total = count($arrUsuarioDTO);
             $paginado = array_slice($arrUsuarioDTO, ($limit*$start), $limit);
             /** @var UsuarioDTO $usuarioDTO */
@@ -464,7 +464,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
     }
 
     /**
-     * Altera a unidade atual do Usuário
+     * Altera a unidade atual do Usuï¿½rio
      * @param $idUnidade
      */
     public function alterarUnidadeAtual($idUnidade){
@@ -479,17 +479,17 @@ class MdWsSeiUsuarioRN extends InfraRN {
     }
 
     /**
-     * Retorna as unidades do usuário
+     * Retorna as unidades do usuï¿½rio
      * @param UsuarioDTO $usuarioDTO
      */
     public function listarUnidadesUsuarioConectado(UsuarioDTO $usuarioDTO){
         try{
             $objInfraSip = new InfraSip(SessaoSEI::getInstance());
             $ret = array_values($objInfraSip->carregarUnidades(SessaoSEI::getInstance()->getNumIdSistema(), $usuarioDTO->getNumIdUsuario()));
-            InfraArray::ordenarArray($ret,InfraSip::$WS_UNIDADE_SIGLA,InfraArray::$TIPO_ORDENACAO_ASC);
+            InfraArray::ordenarArray($ret, InfraSip::$WS_UNIDADE_SIGLA, InfraArray::$TIPO_ORDENACAO_ASC);
             $result = array();
             foreach($ret as $uni){
-                //somente unidades ativas, todas as unidades de outros usuários, se for o usuário atual não mostra a unidade atual
+                //somente unidades ativas, todas as unidades de outros usuï¿½rios, se for o usuï¿½rio atual nï¿½o mostra a unidade atual
                 if ($uni[InfraSip::$WS_UNIDADE_SIN_ATIVO]=='S' && ($usuarioDTO->getNumIdUsuario() != SessaoSEI::getInstance()->getNumIdUsuario() ||$uni[InfraSip::$WS_UNIDADE_ID] != SessaoSEI::getInstance()->getNumIdUnidadeAtual())){
                     $result[] = array(
                         'id' => $uni[InfraSip::$WS_UNIDADE_ID],
@@ -506,7 +506,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
     }
 
     /**
-     * Pesquisa o usuário pelo nome
+     * Pesquisa o usuï¿½rio pelo nome
      * @param $palavrachave
      * @param null $orgao
      * @return array
@@ -514,7 +514,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
     public function apiPesquisarUsuario($palavrachave, $orgao = null){
         try{
             $result = array();
-            $arrUsuarioDTO = UsuarioINT::autoCompletarUsuarios($orgao,$palavrachave,false,false,true,false);
+            $arrUsuarioDTO = UsuarioINT::autoCompletarUsuarios($orgao, $palavrachave, false, false, true, false);
             /** @var UsuarioDTO $usuarioDTO */
             foreach($arrUsuarioDTO as $usuarioDTO){
                 $result[] = array(

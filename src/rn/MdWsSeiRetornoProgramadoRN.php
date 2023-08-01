@@ -3,34 +3,34 @@ require_once DIR_SEI_WEB . '/SEI.php';
 
 class MdWsSeiRetornoProgramadoRN extends InfraRN {
 
-    protected function inicializarObjInfraIBanco(){
-        return BancoSEI::getInstance();
+  protected function inicializarObjInfraIBanco(){
+      return BancoSEI::getInstance();
+  }
+
+  public function encapsulaRetornoProgramado(array $post){
+      $retornoProgramadoDTO = new RetornoProgramadoDTO();
+      $retornoProgramadoDTO->setNumIdRetornoProgramado(null);
+      $retornoProgramadoDTO->setDthAlteracao(null);
+    if (isset($post['usuario'])) {
+        $retornoProgramadoDTO->setNumIdUsuario($post['usuario']);
+    }else{
+        $retornoProgramadoDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
     }
 
-    public function encapsulaRetornoProgramado(array $post){
-        $retornoProgramadoDTO = new RetornoProgramadoDTO();
-        $retornoProgramadoDTO->setNumIdRetornoProgramado(null);
-        $retornoProgramadoDTO->setDthAlteracao(null);
-        if (isset($post['usuario'])) {
-            $retornoProgramadoDTO->setNumIdUsuario($post['usuario']);
-        }else{
-            $retornoProgramadoDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
-        }
-
-        if (isset($post['atividadeEnvio'])) {
-            $retornoProgramadoDTO->setNumIdAtividadeEnvio($post['atividadeEnvio']);
-        }
-
-        if (isset($post['unidade'])) {
-            $retornoProgramadoDTO->setNumIdUnidade($post['unidade']);
-        }
-
-        if (isset($post['dtProgramada'])) {
-            $retornoProgramadoDTO->setDtaProgramada($post['dtProgramada']);
-        }
-
-        return $retornoProgramadoDTO;
+    if (isset($post['atividadeEnvio'])) {
+        $retornoProgramadoDTO->setNumIdAtividadeEnvio($post['atividadeEnvio']);
     }
+
+    if (isset($post['unidade'])) {
+        $retornoProgramadoDTO->setNumIdUnidade($post['unidade']);
+    }
+
+    if (isset($post['dtProgramada'])) {
+        $retornoProgramadoDTO->setDtaProgramada($post['dtProgramada']);
+    }
+
+      return $retornoProgramadoDTO;
+  }
 
     /**
      * Metodo que agenda um retorno programado
@@ -38,15 +38,15 @@ class MdWsSeiRetornoProgramadoRN extends InfraRN {
      * @info metodo auxiliar encapsulaRetornoProgramado para facilitar encapsulamento
      * @return array
      */
-    protected function agendarRetornoProgramadoControlado(RetornoProgramadoDTO $retornoProgramadoDTO){
-        try{
-            $retornoProgramadoRN = new RetornoProgramadoRN();
-            $retornoProgramadoRN->cadastrar($retornoProgramadoDTO);
+  protected function agendarRetornoProgramadoControlado(RetornoProgramadoDTO $retornoProgramadoDTO){
+    try{
+        $retornoProgramadoRN = new RetornoProgramadoRN();
+        $retornoProgramadoRN->cadastrar($retornoProgramadoDTO);
 
-            return MdWsSeiRest::formataRetornoSucessoREST('Retorno Programado agendado com sucesso!');
-        }catch (Exception $e){
-            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-            return MdWsSeiRest::formataRetornoErroREST($e);
-        }
+        return MdWsSeiRest::formataRetornoSucessoREST('Retorno Programado agendado com sucesso!');
+    }catch (Exception $e){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
+        return MdWsSeiRest::formataRetornoErroREST($e);
     }
+  }
 }

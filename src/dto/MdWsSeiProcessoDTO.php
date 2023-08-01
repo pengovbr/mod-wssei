@@ -7,15 +7,15 @@
  */
 class MdWsSeiProcessoDTO extends InfraDTO{
 
-    public function getStrNomeTabela()
+  public function getStrNomeTabela()
     {
-        throw new InfraException('DTO nao utilizavel para consulta!');
-    }
+      throw new InfraException('DTO nao utilizavel para consulta!');
+  }
 
-    public function montar(){
-        $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'Template');
-        $this->adicionarAtributo(InfraDTO::$PREFIXO_NUM, 'IdAtividade');
-        $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'Valor');
-    }
+  public function montar(){
+      $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'Template');
+      $this->adicionarAtributo(InfraDTO::$PREFIXO_NUM, 'IdAtividade');
+      $this->adicionarAtributo(InfraDTO::$PREFIXO_STR, 'Valor');
+  }
 
 }

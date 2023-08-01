@@ -9,16 +9,19 @@ require_once dirname(__FILE__) . '/vendor/autoload.php';
 
 session_start();
 
-if(empty($_REQUEST['id_documento']))
+if(empty($_REQUEST['id_documento'])) {
     throw new InfraException('Deve ser passado valor para o (id_documento).');
+}
 
-if(empty($_REQUEST['token']))
+if(empty($_REQUEST['token'])) {
     throw new InfraException('Deve ser passado token no header.');
+}
 
 $token = $_REQUEST['token'];
 
-if(!$token)
+if(!$token) {
     return new InfraException('Acesso negado!');
+}
 
 $rn = new MdWsSeiUsuarioRN();
 
@@ -47,8 +50,9 @@ $protocoloDTO = $protocoloRN->consultarRN0005($protocoloDTO);
 
 $modoAssinatura = $_REQUEST['modo_assinatura'] ?: 'Default';
 
-if(empty($protocoloDTO))
+if(empty($protocoloDTO)) {
     return new InfraException('Documento não encontrado');
+}
 
 
 $linkassinado = SessaoSEI::getInstance()->assinarLink('/sei/controlador.php?acao=md_wssei_editor_externo_montar&acao_origem=md_wssei_editor_externo_montar&id_procedimento=' . $protocoloDTO->getDblIdProcedimento() . '&id_documento=' . $_REQUEST['id_documento']. '&modo_assinatura='.$modoAssinatura);
