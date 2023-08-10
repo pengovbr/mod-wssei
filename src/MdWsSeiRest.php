@@ -23,7 +23,7 @@ class MdWsSeiRest extends SeiIntegracao
 
   public function getInstituicao()
     {
-      return 'ME - Ministério da Economia';
+      return 'Ministério da Gestão e da Inovação em Serviços Públicos - MGI';
   }
 
 
