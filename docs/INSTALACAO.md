@@ -11,7 +11,7 @@
 
 ### Primeira Etapa: Instalar o módulo de integração no servidor de aplicação do SEI
 
-1. Baixar a última versão do pacote de instalação do sistema (arquivo `mod-wssei-[VERSÃO].zip`) localizado na página de [Releases do projeto MOD-WSSEI](https://github.com/spbgovbr/mod-wssei/releases), seção **Assets**.
+1. Baixar a última versão do pacote de instalação do sistema (arquivo `mod-wssei-[VERSÃO].zip`) localizado na página de [Releases do projeto MOD-WSSEI](https://github.com/pengovbr/mod-wssei/releases), seção **Assets**.
 
 2. Fazer backup dos diretórios "sei", "sip" do servidor web;
 
@@ -27,7 +27,7 @@
    ```
    'SEI' => ARRAY(
                 ( ...)
-                'Modulos' => array('MdWsSeiRest' => 'mod-wssei/')
+                'Modulos' => array('MdWsSeiRest' => 'wssei/')
         ),
    ```
 6. Copiar o arquivo ConfiguracaoMdWSSEI.exemplo.php (<DIRETÓRIO RAIZ DE INSTALAÇÃO DO SEI>/sei/config/mod-wssei/ConfiguracaoMdWSSEI.exemplo.php) para ConfiguracaoMdWSSEI.php (<DIRETÓRIO RAIZ DE INSTALAÇÃO DO SEI>/sei/config/mod-wssei/ConfiguracaoMdWSSEI.php)
