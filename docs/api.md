@@ -56,7 +56,7 @@ O parâmetro "token" também é reaproveitado em outras chamadas e deve ser pree
 
 Temos também a disposição um cenário de teste completo tomando por base um SEI zerado iniciando com a base de referência do poder executivo.
 
-Maiores detalhes acesse a área de Teste nesse projeto clicando aqui [Testes da API](../testes/README.md)
+Maiores detalhes acesse a área de Teste nesse projeto clicando aqui [Testes da API](../tests/README.md)
 
 ---
 [Retornar ao Início](../README.md)
