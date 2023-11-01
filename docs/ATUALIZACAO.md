@@ -33,9 +33,19 @@
 
 7.  Verificar se o módulo foi carregado por meio do menu Infra/Módulos do SEI
 
-8.  Verificar se o banco de dados foi corretamente atualizado por meio do menu Infra/Parâmetros do SEI (chave VERSAO_MODULO_WSSEI)
+8.  Verificar se a configuração no arquivo ConfiguracaoSEI.php está apontando para o correto módulo do WSSEI.
 
-9.  Verificar se o agendamento para as notificações foi corretamente criado (tela Infra/Agendamentos):
+   Exemplo:
+   ```
+   'SEI' => ARRAY(
+                ( ...)
+                'Modulos' => array('MdWsSeiRest' => 'wssei/')
+        ),
+   ```
+
+9.  Verificar se o banco de dados foi corretamente atualizado por meio do menu Infra/Parâmetros do SEI (chave VERSAO_MODULO_WSSEI)
+
+10.  Verificar se o agendamento para as notificações foi corretamente criado (tela Infra/Agendamentos):
    ```bash
    MdWsSeiAgendamentoRN :: notificacaoAtividades
    ```
