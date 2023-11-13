@@ -224,6 +224,15 @@ tests-api:
             --working-dir .\
             -r cli,htmlextra
 
+tests-api-v3:
+	@echo "Substituindo as envs para o Newman"
+	@envsubst < tests/Postman/SEI.postman_environment_v3.json > tests/Postman/SEI.postman_environment_substituido_v3.json
+	@echo "Vamos iniciar a execução do postman/newman"
+	@docker run --network="host" -t -v $(shell pwd)/tests/Postman:/etc/newman dannydainton/htmlextra run Wssei-Tests.postman_collection.json\
+	        --environment SEI.postman_environment_substituido_v3.json\
+            --working-dir .\
+            -r cli,htmlextra
+			
 help:
 	@echo "Usage: make [target] ... \n"
 	@grep -E '^[a-zA-Z_-]+[[:space:]]*:.*?## .*$$' Makefile | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
