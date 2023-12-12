@@ -1,5 +1,5 @@
 
-# Módulo Rest WSSEI [![Testes da API](https://github.com/pengovbr/mod-wssei/actions/workflows/tests.yml/badge.svg)](https://github.com/pengovbr/mod-wssei/actions/workflows/tests.yml)
+# Módulo Rest WSSEI [![PHP_CodeSniffer](https://github.com/pengovbr/mod-wssei/actions/workflows/phpcs.yml/badge.svg)](https://github.com/pengovbr/mod-wssei/actions/workflows/phpcs.yml) [![Testes da API](https://github.com/pengovbr/mod-wssei/actions/workflows/tests.yml/badge.svg)](https://github.com/pengovbr/mod-wssei/actions/workflows/tests.yml)
 
 O módulo **WSSEI** é o responsável por disponibilizar no Sistema Eletrônico de Informações - SEI endpoints REST para o SEI. 
 
