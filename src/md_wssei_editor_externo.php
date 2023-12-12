@@ -417,7 +417,7 @@ try {
         objAjax.prepararExecucao = function(){
             window._idProtocolo = '';
             window._protocoloFormatado = '';
-            return 'idProtocoloDigitado='+window._procedimento+"&idProcedimento=<?=$_GET["id_procedimento"];?>&idDocumento=<?=$_GET["id_documento"];?>";
+            return 'idProtocoloDigitado='+window._procedimento+"&idProcedimento=<?=htmlspecialchars($_GET["id_procedimento"]);?>&idDocumento=<?htmlspecialchars=$_GET["id_documento"]);?>";
         };
 
         objAjax.processarResultado = function (arr){
@@ -883,7 +883,7 @@ try {
 </head>
 <body onload="inicializar();" style="margin: 5px;">
 <div id='divCarregando'><h2>Carregando...</h2></div>
-<form id="frmEditor" style="hidden:true;margin: 0px;" method="post" target="ifrEditorSalvar" action="<?=SessaoSEI::getInstance()->assinarLink('editor/editor_processar.php?acao=editor_salvar&acao_origem='.$_GET['acao'].$strParametros)?>">
+<form id="frmEditor" style="hidden:true;margin: 0px;" method="post" target="ifrEditorSalvar" action="<?=SessaoSEI::getInstance()->assinarLink('editor/editor_processar.php?acao=editor_salvar&acao_origem='.htmlspecialchars($_GET['acao']).$strParametros)?>">
     <div id="divComandos" style="margin:0px;"></div>
     <?
     if (PaginaSEI::getInstance()->getNumTipoBrowser()==InfraPagina::$TIPO_BROWSER_IE7 ) { echo '<br style="margin:0;font-size:1px;"/>';

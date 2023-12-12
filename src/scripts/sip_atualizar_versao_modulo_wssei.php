@@ -30,6 +30,8 @@ class VersaoSipRN extends InfraScriptVersao
     }
   }
 
+  // phpcs:disable
+
   public function versao_0_0_0($strVersaoAtual)
     {
       $this->logar("VERSÃO 0.0.0 atualizada.");
@@ -121,6 +123,8 @@ try {
     $objVersaoSipRN->setBolErroVersaoInexistente(true);
 
     $objVersaoSipRN->atualizarVersao();
+
+    // phpcs:enable
 } catch (Exception $e) {
     echo (InfraException::inspecionar($e));
   try {

@@ -19,6 +19,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
      * Método que registra os serviços a serem disponibilizados
      * @return Slim\App
      */
+
+     // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
   public function registrarServicos()
     {
       /**

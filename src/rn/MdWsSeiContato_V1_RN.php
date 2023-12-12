@@ -1,6 +1,7 @@
 <?php
 require_once DIR_SEI_WEB . '/SEI.php';
 
+//phpcs:ignore
 class MdWsSeiContato_V1_RN extends InfraRN
 {
 

@@ -1,6 +1,7 @@
 <?php
 require_once DIR_SEI_WEB . '/SEI.php';
 
+//phpcs:ignore
 class MdWsSeiProcedimento_V1_RN extends InfraRN
 {
 
@@ -1020,6 +1021,8 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
      * @param null $usuarioAtribuicaoAtividade
      * @return array
      */
+
+     // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
   private function montaRetornoListagemProcessos(array $ret, $usuarioAtribuicaoAtividade = null, $typeSource = null)
     {
 
@@ -1742,6 +1745,8 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
      * @param MdWsSeiPesquisaProtocoloSolrDTO $pesquisaProtocoloSolrDTO
      * @return array
      */
+
+     // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
   protected function pesquisarProcessosSolarConectado(MdWsSeiPesquisaProtocoloSolrDTO $pesquisaProtocoloSolrDTO)
     {
     try {

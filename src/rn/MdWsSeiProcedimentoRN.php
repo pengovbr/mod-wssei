@@ -1135,6 +1135,8 @@ class MdWsSeiProcedimentoRN extends InfraRN
      * @param null $usuarioAtribuicaoAtividade
      * @return array
      */
+
+     // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
   private function montaRetornoListagemProcessos(array $ret, $usuarioAtribuicaoAtividade = null, $typeSource = null)
     {
 
@@ -1994,6 +1996,8 @@ class MdWsSeiProcedimentoRN extends InfraRN
      * Método que monta a estrutura de pesquisa no solr
      * @param MdWsSeiPesquisaProtocoloSolrDTO $pesquisaProtocoloSolrDTO
      */
+
+     // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
   private function montaConsultaSolr(MdWsSeiPesquisaProtocoloSolrDTO $pesquisaProtocoloSolrDTO)
     {
       $partialfields = '';
