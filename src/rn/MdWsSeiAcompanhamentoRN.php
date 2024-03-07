@@ -210,7 +210,7 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
         $procedimentoDTO = $acompanhamentoDTO->getObjProcedimentoDTO();
         $anotacaoDTO = $procedimentoDTO->getObjAnotacaoDTO();
         $andamentoSituacaoDTO = $procedimentoDTO->getObjAndamentoSituacaoDTO();
-        $andamentoMarcadorDTO = $procedimentoDTO->getArrObjAndamentoMarcadorDTO();
+        $arrAndamentoMarcadorDTO = $procedimentoDTO->getArrObjAndamentoMarcadorDTO();
 
 
 
@@ -263,19 +263,22 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
                 'gerenciarSituacao' => SessaoSEI::getInstance()->verificarPermissao('andamento_situacao_gerenciar')
             );
         }
-        if($andamentoMarcadorDTO){
+        if($arrAndamentoMarcadorDTO){
+          $arrAndamentoMarcador = array();
 
-            $arrAndamentoMarcador = array(
-                'marcador' => MarcadorINT::formatarMarcadorDesativado(
-                    $andamentoMarcadorDTO->getStrNomeMarcador(),
-                    $andamentoMarcadorDTO->getStrSinAtivoMarcador()
-                ),
-                'idCor' => $andamentoMarcadorDTO->getStrStaIconeMarcador(),
-                'ativo' => $andamentoMarcadorDTO->getStrSinAtivoMarcador(),
-                'descricaoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrDescricao(),
-                'gerenciarMarcador' => SessaoSEI::getInstance()->verificarPermissao('andamento_marcador_gerenciar'),
-                'arquivoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrArquivo()
+          foreach ($arrAndamentoMarcadorDTO as $andamentoMarcadorDTO){
+            $arrAndamentoMarcador[] = array(
+                  'marcador' => MarcadorINT::formatarMarcadorDesativado(
+                      $andamentoMarcadorDTO->getStrNomeMarcador(),
+                      $andamentoMarcadorDTO->getStrSinAtivoMarcador()
+                  ),
+                  'idCor' => $andamentoMarcadorDTO->getStrStaIconeMarcador(),
+                  'ativo' => $andamentoMarcadorDTO->getStrSinAtivoMarcador(),
+                  'descricaoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrDescricao(),
+                  'gerenciarMarcador' => SessaoSEI::getInstance()->verificarPermissao('andamento_marcador_gerenciar'),
+                  'arquivoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrArquivo()
             );
+          }
         }
 
         $result[] = array(
