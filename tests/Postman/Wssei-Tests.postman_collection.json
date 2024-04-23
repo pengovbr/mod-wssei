@@ -1946,7 +1946,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseurl}}/processo/listar?id={{idProcedimento_1}}",
+							"raw": "{{baseurl}}/processo/listar",
 							"host": [
 								"{{baseurl}}"
 							],
@@ -1954,11 +1954,7 @@
 								"processo",
 								"listar"
 							],
-							"query": [
-								{
-									"key": "id",
-									"value": "{{idProcedimento_1}}"
-								},
+							"query": [								
 								{
 									"key": "limit",
 									"value": "",
