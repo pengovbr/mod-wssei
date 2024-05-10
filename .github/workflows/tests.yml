@@ -25,5 +25,5 @@ jobs:
              make prerequisites-up; sed -e '/SEI_CHAVE_ACESSO/ s/^#*/#/' -i .env; sed -e '/SIP_CHAVE_ACESSO/ s/^#*/#/' -i .env
              echo SEI_CHAVE_ACESSO=7babf8620a7056b96b13ad057eddf544e6450a62152bb6d7c5468d0f5ef546fb121e8dd2 >> .env
              echo SIP_CHAVE_ACESSO=d27791b8128bb1c95c094b99261d1abc16bc6169ccd17011f356201d1648d69862a355a6 >> .env
-             make up; cat tests/dumpWssei4.0.3.3.PreLoaded.dmp | docker exec -i mod-wssei_database_1 /usr/bin/mysql -u root --password=root
+             make up;
              make tests-api

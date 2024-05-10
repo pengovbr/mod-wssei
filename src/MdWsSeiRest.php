@@ -11,6 +11,17 @@ class MdWsSeiRest extends SeiIntegracao
     const NOME_MODULO = "MdWsSeiRest";
     const VERSAO_MODULO = "2.1.2";
 
+    // A partir da versão 2.0.0, o módulo de integração do SEI com o PEN não será mais compatível com o SEI 3.0.X
+    const COMPATIBILIDADE_MODULO_SEI = array(
+      // Versões SEI
+      '3.1.0', '3.1.1', '3.1.2', '3.1.3', '3.1.4', '3.1.5', '3.1.6', '3.1.7',
+      '4.0.0', '4.0.1' , '4.0.2' , '4.0.3', '4.0.4', '4.0.5', '4.0.6', '4.0.7',
+      '4.0.8', '4.0.9', '4.0.10', '4.0.11', '4.0.12', '4.1.1', '4.1.2', '5.0.0',
+      // Versões SUPER
+      '4.0.3.1', '4.0.3.2', '4.0.3.3', '4.0.3.4', '4.0.3.5', '4.0.4.6', '4.0.5.7',
+      '4.0.6.8', '4.0.7.9', '4.0.8.10', '4.0.9.11', '4.0.9.12', '4.0.9.13', '4.0.9.14', '4.0.12.15'
+  );
+
   public function getNome()
     {
       return 'Módulo de serviços REST';
@@ -154,9 +165,9 @@ class MdWsSeiRest extends SeiIntegracao
      */
   public function verificaCompatibilidade($strVersaoSEI)
     {
-    if (substr($strVersaoSEI, 0, 3) != '4.0') {
-        return false;
-    }
+      if(!in_array($strVersaoSEI, self::COMPATIBILIDADE_MODULO_SEI)) {
+          return false;
+      }
       return true;
   }
 

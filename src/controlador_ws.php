@@ -50,7 +50,8 @@ class ModuleVerificationMiddleware {
         );
     }
 
-    if(!MdWsSeiRest::verificaCompatibilidade(SEI_VERSAO)){
+    $objMdWsSeiRest = new MdWsSeiRest();
+    if(!$objMdWsSeiRest->verificaCompatibilidade(SEI_VERSAO)){
         return $response->withJson(
             array(
                 "sucesso" => false,
