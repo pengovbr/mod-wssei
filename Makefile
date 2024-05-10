@@ -202,7 +202,7 @@ tests-functional-validar: tests-functional-orientations
 tests-functional-prerequisites: .testselenium.env tests-functional-validar
 
 restore:
-	@cat tests/dumpWssei$(versao_dump).PreLoaded.dmp | docker exec -i mod-wssei-database-1 /usr/bin/mysql -u root --password=root
+	@cat tests/dumpWssei$(versao_dump).PreLoaded.dmp | docker exec -i $(shell docker ps --format "{{.Names}}" | grep database) /usr/bin/mysql -u root --password=root
 
 
 # roda apenas os testes, o ajuste de data inicial e a criacao do ambiente ja devem ter sido realizados
