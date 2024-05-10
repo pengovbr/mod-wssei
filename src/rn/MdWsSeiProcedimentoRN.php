@@ -1419,20 +1419,22 @@ class MdWsSeiProcedimentoRN extends InfraRN
         $andamentoMarcadorDTO->retStrTexto();
         $andamentoMarcadorDTO->retStrNomeMarcador();
         /** Consulta o componente SEI para retorno do marcador do Processo **/
-        $andamentoMarcadorDTO = $andamentoMarcadorRN->consultar($andamentoMarcadorDTO);
+        $arrAndamentoMarcadorDTO = $andamentoMarcadorRN->listar($andamentoMarcadorDTO);
         $marcadorRN = new MarcadorRN();
         /** Chama o componente SEI para retornar as cores disponíveis para o Marcador */
         $arrIconeMarcadorDTO = $marcadorRN->listarValoresIcone();
-      if($andamentoMarcadorDTO && $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]){
-        $arrDadosMarcador = array(
-        'idMarcador' => $andamentoMarcadorDTO->getNumIdMarcador(),
-        'nome' => $andamentoMarcadorDTO->getStrNomeMarcador(),
-        'nome' => $andamentoMarcadorDTO->getStrNomeMarcador(),
-        'texto' => $andamentoMarcadorDTO->getStrTexto(),
-        'idCor' => $andamentoMarcadorDTO->getStrStaIconeMarcador(),
-        'descricaoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrDescricao(),
-        'arquivoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrArquivo()
-        );
+        $arrDadosMarcador = array();
+      foreach ($arrAndamentoMarcadorDTO as $andamentoMarcadorDTO){
+        if($andamentoMarcadorDTO && $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]){
+            $arrDadosMarcador[] = array(
+              'idMarcador' => $andamentoMarcadorDTO->getNumIdMarcador(),
+              'nome' => $andamentoMarcadorDTO->getStrNomeMarcador(),
+              'texto' => $andamentoMarcadorDTO->getStrTexto(),
+              'idCor' => $andamentoMarcadorDTO->getStrStaIconeMarcador(),
+              'descricaoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrDescricao(),
+              'arquivoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrArquivo()
+              );
+        }
       }
 
         $atividadeDTO = new AtividadeDTO();
