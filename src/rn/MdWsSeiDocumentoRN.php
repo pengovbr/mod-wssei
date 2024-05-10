@@ -529,6 +529,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $bolFlagLinhaDireta = false;
           $bolErro = false;
           $numCodigoAcesso = 0;
+          $bolFlagEliminado = false;
 
           /** Acessando componente SEI para retorno de validação de permissões **/
           $procedimentoDTOAcoes = ProcedimentoINT::montarAcoesArvore($documentoDTOParam->getDblIdProcedimento(),
@@ -541,6 +542,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
               $bolFlagTramitacao,
               $bolFlagSobrestado,
               $bolFlagBloqueado,
+              $bolFlagEliminado,
               $bolFlagLinhaDireta,
               $numCodigoAcesso,
               $numNo, $strNos,

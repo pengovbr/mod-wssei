@@ -5,6 +5,8 @@
 -include .modulo.env
 
 # Parâmetros de configuração
+# Opções possíveis para dump: 4.0.3.3 e 4.1.1
+versao_dump=4.0.3.3
 base = mysql
 
 ifndef SEI_HOST
@@ -38,7 +40,7 @@ MENSAGEM_AVISO_MODULO = $(RED)[ATENÇÃO]:$(NC)$(YELLOW) Necessário configurar 
 MENSAGEM_AVISO_ENV = $(RED)[ATENÇÃO]:$(NC)$(YELLOW) Configurar parâmetros de autenticação do ambiente de testes do módulo de WSSEI no arquivo .modulo.env $(NC)
 MENSAGEM_AVISO_FONTES = $(RED)[ATENÇÃO]:$(NC)$(YELLOW) Nao foi possivel localizar o fonte do Super. Verifique o valor SEI_PATH no arquivo .env $(NC)
 
-CMD_CURL_SUPER_LOGIN = curl -s -L $(SEI_HOST)/sei | grep -q "<input.*txtUsuario.*>"
+CMD_CURL_SUPER_LOGIN = curl -s -L $(SEI_HOST)/sei | grep -q "input.*txtUsuario.*"
 
 define TESTS_MENSAGEM_ORIENTACAO
 Leia o arquivo README relacionado aos testes.
@@ -129,8 +131,8 @@ check-module-config:
 check-super-isalive: ## Target de apoio. Acessa o Super e verifica se esta respondendo a tela de login
 	@echo ""
 	@echo "$(WARNING)Aguardando inicialização do ambiente de desenvolvimento...$(NC)"
-	@for i in `seq 1 20`; do \
-	    echo "Tentativa $$i/10";  \
+	@for i in `seq 1 5`; do \
+	    echo "Tentativa $$i/5";  \
 		if $(CMD_CURL_SUPER_LOGIN); then \
 				echo 'Página de login carregada!' ; \
 				break ; \
@@ -199,6 +201,9 @@ tests-functional-validar: tests-functional-orientations
 
 tests-functional-prerequisites: .testselenium.env tests-functional-validar
 
+restore:
+	@cat tests/dumpWssei$(versao_dump).PreLoaded.dmp | docker exec -i $(shell docker ps --format "{{.Names}}" | grep database) /usr/bin/mysql -u root --password=root
+
 
 # roda apenas os testes, o ajuste de data inicial e a criacao do ambiente ja devem ter sido realizados
 tests-functional: tests-functional-prerequisites check-super-isalive
@@ -215,7 +220,7 @@ tests-functional-loop: tests-functional-prerequisites
 # Executa testes no postman. Necessário a variável NEWMAN_BASEURL apontando
 # para ambiente correto exemplo: 
 # export NEWMAN_BASEURL=https://sei.economia.gov.br ; make tests-api
-tests-api:
+tests-api: restore update install
 	@echo "Substituindo as envs para o Newman"
 	@envsubst < tests/Postman/SEI.postman_environment.json > tests/Postman/SEI.postman_environment_substituido.json
 	@echo "Vamos iniciar a execução do postman/newman"
