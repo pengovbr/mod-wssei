@@ -34,8 +34,11 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
   protected function listarUnidadesProcessoConectado(ProtocoloDTO $protocoloDTO)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if (!$protocoloDTO->getDblIdProtocolo()) {
-        throw new InfraException('Protocolo não informado.');
+        $objInfraException->lancarValidacao('Protocolo não informado.');
       }
         $result = array();
 
@@ -55,8 +58,12 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -97,8 +104,10 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
 
             setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
 
-            $objDtoFormatado = strtolower(iconv('ISO-8859-1', 'ASCII//TRANSLIT', $aux->getStrNome()));
-            $nomeFormatado = str_replace('?', '', strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $nome)));
+            // $objDtoFormatado = strtolower(iconv('ISO-8859-1', 'ASCII//TRANSLIT', $aux->getStrNome()));
+            // $nomeFormatado = str_replace('?', '', strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $nome)));
+            $objDtoFormatado = strtolower(mb_convert_encoding($aux->getStrNome(), 'ASCII', 'ISO-8859-1'));
+            $nomeFormatado = str_replace('?', '', strtolower(mb_convert_encoding($nome, 'ASCII', 'UTF-8')));
 
           if(
                 ($aux->getNumIdTipoProcedimento() == $id     || !$id)
@@ -554,8 +563,11 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
   protected function alterarProcedimentoConectado(MdWsSeiProcedimentoDTO $procedimentoDTO)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if (empty($procedimentoDTO->getNumIdProcedimento())) {
-        throw new InfraException('É obrigatorio informar o procedimento!');
+        $objInfraException->lancarValidacao('É obrigatorio informar o procedimento!');
       }
 
         $processo           = $procedimentoDTO->getNumIdProcedimento();
@@ -580,7 +592,7 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
 
       if ($objTipoProcedimentoDTO && $objTipoProcedimentoDTO->getStrSinIndividual() == 'S') {
         if (count($arrInteressados) > 1) {
-          throw new InfraException('Mais de um Interessado informado.');
+          $objInfraException->lancarValidacao('Mais de um Interessado informado.');
         }
       }
         // PREENCHE OS ASSUNTOS
@@ -639,8 +651,12 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
 
     } catch (InfraException $e) {
 //            die($e->getStrDescricao());
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -652,8 +668,11 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
   protected function listarSobrestamentoProcessoConectado(AtividadeDTO $atividadeDTOParam)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if (!$atividadeDTOParam->isSetDblIdProtocolo()) {
-        throw new InfraException('Protocolo não informado.');
+        $objInfraException->lancarValidacao('Protocolo não informado.');
       }
       if (!$atividadeDTOParam->isSetNumIdUnidade()) {
           $atividadeDTOParam->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
@@ -684,8 +703,12 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -720,8 +743,11 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
   protected function removerSobrestamentoProcessoControlado(ProcedimentoDTO $procedimentoDTOParam)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if (!$procedimentoDTOParam->getDblIdProcedimento()) {
-        throw new InfraException('Procedimento não informado.');
+        $objInfraException->lancarValidacao('Procedimento não informado.');
       }
         $seiRN = new SeiRN();
         $entradaRemoverSobrestamentoProcessoAPI = new EntradaRemoverSobrestamentoProcessoAPI();
@@ -731,8 +757,12 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST('Sobrestar cancelado com sucesso.');
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1469,8 +1499,11 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
   protected function listarCienciaProcessoConectado(ProtocoloDTO $protocoloDTOParam)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if (!$protocoloDTOParam->isSetDblIdProtocolo()) {
-        throw new InfraException('Protocolo não informado.');
+        $objInfraException->lancarValidacao('Protocolo não informado.');
       }
 
         $result = array();
@@ -1500,8 +1533,12 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1515,8 +1552,11 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
   protected function darCienciaControlado(ProcedimentoDTO $procedimentoDTOParam)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if (!$procedimentoDTOParam->isSetDblIdProcedimento()) {
-        throw new InfraException('E obrigatorio informar o procedimento!');
+        $objInfraException->lancarValidacao('E obrigatorio informar o procedimento!');
       }
 
         $procedimentoRN = new ProcedimentoRN();
@@ -1524,8 +1564,12 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST('Ciência processo realizado com sucesso!');
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
 
     }
   }
@@ -1539,8 +1583,11 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
   protected function concluirProcessoControlado(EntradaConcluirProcessoAPI $entradaConcluirProcessoAPI)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if (!$entradaConcluirProcessoAPI->getProtocoloProcedimento()) {
-        throw new InfraException('E obrigtorio informar o protocolo do procedimento!');
+        $objInfraException->lancarValidacao('E obrigtorio informar o protocolo do procedimento!');
       }
 
         $objSeiRN = new SeiRN();
@@ -1548,8 +1595,12 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST('Processo concluído com sucesso!');
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1561,16 +1612,23 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
   protected function reabrirProcessoControlado(EntradaReabrirProcessoAPI $entradaReabrirProcessoAPI)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if (!$entradaReabrirProcessoAPI->getIdProcedimento()) {
-        throw new InfraException('E obrigtorio informar o id do procedimento!');
+        $objInfraException->lancarValidacao('E obrigtorio informar o id do procedimento!');
       }
         $objSeiRN = new SeiRN();
         $objSeiRN->reabrirProcesso($entradaReabrirProcessoAPI);
 
         return MdWsSeiRest::formataRetornoSucessoREST('Processo reaberto com sucesso!');
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1584,11 +1642,14 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
   protected function atribuirProcessoControlado(EntradaAtribuirProcessoAPI $entradaAtribuirProcessoAPI)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if (!$entradaAtribuirProcessoAPI->getProtocoloProcedimento()) {
-        throw new InfraException('E obrigatorio informar o protocolo do processo!');
+        $objInfraException->lancarValidacao('E obrigatorio informar o protocolo do processo!');
       }
       if (!$entradaAtribuirProcessoAPI->getIdUsuario()) {
-          throw new InfraException('E obrigatorio informar o usu?rio do processo!');
+        $objInfraException->lancarValidacao('E obrigatorio informar o usu?rio do processo!');
       }
 
         $objSeiRN = new SeiRN();
@@ -1596,8 +1657,12 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST('Processo atribuído com sucesso!');
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1750,6 +1815,9 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
   protected function pesquisarProcessosSolarConectado(MdWsSeiPesquisaProtocoloSolrDTO $pesquisaProtocoloSolrDTO)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
         $partialfields = '';
 
       if ($pesquisaProtocoloSolrDTO->isSetStrDescricao() && $pesquisaProtocoloSolrDTO->getStrDescricao() != null) {
@@ -1919,11 +1987,11 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
       try {
           $resultados = file_get_contents($urlBusca, false);
       } catch (Exception $e) {
-          throw new InfraException('Erro realizando pesquisa no Solar.', $e, urldecode($urlBusca), false);
+        $objInfraException->lancarValidacao('Erro realizando pesquisa no Solar.', $e, urldecode($urlBusca), false);
       }
 
       if ($resultados == '') {
-          throw new InfraException('Nenhum retorno encontrado no resultado da pesquisa do Solar, verificar indexação.');
+        $objInfraException->lancarValidacao('Nenhum retorno encontrado no resultado da pesquisa do Solar, verificar indexação.');
       }
 
         $xml = simplexml_load_string($resultados);
@@ -1961,8 +2029,12 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $total);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1975,9 +2047,12 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
   protected function receberProcedimentoControlado(MdWsSeiProcedimentoDTO $dto)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
         // Se o id do procedimento não foi passado, gera exceção
       if (!$dto->getNumIdProcedimento()) {
-        throw new InfraException('E obrigatório informar o número identificador do procedimento!');
+        $objInfraException->lancarValidacao('E obrigatório informar o número identificador do procedimento!');
       }
 
         $objPesquisaPendenciaDTO = new PesquisaPendenciaDTO();
@@ -2009,8 +2084,12 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
 
 
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 

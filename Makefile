@@ -5,8 +5,8 @@
 -include .modulo.env
 
 # Parâmetros de configuração
-# Opções possíveis para dump: 4.0.3.3 e 4.1.1
-versao_dump=4.0.3.3
+# Opções possíveis para dump: 5.0.0
+versao_dump=5.0.0
 base = mysql
 
 ifndef SEI_HOST
@@ -159,6 +159,8 @@ install: prerequisites-modulo-instalar ## Instala e atualiza as tabelas do módu
 
 up: prerequisites-up  ## Inicia ambiente de desenvolvimento local (docker) no endereço http://localhost:8000
 	$(CMD_DOCKER_COMPOSE) up -d
+	make restore
+	make update
 	make check-super-isalive
 
 update: ## Atualiza banco de dados através dos scripts de atualização do sistema
@@ -220,7 +222,7 @@ tests-functional-loop: tests-functional-prerequisites
 # Executa testes no postman. Necessário a variável NEWMAN_BASEURL apontando
 # para ambiente correto exemplo: 
 # export NEWMAN_BASEURL=https://sei.economia.gov.br ; make tests-api
-tests-api: restore update install
+tests-api: install
 	@echo "Substituindo as envs para o Newman"
 	@envsubst < tests/Postman/SEI.postman_environment.json > tests/Postman/SEI.postman_environment_substituido.json
 	@echo "Vamos iniciar a execução do postman/newman"

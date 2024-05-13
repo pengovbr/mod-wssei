@@ -15,12 +15,15 @@ class MdWsSeiAtividadeRN extends AtividadeRN {
      */
   protected function listarAtividadesProcessoConectado(AtividadeDTO $atividadeDTOParam){
     try{
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
         $result = array();
         $procedimentoHistoricoDTO = new ProcedimentoHistoricoDTO();
         $procedimentoHistoricoDTO->setStrStaHistorico(ProcedimentoRN::$TH_RESUMIDO);
 
       if(!$atividadeDTOParam->isSetDblIdProtocolo()){
-        throw new InfraException('O procedimento deve ser informado!');
+        $objInfraException->lancarValidacao('O procedimento deve ser informado!');
       }
         $procedimentoHistoricoDTO->setDblIdProcedimento($atividadeDTOParam->getDblIdProtocolo());
       if(empty($atividadeDTOParam->getNumPaginaAtual())){
@@ -55,8 +58,12 @@ class MdWsSeiAtividadeRN extends AtividadeRN {
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $procedimentoHistoricoDTO->getNumTotalRegistros());
     }catch (Exception $e){
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
