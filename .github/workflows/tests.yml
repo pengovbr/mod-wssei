@@ -1,6 +1,6 @@
 name: Testes da API
 
-on: [push, pull_request]
+on: [pull_request]
 env: # Or as an environment variable
   NEWMAN_BASEURL: 'http://localhost:8000'
 
