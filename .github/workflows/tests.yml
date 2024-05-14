@@ -28,7 +28,11 @@ jobs:
              echo SIP_CHAVE_ACESSO=d27791b8128bb1c95c094b99261d1abc16bc6169ccd17011f356201d1648d69862a355a6 >> .env
 
       - name: Run make up
-        run: make up
+        run: | 
+             cd super/sei/web/modulos/mod-wssei
+             make up
 
       - name: Run make test
-        run: make tests-api
+        run: | 
+             cd super/sei/web/modulos/mod-wssei
+             make tests-api
