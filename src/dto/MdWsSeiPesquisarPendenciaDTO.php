@@ -2,7 +2,7 @@
 
 class MdWsSeiPesquisarPendenciaDTO extends PesquisaPendenciaDTO{
 
-  public function montar(){
+  public function montar(): void {
       parent::montar();
 
       $this->adicionarAtributoTabelaRelacionada(InfraDTO::$PREFIXO_STR,

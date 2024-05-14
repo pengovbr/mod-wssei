@@ -39,16 +39,23 @@ class MdWsSeiAnotacaoRN extends InfraRN {
 
   protected function cadastrarAnotacaoControlado(AnotacaoDTO $anotacaoDTO){
     try{
+      //Regras de Negocio
+      $objInfraException = new InfraException();
+
         $anotacaoRN = new AnotacaoRN();
       if(!$anotacaoDTO->getDblIdProtocolo()){
-        throw new InfraException('Protocolo não informado.');
+        $objInfraException->lancarValidacao('Protocolo não informado.');
       }
         $anotacaoRN->registrar($anotacaoDTO);
 
         return MdWsSeiRest::formataRetornoSucessoREST('Anotação cadastrada com sucesso!');
     }catch (Exception $e){
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 

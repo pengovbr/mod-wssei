@@ -4,7 +4,7 @@ class MdWsSeiProtocoloDTO extends ProtocoloDTO{
     const SIN_TIPO_BUSCA_R = 'R';
     const SIN_TIPO_BUSCA_G = 'G';
 
-  public function montar(){
+  public function montar() : void{
       parent::montar();
 
       $this->adicionarAtributoTabelaRelacionada(InfraDTO::$PREFIXO_NUM,
