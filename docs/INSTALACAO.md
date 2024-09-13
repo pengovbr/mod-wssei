@@ -45,6 +45,10 @@
            ),
    ```
 
+> [!IMPORTANT] 
+> O serviço de PUSH está sendo alterado e novas chaves não estão sendo distribuídas. Atualmente o serviço não está funcionando.
+> Isso não tem impacto em outras funcionalide uso do WSSEI.
+
    **Importante:**
    * para ativar as notificações, será necessário informar o endereço/credenciais do serviço push de mensagens
    * pode usar o serviço push disponibilizado pelo Ministério da Economia. Para tanto, abra
