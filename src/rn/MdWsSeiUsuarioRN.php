@@ -160,6 +160,8 @@ class MdWsSeiUsuarioRN extends InfraRN {
      */
   public function apiAutenticar(UsuarioDTO $usuarioDTO, OrgaoDTO $orgaoDTO){
     try{
+        //Regras de Negocio
+        $objInfraException = new InfraException();
             
         $contexto = null;
         $orgao = $orgaoDTO->getNumIdOrgao();
@@ -194,7 +196,8 @@ class MdWsSeiUsuarioRN extends InfraRN {
 
       if(!$ret){
         sleep(3);
-        throw new InfraException('Usuário ou senha inválido!');
+        $objInfraException->lancarValidacao('Usuário ou senha inválido!');
+        // throw new InfraException('Usuário ou senha inválido!');
       }
             
           $this->setaVariaveisAutenticacao(get_object_vars($ret));
@@ -247,9 +250,15 @@ class MdWsSeiUsuarioRN extends InfraRN {
                   'token' => $token
               )
           );
+
     }catch (Exception $e){
+
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
 
   }

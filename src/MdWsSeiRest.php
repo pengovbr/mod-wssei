@@ -9,17 +9,12 @@
 class MdWsSeiRest extends SeiIntegracao
 {
     const NOME_MODULO = "MdWsSeiRest";
-    const VERSAO_MODULO = "2.2.0";
+    const VERSAO_MODULO = "3.0.0";
 
-    // A partir da versão 2.0.0, o módulo de integração do SEI com o PEN não será mais compatível com o SEI 3.0.X
+    // A partir da versão 3.0.0, o módulo de integração do SEI com o PEN não será mais compatível com o SEI 5.0.x
     const COMPATIBILIDADE_MODULO_SEI = array(
       // Versões SEI
-      '3.1.0', '3.1.1', '3.1.2', '3.1.3', '3.1.4', '3.1.5', '3.1.6', '3.1.7',
-      '4.0.0', '4.0.1' , '4.0.2' , '4.0.3', '4.0.4', '4.0.5', '4.0.6', '4.0.7',
-      '4.0.8', '4.0.9', '4.0.10', '4.0.11', '4.0.12', '4.1.1', '4.1.2', '5.0.0',
-      // Versões SUPER
-      '4.0.3.1', '4.0.3.2', '4.0.3.3', '4.0.3.4', '4.0.3.5', '4.0.4.6', '4.0.5.7',
-      '4.0.6.8', '4.0.7.9', '4.0.8.10', '4.0.9.11', '4.0.9.12', '4.0.9.13', '4.0.9.14', '4.0.12.15'
+      '5.0.0'
   );
 
   public function getNome()
@@ -120,6 +115,7 @@ class MdWsSeiRest extends SeiIntegracao
         if (count($e->getArrObjInfraValidacao()) == 1) {
             $mensagem = $e->getArrObjInfraValidacao()[0]->getStrDescricao();
         } else {
+          $mensagem = array();
           foreach ($e->getArrObjInfraValidacao() as $validacaoDTO) {
                 $mensagem[] = $validacaoDTO->getStrDescricao();
           }

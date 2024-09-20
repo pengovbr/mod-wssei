@@ -24,12 +24,12 @@ services:
       - ${DATABASE_PORT}:${DATABASE_PORT}
 
   solr:
-    image: processoeletronico/vagrant_sei4_solr:${ENVIRONMENT_VERSION}
+    image: processoeletronico/solr9.4.0:latest
     ports:
       - "8983:8983"
 
   httpd:
-    image: processoeletronico/vagrant_sei4_httpd:${ENVIRONMENT_VERSION}
+    image: processoeletronico/sei5-alpine:${ENVIRONMENT_VERSION}
     restart: always
     env_file:
       - .modulo.env    
