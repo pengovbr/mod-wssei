@@ -297,7 +297,7 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
             'protocoloFormatado' => $acompanhamentoDTO->getObjProcedimentoDTO()->getStrProtocoloProcedimentoFormatado(),
             'atributos' => array(
                 'anotacao' => $arrAnotacao,
-                'processoBloquado' => $procedimentoDTO->getStrStaEstadoProtocolo() == ProtocoloRN::$TE_PROCEDIMENTO_BLOQUEADO ? true : false,
+                'processoBloqueado' => $procedimentoDTO->getStrStaEstadoProtocolo() == ProtocoloRN::$TE_PROCEDIMENTO_BLOQUEADO ? true : false,
                 'remocaoSobrestamento' => ($acompanhamentoDTO->getNumTipoVisualizacao() == AtividadeRN::$TV_REMOCAO_SOBRESTAMENTO) ? true : false,
                 'documentoAssinadoProcesso' => ($acompanhamentoDTO->getNumTipoVisualizacao() == AtividadeRN::$TV_ATENCAO) ? true : false,
                 'documentoPublicadoProcesso' => ($acompanhamentoDTO->getNumTipoVisualizacao() == AtividadeRN::$TV_PUBLICACAO) ? true : false,
