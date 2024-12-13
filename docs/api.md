@@ -18,8 +18,8 @@ Dúvidas com o utilitário Postman bem como sua filosofia de uso podem ser sanad
 
 ** caminhos relativos no repositório do github: **
 
-- docs/postman/MD-WSSEI.postman_collection.json
-- docs/postman/SEI-Nuvem.postman_environment.json
+- tests/postman/Wssei-Tests.postman_collection.json
+- tests/postman/SEI.postman_environment.json
 
 Breve explicação sobre os arquivos, abaixo.
 
@@ -45,7 +45,7 @@ Os serviços estão separados por categorias e em cada categoria existe um ou ma
 
 ### Environment para Uso
 
-docs/postman/SEI-Nuvem.postman_environment.json
+tests/postman/SEI.postman_environment.json
 
 O arquivo de environment serve para informar os parâmetros referentes ao ambiente. Inicialmente, você irá alterar o campo "baseurl" que indica onde encontra-se o SEI. 
 
