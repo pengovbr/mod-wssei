@@ -38,6 +38,9 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
   protected function cadastrarAcompanhamentoControlado(AcompanhamentoDTO $acompanhamentoDTO)
     {
     try {
+      //Regras de Negocio
+      $objInfraException = new InfraException();
+
       if ($acompanhamentoDTO->isSetDblIdProtocolo()) {
         $procedimentoRN = new ProcedimentoRN();
         $procedimentoDTO = new ProcedimentoDTO();
@@ -54,21 +57,25 @@ class MdWsSeiAcompanhamentoRN extends InfraRN
         $procedimentoDTO = $arrProcedimentoDTO[0];
         $bolAcaoAcompanhamentoCadastrar = SessaoSEI::getInstance()->verificarPermissao('acompanhamento_cadastrar');
         if(!$bolAcaoAcompanhamentoCadastrar){
-            throw new InfraException('O usuário não possuí permissão para realizar acompanhamento.');
+          $objInfraException->lancarValidacao('O usuário não possuí permissão para realizar acompanhamento.');
         }
         if($procedimentoDTO->getStrStaEstadoProtocolo() == ProtocoloRN::$TE_PROCEDIMENTO_ANEXADO){
-            throw new InfraException('Não é possível acompanhar um Processo anexado.');
+          $objInfraException->lancarValidacao('Não é possível acompanhar um Processo anexado.');
         }
         if($procedimentoDTO->getStrStaNivelAcessoGlobalProtocolo() == ProtocoloRN::$NA_SIGILOSO){
-            throw new InfraException('Não é possível acompanhar um Processo sigiloso.');
+          $objInfraException->lancarValidacao('Não é possível acompanhar um Processo sigiloso.');
         }
       }
         $acompanhamentoRN = new AcompanhamentoRN();
         $acompanhamentoRN->cadastrar($acompanhamentoDTO);
         return MdWsSeiRest::formataRetornoSucessoREST('Acompanhamento realizado com sucesso!');
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 

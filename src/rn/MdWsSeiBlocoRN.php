@@ -247,8 +247,11 @@ class MdWsSeiBlocoRN extends InfraRN {
      */
   protected function listarDocumentosBlocoAssinaturaConectado(RelBlocoProtocoloDTO $relBlocoProtocoloDTOConsulta){
     try{
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
       if(!$relBlocoProtocoloDTOConsulta->getNumIdBloco()){
-        throw new InfraException('Bloco não informado.');
+        $objInfraException->lancarValidacao('Bloco não informado.');
       }
         $blocoDTO = new BlocoDTO();
         $blocoDTO->retStrStaTipo();
@@ -260,7 +263,7 @@ class MdWsSeiBlocoRN extends InfraRN {
         $blocoRN = new BlocoRN();
         $blocoDTO = $blocoRN->consultarRN1276($blocoDTO);
       if(!$blocoDTO){
-          throw new InfraException('Bloco não encontrado.');
+        $objInfraException->lancarValidacao('Bloco não encontrado.');
       }
         $result = array();
         $arrAtributos = array(
@@ -325,8 +328,12 @@ class MdWsSeiBlocoRN extends InfraRN {
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relBlocoProtocoloDTOConsulta->getNumTotalRegistros());
     }catch (Exception $e){
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -338,16 +345,23 @@ class MdWsSeiBlocoRN extends InfraRN {
   protected function disponibilizarBlocoAssinaturaControlado(BlocoDTO $blocoDTO)
     {
     try{
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
       if(!$blocoDTO->getNumIdBloco()){
-        throw new InfraException('Bloco não informado.');
+        $objInfraException->lancarValidacao('Bloco não informado.');
       }
         $blocoRN = new BlocoRN();
         /** Chama o componente SEI para disponibilizar um bloco de assinatura */
         $blocoRN->disponibilizar(array($blocoDTO));
         return MdWsSeiRest::formataRetornoSucessoREST('Bloco disponibilizado com sucesso.');
     }catch (Exception $e){
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -359,16 +373,23 @@ class MdWsSeiBlocoRN extends InfraRN {
   protected function cancelarDisponibilizacaoBlocoAssinaturaControlado(BlocoDTO $blocoDTO)
     {
     try{
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
       if(!$blocoDTO->getNumIdBloco()){
-        throw new InfraException('Bloco não informado.');
+        $objInfraException->lancarValidacao('Bloco não informado.');
       }
         $blocoRN = new BlocoRN();
         /** Chama o componente SEI para cancelar a disponibilização de um bloco de assinatura */
         $blocoRN->cancelarDisponibilizacao(array($blocoDTO));
         return MdWsSeiRest::formataRetornoSucessoREST('Disponibilização cancelada com sucesso.');
     }catch (Exception $e){
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -400,11 +421,14 @@ class MdWsSeiBlocoRN extends InfraRN {
   protected function salvarAnotacaoBlocoControlado(RelBlocoProtocoloDTO $relBlocoProtocoloDTOParam){
 
     try {
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
       if (!$relBlocoProtocoloDTOParam->isSetNumIdBloco()) {
-        throw new InfraException('O bloco deve ser informado.');
+        $objInfraException->lancarValidacao('O bloco deve ser informado.');
       }
       if (!$relBlocoProtocoloDTOParam->isSetDblIdProtocolo()) {
-          throw new InfraException('O protocolo deve ser informado.');
+        $objInfraException->lancarValidacao('O protocolo deve ser informado.');
       }
 
         $blocoDTOConsulta = new BlocoDTO();
@@ -414,7 +438,7 @@ class MdWsSeiBlocoRN extends InfraRN {
         /** Acessando o componente SEI para retorno de dados do bloco para validação de permissão de acesso **/
         $blocoDTOConsulta = $blocoRN->consultarRN1276($blocoDTOConsulta);
       if(!$blocoDTOConsulta){
-          throw new Exception('Bloco não encontrado.');
+        $objInfraException->lancarValidacao('Bloco não encontrado.');
       }
 
         $relBlocoUnidadeDTO = new RelBlocoUnidadeDTO();
@@ -429,7 +453,7 @@ class MdWsSeiBlocoRN extends InfraRN {
         $relBlocoUnidadeDTO = $relBlocoUnidadeRN->consultarRN1303($relBlocoUnidadeDTO);
 
       if($blocoDTOConsulta->getNumIdUnidade() != SessaoSEI::getInstance()->getNumIdUnidadeAtual() && !$relBlocoUnidadeDTO){
-          throw new Exception('Bloco não encontrado.');
+        $objInfraException->lancarValidacao('Bloco não encontrado.');
       }
 
         $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
@@ -441,7 +465,7 @@ class MdWsSeiBlocoRN extends InfraRN {
         /** Acessando o componente SEI para consulta de Documento no Bloco */
         $relBlocoProtocoloDTO = $relBlocoProtocoloRN->consultarRN1290($relBlocoProtocoloDTO);
       if (!$relBlocoProtocoloDTO) {
-          throw new InfraException('Documento não encontrado no bloco informado.');
+        $objInfraException->lancarValidacao('Documento não encontrado no bloco informado.');
       }
         $relBlocoProtocoloDTO->setStrAnotacao($relBlocoProtocoloDTOParam->getStrAnotacao());
         /** Chamando o componente SEI para salvar a anotação */
@@ -449,8 +473,12 @@ class MdWsSeiBlocoRN extends InfraRN {
 
         return MdWsSeiRest::formataRetornoSucessoREST('Operação realizada com sucesso.');
     }catch (Exception $e){
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -702,6 +730,9 @@ class MdWsSeiBlocoRN extends InfraRN {
   public function apiIncluirDocumentosBlocoAssinatura($idBloco, $arrIdDocumentos)
     {
     try{
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
       if(!$arrIdDocumentos){
         return MdWsSeiRest::formataRetornoSucessoREST('Nenhum documento foi informado.');
       }
@@ -713,7 +744,7 @@ class MdWsSeiBlocoRN extends InfraRN {
         /** Chamando componente SEI para verificação de existencia de bloco **/
         $blocoDTO = $blocoRN->consultarRN1276($blocoDTO);
       if(!$blocoDTO){
-          throw new InfraException('Bloco não encontrado.');
+        $objInfraException->lancarValidacao('Bloco não encontrado.');
       }
         $arrObjRelBlocoProtocoloDTO = array();
       foreach($arrIdDocumentos as $idProtocolo) {
@@ -728,8 +759,12 @@ class MdWsSeiBlocoRN extends InfraRN {
         $relBlocoProtocoloRN->cadastrarMultiplo($arrObjRelBlocoProtocoloDTO);
         return MdWsSeiRest::formataRetornoSucessoREST('Documento(s) incluído(s) com sucesso.');
     }catch (Exception $e){
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -782,8 +817,11 @@ class MdWsSeiBlocoRN extends InfraRN {
      */
   protected function listarProcessosBlocoInternoConectado(RelBlocoProtocoloDTO $relBlocoProtocoloDTOConsulta){
     try{
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
       if(!$relBlocoProtocoloDTOConsulta->getNumIdBloco()){
-        throw new InfraException('Bloco não informado.');
+        $objInfraException->lancarValidacao('Bloco não informado.');
       }
         $blocoDTO = new BlocoDTO();
         $blocoDTO->retStrStaTipo();
@@ -796,7 +834,7 @@ class MdWsSeiBlocoRN extends InfraRN {
         $blocoRN = new BlocoRN();
         $blocoDTO = $blocoRN->consultarRN1276($blocoDTO);
       if(!$blocoDTO){
-          throw new InfraException('Bloco não encontrado.');
+        $objInfraException->lancarValidacao('Bloco não encontrado.');
       }
         $result = array();
         $arrAtributos = array(
@@ -838,8 +876,12 @@ class MdWsSeiBlocoRN extends InfraRN {
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relBlocoProtocoloDTOConsulta->getNumTotalRegistros());
     }catch (Exception $e){
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -906,6 +948,9 @@ class MdWsSeiBlocoRN extends InfraRN {
   public function apiIncluirProcessosBlocoInterno($idBloco, $arrIdProtocolos)
     {
     try{
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
       if(!$arrIdProtocolos){
         return MdWsSeiRest::formataRetornoSucessoREST('Nenhum processo foi informado.');
       }
@@ -917,7 +962,7 @@ class MdWsSeiBlocoRN extends InfraRN {
         /** Chamando componente SEI para verificação de existencia de bloco **/
         $blocoDTO = $blocoRN->consultarRN1276($blocoDTO);
       if(!$blocoDTO){
-          throw new InfraException('Bloco não encontrado.');
+        $objInfraException->lancarValidacao('Bloco não encontrado.');
       }
         $arrObjRelBlocoProtocoloDTO = array();
       foreach($arrIdProtocolos as $idProtocolo) {
@@ -932,8 +977,12 @@ class MdWsSeiBlocoRN extends InfraRN {
         $relBlocoProtocoloRN->cadastrarMultiplo($arrObjRelBlocoProtocoloDTO);
         return MdWsSeiRest::formataRetornoSucessoREST('Processo(s) incluído(s) com sucesso.');
     }catch (Exception $e){
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 

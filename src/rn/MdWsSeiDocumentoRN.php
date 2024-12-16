@@ -20,6 +20,9 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   protected function visualizarInternoConectado(DocumentoDTO $documentoDTOParam)
     {
     try{
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
         $strAcaoSeiCorrespondente = 'documento_visualizar';
         $result = '';
       if(!$documentoDTOParam->isSetDblIdDocumento() || !$documentoDTOParam->getDblIdDocumento()){
@@ -27,7 +30,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
       }
 
       if(!$this->verificarAcessoProtocolo($documentoDTOParam->getDblIdDocumento())){
-          throw new InfraException("Acesso ao documento " . $documentoDTOParam->getDblIdDocumento() . " não autorizado.");
+        $objInfraException->lancarValidacao("Acesso ao documento " . $documentoDTOParam->getDblIdDocumento() . " não autorizado.");
       }
 
         $documentoDTOParam->retDblIdDocumento();
@@ -44,13 +47,13 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $documentoDTOParam = $documentoRN->consultarRN0005($documentoDTOParam);
 
       if(!$documentoDTOParam){
-          throw new Exception('Documento não encontrado.');
+        $objInfraException->lancarValidacao('Documento não encontrado.');
       }
 
       if ($documentoDTOParam->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_EDOC) {
 
         if ($documentoDTOParam->getDblIdDocumentoEdoc() == null) {
-            throw new Exception('Documento sem conteúdo.');
+          $objInfraException->lancarValidacao('Documento sem conteúdo.');
         }
 
           $objEDocRN = new EDocRN();
@@ -86,7 +89,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           /** Chamada ao componente SEI para auditar a visualização do Documento */
           $auditoriaProtocoloRN->auditarVisualizacao($auditoriaProtocoloDTO);
       } else if ($documentoDTOParam->getStrStaProtocoloProtocolo() == ProtocoloRN::$TP_DOCUMENTO_RECEBIDO) {
-          throw new Exception('Para visualização do Anexo deve-se chamar o serviço correspondente.');
+        $objInfraException->lancarValidacao('Para visualização do Anexo deve-se chamar o serviço correspondente.');
       }else{
           $documentoDTOConsulta = new DocumentoDTO();
           $documentoDTOConsulta->setDblIdDocumento($documentoDTOParam->getDblIdDocumento());
@@ -110,8 +113,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
     }catch (Exception $e){
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -269,8 +276,10 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
             setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
 
-            $objDtoFormatado = str_replace('?', '', strtolower(iconv('ISO-8859-1', 'ASCII//TRANSLIT', $aux->getStrNome())));
-            $nomeFormatado = str_replace('?', '', strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $nome)));
+            // $objDtoFormatado = str_replace('?', '', strtolower(iconv('ISO-8859-1', 'ASCII//TRANSLIT', $aux->getStrNome())));
+            // $nomeFormatado = str_replace('?', '', strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $nome)));
+            $objDtoFormatado = str_replace('?', '', strtolower(mb_convert_encoding($aux->getStrNome(), 'ASCII', 'ISO-8859-1')));
+            $nomeFormatado = str_replace('?', '', strtolower(mb_convert_encoding($nome, 'ASCII', 'UTF-8')));
 
           if (
                 ($aux->getNumIdSerie() == $id || !$id) &&
@@ -311,13 +320,15 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   protected function pesquisarTemplateDocumentoConectado(MdWsSeiDocumentoDTO $dto)
     {
     try {
+      //Regras de Negocio
+      $objInfraException = new InfraException();
 
       if (!$dto->getNumIdTipoDocumento()) {
-        throw new InfraException('Tipo de documento é uma informação obrigatória.');
+        $objInfraException->lancarValidacao('Tipo de documento é uma informação obrigatória.');
       }
 
       if (!$dto->getNumIdProcesso()) {
-          throw new InfraException('O id do processo é obrigatório.');
+        $objInfraException->lancarValidacao('O id do processo é obrigatório.');
       }
 
         $objProcedimentoDTO = new ProcedimentoDTO();
@@ -328,7 +339,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $objProcedimentoDTO = $objProcedimentoRN->listarRN0278($objProcedimentoDTO);
 
       if (!$objProcedimentoDTO) {
-          throw new Exception('Não foi encontrado processo com id ' . $dto->getNumIdProcesso());
+        $objInfraException->lancarValidacao('Não foi encontrado processo com id ' . $dto->getNumIdProcesso());
       }
 
         // Consulta se o tipo de documento permite a inclusão de destinatários e interessados
@@ -341,7 +352,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $arrSerieDTO = $serieRN->listarRN0646($serieDTO);
 
       if (!$arrSerieDTO) {
-          throw new Exception('Não foi encontrado processo um tipo de processo ' . $dto->getNumIdTipoDocumento());
+        $objInfraException->lancarValidacao('Não foi encontrado processo um tipo de processo ' . $dto->getNumIdTipoDocumento());
       }
 
         $id_tipo_documento = $dto->getNumIdTipoDocumento();
@@ -459,8 +470,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $arrayRetorno);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -475,6 +490,9 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
         global $SEI_MODULOS;
 
+        //Regras de Negocio
+        $objInfraException = new InfraException();
+
         $arrDocHtml = array(
             DocumentoRN::$TD_EDITOR_EDOC,
             DocumentoRN::$TD_FORMULARIO_AUTOMATICO,
@@ -484,7 +502,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $result = array();
         $relProtocoloProtocoloDTOConsulta = new RelProtocoloProtocoloDTO();
         if (!$documentoDTOParam->isSetDblIdProcedimento()) {
-            throw new InfraException('O procedimento deve ser informado.');
+          $objInfraException->lancarValidacao('O procedimento deve ser informado.');
         }
         $relProtocoloProtocoloDTOConsulta->setDblIdProtocolo1($documentoDTOParam->getDblIdProcedimento());
         $relProtocoloProtocoloDTOConsulta->setStrStaProtocoloProtocolo2(
@@ -792,8 +810,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relProtocoloProtocoloDTOConsulta->getNumTotalRegistros());
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -885,9 +907,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   protected function darCienciaControlado(DocumentoDTO $documentoDTO)
     {
     try {
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
         $documentoRN = new DocumentoRN();
       if (!$documentoDTO->isSetDblIdDocumento()) {
-        throw new InfraException('O documento não foi informado.');
+        $objInfraException->lancarValidacao('O documento não foi informado.');
       }
 
         $documentoDTOConsulta = new DocumentoDTO();
@@ -907,31 +932,38 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $documentoDTOConsulta = $documentoRN->consultarRN0005($documentoDTOConsulta);
 
       if(!$documentoDTOConsulta){
-          throw new InfraException('Documento não encontrado.');
+        $objInfraException->lancarValidacao('Documento não encontrado.');
       }
 
       if(!$objAssinaturaDTO){
-          throw new InfraException('O Documento precisa ser assinado.');
+        $objInfraException->lancarValidacao('O Documento precisa ser assinado.');
       }
 
         /** Acessa o componente SEI para cadastro de ciencia em documento **/
         $documentoRN->darCiencia($documentoDTO);
         return MdWsSeiRest::formataRetornoSucessoREST('Ciência documento realizado com sucesso.');
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
   protected function downloadAnexoConectado(ProtocoloDTO $protocoloDTOParam)
     {
     try {
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
       if (!$protocoloDTOParam->isSetDblIdProtocolo() || !$protocoloDTOParam->getDblIdProtocolo()) {
-        throw new InfraException('O protocolo deve ser informado!');
+        $objInfraException->lancarValidacao('O protocolo deve ser informado!');
       }
 
       if(!$this->verificarAcessoProtocolo($protocoloDTOParam->getDblIdProtocolo())) {
-          throw new InfraException("Acesso ao documento " . $protocoloDTOParam->getDblIdProtocolo() . " não autorizado.");
+        $objInfraException->lancarValidacao("Acesso ao documento " . $protocoloDTOParam->getDblIdProtocolo() . " não autorizado.");
       }
 
         $documentoDTOConsulta = new DocumentoDTO();
@@ -949,7 +981,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
       if ($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_EDOC) {
         if ($documentoDTO->getDblIdDocumentoEdoc() == null) {
-            throw new InfraException('Documento sem conteúdo!');
+          $objInfraException->lancarValidacao('Documento sem conteúdo!');
         }
           $eDocRN = new EDocRN();
           $html = $eDocRN->consultarHTMLDocumentoRN1204($documentoDTO);
@@ -999,15 +1031,19 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $anexoRN = new AnexoRN();
           $resultAnexo = $anexoRN->listarRN0218($anexoDTO);
         if (empty($resultAnexo)) {
-            throw new InfraException('Documento não encontrado!');
+          $objInfraException->lancarValidacao('Documento não encontrado!');
         }
           $anexo = $resultAnexo[0];
           SeiINT::download($anexo);
           exit;
       }
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1020,8 +1056,11 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   protected function listarCienciaDocumentoConectado(MdWsSeiProcessoDTO $mdWsSeiProcessoDTOParam)
     {
     try {
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
       if (!$mdWsSeiProcessoDTOParam->isSetStrValor()) {
-        throw new InfraException('Número do documento não informado.');
+        $objInfraException->lancarValidacao('Número do documento não informado.');
       }
 
         $result = array();
@@ -1056,8 +1095,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1069,8 +1112,11 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   protected function listarAssinaturasDocumentoConectado(DocumentoDTO $documentoDTOParam)
     {
     try {
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
       if (!$documentoDTOParam->isSetDblIdDocumento()) {
-        throw new InfraException('O documento não foi informado.');
+        $objInfraException->lancarValidacao('O documento não foi informado.');
       }
 
         $result = array();
@@ -1091,8 +1137,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1182,11 +1232,14 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   public function alterarDocumentoExternoRequest(\Slim\Http\Request $request)
     {
     try {
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
       if (!$request->getAttribute('route')->getArgument('documento')) {
-        throw new Exception('O documento não foi informado.');
+        $objInfraException->lancarValidacao('O documento não foi informado.');
       }
       if (!$this->verificarAcessoProtocolo($request->getAttribute('route')->getArgument('documento'))) {
-          throw new InfraException("Acesso ao documento " . $request->getAttribute('route')->getArgument('documento') . " não autorizado.");
+        $objInfraException->lancarValidacao("Acesso ao documento " . $request->getAttribute('route')->getArgument('documento') . " não autorizado.");
       }
 
         $documentoDTO = new DocumentoDTO();
@@ -1195,13 +1248,13 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         /** Chamada no componente SEI para consulta de documento */
         $documentoDTO = $this->consultarRN0005($documentoDTO);
       if(!$documentoDTO){
-          throw new Exception('Documento não encontrado.');
+        $objInfraException->lancarValidacao('Documento não encontrado.');
       }
       if($documentoDTO->getNumIdUnidadeResponsavel() != SessaoSEI::getInstance()->getNumIdUnidadeAtual()){
           /** Validando se o procedimento do documento está aberto na unidade logada **/
           $procedimentoRN = new MdWsSeiProcedimentoRN();
         if(!$procedimentoRN->processoAbertoUnidadeAtual($documentoDTO->getDblIdProcedimento())){
-            throw new InfraException('Documento não encontrado.');
+          $objInfraException->lancarValidacao('Documento não encontrado.');
         }
       }
         $post = $request->getParams();
@@ -1214,8 +1267,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $documentoDTO->getObjProtocoloDTO()->setArrObjAnexoDTO(array($anexoDTO));
       }
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
       /** Processo de alteração de documento do tipo externo */
       return $this->documentoExternoAlterar($documentoDTO);
@@ -1228,11 +1285,14 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   public function alterarDocumentoInternoRequest(\Slim\Http\Request $request)
     {
     try {
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
       if (!$request->getAttribute('route')->getArgument('documento')) {
-        throw new Exception('O documento não foi informado.');
+        $objInfraException->lancarValidacao('O documento não foi informado.');
       }
       if (!$this->verificarAcessoProtocolo($request->getAttribute('route')->getArgument('documento'))) {
-          throw new InfraException("Acesso ao documento " . $request->getAttribute('route')->getArgument('documento') . " não autorizado.");
+        $objInfraException->lancarValidacao("Acesso ao documento " . $request->getAttribute('route')->getArgument('documento') . " não autorizado.");
       }
         $documentoDTO = new DocumentoDTO();
         $documentoDTO->setDblIdDocumento($request->getAttribute('route')->getArgument('documento'));
@@ -1240,14 +1300,18 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         /** Chamada no componente SEI para consulta de documento */
         $documentoDTO = $this->consultarRN0005($documentoDTO);
       if(!$documentoDTO){
-          throw new Exception('Documento não encontrado.');
+        $objInfraException->lancarValidacao('Documento não encontrado.');
       }
         $post = $request->getParams();
         /** Realiza o encapsulamento das informações vindas da requisiçao */
         $documentoDTO = self::encapsulaDocumento($post, $documentoDTO);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
       /** Processo de alteração de documento do tipo interno */
       return $this->documentoInternoAlterar($documentoDTO);
@@ -1359,9 +1423,11 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   public function consultarDocumentoExterno($numIdDocumento)
     {
     try {
+      //Regras de Negocio
+      $objInfraException = new InfraException();
 
       if(!$this->verificarAcessoProtocolo($numIdDocumento)){
-        throw new InfraException("Acesso ao documento " . $numIdDocumento . " não autorizado.");
+        $objInfraException->lancarValidacao("Acesso ao documento " . $numIdDocumento . " não autorizado.");
       }
 
         $result = array();
@@ -1393,7 +1459,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         /** Consulta no componente do SEI para retornar o Documento **/
         $objDocumentoDTO = $objDocumentoRN->consultarRN0005($objDocumentoDTO);
       if (!$objDocumentoDTO){
-          throw new Exception("Registro não encontrado.");
+        $objInfraException->lancarValidacao("Registro não encontrado.");
       }
         $objProtocoloDTO = new ProtocoloDTO();
         $objProtocoloDTO->setStrDescricao($objDocumentoDTO->getStrDescricaoProtocolo());
@@ -1507,8 +1573,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         );
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1863,8 +1933,11 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   public function consultarDocumentoInterno($numIdDocumento)
     {
     try {
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
       if(!$this->verificarAcessoProtocolo($numIdDocumento)){
-        throw new InfraException("Acesso ao documento " . $numIdDocumento . " não autorizado.");
+        $objInfraException->lancarValidacao("Acesso ao documento " . $numIdDocumento . " não autorizado.");
       }
 
         $result = array();
@@ -1897,7 +1970,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         /** Consulta no componente do SEI para retornar o Documento **/
         $objDocumentoDTO = $objDocumentoRN->consultarRN0005($objDocumentoDTO);
       if (!$objDocumentoDTO){
-          throw new Exception("Registro não encontrado.");
+        $objInfraException->lancarValidacao("Registro não encontrado.");
       }
         $objProtocoloDTO = new ProtocoloDTO();
         $objProtocoloDTO->setStrDescricao($objDocumentoDTO->getStrDescricaoProtocolo());
@@ -1984,8 +2057,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         );
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1998,6 +2075,9 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   public function consultarDocumentoInternoFormatado($numProtocoloFormatado)
     {
     try {
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
         $objProtocoloDTO = new MdWsSeiProtocoloDTO();
         $objProtocoloDTO->retDblIdProtocolo();
         $objProtocoloDTO->setStrProtocoloFormatado($numProtocoloFormatado);
@@ -2006,13 +2086,17 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $numIdDocumento = isset($objProtocoloDTO) ? $objProtocoloDTO->getDblIdProtocolo() : null;
 
       if(!$numIdDocumento){
-        throw new InfraException("Documento " . $numProtocoloFormatado . " não encontrado.");
+        $objInfraException->lancarValidacao("Documento " . $numProtocoloFormatado . " não encontrado.");
       }
 
         return $this->consultarDocumentoInterno($numIdDocumento);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -2041,8 +2125,11 @@ class MdWsSeiDocumentoRN extends DocumentoRN
      */
   protected function listarBlocosAssinaturaConectado(DocumentoDTO $documentoDTO) {
     try{
+      //Regras de Negocio
+	    $objInfraException = new InfraException();
+
       if(!$documentoDTO->isSetDblIdDocumento() || !$documentoDTO->getDblIdDocumento()){
-        throw new InfraException('Documento não encontrado.');
+        $objInfraException->lancarValidacao('Documento não encontrado.');
       }
 
         $protocoloRN = new ProtocoloRN();
@@ -2059,7 +2146,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
 
       if(!$protocoloDTO){
-          throw new InfraException('Documento não encontrado.');
+        $objInfraException->lancarValidacao('Documento não encontrado.');
       }
 
         $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
@@ -2083,8 +2170,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 

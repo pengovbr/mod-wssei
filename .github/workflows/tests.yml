@@ -1,6 +1,6 @@
 name: Testes da API
 
-on: [push, pull_request]
+on: [pull_request]
 env: # Or as an environment variable
   NEWMAN_BASEURL: 'http://localhost:8000'
 
@@ -14,16 +14,25 @@ jobs:
             repository: supergovbr/super
             token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
             path: super
+            ref: 5.0.0-rc1
       - name: Checkout
         uses: actions/checkout@v3
         with:
-            path: super/src/sei/web/modulos/mod-wssei
+            path: super/sei/web/modulos/mod-wssei
 
-      - name: Run make test
+      - name: Prepara para teste
         run: | 
-             cd super/src/sei/web/modulos/mod-wssei
+             cd super/sei/web/modulos/mod-wssei
              make prerequisites-up; sed -e '/SEI_CHAVE_ACESSO/ s/^#*/#/' -i .env; sed -e '/SIP_CHAVE_ACESSO/ s/^#*/#/' -i .env
              echo SEI_CHAVE_ACESSO=7babf8620a7056b96b13ad057eddf544e6450a62152bb6d7c5468d0f5ef546fb121e8dd2 >> .env
              echo SIP_CHAVE_ACESSO=d27791b8128bb1c95c094b99261d1abc16bc6169ccd17011f356201d1648d69862a355a6 >> .env
-             make up;
+
+      - name: Run make up
+        run: | 
+             cd super/sei/web/modulos/mod-wssei
+             make up
+
+      - name: Run make test
+        run: | 
+             cd super/sei/web/modulos/mod-wssei
              make tests-api

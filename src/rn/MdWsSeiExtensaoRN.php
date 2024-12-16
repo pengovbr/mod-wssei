@@ -15,11 +15,14 @@ class MdWsSeiExtensaoRN extends InfraRN {
   protected function retornarParametrosUploadConectado()
     {
     try{
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
         $infraParametro = new InfraParametro(BancoSEI::getInstance());
         /** Acessa as configurações do sistema para retornar o tamanho máximo para upload de documentos */
         $numTamMbDocExterno = $infraParametro->getValor('SEI_TAM_MB_DOC_EXTERNO');
       if (InfraString::isBolVazia($numTamMbDocExterno) || !is_numeric($numTamMbDocExterno)){
-        throw new InfraException('Valor do parâmetro SEI_TAM_MB_DOC_EXTERNO inválido.');
+        $objInfraException->lancarValidacao('Valor do parâmetro SEI_TAM_MB_DOC_EXTERNO inválido.');
       }
 
         /**'Acessa as configurações do sistema para retornar se será realizada a validação de extensões */
@@ -52,8 +55,12 @@ class MdWsSeiExtensaoRN extends InfraRN {
             
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
     }catch (Exception $e){
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
