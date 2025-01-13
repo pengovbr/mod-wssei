@@ -581,6 +581,9 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $documentoDTOConsulta->retStrStaEstadoProtocolo();
           $documentoDTOConsulta->retNumIdTipoConferencia();
           $documentoDTOConsulta->retArrObjAssinaturaDTO();
+          if ($documentoDTOParam->isSetNumIdSerie()) {
+            $documentoDTOConsulta->setNumIdSerie($documentoDTOParam->getNumIdSerie());
+          }
           $documentoDTOConsulta->setDblIdDocumento(array_keys(InfraArray::indexarArrInfraDTO($ret, 'IdProtocolo2')), InfraDTO::$OPER_IN);
           $documentoRN = new DocumentoRN();
           /** Chama o componente SEI para retorno das informações dos documentos do processo */
@@ -600,6 +603,9 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         /** @var RelProtocoloProtocoloDTO $relProtocoloProtocoloDTO */
       foreach ($ret as $relProtocoloProtocoloDTO) {
           $documentoDTO = $arrDocumentos[$relProtocoloProtocoloDTO->getDblIdProtocolo2()];
+          if (is_null($documentoDTO)) {
+            continue;
+          }
           $mimetype = null;
           $nomeAnexo = null;
           $informacao = null;
