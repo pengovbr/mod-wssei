@@ -2,7 +2,7 @@
   "config": {
     "vendor-dir": "./vendor",
     "platform": {
-      "php": "7.3.33"
+      "php": "8.2"
     }
   },
  "require": {
@@ -10,7 +10,7 @@
     },
 
   "require-dev": {
-    "php": "7.3.33",
+    "php": "8.2",
     "phpunit/phpunit": "*",
     "squizlabs/php_codesniffer": "*",
     "phpcompatibility/php-compatibility": "^9.3",
