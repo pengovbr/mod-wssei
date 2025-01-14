@@ -33926,7 +33926,7 @@
 									"i = i+1;",
 									"pm.globals.set(\"iLoop\", i);",
 									"",
-									"if(i<30){",
+									"if(i<31){",
 									"",
 									"    postman.setNextRequest('Cadastrar Marcador Loop');",
 									"}"
@@ -34182,7 +34182,7 @@
 									"pm.globals.set(\"iLoop\", i);\r",
 									"\r",
 									"\r",
-									"if(i<30){\r",
+									"if(i<31){\r",
 									"\r",
 									"    postman.setNextRequest('Marcar Processo Loop');\r",
 									"}"

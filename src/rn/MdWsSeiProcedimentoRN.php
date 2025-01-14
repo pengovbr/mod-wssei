@@ -2390,7 +2390,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
         /** Chama o método para montagem da estrutura da pesquisa no solr */
         $parametros = $this->montaConsultaSolr($pesquisaProtocoloSolrDTO);
         /** Executa consulta no SOLR para retorno de metadados indexados de processos e documentos da busca */
-        $urlBusca = ConfiguracaoSEI::getInstance()->getValor('Solr', 'Servidor') . '/' . ConfiguracaoSEI::getInstance()->getValor('Solr', 'CoreProtocolos') . '/select?' . http_build_query($parametros) . '&hl=true&hl.snippets=2&hl.fl=content&hl.fragsize=100&hl.maxAnalyzedChars=1048576&hl.alternateField=content&hl.maxAlternateFieldLength=100&fl=id,id_proc,id_doc,id_tipo_proc,id_serie,id_anexo,id_uni_ger,prot_doc,prot_proc,numero,id_usu_ger,dta_ger';
+        $urlBusca = SeiSolrUtil::obterUrlSolAuth() . '/' . ConfiguracaoSEI::getInstance()->getValor('Solr', 'CoreProtocolos') . '/select?' . http_build_query($parametros) . '&hl=true&hl.snippets=2&hl.fl=content&hl.fragsize=100&hl.maxAnalyzedChars=1048576&hl.alternateField=content&hl.maxAlternateFieldLength=100&fl=id,id_proc,id_doc,id_tipo_proc,id_serie,id_anexo,id_uni_ger,prot_doc,prot_proc,numero,id_usu_ger,dta_ger';
 
       try {
           $resultados = file_get_contents($urlBusca, false);

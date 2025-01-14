@@ -146,7 +146,7 @@ check-super-isalive: ## Target de apoio. Acessa o Super e verifica se esta respo
 prerequisites-up: .env .modulo.env check-super-path
 
 
-prerequisites-modulo-instalar: check-super-path check-module-config check-super-isalive
+prerequisites-modulo-instalar: check-super-path check-module-config
 
 
 install: prerequisites-modulo-instalar ## Instala e atualiza as tabelas do módulo na base de dados do sistema
@@ -159,9 +159,6 @@ install: prerequisites-modulo-instalar ## Instala e atualiza as tabelas do módu
 
 up: prerequisites-up  ## Inicia ambiente de desenvolvimento local (docker) no endereço http://localhost:8000
 	$(CMD_DOCKER_COMPOSE) up -d
-	make restore
-	make update
-	make check-super-isalive
 
 update: ## Atualiza banco de dados através dos scripts de atualização do sistema
 	$(CMD_DOCKER_COMPOSE) run --rm -w /opt/sei/scripts/ httpd bash -c "$(CMD_INSTALACAO_SEI)"; true
@@ -204,7 +201,7 @@ tests-functional-validar: tests-functional-orientations
 tests-functional-prerequisites: .testselenium.env tests-functional-validar
 
 restore:
-	@cat tests/dumpWssei$(versao_dump).PreLoaded.dmp | docker exec -i $(shell docker ps --format "{{.Names}}" | grep database) /usr/bin/mysql -u root --password=root
+	@cat tests/dumpWssei$(versao_dump).PreLoaded.dmp | docker exec -i $(shell docker ps --format "{{.Names}}" | grep database) /usr/bin/mysql -u root --password=P@ssword
 
 
 # roda apenas os testes, o ajuste de data inicial e a criacao do ambiente ja devem ter sido realizados
@@ -222,7 +219,7 @@ tests-functional-loop: tests-functional-prerequisites
 # Executa testes no postman. Necessário a variável NEWMAN_BASEURL apontando
 # para ambiente correto exemplo: 
 # export NEWMAN_BASEURL=https://sei.economia.gov.br ; make tests-api
-tests-api: install
+tests-api: restore install
 	@echo "Substituindo as envs para o Newman"
 	@envsubst < tests/Postman/SEI.postman_environment.json > tests/Postman/SEI.postman_environment_substituido.json
 	@echo "Vamos iniciar a execução do postman/newman"
