@@ -34182,7 +34182,7 @@
 									"pm.globals.set(\"iLoop\", i);\r",
 									"\r",
 									"\r",
-									"if(i<31){\r",
+									"if(i<30){\r",
 									"\r",
 									"    postman.setNextRequest('Marcar Processo Loop');\r",
 									"}"

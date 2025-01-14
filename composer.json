@@ -6,7 +6,7 @@
     }
   },
  "require": {
-        "slim/slim": "^3.7"
+        "slim/slim": "^3.8.1"
     },
 
   "require-dev": {

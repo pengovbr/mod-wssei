@@ -74,6 +74,7 @@ dist: clean ## Gera o pacote de distribuicao para o Super. Nao esquecer de gerar
 	@mkdir -p $(SEI_CONFIG_DIR)
 	@mkdir -p $(SEI_MODULO_DIR)
 	@mkdir -p $(SIP_SCRIPTS_DIR)
+	@COMPOSER_VENDOR_DIR=src/vendor ./composer.phar update --no-dev 
 	@cp -Rf src/* $(SEI_MODULO_DIR)/
 	@cp docs/INSTALACAO.md dist/INSTALACAO.md
 	@cp docs/ATUALIZACAO.md dist/ATUALIZACAO.md
@@ -219,7 +220,7 @@ tests-functional-loop: tests-functional-prerequisites
 # Executa testes no postman. Necessário a variável NEWMAN_BASEURL apontando
 # para ambiente correto exemplo: 
 # export NEWMAN_BASEURL=https://sei.economia.gov.br ; make tests-api
-tests-api: restore install
+tests-api:
 	@echo "Substituindo as envs para o Newman"
 	@envsubst < tests/Postman/SEI.postman_environment.json > tests/Postman/SEI.postman_environment_substituido.json
 	@echo "Vamos iniciar a execução do postman/newman"
