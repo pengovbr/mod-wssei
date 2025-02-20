@@ -19,7 +19,7 @@ services:
       MYSQL_ROOT_PASSWORD: P@ssword
     volumes:
       - ${DATABASE_TYPE}:${DATABASE_DATA_DIR}
-      - /var/sei/backup/${DATABASE_HOST}:/backup
+      #- /var/sei/backup/${DATABASE_HOST}:/backup
     ports:
       - ${DATABASE_PORT}:${DATABASE_PORT}
 
@@ -34,7 +34,7 @@ services:
     env_file:
       - .modulo.env    
     ports:
-      - "80:8000"
+#      - "80:8000"
       - "8000:8000"
     extra_hosts:
       - "host.docker.internal:host-gateway"      

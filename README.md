@@ -16,6 +16,7 @@ O módulo é compatível com as seguintes versões do SUPER/SEI:
 | ---                          | ---                      |
 | 4.0.x                        | mod-wssei 2.0.x          |
 | 4.1.1                        | mod-wssei 2.2.0          |
+| 4.1.2, 4.1.3, 4.1.4, 4.1.5   | mod-wssei 2.2.1          |
 | 5.0.0                        | mod-wssei 3.0.0          |
 
 ## DOWNLOAD
