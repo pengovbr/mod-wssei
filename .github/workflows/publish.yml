@@ -42,3 +42,14 @@ jobs:
           asset_path: dist/mod-wssei-${{ steps.get_version.outputs.VERSION }}.zip
           asset_name: mod-wssei-${{ steps.get_version.outputs.VERSION }}.zip
           asset_content_type: application/zip          
+
+      - name: Upload Release Asset compatibilidade
+        id: upload-release-asset-compatibilidade
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: compatibilidade.json
+          asset_name: compatibilidade.json
+          asset_content_type: application/json 
