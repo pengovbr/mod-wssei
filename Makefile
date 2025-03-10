@@ -1,4 +1,4 @@
-.PHONY: all dist clean check-super-path check-module-config check-super-isalive prerequisites-up prerequisites-modulo-instalar install up update config down restart destroy tests-functional-orientations tests-functional-validar echo "Variaveis de ambientes tests-functional-prerequisites tests-functional tests-functional-loop tests-api help
+.PHONY: all dist clean check-super-path check-module-config check-super-isalive prerequisites-up prerequisites-modulo-instalar install up update config down restart destroy tests-functional-orientations tests-functional-validar echo "Variaveis de ambientes tests-functional-prerequisites tests-functional tests-functional-loop tests-api cria_json_compatibilidade help
 
 -include .testselenium.env
 -include .env
@@ -69,7 +69,7 @@ endif
 all: clean dist
 
 
-dist: clean ## Gera o pacote de distribuicao para o Super. Nao esquecer de gerar o Changelog antes, de acordo com a versao
+dist: clean cria_json_compatibilidade ## Gera o pacote de distribuicao para o Super. Nao esquecer de gerar o Changelog antes, de acordo com a versao
 	@mkdir -p $(SEI_SCRIPTS_DIR)
 	@mkdir -p $(SEI_CONFIG_DIR)
 	@mkdir -p $(SEI_MODULO_DIR)
@@ -78,12 +78,13 @@ dist: clean ## Gera o pacote de distribuicao para o Super. Nao esquecer de gerar
 	@cp docs/INSTALACAO.md dist/INSTALACAO.md
 	@cp docs/ATUALIZACAO.md dist/ATUALIZACAO.md
 	@cp docs/changelogs/CHANGELOG-$(VERSAO_MODULO).md dist/NOTAS_VERSAO.md
+	@cp compatibilidade.json dist/compatibilidade.json
 	@mv $(SEI_MODULO_DIR)/scripts/sei_atualizar_versao_modulo_wssei.php $(SEI_SCRIPTS_DIR)/
 	@mv $(SEI_MODULO_DIR)/scripts/sip_atualizar_versao_modulo_wssei.php $(SIP_SCRIPTS_DIR)/
 	@mv $(SEI_MODULO_DIR)/config/ConfiguracaoMdWSSEI.exemplo.php $(SEI_CONFIG_DIR)/ConfiguracaoMdWSSEI.exemplo.php
 	@rm -rf $(SEI_MODULO_DIR)/config
 	@rm -rf $(SEI_MODULO_DIR)/scripts
-	@cd dist/ && zip -r $(MODULO_COMPACTADO) INSTALACAO.md ATUALIZACAO.md NOTAS_VERSAO.md sei/ sip/	
+	@cd dist/ && zip -r $(MODULO_COMPACTADO) INSTALACAO.md ATUALIZACAO.md NOTAS_VERSAO.md compatibilidade.json sei/ sip/	
 	@rm -rf dist/sei dist/sip dist/INSTALACAO.md dist/ATUALIZACAO.md
 	@echo "Construção do pacote de distribuição finalizada com sucesso"
 
@@ -232,3 +233,6 @@ tests-api: restore update install
 help:
 	@echo "Usage: make [target] ... \n"
 	@grep -E '^[a-zA-Z_-]+[[:space:]]*:.*?## .*$$' Makefile | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
+cria_json_compatibilidade:
+	$(shell ./gerar_json_compatibilidade.sh)
