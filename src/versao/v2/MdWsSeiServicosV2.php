@@ -621,6 +621,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                 if ($request->getParam('limit')) {
                     $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
                 }
+                if ($request->getParam('serie')) {
+                    $dto->setNumIdSerie($request->getParam('serie'));
+                }
                 if (is_null($request->getParam('start'))) {
                     $dto->setNumPaginaAtual(0);
                 } else {
