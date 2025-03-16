@@ -44,16 +44,16 @@ class MdWsSeiUsuarioRN extends InfraRN {
      * @param $token
      * @return string
      */
-  public function tokenDecode($token){
-      $fase1 = base64_decode($token);
-      $fase2 = str_replace($this->getSecret(), '', $fase1);
-      $fase3 = base64_decode($fase2);
-      $tokenData = explode('||', $fase3);
-    if(count($tokenData) != 4){
-        return null;
-    }
-      $tokenData[0] = $this->decriptaSenha($tokenData[0]);
-      $tokenData[1] = $this->decriptaSenha($tokenData[1]);
+    public function tokenDecode($token){
+        $fase1 = base64_decode($token);
+        $fase2 = str_replace($this->getSecret(), '', $fase1);
+        $fase3 = base64_decode($fase2);
+        $tokenData = explode('||', $fase3);
+        if(count($tokenData) < 4){
+            return null;
+        }
+        $tokenData[0] = $this->decriptaSenha($tokenData[0]);
+        $tokenData[1] = $this->decriptaSenha($tokenData[1]);
 
       return $tokenData;
   }
@@ -66,16 +66,17 @@ class MdWsSeiUsuarioRN extends InfraRN {
      * @param null $contexto
      * @return string
      */
-  public function tokenEncode($sigla, $senha, $orgao = null, $contexto = null){
-      $token = base64_encode(
-          $this->getSecret()
-          .base64_encode(
-              $this->encriptaSenha($sigla)
-              .'||'.$this->encriptaSenha($senha)
-              .'||'.$orgao
-              .'||'.$contexto
-          )
-      );
+    public function tokenEncode($sigla, $senha, $orgao = null, $contexto = null, $unidade = null){
+        $token = base64_encode(
+            $this->getSecret()
+            .base64_encode(
+                $this->encriptaSenha($sigla)
+                .'||'.$this->encriptaSenha($senha)
+                .'||'.$orgao
+                .'||'.$contexto
+                .'||'.$unidade
+            )
+        );
 
       return $token;
   }
@@ -144,12 +145,127 @@ class MdWsSeiUsuarioRN extends InfraRN {
       }
         $this->setaVariaveisAutenticacao($result['data']['loginData']);
 
-        return $result;
-    }catch (Exception $e){
-        LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+            return $result;
+        }catch (Exception $e){
+            LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
     }
-  }
+
+    /**
+     * Metodo de autenticacao de usuarios usando SIP
+     * @param UsuarioDTO $usuarioDTO
+     * @param OrgaoDTO $orgaoDTO
+     * @param UnidadeDTO $unidadeDTO
+     * @param $unidade
+     * @return array
+     */
+    public function apiAutenticarV3(UsuarioDTO $usuarioDTO, OrgaoDTO $orgaoDTO, UnidadeDTO $unidadeDTO){
+        try{
+
+            $contexto = null;
+            $orgao = $orgaoDTO->getNumIdOrgao();
+            $siglaOrgao = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaOrgaoSistema');
+            $strChaveAcesso = ConfiguracaoSEI::getInstance()->getValor('SessaoSEI','ChaveAcesso');
+            $orgaoRN = new OrgaoRN();
+
+            if(is_null($orgao)){
+                $objOrgaoDTO = new OrgaoDTO();
+                $objOrgaoDTO->setBolExclusaoLogica(false);
+                $objOrgaoDTO->retNumIdOrgao();
+                $objOrgaoDTO->retStrSigla();
+                $objOrgaoDTO->setStrSigla($siglaOrgao);
+                /**
+                 * @var $orgaoCarregdo OrgaoDTO
+                 * Orgao da sessao do sistema
+                 */
+                $orgaoCarregdo = $orgaoRN->consultarRN1352($objOrgaoDTO);
+                $orgao = $orgaoCarregdo->getNumIdOrgao();
+            }
+
+
+            $objSipWs = $this->retornaServicoSip();
+            $ret = $objSipWs->autenticarCompleto(
+                $strChaveAcesso,
+                $orgao,
+                $contexto,
+                $usuarioDTO->getStrSigla(),
+                $this->encriptaSenha($usuarioDTO->getStrSenha()),
+                ConfiguracaoSEI::getInstance()->getValor('SessaoSEI', 'SiglaSistema'),
+                $siglaOrgao
+            ); 
+
+            if(!$ret){
+                sleep(3);
+                throw new InfraException('Usuário ou senha inválido!');
+            }
+
+            $this->setaVariaveisAutenticacao(get_object_vars($ret));
+            session_start();
+            $objInfraDadoUsuario = new InfraDadoUsuario(SessaoSEI::getInstance());
+
+            $unidadeAtual = SessaoSEI::getInstance()->getNumIdUnidadeAtual();
+            if ($unidadeDTO->isSetNumIdUnidade()) {
+                $unidadeAtual = $unidadeDTO->getNumIdUnidade();
+            } else {
+                $unidadeDTO->setNumIdUnidade($unidadeAtual);
+            }
+
+            $strNomeCargoAssinatura = $objInfraDadoUsuario->getValor('ASSINATURA_CARGO_FUNCAO_'. $unidadeAtual);
+
+            $objAssinanteDTO = new AssinanteDTO();
+            $objAssinanteDTO->setStrCargoFuncao($strNomeCargoAssinatura);
+            $objAssinanteDTO->retNumIdAssinante();
+
+            $objAssinanteRN = new AssinanteRN();
+            //Obtem os dados do carto da assinatura
+            $numIdCargoAssinatura = null;
+            if($objAssinanteRN->contarRN1340($objAssinanteDTO) == 1){
+                $objAssinanteDTO = $objAssinanteRN->consultarRN1338($objAssinanteDTO);
+                $numIdCargoAssinatura = $objAssinanteDTO->getNumIdAssinante();
+            }
+
+            $unidadeRN = new UnidadeRN();
+            $unidadeDTO->retNumIdUnidade();
+            $unidadeDTO->retStrSigla();
+            $unidadeDTO->retStrDescricao();
+            $arrUnidade = $unidadeRN->listarRN0127($unidadeDTO);
+
+            $descUnidade = array();
+            foreach($arrUnidade as $unidade){
+                $descUnidade[] = array(
+                    'id' => $unidade->getNumIdUnidade(),
+                    'sigla' => $unidade->getStrSigla(),
+                    'descricao' => $unidade->getStrDescricao()
+                );
+            }
+
+            $ret->IdUnidadeAtual = $unidadeAtual;
+            $ret->sigla = $usuarioDTO->getStrSigla();
+            $ret->nome = SessaoSEI::getInstance()->getStrNomeUsuario();
+            $ret->idUltimoCargoAssinatura = $numIdCargoAssinatura;
+            $ret->ultimoCargoAssinatura = $strNomeCargoAssinatura;
+
+            $token = $this->tokenEncode($usuarioDTO->getStrSigla(), $usuarioDTO->getStrSenha(), $orgao, $contexto, $unidadeAtual);
+
+            $retPerfis = $this->listarPerfisUsuario($strChaveAcesso, $ret->IdSistema, $ret->IdUsuario);
+            $objSessao = SessaoSEI::getInstance();
+
+            return MdWsSeiRest::formataRetornoSucessoREST(
+                null,
+                array(
+                    'loginData'=> $ret,
+                    'perfis' => $retPerfis,
+                    'unidades' => $descUnidade,
+                    'identificador' => MdWsSeiRest::geraIdentificadorUsuario($objSessao->getStrSiglaUsuario(), $objSessao->getStrSiglaOrgaoUsuario()),
+                    'token' => $token
+                )
+            );
+        }catch (Exception $e){
+            return MdWsSeiRest::formataRetornoErroREST($e);
+        }
+
+    }
 
     /**
      * Metodo de autenticacao de usuarios usando SIP
