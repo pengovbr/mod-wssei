@@ -33,6 +33,7 @@ As instruções de instalação e atualização do módulo, assim com o manual d
 
 * **[MANUAL DE INSTALAÇÃO](docs/INSTALACAO.md)**
 * **[MANUAL DE ATUALIZAÇÃO](docs/ATUALIZACAO.md)**
+* **[SWAGGER](https://pengovbr.github.io/mod-wssei/)**
 
 
 ### Documentação da API Rest
