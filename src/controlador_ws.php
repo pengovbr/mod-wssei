@@ -6,6 +6,7 @@
 require_once dirname(__FILE__).'/../../SEI.php';
 require_once dirname(__FILE__).'/vendor/autoload.php';
 require_once dirname(__FILE__) . '/versao/v2/MdWsSeiServicosV2.php';
+require_once dirname(__FILE__) . '/versao/v3/MdWsSeiServicosV3.php';
 
 class TokenValidationMiddleware {
   public function __invoke($request, $response, $next)
@@ -67,6 +68,38 @@ class ModuleVerificationMiddleware {
   }
 }
 
+class TokenValidationMiddlewareV3 {
+    public function __invoke($request, $response, $next)
+    {
+        if (!$hasToken = $request->getHeader('token')) {
+            return $this->error($response, 'Acesso Negado!');
+        }
+
+        $token = $hasToken[0];
+        $rn = new MdWsSeiUsuarioRN();
+
+        if (!$rn->autenticarToken($token)) {
+            return $this->error($response, 'Token inválido!', 403);
+        }
+
+        $tokenDecode = $rn->tokenDecode($token);
+        if (isset($tokenDecode[4]) && $unidade = $tokenDecode[4]) {
+            $rn->alterarUnidadeAtual($unidade);
+        }
+
+        return $next($request, $response);
+    }
+
+    private function error($response, $mensage, $code = 401) 
+    {
+        return $response->withJson(
+            MdWsSeiRest::formataRetornoErroREST(
+                new InfraException($mensage)
+            ), $code
+        );
+    }
+}
+
 class EncodingMiddleware {
     /** @param \Slim\Http\Request $request */
   public function __invoke($request, $response, $next)
@@ -88,4 +121,5 @@ $config = array(
 
 $app = new \Slim\App($config);
 MdWsSeiServicosV2::getInstance($app)->registrarServicos();
+MdWsSeiServicosV3::getInstance($app)->registrarServicos();
 $app->run();
