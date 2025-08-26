@@ -581,6 +581,9 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $documentoDTOConsulta->retStrStaEstadoProtocolo();
           $documentoDTOConsulta->retNumIdTipoConferencia();
           $documentoDTOConsulta->retArrObjAssinaturaDTO();
+          if ($documentoDTOParam->isSetNumIdSerie()) {
+            $documentoDTOConsulta->setNumIdSerie($documentoDTOParam->getNumIdSerie());
+          }
           $documentoDTOConsulta->setDblIdDocumento(array_keys(InfraArray::indexarArrInfraDTO($ret, 'IdProtocolo2')), InfraDTO::$OPER_IN);
           $documentoRN = new DocumentoRN();
           /** Chama o componente SEI para retorno das informações dos documentos do processo */
@@ -600,6 +603,9 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         /** @var RelProtocoloProtocoloDTO $relProtocoloProtocoloDTO */
       foreach ($ret as $relProtocoloProtocoloDTO) {
           $documentoDTO = $arrDocumentos[$relProtocoloProtocoloDTO->getDblIdProtocolo2()];
+          if (is_null($documentoDTO)) {
+            continue;
+          }
           $mimetype = null;
           $nomeAnexo = null;
           $informacao = null;
@@ -711,10 +717,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         }
 
             /** @var AssinaturaDTO $assinaturaDTO */
+        $assinaturas = [];
         foreach ($documentoDTO->getArrObjAssinaturaDTO() as $assinaturaDTO) {
           if($assinaturaDTO->getNumIdUnidade() != SessaoSEI::getInstance()->getNumIdUnidadeAtual()){
                 $assinadoPorOutraUnidade = true;
           }
+
         }
 
         if ((($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO || $strStaDocumento == DocumentoRN::$TD_FORMULARIO_GERADO) &&
@@ -722,6 +730,16 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             ) {
             $permiteAssinatura = true;
         }
+        $assinaturas[] = array(
+          'sinAtivo' => $assinaturaDTO->getStrSinAtivo(), 
+          'idDocumento' => $assinaturaDTO->getDblIdDocumento(),
+          'idUsuario' => $assinaturaDTO->getNumIdUsuario(),
+          'idUnidade' => $assinaturaDTO->getNumIdUnidade(),
+          'nome' => $assinaturaDTO->getStrNome(),
+          'tratamento' => $assinaturaDTO->getStrTratamento(),
+          'siglaUnidade' => $assinaturaDTO->getStrSiglaUnidade(),
+          'idAtividade' => $assinaturaDTO->getNumIdAtividade(),
+        );
 
         if ($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO &&
               $documentoDTO->getStrSinBloqueado() == 'N' &&
@@ -755,39 +773,43 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           }
         }
 
-            $result[] = array(
-                'id' => $documentoDTO->getDblIdDocumento(),
-                'atributos' => array(
-                    'idProcedimento' => $documentoDTO->getDblIdProcedimento(),
-                    'idProtocolo' => $documentoDTO->getDblIdDocumento(),
-                    'protocoloFormatado' => $documentoDTO->getStrProtocoloDocumentoFormatado(),
-                    'nome' => $nomeAnexo,
-                    'titulo' => $documentoDTO->getStrNumero(),
-                    'tipo' => $documentoDTO->getStrNomeSerie(),
-                    'tipoDocumento' => $strStaDocumento,
-                    'mimeType' => $mimetype ? $mimetype : 'html',
-                    'informacao' => $informacao,
-                    'tamanho' => $tamanhoAnexo,
-                    'idUnidade' => $documentoDTO->getNumIdUnidadeGeradoraProtocolo(),
-                    'siglaUnidade' => $documentoDTO->getStrSiglaUnidadeGeradoraProtocolo(),
-                    'nomeComposto' => DocumentoINT::montarIdentificacaoArvore($documentoDTO),
-                    'tipoConferencia' => $documentoDTO->getNumIdTipoConferencia(),
-                    'status' => array(
-                        'sinBloqueado' => $documentoDTO->getStrStaNivelAcessoLocalProtocolo() == 1 ? 'S' : 'N',
-                        'documentoSigiloso' => $documentoDTO->getStrStaNivelAcessoLocalProtocolo() == 2 ? 'S' : 'N',
-                        'documentoRestrito' => $documentoDTO->getStrStaNivelAcessoLocalProtocolo() == 1 ? 'S' : 'N',
-                        'documentoPublicado' => $documentoPublicado,
-                        'documentoAssinado' => $documentoDTO->getStrCrcAssinatura() ? 'S' : 'N',
-                        'ciencia' => $ciencia,
-                        'documentoCancelado' => $documentoCancelado,
-                        'podeVisualizarDocumento' => $podeVisualizarDocumento ? 'S' : 'N',
-                        'permiteAssinatura' => $permiteAssinatura,
-                        'permiteAlterar' => $permiteAlterar,
-                        'podeVisualizarMetadados' => $podeVisualizarMetadados,
-                        'podeAlterarMetadados' => $podeAlterarMetadados,
-                    )
+          $atributos = array(
+                'idProcedimento' => $documentoDTO->getDblIdProcedimento(),
+                'idProtocolo' => $documentoDTO->getDblIdDocumento(),
+                'protocoloFormatado' => $documentoDTO->getStrProtocoloDocumentoFormatado(),
+                'nome' => $nomeAnexo,
+                'titulo' => $documentoDTO->getStrNumero(),
+                'tipo' => $documentoDTO->getStrNomeSerie(),
+                'tipoDocumento' => $strStaDocumento,
+                'mimeType' => $mimetype ? $mimetype : 'html',
+                'informacao' => $informacao,
+                'tamanho' => $tamanhoAnexo,
+                'idUnidade' => $documentoDTO->getNumIdUnidadeGeradoraProtocolo(),
+                'siglaUnidade' => $documentoDTO->getStrSiglaUnidadeGeradoraProtocolo(),
+                'nomeComposto' => DocumentoINT::montarIdentificacaoArvore($documentoDTO),
+                'tipoConferencia' => $documentoDTO->getNumIdTipoConferencia(),                    
+                'status' => array(
+                    'sinBloqueado' => $documentoDTO->getStrStaNivelAcessoLocalProtocolo() == 1 ? 'S' : 'N',
+                    'documentoSigiloso' => $documentoDTO->getStrStaNivelAcessoLocalProtocolo() == 2 ? 'S' : 'N',
+                    'documentoRestrito' => $documentoDTO->getStrStaNivelAcessoLocalProtocolo() == 1 ? 'S' : 'N',
+                    'documentoPublicado' => $documentoPublicado,
+                    'documentoAssinado' => $documentoDTO->getStrCrcAssinatura() ? 'S' : 'N',
+                    'ciencia' => $ciencia,
+                    'documentoCancelado' => $documentoCancelado,
+                    'podeVisualizarDocumento' => $podeVisualizarDocumento ? 'S' : 'N',
+                    'permiteAssinatura' => $permiteAssinatura,
+                    'permiteAlterar' => $permiteAlterar,
+                    'podeVisualizarMetadados' => $podeVisualizarMetadados,
+                    'podeAlterarMetadados' => $podeAlterarMetadados,
                 )
-            );
+          );
+          if (!empty($assinaturas)){
+              $atributos['assinaturas']=$assinaturas;
+          }
+          $result[] = array(
+              'id' => $documentoDTO->getDblIdDocumento(),
+              'atributos' => $atributos
+          );
       }
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $relProtocoloProtocoloDTOConsulta->getNumTotalRegistros());
