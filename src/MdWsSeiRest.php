@@ -9,7 +9,7 @@
 class MdWsSeiRest extends SeiIntegracao
 {
     const NOME_MODULO = "MdWsSeiRest";
-    const VERSAO_MODULO = "3.0.0";
+    const VERSAO_MODULO = "3.0.1";
 
     // A partir da versão 3.0.0, o módulo de integração do SEI com o PEN não será mais compatível com o SEI 5.0.x
     const COMPATIBILIDADE_MODULO_SEI = array(

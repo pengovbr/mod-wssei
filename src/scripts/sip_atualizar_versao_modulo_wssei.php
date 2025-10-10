@@ -1,6 +1,6 @@
 <?php
 // Identificação da versão do módulo mod-wssei. Este deve estar sempre sincronizado com a versão definida em MdWsSeiRest.php
-define("VERSAO_MODULO_WSSEI", "3.0.0");
+define("VERSAO_MODULO_WSSEI", "3.0.1");
 
 require_once dirname(__FILE__) . '/../../web/Sip.php';
 
@@ -91,10 +91,18 @@ class VersaoSipRN extends InfraScriptVersao
     {
       $this->logar("VERSÃO $strVersaoAtual atualizada.");
   }
+  public function versao_2_2_1($strVersaoAtual)
+  {
+    $this->logar("VERSÃO $strVersaoAtual atualizada.");
+}
 
   public function versao_3_0_0($strVersaoAtual)
   {
     $this->logar("VERSÃO $strVersaoAtual atualizada.");
+}
+public function versao_3_0_1($strVersaoAtual)
+{
+  $this->logar("VERSÃO $strVersaoAtual atualizada.");
 }
 }
 
@@ -123,7 +131,9 @@ try {
             '2.1.1' => 'versao_2_1_1',
             '2.1.2' => 'versao_2_1_2',
             '2.2.0' => 'versao_2_2_0',
+            '2.2.1' => 'versao_2_2_1',
             '3.0.0' => 'versao_3_0_0',
+            '3.0.1' => 'versao_3_0_1',
         )
     );
     
