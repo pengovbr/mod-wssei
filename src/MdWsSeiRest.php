@@ -14,7 +14,7 @@ class MdWsSeiRest extends SeiIntegracao
     // A partir da versão 3.0.0, o módulo de integração do SEI com o PEN não será mais compatível com o SEI 5.0.x
     const COMPATIBILIDADE_MODULO_SEI = array(
       // Versões SEI
-      '5.0.0'
+      '5.0.0','5.0.1','5.0.2','5.0.3'
   );
 
   public function getNome()
