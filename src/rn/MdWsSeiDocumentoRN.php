@@ -1080,12 +1080,24 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $assinaturaDTOConsulta->setDblIdDocumento($documentoDTOParam->getDblIdDocumento());
         $assinaturaRN = new AssinaturaRN();
         $ret = $assinaturaRN->listarRN1323($assinaturaDTOConsulta);
+
+        $retAtividades = [];
+        $idAtividades = InfraArray::converterArrInfraDTO($ret, 'IdAtividade');
+        if (!empty($idAtividades)) {
+          $atividadeDTOConsulta = new AtividadeDTO();
+          $atividadeDTOConsulta->retTodos();
+          $atividadeDTOConsulta->setNumIdAtividade($idAtividades, InfraDTO::$OPER_IN);
+          $atividadeRN = new AtividadeRN();
+          $retAtividades = InfraArray::indexarArrInfraDTO($atividadeRN->listarRN0036($atividadeDTOConsulta), 'IdAtividade');
+        }
+
         /** @var AssinaturaDTO $assinaturaDTO */
       foreach ($ret as $assinaturaDTO) {
           $result[] = array(
               'nome' => $assinaturaDTO->getStrNome(),
               'cargo' => $assinaturaDTO->getStrTratamento(),
-              'unidade' => $assinaturaDTO->getStrSiglaUnidade()
+              'unidade' => $assinaturaDTO->getStrSiglaUnidade(),
+              'dataHora' => $retAtividades[$assinaturaDTO->getNumIdAtividade()]->getDthAbertura()
           );
       }
 
