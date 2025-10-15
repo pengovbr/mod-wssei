@@ -1143,7 +1143,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
               'nome' => $assinaturaDTO->getStrNome(),
               'cargo' => $assinaturaDTO->getStrTratamento(),
               'unidade' => $assinaturaDTO->getStrSiglaUnidade(),
-              'dataHora' => $retAtividades[$assinaturaDTO->getNumIdAtividade()]->getDthAbertura()
+              'dataHora' => (!empty($retAtividades)) ? $retAtividades[$assinaturaDTO->getNumIdAtividade()]->getDthAbertura() : ""
           );
       }
 
