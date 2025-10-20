@@ -2719,4 +2719,39 @@ class MdWsSeiProcedimentoRN extends InfraRN
       return empty($arrObjAtividadeDTO) ? false : true;
   }
 
+  protected function processosRelacionadosConectado(ProcedimentoDTO $procedimentoDTOParam)
+    {
+    try {
+      if (!$procedimentoDTOParam->isSetDblIdProcedimento()) {
+        throw new InfraException('O Processo não foi informado.');
+      }
+
+      $result = array();
+      $objProcedimentoRN = new ProcedimentoRN();
+      $ret = $objProcedimentoRN->listarRelacionados($procedimentoDTOParam);			
+
+      /** @var ProcedimentoDTO $procedimentoDto */
+      foreach ($ret as $procedimentoDto) {
+        if ($procedimentoDto->getObjProtocoloDTO1()!=null){
+          $objProcedimentoDTO = $procedimentoDto->getObjProtocoloDTO1();
+        }else{
+          $objProcedimentoDTO = $procedimentoDto->getObjProtocoloDTO2();
+        }
+
+        $result[] = array(
+            'idProcedimento' => $objProcedimentoDTO->getDblIdProcedimento(),
+            'idProtocolo' => $procedimentoDto->getDblIdProtocolo2(),
+            'numero' => $objProcedimentoDTO->getStrProtocoloProcedimentoFormatado(),
+            'tipoProcesso' => $objProcedimentoDTO->getStrNomeTipoProcedimento(),
+            'descricao' => $objProcedimentoDTO->getStrDescricaoProtocolo(), 
+        );
+      }
+
+        return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+    } catch (Exception $e) {
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
+        return MdWsSeiRest::formataRetornoErroREST($e);
+    }
+  }
+
 }
