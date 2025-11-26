@@ -74,7 +74,7 @@ dist: clean cria_json_compatibilidade ## Gera o pacote de distribuicao para o Su
 	@mkdir -p $(SEI_CONFIG_DIR)
 	@mkdir -p $(SEI_MODULO_DIR)
 	@mkdir -p $(SIP_SCRIPTS_DIR)
-	@COMPOSER_VENDOR_DIR=src/vendor ./composer.phar install --no-dev
+	@COMPOSER_VENDOR_DIR=src/vendor ./composer.phar upgrade --no-dev
 	@cp -Rf src/* $(SEI_MODULO_DIR)/
 	@cp docs/INSTALACAO.md dist/INSTALACAO.md
 	@cp docs/ATUALIZACAO.md dist/ATUALIZACAO.md
