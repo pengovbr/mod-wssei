@@ -4,7 +4,6 @@
 .modulo.env
 .testselenium.env
 dist/
-vendor/
 compatibilidade.json
 
 # Arquivos temporários criados pelo ambiente de desenvolvimento Vagrant
