@@ -74,7 +74,7 @@ dist: clean cria_json_compatibilidade ## Gera o pacote de distribuicao para o Su
 	@mkdir -p $(SEI_CONFIG_DIR)
 	@mkdir -p $(SEI_MODULO_DIR)
 	@mkdir -p $(SIP_SCRIPTS_DIR)
-	@COMPOSER_VENDOR_DIR=src/vendor ./composer.phar update --no-dev 
+	@COMPOSER_VENDOR_DIR=src/vendor ./composer.phar install --no-dev
 	@cp -Rf src/* $(SEI_MODULO_DIR)/
 	@cp docs/INSTALACAO.md dist/INSTALACAO.md
 	@cp docs/ATUALIZACAO.md dist/ATUALIZACAO.md
@@ -203,6 +203,7 @@ tests-functional-validar: tests-functional-orientations
 tests-functional-prerequisites: .testselenium.env tests-functional-validar
 
 restore:
+	@sleep 10s
 	@cat tests/dumpWssei$(versao_dump).PreLoaded.dmp | docker exec -i $(shell docker ps --format "{{.Names}}" | grep database) /usr/bin/mysql -u root --password=P@ssword
 
 
@@ -220,8 +221,8 @@ tests-functional-loop: tests-functional-prerequisites
 
 # Executa testes no postman. Necessário a variável NEWMAN_BASEURL apontando
 # para ambiente correto exemplo: 
-# export NEWMAN_BASEURL=https://sei.economia.gov.br ; make tests-api
-tests-api:
+# NEWMAN_BASEURL=https://localhost:8000 make tests-api
+tests-api: tests-up
 	@echo "Substituindo as envs para o Newman"
 	@envsubst < tests/Postman/SEI.postman_environment.json > tests/Postman/SEI.postman_environment_substituido.json
 	@echo "Vamos iniciar a execução do postman/newman"
@@ -229,6 +230,13 @@ tests-api:
 	        --environment SEI.postman_environment_substituido.json\
             --working-dir .\
             -r cli,htmlextra
+
+# NEWMAN_BASEURL=https://sei.economia.gov.br make tests-api-restore
+tests-up: up restore install
+	@COMPOSER_VENDOR_DIR=src/vendor ./composer.phar install --no-dev
+	@echo SEI_CHAVE_ACESSO=7babf8620a7056b96b13ad057eddf544e6450a62152bb6d7c5468d0f5ef546fb121e8dd2 >> .env
+	@echo SIP_CHAVE_ACESSO=d27791b8128bb1c95c094b99261d1abc16bc6169ccd17011f356201d1648d69862a355a6 >> .env
+	$(CMD_DOCKER_COMPOSE) up -d
 
 help:
 	@echo "Usage: make [target] ... \n"
