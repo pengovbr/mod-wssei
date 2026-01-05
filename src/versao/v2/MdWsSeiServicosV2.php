@@ -1299,6 +1299,14 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                 }
                   return $response->withJSON($rn->listarCienciaProcesso($dto));
               });
+              $this->get('/{protocolo}/relacionamentos', function ($request, $response, $args) {
+                  /** @var Slim\Http\Request $request */
+                  $rn = new MdWsSeiProcedimentoRN();
+                  $dto = new ProcedimentoDTO();
+                  $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('protocolo'));
+
+                  return $response->withJSON($rn->processosRelacionados($dto));
+              });
 
           })->add(new TokenValidationMiddleware());
 
