@@ -28,7 +28,7 @@ services:
       - "8983:8983"
 
   httpd:
-    image: processoeletronico/sei5-alpine:10.0
+    image: ${HTTPD_IMAGE}:${ENVIRONMENT_VERSION}
     restart: always
     env_file:
       - .modulo.env
