@@ -2728,7 +2728,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
       $result = array();
       $objProcedimentoRN = new ProcedimentoRN();
-      $ret = $objProcedimentoRN->listarRelacionados($procedimentoDTOParam);			
+      $ret = $objProcedimentoRN->listarRelacionados($procedimentoDTOParam);         
 
       /** @var ProcedimentoDTO $procedimentoDto */
       foreach ($ret as $procedimentoDto) {
