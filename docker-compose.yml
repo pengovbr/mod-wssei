@@ -1,4 +1,3 @@
-version: '2'
 services:
   jod:
    image: processoeletronico/jod:${ENVIRONMENT_VERSION}

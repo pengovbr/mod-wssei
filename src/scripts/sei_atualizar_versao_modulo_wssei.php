@@ -169,6 +169,10 @@ try {
     {
     $this->logar("VERSÃO $strVersaoAtual atualizada.");
     }
+    public function versao_3_0_2($strVersaoAtual)
+    {
+    $this->logar("VERSÃO $strVersaoAtual atualizada.");
+    }
   }
 
     session_start();
@@ -197,6 +201,7 @@ try {
             '2.2.1' => 'versao_2_2_1',
             '3.0.0' => 'versao_3_0_0',
             '3.0.1' => 'versao_3_0_1',
+            '3.0.2' => 'versao_3_0_2',
         )
     );
 
