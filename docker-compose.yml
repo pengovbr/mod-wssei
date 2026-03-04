@@ -80,3 +80,5 @@ volumes:
   MySql:
   Oracle:
   SqlServer:
+  PostgreSql:
+

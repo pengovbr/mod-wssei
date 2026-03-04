@@ -170,7 +170,7 @@ update: ## Atualiza banco de dados através dos scripts de atualização do sist
 
 config: ## Configura o ambiente para outro banco de dados (mysql|sqlserver|oracle). Ex: make config base=oracle 
 	@cp -f envs/$(base).env .env
-	@echo "Ambiente configurado para utilizar a base de dados $(base). (base=[mysql|oracle|sqlserver])"
+	@echo "Ambiente configurado para utilizar a base de dados $(base). (base=[mysql|oracle|sqlserver|postgresql])"
 
 down:  ## Interrompe execução do ambiente de desenvolvimento local em docker
 	$(CMD_DOCKER_COMPOSE) down
