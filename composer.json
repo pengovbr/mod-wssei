@@ -2,15 +2,15 @@
   "config": {
     "vendor-dir": "./vendor",
     "platform": {
-      "php": "7.3.33"
+      "php": "8.2"
     }
   },
  "require": {
-        "slim/slim": "^3.7"
+        "slim/slim": "^3.12.5"
     },
 
   "require-dev": {
-    "php": "7.3.33",
+    "php": "8.2",
     "phpunit/phpunit": "*",
     "squizlabs/php_codesniffer": "*",
     "phpcompatibility/php-compatibility": "^9.3",

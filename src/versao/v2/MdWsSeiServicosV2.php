@@ -318,7 +318,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                   return $response->withJSON($rn->apiAssinarBloco(
                       $request->getAttribute('route')->getArgument('bloco'),
                       $request->getParam('orgao'),
-                      $request->getParam('cargo'),
+                      mb_convert_encoding($request->getParam('cargo'), "ISO-8859-1", "UTF-8"),
                       $request->getParam('login'),
                       $request->getParam('senha'),
                       $request->getParam('usuario')
@@ -329,7 +329,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                   $rn = new MdWsSeiBlocoRN();
                   return $response->withJSON($rn->apiAssinarDocumentos(
                       $request->getParam('orgao'),
-                      $request->getParam('cargo'),
+                      mb_convert_encoding($request->getParam('cargo'), "ISO-8859-1", "UTF-8"),
                       $request->getParam('login'),
                       $request->getParam('senha'),
                       $request->getParam('usuario'),
@@ -584,7 +584,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                   // Ajuste de encoding das secoes
                   setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
                 for ($i = 0; $i < count($dados["secoes"]); $i++) {
-                    $dados["secoes"][$i]['conteudo'] = iconv('UTF-8', 'ISO-8859-1', $dados["secoes"][$i]['conteudo']);
+                    // $dados["secoes"][$i]['conteudo'] = iconv('UTF-8', 'ISO-8859-1', $dados["secoes"][$i]['conteudo']);
+                    $dados["secoes"][$i]['conteudo'] = mb_convert_encoding($dados["secoes"][$i]['conteudo'], 'ISO-8859-1', 'UTF-8');
                 }
 
                   $rn = new MdWsSeiDocumentoRN();
@@ -1215,8 +1216,10 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
 
                   setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
 
-                  $especificacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('especificacao'));
-                  $observacoesFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacoes'));
+                //   $especificacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('especificacao'));
+                //   $observacoesFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacoes'));
+                  $especificacaoFormatado = mb_convert_encoding($request->getParam('especificacao'), 'ISO-8859-1', 'UTF-8');
+                  $observacoesFormatado = mb_convert_encoding($request->getParam('observacoes'), 'ISO-8859-1', 'UTF-8');
 
                   //Atribuir parametros para o DTO
                   $dto->setArrObjInteressado($interessados);
@@ -1295,6 +1298,14 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     $dto->setNumPaginaAtual($request->getParam('start'));
                 }
                   return $response->withJSON($rn->listarCienciaProcesso($dto));
+              });
+              $this->get('/{protocolo}/relacionamentos', function ($request, $response, $args) {
+                  /** @var Slim\Http\Request $request */
+                  $rn = new MdWsSeiProcedimentoRN();
+                  $dto = new ProcedimentoDTO();
+                  $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('protocolo'));
+
+                  return $response->withJSON($rn->processosRelacionados($dto));
               });
 
           })->add(new TokenValidationMiddleware());
@@ -1532,7 +1543,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
 
                   setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
 
-                  $nomeFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('nome'));
+                //   $nomeFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('nome'));
+                  $nomeFormatado = mb_convert_encoding($request->getParam('nome'), 'ISO-8859-1', 'UTF-8');
 
                   $dto->setStrNome($nomeFormatado);
 

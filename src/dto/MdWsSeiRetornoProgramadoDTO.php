@@ -2,7 +2,7 @@
 
 class MdWsSeiRetornoProgramadoDTO extends RetornoProgramadoDTO{
 
-  public function montar(){
+  public function montar(): void{
       parent::montar();
 
       $this->adicionarAtributoTabelaRelacionada(InfraDTO::$PREFIXO_DBL,

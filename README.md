@@ -16,8 +16,8 @@ O módulo é compatível com as seguintes versões do SUPER/SEI:
 | ---                          | ---                      |
 | 4.0.x                        | mod-wssei 2.0.x          |
 | 4.1.1                        | mod-wssei 2.2.0          |
-| 4.1.2, 4.1.3, 4.1.4, 4.1.5   | mod-wssei 2.2.1          |
-| 5.0.0                        | mod-wssei 3.0.0          |
+| 5.0.x                        | mod-wssei 3.0.1          |
+
 
 ## DOWNLOAD
 
@@ -78,7 +78,7 @@ Faça suas modificações e depois execute os testes na API, entre outros testes
 
 ```bash
 
-export NEWMAN_BASEURL=https://localhost:8000 ; make tests-api
+NEWMAN_BASEURL=https://localhost:8000 make tests-api
 
 ```
 
@@ -98,4 +98,3 @@ Para mais informações, contate a equipe responsável por meio dos seguintes ca
 Clique abaixo para orientações de instalação do Módulo Rest no SEI bem como para acessar e registrar o APP do SEI.
 
 [Instruções de Instalação e Configuração](docs/INSTALACAO.md)
-

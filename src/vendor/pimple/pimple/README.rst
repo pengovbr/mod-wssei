@@ -3,6 +3,12 @@ Pimple
 
 .. caution::
 
+    Pimple is now closed for changes. No new features will be added and no
+    cosmetic changes will be accepted either. The only accepted changes are
+    compatibility with newer PHP versions and security issue fixes.
+
+.. caution::
+
     This is the documentation for Pimple 3.x. If you are using Pimple 1.x, read
     the `Pimple 1.x documentation`_. Reading the Pimple 1.x code is also a good
     way to learn more about how to create a simple Dependency Injection
@@ -17,18 +23,7 @@ Before using Pimple in your project, add it to your ``composer.json`` file:
 
 .. code-block:: bash
 
-    $ ./composer.phar require pimple/pimple ~3.0
-
-Alternatively, Pimple is also available as a PHP C extension:
-
-.. code-block:: bash
-
-    $ git clone https://github.com/silexphp/Pimple
-    $ cd Pimple/ext/pimple
-    $ phpize
-    $ ./configure
-    $ make
-    $ make install
+    $ ./composer.phar require pimple/pimple "^3.0"
 
 Usage
 -----
@@ -57,13 +52,9 @@ object:
 .. code-block:: php
 
     // define some services
-    $container['session_storage'] = function ($c) {
-        return new SessionStorage('SESSION_ID');
-    };
+    $container['session_storage'] = fn($c) => new SessionStorage('SESSION_ID');
 
-    $container['session'] = function ($c) {
-        return new Session($c['session_storage']);
-    };
+    $container['session'] = fn($c) => new Session($c['session_storage']);
 
 Notice that the anonymous function has access to the current container
 instance, allowing references to other services or parameters.
@@ -91,9 +82,7 @@ anonymous function with the ``factory()`` method
 
 .. code-block:: php
 
-    $container['session'] = $container->factory(function ($c) {
-        return new Session($c['session_storage']);
-    });
+    $container['session'] = $container->factory(fn($c) => new Session($c['session_storage']));
 
 Now, each call to ``$container['session']`` returns a new instance of the
 session.
@@ -114,12 +103,10 @@ If you change the ``session_storage`` service definition like below:
 
 .. code-block:: php
 
-    $container['session_storage'] = function ($c) {
-        return new $c['session_storage_class']($c['cookie_name']);
-    };
+    $container['session_storage'] = fn($c) => new $c['session_storage_class']($c['cookie_name']);
 
 You can now easily change the cookie name by overriding the
-``session_storage_class`` parameter instead of redefining the service
+``cookie_name`` parameter instead of redefining the service
 definition.
 
 Protecting Parameters
@@ -131,9 +118,7 @@ parameters:
 
 .. code-block:: php
 
-    $container['random_func'] = $container->protect(function () {
-        return rand();
-    });
+    $container['random_func'] = $container->protect(fn() => rand());
 
 Modifying Services after Definition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -144,9 +129,7 @@ run on your service just after it is created:
 
 .. code-block:: php
 
-    $container['session_storage'] = function ($c) {
-        return new $c['session_storage_class']($c['cookie_name']);
-    };
+    $container['session_storage'] = fn($c) => new $c['session_storage_class']($c['cookie_name']);
 
     $container->extend('session_storage', function ($storage, $c) {
         $storage->...();
@@ -192,10 +175,132 @@ raw access to this function, you can use the ``raw()`` method:
 
 .. code-block:: php
 
-    $container['session'] = function ($c) {
-        return new Session($c['session_storage']);
-    };
+    $container['session'] = fn($c) => new Session($c['session_storage']);
 
     $sessionFunction = $container->raw('session');
+
+PSR-11 compatibility
+--------------------
+
+For historical reasons, the ``Container`` class does not implement the PSR-11
+``ContainerInterface``. However, Pimple provides a helper class that will let
+you decouple your code from the Pimple container class.
+
+The PSR-11 container class
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``Pimple\Psr11\Container`` class lets you access the content of an
+underlying Pimple container using ``Psr\Container\ContainerInterface``
+methods:
+
+.. code-block:: php
+
+    use Pimple\Container;
+    use Pimple\Psr11\Container as PsrContainer;
+
+    $container = new Container();
+    $container['service'] = fn($c) => new Service();
+    $psr11 = new PsrContainer($container);
+
+    $controller = function (PsrContainer $container) {
+        $service = $container->get('service');
+    };
+    $controller($psr11);
+
+Using the PSR-11 ServiceLocator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sometimes, a service needs access to several other services without being sure
+that all of them will actually be used. In those cases, you may want the
+instantiation of the services to be lazy.
+
+The traditional solution is to inject the entire service container to get only
+the services really needed. However, this is not recommended because it gives
+services a too broad access to the rest of the application and it hides their
+actual dependencies.
+
+The ``ServiceLocator`` is intended to solve this problem by giving access to a
+set of predefined services while instantiating them only when actually needed.
+
+It also allows you to make your services available under a different name than
+the one used to register them. For instance, you may want to use an object
+that expects an instance of ``EventDispatcherInterface`` to be available under
+the name ``event_dispatcher`` while your event dispatcher has been
+registered under the name ``dispatcher``:
+
+.. code-block:: php
+
+    use Monolog\Logger;
+    use Pimple\Psr11\ServiceLocator;
+    use Psr\Container\ContainerInterface;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+
+    class MyService
+    {
+        /**
+         * "logger" must be an instance of Psr\Log\LoggerInterface
+         * "event_dispatcher" must be an instance of Symfony\Component\EventDispatcher\EventDispatcherInterface
+         */
+        private $services;
+
+        public function __construct(ContainerInterface $services)
+        {
+            $this->services = $services;
+        }
+    }
+
+    $container['logger'] = fn($c) => new Monolog\Logger();
+    $container['dispatcher'] = fn($c) => new EventDispatcher();
+    
+    $container['service'] = function ($c) {
+        $locator = new ServiceLocator($c, array('logger', 'event_dispatcher' => 'dispatcher'));
+
+        return new MyService($locator);
+    };
+
+Referencing a Collection of Services Lazily
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Passing a collection of services instances in an array may prove inefficient
+if the class that consumes the collection only needs to iterate over it at a
+later stage, when one of its method is called. It can also lead to problems
+if there is a circular dependency between one of the services stored in the
+collection and the class that consumes it.
+
+The ``ServiceIterator`` class helps you solve these issues. It receives a
+list of service names during instantiation and will retrieve the services
+when iterated over:
+
+.. code-block:: php
+
+    use Pimple\Container;
+    use Pimple\ServiceIterator;
+
+    class AuthorizationService
+    {
+        private $voters;
+
+        public function __construct($voters)
+        {
+            $this->voters = $voters;
+        }
+
+        public function canAccess($resource)
+        {
+            foreach ($this->voters as $voter) {
+                if (true === $voter->canAccess($resource)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    $container = new Container();
+
+    $container['voter1'] = fn($c) => new SomeVoter();
+    $container['voter2'] = fn($c) => new SomeOtherVoter($c['auth']);
+    $container['auth'] = fn ($c) => new AuthorizationService(new ServiceIterator($c, array('voter1', 'voter2'));
 
 .. _Pimple 1.x documentation: https://github.com/silexphp/Pimple/tree/1.1

@@ -113,6 +113,8 @@ class ConfiguracaoSEI extends InfraConfiguracao
 
           'Solr' => array(
               'Servidor' => 'http://solr:8983/solr',
+              'Usuario' => 'sei',
+              'Senha' => 'SolrSei123$',
               'CoreProtocolos' => 'sei-protocolos',
               'CoreBasesConhecimento' => 'sei-bases-conhecimento',
               'CorePublicacoes' => 'sei-publicacoes',

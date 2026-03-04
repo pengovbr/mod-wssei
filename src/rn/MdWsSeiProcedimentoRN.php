@@ -33,8 +33,11 @@ class MdWsSeiProcedimentoRN extends InfraRN
   protected function listarUnidadesProcessoConectado(ProtocoloDTO $protocoloDTO)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if (!$protocoloDTO->getDblIdProtocolo()) {
-        throw new InfraException('Protocolo não informado.');
+        $objInfraException->lancarValidacao('Protocolo não informado.');
       }
         $result = array();
 
@@ -54,8 +57,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -96,8 +103,10 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
             setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
 
-            $objDtoFormatado = strtolower(iconv('ISO-8859-1', 'ASCII//TRANSLIT', $aux->getStrNome()));
-            $nomeFormatado = str_replace('?', '', strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $nome)));
+            // $objDtoFormatado = strtolower(iconv('ISO-8859-1', 'ASCII//TRANSLIT', $aux->getStrNome()));
+            // $nomeFormatado = str_replace('?', '', strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $nome)));
+            $objDtoFormatado = strtolower(mb_convert_encoding($aux->getStrNome(), 'ASCII', 'ISO-8859-1'));
+            $nomeFormatado = str_replace('?', '', strtolower(mb_convert_encoding($nome, 'ASCII', 'UTF-8')));
 
           if(
                 ($aux->getNumIdTipoProcedimento() == $id     || !$id)    
@@ -365,6 +374,9 @@ class MdWsSeiProcedimentoRN extends InfraRN
   protected function consultarConectado($idProtocolo)
     {
     try{
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
         $protocoloRN = new ProtocoloRN();
         $protocoloDTO = new MdWsSeiProtocoloDTO();
         $protocoloDTO->setDblIdProtocolo($idProtocolo);
@@ -385,7 +397,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
         $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
 
       if(!$protocoloDTO){
-        throw new InfraException('Processo não encontrado.');
+        $objInfraException->lancarValidacao('Processo não encontrado.');
       }
 
         $pesquisaProtocoloDTO = new PesquisaProtocoloDTO();
@@ -397,7 +409,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
         $arrProtocoloDTO = $protocoloRN->pesquisarRN0967($pesquisaProtocoloDTO);
 
       if(empty($arrProtocoloDTO)){
-          throw new InfraException("Acesso ao processo " . $idProtocolo . " não autorizado.");
+        $objInfraException->lancarValidacao("Acesso ao processo " . $idProtocolo . " não autorizado.");
       }
 
         /** Realiza montagem e enriquecimento de informações do processo */
@@ -405,8 +417,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result[0]);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
     
@@ -766,8 +782,11 @@ class MdWsSeiProcedimentoRN extends InfraRN
   protected function listarSobrestamentoProcessoConectado(AtividadeDTO $atividadeDTOParam)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if (!$atividadeDTOParam->isSetDblIdProtocolo()) {
-        throw new InfraException('Protocolo não informado.');
+        $objInfraException->lancarValidacao('Protocolo não informado.');
       }
       if (!$atividadeDTOParam->isSetNumIdUnidade()) {
           $atividadeDTOParam->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
@@ -798,8 +817,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -834,8 +857,11 @@ class MdWsSeiProcedimentoRN extends InfraRN
   protected function removerSobrestamentoProcessoControlado(ProcedimentoDTO $procedimentoDTOParam)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if (!$procedimentoDTOParam->getDblIdProcedimento()) {
-        throw new InfraException('Procedimento não informado.');
+        $objInfraException->lancarValidacao('Procedimento não informado.');
       }
         $seiRN = new SeiRN();
         $entradaRemoverSobrestamentoProcessoAPI = new EntradaRemoverSobrestamentoProcessoAPI();
@@ -845,8 +871,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST('Sobrestar cancelado com sucesso.');
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1654,9 +1684,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
   protected function listarCienciaProcessoConectado(ProcedimentoHistoricoDTO $procedimentoHistoricoDTO)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
         $result = array();
       if(!$procedimentoHistoricoDTO->isSetDblIdProcedimento()){
-        throw new InfraException('Processo não informado.');
+        $objInfraException->lancarValidacao('Processo não informado.');
       }
         $procedimentoHistoricoDTO->setStrStaHistorico(ProcedimentoRN::$TH_PERSONALIZADO);
         $procedimentoHistoricoDTO->setStrSinGerarLinksHistorico('N');
@@ -1686,8 +1719,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $procedimentoHistoricoDTO->getNumTotalRegistros());
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1701,8 +1738,11 @@ class MdWsSeiProcedimentoRN extends InfraRN
   protected function darCienciaControlado(ProcedimentoDTO $procedimentoDTOParam)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if (!$procedimentoDTOParam->isSetDblIdProcedimento()) {
-        throw new InfraException('E obrigatorio informar o procedimento!');
+        $objInfraException->lancarValidacao('E obrigatorio informar o procedimento!');
       }
 
         $procedimentoRN = new ProcedimentoRN();
@@ -1710,8 +1750,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST('Ciência processo realizado com sucesso!');
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1723,9 +1767,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
      */
   protected function concluirProcessoControlado(EntradaConcluirProcessoAPI $entradaConcluirProcessoAPI)
     {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
     try {
       if (!$entradaConcluirProcessoAPI->getProtocoloProcedimento()) {
-        throw new InfraException('E obrigtorio informar o protocolo do procedimento!');
+        $objInfraException->lancarValidacao('E obrigtorio informar o protocolo do procedimento!');
       }
 
         $objSeiRN = new SeiRN();
@@ -1733,8 +1780,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST('Processo concluído com sucesso!');
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1746,16 +1797,23 @@ class MdWsSeiProcedimentoRN extends InfraRN
   protected function reabrirProcessoControlado(EntradaReabrirProcessoAPI $entradaReabrirProcessoAPI)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if (!$entradaReabrirProcessoAPI->getIdProcedimento()) {
-        throw new InfraException('E obrigtorio informar o id do procedimento!');
+        $objInfraException->lancarValidacao('E obrigtorio informar o id do procedimento!');
       }
         $objSeiRN = new SeiRN();
         $objSeiRN->reabrirProcesso($entradaReabrirProcessoAPI);
 
         return MdWsSeiRest::formataRetornoSucessoREST('Processo reaberto com sucesso!');
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -1769,11 +1827,14 @@ class MdWsSeiProcedimentoRN extends InfraRN
   protected function atribuirProcessoControlado(EntradaAtribuirProcessoAPI $entradaAtribuirProcessoAPI)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if (!$entradaAtribuirProcessoAPI->getProtocoloProcedimento()) {
-        throw new InfraException('E obrigatorio informar o protocolo do processo!');
+        $objInfraException->lancarValidacao('E obrigatorio informar o protocolo do processo!');
       }
       if (!$entradaAtribuirProcessoAPI->getIdUsuario()) {
-          throw new InfraException('E obrigatorio informar o usu?rio do processo!');
+        $objInfraException->lancarValidacao('E obrigatorio informar o usu?rio do processo!');
       }
 
         $objSeiRN = new SeiRN();
@@ -1781,8 +1842,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST('Processo atribuído com sucesso!');
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -2213,6 +2278,9 @@ class MdWsSeiProcedimentoRN extends InfraRN
   protected function pesquisarProcessosSolarConectado(MdWsSeiPesquisaProtocoloSolrDTO $pesquisaProtocoloSolrDTO)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
         $protocoloRN = new ProtocoloRN();
         $relProtocoloProtocoloRN = new RelProtocoloProtocoloRN();
         $unidadeRN = new UnidadeRN();
@@ -2250,6 +2318,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
           $pesquisaProtocoloDTO->setDblIdProtocolo($protocoloDTO->getDblIdProtocolo());
 
           /** Acessa componente SEI para verificação dos tipos de processo ou documento */
+          $arrProtocoloDTO = array();
           $arrProtocoloDTO = $protocoloRN->pesquisarRN0967($pesquisaProtocoloDTO);
                     
           if($arrProtocoloDTO[0]->getStrStaProtocolo() == ProtocoloRN::$TPP_PROCEDIMENTOS){
@@ -2282,7 +2351,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                     $numTipoPesquisaRestrito = $objInfraParametro->getValor('SEI_EXIBIR_ARVORE_RESTRITO_SEM_ACESSO', false);
 
               if ($unidadeDTO->getStrSinProtocolo() == 'N' && $numTipoPesquisaRestrito != '1') {
-                  throw new InfraException('Unidade atual não possui acesso ao ' . ($protocoloDTO->getStrStaProtocolo() == ProtocoloRN::$TP_PROCEDIMENTO ? 'processo' : 'documento') . ' restrito ' . $protocoloDTO->getStrProtocoloFormatado() . '.');
+                $objInfraException->lancarValidacao('Unidade atual não possui acesso ao ' . ($protocoloDTO->getStrStaProtocolo() == ProtocoloRN::$TP_PROCEDIMENTO ? 'processo' : 'documento') . ' restrito ' . $protocoloDTO->getStrProtocoloFormatado() . '.');
                   $bolAcesso = false;
               }
             }
@@ -2297,7 +2366,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
             }
           }
         }
-          /** Descontinuando busca rápida, caso seja reativada tem que ser ajustado o método montaRetornoPesquisaSolr
+        /** Descontinuando busca rápida, caso seja reativada tem que ser ajustado o método montaRetornoPesquisaSolr
           if($bolAcesso){
               return MdWsSeiRest::formataRetornoSucessoREST(
                   null,
@@ -2313,7 +2382,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
                   1
               );
           }
-          **/
+         **/
       }else if(count($arrProtocoloDTOPesquisado) > 1){
           $pesquisaProtocoloSolrDTO->setStrProtocoloPesquisa($pesquisaProtocoloSolrDTO->getStrbuscaRapida());
       }
@@ -2321,17 +2390,20 @@ class MdWsSeiProcedimentoRN extends InfraRN
         /** Chama o método para montagem da estrutura da pesquisa no solr */
         $parametros = $this->montaConsultaSolr($pesquisaProtocoloSolrDTO);
         /** Executa consulta no SOLR para retorno de metadados indexados de processos e documentos da busca */
-        $urlBusca = ConfiguracaoSEI::getInstance()->getValor('Solr', 'Servidor') . '/' . ConfiguracaoSEI::getInstance()->getValor('Solr', 'CoreProtocolos') . '/select?' . http_build_query($parametros) . '&hl=true&hl.snippets=2&hl.fl=content&hl.fragsize=100&hl.maxAnalyzedChars=1048576&hl.alternateField=content&hl.maxAlternateFieldLength=100&fl=id,id_proc,id_doc,id_tipo_proc,id_serie,id_anexo,id_uni_ger,prot_doc,prot_proc,numero,id_usu_ger,dta_ger';
+        $urlBusca = SeiSolrUtil::obterUrlSolAuth() . '/' . ConfiguracaoSEI::getInstance()->getValor('Solr', 'CoreProtocolos') . '/select?' . http_build_query($parametros) . '&hl=true&hl.snippets=2&hl.fl=content&hl.fragsize=100&hl.maxAnalyzedChars=1048576&hl.alternateField=content&hl.maxAlternateFieldLength=100&fl=id,id_proc,id_doc,id_tipo_proc,id_serie,id_anexo,id_uni_ger,prot_doc,prot_proc,numero,id_usu_ger,dta_ger';
 
       try {
           $resultados = file_get_contents($urlBusca, false);
       } catch (Exception $e) {
-          throw new InfraException('Erro realizando pesquisa no Solar.', $e, urldecode($urlBusca), false);
+        $objInfraException->lancarValidacao('Erro realizando pesquisa no Solar.', $e, urldecode($urlBusca), false);
       }
 
       if ($resultados == '') {
-          throw new InfraException('Nenhum retorno encontrado no resultado da pesquisa do Solar, verificar indexação.');
+        $objInfraException->lancarValidacao('Nenhum retorno encontrado no resultado da pesquisa do Solar, verificar indexação.');
       }
+        $numRegistros = array();
+        $registros = array();
+        $arrRet = array();
 
         $xml = simplexml_load_string($resultados);
         $arrRet = $xml->xpath('/response/result/@numFound');
@@ -2360,8 +2432,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $this->montaRetornoPesquisaSolr($arrDadosSolr), $total);
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -2531,9 +2607,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
   protected function receberProcedimentoControlado(MdWsSeiProcedimentoDTO $dto)
     {
     try {
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
         // Se o id do procedimento não foi passado, gera exceção
       if (!$dto->getNumIdProcedimento()) {
-        throw new InfraException('E obrigatório informar o número identificador do procedimento!');
+        $objInfraException->lancarValidacao('E obrigatório informar o número identificador do procedimento!');
       }
 
         $objPesquisaPendenciaDTO = new PesquisaPendenciaDTO();
@@ -2565,8 +2644,12 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
 
     } catch (Exception $e) {
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -2634,6 +2717,40 @@ class MdWsSeiProcedimentoRN extends InfraRN
       $arrObjAtividadeDTO = $objAtividadeRN->listarRN0036($objAtividadeDTO);
 
       return empty($arrObjAtividadeDTO) ? false : true;
+  }
+
+  protected function processosRelacionadosConectado(ProcedimentoDTO $procedimentoDTOParam)
+    {
+    try {
+      if (!$procedimentoDTOParam->isSetDblIdProcedimento()) {
+        throw new InfraException('O Processo não foi informado.');
+      }
+
+      $result = array();
+      $objProcedimentoRN = new ProcedimentoRN();
+      $ret = $objProcedimentoRN->listarRelacionados($procedimentoDTOParam);         
+
+      /** @var ProcedimentoDTO $procedimentoDto */
+      foreach ($ret as $procedimentoDto) {
+        if ($procedimentoDto->getObjProtocoloDTO1()!=null){
+          $objProcedimentoDTO = $procedimentoDto->getObjProtocoloDTO1();
+        }else{
+          $objProcedimentoDTO = $procedimentoDto->getObjProtocoloDTO2();
+        }
+
+        $result[] = array(
+            'idProcedimento' => $objProcedimentoDTO->getDblIdProcedimento(),
+            'numero' => $objProcedimentoDTO->getStrProtocoloProcedimentoFormatado(),
+            'tipoProcesso' => $objProcedimentoDTO->getStrNomeTipoProcedimento(),
+            'descricao' => $objProcedimentoDTO->getStrDescricaoProtocolo(), 
+        );
+      }
+
+        return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+    } catch (Exception $e) {
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
+        return MdWsSeiRest::formataRetornoErroREST($e);
+    }
   }
 
 }

@@ -16,6 +16,9 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
   protected function pesquisarConectado(MarcadorDTO $marcadorDTOConsulta)
     {
     try{
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
         $result = array();
         $marcadorDTOConsulta->retTodos();
         $marcadorDTOConsulta->setBolExclusaoLogica(false);
@@ -23,7 +26,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         $marcadorDTOConsulta->setOrdStrNome(InfraDTO::$TIPO_ORDENACAO_ASC);
 
       if($marcadorDTOConsulta->isSetStrSinAtivo() && !in_array($marcadorDTOConsulta->getStrSinAtivo(), array('S', 'N'))){
-        throw new InfraException('Parametro ativo inválido.');
+        $objInfraException->lancarValidacao('Parametro ativo inválido.');
       }
 
       if($marcadorDTOConsulta->isSetStrNome()){
@@ -55,8 +58,12 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
             
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $marcadorDTOConsulta->getNumTotalRegistros());
     }catch (Exception $e){
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -130,8 +137,11 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
   protected function alterarControlado(MarcadorDTO $marcadorDTO)
     {
     try{
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if(!$marcadorDTO->getNumIdMarcador()){
-        throw new InfraException('Marcador não informado.');
+        $objInfraException->lancarValidacao('Marcador não informado.');
       }
         $marcadorRN = new MarcadorRN();
         $marcadorDTOConsulta = new MarcadorDTO();
@@ -145,7 +155,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         $marcadorDTOConsulta = $marcadorRN->consultar($marcadorDTOConsulta);
 
       if(!$marcadorDTOConsulta){
-          throw new InfraException('Marcador não encontrado.');
+        $objInfraException->lancarValidacao('Marcador não encontrado.');
       }
 
         $marcadorDTOConsulta->setStrNome($marcadorDTO->getStrNome());
@@ -167,8 +177,12 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
 
         return MdWsSeiRest::formataRetornoSucessoREST('Marcador alterado com sucesso.', $result);
     }catch (Exception $e){
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -180,8 +194,11 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
   protected function marcadorProcessoConsultarConectado(AndamentoMarcadorDTO $andamentoMarcadorDTOParam)
     {
     try{
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if(!$andamentoMarcadorDTOParam->getDblIdProcedimento()){
-        throw new InfraException('Processo não informado.');
+        $objInfraException->lancarValidacao('Processo não informado.');
       }
 
         $procedimentoDTO = new ProcedimentoDTO();
@@ -193,7 +210,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         $procedimentoDTO = $procedimentoRN->consultarRN0201($procedimentoDTO);
 
       if ($procedimentoDTO == null) {
-          throw new InfraException("Processo não encontrado.");
+        $objInfraException->lancarValidacao("Processo não encontrado.");
       }
 
         $result = array();
@@ -228,8 +245,12 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
     }catch (Exception $e){
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 
@@ -241,8 +262,11 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
   protected function listarHistoricoProcessoConectado(AndamentoMarcadorDTO $andamentoMarcadorDTOParam)
     {
     try{
+      //Regras de Negocio
+        $objInfraException = new InfraException();
+
       if(!$andamentoMarcadorDTOParam->getDblIdProcedimento()){
-        throw new InfraException('Processo não informado.');
+        $objInfraException->lancarValidacao('Processo não informado.');
       }
 
         $procedimentoDTO = new ProcedimentoDTO();
@@ -254,7 +278,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         $procedimentoDTO = $procedimentoRN->consultarRN0201($procedimentoDTO);
 
       if ($procedimentoDTO == null) {
-          throw new InfraException("Processo não encontrado.");
+        $objInfraException->lancarValidacao("Processo não encontrado.");
       }
 
         $result = array();
@@ -288,8 +312,12 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
     }catch (Exception $e){
+      if($objInfraException->contemValidacoes()){
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
+      }else{
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
-        return MdWsSeiRest::formataRetornoErroREST($e);
+      }
+      return MdWsSeiRest::formataRetornoErroREST($e);
     }
   }
 

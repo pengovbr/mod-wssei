@@ -2,33 +2,25 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2017 Josh Lockhart
- * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
+ * @license https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
+
 namespace Slim\Handlers;
 
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Slim\Http\Body;
 use UnexpectedValueException;
 
-/**
- * Default Slim application not allowed handler
- *
- * It outputs a simple message in either JSON, XML or HTML based on the
- * Accept header.
- */
 class NotAllowed extends AbstractHandler
 {
     /**
-     * Invoke error handler
-     *
      * @param  ServerRequestInterface $request  The most recent Request object
      * @param  ResponseInterface      $response The most recent Response object
      * @param  string[]               $methods  Allowed HTTP methods
      *
      * @return ResponseInterface
+     *
      * @throws UnexpectedValueException
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $methods)
@@ -36,7 +28,7 @@ class NotAllowed extends AbstractHandler
         if ($request->getMethod() === 'OPTIONS') {
             $status = 200;
             $contentType = 'text/plain';
-            $output = $this->renderPlainNotAllowedMessage($methods);
+            $output = $this->renderPlainOptionsMessage($methods);
         } else {
             $status = 405;
             $contentType = $this->determineContentType($request);
@@ -70,12 +62,13 @@ class NotAllowed extends AbstractHandler
     }
 
     /**
-     * Render PLAIN not allowed message
+     * Render plain message for OPTIONS response
      *
-     * @param  array                  $methods
+     * @param  string[] $methods
+     *
      * @return string
      */
-    protected function renderPlainNotAllowedMessage($methods)
+    protected function renderPlainOptionsMessage($methods)
     {
         $allow = implode(', ', $methods);
 
@@ -85,7 +78,8 @@ class NotAllowed extends AbstractHandler
     /**
      * Render JSON not allowed message
      *
-     * @param  array                  $methods
+     * @param  string[] $methods
+     *
      * @return string
      */
     protected function renderJsonNotAllowedMessage($methods)
@@ -98,7 +92,8 @@ class NotAllowed extends AbstractHandler
     /**
      * Render XML not allowed message
      *
-     * @param  array                  $methods
+     * @param  string[] $methods
+     *
      * @return string
      */
     protected function renderXmlNotAllowedMessage($methods)
@@ -111,7 +106,8 @@ class NotAllowed extends AbstractHandler
     /**
      * Render HTML not allowed message
      *
-     * @param  array                  $methods
+     * @param  string[] $methods
+     *
      * @return string
      */
     protected function renderHtmlNotAllowedMessage($methods)
