@@ -22,9 +22,9 @@ O módulo é compatível com as seguintes versões do SUPER/SEI:
 ## DOWNLOAD
 
 O download do pacote de instalação/atualização do mod-wssei pode ser encontrado na seção Releases deste projeto no GitHub. 
-Acesse o link https://github.com/spbgovbr/mod-wssei/releases
+Acesse o link https://github.com/pengovbr/mod-wssei/releases
 
-**[DOWNLOAD PACOTE DE INSTALAÇÃO MOD-WSSEI](https://github.com/spbgovbr/mod-wssei/releases)** 
+**[DOWNLOAD PACOTE DE INSTALAÇÃO MOD-WSSEI](https://github.com/pengovbr/mod-wssei/releases)** 
 
 
 ## DOCUMENTAÇÃO
