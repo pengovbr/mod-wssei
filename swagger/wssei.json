@@ -20,16 +20,16 @@
   },
   "servers": [
     {
-      "url": "http://sei.orgao1.tramita.processoeletronico.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v2"
+      "url": "http://sei.orgao1.tramita.processoeletronico.gov.br/sei/modulos/wssei/controlador_ws.php/api/v2"
     },
     {
-      "url": "http://sei.orgao2.tramita.processoeletronico.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v2"
+      "url": "http://sei.orgao2.tramita.processoeletronico.gov.br/sei/modulos/wssei/controlador_ws.php/api/v2"
     },
     {
-      "url": "http://sei.orgao3.tramita.processoeletronico.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v2"
+      "url": "http://sei.orgao3.tramita.processoeletronico.gov.br/sei/modulos/wssei/controlador_ws.php/api/v2"
     },
     {
-      "url": "http://sei.orgao4.tramita.processoeletronico.gov.br/sei/modulos/mod-wssei/controlador_ws.php/api/v2"
+      "url": "http://sei.orgao4.tramita.processoeletronico.gov.br/sei/modulos/wssei/controlador_ws.php/api/v2"
     }
   ],
   "security": [
