@@ -30,6 +30,9 @@
     },
     {
       "url": "http://sei.orgao4.tramita.processoeletronico.gov.br/sei/modulos/wssei/controlador_ws.php/api/v2"
+    },
+     {
+      "url": "http://sei.orgao5.tramita.processoeletronico.gov.br/sei/modulos/wssei/controlador_ws.php/api/v2"
     }
   ],
   "security": [
