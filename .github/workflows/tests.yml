@@ -1,6 +1,16 @@
 name: Testes da API
 
-on: [pull_request, workflow_dispatch]
+on:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '20 2 * * *'
+  push:
+    branches:
+      - "master"
+    paths:
+      - 'src/**'
+      - '.github/workflows/tests.yml'
 env: # Or as an environment variable
   NEWMAN_BASEURL: 'http://localhost:8000'
 
