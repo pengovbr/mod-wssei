@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        sei: [master, release/5.1.0]
+        sei: [main, release/5.1.0]
     steps:
       - name: Fetch Pull Request branch
         uses: actions/checkout@v3
