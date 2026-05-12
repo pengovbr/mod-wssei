@@ -7,6 +7,9 @@ env: # Or as an environment variable
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        sei: [master, release/5.1.0]
     steps:
       - name: Fetch Pull Request branch
         uses: actions/checkout@v3
@@ -14,7 +17,7 @@ jobs:
             repository: pengovbr/sei
             token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
             path: sei
-            ref: 5.0.3
+            ref: ${{ matrix.sei }}
       - name: Checkout
         uses: actions/checkout@v3
         with:
