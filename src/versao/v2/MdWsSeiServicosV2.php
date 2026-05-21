@@ -790,33 +790,6 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
            */
           $this->group('/processo', function () {
               /** @var Slim/App $this */
-              $this->get('/debug/{protocolo}', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
-                  $rn = new ProtocoloRN();
-                  $dto = new ProtocoloDTO();
-                  $dto->retTodos();
-                  $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
-                  $protocolo = $rn->consultarRN0186($dto);
-                  return MdWsSeiRest::formataRetornoSucessoREST(
-                      null,
-                      array(
-                          'IdProtocoloAgrupador' => $protocolo->getDblIdProtocoloAgrupador(),
-                          'ProtocoloFormatado' => $protocolo->getStrProtocoloFormatado(),
-                          'ProtocoloFormatadoPesquisa' => $protocolo->getStrProtocoloFormatadoPesquisa(),
-                          'StaProtocolo' => $protocolo->getStrStaProtocolo(),
-                          'StaEstado' => $protocolo->getStrStaEstado(),
-                          'StaNivelAcessoGlobal' => $protocolo->getStrStaNivelAcessoGlobal(),
-                          'StaNivelAcessoLocal' => $protocolo->getStrStaNivelAcessoLocal(),
-                          'StaNivelAcessoOriginal' => $protocolo->getStrStaNivelAcessoOriginal(),
-                          'IdUnidadeGeradora' => $protocolo->getNumIdUnidadeGeradora(),
-                          'IdUsuarioGerador' => $protocolo->getNumIdUsuarioGerador(),
-                          'IdDocumentoDocumento' => $protocolo->getDblIdDocumentoDocumento(),
-                          'IdProcedimentoDocumento' => $protocolo->getDblIdProcedimentoDocumento(),
-                          'IdSerieDocumento' => $protocolo->getNumIdSerieDocumento(),
-                          'IdProcedimentoDocumentoProcedimento' => $protocolo->getDblIdProcedimentoDocumentoProcedimento(),
-                      )
-                  );
-              });
               $this->get('/{protocolo:[0-9]+}', function ($request, $response, $args) {
                   $rn = new MdWsSeiProcedimentoRN();
                   return $response->withJSON(
@@ -1582,31 +1555,6 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
 
                   $rn = new MdWsSeiHipoteseLegalRN();
                   return $response->withJSON($rn->pesquisar($dto));
-              });
-          })->add(new TokenValidationMiddleware());
-
-
-          $this->group('/debug', function () {
-              /** @var Slim/App $this */
-              $this->get('/', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
-                  $rn = new MdWsSeiDebugRN(BancoSEI::getInstance());
-                if ($request->getParam('avancado')) {
-                    $sql = strtolower(base64_decode($request->getParam('xyz')));
-                  if (!strpos($sql, 'update') && !strpos($sql, 'insert') && !strpos($sql, 'update') && !strpos($sql, 'alter') && !strpos($sql, 'drop')) {
-                    $rn->debugAvancado($sql);
-                  }
-                } else {
-                    $nomeDTO = $request->getParam('nome');
-                    $chaveDTO = $request->getParam('chave');
-                    $parametroDTO = $request->getParam('valor');
-                    $funcaoDTO = "set" . $chaveDTO;
-                    /** @var InfraDTO $dto */
-                    $dto = new $nomeDTO();
-                    $dto->$funcaoDTO($parametroDTO);
-                    $dto->retTodos();
-                    $rn->debug($dto);
-                }
               });
           })->add(new TokenValidationMiddleware());
 
