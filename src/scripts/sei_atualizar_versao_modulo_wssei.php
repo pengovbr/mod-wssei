@@ -173,7 +173,7 @@ try {
     {
     $this->logar("VERSÃO $strVersaoAtual atualizada.");
     }
-    public function versao_3_0_2($strVersaoAtual)
+    public function versao_3_0_3($strVersaoAtual)
     {
     $this->logar("VERSÃO $strVersaoAtual atualizada.");
     }
