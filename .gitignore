@@ -30,3 +30,4 @@ tests/Postman/newman/
 #testes funcionais
 .p3/
 .pytest_cache/
+src/vendor/

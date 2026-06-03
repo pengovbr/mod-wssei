@@ -1,5 +1,6 @@
 <?php
 require_once DIR_SEI_WEB . '/SEI.php';
+use Slim\Routing\RouteContext;
 
 class MdWsSeiProcedimentoRN extends InfraRN
 {
@@ -648,17 +649,20 @@ class MdWsSeiProcedimentoRN extends InfraRN
 
     /**
      * Método que altera um processo através de uma requisição do Slim
-     * @param \Slim\Http\Request $request
+     * @param \Slim\Psr7\Request $request
      * @return array
      */
-  public function alterarProcessoRequest(\Slim\Http\Request $request)
+  public function alterarProcessoRequest(\Slim\Psr7\Request $request)
     {
     try{
-      if (!$request->getAttribute('route')->getArgument('protocolo')) {
+      $routeContext = RouteContext::fromRequest($request);
+			$route = $routeContext->getRoute();
+			$protocolo = $route->getArgument('protocolo');
+			if (!$protocolo) {
         throw new Exception('O procedimento não foi informado.');
       }
         $procedimentoDTO = new ProcedimentoDTO();
-        $procedimentoDTO->setDblIdProcedimento($request->getAttribute('route')->getArgument('protocolo'));
+        $procedimentoDTO->setDblIdProcedimento($protocolo);
         $procedimentoDTO->retTodos(true);
 
         $procedimentoRN = new ProcedimentoRN();
@@ -666,7 +670,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
       if(!$procedimentoDTO){
           throw new Exception('Procedimento não encontrado.');
       }
-        $post = $request->getParams();
+        $post = $request->getParsedBody();
         $procedimentoDTO = self::encapsulaProcesso($post, $procedimentoDTO);
     }catch (Exception $e){
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
