@@ -3,8 +3,6 @@ name: Testes da API
 on:
   pull_request:
   workflow_dispatch:
-  schedule:
-    - cron: '20 2 * * *'
   push:
     branches:
       - "master"
