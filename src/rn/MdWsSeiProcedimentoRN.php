@@ -656,9 +656,9 @@ class MdWsSeiProcedimentoRN extends InfraRN
     {
     try{
       $routeContext = RouteContext::fromRequest($request);
-			$route = $routeContext->getRoute();
-			$protocolo = $route->getArgument('protocolo');
-			if (!$protocolo) {
+            $route = $routeContext->getRoute();
+            $protocolo = $route->getArgument('protocolo');
+      if (!$protocolo) {
         throw new Exception('O procedimento não foi informado.');
       }
         $procedimentoDTO = new ProcedimentoDTO();

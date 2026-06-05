@@ -16,143 +16,143 @@ use Slim\Factory\AppFactory;
 
 final class JsonResponseHelper
 {
-    public static function json(
+  public static function json(
         ResponseFactoryInterface $responseFactory,
         mixed $data,
         int $status = 200
     ): ResponseInterface {
-        $response = $responseFactory->createResponse($status);
+      $response = $responseFactory->createResponse($status);
 
-        $response->getBody()->write(
-            json_encode(
-                $data,
-                JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
-            )
-        );
+      $response->getBody()->write(
+          json_encode(
+              $data,
+              JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
+          )
+      );
 
-        return $response->withHeader(
-            'Content-Type',
-            'application/json'
-        );
-    }
+      return $response->withHeader(
+          'Content-Type',
+          'application/json'
+      );
+  }
 }
 
 final readonly class TokenValidationMiddleware implements MiddlewareInterface
 {
-    public function __construct(
+  public function __construct(
         private ResponseFactoryInterface $responseFactory
     ) {
-    }
+  }
 
-    public function process(
+  public function process(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
 
-        $token = $request->getHeaderLine('token');
+      $token = $request->getHeaderLine('token');
 
-        if ($token === '') {
-            return JsonResponseHelper::json(
-                $this->responseFactory,
-                MdWsSeiRest::formataRetornoErroREST(
-                    new InfraException('Acesso negado!')
-                ),
-                401
-            );
-        }
-
-        $rn = new MdWsSeiUsuarioRN();
-
-        $result = $rn->autenticarToken($token);
-
-        if (!$result['sucesso']) {
-            return JsonResponseHelper::json(
-                $this->responseFactory,
-                MdWsSeiRest::formataRetornoErroREST(
-                    new InfraException('Token inválido!')
-                ),
-                403
-            );
-        }
-
-        $unidade = $request->getHeaderLine('unidade');
-
-        if ($unidade !== '') {
-            $rn->alterarUnidadeAtual($unidade);
-        }
-
-        return $handler->handle($request);
+    if ($token === '') {
+        return JsonResponseHelper::json(
+            $this->responseFactory,
+            MdWsSeiRest::formataRetornoErroREST(
+                new InfraException('Acesso negado!')
+            ),
+            401
+        );
     }
+
+      $rn = new MdWsSeiUsuarioRN();
+
+      $result = $rn->autenticarToken($token);
+
+    if (!$result['sucesso']) {
+        return JsonResponseHelper::json(
+            $this->responseFactory,
+            MdWsSeiRest::formataRetornoErroREST(
+                new InfraException('Token inválido!')
+            ),
+            403
+        );
+    }
+
+      $unidade = $request->getHeaderLine('unidade');
+
+    if ($unidade !== '') {
+        $rn->alterarUnidadeAtual($unidade);
+    }
+
+      return $handler->handle($request);
+  }
 }
 
 final readonly class ModuleVerificationMiddleware implements MiddlewareInterface
 {
-    public function __construct(
+  public function __construct(
         private ResponseFactoryInterface $responseFactory
     ) {
-    }
+  }
 
-    public function process(
+  public function process(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
 
-        if (!class_exists('MdWsSeiRest', false) || !MdWsSeiRest::moduloAtivo()) {
+    if (!class_exists('MdWsSeiRest', false) || !MdWsSeiRest::moduloAtivo()) {
 
-            return JsonResponseHelper::json(
-                $this->responseFactory,
-                [
-                    'sucesso' => false,
-                    'mensagem' => 'Módulo inativo.',
-                    'exception' => null,
-                ],
-                401
-            );
-        }
-
-        $rest = new MdWsSeiRest();
-
-        if (!$rest->verificaCompatibilidade(SEI_VERSAO)) {
-
-            return JsonResponseHelper::json(
-                $this->responseFactory,
-                [
-                    'sucesso' => false,
-                    'mensagem' =>
-                        'Módulo incompatível com a versão ' .
-                        SEI_VERSAO .
-                        ' do SEI.',
-                    'exception' => null,
-                ],
-                401
-            );
-        }
-
-        return $handler->handle($request);
+        return JsonResponseHelper::json(
+            $this->responseFactory,
+            [
+                'sucesso' => false,
+                'mensagem' => 'Módulo inativo.',
+                'exception' => null,
+            ],
+            401
+        );
     }
+
+      $rest = new MdWsSeiRest();
+
+    if (!$rest->verificaCompatibilidade(SEI_VERSAO)) {
+
+        return JsonResponseHelper::json(
+            $this->responseFactory,
+            [
+                'sucesso' => false,
+                'mensagem' =>
+                    'Módulo incompatível com a versão ' .
+                    SEI_VERSAO .
+                    ' do SEI.',
+                'exception' => null,
+            ],
+            401
+        );
+    }
+
+      return $handler->handle($request);
+  }
 }
 
 final class EncodingMiddleware implements MiddlewareInterface
 {
-    public function process(
+  public function process(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
 
-        $request = $request->withParsedBody(
-            MdWsSeiRest::dataToIso88591(
-                $request->getParsedBody()
-            ) ?: []
-        );
+      $request = $request->withParsedBody(
+          MdWsSeiRest::dataToIso88591(
+              $request->getParsedBody()
+          ) ?: []
+      );
 
-        $request = $request->withQueryParams(
-            MdWsSeiRest::dataToIso88591(
-                $request->getQueryParams()
-            ) ?: []
-        );
+      $request = $request->withQueryParams(
+          MdWsSeiRest::dataToIso88591(
+              $request->getQueryParams()
+          ) ?: []
+      );
 
-        return $handler->handle($request);
-    }
+      return $handler->handle($request);
+  }
 }
 
 

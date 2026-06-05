@@ -49,10 +49,10 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
               /** @var $response Slim\Http\Response */
               $rn = new MdWsSeiUsuarioRN();
               $usuarioDTO = new UsuarioDTO();
-              $usuarioDTO->setStrSigla($this->getParam($request,'usuario'));
-              $usuarioDTO->setStrSenha($this->getParam($request,'senha'));
+              $usuarioDTO->setStrSigla($this->getParam($request, 'usuario'));
+              $usuarioDTO->setStrSenha($this->getParam($request, 'senha'));
               $orgaoDTO = new OrgaoDTO();
-              $orgaoDTO->setNumIdOrgao($this->getParam($request,'orgao'));
+              $orgaoDTO->setNumIdOrgao($this->getParam($request, 'orgao'));
                 
               return JsonResponse::create($response, $rn->apiAutenticar($usuarioDTO, $orgaoDTO));
           });
@@ -1859,7 +1859,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
   }
 
   private function getParam(Slim\Psr7\Request $request, string $name)
-{
+  {
     $query = $request->getQueryParams();
 
     if (isset($query[$name])) {
@@ -1881,29 +1881,29 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
     }
     
     return null;
-}
+  }
   
 }
 final class JsonResponse
 {
-    public static function create(
+  public static function create(
         Slim\Psr7\Response $response,
         mixed $data,
         int $status = 200
     ): Slim\Psr7\Response {
 
-        $response->getBody()->write(
-            json_encode(
-                $data,
-                JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
-            )
-        );
+      $response->getBody()->write(
+          json_encode(
+              $data,
+              JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
+          )
+      );
 
-        return $response
-            ->withStatus($status)
-            ->withHeader(
-                'Content-Type',
-                'application/json'
-            );
-    }
+      return $response
+          ->withStatus($status)
+          ->withHeader(
+              'Content-Type',
+              'application/json'
+          );
+  }
 }
