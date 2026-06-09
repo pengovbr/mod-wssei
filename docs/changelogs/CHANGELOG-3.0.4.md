@@ -1,11 +1,11 @@
-## Novidades da versão 3.0.3
+## Novidades da versão 3.0.4
 
 Este documento descreve as principais mudanças aplicadas nesta atualização de versão do **Módulo do WSSEI**.
 
 Para instruções sobre como realizar a atualização do sistema, acesse a seção **[Atualização de Versão](#atualização-de-versão)** no final deste documento. Outras informações sobre procedimentos de **instalação** ou **atualização** de versões anteriores, acesse os seguintes documentos:
 
-* [Instalação](../v3.0.2/docs/INSTALACAO.md) - Procedimento de instalação do módulo
-* [Atualização](../v3.0.2/docs/ATUALIZACAO.md) - Procedimento detalhados para atualização de uma versão anterior.
+* [Instalação](../v3.0.4/docs/INSTALACAO.md) - Procedimento de instalação do módulo
+* [Atualização](../v3.0.4/docs/ATUALIZACAO.md) - Procedimento detalhados para atualização de uma versão anterior.
 
 ## Compatibilidade de versões
 
@@ -19,8 +19,8 @@ O módulo é compatível com as seguintes versões do SUPER/SEI:
 
 Todas as atualizações podem incluir itens referentes à segurança, requisito em permanente monitoramento e evolução, motivo pelo qual a atualização com a maior brevidade possível é sempre recomendada.
 
-#### Remover endpoint de debug (#120)
-Remover endpoint de debug. Endpoint só podia ser usado com usuário autenticado.
+#### Atualizar slim para versão 4.x (#85)
+Atualizar para slim 4 e bibliotecas associadas.
 
 ### Atualização de Versão
 
