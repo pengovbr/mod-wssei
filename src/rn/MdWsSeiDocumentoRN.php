@@ -1,6 +1,7 @@
 <?
 
 require_once DIR_SEI_WEB . '/SEI.php';
+use Slim\Routing\RouteContext;
 
 class MdWsSeiDocumentoRN extends DocumentoRN
 {
@@ -1188,18 +1189,21 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
     /**
      * Método que cria um documento externo atraves de uma requisição do Slim
-     * @param \Slim\Http\Request $request
+     * @param \Slim\Psr7\Request $request
      */
-  public function criarDocumentoExternoRequest(\Slim\Http\Request $request)
+  public function criarDocumentoExternoRequest(\Slim\Psr7\Request $request)
     {
     try {
-      if (!$request->getAttribute('route')->getArgument('procedimento')) {
+      $routeContext = RouteContext::fromRequest($request);
+			$route = $routeContext->getRoute();
+			$procedimento = $route->getArgument('procedimento');
+			if (!$procedimento) {
         throw new Exception('O processo não foi informado.');
       }
-        $post = $request->getParams();
+        $post = $request->getParsedBody();
         /** Realiza o encapsulamento das informações vindas da requisiçao */
         $documentoDTO = self::encapsulaDocumento($post);
-        $documentoDTO->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
+        $documentoDTO->setDblIdProcedimento($procedimento);
         $arrFiles = $request->getUploadedFiles();
       if (!isset($arrFiles['anexo']) || empty($arrFiles['anexo'])) {
           throw new Exception('Anexo não informado.');
@@ -1217,18 +1221,21 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
     /**
      * Método que cria um documento interno atraves de uma requisição do Slim
-     * @param \Slim\Http\Request $request
+     * @param Slim\Psr7\Request $request
      */
-  public function criarDocumentoInternoRequest(\Slim\Http\Request $request)
+  public function criarDocumentoInternoRequest(\Slim\Psr7\Request $request)
     {
     try {
-      if (!$request->getAttribute('route')->getArgument('procedimento')) {
+      $routeContext = RouteContext::fromRequest($request);
+      $route = $routeContext->getRoute();
+      $procedimento = $route->getArgument('procedimento');
+      if (!$procedimento) {
         throw new Exception('O processo não foi informado.');
       }
-        $post = $request->getParams();
+        $post = $request->getParsedBody();
         /** Realiza o encapsulamento das informações vindas da requisiçao */
         $documentoDTO = self::encapsulaDocumento($post);
-        $documentoDTO->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
+        $documentoDTO->setDblIdProcedimento($procedimento);
     } catch (Exception $e) {
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
         return MdWsSeiRest::formataRetornoErroREST($e);
@@ -1239,23 +1246,28 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
     /**
      * Método que altera um documento externo atraves de uma requisição do Slim
-     * @param \Slim\Http\Request $request
+     * @param \Slim\Psr7\Request $request
      */
-  public function alterarDocumentoExternoRequest(\Slim\Http\Request $request)
+  public function alterarDocumentoExternoRequest(\Slim\Psr7\Request $request)
     {
     try {
+
+      $routeContext = RouteContext::fromRequest($request);
+      $route = $routeContext->getRoute();
+      $documento = $route->getArgument('documento');
+
       //Regras de Negocio
 	    $objInfraException = new InfraException();
 
-      if (!$request->getAttribute('route')->getArgument('documento')) {
+      if (!$documento) {
         $objInfraException->lancarValidacao('O documento não foi informado.');
       }
-      if (!$this->verificarAcessoProtocolo($request->getAttribute('route')->getArgument('documento'))) {
-        $objInfraException->lancarValidacao("Acesso ao documento " . $request->getAttribute('route')->getArgument('documento') . " não autorizado.");
+      if (!$this->verificarAcessoProtocolo($documento)) {
+        $objInfraException->lancarValidacao("Acesso ao documento " . $documento . " não autorizado.");
       }
 
         $documentoDTO = new DocumentoDTO();
-        $documentoDTO->setDblIdDocumento($request->getAttribute('route')->getArgument('documento'));
+        $documentoDTO->setDblIdDocumento($documento);
         $documentoDTO->retTodos(true);
         /** Chamada no componente SEI para consulta de documento */
         $documentoDTO = $this->consultarRN0005($documentoDTO);
@@ -1269,7 +1281,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $objInfraException->lancarValidacao('Documento não encontrado.');
         }
       }
-        $post = $request->getParams();
+        $post = $request->getParsedBody();
         /** Realiza o encapsulamento das informações vindas da requisiçao */
         $documentoDTO = self::encapsulaDocumento($post, $documentoDTO);
         $arrFiles = $request->getUploadedFiles();
@@ -1292,29 +1304,32 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
     /**
      * Método que altera um documento interno atraves de uma requisição do Slim
-     * @param \Slim\Http\Request $request
+     * @param \Slim\Psr7\Request $request
      */
-  public function alterarDocumentoInternoRequest(\Slim\Http\Request $request)
+  public function alterarDocumentoInternoRequest(\Slim\Psr7\Request $request)
     {
     try {
       //Regras de Negocio
 	    $objInfraException = new InfraException();
 
-      if (!$request->getAttribute('route')->getArgument('documento')) {
+      $routeContext = RouteContext::fromRequest($request);
+			$route = $routeContext->getRoute();
+			$documento = $route->getArgument('documento');
+			if (!$documento) {
         $objInfraException->lancarValidacao('O documento não foi informado.');
       }
-      if (!$this->verificarAcessoProtocolo($request->getAttribute('route')->getArgument('documento'))) {
-        $objInfraException->lancarValidacao("Acesso ao documento " . $request->getAttribute('route')->getArgument('documento') . " não autorizado.");
+      if (!$this->verificarAcessoProtocolo($documento)) {
+        $objInfraException->lancarValidacao("Acesso ao documento " . $documento . " não autorizado.");
       }
         $documentoDTO = new DocumentoDTO();
-        $documentoDTO->setDblIdDocumento($request->getAttribute('route')->getArgument('documento'));
+        $documentoDTO->setDblIdDocumento($documento);
         $documentoDTO->retTodos(true);
         /** Chamada no componente SEI para consulta de documento */
         $documentoDTO = $this->consultarRN0005($documentoDTO);
       if(!$documentoDTO){
         $objInfraException->lancarValidacao('Documento não encontrado.');
       }
-        $post = $request->getParams();
+        $post = $request->getParsedBody();
         /** Realiza o encapsulamento das informações vindas da requisiçao */
         $documentoDTO = self::encapsulaDocumento($post, $documentoDTO);
     } catch (Exception $e) {

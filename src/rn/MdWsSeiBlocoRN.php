@@ -1,5 +1,6 @@
 <?
 require_once DIR_SEI_WEB . '/SEI.php';
+use Slim\Routing\RouteContext;
 
 class MdWsSeiBlocoRN extends InfraRN {
 
@@ -82,7 +83,6 @@ class MdWsSeiBlocoRN extends InfraRN {
   public function apiAssinarDocumentos($idOrgao, $strCargoFuncao, $siglaUsuario, $senhaUsuario, $idUsuario, $arrIdDocumentos)
     {
     try{
-        sleep(3);
       if(!$arrIdDocumentos){
         return MdWsSeiRest::formataRetornoSucessoREST('Nenhum documento foi informado para ser assinado.');
       }
@@ -484,14 +484,14 @@ class MdWsSeiBlocoRN extends InfraRN {
 
     /**
      * Método que cadastra um bloco de assinatura
-     * @param \Slim\Http\Request $request
+     * @param \Slim\Psr7\Request $request
      * @return array
      */
-  public function cadastrarBlocoAssinaturaRequest(\Slim\Http\Request $request)
+  public function cadastrarBlocoAssinaturaRequest(\Slim\Psr7\Request $request)
     {
     try{
         $result = array();
-      if(!$request->getParam('descricao')){
+      if(!$request->getParsedBody()['descricao'] ?? null){
         throw new Exception('Descrição não informada.');
       }
         $blocoDTO = new BlocoDTO();
@@ -500,12 +500,12 @@ class MdWsSeiBlocoRN extends InfraRN {
         $blocoDTO->setNumIdUsuario(SessaoSEI::getInstance()->getNumIdUsuario());
         $blocoDTO->setStrIdxBloco(null);
         $blocoDTO->setStrStaEstado(BlocoRN::$TE_ABERTO);
-        $blocoDTO->setStrDescricao($request->getParam('descricao'));
+        $blocoDTO->setStrDescricao($request->getParsedBody()['descricao'] ?? null);
 
         $arrObjRelBlocoUnidadeDTO = array();
         $arrUnidades = array();
-      if($request->getParam('unidades') != ''){
-          $arrUnidades = explode(',', $request->getParam('unidades'));
+      if($request->getParsedBody()['unidades'] ?? null != ''){
+          $arrUnidades = explode(',', $request->getParsedBody()['unidades'] ?? null);
         foreach($arrUnidades as $numIdUnidade){
           $objRelBlocoUnidadeDTO = new RelBlocoUnidadeDTO();
           $objRelBlocoUnidadeDTO->setNumIdBloco(null);
@@ -665,21 +665,24 @@ class MdWsSeiBlocoRN extends InfraRN {
 
     /**
      * Método que altera um bloco de assinatura
-     * @param \Slim\Http\Request $request
+     * @param \Slim\Psr7\Request $request
      * @return array
      */
-  public function alterarBlocoAssinaturaRequest(\Slim\Http\Request $request)
+  public function alterarBlocoAssinaturaRequest(\Slim\Psr7\Request $request)
     {
     try{
         $result = array();
-      if(!$request->getParam('descricao')){
+      if(!$request->getParsedBody()['descricao'] ?? null){
         throw new Exception('Descrição não informada.');
       }
-      if(!$request->getAttribute('route')->getArgument('bloco')){
+      $routeContext = RouteContext::fromRequest($request);
+			$route = $routeContext->getRoute();
+			$bloco = $route->getArgument('bloco');
+			if (!$bloco) {
           throw new Exception('Bloco não informado.');
       }
         $blocoDTO = new BlocoDTO();
-        $blocoDTO->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
+        $blocoDTO->setNumIdBloco($bloco);
         $blocoDTO->retTodos();
         $blocoRN = new BlocoRN();
         /** Chama o componente SEI para validação do tipo de bloco de assinatura */
@@ -691,12 +694,12 @@ class MdWsSeiBlocoRN extends InfraRN {
           throw new Exception('Bloco diferente do informado.');
       }
 
-        $blocoDTO->setStrDescricao($request->getParam('descricao'));
+        $blocoDTO->setStrDescricao($request->getParsedBody()['descricao'] ?? null);
 
         $arrObjRelBlocoUnidadeDTO = array();
         $arrUnidades = array();
-      if($request->getParam('unidades') != ''){
-          $arrUnidades = explode(',', $request->getParam('unidades'));
+      if($request->getParsedBody()['unidades'] ?? null != ''){
+          $arrUnidades = explode(',', $request->getParsedBody()['unidades'] ?? null);
         foreach($arrUnidades as $numIdUnidade){
             $objRelBlocoUnidadeDTO = new RelBlocoUnidadeDTO();
             $objRelBlocoUnidadeDTO->setNumIdBloco(null);

@@ -16,18 +16,44 @@ jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         sei: [main, release/5.1.0]
     steps:
       - name: Fetch Pull Request branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
             repository: pengovbr/sei
             token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
             path: sei
             ref: ${{ matrix.sei }}
+      - name: Cache Docker Image outras
+        id: docker-cache-outras
+        uses: actions/cache@v5
+        with:
+          path: ~/docker-image-cache-outras
+          key: docker-image-${{ runner.os }}-outras
+
+      - name: Pull and Save Image (if cache miss)
+        if: steps.docker-cache-outras.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/docker-image-cache-outras
+          docker pull processoeletronico/app-dev-php8:3.6.11
+          docker save processoeletronico/app-dev-php8:3.6.11 -o ~/docker-image-cache-outras/app-dev-php8.tar
+          docker pull processoeletronico/solr9.6.1:3.6.11
+          docker save processoeletronico/solr9.6.1:3.6.11 -o ~/docker-image-cache-outras/solr9.6.1.tar
+          docker pull processoeletronico/mysql8-sei50:3.6.11
+          docker save processoeletronico/mysql8-sei50:3.6.11 -o ~/docker-image-cache-outras/mysql.tar
+
+      - name: Load Image (if cache hit)
+        if: steps.docker-cache-outras.outputs.cache-hit == 'true'
+        run: |
+          docker load -i ~/docker-image-cache-outras/app-dev-php8.tar
+          docker load -i ~/docker-image-cache-outras/solr9.6.1.tar
+          docker load -i ~/docker-image-cache-outras/mysql.tar
+
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
             path: sei/src/sei/web/modulos/mod-wssei
 

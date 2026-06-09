@@ -1,4 +1,6 @@
 <?php
+use Slim\Factory\AppFactory;
+
 
 abstract class MdWsSeiVersaoServicos
 {
@@ -18,7 +20,14 @@ abstract class MdWsSeiVersaoServicos
      * @return Slim\App
      */
   public function registrarServicos(){
-      return $this->container;
+    $container = new \DI\Container();
+
+    AppFactory::setContainer($container);
+    $app = AppFactory::create();
+    $app->setBasePath('/sei');
+
+    $container = $app->getContainer();
+    return $container;
   }
 
 }

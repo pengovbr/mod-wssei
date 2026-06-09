@@ -9,13 +9,13 @@ class MdWsSeiAnexoRN extends InfraRN {
 
     /**
      * Método que processo o upload de arquivos do slim
-     * @param \Slim\Http\UploadedFile $uploadedFile
+     * @param \Slim\Psr7\UploadedFile $uploadedFile
      * @param string $strDirUpload
      * @param bool $bolArquivoTemporarioIdentificado
      * @return AnexoDTO
      * @throws Exception
      */
-  public static function processarUploadSlim(\Slim\Http\UploadedFile $uploadedFile, $strDirUpload = DIR_SEI_TEMP, $bolArquivoTemporarioIdentificado = false)
+  public static function processarUploadSlim(\Slim\Psr7\UploadedFile $uploadedFile, $strDirUpload = DIR_SEI_TEMP, $bolArquivoTemporarioIdentificado = false)
     {
       $strNomeArquivo = str_replace(chr(0), '', $uploadedFile->getClientFilename());
       $arrStrNome = explode('.', $strNomeArquivo);
@@ -53,7 +53,7 @@ class MdWsSeiAnexoRN extends InfraRN {
             $anexoDTO = new AnexoDTO();
             $bolConteudoPermitido = true;
           if (function_exists('finfo_open')) {
-                $bolConteudoPermitido = InfraUtil::verificarConteudoPermitidoArquivo($uploadedFile->file);
+                $bolConteudoPermitido = InfraUtil::verificarConteudoPermitidoArquivo($uploadedFile->getFilePath());
           }
 
           if (!$bolConteudoPermitido) {
@@ -80,7 +80,7 @@ class MdWsSeiAnexoRN extends InfraRN {
             if (file_exists($strDirUpload . '/' . $strNomeArquivoUpload)) {
                 throw new Exception('Arquivo "' . $strNomeArquivoUpload . '" já existe no diretório de upload.');
             } else {
-              if (!move_uploaded_file($uploadedFile->file, $strDirUpload . '/' . $strNomeArquivoUpload)) {
+              if (!move_uploaded_file($uploadedFile->getFilePath(), $strDirUpload . '/' . $strNomeArquivoUpload)) {
                       throw new Exception('Erro movendo arquivo para o diretório de upload.');
               } else {
                         $anexoDTO->setNumIdAnexo($strNomeArquivoUpload);

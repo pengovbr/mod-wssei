@@ -2,6 +2,7 @@
 
 
 require_once dirname(__FILE__) . '/../MdWsSeiVersaoServicos.php';
+use Slim\Routing\RouteContext;
 
 /**
  * Undocumented class
@@ -26,13 +27,13 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
       /**
        * Grupo para a versao v2 de servicos REST
        */
-      $this->slimApp->group('/api/v2', function () {
+      $this->slimApp->group('/api/v2', function (\Slim\Routing\RouteCollectorProxy $app) {
           /**
            * @var Slim/App $this
            */
-          $this->get('/versao', function ($request, $response, $args) {
+          $app->get('/versao', function ($request, $response, $args) {
               $MdWsSeiRest = new MdWsSeiRest();
-              return $response->withJSON(MdWsSeiRest::formataRetornoSucessoREST(
+              return JsonResponse::create($response, MdWsSeiRest::formataRetornoSucessoREST(
                   null,
                   [
                       'sei' => SEI_VERSAO,
@@ -40,546 +41,605 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                   ]
               )
               );
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
           /**
            * Grupo de autenticacao <publico>
            */
-          $this->post('/autenticar', function ($request, $response, $args) {
+          $app->post('/autenticar', function ($request, $response, $args) {
               /** @var $response Slim\Http\Response */
-              sleep(3);
               $rn = new MdWsSeiUsuarioRN();
               $usuarioDTO = new UsuarioDTO();
-              $usuarioDTO->setStrSigla($request->getParam('usuario'));
-              $usuarioDTO->setStrSenha($request->getParam('senha'));
+              $usuarioDTO->setStrSigla($this->getParam($request, 'usuario'));
+              $usuarioDTO->setStrSenha($this->getParam($request, 'senha'));
               $orgaoDTO = new OrgaoDTO();
-              $orgaoDTO->setNumIdOrgao($request->getParam('orgao'));
+              $orgaoDTO->setNumIdOrgao($this->getParam($request, 'orgao'));
                 
-              return $response->withJSON($rn->apiAutenticar($usuarioDTO, $orgaoDTO));
+              return JsonResponse::create($response, $rn->apiAutenticar($usuarioDTO, $orgaoDTO));
           });
           /**
            * Grupo de controlador de Órgão <publico>
            */
-          $this->group('/orgao', function () {
+          $app->group('/orgao', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiOrgaoRN();
                   $dto = new OrgaoDTO();
-                  return $response->withJSON($rn->listarOrgao($dto));
+                  return JsonResponse::create($response, $rn->listarOrgao($dto));
               });
           });
           /**
            * Grupo de controlador de Contexto <publico>
            */
-          $this->group('/contexto', function () {
+          $app->group('/contexto', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/listar/{orgao}', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/listar/{orgao}', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiContextoRN();
                   $dto = new OrgaoDTO();
-                  $dto->setNumIdOrgao($request->getAttribute('route')->getArgument('orgao'));
-                  return $response->withJSON($rn->listarContexto($dto));
+                  $dto->setNumIdOrgao($orgao);
+                  return JsonResponse::create($response, $rn->listarContexto($dto));
               });
           });
 
           /**
            * Grupo de controlador de Usuário
            */
-          $this->group('/usuario', function () {
+          $app->group('/usuario', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->post('/alterar/unidade', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/alterar/unidade', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiUsuarioRN();
-                  return $response->withJSON($rn->alterarUnidadeAtual($request->getParam('unidade')));
+                  return JsonResponse::create($response, $rn->alterarUnidadeAtual($this->getParam($request, 'unidade')));
               });
-              $this->get('/listar', function ($request, $response, $args) {
+              $app->get('/listar', function ($request, $response, $args) {
                   $dto = new UnidadeDTO();
-                if ($request->getParam('unidade')) {
-                    $dto->setNumIdUnidade($request->getParam('unidade'));
+                if ($this->getParam($request, 'unidade')) {
+                    $dto->setNumIdUnidade($this->getParam($request, 'unidade'));
                 }
-                if ($request->getParam('limit')) {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if ($this->getParam($request, 'limit')) {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start'))) {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start'))) {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                  /** @var Slim\Http\Request $request */
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiUsuarioRN();
-                  return $response->withJSON($rn->listarUsuarios($dto));
+                  return JsonResponse::create($response, $rn->listarUsuarios($dto));
               });
-              $this->get('/pesquisar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/pesquisar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiUsuarioRN();
-                  return $response->withJSON(
+                  return JsonResponse::create($response, 
                       $rn->apiPesquisarUsuario(
-                          $request->getParam('palavrachave'),
-                          $request->getParam('orgao'))
+                          $this->getParam($request, 'palavrachave'),
+                          $this->getParam($request, 'orgao'))
                   );
               });
-              $this->get('/unidades', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/unidades', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $dto = new UsuarioDTO();
-                  $dto->setNumIdUsuario($request->getParam('usuario'));
+                  $dto->setNumIdUsuario($this->getParam($request, 'usuario'));
                   $rn = new MdWsSeiUsuarioRN();
-                  return $response->withJSON($rn->listarUnidadesUsuario($dto));
+                  return JsonResponse::create($response, $rn->listarUnidadesUsuario($dto));
               });
 
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
           /**
            * Grupo de controlador de Unidades
            */
-          $this->group('/unidade', function () {
+          $app->group('/unidade', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/pesquisar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/pesquisar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiUnidadeRN();
                   $dto = new UnidadeDTO();
-                if ($request->getParam('limit')) {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if ($this->getParam($request, 'limit')) {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start'))) {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start'))) {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if ($request->getParam('filter')) {
-                    $dto->setStrSigla($request->getParam('filter'));
+                if ($this->getParam($request, 'filter')) {
+                    $dto->setStrSigla($this->getParam($request, 'filter'));
                 }
-                  return $response->withJSON($rn->pesquisarUnidade($dto));
+                  return JsonResponse::create($response, $rn->pesquisarUnidade($dto));
               });
-              $this->get('/outras/pesquisar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/outras/pesquisar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiUnidadeRN();
                   $dto = new UnidadeDTO();
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
+                if (!is_null($this->getParam($request, 'id')) && $this->getParam($request, 'id') != '') {
                     $dto->adicionarCriterio(
                         array('IdUnidade'),
                         array(InfraDTO::$OPER_IGUAL),
-                        array($request->getParam('id'))
+                        array($this->getParam($request, 'id'))
                     );
                 }
-                if ($request->getParam('filter') && $request->getParam('filter') != '') {
-                    $dto->setStrPalavrasPesquisa($request->getParam('filter'));
+                if ($this->getParam($request, 'filter') && $this->getParam($request, 'filter') != '') {
+                    $dto->setStrPalavrasPesquisa($this->getParam($request, 'filter'));
                 }
-                  return $response->withJSON($rn->pesquisarOutras($dto));
+                  return JsonResponse::create($response, $rn->pesquisarOutras($dto));
               });
 
-              $this->get('/textopadrao/interno/pesquisar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/textopadrao/interno/pesquisar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiTextoPadraoInternoRN();
                   $dto = new TextoPadraoInternoDTO();
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
-                    $dto->setNumIdTextoPadraoInterno($request->getParam('id'));
+                if (!is_null($this->getParam($request, 'id')) && $this->getParam($request, 'id') != '') {
+                    $dto->setNumIdTextoPadraoInterno($this->getParam($request, 'id'));
                 }
-                if ($request->getParam('filter')) {
-                    $dto->setStrNome($request->getParam('filter'));
+                if ($this->getParam($request, 'filter')) {
+                    $dto->setStrNome($this->getParam($request, 'filter'));
                 }
-                  return $response->withJSON($rn->pesquisar($dto));
+                  return JsonResponse::create($response, $rn->pesquisar($dto));
               });
 
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
           /**
            * Grupo de controlador de anotacao
            */
-          $this->group('/anotacao', function () {
+          $app->group('/anotacao', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->post('/', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiAnotacaoRN();
-                  $dto = $rn->encapsulaAnotacao($request->getParams());
-                  return $response->withJSON($rn->cadastrarAnotacao($dto));
+                  $dto = $rn->encapsulaAnotacao($request->getParsedBody());
+                  return JsonResponse::create($response, $rn->cadastrarAnotacao($dto));
               });
 
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
           /**
            * Grupo de controlador de bloco
            */
-          $this->group('/bloco', function () {
+          $app->group('/bloco', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/assinatura/pesquisar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/assinatura/pesquisar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiBlocoRN();
                   $dto = new BlocoDTO();
-                if (!empty($request->getParam('limit'))) {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if (!empty($this->getParam($request, 'limit'))) {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!empty($request->getParam('start'))) {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!empty($this->getParam($request, 'start'))) {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if (!empty($request->getParam('id'))) {
-                    $dto->setNumIdBloco($request->getParam('id'));
+                if (!empty($this->getParam($request, 'id'))) {
+                    $dto->setNumIdBloco($this->getParam($request, 'id'));
                 }
-                if ($request->getParam('filter') != '') {
-                    $dto->setStrPalavrasPesquisa($request->getParam('filter'));
+                if ($this->getParam($request, 'filter') != '') {
+                    $dto->setStrPalavrasPesquisa($this->getParam($request, 'filter'));
                 }
-                if ($request->getParam('estado') != '') {
+                if ($this->getParam($request, 'estado') != '') {
                     $dto->setStrStaEstado(
-                        explode(',', $request->getParam('estado')),
+                        explode(',', $this->getParam($request, 'estado')),
                         InfraDTO::$OPER_IN
                     );
                 }
 
-                  return $response->withJSON($rn->pesquisarBlocoAssinatura($dto));
+                  return JsonResponse::create($response, $rn->pesquisarBlocoAssinatura($dto));
               });
-              $this->post('/assinatura/criar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/assinatura/criar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->cadastrarBlocoAssinaturaRequest($request));
+                  return JsonResponse::create($response, $rn->cadastrarBlocoAssinaturaRequest($request));
               });
-              $this->post('/assinatura/{bloco:[0-9]+}/alterar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/assinatura/{bloco:[0-9]+}/alterar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->alterarBlocoAssinaturaRequest($request));
+                  return JsonResponse::create($response, $rn->alterarBlocoAssinaturaRequest($request));
               });
-              $this->post('/assinatura/excluir', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/assinatura/excluir', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiBlocoRN();
                   $arrIdBlocos = array();
-                if ($request->getParam('blocos')) {
-                    $arrIdBlocos = explode(',', $request->getParam('blocos'));
+                if ($this->getParam($request, 'blocos')) {
+                    $arrIdBlocos = explode(',', $this->getParam($request, 'blocos'));
                 }
-                  return $response->withJSON($rn->excluirBlocos($arrIdBlocos));
+                  return JsonResponse::create($response, $rn->excluirBlocos($arrIdBlocos));
               });
-              $this->post('/assinatura/concluir', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/assinatura/concluir', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiBlocoRN();
                   $arrIdBlocos = array();
-                if ($request->getParam('blocos')) {
-                    $arrIdBlocos = explode(',', $request->getParam('blocos'));
+                if ($this->getParam($request, 'blocos')) {
+                    $arrIdBlocos = explode(',', $this->getParam($request, 'blocos'));
                 }
-                  return $response->withJSON($rn->concluirBlocos($arrIdBlocos));
+                  return JsonResponse::create($response, $rn->concluirBlocos($arrIdBlocos));
               });
-              $this->post('/assinatura/{bloco:[0-9]+}/reabrir', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/assinatura/{bloco:[0-9]+}/reabrir', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $bloco = $route->getArgument('bloco');
                   $dto = new BlocoDTO();
-                  $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
+                  $dto->setNumIdBloco($bloco);
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->reabrirBloco($dto));
+                  return JsonResponse::create($response, $rn->reabrirBloco($dto));
               });
-              $this->post('/assinatura/{bloco:[0-9]+}/retornar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
-                  $rn = new MdWsSeiBlocoRN();
-                  $dto = new BlocoDTO();
-                  $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
-                  return $response->withJSON($rn->retornarBloco($dto));
-              });
-              $this->post('/assinatura/{bloco:[0-9]+}/disponibilizar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
-                  $rn = new MdWsSeiBlocoRN();
-                  $dto = new BlocoDTO();
-                  $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
-                  return $response->withJSON($rn->disponibilizarBlocoAssinatura($dto));
-              });
-              $this->post('/assinatura/{bloco:[0-9]+}/disponibilizacao/cancelar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/assinatura/{bloco:[0-9]+}/retornar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $bloco = $route->getArgument('bloco');
                   $rn = new MdWsSeiBlocoRN();
                   $dto = new BlocoDTO();
-                  $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
-                  return $response->withJSON($rn->cancelarDisponibilizacaoBlocoAssinatura($dto));
+                  $dto->setNumIdBloco($bloco);
+                  return JsonResponse::create($response, $rn->retornarBloco($dto));
               });
-              $this->get('/assinatura/{bloco:[0-9]+}/documentos/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/assinatura/{bloco:[0-9]+}/disponibilizar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $bloco = $route->getArgument('bloco');
+                  $rn = new MdWsSeiBlocoRN();
+                  $dto = new BlocoDTO();
+                  $dto->setNumIdBloco($bloco);
+                  return JsonResponse::create($response, $rn->disponibilizarBlocoAssinatura($dto));
+              });
+              $app->post('/assinatura/{bloco:[0-9]+}/disponibilizacao/cancelar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $bloco = $route->getArgument('bloco');
+                  $rn = new MdWsSeiBlocoRN();
+                  $dto = new BlocoDTO();
+                  $dto->setNumIdBloco($bloco);
+                  return JsonResponse::create($response, $rn->cancelarDisponibilizacaoBlocoAssinatura($dto));
+              });
+              $app->get('/assinatura/{bloco:[0-9]+}/documentos/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $bloco = $route->getArgument('bloco');
                   $rn = new MdWsSeiBlocoRN();
                   $dto = new RelBlocoProtocoloDTO();
-                  $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                  $dto->setNumIdBloco($bloco);
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                  return $response->withJSON($rn->listarDocumentosBlocoAssinatura($dto));
+                  return JsonResponse::create($response, $rn->listarDocumentosBlocoAssinatura($dto));
               });
-              $this->post('/{bloco:[0-9]+}/anotacao', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/{bloco:[0-9]+}/anotacao', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $bloco = $route->getArgument('bloco');
                   $rn = new MdWsSeiBlocoRN();
                   $dto = new RelBlocoProtocoloDTO();
-                  $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
-                  $dto->setDblIdProtocolo($request->getParam('protocolo'));
-                  $dto->setStrAnotacao($request->getParam('anotacao'));
-                  return $response->withJSON($rn->cadastrarAnotacaoBloco($dto));
+                  $dto->setNumIdBloco($bloco);
+                  $dto->setDblIdProtocolo($this->getParam($request, 'protocolo'));
+                  $dto->setStrAnotacao($this->getParam($request, 'anotacao'));
+                  return JsonResponse::create($response, $rn->cadastrarAnotacaoBloco($dto));
               });
-              $this->post('/assinatura/{bloco:[0-9]+}/assinar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/assinatura/{bloco:[0-9]+}/assinar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $bloco = $route->getArgument('bloco');
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->apiAssinarBloco(
-                      $request->getAttribute('route')->getArgument('bloco'),
-                      $request->getParam('orgao'),
-                      mb_convert_encoding($request->getParam('cargo'), "ISO-8859-1", "UTF-8"),
-                      $request->getParam('login'),
-                      $request->getParam('senha'),
-                      $request->getParam('usuario')
+                  return JsonResponse::create($response, $rn->apiAssinarBloco(
+                      $bloco,
+                      $this->getParam($request, 'orgao'),
+                      mb_convert_encoding($this->getParam($request, 'cargo'), "ISO-8859-1", "UTF-8"),
+                      $this->getParam($request, 'login'),
+                      $this->getParam($request, 'senha'),
+                      $this->getParam($request, 'usuario')
                   ));
               });
-              $this->post('/assinatura/assinar/documentos', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/assinatura/assinar/documentos', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->apiAssinarDocumentos(
-                      $request->getParam('orgao'),
-                      mb_convert_encoding($request->getParam('cargo'), "ISO-8859-1", "UTF-8"),
-                      $request->getParam('login'),
-                      $request->getParam('senha'),
-                      $request->getParam('usuario'),
-                      explode(',', $request->getParam('documentos'))
+                  return JsonResponse::create($response, $rn->apiAssinarDocumentos(
+                      $this->getParam($request, 'orgao'),
+                      mb_convert_encoding($this->getParam($request, 'cargo'), "ISO-8859-1", "UTF-8"),
+                      $this->getParam($request, 'login'),
+                      $this->getParam($request, 'senha'),
+                      $this->getParam($request, 'usuario'),
+                      explode(',', $this->getParam($request, 'documentos'))
                   ));
               });
-              $this->post('/assinatura/{bloco:[0-9]+}/documentos/retirar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/assinatura/{bloco:[0-9]+}/documentos/retirar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $bloco = $route->getArgument('bloco');
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->apiRetirarDocumentos(
-                      $request->getAttribute('route')->getArgument('bloco'),
-                      explode(',', $request->getParam('documentos'))
+                  return JsonResponse::create($response, $rn->apiRetirarDocumentos(
+                      $bloco,
+                      explode(',', $this->getParam($request, 'documentos'))
                   ));
               });
-              $this->post('/assinatura/anotacao/cadastrar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/assinatura/anotacao/cadastrar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $dto = new RelBlocoProtocoloDTO();
-                if ($request->getParam('bloco')) {
-                    $dto->setNumIdBloco($request->getParam('bloco'));
+                if ($this->getParam($request, 'bloco')) {
+                    $dto->setNumIdBloco($this->getParam($request, 'bloco'));
                 }
-                if ($request->getParam('documento')) {
-                    $dto->setDblIdProtocolo($request->getParam('documento'));
+                if ($this->getParam($request, 'documento')) {
+                    $dto->setDblIdProtocolo($this->getParam($request, 'documento'));
                 }
-                  $dto->setStrAnotacao($request->getParam('anotacao'));
+                  $dto->setStrAnotacao($this->getParam($request, 'anotacao'));
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->salvarAnotacaoBloco($dto));
+                  return JsonResponse::create($response, $rn->salvarAnotacaoBloco($dto));
               });
-              $this->post('/assinatura/anotacao/alterar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/assinatura/anotacao/alterar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $dto = new RelBlocoProtocoloDTO();
-                if ($request->getParam('bloco')) {
-                    $dto->setNumIdBloco($request->getParam('bloco'));
+                if ($this->getParam($request, 'bloco')) {
+                    $dto->setNumIdBloco($this->getParam($request, 'bloco'));
                 }
-                if ($request->getParam('documento')) {
-                    $dto->setDblIdProtocolo($request->getParam('documento'));
+                if ($this->getParam($request, 'documento')) {
+                    $dto->setDblIdProtocolo($this->getParam($request, 'documento'));
                 }
-                  $dto->setStrAnotacao($request->getParam('anotacao'));
+                  $dto->setStrAnotacao($this->getParam($request, 'anotacao'));
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->salvarAnotacaoBloco($dto));
+                  return JsonResponse::create($response, $rn->salvarAnotacaoBloco($dto));
               });
-              $this->post('/interno/criar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/interno/criar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $dto = new BlocoDTO();
-                  $dto->setStrDescricao($request->getParam('descricao'));
+                  $dto->setStrDescricao($this->getParam($request, 'descricao'));
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->cadastrarBlocoInterno($dto));
+                  return JsonResponse::create($response, $rn->cadastrarBlocoInterno($dto));
               });
-              $this->post('/interno/{bloco:[0-9]+}/alterar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/interno/{bloco:[0-9]+}/alterar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $bloco = $route->getArgument('bloco');
                   $rn = new MdWsSeiBlocoRN();
                   $dto = new BlocoDTO();
-                  $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
-                  $dto->setStrDescricao($request->getParam('descricao'));
+                  $dto->setNumIdBloco($bloco);
+                  $dto->setStrDescricao($this->getParam($request, 'descricao'));
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->alterarBlocoInterno($dto));
+                  return JsonResponse::create($response, $rn->alterarBlocoInterno($dto));
               });
-              $this->post('/interno/concluir', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/interno/concluir', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiBlocoRN();
                   $arrIdBlocos = array();
-                if ($request->getParam('blocos')) {
-                    $arrIdBlocos = explode(',', $request->getParam('blocos'));
+                if ($this->getParam($request, 'blocos')) {
+                    $arrIdBlocos = explode(',', $this->getParam($request, 'blocos'));
                 }
-                  return $response->withJSON($rn->concluirBlocos($arrIdBlocos));
+                  return JsonResponse::create($response, $rn->concluirBlocos($arrIdBlocos));
               });
-              $this->post('/interno/excluir', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/interno/excluir', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiBlocoRN();
                   $arrIdBlocos = array();
-                if ($request->getParam('blocos')) {
-                    $arrIdBlocos = explode(',', $request->getParam('blocos'));
+                if ($this->getParam($request, 'blocos')) {
+                    $arrIdBlocos = explode(',', $this->getParam($request, 'blocos'));
                 }
-                  return $response->withJSON($rn->excluirBlocos($arrIdBlocos));
+                  return JsonResponse::create($response, $rn->excluirBlocos($arrIdBlocos));
               });
-              $this->post('/interno/anotacao/cadastrar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/interno/anotacao/cadastrar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $dto = new RelBlocoProtocoloDTO();
-                if ($request->getParam('bloco')) {
-                    $dto->setNumIdBloco($request->getParam('bloco'));
+                if ($this->getParam($request, 'bloco')) {
+                    $dto->setNumIdBloco($this->getParam($request, 'bloco'));
                 }
-                if ($request->getParam('protocolo')) {
-                    $dto->setDblIdProtocolo($request->getParam('protocolo'));
+                if ($this->getParam($request, 'protocolo')) {
+                    $dto->setDblIdProtocolo($this->getParam($request, 'protocolo'));
                 }
-                  $dto->setStrAnotacao($request->getParam('anotacao'));
+                  $dto->setStrAnotacao($this->getParam($request, 'anotacao'));
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->salvarAnotacaoBloco($dto));
+                  return JsonResponse::create($response, $rn->salvarAnotacaoBloco($dto));
               });
-              $this->post('/interno/anotacao/alterar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/interno/anotacao/alterar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $dto = new RelBlocoProtocoloDTO();
-                if ($request->getParam('bloco')) {
-                    $dto->setNumIdBloco($request->getParam('bloco'));
+                if ($this->getParam($request, 'bloco')) {
+                    $dto->setNumIdBloco($this->getParam($request, 'bloco'));
                 }
-                if ($request->getParam('protocolo')) {
-                    $dto->setDblIdProtocolo($request->getParam('protocolo'));
+                if ($this->getParam($request, 'protocolo')) {
+                    $dto->setDblIdProtocolo($this->getParam($request, 'protocolo'));
                 }
-                  $dto->setStrAnotacao($request->getParam('anotacao'));
+                  $dto->setStrAnotacao($this->getParam($request, 'anotacao'));
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->salvarAnotacaoBloco($dto));
+                  return JsonResponse::create($response, $rn->salvarAnotacaoBloco($dto));
               });
-              $this->post('/interno/{bloco:[0-9]+}/processos/retirar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/interno/{bloco:[0-9]+}/processos/retirar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $bloco = $route->getArgument('bloco');
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->apiRetirarProcessos(
-                      $request->getAttribute('route')->getArgument('bloco'),
-                      explode(',', $request->getParam('protocolos'))
+                  return JsonResponse::create($response, $rn->apiRetirarProcessos(
+                      $bloco,
+                      explode(',', $this->getParam($request, 'protocolos'))
                   ));
               });
-              $this->post('/assinatura/{bloco:[0-9]+}/documentos/incluir', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/assinatura/{bloco:[0-9]+}/documentos/incluir', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $bloco = $route->getArgument('bloco');
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->apiIncluirDocumentosBlocoAssinatura(
-                      $request->getAttribute('route')->getArgument('bloco'),
-                      explode(',', $request->getParam('documentos'))
+                  return JsonResponse::create($response, $rn->apiIncluirDocumentosBlocoAssinatura(
+                      $bloco,
+                      explode(',', $this->getParam($request, 'documentos'))
                   ));
               });
-              $this->post('/interno/{bloco:[0-9]+}/reabrir', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/interno/{bloco:[0-9]+}/reabrir', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $bloco = $route->getArgument('bloco');
                   $dto = new BlocoDTO();
-                  $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
+                  $dto->setNumIdBloco($bloco);
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->reabrirBloco($dto));
+                  return JsonResponse::create($response, $rn->reabrirBloco($dto));
               });
-              $this->get('/interno/{bloco:[0-9]+}/processos/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/interno/{bloco:[0-9]+}/processos/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $bloco = $route->getArgument('bloco');
                   $rn = new MdWsSeiBlocoRN();
                   $dto = new RelBlocoProtocoloDTO();
-                  $dto->setNumIdBloco($request->getAttribute('route')->getArgument('bloco'));
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                  $dto->setNumIdBloco($bloco);
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                  return $response->withJSON($rn->listarProcessosBlocoInterno($dto));
+                  return JsonResponse::create($response, $rn->listarProcessosBlocoInterno($dto));
               });
-              $this->get('/interno/pesquisar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/interno/pesquisar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiBlocoRN();
                   $dto = new BlocoDTO();
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
-                    $dto->setNumIdBloco($request->getParam('id'));
+                if (!is_null($this->getParam($request, 'id')) && $this->getParam($request, 'id') != '') {
+                    $dto->setNumIdBloco($this->getParam($request, 'id'));
                 }
-                if ($request->getParam('filter') != '') {
-                    $dto->setStrPalavrasPesquisa($request->getParam('filter'));
+                if ($this->getParam($request, 'filter') != '') {
+                    $dto->setStrPalavrasPesquisa($this->getParam($request, 'filter'));
                 }
-                if ($request->getParam('estado') != '') {
+                if ($this->getParam($request, 'estado') != '') {
                     $dto->setStrStaEstado(
-                        explode(',', $request->getParam('estado')),
+                        explode(',', $this->getParam($request, 'estado')),
                         InfraDTO::$OPER_IN
                     );
                 }
 
-                  return $response->withJSON($rn->pesquisarBlocoInterno($dto));
+                  return JsonResponse::create($response, $rn->pesquisarBlocoInterno($dto));
               });
-              $this->post('/interno/{bloco:[0-9]+}/processos/incluir', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/interno/{bloco:[0-9]+}/processos/incluir', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $bloco = $route->getArgument('bloco');
                   $rn = new MdWsSeiBlocoRN();
-                  return $response->withJSON($rn->apiIncluirProcessosBlocoInterno(
-                      $request->getAttribute('route')->getArgument('bloco'),
-                      explode(',', $request->getParam('protocolos'))
+                  return JsonResponse::create($response, $rn->apiIncluirProcessosBlocoInterno(
+                      $bloco,
+                      explode(',', $this->getParam($request, 'protocolos'))
                   ));
               });
 
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
           /**
            * Grupo de controlador de documentos
            */
-          $this->group('/documento', function () {
+          $app->group('/documento', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/{documento}/interno/visualizar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/{documento}/interno/visualizar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $documento = $route->getArgument('documento');
                   $rn = new MdWsSeiDocumentoRN();
                   $dto = new DocumentoDTO();
-                  $dto->setDblIdDocumento($request->getAttribute('route')->getArgument('documento'));
-                  return $response->withJSON($rn->visualizarInterno($dto));
+                  $dto->setDblIdDocumento($documento);
+                  return JsonResponse::create($response, $rn->visualizarInterno($dto));
               });
-              $this->get('/assunto/sugestao/{serie}/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/assunto/sugestao/{serie}/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $serie = $route->getArgument('serie');
                   $rn = new MdWsSeiDocumentoRN();
                   $dto = new RelSerieAssuntoDTO();
-                  $dto->setNumIdSerie($request->getAttribute('route')->getArgument('serie'));
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                  $dto->setNumIdSerie($serie);
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
-                    $dto->setNumIdAssunto($request->getParam('id'));
+                if (!is_null($this->getParam($request, 'id')) && $this->getParam($request, 'id') != '') {
+                    $dto->setNumIdAssunto($this->getParam($request, 'id'));
                 }
-                if ($request->getParam('filter') != '') {
-                    $dto->setStrDescricaoAssunto($request->getParam('filter'));
+                if ($this->getParam($request, 'filter') != '') {
+                    $dto->setStrDescricaoAssunto($this->getParam($request, 'filter'));
                 }
 
-                  return $response->withJSON(
+                  return JsonResponse::create($response, 
                       $rn->sugestaoAssunto($dto)
                   );
               });
 
-              $this->get('/externo/consultar/{protocolo}', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/externo/consultar/{protocolo}', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiDocumentoRN();
-                  return $response->withJSON($rn->consultarDocumentoExterno($request->getAttribute('route')->getArgument('protocolo')));
+                  return JsonResponse::create($response, $rn->consultarDocumentoExterno($protocolo));
               });
-              $this->get('/listar/ciencia/{protocolo}', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/listar/ciencia/{protocolo}', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiDocumentoRN();
                   $dto = new MdWsSeiProcessoDTO();
-                  $dto->setStrValor($request->getAttribute('route')->getArgument('protocolo'));
-                  return $response->withJSON($rn->listarCienciaDocumento($dto));
+                  $dto->setStrValor($protocolo);
+                  return JsonResponse::create($response, $rn->listarCienciaDocumento($dto));
               });
-              $this->get('/listar/assinaturas/{documento}', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/listar/assinaturas/{documento}', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $documento = $route->getArgument('documento');
                   $rn = new MdWsSeiDocumentoRN();
                   $dto = new DocumentoDTO();
-                  $dto->setDblIdDocumento($request->getAttribute('route')->getArgument('documento'));
-                  return $response->withJSON($rn->listarAssinaturasDocumento($dto));
+                  $dto->setDblIdDocumento($documento);
+                  return JsonResponse::create($response, $rn->listarAssinaturasDocumento($dto));
               });
-              $this->get('/{documento:[0-9]+}/bloco/assinatura/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/{documento:[0-9]+}/bloco/assinatura/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $documento = $route->getArgument('documento');
                   $rn = new MdWsSeiDocumentoRN();
                   $dto = new DocumentoDTO();
-                  $dto->setDblIdDocumento($request->getAttribute('route')->getArgument('documento'));
-                  return $response->withJSON($rn->listarBlocosAssinatura($dto));
+                  $dto->setDblIdDocumento($documento);
+                  return JsonResponse::create($response, $rn->listarBlocosAssinatura($dto));
               });
-              $this->post('/assinar/bloco', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/assinar/bloco', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiDocumentoRN();
-                  return $response->withJSON($rn->apiAssinarDocumentos(
-                      $request->getParam('arrDocumento'),
-                      $request->getParam('orgao'),
-                      $request->getParam('cargo'),
-                      $request->getParam('login'),
-                      $request->getParam('senha'),
-                      $request->getParam('usuario')
+                  return JsonResponse::create($response, $rn->apiAssinarDocumentos(
+                      $this->getParam($request, 'arrDocumento'),
+                      $this->getParam($request, 'orgao'),
+                      $this->getParam($request, 'cargo'),
+                      $this->getParam($request, 'login'),
+                      $this->getParam($request, 'senha'),
+                      $this->getParam($request, 'usuario')
                   ));
               });
-              $this->post('/secao/alterar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
-                  $dados["documento"] = $request->getParam('documento');
-                  $dados["secoes"] = json_decode($request->getParam('secoes'), true);
-                  $dados["versao"] = $request->getParam('versao');
+              $app->post('/secao/alterar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $dados["documento"] = $this->getParam($request, 'documento');
+                  $dados["secoes"] = json_decode($this->getParam($request, 'secoes'), true);
+                  $dados["versao"] = $this->getParam($request, 'versao');
 
                   // Ajuste de encoding das secoes
                   setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
@@ -589,133 +649,145 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                 }
 
                   $rn = new MdWsSeiDocumentoRN();
-                  return $response->withJSON(
+                  return JsonResponse::create($response, 
                       $rn->alterarSecaoDocumento($dados)
                   );
               });
-              $this->post('/ciencia', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/ciencia', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiDocumentoRN();
                   $dto = new DocumentoDTO();
-                  $dto->setDblIdDocumento($request->getParam('documento'));
-                  return $response->withJSON($rn->darCiencia($dto));
+                  $dto->setDblIdDocumento($this->getParam($request, 'documento'));
+                  return JsonResponse::create($response, $rn->darCiencia($dto));
               });
-              $this->post('/assinar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/assinar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiDocumentoRN();
-                  return $response->withJSON($rn->apiAssinarDocumento(
-                      $request->getParam('documento'),
-                      $request->getParam('orgao'),
-                      $request->getParam('cargo'),
-                      $request->getParam('login'),
-                      $request->getParam('senha'),
-                      $request->getParam('usuario')
+                  return JsonResponse::create($response, $rn->apiAssinarDocumento(
+                      $this->getParam($request, 'documento'),
+                      $this->getParam($request, 'orgao'),
+                      $this->getParam($request, 'cargo'),
+                      $this->getParam($request, 'login'),
+                      $this->getParam($request, 'senha'),
+                      $this->getParam($request, 'usuario')
                   ));
               });
-              $this->get('/listar/{procedimento}', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/listar/{procedimento}', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $procedimento = $route->getArgument('procedimento');
                   $rn = new MdWsSeiDocumentoRN();
                   $dto = new DocumentoDTO();
-                if ($request->getAttribute('route')->getArgument('procedimento')) {
-                    $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
+                if ($procedimento) {
+                    $dto->setDblIdProcedimento($procedimento);
                 }
-                if ($request->getParam('limit')) {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if ($this->getParam($request, 'limit')) {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (is_null($request->getParam('start'))) {
+                if (is_null($this->getParam($request, 'start'))) {
                     $dto->setNumPaginaAtual(0);
                 } else {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                  return $response->withJSON($rn->listarDocumentosProcesso($dto));
+                  return JsonResponse::create($response, $rn->listarDocumentosProcesso($dto));
               });
-              $this->get('/secao/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/secao/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiDocumentoRN();
                   $dto = new DocumentoDTO();
-                  $dto->setDblIdDocumento($request->getParam('id'));
+                  $dto->setDblIdDocumento($this->getParam($request, 'id'));
 
-                  return $response->withJSON($rn->listarSecaoDocumento($dto));
+                  return JsonResponse::create($response, $rn->listarSecaoDocumento($dto));
               });
-              $this->get('/tipo/pesquisar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/tipo/pesquisar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiDocumentoRN();
                   $dto = new MdWsSeiDocumentoDTO();
 
-                  $dto->setNumIdTipoDocumento($request->getParam('id'));
-                  $dto->setStrNomeTipoDocumento($request->getParam('filter'));
-                  $dto->setStrFavoritos($request->getParam('favoritos'));
+                  $dto->setNumIdTipoDocumento($this->getParam($request, 'id'));
+                  $dto->setStrNomeTipoDocumento($this->getParam($request, 'filter'));
+                  $dto->setStrFavoritos($this->getParam($request, 'favoritos'));
 
-                  $arrAplicabilidade = explode(",", $request->getParam('aplicabilidade'));
+                  $arrAplicabilidade = explode(",", $this->getParam($request, 'aplicabilidade'));
 
                   $dto->setArrAplicabilidade($arrAplicabilidade);
-                  $dto->setNumStart($request->getParam('start'));
-                  $dto->setNumLimit($request->getParam('limit'));
+                  $dto->setNumStart($this->getParam($request, 'start'));
+                  $dto->setNumLimit($this->getParam($request, 'limit'));
 
-                  return $response->withJSON($rn->pesquisarTipoDocumento($dto));
+                  return JsonResponse::create($response, $rn->pesquisarTipoDocumento($dto));
               });
-              $this->get('/tipo/template', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/tipo/template', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiDocumentoRN();
                   $dto = new MdWsSeiDocumentoDTO();
-                  $dto->setNumIdTipoDocumento($request->getParam('id'));
-                  //$dto->setNumIdTipoProcedimento($request->getParam('idTipoProcedimento'));
-                  $dto->setNumIdProcesso($request->getParam('procedimento'));
+                  $dto->setNumIdTipoDocumento($this->getParam($request, 'id'));
+                  //$dto->setNumIdTipoProcedimento($this->getParam($request, 'idTipoProcedimento'));
+                  $dto->setNumIdProcesso($this->getParam($request, 'procedimento'));
 
-                  return $response->withJSON($rn->pesquisarTemplateDocumento($dto));
+                  return JsonResponse::create($response, $rn->pesquisarTemplateDocumento($dto));
               });
-              $this->get('/baixar/anexo/{protocolo}', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/baixar/anexo/{protocolo}', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiDocumentoRN();
                   $dto = new ProtocoloDTO();
-                if ($request->getAttribute('route')->getArgument('protocolo')) {
-                    $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
+                if ($protocolo) {
+                    $dto->setDblIdProtocolo($protocolo);
                 }
-                  return $response->withJSON($rn->downloadAnexo($dto));
+                  return JsonResponse::create($response, $rn->downloadAnexo($dto));
               });
-              $this->post('/{procedimento}/externo/criar', function ($request, $response, $args) {
-                  /** @var $request \Slim\Http\Request */
+              $app->post('/{procedimento}/externo/criar', function ($request, $response, $args) {
+                  /** @var $request \Slim\Psr7\Request */
                   $rn = new MdWsSeiDocumentoRN();
-                  return $response->withJSON(
+                  return JsonResponse::create($response, 
                       $rn->criarDocumentoExternoRequest($request)
                   );
               });
-              $this->post('/{procedimento}/interno/criar', function ($request, $response, $args) {
-                  /** @var $request \Slim\Http\Request */
+              $app->post('/{procedimento}/interno/criar', function ($request, $response, $args) {
+                  /** @var $request \Slim\Psr7\Request */
                   $rn = new MdWsSeiDocumentoRN();
-                  return $response->withJSON(
+                  return JsonResponse::create($response, 
                       $rn->criarDocumentoInternoRequest($request)
                   );
               });
-              $this->post('/externo/{documento}/alterar', function ($request, $response, $args) {
-                  /** @var $request \Slim\Http\Request */
+              $app->post('/externo/{documento}/alterar', function ($request, $response, $args) {
+                  /** @var $request \Slim\Psr7\Request */
                   $rn = new MdWsSeiDocumentoRN();
-                  return $response->withJSON(
+                  return JsonResponse::create($response, 
                       $rn->alterarDocumentoExternoRequest($request)
                   );
               });
-              $this->post('/interno/{documento}/alterar', function ($request, $response, $args) {
-                  /** @var $request \Slim\Http\Request */
+              $app->post('/interno/{documento}/alterar', function ($request, $response, $args) {
+                  /** @var $request \Slim\Psr7\Request */
                   $rn = new MdWsSeiDocumentoRN();
-                  return $response->withJSON(
+                  return JsonResponse::create($response, 
                       $rn->alterarDocumentoInternoRequest($request)
                   );
               });
-              $this->get('/interno/consultar/{protocolo}', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/interno/consultar/{protocolo}', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiDocumentoRN();
-                  return $response->withJSON($rn->consultarDocumentoInterno($request->getAttribute('route')->getArgument('protocolo')));
+                  return JsonResponse::create($response, $rn->consultarDocumentoInterno($protocolo));
               });
 
-              $this->get('/interno/formatado/consultar/{protocolo_formatado}', function ($request, $response, $args) {
-                  /** @var $request Slim\Http\Request */
+              $app->get('/interno/formatado/consultar/{protocolo_formatado}', function ($request, $response, $args) {
+                  /** @var $request Slim\Psr7\Request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo_formatado = $route->getArgument('protocolo_formatado');
                   $rn = new MdWsSeiDocumentoRN();
-                  return $response->withJSON($rn->consultarDocumentoInternoFormatado($request->getAttribute('route')->getArgument('protocolo_formatado')));
+                  return JsonResponse::create($response, $rn->consultarDocumentoInternoFormatado($protocolo_formatado));
               });
 
-              $this->post('/incluir', function ($request, $response, $args) {
+              $app->post('/incluir', function ($request, $response, $args) {
                 try {
-                    /** @var Slim\Http\Request $request */
+                    /** @var Slim\Psr7\Request $request */
                     $objDocumentoAPI = new DocumentoAPI();
                     //Se o ID do processo é conhecido utilizar setIdProcedimento no lugar de
                     //setProtocoloProcedimento
@@ -730,20 +802,20 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                 } catch (InfraException $e) {
                     die($e->getStrDescricao());
                 }
-                  //return $response->withJSON();
+                  //return JsonResponse::create($response, );
               });
 
-              $this->post('/linkedicao', function ($request, $response, $args) {
+              $app->post('/linkedicao', function ($request, $response, $args) {
                 try {
                     session_start();
 
-                  if (empty($request->getParam('id_documento'))) {
+                  if (empty($this->getParam($request, 'id_documento'))) {
                       throw new InfraException('Deve ser passado valor para o (id_documento).');
                   }
 
                     // Recupera o id do procedimento
                     $protocoloDTO = new DocumentoDTO();
-                    $protocoloDTO->setDblIdDocumento($request->getParam('id_documento'));
+                    $protocoloDTO->setDblIdDocumento($this->getParam($request, 'id_documento'));
                     $protocoloDTO->retDblIdProcedimento();
                     $protocoloRN = new DocumentoRN();
                     $protocoloDTO = $protocoloRN->consultarRN0005($protocoloDTO);
@@ -752,9 +824,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                       throw new InfraException('Documento não encontrado');
                   }
 
-                    $linkassinado = SessaoSEI::getInstance()->assinarLink('controlador.php?acao=editor_montar&acao_origem=arvore_visualizar&id_procedimento=' . $protocoloDTO->getDblIdProcedimento() . '&id_documento=' . $request->getParam('id_documento'));
+                    $linkassinado = SessaoSEI::getInstance()->assinarLink('controlador.php?acao=editor_montar&acao_origem=arvore_visualizar&id_procedimento=' . $protocoloDTO->getDblIdProcedimento() . '&id_documento=' . $this->getParam($request, 'id_documento'));
 
-                    return $response->withJSON(
+                    return JsonResponse::create($response, 
                         array("link" => $linkassinado, "phpsessid" => session_id())
                     );
 
@@ -763,263 +835,284 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                 }
               });
 
-              $this->get('/tipoconferencia/pesquisar', function ($request, $response, $args) {
+              $app->get('/tipoconferencia/pesquisar', function ($request, $response, $args) {
                   $dto = new TipoConferenciaDTO();
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
-                    $dto->setNumIdTipoConferencia($request->getParam('id'));
+                if (!is_null($this->getParam($request, 'id')) && $this->getParam($request, 'id') != '') {
+                    $dto->setNumIdTipoConferencia($this->getParam($request, 'id'));
                 }
-                if ($request->getParam('filter') != '') {
-                    $dto->setStrDescricao($request->getParam('filter'));
+                if ($this->getParam($request, 'filter') != '') {
+                    $dto->setStrDescricao($this->getParam($request, 'filter'));
                 }
-                  /** @var Slim\Http\Request $request */
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiDocumentoRN();
-                  return $response->withJSON($rn->pesquisarTipoConferencia($dto));
+                  return JsonResponse::create($response, $rn->pesquisarTipoConferencia($dto));
               });
 
 
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
           /**
            * Grupo de controlador de processos
            */
-          $this->group('/processo', function () {
+          $app->group('/processo', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/{protocolo:[0-9]+}', function ($request, $response, $args) {
+              $app->get('/{protocolo:[0-9]+}', function ($request, $response, $args) {
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiProcedimentoRN();
-                  return $response->withJSON(
-                      $rn->consultar($request->getAttribute('route')->getArgument('protocolo'))
+                  return JsonResponse::create($response, 
+                      $rn->consultar($protocolo)
                   );
               });
-              $this->get('/consultar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/consultar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiProcedimentoRN();
-                  return $response->withJSON(
-                      $rn->apiConsultarProcessoDigitado($request->getParam('protocoloFormatado'))
+                  return JsonResponse::create($response, 
+                      $rn->apiConsultarProcessoDigitado($this->getParam($request, 'protocoloFormatado'))
                   );
               });
-              $this->get('/tipo/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/tipo/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiProcedimentoRN();
 
                   $objGetMdWsSeiTipoProcedimentoDTO = new MdWsSeiTipoProcedimentoDTO();
-                  $objGetMdWsSeiTipoProcedimentoDTO->setNumIdTipoProcedimento($request->getParam('id'));
-                  $objGetMdWsSeiTipoProcedimentoDTO->setStrNome($request->getParam('filter'));
-                  $objGetMdWsSeiTipoProcedimentoDTO->setStrFavoritos($request->getParam('favoritos'));
-                  $objGetMdWsSeiTipoProcedimentoDTO->setNumStart($request->getParam('start'));
-                  $objGetMdWsSeiTipoProcedimentoDTO->setNumLimit($request->getParam('limit'));
+                  $objGetMdWsSeiTipoProcedimentoDTO->setNumIdTipoProcedimento($this->getParam($request, 'id'));
+                  $objGetMdWsSeiTipoProcedimentoDTO->setStrNome($this->getParam($request, 'filter'));
+                  $objGetMdWsSeiTipoProcedimentoDTO->setStrFavoritos($this->getParam($request, 'favoritos'));
+                  $objGetMdWsSeiTipoProcedimentoDTO->setNumStart($this->getParam($request, 'start'));
+                  $objGetMdWsSeiTipoProcedimentoDTO->setNumLimit($this->getParam($request, 'limit'));
 
-                  return $response->withJSON(
+                  return JsonResponse::create($response, 
                       $rn->listarTipoProcedimento($objGetMdWsSeiTipoProcedimentoDTO)
                   );
               });
 
-              $this->get('/consultar/{id}', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/consultar/{id}', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $id = $route->getArgument('id');
                   $rn = new MdWsSeiProcedimentoRN();
 
                   $dto = new MdWsSeiProcedimentoDTO();
                   //Atribuir parametros para o DTO
-                if ($request->getAttribute('route')->getArgument('id')) {
-                    $dto->setNumIdProcedimento($request->getAttribute('route')->getArgument('id'));
+                if ($id) {
+                    $dto->setNumIdProcedimento($id);
                 }
 
-                  return $response->withJSON($rn->consultarProcesso($dto));
+                  return JsonResponse::create($response, $rn->consultarProcesso($dto));
               });
 
-              $this->get('/assunto/pesquisar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/assunto/pesquisar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new AssuntoDTO();
-                if ($request->getParam('filter') != '') {
-                    $dto->setStrPalavrasPesquisa($request->getParam('filter'));
+                if ($this->getParam($request, 'filter') != '') {
+                    $dto->setStrPalavrasPesquisa($this->getParam($request, 'filter'));
                 }
-                if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
-                    $dto->setNumIdAssunto($request->getParam('id'));
+                if (!is_null($this->getParam($request, 'id')) && $this->getParam($request, 'id') != '') {
+                    $dto->setNumIdAssunto($this->getParam($request, 'id'));
                 }
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
 
-                  return $response->withJSON(
+                  return JsonResponse::create($response, 
                       $rn->pesquisarAssunto($dto)
                   );
               });
 
-              $this->get('/tipo/template', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/tipo/template', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiProcedimentoRN();
 
                   $dto = new MdWsSeiTipoProcedimentoDTO();
-                  $dto->setNumIdTipoProcedimento($request->getParam('id'));
+                  $dto->setNumIdTipoProcedimento($this->getParam($request, 'id'));
 
-                  return $response->withJSON(
+                  return JsonResponse::create($response, 
                       $rn->buscarTipoTemplate($dto)
                   );
               });
 
-              $this->post('/{protocolo}/sobrestar/processo', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/{protocolo}/sobrestar/processo', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new RelProtocoloProtocoloDTO();
-                if ($request->getAttribute('route')->getArgument('protocolo')) {
-                    $dto->setDblIdProtocolo2($request->getAttribute('route')->getArgument('protocolo'));
+                if ($protocolo) {
+                    $dto->setDblIdProtocolo2($protocolo);
                 }
-                  $dto->setDblIdProtocolo1($request->getParam('protocoloDestino'));
-                if ($request->getParam('motivo')) {
-                    $dto->setStrMotivo($request->getParam('motivo'));
+                  $dto->setDblIdProtocolo1($this->getParam($request, 'protocoloDestino'));
+                if ($this->getParam($request, 'motivo')) {
+                    $dto->setStrMotivo($this->getParam($request, 'motivo'));
                 }
 
-                  return $response->withJSON($rn->sobrestamentoProcesso($dto));
+                  return JsonResponse::create($response, $rn->sobrestamentoProcesso($dto));
               });
-              $this->post('/{protocolo:[0-9]+}/cancelar/sobrestamento', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/{protocolo:[0-9]+}/cancelar/sobrestamento', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new ProcedimentoDTO();
-                  $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('protocolo'));
-                  return $response->withJSON($rn->removerSobrestamentoProcesso($dto));
+                  $dto->setDblIdProcedimento($protocolo);
+                  return JsonResponse::create($response, $rn->removerSobrestamentoProcesso($dto));
               });
-              $this->post('/{procedimento}/ciencia', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/{procedimento}/ciencia', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $procedimento = $route->getArgument('procedimento');
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new ProcedimentoDTO();
-                if ($request->getAttribute('route')->getArgument('procedimento')) {
-                    $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
+                if ($procedimento) {
+                    $dto->setDblIdProcedimento($procedimento);
                 }
-                  return $response->withJSON($rn->darCiencia($dto));
+                  return JsonResponse::create($response, $rn->darCiencia($dto));
               });
-              $this->get('/listar/sobrestamento/{protocolo}', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/listar/sobrestamento/{protocolo}', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new AtividadeDTO();
-                if ($request->getParam('unidade')) {
-                    $dto->setNumIdUnidade($request->getParam('unidade'));
+                if ($this->getParam($request, 'unidade')) {
+                    $dto->setNumIdUnidade($this->getParam($request, 'unidade'));
                 }
-                if ($request->getAttribute('route')->getArgument('protocolo')) {
-                    $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
+                if ($protocolo) {
+                    $dto->setDblIdProtocolo($protocolo);
                 }
-                  return $response->withJSON($rn->listarSobrestamentoProcesso($dto));
+                  return JsonResponse::create($response, $rn->listarSobrestamentoProcesso($dto));
               });
-              $this->get('/listar/unidades/{protocolo}', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/listar/unidades/{protocolo}', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new ProtocoloDTO();
-                if ($request->getAttribute('route')->getArgument('protocolo')) {
-                    $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
+                if ($protocolo) {
+                    $dto->setDblIdProtocolo($protocolo);
                 }
-                  return $response->withJSON($rn->listarUnidadesProcesso($dto));
+                  return JsonResponse::create($response, $rn->listarUnidadesProcesso($dto));
               });
-              $this->get('/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new MdWsSeiProtocoloDTO();
 
-                if ($request->getParam('id')) {
-                    $dto->setDblIdProtocolo($request->getParam('id'));
+                if ($this->getParam($request, 'id')) {
+                    $dto->setDblIdProtocolo($this->getParam($request, 'id'));
                 }
 
-                if ($request->getParam('limit')) {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if ($this->getParam($request, 'limit')) {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if ($request->getParam('usuario')) {
-                    $dto->setNumIdUsuarioAtribuicaoAtividade($request->getParam('usuario'));
+                if ($this->getParam($request, 'usuario')) {
+                    $dto->setNumIdUsuarioAtribuicaoAtividade($this->getParam($request, 'usuario'));
                 }
-                if ($request->getParam('tipo')) {
-                    $dto->setStrSinTipoBusca($request->getParam('tipo'));
+                if ($this->getParam($request, 'tipo')) {
+                    $dto->setStrSinTipoBusca($this->getParam($request, 'tipo'));
                 } else {
                     $dto->setStrSinTipoBusca(null);
                 }
-                if ($request->getParam('apenasMeus')) {
-                    $dto->setStrSinApenasMeus($request->getParam('apenasMeus'));
+                if ($this->getParam($request, 'apenasMeus')) {
+                    $dto->setStrSinApenasMeus($this->getParam($request, 'apenasMeus'));
                 } else {
                     $dto->setStrSinApenasMeus('N');
                 }
-                if (!is_null($request->getParam('start'))) {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start'))) {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                  return $response->withJSON($rn->listarProcessos($dto));
+                  return JsonResponse::create($response, $rn->listarProcessos($dto));
               });
 
-              $this->get('/pesquisar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/pesquisar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new MdWsSeiPesquisaProtocoloSolrDTO();
-                if ($request->getParam('grupo')) {
-                    $dto->setNumIdGrupoAcompanhamentoProcedimento($request->getParam('grupo'));
+                if ($this->getParam($request, 'grupo')) {
+                    $dto->setNumIdGrupoAcompanhamentoProcedimento($this->getParam($request, 'grupo'));
                 }
-                if ($request->getParam('palavrasChave')) {
-                    $dto->setStrPalavrasChave($request->getParam('palavrasChave'));
+                if ($this->getParam($request, 'palavrasChave')) {
+                    $dto->setStrPalavrasChave($this->getParam($request, 'palavrasChave'));
                 }
-                if ($request->getParam('descricao')) {
-                    $dto->setStrDescricao($request->getParam('descricao'));
+                if ($this->getParam($request, 'descricao')) {
+                    $dto->setStrDescricao($this->getParam($request, 'descricao'));
                 }
-                if ($request->getParam('limit')) {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if ($this->getParam($request, 'limit')) {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start'))) {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start'))) {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if (!is_null($request->getParam('staTipoData'))) {
-                    $dto->setStrStaTipoData($request->getParam('staTipoData'));
+                if (!is_null($this->getParam($request, 'staTipoData'))) {
+                    $dto->setStrStaTipoData($this->getParam($request, 'staTipoData'));
                 }
-                if ($request->getParam('dataInicio')) {
-                    $dto->setDtaInicio($request->getParam('dataInicio'));
+                if ($this->getParam($request, 'dataInicio')) {
+                    $dto->setDtaInicio($this->getParam($request, 'dataInicio'));
                 }
-                if ($request->getParam('dataFim')) {
-                    $dto->setDtaFim($request->getParam('dataFim'));
+                if ($this->getParam($request, 'dataFim')) {
+                    $dto->setDtaFim($this->getParam($request, 'dataFim'));
                 }
-                if (!is_null($request->getParam('idUnidadeGeradora')) && $request->getParam('idUnidadeGeradora') != '') {
-                    $dto->setNumIdUnidadeGeradora($request->getParam('idUnidadeGeradora'));
+                if (!is_null($this->getParam($request, 'idUnidadeGeradora')) && $this->getParam($request, 'idUnidadeGeradora') != '') {
+                    $dto->setNumIdUnidadeGeradora($this->getParam($request, 'idUnidadeGeradora'));
                 }
-                if (!is_null($request->getParam('idAssunto')) && $request->getParam('idAssunto') != '') {
-                    $dto->setNumIdAssunto($request->getParam('idAssunto'));
+                if (!is_null($this->getParam($request, 'idAssunto')) && $this->getParam($request, 'idAssunto') != '') {
+                    $dto->setNumIdAssunto($this->getParam($request, 'idAssunto'));
                 }
-                if ($request->getParam('buscaRapida')) {
-                    $dto->setStrbuscaRapida(InfraUtil::retirarFormatacao($request->getParam('buscaRapida'), false));
+                if ($this->getParam($request, 'buscaRapida')) {
+                    $dto->setStrbuscaRapida(InfraUtil::retirarFormatacao($this->getParam($request, 'buscaRapida'), false));
                 }
 
-                  return $response->withJSON($rn->pesquisarProcessosSolar($dto));
+                  return JsonResponse::create($response, $rn->pesquisarProcessosSolar($dto));
               });
-              $this->get('/listar/meus/acompanhamentos', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/listar/meus/acompanhamentos', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new MdWsSeiProtocoloDTO();
-                if ($request->getParam('grupo')) {
-                    $dto->setNumIdGrupoAcompanhamentoProcedimento($request->getParam('grupo'));
+                if ($this->getParam($request, 'grupo')) {
+                    $dto->setNumIdGrupoAcompanhamentoProcedimento($this->getParam($request, 'grupo'));
                 }
-                if ($request->getParam('usuario')) {
-                    $dto->setNumIdUsuarioGeradorAcompanhamento($request->getParam('usuario'));
+                if ($this->getParam($request, 'usuario')) {
+                    $dto->setNumIdUsuarioGeradorAcompanhamento($this->getParam($request, 'usuario'));
                 }
-                if ($request->getParam('limit')) {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if ($this->getParam($request, 'limit')) {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start'))) {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start'))) {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                  return $response->withJSON($rn->listarProcedimentoAcompanhamentoUsuario($dto));
+                  return JsonResponse::create($response, $rn->listarProcedimentoAcompanhamentoUsuario($dto));
               });
-              $this->get('/listar/acompanhamentos', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/listar/acompanhamentos', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new MdWsSeiProtocoloDTO();
-                if ($request->getParam('grupo')) {
-                    $dto->setNumIdGrupoAcompanhamentoProcedimento($request->getParam('grupo'));
+                if ($this->getParam($request, 'grupo')) {
+                    $dto->setNumIdGrupoAcompanhamentoProcedimento($this->getParam($request, 'grupo'));
                 }
-                if ($request->getParam('limit')) {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if ($this->getParam($request, 'limit')) {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start'))) {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start'))) {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                  return $response->withJSON($rn->listarProcedimentoAcompanhamentoUnidade($dto));
+                  return JsonResponse::create($response, $rn->listarProcedimentoAcompanhamentoUnidade($dto));
               });
 
               /**
@@ -1036,680 +1129,781 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                *      {"name"="sinReabrir", "dataType"="integer", "required"=false, "description"="S/N - sinalizador indica se deseja reabrir o processo na unidade atual"}
                *  }
                */
-              $this->post('/enviar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/enviar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiProcedimentoRN();
-                  $dto = $rn->encapsulaEnviarProcessoEntradaEnviarProcessoAPI($request->getParams());
-                  return $response->withJSON($rn->enviarProcesso($dto));
+                  $dto = $rn->encapsulaEnviarProcessoEntradaEnviarProcessoAPI($request->getParsedBody());
+                  return JsonResponse::create($response, $rn->enviarProcesso($dto));
               });
-              $this->post('/concluir', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/concluir', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new EntradaConcluirProcessoAPI();
-                if ($request->getParam('numeroProcesso')) {
-                    $dto->setProtocoloProcedimento($request->getParam('numeroProcesso'));
+                if ($this->getParam($request, 'numeroProcesso')) {
+                    $dto->setProtocoloProcedimento($this->getParam($request, 'numeroProcesso'));
                 }
-                  return $response->withJSON($rn->concluirProcesso($dto));
+                  return JsonResponse::create($response, $rn->concluirProcesso($dto));
               });
-              $this->post('/reabrir/{procedimento}', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/reabrir/{procedimento}', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $procedimento = $route->getArgument('procedimento');
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new EntradaReabrirProcessoAPI();
-                  $dto->setIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
-                  return $response->withJSON($rn->reabrirProcesso($dto));
+                  $dto->setIdProcedimento($procedimento);
+                  return JsonResponse::create($response, $rn->reabrirProcesso($dto));
               });
-              $this->post('/acompanhar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/acompanhar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiAcompanhamentoRN();
-                  $dto = $rn->encapsulaAcompanhamento($request->getParams());
-                  return $response->withJSON($rn->cadastrarAcompanhamento($dto));
+                  $dto = $rn->encapsulaAcompanhamento($request->getParsedBody());
+                  return JsonResponse::create($response, $rn->cadastrarAcompanhamento($dto));
               });
-              $this->post('/acompanhamento/alterar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/acompanhamento/alterar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiAcompanhamentoRN();
-                  $dto = $rn->encapsulaAcompanhamento($request->getParams());
-                  return $response->withJSON($rn->alterarAcompanhamento($dto));
+                  $dto = $rn->encapsulaAcompanhamento($request->getParsedBody());
+                  return JsonResponse::create($response, $rn->alterarAcompanhamento($dto));
               });
-              $this->get('/acompanhamento/consultar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
-                  $rn = new MdWsSeiAcompanhamentoRN();
-                  $dto = new AcompanhamentoDTO();
-                  $dto->setDblIdProtocolo($request->getParam('protocolo'));
-                  return $response->withJSON($rn->consultarAcompanhamentoPorProtocolo($dto));
-              });
-              $this->post('/acompanhamento/{acompanhamento:[0-9]+}/excluir', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/acompanhamento/consultar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiAcompanhamentoRN();
                   $dto = new AcompanhamentoDTO();
-                  $dto->setNumIdAcompanhamento($request->getAttribute('route')->getArgument('acompanhamento'));
-                  return $response->withJSON($rn->excluirAcompanhamento($dto));
+                  $dto->setDblIdProtocolo($this->getParam($request, 'protocolo'));
+                  return JsonResponse::create($response, $rn->consultarAcompanhamentoPorProtocolo($dto));
               });
-              $this->post('/agendar/retorno/programado', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/acompanhamento/{acompanhamento:[0-9]+}/excluir', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $acompanhamento = $route->getArgument('acompanhamento');
+                  $rn = new MdWsSeiAcompanhamentoRN();
+                  $dto = new AcompanhamentoDTO();
+                  $dto->setNumIdAcompanhamento($acompanhamento);
+                  return JsonResponse::create($response, $rn->excluirAcompanhamento($dto));
+              });
+              $app->post('/agendar/retorno/programado', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiRetornoProgramadoRN();
-                  $dto = $rn->encapsulaRetornoProgramado($request->getParams());
-                  return $response->withJSON($rn->agendarRetornoProgramado($dto));
+                  $dto = $rn->encapsulaRetornoProgramado($request->getParsedBody());
+                  return JsonResponse::create($response, $rn->agendarRetornoProgramado($dto));
               });
-              $this->post('/atribuir', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/atribuir', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $api = new EntradaAtribuirProcessoAPI();
 
-                if ($request->getParam('numeroProcesso')) {
-                    $api->setProtocoloProcedimento($request->getParam('numeroProcesso'));
+                if ($this->getParam($request, 'numeroProcesso')) {
+                    $api->setProtocoloProcedimento($this->getParam($request, 'numeroProcesso'));
                 }
-                if ($request->getParam('usuario')) {
-                    $api->setIdUsuario($request->getParam('usuario'));
+                if ($this->getParam($request, 'usuario')) {
+                    $api->setIdUsuario($this->getParam($request, 'usuario'));
                 }
                   $rn = new MdWsSeiProcedimentoRN();
-                  return $response->withJSON($rn->atribuirProcesso($api));
+                  return JsonResponse::create($response, $rn->atribuirProcesso($api));
               });
-              $this->post('/{protocolo}/remover/atribuicao', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/{protocolo}/remover/atribuicao', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $dto = new ProtocoloDTO();
-                  $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
+                  $dto->setDblIdProtocolo($protocolo);
                   $rn = new MdWsSeiProcedimentoRN();
-                  return $response->withJSON($rn->removerAtribuicao($dto));
+                  return JsonResponse::create($response, $rn->removerAtribuicao($dto));
               });
-              $this->get('/{protocolo}/consultar/atribuicao', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/{protocolo}/consultar/atribuicao', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $dto = new ProtocoloDTO();
-                  $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
+                  $dto->setDblIdProtocolo($protocolo);
                   $rn = new MdWsSeiProcedimentoRN();
-                  return $response->withJSON($rn->consultarAtribuicao($dto));
+                  return JsonResponse::create($response, $rn->consultarAtribuicao($dto));
               });
-              $this->get('/verifica/acesso/{protocolo}', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/verifica/acesso/{protocolo}', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new ProtocoloDTO();
-                  $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
-                  return $response->withJSON($rn->verificaAcesso($dto));
+                  $dto->setDblIdProtocolo($protocolo);
+                  return JsonResponse::create($response, $rn->verificaAcesso($dto));
               });
-              $this->post('/identificacao/acesso', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/identificacao/acesso', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $usuarioDTO = new UsuarioDTO();
-                  $usuarioDTO->setStrSenha($request->getParam('senha'));
+                  $usuarioDTO->setStrSenha($this->getParam($request, 'senha'));
                   $protocoloDTO = new ProtocoloDTO();
-                  $protocoloDTO->setDblIdProtocolo($request->getParam('protocolo'));
+                  $protocoloDTO->setDblIdProtocolo($this->getParam($request, 'protocolo'));
                   $rn = new MdWsSeiProcedimentoRN();
 
-                  return $response->withJSON($rn->apiIdentificacaoAcesso($usuarioDTO, $protocoloDTO));
+                  return JsonResponse::create($response, $rn->apiIdentificacaoAcesso($usuarioDTO, $protocoloDTO));
               });
-              $this->post('/{procedimento}/credenciamento/conceder', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/{procedimento}/credenciamento/conceder', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $procedimento = $route->getArgument('procedimento');
                   $rn = new MdWsSeiCredenciamentoRN();
                   $dto = new ConcederCredencialDTO();
-                  $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
-                  $dto->setNumIdUnidade($request->getParam('unidade'));
-                  $dto->setNumIdUsuario($request->getParam('usuario'));
+                  $dto->setDblIdProcedimento($procedimento);
+                  $dto->setNumIdUnidade($this->getParam($request, 'unidade'));
+                  $dto->setNumIdUsuario($this->getParam($request, 'usuario'));
 
-                  return $response->withJSON($rn->concederCredenciamento($dto));
+                  return JsonResponse::create($response, $rn->concederCredenciamento($dto));
               });
-              $this->post('/{procedimento}/credenciamento/renunciar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/{procedimento}/credenciamento/renunciar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $procedimento = $route->getArgument('procedimento');
                   $rn = new MdWsSeiCredenciamentoRN();
                   $dto = new ProcedimentoDTO();
-                  $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
+                  $dto->setDblIdProcedimento($procedimento);
 
-                  return $response->withJSON($rn->renunciarCredencial($dto));
+                  return JsonResponse::create($response, $rn->renunciarCredencial($dto));
               });
-              $this->post('/{procedimento}/credenciamento/cassar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/{procedimento}/credenciamento/cassar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $procedimento = $route->getArgument('procedimento');
                   $rn = new MdWsSeiCredenciamentoRN();
                   $dto = new AtividadeDTO();
-                  $dto->setNumIdAtividade($request->getParam('atividade'));
+                  $dto->setNumIdAtividade($this->getParam($request, 'atividade'));
 
-                  return $response->withJSON($rn->cassarCredencial($dto));
+                  return JsonResponse::create($response, $rn->cassarCredencial($dto));
               });
-              $this->get('/{procedimento}/credenciamento/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/{procedimento}/credenciamento/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $procedimento = $route->getArgument('procedimento');
                   $rn = new MdWsSeiCredenciamentoRN();
                   $dto = new ProcedimentoDTO();
-                if ($request->getParam('limit')) {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if ($this->getParam($request, 'limit')) {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start'))) {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start'))) {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                  $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('procedimento'));
+                  $dto->setDblIdProcedimento($procedimento);
 
-                  return $response->withJSON($rn->listarCredenciaisProcesso($dto));
+                  return JsonResponse::create($response, $rn->listarCredenciaisProcesso($dto));
               });
 
-              $this->post('/criar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/criar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   //Assunto  explode lista de objetos
                   $assuntos = array();
-                  $assuntos = json_decode($request->getParam('assuntos'), true);
+                  $assuntos = json_decode($this->getParam($request, 'assuntos'), true);
                   //Interessado explode lista de objetos
                   $interessados = array();
-                  $interessados = json_decode($request->getParam('interessados'), true);
+                  $interessados = json_decode($this->getParam($request, 'interessados'), true);
 
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new MdWsSeiProcedimentoDTO();
 
                   setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
 
-                //   $especificacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('especificacao'));
-                //   $observacoesFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('observacoes'));
-                  $especificacaoFormatado = mb_convert_encoding($request->getParam('especificacao'), 'ISO-8859-1', 'UTF-8');
-                  $observacoesFormatado = mb_convert_encoding($request->getParam('observacoes'), 'ISO-8859-1', 'UTF-8');
+                //   $especificacaoFormatado = iconv('UTF-8', 'ISO-8859-1', $this->getParam($request, 'especificacao'));
+                //   $observacoesFormatado = iconv('UTF-8', 'ISO-8859-1', $this->getParam($request, 'observacoes'));
+                  $especificacaoFormatado = mb_convert_encoding($this->getParam($request, 'especificacao'), 'ISO-8859-1', 'UTF-8');
+                  $observacoesFormatado = mb_convert_encoding($this->getParam($request, 'observacoes'), 'ISO-8859-1', 'UTF-8');
 
                   //Atribuir parametros para o DTO
                   $dto->setArrObjInteressado($interessados);
                   $dto->setArrObjAssunto($assuntos);
-                  $dto->setNumIdTipoProcedimento($request->getParam('tipoProcesso'));
+                  $dto->setNumIdTipoProcedimento($this->getParam($request, 'tipoProcesso'));
                   $dto->setStrEspecificacao($especificacaoFormatado);
                   $dto->setStrObservacao($observacoesFormatado);
-                  $dto->setNumNivelAcesso($request->getParam('nivelAcesso'));
-                  $dto->setNumIdHipoteseLegal($request->getParam('hipoteseLegal'));
-                  $dto->setStrStaGrauSigilo($request->getParam('grauSigilo'));
+                  $dto->setNumNivelAcesso($this->getParam($request, 'nivelAcesso'));
+                  $dto->setNumIdHipoteseLegal($this->getParam($request, 'hipoteseLegal'));
+                  $dto->setStrStaGrauSigilo($this->getParam($request, 'grauSigilo'));
 
-                  return $response->withJSON($rn->gerarProcedimento($dto));
+                  return JsonResponse::create($response, $rn->gerarProcedimento($dto));
               });
 
-              $this->post('/{protocolo}/alterar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/{protocolo}/alterar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiProcedimentoRN();
-                  return $response->withJSON($rn->alterarProcessoRequest($request));
+                  return JsonResponse::create($response, $rn->alterarProcessoRequest($request));
               });
 
               //Serviço de recebimento do processo na unidade - adicionado por Adriano Cesar - MPOG
-              $this->post('/receber', function ($request, $response, $args) {
+              $app->post('/receber', function ($request, $response, $args) {
 
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new MdWsSeiProcedimentoDTO();
-                if ($request->getParam('procedimento')) {
-                    $dto->setNumIdProcedimento($request->getParam('procedimento'));
+                if ($this->getParam($request, 'procedimento')) {
+                    $dto->setNumIdProcedimento($this->getParam($request, 'procedimento'));
                 }
-                  return $response->withJSON($rn->receberProcedimento($dto));
+                  return JsonResponse::create($response, $rn->receberProcedimento($dto));
               });
 
-              $this->get('/{protocolo}/interessados/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/{protocolo}/interessados/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiParticipanteRN();
                   $dto = new ParticipanteDTO();
-                  $dto->setDblIdProtocolo($request->getAttribute('route')->getArgument('protocolo'));
-                if ($request->getParam('limit') && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                  $dto->setDblIdProtocolo($protocolo);
+                if ($this->getParam($request, 'limit') && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
 
-                  return $response->withJSON($rn->processoInteressadosListar($dto));
+                  return JsonResponse::create($response, $rn->processoInteressadosListar($dto));
               });
 
-              $this->get('/assunto/sugestao/{tipoProcedimento}/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/assunto/sugestao/{tipoProcedimento}/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $tipoProcedimento = $route->getArgument('tipoProcedimento');
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new RelTipoProcedimentoAssuntoDTO();
-                  $dto->setNumIdTipoProcedimento($request->getAttribute('route')->getArgument('tipoProcedimento'));
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                  $dto->setNumIdTipoProcedimento($tipoProcedimento);
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
-                    $dto->setNumIdAssunto($request->getParam('id'));
+                if (!is_null($this->getParam($request, 'id')) && $this->getParam($request, 'id') != '') {
+                    $dto->setNumIdAssunto($this->getParam($request, 'id'));
                 }
-                if ($request->getParam('filter') != '') {
-                    $dto->setStrDescricaoAssunto($request->getParam('filter'));
+                if ($this->getParam($request, 'filter') != '') {
+                    $dto->setStrDescricaoAssunto($this->getParam($request, 'filter'));
                 }
 
-                  return $response->withJSON($rn->sugestaoAssunto($dto));
+                  return JsonResponse::create($response, $rn->sugestaoAssunto($dto));
               });
-              $this->get('/{protocolo}/ciencia/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/{protocolo}/ciencia/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new ProcedimentoHistoricoDTO();
-                  $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('protocolo'));
-                if ($request->getParam('limit')) {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                  $dto->setDblIdProcedimento($protocolo);
+                if ($this->getParam($request, 'limit')) {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start'))) {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start'))) {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                  return $response->withJSON($rn->listarCienciaProcesso($dto));
+                  return JsonResponse::create($response, $rn->listarCienciaProcesso($dto));
               });
-              $this->get('/{protocolo}/relacionamentos', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/{protocolo}/relacionamentos', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new ProcedimentoDTO();
-                  $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('protocolo'));
+                  $dto->setDblIdProcedimento($protocolo);
 
-                  return $response->withJSON($rn->processosRelacionados($dto));
+                  return JsonResponse::create($response, $rn->processosRelacionados($dto));
               });
 
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
           /**
            * Grupo de controlador de atividade
            */
-          $this->group('/atividade', function () {
+          $app->group('/atividade', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiAtividadeRN();
                   $dto = new AtividadeDTO();
-                if ($request->getParam('procedimento')) {
-                    $dto->setDblIdProtocolo($request->getParam('procedimento'));
+                if ($this->getParam($request, 'procedimento')) {
+                    $dto->setDblIdProtocolo($this->getParam($request, 'procedimento'));
                 }
-                if ($request->getParam('limit')) {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if ($this->getParam($request, 'limit')) {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start'))) {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start'))) {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                  return $response->withJSON($rn->listarAtividadesProcesso($dto));
+                  return JsonResponse::create($response, $rn->listarAtividadesProcesso($dto));
               });
-              $this->post('/lancar/andamento/processo', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/lancar/andamento/processo', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiAtividadeRN();
-                  $dto = $rn->encapsulaLancarAndamentoProcesso($request->getParams());
+                  $dto = $rn->encapsulaLancarAndamentoProcesso($request->getParsedBody());
 
-                  return $response->withJSON($rn->lancarAndamentoProcesso($dto));
+                  return JsonResponse::create($response, $rn->lancarAndamentoProcesso($dto));
               });
 
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
           /**
            * Grupo de controlador de Assinante
            */
-          $this->group('/assinante', function () {
+          $app->group('/assinante', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiAssinanteRN();
                   $dto = new AssinanteDTO();
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
-                    $dto->setNumIdAssinante($request->getParam('id'));
+                if (!is_null($this->getParam($request, 'id')) && $this->getParam($request, 'id') != '') {
+                    $dto->setNumIdAssinante($this->getParam($request, 'id'));
                 }
-                if ($request->getParam('filter') != '') {
-                    $dto->setStrCargoFuncao($request->getParam('filter'));
+                if ($this->getParam($request, 'filter') != '') {
+                    $dto->setStrCargoFuncao($this->getParam($request, 'filter'));
                 }
-                  return $response->withJSON($rn->listarAssinante($dto));
+                  return JsonResponse::create($response, $rn->listarAssinante($dto));
               });
 
-              $this->get('/orgao', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/orgao', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiOrgaoRN();
                   $dto = new OrgaoDTO();
-                if ($request->getParam('limit')) {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if ($this->getParam($request, 'limit')) {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start'))) {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start'))) {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                  return $response->withJSON($rn->listarOrgao($dto));
+                  return JsonResponse::create($response, $rn->listarOrgao($dto));
               });
 
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
           /**
            * Grupo de controlador de Grupo de Acompanhamento
            */
-          $this->group('/grupoacompanhamento', function () {
+          $app->group('/grupoacompanhamento', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiGrupoAcompanhamentoRN();
                   $dto = new GrupoAcompanhamentoDTO();
-                if (!empty($request->getParam('limit'))) {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+
+                if (!empty($this->getParam($request, 'limit'))) {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!empty($request->getParam('start'))) {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!empty($this->getParam($request, 'start'))) {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if (!empty($request->getParam('id'))) {
-                    $dto->setNumIdGrupoAcompanhamento($request->getParam('id'));
+                if (!empty($this->getParam($request, 'id'))) {
+                    $dto->setNumIdGrupoAcompanhamento($this->getParam($request, 'id'));
                 }
-                if ($request->getParam('filter') != '') {
-                    $dto->setStrNome($request->getParam('filter'));
+                if ($this->getParam($request, 'filter') != '') {
+                    $dto->setStrNome($this->getParam($request, 'filter'));
                 }
-                  return $response->withJSON($rn->listar($dto));
+                  return JsonResponse::create($response, $rn->listar($dto));
               });
 
-              $this->post('/cadastrar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/cadastrar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiGrupoAcompanhamentoRN();
                   $dto = new GrupoAcompanhamentoDTO();
-                  $dto->setStrNome($request->getParam('nome'));
+                  $dto->setStrNome($this->getParam($request, 'nome'));
                   $dto->setNumIdGrupoAcompanhamento(null);
-                  return $response->withJSON($rn->cadastrar($dto));
+                  return JsonResponse::create($response, $rn->cadastrar($dto));
               });
 
-              $this->post('/excluir', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/excluir', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiGrupoAcompanhamentoRN();
                   $arrIdGrupos = array();
-                if ($request->getParam('grupos')) {
-                    $arrIdGrupos = explode(',', $request->getParam('grupos'));
+                if ($this->getParam($request, 'grupos')) {
+                    $arrIdGrupos = explode(',', $this->getParam($request, 'grupos'));
                 }
-                  return $response->withJSON($rn->excluir($arrIdGrupos));
+                  return JsonResponse::create($response, $rn->excluir($arrIdGrupos));
               });
 
-              $this->post('/{grupoacompanhamento:[0-9]+}/alterar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/{grupoacompanhamento:[0-9]+}/alterar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $grupoacompanhamento = $route->getArgument('grupoacompanhamento');
                   $rn = new MdWsSeiGrupoAcompanhamentoRN();
                   $dto = new GrupoAcompanhamentoDTO();
-                  $dto->setNumIdGrupoAcompanhamento($request->getAttribute('route')->getArgument('grupoacompanhamento'));
-                  $dto->setStrNome($request->getParam('nome'));
-                  return $response->withJSON($rn->alterar($dto));
+                  $dto->setNumIdGrupoAcompanhamento($grupoacompanhamento);
+                  $dto->setStrNome($this->getParam($request, 'nome'));
+                  return JsonResponse::create($response, $rn->alterar($dto));
               });
 
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
           /**
            * Grupo de controlador de Grupo de Modelo de documentos
            */
-          $this->group('/protocolomodelo', function () {
+          $app->group('/protocolomodelo', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/grupo/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/grupo/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiGrupoProtocoloModeloRN();
                   $dto = new GrupoProtocoloModeloDTO();
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
-                    $dto->setNumIdGrupoProtocoloModelo($request->getParam('id'));
+                if (!is_null($this->getParam($request, 'id')) && $this->getParam($request, 'id') != '') {
+                    $dto->setNumIdGrupoProtocoloModelo($this->getParam($request, 'id'));
                 }
-                if ($request->getParam('filter') != '') {
-                    $dto->setStrNome($request->getParam('filter'));
+                if ($this->getParam($request, 'filter') != '') {
+                    $dto->setStrNome($this->getParam($request, 'filter'));
                 }
-                  return $response->withJSON($rn->listar($dto));
+                  return JsonResponse::create($response, $rn->listar($dto));
               });
-              $this->get('/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiProtocoloModeloRN();
                   $dto = new ProtocoloModeloDTO();
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
-                    $dto->setNumIdProtocoloModelo($request->getParam('id'));
+                if (!is_null($this->getParam($request, 'id')) && $this->getParam($request, 'id') != '') {
+                    $dto->setNumIdProtocoloModelo($this->getParam($request, 'id'));
                 }
-                if (!is_null($request->getParam('grupoProtocoloModelo')) && $request->getParam('grupoProtocoloModelo') != '') {
-                    $dto->setNumIdGrupoProtocoloModelo($request->getParam('grupoProtocoloModelo'));
+                if (!is_null($this->getParam($request, 'grupoProtocoloModelo')) && $this->getParam($request, 'grupoProtocoloModelo') != '') {
+                    $dto->setNumIdGrupoProtocoloModelo($this->getParam($request, 'grupoProtocoloModelo'));
                 }
-                if (!is_null($request->getParam('tipoFiltro')) && $request->getParam('tipoFiltro') != '') {
-                    $dto->setStrStaTipoFiltro($request->getParam('tipoFiltro'));
+                if (!is_null($this->getParam($request, 'tipoFiltro')) && $this->getParam($request, 'tipoFiltro') != '') {
+                    $dto->setStrStaTipoFiltro($this->getParam($request, 'tipoFiltro'));
                 }else{
                     $dto->setStrStaTipoFiltro(null);
                     // $dto->setStrStaTipoFiltro(ProtocoloModeloRN::$TF_TODOS);
                 }
-                  return $response->withJSON($rn->listar($dto));
+                  return JsonResponse::create($response, $rn->listar($dto));
               });
 
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
           /**
            * Grupo de controlador de Acompanhamento Especial
            */
-          $this->group('/acompanhamentoespecial', function () {
+          $app->group('/acompanhamentoespecial', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiAcompanhamentoRN();
                   $dto = new AcompanhamentoDTO();
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if ($request->getParam('grupoAcompanhamento') != '') {
-                    $dto->setNumIdGrupoAcompanhamento($request->getParam('grupoAcompanhamento'));
+                if ($this->getParam($request, 'grupoAcompanhamento') != '') {
+                    $dto->setNumIdGrupoAcompanhamento($this->getParam($request, 'grupoAcompanhamento'));
                 }
-                  return $response->withJSON($rn->listaAcompanhamentosUnidade($dto));
+                  return JsonResponse::create($response, $rn->listaAcompanhamentosUnidade($dto));
               });
 
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
 
           /**
            * Grupo de controlador contato
            */
-          $this->group('/contato', function () {
+          $app->group('/contato', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/pesquisar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/pesquisar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
 
                   $dto = new ContatoDTO();
-                if ($request->getParam('filter') != '') {
-                    $dto->setStrPalavrasPesquisa($request->getParam('filter'));
+                if ($this->getParam($request, 'filter') != '') {
+                    $dto->setStrPalavrasPesquisa($this->getParam($request, 'filter'));
                 }
-                if (!is_null($request->getParam('idGrupoContato')) && $request->getParam('idGrupoContato') != '') {
-                    $dto->setNumIdGrupoContato($request->getParam('idGrupoContato'));
+                if (!is_null($this->getParam($request, 'idGrupoContato')) && $this->getParam($request, 'idGrupoContato') != '') {
+                    $dto->setNumIdGrupoContato($this->getParam($request, 'idGrupoContato'));
                 }
-                if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
-                    $dto->setNumIdContato($request->getParam('id'));
+                if (!is_null($this->getParam($request, 'id')) && $this->getParam($request, 'id') != '') {
+                    $dto->setNumIdContato($this->getParam($request, 'id'));
                 }
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
 
                   $rn = new MdWsSeiContatoRN();
-                  return $response->withJSON($rn->listarContato($dto));
+                  return JsonResponse::create($response, $rn->listarContato($dto));
               });
 
-              $this->post('/criar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/criar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
 
                   $dto = new MdWsSeiContatoDTO();
 
 
                   setlocale(LC_CTYPE, 'pt_BR'); // Defines para pt-br
 
-                //   $nomeFormatado = iconv('UTF-8', 'ISO-8859-1', $request->getParam('nome'));
-                  $nomeFormatado = mb_convert_encoding($request->getParam('nome'), 'ISO-8859-1', 'UTF-8');
+                //   $nomeFormatado = iconv('UTF-8', 'ISO-8859-1', $this->getParam($request, 'nome'));
+                  $nomeFormatado = mb_convert_encoding($this->getParam($request, 'nome'), 'ISO-8859-1', 'UTF-8');
 
                   $dto->setStrNome($nomeFormatado);
 
                   $rn = new MdWsSeiContatoRN();
-                  return $response->withJSON($rn->criarContato($dto));
+                  return JsonResponse::create($response, $rn->criarContato($dto));
               });
 
 
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
           /**
            * Grupo de controlador HipoteseLegal
            */
-          $this->group('/hipoteseLegal', function () {
+          $app->group('/hipoteseLegal', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/pesquisar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/pesquisar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
 
                   $dto = new HipoteseLegalDTO();
-                if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
-                    $dto->setNumIdHipoteseLegal($request->getParam('id'));
+                if (!is_null($this->getParam($request, 'id')) && $this->getParam($request, 'id') != '') {
+                    $dto->setNumIdHipoteseLegal($this->getParam($request, 'id'));
                 }
-                if (!is_null($request->getParam('nivelAcesso')) && $request->getParam('nivelAcesso') != '') {
-                    $dto->setStrStaNivelAcesso($request->getParam('nivelAcesso'));
+                if (!is_null($this->getParam($request, 'nivelAcesso')) && $this->getParam($request, 'nivelAcesso') != '') {
+                    $dto->setStrStaNivelAcesso($this->getParam($request, 'nivelAcesso'));
                 }
-                if (trim($request->getParam('filter')) != '') {
-                    $dto->setStrNome($request->getParam('filter'));
+                if (trim($this->getParam($request, 'filter')) != '') {
+                    $dto->setStrNome($this->getParam($request, 'filter'));
                 }
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
 
                   $rn = new MdWsSeiHipoteseLegalRN();
-                  return $response->withJSON($rn->pesquisar($dto));
+                  return JsonResponse::create($response, $rn->pesquisar($dto));
               });
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
           /**
            * Grupo de controlador de Observação
            */
-          $this->group('/observacao', function () {
+          $app->group('/observacao', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->post('/', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiObservacaoRN();
-                  $dto = $rn->encapsulaObservacao($request->getParams());
-                  return $response->withJSON($rn->criarObservacao($dto));
+                  $dto = $rn->encapsulaObservacao($request->getParsedBody());
+                  return JsonResponse::create($response, $rn->criarObservacao($dto));
               });
 
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
-          $this->group('/serie', function () {
+          $app->group('/serie', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/externo/pesquisar', function ($request, $response, $args) {
+              $app->get('/externo/pesquisar', function ($request, $response, $args) {
                   $dto = new SerieDTO();
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
-                    $dto->setNumIdSerie($request->getParam('id'));
+                if (!is_null($this->getParam($request, 'id')) && $this->getParam($request, 'id') != '') {
+                    $dto->setNumIdSerie($this->getParam($request, 'id'));
                 }
-                if ($request->getParam('filter') != '') {
-                    $dto->setStrNome($request->getParam('filter'));
+                if ($this->getParam($request, 'filter') != '') {
+                    $dto->setStrNome($this->getParam($request, 'filter'));
                 }
-                  /** @var Slim\Http\Request $request */
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiSerieRN();
-                  return $response->withJSON($rn->pesquisarExterno($dto));
+                  return JsonResponse::create($response, $rn->pesquisarExterno($dto));
               });
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
-          $this->group('/upload', function () {
+          $app->group('/upload', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/parametros', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/parametros', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiExtensaoRN();
-                  return $response->withJSON($rn->retornarParametrosUpload());
+                  return JsonResponse::create($response, $rn->retornarParametrosUpload());
               });
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
-          $this->group('/marcador', function () {
+          $app->group('/marcador', function (\Slim\Routing\RouteCollectorProxy $app) {
               /** @var Slim/App $this */
-              $this->get('/pesquisar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/pesquisar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $dto = new MarcadorDTO();
-                if (!is_null($request->getParam('limit')) && $request->getParam('limit') != '') {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start')) && $request->getParam('start') != '') {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start')) && $this->getParam($request, 'start') != '') {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                if (!is_null($request->getParam('id')) && $request->getParam('id') != '') {
-                    $dto->setNumIdMarcador($request->getParam('id'));
+                if (!is_null($this->getParam($request, 'id')) && $this->getParam($request, 'id') != '') {
+                    $dto->setNumIdMarcador($this->getParam($request, 'id'));
                 }
-                if ($request->getParam('filter') != '') {
-                    $dto->setStrNome($request->getParam('filter'));
+                if ($this->getParam($request, 'filter') != '') {
+                    $dto->setStrNome($this->getParam($request, 'filter'));
                 }
-                if ($request->getParam('ativo') != '') {
-                    $dto->setStrSinAtivo($request->getParam('ativo'));
+                if ($this->getParam($request, 'ativo') != '') {
+                    $dto->setStrSinAtivo($this->getParam($request, 'ativo'));
                 }
                   $rn = new MdWsSeiMarcadorRN();
-                  return $response->withJSON($rn->pesquisar($dto));
+                  return JsonResponse::create($response, $rn->pesquisar($dto));
               });
-              $this->get('/cores/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/cores/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiMarcadorRN();
-                  return $response->withJSON($rn->listarCores());
+                  return JsonResponse::create($response, $rn->listarCores());
               });
-              $this->post('/criar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/criar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $dto = new MarcadorDTO();
-                  $dto->setStrNome($request->getParam('nome'));
-                  $dto->setStrStaIcone($request->getParam('idCor'));
+                  $dto->setStrNome($this->getParam($request, 'nome'));
+                  $dto->setStrStaIcone($this->getParam($request, 'idCor'));
                   $rn = new MdWsSeiMarcadorRN();
-                  return $response->withJSON($rn->cadastrar($dto));
+                  return JsonResponse::create($response, $rn->cadastrar($dto));
               });
-              $this->post('/{marcador:[0-9]+}/alterar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/{marcador:[0-9]+}/alterar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $marcador = $route->getArgument('marcador');
                   $dto = new MarcadorDTO();
-                  $dto->setNumIdMarcador($request->getAttribute('route')->getArgument('marcador'));
-                  $dto->setStrNome($request->getParam('nome'));
-                  $dto->setStrStaIcone($request->getParam('idCor'));
+                  $dto->setNumIdMarcador($marcador);
+                  $dto->setStrNome($this->getParam($request, 'nome'));
+                  $dto->setStrStaIcone($this->getParam($request, 'idCor'));
                   $rn = new MdWsSeiMarcadorRN();
-                  return $response->withJSON($rn->alterar($dto));
+                  return JsonResponse::create($response, $rn->alterar($dto));
               });
-              $this->post('/excluir', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/excluir', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiMarcadorRN();
                   $arrIdMarcadores = array();
-                if ($request->getParam('marcadores')) {
-                    $arrIdMarcadores = explode(',', $request->getParam('marcadores'));
+                if ($this->getParam($request, 'marcadores')) {
+                    $arrIdMarcadores = explode(',', $this->getParam($request, 'marcadores'));
                 }
-                  return $response->withJSON($rn->excluirMarcadores($arrIdMarcadores));
+                  return JsonResponse::create($response, $rn->excluirMarcadores($arrIdMarcadores));
               });
-              $this->post('/desativar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/desativar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiMarcadorRN();
                   $arrIdMarcadores = array();
-                if ($request->getParam('marcadores')) {
-                    $arrIdMarcadores = explode(',', $request->getParam('marcadores'));
+                if ($this->getParam($request, 'marcadores')) {
+                    $arrIdMarcadores = explode(',', $this->getParam($request, 'marcadores'));
                 }
-                  return $response->withJSON($rn->desativarMarcadores($arrIdMarcadores));
+                  return JsonResponse::create($response, $rn->desativarMarcadores($arrIdMarcadores));
               });
-              $this->post('/reativar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/reativar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiMarcadorRN();
                   $arrIdMarcadores = array();
-                if ($request->getParam('marcadores')) {
-                    $arrIdMarcadores = explode(',', $request->getParam('marcadores'));
+                if ($this->getParam($request, 'marcadores')) {
+                    $arrIdMarcadores = explode(',', $this->getParam($request, 'marcadores'));
                 }
-                  return $response->withJSON($rn->reativarMarcadores($arrIdMarcadores));
+                  return JsonResponse::create($response, $rn->reativarMarcadores($arrIdMarcadores));
               });
-              $this->post('/processo/{protocolo:[0-9]+}/marcar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->post('/processo/{protocolo:[0-9]+}/marcar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiMarcadorRN();
                   $dto = new AndamentoMarcadorDTO();
-                  $dto->setDblIdProcedimento(array($request->getAttribute('route')->getArgument('protocolo')));
-                  $dto->setNumIdMarcador($request->getParam('marcador'));
-                  $dto->setStrTexto($request->getParam('texto'));
-                  return $response->withJSON($rn->marcarProcesso($dto));
+                  $dto->setDblIdProcedimento(array($protocolo));
+                  $dto->setNumIdMarcador($this->getParam($request, 'marcador'));
+                  $dto->setStrTexto($this->getParam($request, 'texto'));
+                  return JsonResponse::create($response, $rn->marcarProcesso($dto));
               });
-              $this->get('/processo/{protocolo:[0-9]+}/consultar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/processo/{protocolo:[0-9]+}/consultar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiMarcadorRN();
                   $dto = new AndamentoMarcadorDTO();
-                  $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('protocolo'));
-                  return $response->withJSON($rn->marcadorProcessoConsultar($dto));
+                  $dto->setDblIdProcedimento($protocolo);
+                  return JsonResponse::create($response, $rn->marcadorProcessoConsultar($dto));
               });
-              $this->get('/processo/{protocolo:[0-9]+}/historico/listar', function ($request, $response, $args) {
-                  /** @var Slim\Http\Request $request */
+              $app->get('/processo/{protocolo:[0-9]+}/historico/listar', function ($request, $response, $args) {
+                  /** @var Slim\Psr7\Request $request */
+                  $routeContext = RouteContext::fromRequest($request);
+                  $route = $routeContext->getRoute();
+                  $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiMarcadorRN();
                   $dto = new AndamentoMarcadorDTO();
-                  $dto->setDblIdProcedimento($request->getAttribute('route')->getArgument('protocolo'));
-                if ($request->getParam('limit')) {
-                    $dto->setNumMaxRegistrosRetorno($request->getParam('limit'));
+                  $dto->setDblIdProcedimento($protocolo);
+                if ($this->getParam($request, 'limit')) {
+                    $dto->setNumMaxRegistrosRetorno($this->getParam($request, 'limit'));
                 }
-                if (!is_null($request->getParam('start'))) {
-                    $dto->setNumPaginaAtual($request->getParam('start'));
+                if (!is_null($this->getParam($request, 'start'))) {
+                    $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                  return $response->withJSON($rn->listarHistoricoProcesso($dto));
+                  return JsonResponse::create($response, $rn->listarHistoricoProcesso($dto));
               });
-          })->add(new TokenValidationMiddleware());
+          })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
       })
-          ->add(new ModuleVerificationMiddleware())
-          ->add(new EncodingMiddleware());
+          ->add(new ModuleVerificationMiddleware($this->slimApp->getResponseFactory()))
+          ->add(new EncodingMiddleware($this->slimApp->getResponseFactory()));
 
       return $this->slimApp;
+  }
+
+  private function getParam(Slim\Psr7\Request $request, string $name)
+  {
+    $query = $request->getQueryParams();
+
+    if (isset($query[$name])) {
+        return $query[$name];
+    }
+
+    $body = $request->getParsedBody();
+
+    if (is_array($body) && isset($body[$name])) {
+        return $body[$name];
+    }
+    // PARA GET não funciona o getParsedBody
+    $body = $request->getBody()->getContents();
+    $array = [];
+    parse_str($body, $array);
+
+    if (array_key_exists($name, $array)){
+        return $array[$name];
+    }
+    
+    return null;
+  }
+  
+}
+final class JsonResponse
+{
+  public static function create(
+        Slim\Psr7\Response $response,
+        mixed $data,
+        int $status = 200
+    ): Slim\Psr7\Response {
+
+      $response->getBody()->write(
+          json_encode(
+              $data,
+              JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR
+          )
+      );
+
+      return $response
+          ->withStatus($status)
+          ->withHeader(
+              'Content-Type',
+              'application/json'
+          );
   }
 }
