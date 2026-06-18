@@ -1,4 +1,4 @@
-.PHONY: all dist clean check-super-path check-module-config check-super-isalive prerequisites-up prerequisites-modulo-instalar install up update config down restart destroy tests-functional-orientations tests-functional-validar echo "Variaveis de ambientes tests-functional-prerequisites tests-functional tests-functional-loop tests-api cria_json_compatibilidade help
+.PHONY: all dist clean check-super-path check-module-config check-super-isalive prerequisites-up prerequisites-modulo-instalar install up update config down restart destroy tests-functional-orientations echo "Variaveis de ambientes tests-functional-prerequisites tests-functional tests-functional-loop tests-api cria_json_compatibilidade help funcional-prepare-tmp funcional-up funcional-down funcional-destroy funcional-restart funcional-vendor test-functional-wssei
 
 -include .testselenium.env
 -include .env
@@ -10,7 +10,7 @@ versao_dump=5.0.0
 base = mysql
 
 ifndef SEI_HOST
-	SEI_HOST=http://localhost:8000
+	SEI_HOST=http://org-http:8000
 endif
 
 MODULO_NOME = wssei
@@ -64,6 +64,13 @@ ifeq (, $(shell which docker-compose))
 else
  CMD_DOCKER_COMPOSE=$(CMD_DOCKER_SUDO) docker-compose
 endif
+
+# ----------------------------------------------------------------------------
+# Testes funcionais (PHPUnit + Selenium) - pasta tests/Funcional
+# Reutiliza docker-compose.yml e .env da raiz do modulo.
+# ----------------------------------------------------------------------------
+WSSEI_TEST_FUNC = tests/Funcional
+FILE_VENDOR_FUNCIONAL = $(WSSEI_TEST_FUNC)/vendor/autoload.php
 
 
 all: clean dist
@@ -182,42 +189,9 @@ restart: down up ## Reinicia execução do ambiente de desenvolvimento local em 
 destroy:  ## Destrói ambiente de desenvolvimento local, junto com os dados armazenados em banco de dados
 	$(CMD_DOCKER_COMPOSE) down --volumes
 
-
-# mensagens de orientacao para first time buccaneers
-tests-functional-orientations:
-ifndef MSGORIENTACAO 
-	@( read -p "$$TESTS_MENSAGEM_ORIENTACAO" sure && case "$$sure" in [yY]) true;; *) false;; esac )
-endif
-
-
-# validar os testes antes de rodar
-tests-functional-validar: tests-functional-orientations
-	@if [ -z "$$SELENIUMTEST_SISTEMA_URL" ] || [ -z "$$SELENIUMTEST_SISTEMA_ORGAO" ]; then \
-	    echo "Variaveis de ambientes: SELENIUMTEST_SISTEMA_URL, SELENIUMTEST_SISTEMA_ORGAO, SELENIUMTEST_MODALIDADE nao definidas."; \
-			echo "Verifique se o arquivo de configuracao para os testes esta criado (.testselenium.env)"; \
-			echo "Existe um modelo desse arquivo na pasta envs."; \
-			exit 1; \
-	fi
-
-
-tests-functional-prerequisites: .testselenium.env tests-functional-validar
-
 restore:
 	@sleep 10s
 	@cat tests/dumpWssei$(versao_dump).PreLoaded.dmp | docker exec -i $(shell docker ps --format "{{.Names}}" | grep database) /usr/bin/mysql -u root --password=P@ssword
-
-
-# roda apenas os testes, o ajuste de data inicial e a criacao do ambiente ja devem ter sido realizados
-tests-functional: tests-functional-prerequisites check-super-isalive
-	@echo "Vamos iniciar a execucao dos testes..."
-	@cd tests/functional && SEI_HOST=$(SEI_HOST) ./testes.sh
-
-
-# roda desde o ajuste de data inicial e criacao do ambiente e tb os testes
-# caso encontre algum erro nos testes executa td novamente em loop
-tests-functional-loop: tests-functional-prerequisites
-	@echo "Vamos iniciar a execucao completa com loop"
-	@cd tests/functional && ./testes-completo-loop.sh
 
 # Executa testes no postman. Necessário a variável NEWMAN_BASEURL apontando
 # para ambiente correto exemplo: 
@@ -244,3 +218,32 @@ help:
 
 cria_json_compatibilidade:
 	$(shell ./gerar_json_compatibilidade.sh)
+
+# Prepara diretorio temporario usado por Selenium/uploads.
+funcional-prepare-tmp:
+	@if [ ! -d "$(WSSEI_TEST_FUNC)/.tmp" ]; then \
+		mkdir -p "$(WSSEI_TEST_FUNC)/.tmp"; \
+		chmod -R 777 "$(WSSEI_TEST_FUNC)/.tmp"; \
+	fi
+
+# Sobe o ambiente Docker (mesmo compose da raiz, inclui selenium e proxy).
+funcional-up: prerequisites-up funcional-prepare-tmp
+	$(CMD_DOCKER_COMPOSE) up -d
+
+# Instala as dependencias (vendor) dos testes funcionais dentro do container.
+funcional-vendor: prerequisites-up
+	$(CMD_DOCKER_COMPOSE) run --rm -w /tests php-test-functional bash -lc '\
+		if [ ! -f composer.phar ]; then \
+			php -r "copy(\"https://getcomposer.org/installer\", \"composer-setup.php\");"; \
+			php composer-setup.php; \
+			rm -f composer-setup.php; \
+		fi; \
+		php composer.phar install'
+
+$(FILE_VENDOR_FUNCIONAL):
+	$(MAKE) funcional-vendor
+
+# Executa os testes funcionais. Sem teste= roda toda a suite; com teste=NomeDoTeste roda um especifico.
+# Ex: make test-functional-wssei teste=ChecarSaudeSistemaTest
+test-functional-wssei: prerequisites-up $(FILE_VENDOR_FUNCIONAL) funcional-up
+	$(CMD_DOCKER_COMPOSE) run --rm php-test-functional /tests/vendor/bin/phpunit -c /tests/phpunit.xml --testdox /tests/tests/$(addsuffix .php,$(teste))
