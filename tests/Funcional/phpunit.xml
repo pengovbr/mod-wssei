@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit
+  bootstrap="bootstrap.php"
+  backupGlobals="true"
+  colors="true"
+  verbose="true"
+  cacheResult="false"
+  stopOnError="true"
+  stopOnFailure="true"
+>
+  <php>
+    <const name="PHPUNIT_HOST" value="selenium" />
+    <const name="PHPUNIT_PORT" value="4444" />
+    <const name="PHPUNIT_BROWSER" value="chrome" />
+    <const name="PHPUNIT_TESTS_URL" value="http://org-http:8000/sei" />
+
+    <!-- Contexto padrao de teste do modulo WSSEI -->
+    <const name="CONTEXTO_SEI" value="CONTEXTO_SEI" />
+    <const name="CONTEXTO_SEI_URL" value="http://org-http:8000/sei" />
+    <const name="CONTEXTO_SEI_SIGLA_ORGAO" value="ABC" />
+    <const name="CONTEXTO_SEI_SIGLA_UNIDADE" value="TESTE" />
+    <const name="CONTEXTO_SEI_USUARIO_LOGIN" value="teste" />
+    <const name="CONTEXTO_SEI_USUARIO_SENHA" value="teste" />
+  </php>
+
+  <testsuites>
+    <testsuite name="funcional">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
