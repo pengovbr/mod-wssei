@@ -365,9 +365,9 @@ class MdWsSeiRest extends SeiIntegracao
       // $htmlQrCode .= '</strong>';
       // $htmlQrCode .= '</p>';
       $htmlQrCode .= '<p style="text-align: left; margin: 15px 5px 5px 5px;">';
-      $htmlQrCode .= '<strong style="font-weight: bolder">';
+      $htmlQrCode .= '<span style="font-weight: bolder" id="textoQRCode">';
       $htmlQrCode .= 'Abra o aplicativo do SEI! e faça a leitura do código abaixo para sincronizá-lo com sua conta.';
-      $htmlQrCode .= '</strong>';
+      $htmlQrCode .= '</span>';
       $htmlQrCode .= '</p>';
       $htmlQrCode .= '<img style="margin: 20px auto 6px;" align="center" src="data:image/png;base64, '
           . base64_encode($binQrCode) . '" />';
