@@ -17,9 +17,6 @@ class ChecarSaudeSistemaTest extends CenarioBaseTestCase
         // Acessar a página de login
         $this->acessarSistema(self::$contextoTeste['URL'], self::$contextoTeste['SIGLA_UNIDADE'], self::$contextoTeste['LOGIN'], self::$contextoTeste['SENHA']);
 
-
-
-        sleep(60);
         // Esperar que o login tenha sucesso, por exemplo, verificando um elemento visível da tela principal
         $boolLoginSucesso = $this->waitUntil(function () {
             try {

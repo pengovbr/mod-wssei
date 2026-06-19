@@ -51,8 +51,8 @@ class PaginaLogin extends PaginaTeste
     public static function executarAutenticacao($test, $usuario = "teste", $senha = "teste")
     {
         $paginaLogin = new PaginaLogin($test);
-        $paginaLogin->usuario($usuario);
-        $paginaLogin->senha($senha);
+        $paginaLogin->usuario(strtolower($usuario));
+        $paginaLogin->senha(strtolower($senha));
         $paginaLogin->submit();
     }
 }
