@@ -14,6 +14,8 @@ services:
 
   proxy:
     image: diouxx/apache-proxy
+    ports:
+      - "8000:8000"
     volumes:
       - ./tests/Funcional/assets/proxy/:/opt/proxy-conf
     links:
@@ -21,8 +23,6 @@ services:
 
   selenium:
     image: selenium/standalone-chrome-debug
-    depends_on:
-      - proxy
     links:
       - proxy:org-http
     ports:
@@ -36,8 +36,6 @@ services:
     image: ${DATABASE_IMAGE}:${ENVIRONMENT_VERSION}
     environment:
       MYSQL_ROOT_PASSWORD: P@ssword
-    volumes:
-      - ${DATABASE_TYPE}:${DATABASE_DATA_DIR}
     ports:
       - ${DATABASE_PORT}:${DATABASE_PORT}
 
@@ -51,8 +49,6 @@ services:
     restart: always
     env_file:
       - .modulo.env
-    ports:
-      - "8000:8000"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
@@ -92,8 +88,8 @@ services:
       - database:${DATABASE_HOST}
       - memcached:memcached
       - solr:solr
-      - smtp:smtp
-      - jod:jod
+      #- smtp:smtp
+      #- jod:jod
 
   php-test-functional:
     image: ${HTTPD_IMAGE}:${ENVIRONMENT_VERSION}
@@ -122,13 +118,16 @@ services:
       - ./tests/Funcional/.tmp/sei_arquivos:/var/sei/arquivos/${DATABASE_HOST}
     environment:
       - LANG=pt_BR.ISO-8859-1
+      - HOST_URL=${SEI_HOST}
       - DATABASE_TYPE=${DATABASE_TYPE}
       - DATABASE_HOST=${DATABASE_HOST}
       - DATABASE_PORT=${DATABASE_PORT}
-      - SEI_DSN=${SEI_DSN}
+      - SEI_CHAVE_ACESSO=${SEI_CHAVE_ACESSO}
+      - SEI_DATABASE_NAME=${SEI_DATABASE_NAME}
       - SEI_DATABASE_USER=${SEI_DATABASE_USER}
       - SEI_DATABASE_PASSWORD=${SEI_DATABASE_PASSWORD}
-      - SIP_DSN=${SIP_DSN}
+      - SIP_CHAVE_ACESSO=${SIP_CHAVE_ACESSO}
+      - SIP_DATABASE_NAME=${SIP_DATABASE_NAME}
       - SIP_DATABASE_USER=${SIP_DATABASE_USER}
       - SIP_DATABASE_PASSWORD=${SIP_DATABASE_PASSWORD}
     extra_hosts:
