@@ -2,6 +2,7 @@ name: Testes da API
 
 on:
   pull_request:
+  pull_request_target:   # add this so runs in base-repo context can access secrets
   workflow_dispatch:
   push:
     branches:
@@ -12,6 +13,9 @@ on:
 env: # Or as an environment variable
   NEWMAN_BASEURL: 'http://localhost:8000'
 
+permissions:
+  contents: read
+  
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -21,6 +25,7 @@ jobs:
         sei: [main, release/5.1.0]
     steps:
       - name: Fetch Pull Request branch
+        if: github.event_name == 'pull_request_target' || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
         uses: actions/checkout@v6
         with:
             repository: pengovbr/sei
@@ -52,12 +57,14 @@ jobs:
           docker load -i ~/docker-image-cache-outras/solr9.6.1.tar
           docker load -i ~/docker-image-cache-outras/mysql.tar
 
-      - name: Checkout
+      - name: Checkout PR code (safe ordering required)
+        if: ${{ github.event_name != 'pull_request' }} # only automatically checkout for non-forked direct PRs or maintainer-triggered runs
         uses: actions/checkout@v6
         with:
             path: sei/src/sei/web/modulos/mod-wssei
 
       - name: Run make test
+        if: ${{ github.event_name != 'pull_request' }}
         run: | 
              cd sei/src/sei/web/modulos/mod-wssei
              make tests-api
