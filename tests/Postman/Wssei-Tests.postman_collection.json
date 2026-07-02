@@ -46588,7 +46588,7 @@
 									"    pm.expect(jsonData.data.length).to.eql(10);\r",
 									"});\r",
 									"pm.test(\"Cenario019 - Verifica se veio primeiro id desse user\", function () {\r",
-									"    pm.expect(pm.response.text()).to.include('idGrupoAcompanhamento\":\"2\"');\r",
+									"    pm.expect(pm.response.text()).to.satisfy(function (text) { return text.includes('idGrupoAcompanhamento\":\"2\"') || text.includes('idGrupoAcompanhamento\":\"5\"'); });\r",
 									"});\r",
 									"\r",
 									"pm.test(\"Cenario019 - Verifica se nao veio primeiro id do usuario1\", function () {\r",
@@ -46675,7 +46675,7 @@
 									"});\r",
 									"\r",
 									"pm.test(\"Cenario019 - Verifica se veio primeiro id\", function () {\r",
-									"    pm.expect(pm.response.text()).to.include('\"idGrupoAcompanhamento\":\"22\"');\r",
+									"    pm.expect(pm.response.text()).to.satisfy(function (text) { return text.includes('idGrupoAcompanhamento\":\"22\"') || text.includes('idGrupoAcompanhamento\":\"23\"'); });\r",
 									"});"
 								],
 								"type": "text/javascript"

@@ -189,9 +189,15 @@ restart: down up ## Reinicia execução do ambiente de desenvolvimento local em 
 destroy:  ## Destrói ambiente de desenvolvimento local, junto com os dados armazenados em banco de dados
 	$(CMD_DOCKER_COMPOSE) down --volumes
 
+#restore:
+#	@sleep 10s
+#	@cat tests/dumpWssei$(versao_dump).PreLoaded.dmp | docker exec -i $(shell docker ps --format "{{.Names}}" | grep database) /usr/bin/mysql -u root --password=P@ssword
+
 restore:
 	@sleep 10s
-	@cat tests/dumpWssei$(versao_dump).PreLoaded.dmp | docker exec -i $(shell docker ps --format "{{.Names}}" | grep database) /usr/bin/mysql -u root --password=P@ssword
+	$(CMD_DOCKER_COMPOSE) run --rm -w /opt/sei/web/modulos/$(MODULO_NOME)/scripts httpd bash -c 'php -c /etc/php.ini /opt/sei/web/modulos/$(MODULO_NOME)/scripts/script_sei_db_dump.php'
+	@sleep 10s
+	$(CMD_DOCKER_COMPOSE) run --rm -w /opt/sei/web/modulos/$(MODULO_NOME)/scripts httpd bash -c 'php -c /etc/php.ini /opt/sei/web/modulos/$(MODULO_NOME)/scripts/script_sip_db_dump.php'
 
 # Executa testes no postman. Necessário a variável NEWMAN_BASEURL apontando
 # para ambiente correto exemplo: 
@@ -208,8 +214,8 @@ tests-api: tests-up
 # NEWMAN_BASEURL=https://sei.economia.gov.br make tests-api-restore
 tests-up: up restore install
 	@COMPOSER_VENDOR_DIR=src/vendor ./composer.phar install --no-dev
-	@echo SEI_CHAVE_ACESSO=7babf8620a7056b96b13ad057eddf544e6450a62152bb6d7c5468d0f5ef546fb121e8dd2 >> .env
-	@echo SIP_CHAVE_ACESSO=d27791b8128bb1c95c094b99261d1abc16bc6169ccd17011f356201d1648d69862a355a6 >> .env
+#	@echo SEI_CHAVE_ACESSO=7babf8620a7056b96b13ad057eddf544e6450a62152bb6d7c5468d0f5ef546fb121e8dd2 >> .env
+#	@echo SIP_CHAVE_ACESSO=d27791b8128bb1c95c094b99261d1abc16bc6169ccd17011f356201d1648d69862a355a6 >> .env
 	$(CMD_DOCKER_COMPOSE) up -d
 
 help:
