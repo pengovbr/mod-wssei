@@ -1,4 +1,4 @@
-.PHONY: all dist clean check-super-path check-module-config check-super-isalive prerequisites-up prerequisites-modulo-instalar install up update config down restart destroy tests-functional-orientations echo "Variaveis de ambientes tests-functional-prerequisites tests-functional tests-functional-loop tests-api cria_json_compatibilidade help funcional-prepare-tmp funcional-up funcional-down funcional-destroy funcional-restart funcional-vendor test-functional-wssei
+.PHONY: all dist clean check-super-path check-module-config check-super-isalive prerequisites-up prerequisites-modulo-instalar install up update config down restart destroy tests-functional-orientations echo "Variaveis de ambientes tests-functional-prerequisites tests-functional tests-functional-loop tests-api cria_json_compatibilidade help funcional-prepare-tmp funcional-up funcional-down funcional-destroy funcional-restart funcional-vendor test-functional-wssei tests-full
 
 -include .testselenium.env
 -include .env
@@ -253,3 +253,5 @@ $(FILE_VENDOR_FUNCIONAL):
 # Ex: make test-functional-wssei teste=ChecarSaudeSistemaTest
 test-functional-wssei: prerequisites-up $(FILE_VENDOR_FUNCIONAL) funcional-up
 	$(CMD_DOCKER_COMPOSE) run --rm php-test-functional /tests/vendor/bin/phpunit -c /tests/phpunit.xml --testdox /tests/tests/$(addsuffix .php,$(teste))
+
+tests-full: test-functional-wssei tests-api 
