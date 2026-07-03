@@ -12,12 +12,30 @@ services:
     ports:
       - "11211:11211"
 
+  proxy:
+    image: diouxx/apache-proxy
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./tests/Funcional/assets/proxy/:/opt/proxy-conf
+    links:
+      - httpd:org-http
+
+  selenium:
+    image: selenium/standalone-chrome-debug
+    links:
+      - proxy:org-http
+    ports:
+      - "4444:4444"
+      - "5900:5900"
+    volumes:
+      - /dev/shm:/dev/shm
+      - ./tests/Funcional/.tmp:/tmp
+
   database:
     image: ${DATABASE_IMAGE}:${ENVIRONMENT_VERSION}
     environment:
       MYSQL_ROOT_PASSWORD: P@ssword
-    volumes:
-      - ${DATABASE_TYPE}:${DATABASE_DATA_DIR}
     ports:
       - ${DATABASE_PORT}:${DATABASE_PORT}
 
@@ -31,8 +49,6 @@ services:
     restart: always
     env_file:
       - .modulo.env
-    ports:
-      - "8000:8000"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
@@ -72,8 +88,56 @@ services:
       - database:${DATABASE_HOST}
       - memcached:memcached
       - solr:solr
-      - smtp:smtp
-      - jod:jod
+      #- smtp:smtp
+      #- jod:jod
+
+  php-test-functional:
+    image: ${HTTPD_IMAGE}:${ENVIRONMENT_VERSION}
+    depends_on:
+      - database
+      - selenium
+    volumes:
+      - ${SEI_PATH}/sei:/opt/sei
+      - ${SEI_PATH}/sip:/opt/sip
+      - ${SEI_PATH}/infra:/opt/infra
+      - ./src:/opt/sei/web/modulos/wssei
+      - ./src/config:/opt/sei/config/mod-wssei
+      - ./src/scripts:/opt/sei/scripts/mod-wssei
+      - ./src/scripts:/opt/sip/scripts/mod-wssei
+      - ./src/config/ConfiguracaoSEI.php:/opt/sei/config/ConfiguracaoSEI.php
+      - ./src/config/ConfiguracaoSip.php:/opt/sip/config/ConfiguracaoSip.php
+
+      - ./tests/Funcional:/tests
+      - ./tests/Funcional/tests:/tests/sei
+      - ${SEI_PATH}/:/tests/sei/src
+      - ./src/config/:/tests/sei/src/sei/config/mod-wssei
+      - ./src/config/ConfiguracaoSEI.php:/tests/sei/src/sei/config/ConfiguracaoSEI.php:ro
+      - ./src:/tests/sei/src/sei/web/modulos/wssei
+
+      - ./tests/Funcional/.tmp:/tmp
+      - ./tests/Funcional/.tmp/sei_arquivos:/var/sei/arquivos/${DATABASE_HOST}
+    environment:
+      - LANG=pt_BR.ISO-8859-1
+      - HOST_URL=${SEI_HOST}
+      - DATABASE_TYPE=${DATABASE_TYPE}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - SEI_CHAVE_ACESSO=${SEI_CHAVE_ACESSO}
+      - SEI_DATABASE_NAME=${SEI_DATABASE_NAME}
+      - SEI_DATABASE_USER=${SEI_DATABASE_USER}
+      - SEI_DATABASE_PASSWORD=${SEI_DATABASE_PASSWORD}
+      - SIP_CHAVE_ACESSO=${SIP_CHAVE_ACESSO}
+      - SIP_DATABASE_NAME=${SIP_DATABASE_NAME}
+      - SIP_DATABASE_USER=${SIP_DATABASE_USER}
+      - SIP_DATABASE_PASSWORD=${SIP_DATABASE_PASSWORD}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    links:
+      - database:${DATABASE_HOST}
+      - selenium:selenium
+      - proxy:org-http
+    command: "true"
+
 
 volumes:
   MySql:
