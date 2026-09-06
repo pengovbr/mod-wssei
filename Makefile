@@ -243,4 +243,4 @@ help:
 	@grep -E '^[a-zA-Z_-]+[[:space:]]*:.*?## .*$$' Makefile | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 cria_json_compatibilidade:
-	$(shell ./gerar_json_compatibilidade.sh)
+	$(shell ./scripts/gerar_json_compatibilidade.sh)
