@@ -26,7 +26,7 @@ jobs:
     steps:
       - name: Fetch Pull Request branch
         if: github.event_name == 'pull_request_target' || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
             repository: pengovbr/sei
             token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
@@ -43,12 +43,12 @@ jobs:
         if: steps.docker-cache-outras.outputs.cache-hit != 'true'
         run: |
           mkdir -p ~/docker-image-cache-outras
-          docker pull processoeletronico/app-dev-php8:3.6.11
-          docker save processoeletronico/app-dev-php8:3.6.11 -o ~/docker-image-cache-outras/app-dev-php8.tar
-          docker pull processoeletronico/solr9.6.1:3.6.11
-          docker save processoeletronico/solr9.6.1:3.6.11 -o ~/docker-image-cache-outras/solr9.6.1.tar
-          docker pull processoeletronico/mysql8-sei50:3.6.11
-          docker save processoeletronico/mysql8-sei50:3.6.11 -o ~/docker-image-cache-outras/mysql.tar
+          docker pull processoeletronico/app-dev-php8:3.7.2
+          docker save processoeletronico/app-dev-php8:3.7.2 -o ~/docker-image-cache-outras/app-dev-php8.tar
+          docker pull processoeletronico/solr9.6.1:3.7.2
+          docker save processoeletronico/solr9.6.1:3.7.2 -o ~/docker-image-cache-outras/solr9.6.1.tar
+          docker pull processoeletronico/mysql8-sei50:3.7.2
+          docker save processoeletronico/mysql8-sei50:3.7.2 -o ~/docker-image-cache-outras/mysql.tar
 
       - name: Load Image (if cache hit)
         if: steps.docker-cache-outras.outputs.cache-hit == 'true'
@@ -59,7 +59,7 @@ jobs:
 
       - name: Checkout PR code (safe ordering required)
         if: ${{ github.event_name != 'pull_request' }} # only automatically checkout for non-forked direct PRs or maintainer-triggered runs
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
             path: sei/src/sei/web/modulos/mod-wssei
 
