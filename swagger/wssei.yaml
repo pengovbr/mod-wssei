@@ -1576,6 +1576,116 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
+  /documento/{procedimento}/externo/converter-para-assinatura:
+    post:
+      tags:
+        - Documento
+      summary: Converter Documento Externo para Assinatura
+      description: Converte documento externo com upload de arquivo em documento interno vinculando como anexo indissociável para viabilizar assinatura eletrônica
+      operationId: converterDocumentoExternoParaAssinatura
+      parameters:
+        - name: procedimento
+          in: path
+          description: '[obrigatório][int] Id do processo'
+          required: true
+          schema:
+            type: integer
+        - name: token
+          in: header
+          description: '[obrigatório][string] Recebe o token de autenticação'
+          required: true
+          schema:
+            type: string
+        - name: unidade
+          in: header
+          description: >-
+            [opcional][int] Recebe o id da unidade para manter ou alterar a
+            unidade da sessão
+          required: false
+          schema:
+            type: integer
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                anexo:
+                  type: string
+                  format: binary
+                  description: '[obrigatório][file] Recebe o arquivo binário/PDF a ser anexado'
+                idSerie:
+                  type: integer
+                  description: '[opcional][int] Id do tipo de documento interno (ex: Termo de Juntada)'
+                  example: 8
+                descricao:
+                  type: string
+                  description: '[opcional][string] Descrição da minuta/termo interno'
+                  example: Termo de Juntada para Assinatura de Documento Externo
+                conteudo:
+                  type: string
+                  description: '[opcional][string] Conteúdo textual complementar da minuta interna'
+                numero:
+                  type: string
+                  description: '[opcional][string] Identificador do documento na árvore do processo'
+                  example: '111'
+                idTipoConferencia:
+                  type: integer
+                  description: '[opcional][int] Id do tipo de conferência'
+                  example: 3
+                nivelAcesso:
+                  type: integer
+                  description: '[opcional][int] Nível de acesso (0: Público, 1: Restrito, 2: Sigiloso)'
+                  example: 1
+                idHipoteseLegal:
+                  type: integer
+                  description: '[opcional][int] Id da hipótese legal'
+                  example: 2
+                grauSigilo:
+                  type: string
+                  description: '[opcional][string] Grau de sigilo'
+                  example: ''
+                assuntos:
+                  type: string
+                  description: '[opcional][string] Lista de Id de assuntos separados por virgula'
+                  example: '2,3'
+                interessados:
+                  type: string
+                  description: '[opcional][string] Lista de Id de contatos interessados separados por virgula'
+                  example: '100000010,100000006'
+                destinatarios:
+                  type: string
+                  description: '[opcional][string] Lista de Id de contatos destinatários separados por virgula'
+                observacao:
+                  type: string
+                  description: '[opcional][string] Observação do documento'
+                  example: Conversão híbrida para assinatura eletrônica
+                idUnidadeGeradoraProtocolo:
+                  type: integer
+                  description: '[opcional][int] Id da unidade geradora'
+                  example: 110000001
+              required:
+                - anexo
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      idDocumento:
+                        type: string
+                        example: '67'
+                      protocoloDocumentoFormatado:
+                        type: string
+                        example: '0000047'
   /documento/{procedimento}/externo/criar:
     post:
       tags:

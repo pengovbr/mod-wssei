@@ -746,6 +746,13 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                       $rn->criarDocumentoExternoRequest($request)
                   );
               });
+              $app->post('/{procedimento}/externo/converter-para-assinatura', function ($request, $response, $args) {
+                  /** @var $request \Slim\Psr7\Request */
+                  $rn = new MdWsSeiDocumentoRN();
+                  return JsonResponse::create($response, 
+                      $rn->converterDocumentoExternoParaAssinaturaRequest($request)
+                  );
+              });
               $app->post('/{procedimento}/interno/criar', function ($request, $response, $args) {
                   /** @var $request \Slim\Psr7\Request */
                   $rn = new MdWsSeiDocumentoRN();
