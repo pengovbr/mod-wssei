@@ -1220,6 +1220,57 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
+     * Método que converte um documento externo em documento interno para assinatura
+     * @param \Slim\Psr7\Request $request
+     * @return array
+     */
+  public function converterDocumentoExternoParaAssinaturaRequest(\Slim\Psr7\Request $request)
+    {
+    try {
+      $routeContext = RouteContext::fromRequest($request);
+      $route = $routeContext->getRoute();
+      $procedimento = $route->getArgument('procedimento');
+      if (!$procedimento) {
+        throw new Exception('O processo não foi informado.');
+      }
+        $post = $request->getParsedBody();
+      if (!is_array($post)) {
+          $post = array();
+      }
+        $arrFiles = $request->getUploadedFiles();
+      if (!isset($arrFiles['anexo']) || empty($arrFiles['anexo'])) {
+          throw new Exception('Anexo não informado.');
+      }
+        /** Processa o upload do arquivo e grava na pasta temporaria do SEI */
+        $anexoDTO = MdWsSeiAnexoRN::processarUploadSlim($arrFiles['anexo']);
+
+        /** Realiza o encapsulamento das informações vindas da requisiçao */
+        $documentoDTO = self::encapsulaDocumento($post);
+        $documentoDTO->setDblIdProcedimento($procedimento);
+
+        /** Vincula o arquivo binário como anexo do documento interno */
+        $documentoDTO->getObjProtocoloDTO()->setArrObjAnexoDTO(array($anexoDTO));
+
+        /** Configura como documento do tipo editor interno */
+        $documentoDTO->setStrStaDocumento(DocumentoRN::$TD_EDITOR_INTERNO);
+
+      $objProtocoloDTO = $documentoDTO->getObjProtocoloDTO();
+      if (!$objProtocoloDTO->isSetStrDescricao() || trim($objProtocoloDTO->getStrDescricao()) == '') {
+          $objProtocoloDTO->setStrDescricao('Termo de Juntada para Assinatura de Documento Externo');
+      }
+
+      if (isset($post['conteudo']) && !empty($post['conteudo'])) {
+          $documentoDTO->setStrConteudo($post['conteudo']);
+      }
+    } catch (Exception $e) {
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
+        return MdWsSeiRest::formataRetornoErroREST($e);
+    }
+      /** Processo de conversão e criação de documento do tipo interno com anexo */
+      return $this->converterDocumentoExternoParaAssinatura($documentoDTO);
+  }
+
+    /**
      * Método que cria um documento interno atraves de uma requisição do Slim
      * @param Slim\Psr7\Request $request
      */
@@ -1355,6 +1406,33 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $documentoDTO->setStrStaDocumento(DocumentoRN::$TD_EXTERNO);
         $objDocumentoRN = new DocumentoRN();
         /** Chamada a componente do SEI para cadastro de DOCUMENTO e seus anexos */
+        $documentoDTO = $objDocumentoRN->cadastrarRN0003($documentoDTO);
+
+        $result = array(
+            "idDocumento" => $documentoDTO->getDblIdDocumento(),
+            "protocoloDocumentoFormatado" => $documentoDTO->getStrProtocoloDocumentoFormatado()
+        );
+
+        return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
+    } catch (Exception $e) {
+        LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
+        return MdWsSeiRest::formataRetornoErroREST($e);
+    }
+  }
+
+    /**
+     * Método que cria um documento interno vinculado ao anexo para assinatura (Conversão Híbrida)
+     * @param DocumentoDTO $documentoDTO
+     * @return array
+     */
+  protected function converterDocumentoExternoParaAssinaturaConectado(DocumentoDTO $documentoDTO)
+    {
+    try {
+        $result = array();
+        $documentoDTO->setStrStaDocumento(DocumentoRN::$TD_EDITOR_INTERNO);
+        $documentoDTO->getObjProtocoloDTO()->setDtaGeracao(InfraData::getStrDataAtual());
+        $objDocumentoRN = new DocumentoRN();
+        /** Chamada a componente do SEI para cadastro de DOCUMENTO */
         $documentoDTO = $objDocumentoRN->cadastrarRN0003($documentoDTO);
 
         $result = array(

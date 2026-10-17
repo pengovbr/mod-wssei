@@ -20769,6 +20769,121 @@
 					]
 				},
 				{
+					"name": "Documento - Converter Documento Externo para Assinatura",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Cenario005 - Converter Documento Externo - Sucesso na resposta\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"    pm.expect(jsonData.data).to.have.property('idDocumento');\r",
+									"    pm.expect(jsonData.data).to.have.property('protocoloDocumentoFormatado');\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"if (jsonData && jsonData.data) {\r",
+									"    pm.globals.set(\"idDocumentoConvertido_1_3\", jsonData.data.idDocumento);\r",
+									"    pm.globals.set(\"protocoloDocumentoFormatadoConvertido_1_3\", jsonData.data.protocoloDocumentoFormatado);\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{tokenUsuario1}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "anexo",
+									"type": "file",
+									"src": "SEI-v3.1.2.pdf"
+								},
+								{
+									"key": "idSerie",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "descricao",
+									"value": "Termo de Juntada para Assinatura de Documento Externo",
+									"type": "text"
+								},
+								{
+									"key": "nivelAcesso",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "idHipoteseLegal",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "grauSigilo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "assuntos",
+									"value": "2,3",
+									"description": "Enviar idAssunto separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "interessados",
+									"value": "100000010,100000006",
+									"description": "Enviar idContato separado por ','",
+									"type": "text"
+								},
+								{
+									"key": "observacao",
+									"value": "Conversão Híbrida para Assinatura",
+									"type": "text"
+								},
+								{
+									"key": "idUnidadeGeradoraProtocolo",
+									"value": "110000001",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/documento/:procedimento/externo/converter-para-assinatura",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"documento",
+								":procedimento",
+								"externo",
+								"converter-para-assinatura"
+							],
+							"variable": [
+								{
+									"key": "procedimento",
+									"value": "{{idProcedimento_1}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Assinante-Listar",
 					"event": [
 						{
@@ -21152,6 +21267,93 @@
 							"body": "{\"sucesso\":true,\"mensagem\":\"Documento(s) assinado(s) com sucesso.\"}"
 						}
 					]
+				},
+				{
+					"name": "Documento - Assinar Documento Convertido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Cenario005 - Verifica Assinatura Documento Convertido\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.sucesso).to.eql(true);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{tokenUsuario1}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "orgao",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "cargo",
+									"value": "Chefe de Gabinete da Presidência",
+									"type": "text"
+								},
+								{
+									"key": "login",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "senha",
+									"value": "teste",
+									"type": "text"
+								},
+								{
+									"key": "usuario",
+									"value": "100000001",
+									"type": "text"
+								},
+								{
+									"key": "documentos",
+									"value": "{{idDocumentoConvertido_1_3}}",
+									"description": "id do documento convertido para assinatura",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/bloco/assinatura/assinar/documentos",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"bloco",
+								"assinatura",
+								"assinar",
+								"documentos"
+							]
+						}
+					},
+					"response": []
 				},
 				{
 					"name": "Documento - Listar Documentos Processo - Todos",
