@@ -27,11 +27,11 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $strAcaoSeiCorrespondente = 'documento_visualizar';
         $result = '';
       if(!$documentoDTOParam->isSetDblIdDocumento() || !$documentoDTOParam->getDblIdDocumento()){
-        throw new Exception('Documento não informado.');
+        throw new Exception('Documento nï¿½o informado.');
       }
 
       if(!$this->verificarAcessoProtocolo($documentoDTOParam->getDblIdDocumento())){
-        $objInfraException->lancarValidacao("Acesso ao documento " . $documentoDTOParam->getDblIdDocumento() . " não autorizado.");
+        $objInfraException->lancarValidacao("Acesso ao documento " . $documentoDTOParam->getDblIdDocumento() . " nï¿½o autorizado.");
       }
 
         $documentoDTOParam->retDblIdDocumento();
@@ -48,17 +48,17 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $documentoDTOParam = $documentoRN->consultarRN0005($documentoDTOParam);
 
       if(!$documentoDTOParam){
-        $objInfraException->lancarValidacao('Documento não encontrado.');
+        $objInfraException->lancarValidacao('Documento nï¿½o encontrado.');
       }
 
       if ($documentoDTOParam->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_EDOC) {
 
         if ($documentoDTOParam->getDblIdDocumentoEdoc() == null) {
-          $objInfraException->lancarValidacao('Documento sem conteúdo.');
+          $objInfraException->lancarValidacao('Documento sem conteï¿½do.');
         }
 
           $objEDocRN = new EDocRN();
-          /** Chama o componente SEI para retornar o conteúdo HTML do documento do tipo EDOC */
+          /** Chama o componente SEI para retornar o conteï¿½do HTML do documento do tipo EDOC */
           $strResultado = $objEDocRN->consultarHTMLDocumentoRN1204($documentoDTOParam);
           $result = $strResultado;
       } else if ($documentoDTOParam->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_INTERNO) {
@@ -75,7 +75,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         }
 
           $editorRN = new EditorRN();
-          /** Chamada ao componente SEI para retornar o conteúdo HTML do Documento do tipo interno */
+          /** Chamada ao componente SEI para retornar o conteï¿½do HTML do Documento do tipo interno */
           $result = $editorRN->consultarHtmlVersao($editorDTO);
 
           $auditoriaProtocoloDTO = new AuditoriaProtocoloDTO();
@@ -87,10 +87,10 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $auditoriaProtocoloDTO->setNumVersao($editorDTO->getNumVersao());
 
           $auditoriaProtocoloRN = new AuditoriaProtocoloRN();
-          /** Chamada ao componente SEI para auditar a visualização do Documento */
+          /** Chamada ao componente SEI para auditar a visualizaï¿½ï¿½o do Documento */
           $auditoriaProtocoloRN->auditarVisualizacao($auditoriaProtocoloDTO);
       } else if ($documentoDTOParam->getStrStaProtocoloProtocolo() == ProtocoloRN::$TP_DOCUMENTO_RECEBIDO) {
-        $objInfraException->lancarValidacao('Para visualização do Anexo deve-se chamar o serviço correspondente.');
+        $objInfraException->lancarValidacao('Para visualizaï¿½ï¿½o do Anexo deve-se chamar o serviï¿½o correspondente.');
       }else{
           $documentoDTOConsulta = new DocumentoDTO();
           $documentoDTOConsulta->setDblIdDocumento($documentoDTOParam->getDblIdDocumento());
@@ -108,7 +108,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $auditoriaProtocoloDTO->setDtaAuditoria(InfraData::getStrDataAtual());
           $auditoriaProtocoloDTO->setNumVersao(null);
           $auditoriaProtocoloRN = new AuditoriaProtocoloRN();
-          /** Chamada ao componente SEI para auditar a visualização do Documento */
+          /** Chamada ao componente SEI para auditar a visualizaï¿½ï¿½o do Documento */
           $auditoriaProtocoloRN->auditarVisualizacao($auditoriaProtocoloDTO);
       }
 
@@ -124,7 +124,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Alterar Seção do documento
+     * Alterar Seï¿½ï¿½o do documento
      * @param DocumentoDTO DocumentoDTO
      * @return array
      */
@@ -135,15 +135,15 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $numVersao = $dados["versao"];
         $arrSecoes = $dados["secoes"];
 
-        // Criação do DTO de editor que realiza a edição das seções. 
+        // Criaï¿½ï¿½o do DTO de editor que realiza a ediï¿½ï¿½o das seï¿½ï¿½es. 
         $objEditorDTO = new EditorDTO();
 
         $objEditorDTO->setDblIdDocumento($idDocumento); // Informa o id do documento
-        $objEditorDTO->setNumVersao($numVersao); // Número da versão
+        $objEditorDTO->setNumVersao($numVersao); // Nï¿½mero da versï¿½o
         $objEditorDTO->setNumIdBaseConhecimento(null);
         $objEditorDTO->setStrSinIgnorarNovaVersao('N');
 
-        // Percorre as seções do documento alteradas 
+        // Percorre as seï¿½ï¿½es do documento alteradas 
         $arrObjSecaoDocumentoDTO = array();
         // var_dump($arrSecoes); die();
 
@@ -160,7 +160,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
         $objEditorDTO->setArrObjSecaoDocumentoDTO($arrObjSecaoDocumentoDTO);
 
-        // Realiza a alteração das seções. 
+        // Realiza a alteraï¿½ï¿½o das seï¿½ï¿½es. 
         $objEditorRN = new EditorRN();
         $numVersao = $objEditorRN->adicionarVersao($objEditorDTO);
 
@@ -173,7 +173,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Listar Seção do documento
+     * Listar Seï¿½ï¿½o do documento
      * @param DocumentoDTO DocumentoDTO
      * @return array
      */
@@ -207,7 +207,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $numVersao = 0;
 
 
-        //Monta as seções que precisam ser retornadas e resgata o número da última versão
+        //Monta as seï¿½ï¿½es que precisam ser retornadas e resgata o nï¿½mero da ï¿½ltima versï¿½o
         $arrayRetorno = array();
       if ($arrObjVersaoSecaoDocumentoDTO) {
         foreach ($arrObjVersaoSecaoDocumentoDTO as $obj) {
@@ -253,13 +253,13 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $aplicabilidade = $dto->getArrAplicabilidade();
         $start = $dto->getNumStart();
         $limit = $dto->getNumLimit();
-//PARÂMETROS DE ENTRADA
+//PARï¿½METROS DE ENTRADA
 //            $ID = 0;
 //            $FILTER = '';
 //            $START = 0;
 //            $LIMIT = 5;
 //            $favoritos = 'N';
-        //REALIZA A BUSCA DE TODOS OS TIPOS DA UNIDADE FILTRANDO APENAS PELOS FAVORITOS. APÓS A BUSCA, OS FILTROS POR ID, NOME E APLICABILIDADE DEVERÃO SER FEITOS PERCORRENDO CADA UM DOS TIPOS. 
+        //REALIZA A BUSCA DE TODOS OS TIPOS DA UNIDADE FILTRANDO APENAS PELOS FAVORITOS. APï¿½S A BUSCA, OS FILTROS POR ID, NOME E APLICABILIDADE DEVERï¿½O SER FEITOS PERCORRENDO CADA UM DOS TIPOS. 
 
         $serieDTO = new SerieDTO();
         $serieDTO->setStrSinSomenteUtilizados($favoritos);
@@ -314,7 +314,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * O serviço de consulta de template de criação de processo informa ao client todas as variações existentes em um fomulário de criação de um documento. Entre essas variações estão: Assuntos Sugeridos , Existência de Destinatários_ e Existência de Interessados_ .
+     * O serviï¿½o de consulta de template de criaï¿½ï¿½o de processo informa ao client todas as variaï¿½ï¿½es existentes em um fomulï¿½rio de criaï¿½ï¿½o de um documento. Entre essas variaï¿½ï¿½es estï¿½o: Assuntos Sugeridos , Existï¿½ncia de Destinatï¿½rios_ e Existï¿½ncia de Interessados_ .
      * @param MdWsSeiDocumentoDTO $dto
      * @return array
      */
@@ -325,11 +325,11 @@ class MdWsSeiDocumentoRN extends DocumentoRN
       $objInfraException = new InfraException();
 
       if (!$dto->getNumIdTipoDocumento()) {
-        $objInfraException->lancarValidacao('Tipo de documento é uma informação obrigatória.');
+        $objInfraException->lancarValidacao('Tipo de documento ï¿½ uma informaï¿½ï¿½o obrigatï¿½ria.');
       }
 
       if (!$dto->getNumIdProcesso()) {
-        $objInfraException->lancarValidacao('O id do processo é obrigatório.');
+        $objInfraException->lancarValidacao('O id do processo ï¿½ obrigatï¿½rio.');
       }
 
         $objProcedimentoDTO = new ProcedimentoDTO();
@@ -340,10 +340,10 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $objProcedimentoDTO = $objProcedimentoRN->listarRN0278($objProcedimentoDTO);
 
       if (!$objProcedimentoDTO) {
-        $objInfraException->lancarValidacao('Não foi encontrado processo com id ' . $dto->getNumIdProcesso());
+        $objInfraException->lancarValidacao('Nï¿½o foi encontrado processo com id ' . $dto->getNumIdProcesso());
       }
 
-        // Consulta se o tipo de documento permite a inclusão de destinatários e interessados
+        // Consulta se o tipo de documento permite a inclusï¿½o de destinatï¿½rios e interessados
         $serieDTO = new SerieDTO();
         $serieDTO->setNumIdSerie($dto->getNumIdTipoDocumento());
         $serieDTO->retStrSinDestinatario();
@@ -353,7 +353,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $arrSerieDTO = $serieRN->listarRN0646($serieDTO);
 
       if (!$arrSerieDTO) {
-        $objInfraException->lancarValidacao('Não foi encontrado processo um tipo de processo ' . $dto->getNumIdTipoDocumento());
+        $objInfraException->lancarValidacao('Nï¿½o foi encontrado processo um tipo de processo ' . $dto->getNumIdTipoDocumento());
       }
 
         $id_tipo_documento = $dto->getNumIdTipoDocumento();
@@ -364,8 +364,8 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $relSerieAssuntoDTO = new RelSerieAssuntoDTO();
         $relSerieAssuntoDTO->setNumIdSerie($id_tipo_documento); // FILTRO PELO TIPO DE DOCUMENTO
         $relSerieAssuntoDTO->retNumIdAssuntoProxy(); // ID DO ASSUNTO QUE DEVE SE RETORNADO
-        $relSerieAssuntoDTO->retStrCodigoEstruturadoAssunto(); // CÓDIGO DO ASSUNTO QUE DEVE SE RETORNADO
-        $relSerieAssuntoDTO->retStrDescricaoAssunto(); // DESCRIÇÃO DO ASSUNTO
+        $relSerieAssuntoDTO->retStrCodigoEstruturadoAssunto(); // Cï¿½DIGO DO ASSUNTO QUE DEVE SE RETORNADO
+        $relSerieAssuntoDTO->retStrDescricaoAssunto(); // DESCRIï¿½ï¿½O DO ASSUNTO
 
         $relSerieAssuntoRN = new RelSerieAssuntoRN();
         $arrRelSerieAssuntoDTO = $relSerieAssuntoRN->listar($relSerieAssuntoDTO);
@@ -418,7 +418,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
           $nivelAcessoPermitidoDTO = new NivelAcessoPermitidoDTO();
           $nivelAcessoPermitidoDTO->setNumIdTipoProcedimento($objProcedimentoDTO[0]->getNumIdTipoProcedimento()); // FILTRO PELO TIPO DE PROCESSO
-          $nivelAcessoPermitidoDTO->retStrStaNivelAcesso(); // ID DO NÍVEL DE ACESSO - ProtocoloRN::$NA_PUBLICO, ProtocoloRN::$NA_RESTRITO ou ProtocoloRN::$NA_SIGILOSO
+          $nivelAcessoPermitidoDTO->retStrStaNivelAcesso(); // ID DO Nï¿½VEL DE ACESSO - ProtocoloRN::$NA_PUBLICO, ProtocoloRN::$NA_RESTRITO ou ProtocoloRN::$NA_SIGILOSO
 
 
           $nivelAcessoPermitidoRN = new NivelAcessoPermitidoRN();
@@ -457,11 +457,11 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         );
 
 
-        //CONSULTA NO PARÂMETRO QUE INFORMA SE A HIPÓTESE LEGAL É OBRIGATÓRIO PARA UM TIPO DE PROCESSO
+        //CONSULTA NO PARï¿½METRO QUE INFORMA SE A HIPï¿½TESE LEGAL ï¿½ OBRIGATï¿½RIO PARA UM TIPO DE PROCESSO
         $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
         $obrigatoriedadeHipoteseLegal = $objInfraParametro->getValor('SEI_HABILITAR_HIPOTESE_LEGAL');
 
-        //CONSULTA NO PARÂMETRO QUE INFORMA SE UM GRAU DE SIGILO É OBRIGATÓRIO PARA UM TIPO DE PROCESSO
+        //CONSULTA NO PARï¿½METRO QUE INFORMA SE UM GRAU DE SIGILO ï¿½ OBRIGATï¿½RIO PARA UM TIPO DE PROCESSO
         $objInfraParametro = new InfraParametro(BancoSEI::getInstance());
         $obrigatoriedadeGrauSigilo = $objInfraParametro->getValor('SEI_HABILITAR_GRAU_SIGILO');
 
@@ -481,7 +481,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Método que retorna os documentos de um processo
+     * Mï¿½todo que retorna os documentos de um processo
      * @param DocumentoDTO $documentoDTOParam
      * @return array
      */
@@ -550,7 +550,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $numCodigoAcesso = 0;
           $bolFlagEliminado = false;
 
-          /** Acessando componente SEI para retorno de validação de permissões **/
+          /** Acessando componente SEI para retorno de validaï¿½ï¿½o de permissï¿½es **/
           $procedimentoDTOAcoes = ProcedimentoINT::montarAcoesArvore($documentoDTOParam->getDblIdProcedimento(),
               SessaoSEI::getInstance()->getNumIdUnidadeAtual(),
               $bolFlagAberto,
@@ -578,7 +578,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $unidadeDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
 
           $unidadeRN = new UnidadeRN();
-          /** Chamada ao componente SEI para verificação de parametros do documento */
+          /** Chamada ao componente SEI para verificaï¿½ï¿½o de parametros do documento */
           $unidadeDTO = $unidadeRN->consultarRN0125($unidadeDTO);
           $bolFlagProtocolo = ($unidadeDTO->getStrSinProtocolo() == 'S');
 
@@ -602,7 +602,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $documentoDTOConsulta->retArrObjAssinaturaDTO();
           $documentoDTOConsulta->setDblIdDocumento(array_keys(InfraArray::indexarArrInfraDTO($ret, 'IdProtocolo2')), InfraDTO::$OPER_IN);
           $documentoRN = new DocumentoRN();
-          /** Chama o componente SEI para retorno das informações dos documentos do processo */
+          /** Chama o componente SEI para retorno das informaï¿½ï¿½es dos documentos do processo */
           $retDocumentos = $documentoRN->listarRN0008($documentoDTOConsulta);
 
           /** @var DocumentoDTO $documentoDTOOrd */
@@ -634,7 +634,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             $anexoDTOConsulta->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
             $anexoDTOConsulta->setStrSinAtivo('S');
             $anexoDTOConsulta->setNumMaxRegistrosRetorno(1);
-            /** Chama o componente SEI para verificação da existencia de anexo no documento */
+            /** Chama o componente SEI para verificaï¿½ï¿½o da existencia de anexo no documento */
             $resultAnexo = $anexoRN->listarRN0218($anexoDTOConsulta);
           if ($resultAnexo) {
             /** @var AnexoDTO $anexoDTO */
@@ -662,7 +662,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             $resultPublicacao = $publicacaoRN->listarRN1045($publicacaoDTOConsulta);
             $documentoPublicado = $resultPublicacao ? 'S' : 'N';
             $ciencia = $relProtocoloProtocoloDTO->getStrSinCiencia();
-            /** Faz a verificação de permissão de visualização de documento */
+            /** Faz a verificaï¿½ï¿½o de permissï¿½o de visualizaï¿½ï¿½o de documento */
             $podeVisualizarDocumento = $this->podeVisualizarDocumento($documentoDTO, $bolFlagProtocolo);
 
             $objRelBlocoProtocoloDTO = new RelBlocoProtocoloDTO();
@@ -675,7 +675,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
 
             $objRelBlocoProtocoloRN = new RelBlocoProtocoloRN();
-            /** Chama o componente SEI para verificação se o documento foi disponibilizado para outra unidade */
+            /** Chama o componente SEI para verificaï¿½ï¿½o se o documento foi disponibilizado para outra unidade */
             $arrDocumentosDisponibilizados = InfraArray::indexarArrInfraDTO($objRelBlocoProtocoloRN->listarRN1291($objRelBlocoProtocoloDTO), 'IdProtocolo');
 
 
@@ -704,7 +704,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             $objRelBlocoUnidadeDTO->setStrStaEstadoBloco(BlocoRN::$TE_DISPONIBILIZADO);
 
             $objRelBlocoUnidadeRN = new RelBlocoUnidadeRN();
-            /** Chama o componente SEI para verificação dos documentos disponibilizados para a unidade atual */
+            /** Chama o componente SEI para verificaï¿½ï¿½o dos documentos disponibilizados para a unidade atual */
             $arrObjRelBlocoUnidadeDTO = $objRelBlocoUnidadeRN->listarRN1304($objRelBlocoUnidadeDTO);
 
 
@@ -721,7 +721,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
             $objRelBlocoProtocoloDTO->setDblIdProtocolo($documentoDTO->getDblIdDocumento());
 
             $objRelBlocoProtocoloRN = new RelBlocoProtocoloRN();
-            /** Chama o componente SEI para verificação do bloco de assinatura do documento */
+            /** Chama o componente SEI para verificaï¿½ï¿½o do bloco de assinatura do documento */
             $arrObjRelBlocoProtocoloDTO = $objRelBlocoProtocoloRN->listarRN1291($objRelBlocoProtocoloDTO);
 
           if (count($arrObjRelBlocoProtocoloDTO)) {
@@ -913,7 +913,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
         $documentoRN = new DocumentoRN();
       if (!$documentoDTO->isSetDblIdDocumento()) {
-        $objInfraException->lancarValidacao('O documento não foi informado.');
+        $objInfraException->lancarValidacao('O documento nï¿½o foi informado.');
       }
 
         $documentoDTOConsulta = new DocumentoDTO();
@@ -933,7 +933,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $documentoDTOConsulta = $documentoRN->consultarRN0005($documentoDTOConsulta);
 
       if(!$documentoDTOConsulta){
-        $objInfraException->lancarValidacao('Documento não encontrado.');
+        $objInfraException->lancarValidacao('Documento nï¿½o encontrado.');
       }
 
       if(!$objAssinaturaDTO){
@@ -942,7 +942,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
         /** Acessa o componente SEI para cadastro de ciencia em documento **/
         $documentoRN->darCiencia($documentoDTO);
-        return MdWsSeiRest::formataRetornoSucessoREST('Ciência documento realizado com sucesso.');
+        return MdWsSeiRest::formataRetornoSucessoREST('Ciï¿½ncia documento realizado com sucesso.');
     } catch (Exception $e) {
       if($objInfraException->contemValidacoes()){
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$INFORMACAO);
@@ -964,7 +964,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
       }
 
       if(!$this->verificarAcessoProtocolo($protocoloDTOParam->getDblIdProtocolo())) {
-        $objInfraException->lancarValidacao("Acesso ao documento " . $protocoloDTOParam->getDblIdProtocolo() . " não autorizado.");
+        $objInfraException->lancarValidacao("Acesso ao documento " . $protocoloDTOParam->getDblIdProtocolo() . " nï¿½o autorizado.");
       }
 
         $documentoDTOConsulta = new DocumentoDTO();
@@ -982,7 +982,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
       if ($documentoDTO->getStrStaDocumento() == DocumentoRN::$TD_EDITOR_EDOC) {
         if ($documentoDTO->getDblIdDocumentoEdoc() == null) {
-          $objInfraException->lancarValidacao('Documento sem conteúdo!');
+          $objInfraException->lancarValidacao('Documento sem conteï¿½do!');
         }
           $eDocRN = new EDocRN();
           $html = $eDocRN->consultarHTMLDocumentoRN1204($documentoDTO);
@@ -1032,7 +1032,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $anexoRN = new AnexoRN();
           $resultAnexo = $anexoRN->listarRN0218($anexoDTO);
         if (empty($resultAnexo)) {
-          $objInfraException->lancarValidacao('Documento não encontrado!');
+          $objInfraException->lancarValidacao('Documento nï¿½o encontrado!');
         }
           $anexo = $resultAnexo[0];
           SeiINT::download($anexo);
@@ -1061,7 +1061,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 	    $objInfraException = new InfraException();
 
       if (!$mdWsSeiProcessoDTOParam->isSetStrValor()) {
-        $objInfraException->lancarValidacao('Número do documento não informado.');
+        $objInfraException->lancarValidacao('Nï¿½mero do documento nï¿½o informado.');
       }
 
         $result = array();
@@ -1117,7 +1117,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 	    $objInfraException = new InfraException();
 
       if (!$documentoDTOParam->isSetDblIdDocumento()) {
-        $objInfraException->lancarValidacao('O documento não foi informado.');
+        $objInfraException->lancarValidacao('O documento nï¿½o foi informado.');
       }
 
         $result = array();
@@ -1188,7 +1188,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Método que cria um documento externo atraves de uma requisição do Slim
+     * Mï¿½todo que cria um documento externo atraves de uma requisiï¿½ï¿½o do Slim
      * @param \Slim\Psr7\Request $request
      */
   public function criarDocumentoExternoRequest(\Slim\Psr7\Request $request)
@@ -1198,15 +1198,15 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 			$route = $routeContext->getRoute();
 			$procedimento = $route->getArgument('procedimento');
 			if (!$procedimento) {
-        throw new Exception('O processo não foi informado.');
+        throw new Exception('O processo nï¿½o foi informado.');
       }
         $post = $request->getParsedBody();
-        /** Realiza o encapsulamento das informações vindas da requisiçao */
+        /** Realiza o encapsulamento das informaï¿½ï¿½es vindas da requisiï¿½ao */
         $documentoDTO = self::encapsulaDocumento($post);
         $documentoDTO->setDblIdProcedimento($procedimento);
         $arrFiles = $request->getUploadedFiles();
       if (!isset($arrFiles['anexo']) || empty($arrFiles['anexo'])) {
-          throw new Exception('Anexo não informado.');
+          throw new Exception('Anexo nï¿½o informado.');
       }
         /** Processa o upload do arquivo e grava na pasta temporaria do SEI */
         $anexoDTO = MdWsSeiAnexoRN::processarUploadSlim($arrFiles['anexo']);
@@ -1215,12 +1215,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
         return MdWsSeiRest::formataRetornoErroREST($e);
     }
-      /** Processo de criação de documento do tipo externo */
+      /** Processo de criaï¿½ï¿½o de documento do tipo externo */
       return $this->documentoExternoCriar($documentoDTO);
   }
 
     /**
-     * Método que cria um documento interno atraves de uma requisição do Slim
+     * Mï¿½todo que cria um documento interno atraves de uma requisiï¿½ï¿½o do Slim
      * @param Slim\Psr7\Request $request
      */
   public function criarDocumentoInternoRequest(\Slim\Psr7\Request $request)
@@ -1230,22 +1230,22 @@ class MdWsSeiDocumentoRN extends DocumentoRN
       $route = $routeContext->getRoute();
       $procedimento = $route->getArgument('procedimento');
       if (!$procedimento) {
-        throw new Exception('O processo não foi informado.');
+        throw new Exception('O processo nï¿½o foi informado.');
       }
         $post = $request->getParsedBody();
-        /** Realiza o encapsulamento das informações vindas da requisiçao */
+        /** Realiza o encapsulamento das informaï¿½ï¿½es vindas da requisiï¿½ao */
         $documentoDTO = self::encapsulaDocumento($post);
         $documentoDTO->setDblIdProcedimento($procedimento);
     } catch (Exception $e) {
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
         return MdWsSeiRest::formataRetornoErroREST($e);
     }
-      /** Processo de criação de documento do tipo interno */
+      /** Processo de criaï¿½ï¿½o de documento do tipo interno */
       return $this->documentoInternoCriar($documentoDTO);
   }
 
     /**
-     * Método que altera um documento externo atraves de uma requisição do Slim
+     * Mï¿½todo que altera um documento externo atraves de uma requisiï¿½ï¿½o do Slim
      * @param \Slim\Psr7\Request $request
      */
   public function alterarDocumentoExternoRequest(\Slim\Psr7\Request $request)
@@ -1260,10 +1260,10 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 	    $objInfraException = new InfraException();
 
       if (!$documento) {
-        $objInfraException->lancarValidacao('O documento não foi informado.');
+        $objInfraException->lancarValidacao('O documento nï¿½o foi informado.');
       }
       if (!$this->verificarAcessoProtocolo($documento)) {
-        $objInfraException->lancarValidacao("Acesso ao documento " . $documento . " não autorizado.");
+        $objInfraException->lancarValidacao("Acesso ao documento " . $documento . " nï¿½o autorizado.");
       }
 
         $documentoDTO = new DocumentoDTO();
@@ -1272,17 +1272,17 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         /** Chamada no componente SEI para consulta de documento */
         $documentoDTO = $this->consultarRN0005($documentoDTO);
       if(!$documentoDTO){
-        $objInfraException->lancarValidacao('Documento não encontrado.');
+        $objInfraException->lancarValidacao('Documento nï¿½o encontrado.');
       }
       if($documentoDTO->getNumIdUnidadeResponsavel() != SessaoSEI::getInstance()->getNumIdUnidadeAtual()){
-          /** Validando se o procedimento do documento está aberto na unidade logada **/
+          /** Validando se o procedimento do documento estï¿½ aberto na unidade logada **/
           $procedimentoRN = new MdWsSeiProcedimentoRN();
         if(!$procedimentoRN->processoAbertoUnidadeAtual($documentoDTO->getDblIdProcedimento())){
-          $objInfraException->lancarValidacao('Documento não encontrado.');
+          $objInfraException->lancarValidacao('Documento nï¿½o encontrado.');
         }
       }
         $post = $request->getParsedBody();
-        /** Realiza o encapsulamento das informações vindas da requisiçao */
+        /** Realiza o encapsulamento das informaï¿½ï¿½es vindas da requisiï¿½ao */
         $documentoDTO = self::encapsulaDocumento($post, $documentoDTO);
         $arrFiles = $request->getUploadedFiles();
       if (isset($arrFiles['anexo']) && !empty($arrFiles['anexo'])) {
@@ -1298,12 +1298,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
       }
       return MdWsSeiRest::formataRetornoErroREST($e);
     }
-      /** Processo de alteração de documento do tipo externo */
+      /** Processo de alteraï¿½ï¿½o de documento do tipo externo */
       return $this->documentoExternoAlterar($documentoDTO);
   }
 
     /**
-     * Método que altera um documento interno atraves de uma requisição do Slim
+     * Mï¿½todo que altera um documento interno atraves de uma requisiï¿½ï¿½o do Slim
      * @param \Slim\Psr7\Request $request
      */
   public function alterarDocumentoInternoRequest(\Slim\Psr7\Request $request)
@@ -1316,10 +1316,10 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 			$route = $routeContext->getRoute();
 			$documento = $route->getArgument('documento');
 			if (!$documento) {
-        $objInfraException->lancarValidacao('O documento não foi informado.');
+        $objInfraException->lancarValidacao('O documento nï¿½o foi informado.');
       }
       if (!$this->verificarAcessoProtocolo($documento)) {
-        $objInfraException->lancarValidacao("Acesso ao documento " . $documento . " não autorizado.");
+        $objInfraException->lancarValidacao("Acesso ao documento " . $documento . " nï¿½o autorizado.");
       }
         $documentoDTO = new DocumentoDTO();
         $documentoDTO->setDblIdDocumento($documento);
@@ -1327,10 +1327,10 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         /** Chamada no componente SEI para consulta de documento */
         $documentoDTO = $this->consultarRN0005($documentoDTO);
       if(!$documentoDTO){
-        $objInfraException->lancarValidacao('Documento não encontrado.');
+        $objInfraException->lancarValidacao('Documento nï¿½o encontrado.');
       }
         $post = $request->getParsedBody();
-        /** Realiza o encapsulamento das informações vindas da requisiçao */
+        /** Realiza o encapsulamento das informaï¿½ï¿½es vindas da requisiï¿½ao */
         $documentoDTO = self::encapsulaDocumento($post, $documentoDTO);
     } catch (Exception $e) {
       if($objInfraException->contemValidacoes()){
@@ -1340,12 +1340,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
       }
       return MdWsSeiRest::formataRetornoErroREST($e);
     }
-      /** Processo de alteração de documento do tipo interno */
+      /** Processo de alteraï¿½ï¿½o de documento do tipo interno */
       return $this->documentoInternoAlterar($documentoDTO);
   }
 
     /**
-     * Método que cria um documento externo
+     * Mï¿½todo que cria um documento externo
      * @return array
      */
   protected function documentoExternoCriarConectado(DocumentoDTO $documentoDTO)
@@ -1370,7 +1370,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Método que cria um documento interno
+     * Mï¿½todo que cria um documento interno
      * @return array
      */
   protected function documentoInternoCriarConectado(DocumentoDTO $documentoDTO)
@@ -1397,14 +1397,14 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Método que altera um documento externo
+     * Mï¿½todo que altera um documento externo
      * @return array
      */
   protected function documentoExternoAlterarConectado(DocumentoDTO $documentoDTO)
     {
     try {
         $result = array();
-        /** Chamada a componente do SEI para edição de DOCUMENTO e seus anexos */
+        /** Chamada a componente do SEI para ediï¿½ï¿½o de DOCUMENTO e seus anexos */
         $this->alterarRN0004($documentoDTO);
 
         $result = array(
@@ -1420,14 +1420,14 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Método que altera um documento interno
+     * Mï¿½todo que altera um documento interno
      * @return array
      */
   protected function documentoInternoAlterarConectado(DocumentoDTO $documentoDTO)
     {
     try {
         $result = array();
-        /** Chamada a componente do SEI para edição de DOCUMENTO */
+        /** Chamada a componente do SEI para ediï¿½ï¿½o de DOCUMENTO */
         $this->alterarRN0004($documentoDTO);
 
         $result = array(
@@ -1443,7 +1443,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Método que consulta um documento externo
+     * Mï¿½todo que consulta um documento externo
      * @return array
      * @param int $numIdDocumento
      */
@@ -1454,7 +1454,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
       $objInfraException = new InfraException();
 
       if(!$this->verificarAcessoProtocolo($numIdDocumento)){
-        $objInfraException->lancarValidacao("Acesso ao documento " . $numIdDocumento . " não autorizado.");
+        $objInfraException->lancarValidacao("Acesso ao documento " . $numIdDocumento . " nï¿½o autorizado.");
       }
 
         $result = array();
@@ -1486,7 +1486,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         /** Consulta no componente do SEI para retornar o Documento **/
         $objDocumentoDTO = $objDocumentoRN->consultarRN0005($objDocumentoDTO);
       if (!$objDocumentoDTO){
-        $objInfraException->lancarValidacao("Registro não encontrado.");
+        $objInfraException->lancarValidacao("Registro nï¿½o encontrado.");
       }
         $objProtocoloDTO = new ProtocoloDTO();
         $objProtocoloDTO->setStrDescricao($objDocumentoDTO->getStrDescricaoProtocolo());
@@ -1496,7 +1496,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $objProtocoloDTO->setStrStaGrauSigilo($objDocumentoDTO->getStrStaGrauSigiloProtocolo());
         $objProtocoloDTO->setDtaGeracao($objDocumentoDTO->getDtaGeracaoProtocolo());
 
-        /** Chamada para retorno da observação do documento **/
+        /** Chamada para retorno da observaï¿½ï¿½o do documento **/
         $objObservacaoDTO = $this->retornaObservacaoDocumento($objDocumentoDTO->getDblIdDocumento());
         /** Chamada para retorno dos assuntos do documento **/
         $arrObjRelProtocoloAssuntoDTO = $this->retornaAssuntosDocumento($objDocumentoDTO->getDblIdDocumento());
@@ -1518,7 +1518,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
               'id' => $objRemetente->getNumIdContato(),
               'nome' => $objRemetente->getStrNomeContato(),
               'sigla' => $objRemetente->getStrSiglaContato(),
-              /** Chamada ao componente SEI para formatação do nome do remetente */
+              /** Chamada ao componente SEI para formataï¿½ï¿½o do nome do remetente */
               'nomeformatado' => ContatoINT::formatarNomeSiglaRI1224($objRemetente->getStrNomeContato(), $objRemetente->getStrSiglaContato()),
           );
       }
@@ -1530,7 +1530,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $arrDataInteressados[] = array(
               'id' => $objParticipanteDTOInteressados->getNumIdContato(),
               'nome' => $objParticipanteDTOInteressados->getStrNomeContato(),
-              /** Chamada ao componente SEI para formatação do nome do interessado */
+              /** Chamada ao componente SEI para formataï¿½ï¿½o do nome do interessado */
               'nomeformatado' => ContatoINT::formatarNomeSiglaRI1224($objParticipanteDTOInteressados->getStrNomeContato(), $objParticipanteDTOInteressados->getStrSiglaContato()),
               'sigla' => $objParticipanteDTOInteressados->getStrSiglaContato(),
           );
@@ -1543,12 +1543,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $arrDataDestinatarios[] = array(
               'id' => $objParticipanteDTODestinatarios->getNumIdContato(),
               'nome' => $objParticipanteDTODestinatarios->getStrNomeContato(),
-              /** Chamada ao componente SEI para formatação do nome do destinatario */
+              /** Chamada ao componente SEI para formataï¿½ï¿½o do nome do destinatario */
               'nomeformatado' => ContatoINT::formatarNomeSiglaRI1224($objParticipanteDTODestinatarios->getStrNomeContato(), $objParticipanteDTODestinatarios->getStrSiglaContato()),
               'sigla' => $objParticipanteDTODestinatarios->getStrSiglaContato(),
           );
       }
-        /** Chamada para retorno das observações de outras unidades */
+        /** Chamada para retorno das observaï¿½ï¿½es de outras unidades */
         $arrObjObservacaoDTOOutrasUnidades = $this->retornaObservacoesDocumentoOutrasUnidades($objDocumentoDTO->getDblIdDocumento(), ParticipanteRN::$TP_DESTINATARIO);
         $arrDataObservacaoOutrasUnidades = array();
         /** @var ObservacaoDTO $objObservacaoDTOOutrasUnidades */
@@ -1562,7 +1562,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
       }
         /** Chamada para retorno do anexo do documento externo */
         $objAnexoDTO = $this->retornaAnexoDocumento($objDocumentoDTO->getDblIdDocumento());
-        /** Verifica se o anexo pode ser removido (se o documento não estiver bloqueado) **/
+        /** Verifica se o anexo pode ser removido (se o documento nï¿½o estiver bloqueado) **/
         $bolAcaoRemoverAnexo = (SessaoSEI::getInstance()->verificarPermissao('documento_remover_anexo') &&
             $objDocumentoDTO->getStrSinBloqueado()=='N');
 
@@ -1610,7 +1610,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Método que retorna o anexo de um documento externo
+     * Mï¿½todo que retorna o anexo de um documento externo
      * @param $numIdDocumento
      * @return AnexoDTO
      */
@@ -1636,7 +1636,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Metodo que retorna as observações de outras unidades
+     * Metodo que retorna as observaï¿½ï¿½es de outras unidades
      * @param $numIdDocumento
      * @return array
      */
@@ -1655,12 +1655,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
 
       $objObservacaoRN = new ObservacaoRN();
-      /** Chamada ao componente SEI para consultar a lista de observações */
+      /** Chamada ao componente SEI para consultar a lista de observaï¿½ï¿½es */
       return $objObservacaoRN->listarRN0219($objObservacaoDTO);
   }
 
     /**
-     * Metodo que retorna os participantes do documento por participação
+     * Metodo que retorna os participantes do documento por participaï¿½ï¿½o
      * @param $numIdDocumento
      * @param $staParticipacao
      * @return array
@@ -1680,7 +1680,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
       $arrObjParticipanteDTO = $objParticipanteRN->listarRN0189($objParticipanteDTO);
 
     foreach($arrObjParticipanteDTO as $objParticipanteDTO){
-        /** Chamada ao componente SEI para formatação de nome do participante **/
+        /** Chamada ao componente SEI para formataï¿½ï¿½o de nome do participante **/
         $objParticipanteDTO->setStrNomeContato(ContatoINT::formatarNomeSiglaRI1224($objParticipanteDTO->getStrNomeContato(), $objParticipanteDTO->getStrSiglaContato()));
     }
 
@@ -1688,7 +1688,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Método que retorna o remetente do documento
+     * Mï¿½todo que retorna o remetente do documento
      * @param $numIdDocumento
      * @return ParticipanteDTO
      */
@@ -1706,7 +1706,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Método que retorna os assuntos de um documento
+     * Mï¿½todo que retorna os assuntos de um documento
      * @param $numIdDocumento
      * @return Array
      */
@@ -1727,7 +1727,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
       $arrObjRelProtocoloAssuntoDTO = InfraArray::distinctArrInfraDTO($objRelProtocoloAssuntoRN->listarRN0188($objRelProtocoloAssuntoDTO), 'IdAssunto');
 
     foreach($arrObjRelProtocoloAssuntoDTO as $objRelProtocoloAssuntoDTO) {
-        /** Chamada ao componente SEI para formatação de nome do assunto */
+        /** Chamada ao componente SEI para formataï¿½ï¿½o de nome do assunto */
         $objRelProtocoloAssuntoDTO->setStrDescricaoAssunto(AssuntoINT::formatarCodigoDescricaoRI0568(
             $objRelProtocoloAssuntoDTO->getStrCodigoEstruturadoAssunto(),
             $objRelProtocoloAssuntoDTO->getStrDescricaoAssunto())
@@ -1738,7 +1738,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Método que retorna os assuntos de um documento
+     * Mï¿½todo que retorna os assuntos de um documento
      * @param $numIdDocumento
      * @return ObservacaoDTO
      */
@@ -1750,7 +1750,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
       $objObservacaoDTO->setDblIdProtocolo($numIdDocumento);
 
       $objObservacaoRN = new ObservacaoRN();
-      /** Consulta no componente do SEI se o documento tem observações **/
+      /** Consulta no componente do SEI se o documento tem observaï¿½ï¿½es **/
       return $objObservacaoRN->consultarRN0221($objObservacaoDTO);
   }
 
@@ -1776,7 +1776,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
       }
 
         $tipoConferenciaRN = new TipoConferenciaRN();
-        /** Chamando componente SEI para retorno da pesquisa de tipo conferência */
+        /** Chamando componente SEI para retorno da pesquisa de tipo conferï¿½ncia */
         $ret = $tipoConferenciaRN->listar($tipoConferenciaDTOParam);
 
         /** @var SerieDTO $tipoConferenciaDTO */
@@ -1795,7 +1795,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Apoia encapsulamento do documento na criação/edição
+     * Apoia encapsulamento do documento na criaï¿½ï¿½o/ediï¿½ï¿½o
      * @param array $post
      * @param DocumentoDTO $objDocumentoDTO
      * @return DocumentoDTO
@@ -1803,7 +1803,8 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   public static function encapsulaDocumento(array $post, DocumentoDTO $objDocumentoDTO = null)
     {
       $objProtocoloDTO = new ProtocoloDTO();
-    if(!$objDocumentoDTO){
+      $bolNovoDocumento = ($objDocumentoDTO === null);
+    if($bolNovoDocumento){
         $objDocumentoDTO = new DocumentoDTO();
         $objDocumentoDTO->setDblIdDocumento(null);
         $objProtocoloDTO->setDblIdProtocolo(null);
@@ -1814,7 +1815,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
     if (isset($post['idUnidadeGeradoraProtocolo'])) {
         $objDocumentoDTO->setNumIdUnidadeGeradoraProtocolo($post['idUnidadeGeradoraProtocolo']);
         $objDocumentoDTO->setNumIdUnidadeResponsavel(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-    }else if(!$objDocumentoDTO){
+    }else if($bolNovoDocumento){
         $objDocumentoDTO->setNumIdUnidadeGeradoraProtocolo(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
         $objDocumentoDTO->setNumIdUnidadeResponsavel(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
     }
@@ -1829,7 +1830,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
       $objDocumentoDTO->setNumIdTextoPadraoInterno($post['idTextoPadraoInterno']);
       $objDocumentoDTO->setNumIdTipoConferencia($post['idTipoConferencia']);
       $objDocumentoDTO->setStrProtocoloDocumentoTextoBase($post['protocoloDocumentoModelo']);
-    if(!$objDocumentoDTO){
+    if($bolNovoDocumento){
         $objDocumentoDTO->setStrSinBloqueado('N');
     }
     if (isset($post['flagProtocolo']) && $post['flagProtocolo'] == 'S') {
@@ -1934,7 +1935,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         /** @var RelSerieAssuntoDTO $relSerieAssuntoDTO */
       foreach ($ret as $relSerieAssuntoDTO) {
           $result[] = array(
-              /** Chamando componente do SEI para formataçao de nome do assunto **/
+              /** Chamando componente do SEI para formataï¿½ao de nome do assunto **/
               'codigoestruturadoformatado' => AssuntoINT::formatarCodigoDescricaoRI0568(
                   $relSerieAssuntoDTO->getStrCodigoEstruturadoAssunto(),
                   $relSerieAssuntoDTO->getStrDescricaoAssunto()
@@ -1953,7 +1954,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Método que consulta um documento interno
+     * Mï¿½todo que consulta um documento interno
      * @return array
      * @param int $numIdDocumento
      */
@@ -1964,7 +1965,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 	    $objInfraException = new InfraException();
 
       if(!$this->verificarAcessoProtocolo($numIdDocumento)){
-        $objInfraException->lancarValidacao("Acesso ao documento " . $numIdDocumento . " não autorizado.");
+        $objInfraException->lancarValidacao("Acesso ao documento " . $numIdDocumento . " nï¿½o autorizado.");
       }
 
         $result = array();
@@ -1997,7 +1998,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         /** Consulta no componente do SEI para retornar o Documento **/
         $objDocumentoDTO = $objDocumentoRN->consultarRN0005($objDocumentoDTO);
       if (!$objDocumentoDTO){
-        $objInfraException->lancarValidacao("Registro não encontrado.");
+        $objInfraException->lancarValidacao("Registro nï¿½o encontrado.");
       }
         $objProtocoloDTO = new ProtocoloDTO();
         $objProtocoloDTO->setStrDescricao($objDocumentoDTO->getStrDescricaoProtocolo());
@@ -2007,7 +2008,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $objProtocoloDTO->setStrStaGrauSigilo($objDocumentoDTO->getStrStaGrauSigiloProtocolo());
         $objProtocoloDTO->setDtaGeracao($objDocumentoDTO->getDtaGeracaoProtocolo());
 
-        /** Chamada para retorno da observação do documento **/
+        /** Chamada para retorno da observaï¿½ï¿½o do documento **/
         $objObservacaoDTO = $this->retornaObservacaoDocumento($objDocumentoDTO->getDblIdDocumento());
         /** Chamada para retorno dos assuntos do documento **/
         $arrObjRelProtocoloAssuntoDTO = $this->retornaAssuntosDocumento($objDocumentoDTO->getDblIdDocumento());
@@ -2029,7 +2030,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $arrDataInteressados[] = array(
               'id' => $objParticipanteDTOInteressados->getNumIdContato(),
               'nome' => $objParticipanteDTOInteressados->getStrNomeContato(),
-              /** Chamada ao componente SEI para formatação do nome do interessado */
+              /** Chamada ao componente SEI para formataï¿½ï¿½o do nome do interessado */
               'nomeformatado' => ContatoINT::formatarNomeSiglaRI1224($objParticipanteDTOInteressados->getStrNomeContato(), $objParticipanteDTOInteressados->getStrSiglaContato()),
               'sigla' => $objParticipanteDTOInteressados->getStrSiglaContato(),
           );
@@ -2042,12 +2043,12 @@ class MdWsSeiDocumentoRN extends DocumentoRN
           $arrDataDestinatarios[] = array(
               'id' => $objParticipanteDTODestinatarios->getNumIdContato(),
               'nome' => $objParticipanteDTODestinatarios->getStrNomeContato(),
-              /** Chamada ao componente SEI para formatação do nome do destinatario */
+              /** Chamada ao componente SEI para formataï¿½ï¿½o do nome do destinatario */
               'nomeformatado' => ContatoINT::formatarNomeSiglaRI1224($objParticipanteDTODestinatarios->getStrNomeContato(), $objParticipanteDTODestinatarios->getStrSiglaContato()),
               'sigla' => $objParticipanteDTODestinatarios->getStrSiglaContato(),
           );
       }
-        /** Chamada para retorno das observações de outras unidades */
+        /** Chamada para retorno das observaï¿½ï¿½es de outras unidades */
         $arrObjObservacaoDTOOutrasUnidades = $this->retornaObservacoesDocumentoOutrasUnidades($objDocumentoDTO->getDblIdDocumento(), ParticipanteRN::$TP_DESTINATARIO);
         $arrDataObservacaoOutrasUnidades = array();
         /** @var ObservacaoDTO $objObservacaoDTOOutrasUnidades */
@@ -2095,7 +2096,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
 
     /**
-     * Método que consulta um documento interno pelo protocolo formatadao
+     * Mï¿½todo que consulta um documento interno pelo protocolo formatadao
      * @return array
      * @param int $numProtocoloFormatado
      */
@@ -2113,7 +2114,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $numIdDocumento = isset($objProtocoloDTO) ? $objProtocoloDTO->getDblIdProtocolo() : null;
 
       if(!$numIdDocumento){
-        $objInfraException->lancarValidacao("Documento " . $numProtocoloFormatado . " não encontrado.");
+        $objInfraException->lancarValidacao("Documento " . $numProtocoloFormatado . " nï¿½o encontrado.");
       }
 
         return $this->consultarDocumentoInterno($numIdDocumento);
@@ -2131,7 +2132,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 
 
     /**
-     * Método para verificação de permissões de acesso ao documento pelo usuário ativo
+     * Mï¿½todo para verificaï¿½ï¿½o de permissï¿½es de acesso ao documento pelo usuï¿½rio ativo
      */
   private function verificarAcessoProtocolo($paramDblIdProtocolo)
     {
@@ -2146,7 +2147,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
   }
 
     /**
-     * Método que retorna a lista de blocos de assinatura em que o documento se encontra
+     * Mï¿½todo que retorna a lista de blocos de assinatura em que o documento se encontra
      * @param DocumentoDTO $documentoDTO
      * @return array
      */
@@ -2156,7 +2157,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
 	    $objInfraException = new InfraException();
 
       if(!$documentoDTO->isSetDblIdDocumento() || !$documentoDTO->getDblIdDocumento()){
-        $objInfraException->lancarValidacao('Documento não encontrado.');
+        $objInfraException->lancarValidacao('Documento nï¿½o encontrado.');
       }
 
         $protocoloRN = new ProtocoloRN();
@@ -2173,7 +2174,7 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $protocoloDTO = $protocoloRN->consultarRN0186($protocoloDTO);
 
       if(!$protocoloDTO){
-        $objInfraException->lancarValidacao('Documento não encontrado.');
+        $objInfraException->lancarValidacao('Documento nï¿½o encontrado.');
       }
 
         $relBlocoProtocoloRN = new RelBlocoProtocoloRN();
