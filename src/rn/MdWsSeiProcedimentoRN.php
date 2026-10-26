@@ -125,22 +125,22 @@ class MdWsSeiProcedimentoRN extends InfraRN
         $arrayRetorno = [];
         $i = 0;
         //PERMITE SIGILOSO
-        foreach ($arrayObjs as $aux) {
-          $i++;
-          $objNivelAcessoPermitidoDTO = new NivelAcessoPermitidoDTO();
-          $objNivelAcessoPermitidoDTO->setNumIdTipoProcedimento($aux["id"]); // ID DO TIPO DE PROCESSO 
-          $objNivelAcessoPermitidoDTO->setStrStaNivelAcesso(ProtocoloRN::$NA_SIGILOSO);
+      foreach ($arrayObjs as $aux) {
+        $i++;
+        $objNivelAcessoPermitidoDTO = new NivelAcessoPermitidoDTO();
+        $objNivelAcessoPermitidoDTO->setNumIdTipoProcedimento($aux["id"]); // ID DO TIPO DE PROCESSO 
+        $objNivelAcessoPermitidoDTO->setStrStaNivelAcesso(ProtocoloRN::$NA_SIGILOSO);
                     
-          $objNivelAcessoPermitidoRN = new NivelAcessoPermitidoRN();
-          $permiteSigiloso = $objNivelAcessoPermitidoRN->contar($objNivelAcessoPermitidoDTO) > 0;            
+        $objNivelAcessoPermitidoRN = new NivelAcessoPermitidoRN();
+        $permiteSigiloso = $objNivelAcessoPermitidoRN->contar($objNivelAcessoPermitidoDTO) > 0;            
                      
 
-          $arrayRetorno[] = [
-                                  "id"                => $aux["id"],
-                                  "nome"              => $aux["nome"],
-                                  "permiteSigiloso"   => $permiteSigiloso
-                              ];
-        }
+        $arrayRetorno[] = [
+                                "id"                => $aux["id"],
+                                "nome"              => $aux["nome"],
+                                "permiteSigiloso"   => $permiteSigiloso
+                            ];
+      }
         $total = count($arrayRetorno);
 
       if($start) { $arrayRetorno = array_slice($arrayRetorno, ($start-1));
@@ -2427,130 +2427,130 @@ class MdWsSeiProcedimentoRN extends InfraRN
       $arrUnidadeDTOGeradora = [];
       $arrUsuarioDTOGerador = [];
 
-      foreach($arrDadosSolr as $dadosBusca) {
-        if(!is_null($dadosBusca['id_serie'])){
-            $arrIdSerie[$dadosBusca['id_serie']] = $dadosBusca['id_serie'];
-        }
-          $arrIdTipoProcedimento[$dadosBusca['id_tipo_proc']] = $dadosBusca['id_tipo_proc'];
-          $arrIdUsuarioGerador[$dadosBusca['id_usu_ger']] = $dadosBusca['id_usu_ger'];
-          $arrIdUnidadeGeradora[$dadosBusca['id_uni_ger']] = $dadosBusca['id_uni_ger'];
+    foreach($arrDadosSolr as $dadosBusca) {
+      if(!is_null($dadosBusca['id_serie'])){
+          $arrIdSerie[$dadosBusca['id_serie']] = $dadosBusca['id_serie'];
       }
+        $arrIdTipoProcedimento[$dadosBusca['id_tipo_proc']] = $dadosBusca['id_tipo_proc'];
+        $arrIdUsuarioGerador[$dadosBusca['id_usu_ger']] = $dadosBusca['id_usu_ger'];
+        $arrIdUnidadeGeradora[$dadosBusca['id_uni_ger']] = $dadosBusca['id_uni_ger'];
+    }
 
-      if (count($arrIdTipoProcedimento)) {
-          $tipoProcedimentoDTO = new TipoProcedimentoDTO();
-          $tipoProcedimentoDTO->setBolExclusaoLogica(false);
-          $tipoProcedimentoDTO->retNumIdTipoProcedimento();
-          $tipoProcedimentoDTO->retStrNome();
-          $tipoProcedimentoDTO->setNumIdTipoProcedimento(array_keys($arrIdTipoProcedimento), InfraDTO::$OPER_IN);
+    if (count($arrIdTipoProcedimento)) {
+        $tipoProcedimentoDTO = new TipoProcedimentoDTO();
+        $tipoProcedimentoDTO->setBolExclusaoLogica(false);
+        $tipoProcedimentoDTO->retNumIdTipoProcedimento();
+        $tipoProcedimentoDTO->retStrNome();
+        $tipoProcedimentoDTO->setNumIdTipoProcedimento(array_keys($arrIdTipoProcedimento), InfraDTO::$OPER_IN);
 
-          $tipoProcedimentoRN = new TipoProcedimentoRN();
-          /** Acessa o componente SEI para busca dos tipos de procedimento */
-          $arrTipoProcedimentoDTO = InfraArray::indexarArrInfraDTO($tipoProcedimentoRN->listarRN0244($tipoProcedimentoDTO), 'IdTipoProcedimento');
-      }
+        $tipoProcedimentoRN = new TipoProcedimentoRN();
+        /** Acessa o componente SEI para busca dos tipos de procedimento */
+        $arrTipoProcedimentoDTO = InfraArray::indexarArrInfraDTO($tipoProcedimentoRN->listarRN0244($tipoProcedimentoDTO), 'IdTipoProcedimento');
+    }
 
-      if (count($arrIdSerie)) {
-          $serieDTO = new SerieDTO();
-          $serieDTO->setBolExclusaoLogica(false);
-          $serieDTO->retNumIdSerie();
-          $serieDTO->retStrNome();
-          $serieDTO->setNumIdSerie(array_keys($arrIdSerie), InfraDTO::$OPER_IN);
+    if (count($arrIdSerie)) {
+        $serieDTO = new SerieDTO();
+        $serieDTO->setBolExclusaoLogica(false);
+        $serieDTO->retNumIdSerie();
+        $serieDTO->retStrNome();
+        $serieDTO->setNumIdSerie(array_keys($arrIdSerie), InfraDTO::$OPER_IN);
 
-          $serieRN = new SerieRN();
-          /** Acessa o componente SEI para busca das series **/
-          $arrSerieDTO = InfraArray::indexarArrInfraDTO($serieRN->listarRN0646($serieDTO), 'IdSerie');
-      }
+        $serieRN = new SerieRN();
+        /** Acessa o componente SEI para busca das series **/
+        $arrSerieDTO = InfraArray::indexarArrInfraDTO($serieRN->listarRN0646($serieDTO), 'IdSerie');
+    }
 
-      if (count($arrIdUnidadeGeradora)) {
-          $unidadeDTO = new UnidadeDTO();
-          $unidadeDTO->setBolExclusaoLogica(false);
-          $unidadeDTO->retNumIdUnidade();
-          $unidadeDTO->retStrSigla();
-          $unidadeDTO->retStrDescricao();
-          $unidadeDTO->setNumIdUnidade(array_keys($arrIdUnidadeGeradora), InfraDTO::$OPER_IN);
+    if (count($arrIdUnidadeGeradora)) {
+        $unidadeDTO = new UnidadeDTO();
+        $unidadeDTO->setBolExclusaoLogica(false);
+        $unidadeDTO->retNumIdUnidade();
+        $unidadeDTO->retStrSigla();
+        $unidadeDTO->retStrDescricao();
+        $unidadeDTO->setNumIdUnidade(array_keys($arrIdUnidadeGeradora), InfraDTO::$OPER_IN);
 
-          $unidadeRN = new UnidadeRN();
-          /** Acessa o componente SEI para busca das unidades geradoras */
-          $arrUnidadeDTOGeradora = InfraArray::indexarArrInfraDTO($unidadeRN->listarRN0127($unidadeDTO), 'IdUnidade');
-      }
+        $unidadeRN = new UnidadeRN();
+        /** Acessa o componente SEI para busca das unidades geradoras */
+        $arrUnidadeDTOGeradora = InfraArray::indexarArrInfraDTO($unidadeRN->listarRN0127($unidadeDTO), 'IdUnidade');
+    }
 
-      if (count($arrIdUsuarioGerador)) {
-          $usuarioDTO = new UsuarioDTO();
-          $usuarioDTO->setBolExclusaoLogica(false);
-          $usuarioDTO->retNumIdUsuario();
-          $usuarioDTO->retStrSigla();
-          $usuarioDTO->retStrNome();
-          $usuarioDTO->setNumIdUsuario(array_keys($arrIdUsuarioGerador), InfraDTO::$OPER_IN);
+    if (count($arrIdUsuarioGerador)) {
+        $usuarioDTO = new UsuarioDTO();
+        $usuarioDTO->setBolExclusaoLogica(false);
+        $usuarioDTO->retNumIdUsuario();
+        $usuarioDTO->retStrSigla();
+        $usuarioDTO->retStrNome();
+        $usuarioDTO->setNumIdUsuario(array_keys($arrIdUsuarioGerador), InfraDTO::$OPER_IN);
 
-          $usuarioRN = new UsuarioRN();
-          /** Acessa o componente SEI para busca dos usuários geradores */
-          $arrUsuarioDTOGerador = InfraArray::indexarArrInfraDTO($usuarioRN->listarRN0490($usuarioDTO), 'IdUsuario');
-      }
+        $usuarioRN = new UsuarioRN();
+        /** Acessa o componente SEI para busca dos usuários geradores */
+        $arrUsuarioDTOGerador = InfraArray::indexarArrInfraDTO($usuarioRN->listarRN0490($usuarioDTO), 'IdUsuario');
+    }
 
-      foreach($arrDadosSolr as $dadosBusca) {
-          $arrDadosResultadoBusca = [
-              'idProcedimento' => $dadosBusca['id_proc'],
-              'idTipoProcedimento' => $dadosBusca['id_tipo_proc'],
-              'nomeTipoProcedimento' => ($arrTipoProcedimentoDTO[$dadosBusca['id_tipo_proc']] ? $arrTipoProcedimentoDTO[$dadosBusca['id_tipo_proc']]->getStrNome() : '[tipo de processo não encontrado]'),
-              'siglaUnidadeGeradora' => ($arrUnidadeDTOGeradora[$dadosBusca['id_uni_ger']] ? $arrUnidadeDTOGeradora[$dadosBusca['id_uni_ger']]->getStrSigla() : '[unidade não encontrada]'),
-              'idUnidadeGeradora' => ($arrUnidadeDTOGeradora[$dadosBusca['id_uni_ger']] ? $arrUnidadeDTOGeradora[$dadosBusca['id_uni_ger']]->getStrDescricao() : '[unidade não encontrada]'),
-              'protocoloFormatadoProcedimento' => $dadosBusca['prot_proc'],
-              'idUsuarioGerador' => $dadosBusca['id_usu_ger'],
-              'nomeUsuarioGerador' => ($arrUsuarioDTOGerador[$dadosBusca['id_usu_ger']] ? $arrUsuarioDTOGerador[$dadosBusca['id_usu_ger']]->getStrNome() : '[usuário não encontrado]'),
-              'siglaUsuarioGerador' => ($arrUsuarioDTOGerador[$dadosBusca['id_usu_ger']] ? $arrUsuarioDTOGerador[$dadosBusca['id_usu_ger']]->getStrSigla() : '[usuário não encontrado]'),
-              'dataGeracao' => preg_replace("/(\\d{4})-(\\d{2})-(\\d{2})(.*)/", "$3/$2/$1", $dadosBusca['dta_ger']),
-              'documento' => []
-          ];
+    foreach($arrDadosSolr as $dadosBusca) {
+        $arrDadosResultadoBusca = [
+            'idProcedimento' => $dadosBusca['id_proc'],
+            'idTipoProcedimento' => $dadosBusca['id_tipo_proc'],
+            'nomeTipoProcedimento' => ($arrTipoProcedimentoDTO[$dadosBusca['id_tipo_proc']] ? $arrTipoProcedimentoDTO[$dadosBusca['id_tipo_proc']]->getStrNome() : '[tipo de processo não encontrado]'),
+            'siglaUnidadeGeradora' => ($arrUnidadeDTOGeradora[$dadosBusca['id_uni_ger']] ? $arrUnidadeDTOGeradora[$dadosBusca['id_uni_ger']]->getStrSigla() : '[unidade não encontrada]'),
+            'idUnidadeGeradora' => ($arrUnidadeDTOGeradora[$dadosBusca['id_uni_ger']] ? $arrUnidadeDTOGeradora[$dadosBusca['id_uni_ger']]->getStrDescricao() : '[unidade não encontrada]'),
+            'protocoloFormatadoProcedimento' => $dadosBusca['prot_proc'],
+            'idUsuarioGerador' => $dadosBusca['id_usu_ger'],
+            'nomeUsuarioGerador' => ($arrUsuarioDTOGerador[$dadosBusca['id_usu_ger']] ? $arrUsuarioDTOGerador[$dadosBusca['id_usu_ger']]->getStrNome() : '[usuário não encontrado]'),
+            'siglaUsuarioGerador' => ($arrUsuarioDTOGerador[$dadosBusca['id_usu_ger']] ? $arrUsuarioDTOGerador[$dadosBusca['id_usu_ger']]->getStrSigla() : '[usuário não encontrado]'),
+            'dataGeracao' => preg_replace("/(\\d{4})-(\\d{2})-(\\d{2})(.*)/", "$3/$2/$1", $dadosBusca['dta_ger']),
+            'documento' => []
+        ];
 
-          if(!is_null($dadosBusca['prot_doc'])){
-              $documentoDTO = new DocumentoDTO();
-              $documentoDTO->setDblIdDocumento($dadosBusca['id_doc']);
-              $documentoDTO->retStrStaDocumento();
-              /** Chama componente SEI para retorno de dados do documento */
-              $documentoDTO = $documentoRN->consultarRN0005($documentoDTO);
-              $arrDadosAnexo = null;
-              $staDocumento = null;
+        if(!is_null($dadosBusca['prot_doc'])){
+            $documentoDTO = new DocumentoDTO();
+            $documentoDTO->setDblIdDocumento($dadosBusca['id_doc']);
+            $documentoDTO->retStrStaDocumento();
+            /** Chama componente SEI para retorno de dados do documento */
+            $documentoDTO = $documentoRN->consultarRN0005($documentoDTO);
+            $arrDadosAnexo = null;
+            $staDocumento = null;
 
-            if($documentoDTO){
-                $staDocumento = $documentoDTO->getStrStaDocumento();
-            }
-
-            if ($dadosBusca['id_anexo']) {
-                $anexoDTOConsulta = new AnexoDTO();
-                $anexoDTOConsulta->retStrNome();
-                $anexoDTOConsulta->retNumTamanho();
-                $anexoDTOConsulta->setNumIdAnexo($dadosBusca['id_anexo']);
-                $anexoDTOConsulta->setStrSinAtivo('S');
-                $anexoDTOConsulta->setNumMaxRegistrosRetorno(1);
-                /** Chama o componente SEI para recuperar o anexo no documento */
-                $resultAnexo = $anexoRN->listarRN0218($anexoDTOConsulta);
-              if ($resultAnexo) {
-                  /** @var AnexoDTO $anexoDTO */
-                  $anexoDTO = $resultAnexo[0];
-                  $mimetype = $anexoDTO->getStrNome();
-                  $mimetype = substr($mimetype, strrpos($mimetype, '.') + 1);
-                  $nomeAnexo = $anexoDTO->getStrNome();
-                  $tamanhoAnexo = $anexoDTO->getNumTamanho();
-                  $arrDadosAnexo = [
-                      'nome' => $nomeAnexo,
-                      'mimetype' => $mimetype,
-                      'tamanho' => $tamanhoAnexo
-                  ];
-              }
-            }
-              $arrDadosResultadoBusca['documento'] = [
-                  'idDocumento' => $dadosBusca['id_doc'],
-                  'idSerieDocumento' => $dadosBusca['id_serie'],
-                  'nomeSerieDocumento' => ($arrSerieDTO[$dadosBusca['id_serie']] ? $arrSerieDTO[$dadosBusca['id_serie']]->getStrNome() : '[tipo de documento não encontrado]'),
-                  'protocoloFormatadoDocumento' => $dadosBusca['prot_doc'],
-                  'numeroDocumento' => $dadosBusca['numero'],
-                  'staDocumento' => ($staDocumento ?: ($dadosBusca['id_anexo'] ? DocumentoRN::$TD_EXTERNO : null)),
-                  'dtaGeracao' => preg_replace("/(\\d{4})-(\\d{2})-(\\d{2})(.*)/", "$3/$2/$1", $dadosBusca['dta_ger']),
-                  'dadosAnexo' => $arrDadosAnexo
-              ];
+          if($documentoDTO){
+              $staDocumento = $documentoDTO->getStrStaDocumento();
           }
 
-          $result[] = $arrDadosResultadoBusca;
-      }
+          if ($dadosBusca['id_anexo']) {
+              $anexoDTOConsulta = new AnexoDTO();
+              $anexoDTOConsulta->retStrNome();
+              $anexoDTOConsulta->retNumTamanho();
+              $anexoDTOConsulta->setNumIdAnexo($dadosBusca['id_anexo']);
+              $anexoDTOConsulta->setStrSinAtivo('S');
+              $anexoDTOConsulta->setNumMaxRegistrosRetorno(1);
+              /** Chama o componente SEI para recuperar o anexo no documento */
+              $resultAnexo = $anexoRN->listarRN0218($anexoDTOConsulta);
+            if ($resultAnexo) {
+                /** @var AnexoDTO $anexoDTO */
+                $anexoDTO = $resultAnexo[0];
+                $mimetype = $anexoDTO->getStrNome();
+                $mimetype = substr($mimetype, strrpos($mimetype, '.') + 1);
+                $nomeAnexo = $anexoDTO->getStrNome();
+                $tamanhoAnexo = $anexoDTO->getNumTamanho();
+                $arrDadosAnexo = [
+                    'nome' => $nomeAnexo,
+                    'mimetype' => $mimetype,
+                    'tamanho' => $tamanhoAnexo
+                ];
+            }
+          }
+            $arrDadosResultadoBusca['documento'] = [
+                'idDocumento' => $dadosBusca['id_doc'],
+                'idSerieDocumento' => $dadosBusca['id_serie'],
+                'nomeSerieDocumento' => ($arrSerieDTO[$dadosBusca['id_serie']] ? $arrSerieDTO[$dadosBusca['id_serie']]->getStrNome() : '[tipo de documento não encontrado]'),
+                'protocoloFormatadoDocumento' => $dadosBusca['prot_doc'],
+                'numeroDocumento' => $dadosBusca['numero'],
+                'staDocumento' => ($staDocumento ?: ($dadosBusca['id_anexo'] ? DocumentoRN::$TD_EXTERNO : null)),
+                'dtaGeracao' => preg_replace("/(\\d{4})-(\\d{2})-(\\d{2})(.*)/", "$3/$2/$1", $dadosBusca['dta_ger']),
+                'dadosAnexo' => $arrDadosAnexo
+            ];
+        }
+
+        $result[] = $arrDadosResultadoBusca;
+    }
 
       return $result;
   }

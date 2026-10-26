@@ -125,22 +125,22 @@ class MdWsSeiProcedimento_V1_RN extends InfraRN
         $arrayRetorno = [];
         $i = 0;
         //PERMITE SIGILOSO
-        foreach ($arrayObjs as $aux) {
-          $i++;
-          $objNivelAcessoPermitidoDTO = new NivelAcessoPermitidoDTO();
-          $objNivelAcessoPermitidoDTO->setNumIdTipoProcedimento($aux["id"]); // ID DO TIPO DE PROCESSO
-          $objNivelAcessoPermitidoDTO->setStrStaNivelAcesso(ProtocoloRN::$NA_SIGILOSO);
+      foreach ($arrayObjs as $aux) {
+        $i++;
+        $objNivelAcessoPermitidoDTO = new NivelAcessoPermitidoDTO();
+        $objNivelAcessoPermitidoDTO->setNumIdTipoProcedimento($aux["id"]); // ID DO TIPO DE PROCESSO
+        $objNivelAcessoPermitidoDTO->setStrStaNivelAcesso(ProtocoloRN::$NA_SIGILOSO);
 
-          $objNivelAcessoPermitidoRN = new NivelAcessoPermitidoRN();
-          $permiteSigiloso = $objNivelAcessoPermitidoRN->contar($objNivelAcessoPermitidoDTO) > 0;
+        $objNivelAcessoPermitidoRN = new NivelAcessoPermitidoRN();
+        $permiteSigiloso = $objNivelAcessoPermitidoRN->contar($objNivelAcessoPermitidoDTO) > 0;
 
 
-          $arrayRetorno[] = [
-              "id"                => $aux["id"],
-              "nome"              => $aux["nome"],
-              "permiteSigiloso"   => $permiteSigiloso
-          ];
-        }
+        $arrayRetorno[] = [
+            "id"                => $aux["id"],
+            "nome"              => $aux["nome"],
+            "permiteSigiloso"   => $permiteSigiloso
+        ];
+      }
         $total = count($arrayRetorno);
 
       if($start) { $arrayRetorno = array_slice($arrayRetorno, ($start-1));
