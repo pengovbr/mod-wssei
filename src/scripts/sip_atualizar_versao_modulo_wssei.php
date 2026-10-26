@@ -2,7 +2,7 @@
 // Identificação da versão do módulo mod-wssei. Este deve estar sempre sincronizado com a versão definida em MdWsSeiRest.php
 define("VERSAO_MODULO_WSSEI", "3.0.4");
 
-require_once dirname(__FILE__) . '/../../web/Sip.php';
+require_once __DIR__ . '/../../web/Sip.php';
 
 class VersaoSipRN extends InfraScriptVersao
 {
@@ -130,7 +130,7 @@ try {
     $objVersaoSipRN->setStrVersaoAtual(VERSAO_MODULO_WSSEI);
     $objVersaoSipRN->setStrParametroVersao(VersaoSipRN::PARAMETRO_VERSAO_MODULO);
     $objVersaoSipRN->setArrVersoes(
-        array(
+        [
             '0.0.0' => 'versao_0_0_0',
             '0.8.12' => 'versao_0_8_12',
             '1.0.0' => 'versao_1_0_0',
@@ -149,9 +149,9 @@ try {
             '3.0.2' => 'versao_3_0_2',
             '3.0.3' => 'versao_3_0_3',
             '3.0.4' => 'versao_3_0_4',
-        )
+        ]
     );
-    
+
     $objVersaoSipRN->setStrVersaoInfra('1.595.1');
     $objVersaoSipRN->setBolMySql(true);
     $objVersaoSipRN->setBolOracle(true);
@@ -166,7 +166,7 @@ try {
     echo (InfraException::inspecionar($e));
   try {
       LogSip::getInstance()->gravar(InfraException::inspecionar($e));
-  } catch (Exception $e) {
+  } catch (Exception) {
   }
     exit(1);
 }

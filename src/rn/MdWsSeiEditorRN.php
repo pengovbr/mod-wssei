@@ -18,11 +18,7 @@ class MdWsSeiEditorRN extends InfraRN
   public static function versaoCarimboPublicacaoObrigatorio(){
       $numVersaoAtual = intval(str_replace('.', '', SEI_VERSAO));
       $numVersaoCarimboObrigatorio = intval(str_replace('.', '', self::VERSAO_CARIMBO_PUBLICACAO_OBRIGATORIO));
-    if($numVersaoAtual >= $numVersaoCarimboObrigatorio){
-        return true;
-    }
-
-      return false;
+      return $numVersaoAtual >= $numVersaoCarimboObrigatorio;
   }
 
 }

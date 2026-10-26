@@ -11,10 +11,9 @@ class MdWsSeiHipoteseLegalRN extends InfraRN
 
     
      /**
-     * O serviço realiza a pesquisa das hipóteses legais do SEI.
-     * @param MdWsSeiHipoteseLegalDTO $dto
-     * @return array
-     */
+   * O serviço realiza a pesquisa das hipóteses legais do SEI.
+   * @return array
+   */
   protected function listarHipoteseLegalConectado(MdWsSeiHipoteseLegalDTO $dto)
     {
     try {
@@ -35,7 +34,7 @@ class MdWsSeiHipoteseLegalRN extends InfraRN
       }
 
       if ($filter) {
-          $hipoteseLegalDTO->setStrNome('%' . utf8_decode ($filter) . '%', InfraDTO::$OPER_LIKE);
+          $hipoteseLegalDTO->setStrNome('%' . mb_convert_encoding ($filter, 'ISO-8859-1') . '%', InfraDTO::$OPER_LIKE);
       }
 
       if ($limit) {
@@ -52,13 +51,13 @@ class MdWsSeiHipoteseLegalRN extends InfraRN
         $hipoteseLegalRN = new HipoteseLegalRN();
         $arrHipoteseLegalDTO = $hipoteseLegalRN->listar($hipoteseLegalDTO);
             
-        $arrayRetorno = array();
+        $arrayRetorno = [];
       if($arrHipoteseLegalDTO){
         foreach ($arrHipoteseLegalDTO as $obj) {
-            $arrayRetorno[] = array(
+            $arrayRetorno[] = [
                 "id"    =>  $obj->getNumIdHipoteseLegal(),
                 "nome"  =>  $obj->getStrNome()
-            );
+            ];
         }
       }
             
@@ -72,14 +71,13 @@ class MdWsSeiHipoteseLegalRN extends InfraRN
   }
 
     /**
-     * Pesquisa as hitóteses legais
-     * @param HipoteseLegalDTO $hipoteseLegalDTOParam
-     * @return array
-     */
+   * Pesquisa as hitóteses legais
+   * @return array
+   */
   protected function pesquisarConectado(HipoteseLegalDTO $hipoteseLegalDTOParam)
     {
     try {
-        $result = array();
+        $result = [];
         $hipoteseLegalDTOParam->retNumIdHipoteseLegal();
         $hipoteseLegalDTOParam->retStrNome();
         $hipoteseLegalDTOParam->retStrBaseLegal();
@@ -99,11 +97,11 @@ class MdWsSeiHipoteseLegalRN extends InfraRN
 
         /** @var HipoteseLegalDTO $hipoteseLegalDTO */
       foreach($ret as $hipoteseLegalDTO){
-          $result[] = array(
+          $result[] = [
               'id' => $hipoteseLegalDTO->getNumIdHipoteseLegal(),
               'nome' => $hipoteseLegalDTO->getStrNome(),
               'baselegal' => $hipoteseLegalDTO->getStrBaseLegal(),
-          );
+          ];
       }
 
           return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $hipoteseLegalDTOParam->getNumMaxRegistrosRetorno());
@@ -115,10 +113,9 @@ class MdWsSeiHipoteseLegalRN extends InfraRN
 
     
      /**
-     * Realiza a inclusão de um contato no SEI.
-     * @param MdWsSeiContatoDTO $objGetMdWsSeiContatoDTO
-     * @return array
-     */
+   * Realiza a inclusão de um contato no SEI.
+   * @return array
+   */
   protected function criarContatoConectado(MdWsSeiContatoDTO $objGetMdWsSeiContatoDTO)
     {
     try {
@@ -131,7 +128,7 @@ class MdWsSeiHipoteseLegalRN extends InfraRN
         $objContatoRN = new ContatoRN();
         $objContatoDTO = $objContatoRN->cadastrarContextoTemporario($objContatoDTO);
             
-        return MdWsSeiRest::formataRetornoSucessoREST(null, array("id"=>$objContatoDTO->getNumIdContato()));    
+        return MdWsSeiRest::formataRetornoSucessoREST(null, ["id"=>$objContatoDTO->getNumIdContato()]);    
     } catch (Exception $e) {
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
         return MdWsSeiRest::formataRetornoErroREST($e);

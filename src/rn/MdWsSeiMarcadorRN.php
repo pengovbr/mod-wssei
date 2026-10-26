@@ -9,23 +9,22 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
   }
 
     /**
-     * Pesquisa os marcadores
-     * @param MarcadorDTO $marcadorDTOConsulta
-     * @return array
-     */
+   * Pesquisa os marcadores
+   * @return array
+   */
   protected function pesquisarConectado(MarcadorDTO $marcadorDTOConsulta)
     {
     try{
       //Regras de Negocio
         $objInfraException = new InfraException();
 
-        $result = array();
+        $result = [];
         $marcadorDTOConsulta->retTodos();
         $marcadorDTOConsulta->setBolExclusaoLogica(false);
         $marcadorDTOConsulta->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
         $marcadorDTOConsulta->setOrdStrNome(InfraDTO::$TIPO_ORDENACAO_ASC);
 
-      if($marcadorDTOConsulta->isSetStrSinAtivo() && !in_array($marcadorDTOConsulta->getStrSinAtivo(), array('S', 'N'))){
+      if($marcadorDTOConsulta->isSetStrSinAtivo() && !in_array($marcadorDTOConsulta->getStrSinAtivo(), ['S', 'N'])){
         $objInfraException->lancarValidacao('Parametro ativo inválido.');
       }
 
@@ -46,14 +45,14 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         /** @var MarcadorDTO $marcadorDTO */
       foreach($ret as $marcadorDTO){
 
-          $result[] = array(
+          $result[] = [
               'id' => $marcadorDTO->getNumIdMarcador(),
               'nome' => $marcadorDTO->getStrNome(),
               'ativo' => $marcadorDTO->getStrSinAtivo(),
               'idCor' => $marcadorDTO->getStrStaIcone(),
               'descricaoCor' => $arrIconeMarcadorDTO[$marcadorDTO->getStrStaIcone()]->getStrDescricao(),
               'arquivoCor' => $arrIconeMarcadorDTO[$marcadorDTO->getStrStaIcone()]->getStrArquivo()
-          );
+          ];
       }
             
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $marcadorDTOConsulta->getNumTotalRegistros());
@@ -78,13 +77,13 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         $ret = $this->listarValoresIcone();
 
         /** @var IconeMarcadorDTO $iconeMarcadorDTO */
-      foreach($ret as $index => $iconeMarcadorDTO){
+      foreach($ret as $iconeMarcadorDTO){
 
-        $result[] = array(
+        $result[] = [
             'id' => $iconeMarcadorDTO->getStrStaIcone(),
             'descricao' => $iconeMarcadorDTO->getStrDescricao(),
             'arquivo' => $iconeMarcadorDTO->getStrArquivo(),
-        );
+        ];
       }
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result, count($result));
@@ -95,10 +94,9 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
   }
 
     /**
-     * Cadastra um marcador
-     * @param MarcadorDTO $marcadorDTO
-     * @return array
-     */
+   * Cadastra um marcador
+   * @return array
+   */
   protected function cadastrarControlado(MarcadorDTO $marcadorDTO)
     {
     try{
@@ -113,14 +111,14 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         /** Chama o componente SEI para retornar as cores disponíveis para o Marcador */
         $arrIconeMarcadorDTO = $marcadorRN->listarValoresIcone();
 
-        $result = array(
+        $result = [
             'id' => $marcadorDTO->getNumIdMarcador(),
             'nome' => $marcadorDTO->getStrNome(),
             'ativo' => $marcadorDTO->getStrSinAtivo(),
             'idCor' => $marcadorDTO->getStrStaIcone(),
             'descricaoCor' => $arrIconeMarcadorDTO[$marcadorDTO->getStrStaIcone()]->getStrDescricao(),
             'arquivoCor' => $arrIconeMarcadorDTO[$marcadorDTO->getStrStaIcone()]->getStrArquivo()
-        );
+        ];
 
         return MdWsSeiRest::formataRetornoSucessoREST('Marcador cadastrado com sucesso.', $result);
     }catch (Exception $e){
@@ -130,10 +128,9 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
   }
 
     /**
-     * Edita um marcador
-     * @param MarcadorDTO $marcadorDTO
-     * @return array
-     */
+   * Edita um marcador
+   * @return array
+   */
   protected function alterarControlado(MarcadorDTO $marcadorDTO)
     {
     try{
@@ -166,14 +163,14 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         /** Chama o componente SEI para retornar as cores disponíveis para o Marcador */
         $arrIconeMarcadorDTO = $marcadorRN->listarValoresIcone();
 
-        $result = array(
+        $result = [
             'id' => $marcadorDTOConsulta->getNumIdMarcador(),
             'nome' => $marcadorDTOConsulta->getStrNome(),
             'ativo' => $marcadorDTOConsulta->getStrSinAtivo(),
             'idCor' => $marcadorDTOConsulta->getStrStaIcone(),
             'descricaoCor' => $arrIconeMarcadorDTO[$marcadorDTOConsulta->getStrStaIcone()]->getStrDescricao(),
             'arquivoCor' => $arrIconeMarcadorDTO[$marcadorDTOConsulta->getStrStaIcone()]->getStrArquivo()
-        );
+        ];
 
         return MdWsSeiRest::formataRetornoSucessoREST('Marcador alterado com sucesso.', $result);
     }catch (Exception $e){
@@ -213,7 +210,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         $objInfraException->lancarValidacao("Processo não encontrado.");
       }
 
-        $result = array();
+        $result = [];
 
         $marcadorRN = new MarcadorRN();
         /** Chama o componente SEI para retornar as cores disponíveis para o Marcador */
@@ -226,21 +223,21 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         $andamentoMarcadorDTO->retStrStaIconeMarcador();
         $andamentoMarcadorDTO->retDblIdProcedimento();
         $andamentoMarcadorDTO->retStrTexto();
-        $andamentoMarcadorDTO->setDblIdProcedimento(array($andamentoMarcadorDTOParam->getDblIdProcedimento()), InfraDTO::$OPER_IN);
+        $andamentoMarcadorDTO->setDblIdProcedimento([$andamentoMarcadorDTOParam->getDblIdProcedimento()], InfraDTO::$OPER_IN);
         $andamentoMarcadorDTO->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
         $andamentoMarcadorDTO->setStrSinUltimo('S');
         /** Chama o componente SEI para retornar o andamento do marcador */
         $arrObjAndamentoMarcadorDTO = $andamentoMarcadorRN->listar($andamentoMarcadorDTO);
         $andamentoMarcadorDTO = $arrObjAndamentoMarcadorDTO[0];
       if($andamentoMarcadorDTO){
-          $result = array(
+          $result = [
               'idMarcador' => $andamentoMarcadorDTO->getNumIdMarcador(),
               'idProtocolo' => $andamentoMarcadorDTO->getDblIdProcedimento(),
               'texto' => $andamentoMarcadorDTO->getStrTexto(),
               'idCor' => $andamentoMarcadorDTO->getStrStaIconeMarcador(),
               'descricaoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrDescricao(),
               'arquivoCor' => $arrIconeMarcadorDTO[$andamentoMarcadorDTO->getStrStaIconeMarcador()]->getStrArquivo()
-          );
+          ];
       }
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
@@ -281,7 +278,7 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         $objInfraException->lancarValidacao("Processo não encontrado.");
       }
 
-        $result = array();
+        $result = [];
 
         $andamentoMarcadorDTOParam->retNumIdMarcador();
         $andamentoMarcadorDTOParam->retStrNomeMarcador();
@@ -300,14 +297,14 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
         $ret = $andamentoMarcadorRN->listar($andamentoMarcadorDTOParam);
 
       foreach($ret as $andamentoMarcadorDTO) {
-          $result[] = array(
+          $result[] = [
               'marcadorAtivo' => $andamentoMarcadorDTO->getStrSinAtivoMarcador(),
               'data' => substr($andamentoMarcadorDTO->getDthExecucao(), 0, 16),
               'texto' => $andamentoMarcadorDTO->getStrTexto(),
               'nomeMarcador' => ($andamentoMarcadorDTO->getNumIdMarcador() ? $andamentoMarcadorDTO->getStrNomeMarcador() : '[REMOVIDO]'),
               'nomeUsuario' => $andamentoMarcadorDTO->getStrNomeUsuario(),
               'siglaUsuario' => $andamentoMarcadorDTO->getStrSiglaUsuario(),
-          );
+          ];
       }
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
@@ -329,11 +326,11 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
   public function excluirMarcadores(array $arrIdMarcadores)
     {
     try{
-      if(empty($arrIdMarcadores)){
+      if($arrIdMarcadores === []){
         throw new Exception('Marcador não informado.');
       }
         $marcadorRN = new MarcadorRN();
-        $arrMarcadoresExclusao = array();
+        $arrMarcadoresExclusao = [];
       foreach($arrIdMarcadores as $idMarcador) {
           $marcadorDTO = new MarcadorDTO();
           $marcadorDTO->setNumIdMarcador($idMarcador);
@@ -357,11 +354,11 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
   public function desativarMarcadores(array $arrIdMarcadores)
     {
     try{
-      if(empty($arrIdMarcadores)){
+      if($arrIdMarcadores === []){
         throw new Exception('Marcador não informado.');
       }
         $marcadorRN = new MarcadorRN();
-        $arrMarcadoresDesativar = array();
+        $arrMarcadoresDesativar = [];
       foreach($arrIdMarcadores as $idMarcador) {
           $marcadorDTO = new MarcadorDTO();
           $marcadorDTO->setNumIdMarcador($idMarcador);
@@ -385,11 +382,11 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
   public function reativarMarcadores(array $arrIdMarcadores)
     {
     try{
-      if(empty($arrIdMarcadores)){
+      if($arrIdMarcadores === []){
         throw new Exception('Marcador não informado.');
       }
         $marcadorRN = new MarcadorRN();
-        $arrMarcadoresResativar = array();
+        $arrMarcadoresResativar = [];
       foreach($arrIdMarcadores as $idMarcador) {
           $marcadorDTO = new MarcadorDTO();
           $marcadorDTO->setNumIdMarcador($idMarcador);
@@ -406,10 +403,9 @@ class MdWsSeiMarcadorRN extends MarcadorRN {
   }
 
     /**
-     * Método que relaciona um processo a um marcador
-     * @param AndamentoMarcadorDTO $andamentoMarcadorDTO
-     * @return array
-     */
+   * Método que relaciona um processo a um marcador
+   * @return array
+   */
   protected function marcarProcessoControlado(AndamentoMarcadorDTO $andamentoMarcadorDTO)
     {
     try{

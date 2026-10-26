@@ -11,14 +11,13 @@ class MdWsSeiContatoRN extends InfraRN
 
     
      /**
-     * Pesquisa os contatos
-     * @param ContatoDTO $contatoDTOParam
-     * @return array
-     */
+   * Pesquisa os contatos
+   * @return array
+   */
   protected function listarContatoConectado(ContatoDTO $contatoDTOParam)
     {
     try {
-        $result = array();
+        $result = [];
 
         $objPesquisaTipoContatoDTO = new PesquisaTipoContatoDTO();
         $objPesquisaTipoContatoDTO->setStrStaAcesso(TipoContatoRN::$TA_CONSULTA_RESUMIDA);
@@ -33,9 +32,9 @@ class MdWsSeiContatoRN extends InfraRN
         $contatoDTOParam->retStrNome();
 
 
-        $contatoDTOParam->adicionarCriterio(array('StaAcessoTipoContato', 'IdTipoContato'),
-            array(InfraDTO::$OPER_DIFERENTE, InfraDTO::$OPER_IN),
-            array(TipoContatoRN::$TA_NENHUM, $arrIdTipoContatoAcesso),
+        $contatoDTOParam->adicionarCriterio(['StaAcessoTipoContato', 'IdTipoContato'],
+            [InfraDTO::$OPER_DIFERENTE, InfraDTO::$OPER_IN],
+            [TipoContatoRN::$TA_NENHUM, $arrIdTipoContatoAcesso],
             InfraDTO::$OPER_LOGICO_OR);
 
         $contatoDTOParam->setStrSinAtivoTipoContato('S');
@@ -47,12 +46,12 @@ class MdWsSeiContatoRN extends InfraRN
 
         /** @var ContatoDTO $contatoDTO */
         foreach ($ret as $contatoDTO) {
-          $result[] = array(
+          $result[] = [
           'nomeformatado' => ContatoINT::formatarNomeSiglaRI1224($contatoDTO->getStrNome(), $contatoDTO->getStrSigla()),
           'nome' => $contatoDTO->getStrNome(),
           'sigla' => $contatoDTO->getStrSigla(),
           'id' => $contatoDTO->getNumIdContato()
-          );
+          ];
         }
       }
 
@@ -65,10 +64,9 @@ class MdWsSeiContatoRN extends InfraRN
     
     
      /**
-     * Realiza a inclusão de um contato no SEI.
-     * @param MdWsSeiContatoDTO $objGetMdWsSeiContatoDTO
-     * @return array
-     */
+   * Realiza a inclusão de um contato no SEI.
+   * @return array
+   */
   protected function criarContatoConectado(MdWsSeiContatoDTO $objGetMdWsSeiContatoDTO)
     {
     try {
@@ -81,7 +79,7 @@ class MdWsSeiContatoRN extends InfraRN
         $objContatoRN = new ContatoRN();
         $objContatoDTO = $objContatoRN->cadastrarContextoTemporario($objContatoDTO);
             
-        return MdWsSeiRest::formataRetornoSucessoREST(null, array("id"=>$objContatoDTO->getNumIdContato()));    
+        return MdWsSeiRest::formataRetornoSucessoREST(null, ["id"=>$objContatoDTO->getNumIdContato()]);    
     } catch (Exception $e) {
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
         return MdWsSeiRest::formataRetornoErroREST($e);

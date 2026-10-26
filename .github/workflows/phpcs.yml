@@ -5,16 +5,23 @@ on: [pull_request]
 jobs:
   phpcs:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.2', '8.5']
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: ${{ matrix.php }}
           coverage: none
           tools: composer
+
+      - name: Verificar versão
+        run: php -v
 
       - name: Setup cache
         uses: actions/cache@v5
@@ -28,3 +35,6 @@ jobs:
 
       - name: Detect coding standard violations
         run: vendor/bin/phpcs -q --report=checkstyle src
+
+      - name: Verificar Rector
+        run: vendor/bin/rector process --dry-run
