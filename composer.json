@@ -16,6 +16,7 @@
     "phpunit/phpunit": "*",
     "squizlabs/php_codesniffer": "*",
     "phpcompatibility/php-compatibility": "^9.3",
-    "pheromone/phpcs-security-audit": "*"
+    "pheromone/phpcs-security-audit": "*",
+    "rector/rector": "^2.8"
   }
 }
