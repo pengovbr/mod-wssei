@@ -30,6 +30,11 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
+      - name: Verificar sintaxe PHP
+        run: |
+          find src tests -type f -name '*.php' -print0 |
+            xargs -0 -r -n1 php -l
+      
       - name: Install dependencies
         run: composer install --prefer-dist --no-suggest --no-progress
 
