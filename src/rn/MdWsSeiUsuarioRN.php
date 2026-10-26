@@ -26,15 +26,14 @@ class MdWsSeiUsuarioRN extends InfraRN {
     }
 
     try{
-        $objSipWS = new SoapClient(
+        return new SoapClient(
             $strWSDL,
-            array(
+            [
                 'encoding' => 'ISO-8859-1',
                 'exceptions' => true
-            )
+            ]
         );
-        return $objSipWS;
-    }catch(Exception $e){
+    }catch(Exception){
         throw new InfraException('Erro acessando o Sistema de Permissões.');
     }
   }
@@ -49,7 +48,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
       $fase2 = str_replace($this->getSecret(), '', $fase1);
       $fase3 = base64_decode($fase2);
       $tokenData = explode('||', $fase3);
-    if(count($tokenData) != 4){
+    if(count($tokenData) !== 4){
         return null;
     }
       $tokenData[0] = $this->decriptaSenha($tokenData[0]);
@@ -59,15 +58,13 @@ class MdWsSeiUsuarioRN extends InfraRN {
   }
 
     /**
-     * Método que criptografa o token
-     * @param $sigla
-     * @param $senha
-     * @param null $orgao
-     * @param null $contexto
-     * @return string
-     */
+   * Método que criptografa o token
+   * @param $sigla
+   * @param $senha
+   * @return string
+   */
   public function tokenEncode($sigla, $senha, $orgao = null, $contexto = null){
-      $token = base64_encode(
+      return base64_encode(
           $this->getSecret()
           .base64_encode(
               $this->encriptaSenha($sigla)
@@ -76,8 +73,6 @@ class MdWsSeiUsuarioRN extends InfraRN {
               .'||'.$contexto
           )
       );
-
-      return $token;
   }
 
     /**
@@ -85,8 +80,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
      * @return string
      */
   private function getTokenSecret(){
-      $token = ConfiguracaoMdWSSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
-      return $token;
+      return ConfiguracaoMdWSSEI::getInstance()->getValor('WSSEI', 'TokenSecret', false);
   }
 
     /**
@@ -102,8 +96,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
         
       $data = new DateTime();
       $strData = $data->format('Ymd');
-      $secret = sha1($token.$strData);
-      return $secret;
+      return sha1($token.$strData);
   }
 
     /**
@@ -152,12 +145,10 @@ class MdWsSeiUsuarioRN extends InfraRN {
   }
 
     /**
-     * Metodo de autenticacao de usuarios usando SIP
-     * @param UsuarioDTO $usuarioDTO
-     * @param ContextoDTO $contextoDTO
-     * @param OrgaoDTO $orgaoDTO
-     * @return array
-     */
+   * Metodo de autenticacao de usuarios usando SIP
+   * @param ContextoDTO $contextoDTO
+   * @return array
+   */
   public function apiAutenticar(UsuarioDTO $usuarioDTO, OrgaoDTO $orgaoDTO){
     try{
         //Regras de Negocio
@@ -228,13 +219,13 @@ class MdWsSeiUsuarioRN extends InfraRN {
             
           $token = $this->tokenEncode($usuarioDTO->getStrSigla(), $usuarioDTO->getStrSenha(), $orgao, $contexto);
 
-          $arrUnidades = array();
+          $arrUnidades = [];
       foreach(SessaoSEI::getInstance()->getArrUnidades() as $unidade){
-          $arrUnidades[] = array(
+          $arrUnidades[] = [
               'id' => $unidade[0],
               'sigla' => $unidade[1],
               'descricao' => $unidade[2]
-          );
+          ];
       }
 
           $retPerfis = $this->listarPerfisUsuario($strChaveAcesso, $ret->IdSistema, $ret->IdUsuario);
@@ -242,13 +233,13 @@ class MdWsSeiUsuarioRN extends InfraRN {
             
           return MdWsSeiRest::formataRetornoSucessoREST(
               null,
-              array(
+              [
                   'loginData'=> $ret,
                   'perfis' => $retPerfis,
                   'unidades' => $arrUnidades,
                   'identificador' => MdWsSeiRest::geraIdentificadorUsuario($objSessao->getStrSiglaUsuario(), $objSessao->getStrSiglaOrgaoUsuario()),
                   'token' => $token
-              )
+              ]
           );
 
     }catch (Exception $e){
@@ -272,20 +263,20 @@ class MdWsSeiUsuarioRN extends InfraRN {
      */
   private function listarPerfisUsuario($strChaveAcesso, $idSistema, $idUsuario){
     try{
-        $arrPerfis = array();
+        $arrPerfis = [];
         $objSipWs = $this->retornaServicoSip();
         $ret = $objSipWs->carregarPerfis(
             $strChaveAcesso,
             $idSistema,
             $idUsuario
         );
-        $arrPerfis = array();
+        $arrPerfis = [];
       foreach ($ret as $perfil) {
-        $arrPerfis[] = array(
+        $arrPerfis[] = [
         'idPerfil' => $perfil[0],
         'nome' => $perfil[1],
         'stAtivo' => $perfil[3]
-        );
+        ];
       }
 
         return $arrPerfis;
@@ -297,10 +288,9 @@ class MdWsSeiUsuarioRN extends InfraRN {
   }
 
     /**
-     * Retorna a lista de usuarios por unidade
-     * @param UnidadeDTO $unidadeDTOParam
-     * @return array
-     */
+   * Retorna a lista de usuarios por unidade
+   * @return array
+   */
   protected function listarUsuariosConectado(UnidadeDTO $unidadeDTOParam){
     try{
         $idUnidade = null;
@@ -315,7 +305,7 @@ class MdWsSeiUsuarioRN extends InfraRN {
       if($unidadeDTOParam->isSetNumIdUnidade()){
           $idUnidade = $unidadeDTOParam->getNumIdUnidade();
       }
-        $result = array();
+        $result = [];
         $unidadeDTO = new UnidadeDTO();
         $unidadeDTO->setNumIdUnidade($idUnidade);
         $usuarioRN = new UsuarioRN();
@@ -326,11 +316,11 @@ class MdWsSeiUsuarioRN extends InfraRN {
         $paginado = array_slice($arrUsuarioDTO, ($limit*$start), $limit);
         /** @var UsuarioDTO $usuarioDTO */
       foreach ($paginado as $usuarioDTO){
-          $result[] = array(
+          $result[] = [
               'id_usuario' => $usuarioDTO->getNumIdUsuario(),
               'sigla' => $usuarioDTO->getStrSigla(),
               'nome' => $usuarioDTO->getStrNome(),
-            );
+            ];
       }
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $total);
@@ -373,23 +363,22 @@ class MdWsSeiUsuarioRN extends InfraRN {
   }
 
     /**
-     * Retorna as unidades do usuário
-     * @param UsuarioDTO $usuarioDTO
-     */
+   * Retorna as unidades do usuário
+   */
   public function listarUnidadesUsuarioConectado(UsuarioDTO $usuarioDTO){
     try{
         $objInfraSip = new InfraSip(SessaoSEI::getInstance());
         $ret = array_values($objInfraSip->carregarUnidades(SessaoSEI::getInstance()->getNumIdSistema(), $usuarioDTO->getNumIdUsuario()));
         InfraArray::ordenarArray($ret, InfraSip::$WS_UNIDADE_SIGLA, InfraArray::$TIPO_ORDENACAO_ASC);
-        $result = array();
+        $result = [];
       foreach($ret as $uni){
         //somente unidades ativas, todas as unidades de outros usuários, se for o usuário atual não mostra a unidade atual
         if ($uni[InfraSip::$WS_UNIDADE_SIN_ATIVO]=='S' && ($usuarioDTO->getNumIdUsuario() != SessaoSEI::getInstance()->getNumIdUsuario() ||$uni[InfraSip::$WS_UNIDADE_ID] != SessaoSEI::getInstance()->getNumIdUnidadeAtual())){
-            $result[] = array(
+            $result[] = [
                 'id' => $uni[InfraSip::$WS_UNIDADE_ID],
                 'sigla' => $uni[InfraSip::$WS_UNIDADE_SIGLA],
                 'nome' => $uni[InfraSip::$WS_UNIDADE_DESCRICAO]
-            );
+            ];
         }
       }
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
@@ -400,23 +389,22 @@ class MdWsSeiUsuarioRN extends InfraRN {
   }
 
     /**
-     * Pesquisa o usuário pelo nome
-     * @param $palavrachave
-     * @param null $orgao
-     * @return array
-     */
+   * Pesquisa o usuário pelo nome
+   * @param $palavrachave
+   * @return array
+   */
   public function apiPesquisarUsuario($palavrachave, $orgao = null){
     try{
-        $result = array();
+        $result = [];
         $arrUsuarioDTO = UsuarioINT::autoCompletarUsuarios($orgao, $palavrachave, false, false, true, false);
         /** @var UsuarioDTO $usuarioDTO */
       foreach($arrUsuarioDTO as $usuarioDTO){
-        $result[] = array(
+        $result[] = [
             'id_contato' => $usuarioDTO->getNumIdContato(),
             'id_usuario' => $usuarioDTO->getNumIdUsuario(),
             'sigla' => $usuarioDTO->getStrSigla(),
             'nome' => $usuarioDTO->getStrNome()
-        );
+        ];
       }
 
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);

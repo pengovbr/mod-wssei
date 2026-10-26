@@ -33,10 +33,10 @@ class MdWsSeiContato_V1_RN extends InfraRN
       }
 
       if($filter) {
-        $contatoDTO->adicionarCriterio(array('Nome', 'Nome'),
-            array(InfraDTO::$OPER_LIKE, InfraDTO::$OPER_LIKE),
-            array('%' . utf8_decode(str_replace("-", " ", $filter)) . '%', '%' . utf8_decode(str_replace(" ", "-", $filter)) . '%'),
-            array(InfraDTO::$OPER_LOGICO_OR));
+        $contatoDTO->adicionarCriterio(['Nome', 'Nome'],
+            [InfraDTO::$OPER_LIKE, InfraDTO::$OPER_LIKE],
+            ['%' . mb_convert_encoding(str_replace("-", " ", $filter), 'ISO-8859-1') . '%', '%' . mb_convert_encoding(str_replace(" ", "-", $filter), 'ISO-8859-1') . '%'],
+            [InfraDTO::$OPER_LOGICO_OR]);
       }
 
 
@@ -62,18 +62,16 @@ class MdWsSeiContato_V1_RN extends InfraRN
 
         $contatoCountDTO = $contatoRN->listarRN0325($contatoCountDTO);
 
-        $arrayRetorno = array();
+        $arrayRetorno = [];
       if($arrContatoDTO){
         foreach ($arrContatoDTO as $obj) {
-            $arrayRetorno[] = array(
+            $arrayRetorno[] = [
                 "id"        => $obj->getNumIdContato(),
                 "sigla"     => $obj->getStrSigla(),
                 "nome"      => $obj->getStrNome()
-            );
+            ];
         }
       }
-
-          $total = 0;
           $total = count($arrayRetorno);
 
       if($bool){
@@ -90,10 +88,9 @@ class MdWsSeiContato_V1_RN extends InfraRN
 
 
     /**
-     * Realiza a inclusão de um contato no SEI.
-     * @param MdWsSeiContatoDTO $objGetMdWsSeiContatoDTO
-     * @return array
-     */
+   * Realiza a inclusão de um contato no SEI.
+   * @return array
+   */
   protected function criarContatoConectado(MdWsSeiContatoDTO $objGetMdWsSeiContatoDTO)
     {
     try {
@@ -106,7 +103,7 @@ class MdWsSeiContato_V1_RN extends InfraRN
         $objContatoRN = new ContatoRN();
         $objContatoDTO = $objContatoRN->cadastrarContextoTemporario($objContatoDTO);
 
-        return MdWsSeiRest::formataRetornoSucessoREST(null, array("id"=>$objContatoDTO->getNumIdContato()));
+        return MdWsSeiRest::formataRetornoSucessoREST(null, ["id"=>$objContatoDTO->getNumIdContato()]);
     } catch (Exception $e) {
         LogSEI::getInstance()->gravar(InfraException::inspecionar($e));
         return MdWsSeiRest::formataRetornoErroREST($e);

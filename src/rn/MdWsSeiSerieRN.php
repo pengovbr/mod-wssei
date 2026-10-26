@@ -16,10 +16,10 @@ class MdWsSeiSerieRN extends InfraRN {
   protected function pesquisarExternoConectado(SerieDTO $serieDTOParam)
     {
     try{
-        $result = array();
+        $result = [];
         $serieDTOParam->retNumIdSerie();
         $serieDTOParam->retStrNome();
-        $serieDTOParam->setStrStaAplicabilidade(array(SerieRN::$TA_INTERNO_EXTERNO, SerieRN::$TA_EXTERNO), InfraDTO::$OPER_IN);
+        $serieDTOParam->setStrStaAplicabilidade([SerieRN::$TA_INTERNO_EXTERNO, SerieRN::$TA_EXTERNO], InfraDTO::$OPER_IN);
         $serieDTOParam->setStrSinInterno('N');
         $serieDTOParam->setOrdStrNome(InfraDTO::$TIPO_ORDENACAO_ASC);
 
@@ -36,10 +36,10 @@ class MdWsSeiSerieRN extends InfraRN {
 
         /** @var SerieDTO $serieDTO */
       foreach($ret as $serieDTO){
-          $result[] = array(
+          $result[] = [
               'id' => $serieDTO->getNumIdSerie(),
               'nome' => $serieDTO->getStrNome(),
-          );
+          ];
       }
             
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $serieDTOParam->getNumTotalRegistros());

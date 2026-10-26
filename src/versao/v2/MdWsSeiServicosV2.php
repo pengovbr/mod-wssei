@@ -1,7 +1,7 @@
 <?php
 
 
-require_once dirname(__FILE__) . '/../MdWsSeiVersaoServicos.php';
+require_once __DIR__ . '/../MdWsSeiVersaoServicos.php';
 use Slim\Routing\RouteContext;
 
 /**
@@ -27,7 +27,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
       /**
        * Grupo para a versao v2 de servicos REST
        */
-      $this->slimApp->group('/api/v2', function (\Slim\Routing\RouteCollectorProxy $app) {
+      $this->slimApp->group('/api/v2', function (\Slim\Routing\RouteCollectorProxy $app): void {
           /**
            * @var Slim/App $this
            */
@@ -59,10 +59,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador de Órgão <publico>
            */
-          $app->group('/orgao', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/orgao', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/listar', function ($request, $response, $args) {
-                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiOrgaoRN();
                   $dto = new OrgaoDTO();
                   return JsonResponse::create($response, $rn->listarOrgao($dto));
@@ -71,10 +70,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador de Contexto <publico>
            */
-          $app->group('/contexto', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/contexto', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/listar/{orgao}', function ($request, $response, $args) {
-                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiContextoRN();
                   $dto = new OrgaoDTO();
                   $dto->setNumIdOrgao($orgao);
@@ -85,7 +83,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador de Usuário
            */
-          $app->group('/usuario', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/usuario', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->post('/alterar/unidade', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
@@ -103,7 +101,6 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                 if (!is_null($this->getParam($request, 'start'))) {
                     $dto->setNumPaginaAtual($this->getParam($request, 'start'));
                 }
-                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiUsuarioRN();
                   return JsonResponse::create($response, $rn->listarUsuarios($dto));
               });
@@ -129,7 +126,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador de Unidades
            */
-          $app->group('/unidade', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/unidade', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/pesquisar', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
@@ -158,9 +155,9 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                 }
                 if (!is_null($this->getParam($request, 'id')) && $this->getParam($request, 'id') != '') {
                     $dto->adicionarCriterio(
-                        array('IdUnidade'),
-                        array(InfraDTO::$OPER_IGUAL),
-                        array($this->getParam($request, 'id'))
+                        ['IdUnidade'],
+                        [InfraDTO::$OPER_IGUAL],
+                        [$this->getParam($request, 'id')]
                     );
                 }
                 if ($this->getParam($request, 'filter') && $this->getParam($request, 'filter') != '') {
@@ -193,7 +190,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador de anotacao
            */
-          $app->group('/anotacao', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/anotacao', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->post('/', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
@@ -207,7 +204,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador de bloco
            */
-          $app->group('/bloco', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/bloco', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/assinatura/pesquisar', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
@@ -247,7 +244,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
               $app->post('/assinatura/excluir', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiBlocoRN();
-                  $arrIdBlocos = array();
+                  $arrIdBlocos = [];
                 if ($this->getParam($request, 'blocos')) {
                     $arrIdBlocos = explode(',', $this->getParam($request, 'blocos'));
                 }
@@ -256,7 +253,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
               $app->post('/assinatura/concluir', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiBlocoRN();
-                  $arrIdBlocos = array();
+                  $arrIdBlocos = [];
                 if ($this->getParam($request, 'blocos')) {
                     $arrIdBlocos = explode(',', $this->getParam($request, 'blocos'));
                 }
@@ -416,7 +413,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
               $app->post('/interno/concluir', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiBlocoRN();
-                  $arrIdBlocos = array();
+                  $arrIdBlocos = [];
                 if ($this->getParam($request, 'blocos')) {
                     $arrIdBlocos = explode(',', $this->getParam($request, 'blocos'));
                 }
@@ -425,7 +422,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
               $app->post('/interno/excluir', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiBlocoRN();
-                  $arrIdBlocos = array();
+                  $arrIdBlocos = [];
                 if ($this->getParam($request, 'blocos')) {
                     $arrIdBlocos = explode(',', $this->getParam($request, 'blocos'));
                 }
@@ -547,7 +544,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador de documentos
            */
-          $app->group('/documento', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/documento', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/{documento}/interno/visualizar', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
@@ -785,9 +782,8 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                   return JsonResponse::create($response, $rn->consultarDocumentoInternoFormatado($protocolo_formatado));
               });
 
-              $app->post('/incluir', function ($request, $response, $args) {
+              $app->post('/incluir', function ($request, $response, $args): void {
                 try {
-                    /** @var Slim\Psr7\Request $request */
                     $objDocumentoAPI = new DocumentoAPI();
                     //Se o ID do processo é conhecido utilizar setIdProcedimento no lugar de
                     //setProtocoloProcedimento
@@ -827,7 +823,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                     $linkassinado = SessaoSEI::getInstance()->assinarLink('controlador.php?acao=editor_montar&acao_origem=arvore_visualizar&id_procedimento=' . $protocoloDTO->getDblIdProcedimento() . '&id_documento=' . $this->getParam($request, 'id_documento'));
 
                     return JsonResponse::create($response, 
-                        array("link" => $linkassinado, "phpsessid" => session_id())
+                        ["link" => $linkassinado, "phpsessid" => session_id()]
                     );
 
                 } catch (InfraException $e) {
@@ -849,7 +845,6 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                 if ($this->getParam($request, 'filter') != '') {
                     $dto->setStrDescricao($this->getParam($request, 'filter'));
                 }
-                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiDocumentoRN();
                   return JsonResponse::create($response, $rn->pesquisarTipoConferencia($dto));
               });
@@ -860,7 +855,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador de processos
            */
-          $app->group('/processo', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/processo', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/{protocolo:[0-9]+}', function ($request, $response, $args) {
                   $routeContext = RouteContext::fromRequest($request);
@@ -1223,7 +1218,6 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                   return JsonResponse::create($response, $rn->consultarAtribuicao($dto));
               });
               $app->get('/verifica/acesso/{protocolo}', function ($request, $response, $args) {
-                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiProcedimentoRN();
                   $dto = new ProtocoloDTO();
                   $dto->setDblIdProtocolo($protocolo);
@@ -1293,12 +1287,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
               });
 
               $app->post('/criar', function ($request, $response, $args) {
-                  /** @var Slim\Psr7\Request $request */
-                  //Assunto  explode lista de objetos
-                  $assuntos = array();
                   $assuntos = json_decode($this->getParam($request, 'assuntos'), true);
-                  //Interessado explode lista de objetos
-                  $interessados = array();
                   $interessados = json_decode($this->getParam($request, 'interessados'), true);
 
                   $rn = new MdWsSeiProcedimentoRN();
@@ -1415,7 +1404,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador de atividade
            */
-          $app->group('/atividade', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/atividade', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/listar', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
@@ -1445,7 +1434,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador de Assinante
            */
-          $app->group('/assinante', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/assinante', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/listar', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
@@ -1484,7 +1473,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador de Grupo de Acompanhamento
            */
-          $app->group('/grupoacompanhamento', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/grupoacompanhamento', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/listar', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
@@ -1518,7 +1507,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
               $app->post('/excluir', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiGrupoAcompanhamentoRN();
-                  $arrIdGrupos = array();
+                  $arrIdGrupos = [];
                 if ($this->getParam($request, 'grupos')) {
                     $arrIdGrupos = explode(',', $this->getParam($request, 'grupos'));
                 }
@@ -1541,7 +1530,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador de Grupo de Modelo de documentos
            */
-          $app->group('/protocolomodelo', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/protocolomodelo', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/grupo/listar', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
@@ -1591,7 +1580,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador de Acompanhamento Especial
            */
-          $app->group('/acompanhamentoespecial', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/acompanhamentoespecial', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/listar', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
@@ -1615,7 +1604,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador contato
            */
-          $app->group('/contato', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/contato', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/pesquisar', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
@@ -1664,7 +1653,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador HipoteseLegal
            */
-          $app->group('/hipoteseLegal', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/hipoteseLegal', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/pesquisar', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
@@ -1676,7 +1665,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                 if (!is_null($this->getParam($request, 'nivelAcesso')) && $this->getParam($request, 'nivelAcesso') != '') {
                     $dto->setStrStaNivelAcesso($this->getParam($request, 'nivelAcesso'));
                 }
-                if (trim($this->getParam($request, 'filter')) != '') {
+                if (trim($this->getParam($request, 'filter')) !== '') {
                     $dto->setStrNome($this->getParam($request, 'filter'));
                 }
                 if (!is_null($this->getParam($request, 'limit')) && $this->getParam($request, 'limit') != '') {
@@ -1694,7 +1683,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
           /**
            * Grupo de controlador de Observação
            */
-          $app->group('/observacao', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/observacao', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->post('/', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
@@ -1705,7 +1694,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
 
           })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
-          $app->group('/serie', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/serie', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/externo/pesquisar', function ($request, $response, $args) {
                   $dto = new SerieDTO();
@@ -1721,22 +1710,20 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                 if ($this->getParam($request, 'filter') != '') {
                     $dto->setStrNome($this->getParam($request, 'filter'));
                 }
-                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiSerieRN();
                   return JsonResponse::create($response, $rn->pesquisarExterno($dto));
               });
           })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
-          $app->group('/upload', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/upload', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/parametros', function ($request, $response, $args) {
-                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiExtensaoRN();
                   return JsonResponse::create($response, $rn->retornarParametrosUpload());
               });
           })->add(new TokenValidationMiddleware($this->slimApp->getResponseFactory()));
 
-          $app->group('/marcador', function (\Slim\Routing\RouteCollectorProxy $app) {
+          $app->group('/marcador', function (\Slim\Routing\RouteCollectorProxy $app): void {
               /** @var Slim/App $this */
               $app->get('/pesquisar', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
@@ -1760,7 +1747,6 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                   return JsonResponse::create($response, $rn->pesquisar($dto));
               });
               $app->get('/cores/listar', function ($request, $response, $args) {
-                  /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiMarcadorRN();
                   return JsonResponse::create($response, $rn->listarCores());
               });
@@ -1787,7 +1773,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
               $app->post('/excluir', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiMarcadorRN();
-                  $arrIdMarcadores = array();
+                  $arrIdMarcadores = [];
                 if ($this->getParam($request, 'marcadores')) {
                     $arrIdMarcadores = explode(',', $this->getParam($request, 'marcadores'));
                 }
@@ -1796,7 +1782,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
               $app->post('/desativar', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiMarcadorRN();
-                  $arrIdMarcadores = array();
+                  $arrIdMarcadores = [];
                 if ($this->getParam($request, 'marcadores')) {
                     $arrIdMarcadores = explode(',', $this->getParam($request, 'marcadores'));
                 }
@@ -1805,7 +1791,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
               $app->post('/reativar', function ($request, $response, $args) {
                   /** @var Slim\Psr7\Request $request */
                   $rn = new MdWsSeiMarcadorRN();
-                  $arrIdMarcadores = array();
+                  $arrIdMarcadores = [];
                 if ($this->getParam($request, 'marcadores')) {
                     $arrIdMarcadores = explode(',', $this->getParam($request, 'marcadores'));
                 }
@@ -1818,7 +1804,7 @@ class MdWsSeiServicosV2 extends MdWsSeiVersaoServicos
                   $protocolo = $route->getArgument('protocolo');
                   $rn = new MdWsSeiMarcadorRN();
                   $dto = new AndamentoMarcadorDTO();
-                  $dto->setDblIdProcedimento(array($protocolo));
+                  $dto->setDblIdProcedimento([$protocolo]);
                   $dto->setNumIdMarcador($this->getParam($request, 'marcador'));
                   $dto->setStrTexto($this->getParam($request, 'texto'));
                   return JsonResponse::create($response, $rn->marcarProcesso($dto));

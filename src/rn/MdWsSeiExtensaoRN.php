@@ -37,21 +37,21 @@ class MdWsSeiExtensaoRN extends InfraRN {
         /** Acessa o componente SEI para listar as extensões e seus tamanhos máximos permitidos */
         $ret = $arquivoExtensaoRN->listar($arquivoExtensaoDTO);
 
-        $arrExtensoes = array();
+        $arrExtensoes = [];
         /** @var ArquivoExtensaoDTO $arquivoExtensaoDTO */
       foreach($ret as $arquivoExtensaoDTO){
-          $arrExtensoes[] = array(
+          $arrExtensoes[] = [
               'extensao' => InfraString::transformarCaixaBaixa($arquivoExtensaoDTO->getStrExtensao()),
               'tamanho' => ($arquivoExtensaoDTO->getNumTamanhoMaximo() ?: $numTamMbDocExterno),
-          );
+          ];
       }
 
-        $result = array(
+        $result = [
             'extensoes' => $arrExtensoes,
             'tamanhoDocDefault' => $numTamMbDocExterno,
-            'validarExtensoes' => ($bolValidarExtensaoArq == '1' ? true : false),
+            'validarExtensoes' => ($bolValidarExtensaoArq == '1'),
             'info' => 'Tamanhos em Mb'
-        );
+        ];
             
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result);
     }catch (Exception $e){

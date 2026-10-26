@@ -3,9 +3,9 @@
  * Controlador (API v1) de servicos REST usando o framework Slim
  */
 
-require_once dirname(__FILE__).'/../../SEI.php';
-require_once dirname(__FILE__).'/vendor/autoload.php';
-require_once dirname(__FILE__) . '/versao/v2/MdWsSeiServicosV2.php';
+require_once __DIR__.'/../../SEI.php';
+require_once __DIR__.'/vendor/autoload.php';
+require_once __DIR__ . '/versao/v2/MdWsSeiServicosV2.php';
 
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;

@@ -9,15 +9,14 @@ class MdWsSeiTextoPadraoInternoRN extends TextoPadraoInternoRN {
   }
 
     /**
-     * Pesquisa os textos padrão da unidade
-     * @param TextoPadraoInternoDTO $textoPadraoInternoDTOParam
-     * @return array
-     */
+   * Pesquisa os textos padrão da unidade
+   * @return array
+   */
   protected function pesquisarConectado(TextoPadraoInternoDTO $textoPadraoInternoDTOParam)
     {
     try{
         $textoPadraoInternoDTOParam->setNumIdUnidade(SessaoSEI::getInstance()->getNumIdUnidadeAtual());
-        $result = array();
+        $result = [];
         $textoPadraoInternoDTOParam->retNumIdTextoPadraoInterno();
         $textoPadraoInternoDTOParam->retNumIdUnidade();
         $textoPadraoInternoDTOParam->retNumIdConjuntoEstilos();
@@ -41,7 +40,7 @@ class MdWsSeiTextoPadraoInternoRN extends TextoPadraoInternoRN {
 
         /** @var SerieDTO $serieDTO */
       foreach($ret as $serieDTO){
-          $result[] = array(
+          $result[] = [
               'id' => $serieDTO->getNumIdTextoPadraoInterno(),
               'nome' => $serieDTO->getStrNome(),
               'descricao' => $serieDTO->getStrDescricao(),
@@ -52,7 +51,7 @@ class MdWsSeiTextoPadraoInternoRN extends TextoPadraoInternoRN {
                   $textoPadraoInternoDTOParam->isSetStrConteudo() ?
                       $textoPadraoInternoDTOParam->getStrConteudo() : ''
               )
-          );
+          ];
       }
             
         return MdWsSeiRest::formataRetornoSucessoREST(null, $result, $textoPadraoInternoDTOParam->getNumTotalRegistros());
