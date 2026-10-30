@@ -126,11 +126,10 @@ class MdWsSeiRest extends SeiIntegracao
 
     }
         
-      $strmensagemErro = InfraException::inspecionar($e);
+    LogSEI::getInstance()->gravar(InfraException::inspecionar($e), "MD_WSSEI_REST_FORMATA_RETORNO_ERRO_REST");
       return array(
               "sucesso" => false,
               "mensagem" => MdWsSeiRest::dataToUtf8($mensagem),
-              "exception" => MdWsSeiRest::dataToUtf8($strmensagemErro)
       );
   }
 
