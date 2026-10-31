@@ -125,11 +125,15 @@ class MdWsSeiRest extends SeiIntegracao
       }
 
     }
-        
-    LogSEI::getInstance()->gravar(InfraException::inspecionar($e), "MD_WSSEI_REST_FORMATA_RETORNO_ERRO_REST");
+      $strmensagemErro = "Exceção salva no SEI";
+      if (!ConfiguracaoSEI::getInstance()->getValor('SEI', 'Producao')){
+        $strmensagemErro = InfraException::inspecionar($e);
+      }
+      LogSEI::getInstance()->gravar(InfraException::inspecionar($e), LogSEI::$ERRO);
       return array(
               "sucesso" => false,
               "mensagem" => MdWsSeiRest::dataToUtf8($mensagem),
+              "exception" => MdWsSeiRest::dataToUtf8($strmensagemErro)
       );
   }
 

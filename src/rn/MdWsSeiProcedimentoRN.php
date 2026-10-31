@@ -2358,7 +2358,7 @@ class MdWsSeiProcedimentoRN extends InfraRN
       try {
           $resultados = file_get_contents($urlBusca, false);
       } catch (Exception $e) {
-        $objInfraException->lancarValidacao('Erro realizando pesquisa no Solar.', $e);
+        $objInfraException->lancarValidacao('Erro realizando pesquisa no Solar.', null, $e);
       }
 
       if ($resultados == '') {
