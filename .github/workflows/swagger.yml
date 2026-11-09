@@ -4,7 +4,10 @@ name: Deploy swagger estático
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: [$default-branch]
+    branches: [master]
+    paths:
+      - 'swagger/**'
+      - '.github/workflows/swagger.yml'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
