@@ -8167,10 +8167,9 @@ paths:
                   example: Texto!
                 marcador:
                   type: integer
-                  description: '[opcional][int] Recebe o id do marcador'
+                  description: '[obrigatório][int] Recebe o id do marcador'
                   example: 1
               required:
-                - texto
                 - marcador
       responses:
         '200':
