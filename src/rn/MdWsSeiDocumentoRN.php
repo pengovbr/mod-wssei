@@ -1824,6 +1824,9 @@ class MdWsSeiDocumentoRN extends DocumentoRN
         $objDocumentoDTO->setNumIdSerie($post['idSerie']);
         $objProtocoloDTO->setNumIdSerieDocumento($post['idSerie']);
         $objProtocoloDTO->setDtaGeracao($post['dataElaboracao']);
+      if (isset($post['nomeArvore'])) {
+          $objDocumentoDTO->setStrNomeArvore($post['nomeArvore']);
+      }
     }
 
       $objDocumentoDTO->setNumIdTextoPadraoInterno($post['idTextoPadraoInterno']);
