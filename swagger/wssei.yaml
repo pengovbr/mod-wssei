@@ -1620,6 +1620,12 @@ paths:
                     [opcional][string] Identificador do documento na árvore do
                     processo
                   example: '669'
+                nomeArvore:
+                  type: string
+                  description: >-
+                    [opcional][string] Nome na árvore, exibido após o tipo e o
+                    número do documento na árvore do processo
+                  example: Ofício de resposta
                 idSerie:
                   type: integer
                   description: '[obrigatório][int] Id do tipo de documento'
@@ -1740,6 +1746,12 @@ paths:
                     [opcional][string] Identificador do documento na árvore do
                     processo
                   example: '668'
+                nomeArvore:
+                  type: string
+                  description: >-
+                    [opcional][string] Nome na árvore, exibido após o tipo e o
+                    número do documento na árvore do processo
+                  example: Ofício de resposta
                 idSerie:
                   type: integer
                   description: '[obrigatório][int] Id do tipo de documento'
