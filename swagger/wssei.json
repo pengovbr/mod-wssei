@@ -11728,6 +11728,24 @@
             }
           },
           {
+            "name": "limit",
+            "in": "query",
+            "description": "[opcional][int] Recebe o limite de registros da paginação",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "[opcional][int] Recebe a página de inicio da paginação",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
             "name": "token",
             "in": "header",
             "description": "[obrigatório][string] Recebe o token de autenticação",
