@@ -2,7 +2,9 @@ name: Testes da API
 
 on:
   pull_request:
-  pull_request_target:   # add this so runs in base-repo context can access secrets
+      paths:
+      - 'src/**'
+      - '.github/workflows/tests.yml'
   workflow_dispatch:
   push:
     branches:
