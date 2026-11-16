@@ -8023,6 +8023,87 @@
         }
       }
     },
+    "/processo/{protocolo}/relacionamentos": {
+      "get": {
+        "tags": [
+          "Processo"
+        ],
+        "summary": "Listar Processos Relacionados",
+        "description": "Retorna os processos relacionados ao processo informado",
+        "operationId": "listarProcessosRelacionados",
+        "parameters": [
+          {
+            "name": "protocolo",
+            "in": "path",
+            "description": "[obrigatório][int] Recebe o id do processo",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "[obrigatório][string] Recebe o token de autenticação",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "unidade",
+            "in": "header",
+            "description": "[opcional][int] Recebe o id da unidade para manter ou alterar a unidade da sessão",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sucesso": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "idProcedimento": {
+                            "type": "string",
+                            "example": "17"
+                          },
+                          "numero": {
+                            "type": "string",
+                            "example": "99990.000009/2021-41"
+                          },
+                          "tipoProcesso": {
+                            "type": "string",
+                            "example": "Acesso à Informação: Demanda do e-SIC"
+                          },
+                          "descricao": {
+                            "type": "string",
+                            "example": "Pedido de acesso à informação"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/processo/acompanhamento/consultar": {
       "get": {
         "tags": [
