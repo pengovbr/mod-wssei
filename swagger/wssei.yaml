@@ -1269,6 +1269,52 @@ paths:
                     example: true
                   data:
                     $ref: '#/components/schemas/DocumentoInternoMetadata'
+  /documento/interno/formatado/consultar/{protocolo_formatado}:
+    get:
+      tags:
+        - Documento
+      summary: Consultar Documento Interno pelo Protocolo Formatado
+      description: >-
+        Retorna os metadados do Documento Interno a partir do número do
+        documento (protocolo formatado), como em /documento/interno/consultar
+      operationId: consultarDocumentoInternoFormatado
+      parameters:
+        - name: protocolo_formatado
+          in: path
+          description: >-
+            [obrigatório][string] Recebe o protocolo formatado (número SEI) do
+            documento
+          required: true
+          schema:
+            type: string
+            example: '0000123'
+        - name: token
+          in: header
+          description: '[obrigatório][string] Recebe o token de autenticação'
+          required: true
+          schema:
+            type: string
+        - name: unidade
+          in: header
+          description: >-
+            [opcional][int] Recebe o id da unidade para manter ou alterar a
+            unidade da sessão
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/DocumentoInternoMetadata'
   /documento/linkedicao:
     post:
       tags:
