@@ -5845,6 +5845,97 @@
         }
       }
     },
+    "/bloco/assinatura/assinar/documentos": {
+      "post": {
+        "tags": [
+          "Bloco"
+        ],
+        "summary": "Assinar Documentos",
+        "description": "Realiza a assinatura dos Documentos informados, sem precisar de um Bloco de Assinatura",
+        "operationId": "assinarDocumentosSemBloco",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "[obrigatório][string] Recebe o token de autenticação",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "unidade",
+            "in": "header",
+            "description": "[opcional][int] Recebe o id da unidade para manter ou alterar a unidade da sessão",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "orgao": {
+                    "type": "integer",
+                    "description": "[obrigatório][int] Recebe o Id do órgão",
+                    "example": 0
+                  },
+                  "cargo": {
+                    "type": "string",
+                    "description": "[obrigatório][string] Recebe o cargo do usuário",
+                    "example": "DTI"
+                  },
+                  "login": {
+                    "type": "string",
+                    "description": "[obrigatório][string] Recebe o login do usuário",
+                    "example": "teste"
+                  },
+                  "senha": {
+                    "type": "string",
+                    "description": "[obrigatório][string] Recebe a senha do usuário",
+                    "example": "teste"
+                  },
+                  "usuario": {
+                    "type": "integer",
+                    "description": "[obrigatório][int] Recebe o Id do usuário",
+                    "example": 100000001
+                  },
+                  "documentos": {
+                    "type": "string",
+                    "description": "[obrigatório][string] Recebe os Id's dos documentos separados por \",\"",
+                    "example": "2,3"
+                  }
+                },
+                "required": [
+                  "orgao",
+                  "cargo",
+                  "login",
+                  "senha",
+                  "usuario",
+                  "documentos"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/bloco/assinatura/{bloco}/documentos/retirar": {
       "post": {
         "tags": [
