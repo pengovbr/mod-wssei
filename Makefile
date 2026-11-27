@@ -5,8 +5,8 @@
 -include .modulo.env
 
 # Parâmetros de configuração
-# Opções possíveis para dump: 5.0.0
-versao_dump=5.0.0
+# Opções possíveis para dump: 5.0.0 6.0.0
+versao_dump=6.0.0
 base = mysql
 
 ifndef SEI_HOST
@@ -202,10 +202,10 @@ tests-functional-validar: tests-functional-orientations
 
 tests-functional-prerequisites: .testselenium.env tests-functional-validar
 
+# para criar dump mysqldump -u root --password=P@ssword dumpWssei$(versao_dump).PreLoaded.dmp
 restore:
 	@sleep 10s
 	@cat tests/dumpWssei$(versao_dump).PreLoaded.dmp | docker exec -i $(shell docker ps --format "{{.Names}}" | grep database) /usr/bin/mysql -u root --password=P@ssword
-
 
 # roda apenas os testes, o ajuste de data inicial e a criacao do ambiente ja devem ter sido realizados
 tests-functional: tests-functional-prerequisites check-super-isalive

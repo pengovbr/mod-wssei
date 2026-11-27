@@ -1,0 +1,48 @@
+name: Testes da API SEI 6
+
+on:
+  pull_request:
+      paths:
+      - 'src/**'
+      - '.github/workflows/tests6.yml'
+  workflow_dispatch:
+  push:
+    branches:
+      - "master"
+    paths:
+      - 'src/**'
+      - '.github/workflows/tests6.yml'
+env: # Or as an environment variable
+  NEWMAN_BASEURL: 'http://localhost:8000'
+
+permissions:
+  contents: read
+  
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sei: [release/6.0.0-trf4]
+    steps:
+      - name: Fetch Pull Request branch
+        if: github.event_name == 'pull_request_target' || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+        uses: actions/checkout@v7
+        with:
+            repository: pengovbr/sei
+            token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
+            path: sei
+            ref: ${{ matrix.sei }}
+
+      - name: Checkout PR code (safe ordering required)
+        if: ${{ github.event_name != 'pull_request' }} # only automatically checkout for non-forked direct PRs or maintainer-triggered runs
+        uses: actions/checkout@v7
+        with:
+            path: sei/src/sei/web/modulos/mod-wssei
+
+      - name: Run make test
+        if: ${{ github.event_name != 'pull_request' }}
+        run: | 
+             cd sei/src/sei/web/modulos/mod-wssei
+             make tests-api
